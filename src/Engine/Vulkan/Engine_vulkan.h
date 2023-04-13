@@ -10,6 +10,8 @@
 #include <cstdlib>
 #include <stdint.h>
 
+#ifndef STRUCT_FOO
+#define STRUCT_FOO
 struct struct_queueFamily_indices {
   std::optional<uint32_t> family_graphics;
   std::optional<uint32_t> family_presentation;
@@ -29,9 +31,15 @@ const std::vector<const char*> required_extensions = {
   VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
-
+//List of all validation layers
+const std::vector<const char*> validationLayers = {
+    "VK_LAYER_KHRONOS_validation"
+};
+#endif
 class Node_engine;
 class Engine_window;
+class VK_instance;
+class VK_device;
 
 
 class Engine_vulkan
@@ -80,13 +88,33 @@ public:
   VkShaderModule create_shader_module(const std::vector<char>& code);
   void record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
+  //Validation layers
+  bool check_validationLayer_support();
+  std::vector<const char*> get_required_extensions();
+  void setup_debug_messenger();
+
+  inline VkInstance get_vk_instance(){return instance;}
+  inline VkPhysicalDevice get_vk_gpu(){return physical_device;}
+  inline VkDevice get_vk_device(){return device;}
+  inline VkSurfaceKHR get_vk_surface(){return surface;}
+  inline VkQueue get_queue_graphics(){return queue_graphics;}
+  inline VkRenderPass get_renderPass(){return renderPass;}
+
 private:
+  Node_engine* node_engine;
   Engine_window* engine_window;
+  VK_instance* vk_instance;
+  VK_device* vk_device;
 
   VkInstance instance;
+
+
+
+  VkDebugUtilsMessengerEXT debugMessenger;
   VkDevice device;
-  VkSurfaceKHR surface;
   VkPhysicalDevice physical_device;
+  VkSurfaceKHR surface;
+
   VkRenderPass renderPass;
   VkPipelineLayout pipelineLayout;
   VkPipeline graphicsPipeline;
@@ -108,6 +136,7 @@ private:
   std::vector<VkFence> inFlightFences;
 
   bool framebufferResized = false;
+  bool with_validation_layer = true;
 };
 
 #endif

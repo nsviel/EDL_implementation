@@ -19,10 +19,13 @@ file(GLOB_RECURSE ALL_SOURCES
   src/*.cpp
 )
 
+# Child CMakeLists
+add_subdirectory(extern)
+
 # Denpendancies
 set(ALL_LIBS
   ${GLFW_LIBRARY}
-
+    
   -std=c++17 -O2
   -lglfw 
   -lvulkan 
@@ -34,6 +37,8 @@ set(ALL_LIBS
   -lXi
 )
 
+
+
 # Executable
 add_executable(executable
   ${ALL_SOURCES}
@@ -41,6 +46,7 @@ add_executable(executable
 
 # Library linking
 target_link_libraries(executable
+  LIBRARY_EXTERN
   ${ALL_LIBS}
 )
 

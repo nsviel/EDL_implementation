@@ -1,6 +1,9 @@
 #include "Engine_vulkan.h"
+#include "VK_instance.h"
+#include "VK_device.h"
 
-#include "Engine_window.h"
+#include "../Core/Engine_window.h"
+#include "../Core/GUI.h"
 
 #include "../Node_engine.h"
 
@@ -9,16 +12,65 @@
 #include <glm/glm.hpp>
 #include <algorithm>
 #include <fstream>
+#include <cstring>
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 uint32_t currentFrame = 0;
+
+//Static debugging function
+/*static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+    VkDebugUtilsMessageTypeFlagsEXT messageType,
+    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+    void* pUserData) {
+
+    std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+
+    return VK_FALSE;
+}
+VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
+  //---------------------------
+
+  auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+  if(func != nullptr){
+    return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+  }else{
+    return VK_ERROR_EXTENSION_NOT_PRESENT;
+  }
+
+  //---------------------------
+}
+void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
+    auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+    if (func != nullptr) {
+        func(instance, debugMessenger, pAllocator);
+    }
+}
+void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo){
+  //---------------------------
+
+  createInfo = {};
+  createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+  createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+  createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+  createInfo.pfnUserCallback = debugCallback;
+
+  //---------------------------
+}*/
+
+void sayHello(){
+  std::cout<<"Hello"<<std::endl;
+}
 
 
 //Constructor / Destructor
 Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   //---------------------------
 
+  this->node_engine = node_engine;
   this->engine_window = node_engine->get_engine_window();
+  this->vk_instance = new VK_instance();
+  this->vk_device = new VK_device(node_engine);
 
   //---------------------------
 }
@@ -28,9 +80,16 @@ Engine_vulkan::~Engine_vulkan(){}
 void Engine_vulkan::init_vulkan(){
   //---------------------------
 
-  this->create_instance();
-  this->create_window_surface();
-  this->select_physical_device();
+  vk_instance->create_instance();
+  this->instance = vk_instance->get_vk_instance();
+  this->surface = engine_window->create_window_surface(instance);
+
+
+  //this->create_instance();
+  //this->create_window_surface();
+  this->physical_device = vk_device->select_physical_device(instance);
+  this->device = vk_device->create_logical_device();
+
   this->create_logical_device();
   this->create_swapChain();
   this->create_image_views();
@@ -41,15 +100,21 @@ void Engine_vulkan::init_vulkan(){
   this->create_command_buffers();
   this->create_sync_objects();
 
+  GUI* guiManager= node_engine->get_guiManager();
+  guiManager->init();
+
   //---------------------------
 }
 void Engine_vulkan::main_loop() {
   GLFWwindow* window = engine_window->get_window();
   //---------------------------
 
+  GUI* guiManager= node_engine->get_guiManager();
+
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
     this->draw_frame();
+    guiManager->loop();
   }
 
   vkDeviceWaitIdle(device);
@@ -132,6 +197,11 @@ void Engine_vulkan::draw_frame(){
 void Engine_vulkan::clean_vulkan(){
   //---------------------------
 
+  /*if(with_validation_layer){
+    DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+  }*/
+  VkInstance instance = vk_instance->get_vk_instance();
+
   this->cleanup_swapChain();
 
   vkDestroyPipeline(device, graphicsPipeline, nullptr);
@@ -157,6 +227,11 @@ void Engine_vulkan::create_instance(){
   //The instance is the connection between application and Vulkan library
   //---------------------------
 
+  //Check validation layers
+/*  if(with_validation_layer && !check_validationLayer_support()){
+    throw std::runtime_error("[error] validation layers requested, but not available!");
+  }*/
+
   //Application info
   VkApplicationInfo appInfo{};
   appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -170,6 +245,27 @@ void Engine_vulkan::create_instance(){
   VkInstanceCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
+  if(with_validation_layer){
+    createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+    createInfo.ppEnabledLayerNames = validationLayers.data();
+  }else{
+    createInfo.enabledLayerCount = 0;
+  }
+  auto extensions = get_required_extensions();
+  createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+  createInfo.ppEnabledExtensionNames = extensions.data();
+
+  VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
+  if(with_validation_layer){
+    createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+    createInfo.ppEnabledLayerNames = validationLayers.data();
+
+  //  populateDebugMessengerCreateInfo(debugCreateInfo);
+    createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
+  }else{
+    createInfo.enabledLayerCount = 0;
+    createInfo.pNext = nullptr;
+  }
 
   //Instance extensions
   uint32_t glfwExtensionCount = 0;
@@ -177,19 +273,19 @@ void Engine_vulkan::create_instance(){
   createInfo.enabledExtensionCount = glfwExtensionCount;
   createInfo.ppEnabledExtensionNames = glfwExtensions;
   createInfo.enabledLayerCount = 0;
-
+/*
   //Create instance
   VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create instance!");
-  }
+  }*/
 
   //---------------------------
 }
 void Engine_vulkan::create_window_surface(){
   GLFWwindow* window = engine_window->get_window();
   //---------------------------
-
+  VkInstance instance = vk_instance->get_vk_instance();
   VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create window surface!");
@@ -658,7 +754,7 @@ void Engine_vulkan::create_sync_objects(){
 //Misc function
 void Engine_vulkan::select_physical_device(){
   //---------------------------
-
+  VkInstance instance = vk_instance->get_vk_instance();
   this->physical_device = VK_NULL_HANDLE;
 
   //Find how many GPU are available
@@ -969,5 +1065,68 @@ void Engine_vulkan::record_command_buffer(VkCommandBuffer commandBuffer, uint32_
   }
 
 
+  //---------------------------
+}
+
+//Validation layers
+bool Engine_vulkan::check_validationLayer_support(){
+  //---------------------------
+
+  //Checks if all of the requested layers are available
+  uint32_t layerCount;
+  vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+  std::vector<VkLayerProperties> availableLayers(layerCount);
+  vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+  //Check if all of the layers in validationLayers exist in the availableLayers list
+  for(const char* layerName : validationLayers){
+    bool layerFound = false;
+
+    for(const auto& layerProperties : availableLayers){
+      if(strcmp(layerName, layerProperties.layerName) == 0){
+        layerFound = true;
+        break;
+      }
+    }
+
+    if(!layerFound){
+      return false;
+    }
+  }
+
+  //---------------------------
+  return true;
+}
+std::vector<const char*> Engine_vulkan::get_required_extensions(){
+  //Return the required list of extensions based on whether validation layers are enabled or not
+  //---------------------------
+
+  uint32_t glfwExtensionCount = 0;
+  const char** glfwExtensions;
+  glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+  std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+  if(with_validation_layer){
+    extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+  }
+
+  //---------------------------
+  return extensions;
+}
+void Engine_vulkan::setup_debug_messenger(){
+  //---------------------------
+
+  if(!with_validation_layer) return;
+
+  VkDebugUtilsMessengerCreateInfoEXT createInfo{};
+  //populateDebugMessengerCreateInfo(createInfo);
+
+  //VkResult result = CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger);
+  /*if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to set up debug messenger!");
+  }
+*/
   //---------------------------
 }

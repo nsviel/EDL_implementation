@@ -39,6 +39,17 @@ void Engine_window::clean_window(){
 }
 
 //Subfunction
+VkSurfaceKHR Engine_window::create_window_surface(VkInstance instance){
+  //---------------------------
+
+  VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to create window surface!");
+  }
+
+  //---------------------------
+  return surface;
+}
 glm::vec2 Engine_window::get_framebuffer_size(){
   glm::vec2 dim = glm::vec2(0);
   //---------------------------

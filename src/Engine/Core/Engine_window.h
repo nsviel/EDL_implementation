@@ -21,14 +21,17 @@ public:
   void clean_window();
 
   //Subfunction
+  VkSurfaceKHR create_window_surface(VkInstance instance);
   glm::vec2 get_framebuffer_size();
   bool check_for_resizing();
 
   inline GLFWwindow* get_window(){return window;}
+  inline VkSurfaceKHR get_vk_surface(){return surface;}
 
 private:
   GLFWwindow* window;
   glm::vec2 render_dim;
+  VkSurfaceKHR surface;
 };
 
 #endif
