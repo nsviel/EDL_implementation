@@ -9,7 +9,7 @@
 #include "VK_struct.h"
 
 class Engine_vulkan;
-class Engine_window;
+class VK_window;
 class VK_device;
 
 
@@ -43,7 +43,7 @@ public:
 
 private:
   Engine_vulkan* engine_vulkan;
-  Engine_window* engine_window;
+  VK_window* vk_window;
   VK_device* vk_device;
 
   VkSwapchainKHR swapChain;

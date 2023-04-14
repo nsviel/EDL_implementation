@@ -10,7 +10,7 @@
 
 class Node_engine;
 class Engine_vulkan;
-class Engine_window;
+class VK_window;
 
 
 class VK_device
@@ -37,7 +37,7 @@ public:
   inline VkQueue get_queue_presentation(){return queue_presentation;}
 
 private:
-  Engine_window* engine_window;
+  VK_window* vk_window;
   Engine_vulkan* engine_vulkan;
 
   VkDevice device;

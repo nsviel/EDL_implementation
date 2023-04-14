@@ -18,7 +18,6 @@ public:
   void run_loop();
 
 private:
-  Engine_window* engine_window;
   Engine_vulkan* engine_vulkan;
 
 };

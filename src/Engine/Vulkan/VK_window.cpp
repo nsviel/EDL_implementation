@@ -1,4 +1,4 @@
-#include "Engine_window.h"
+#include "VK_window.h"
 
 #include "../Node_engine.h"
 
@@ -7,18 +7,18 @@
 
 
 //Constructor / Destructor
-Engine_window::Engine_window(Node_engine* node_engine){
+VK_window::VK_window(){
   //---------------------------
 
   this->render_dim = glm::vec2(800, 600);
 
   //---------------------------
 }
-Engine_window::~Engine_window(){}
+VK_window::~VK_window(){}
 
 
 //Main function
-void Engine_window::init_window(){
+void VK_window::init_window(){
   //---------------------------
 
   glfwInit();
@@ -29,7 +29,7 @@ void Engine_window::init_window(){
 
   //---------------------------
 }
-void Engine_window::clean_window(){
+void VK_window::clean_window(){
   //---------------------------
 
   glfwDestroyWindow(window);
@@ -39,7 +39,7 @@ void Engine_window::clean_window(){
 }
 
 //Subfunction
-VkSurfaceKHR Engine_window::create_window_surface(VkInstance instance){
+VkSurfaceKHR VK_window::create_window_surface(VkInstance instance){
   //---------------------------
 
   VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
@@ -50,7 +50,7 @@ VkSurfaceKHR Engine_window::create_window_surface(VkInstance instance){
   //---------------------------
   return surface;
 }
-glm::vec2 Engine_window::get_framebuffer_size(){
+glm::vec2 VK_window::get_framebuffer_size(){
   glm::vec2 dim = glm::vec2(0);
   //---------------------------
 
@@ -62,7 +62,7 @@ glm::vec2 Engine_window::get_framebuffer_size(){
   //---------------------------
   return dim;
 }
-bool Engine_window::check_for_resizing(){
+bool VK_window::check_for_resizing(){
   bool is_resized = false;
   //---------------------------
 

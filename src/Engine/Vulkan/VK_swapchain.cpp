@@ -4,7 +4,7 @@
 #include "VK_framebuffer.h"
 #include "Engine_vulkan.h"
 
-#include "../Core/Engine_window.h"
+#include "VK_window.h"
 
 #include "../Node_engine.h"
 
@@ -15,7 +15,7 @@ VK_swapchain::VK_swapchain(Engine_vulkan* engine_vulkan){
   //---------------------------
 
   this->engine_vulkan = engine_vulkan;
-  this->engine_window = engine_vulkan->get_engine_window();
+  this->vk_window = engine_vulkan->get_vk_window();
   this->vk_device = engine_vulkan->get_vk_device();
 
 
@@ -196,7 +196,7 @@ VkExtent2D VK_swapchain::swapChain_extent_setting(const VkSurfaceCapabilitiesKHR
   if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
     extent = capabilities.currentExtent;
   }else{
-    glm::vec2 fbo_dim = engine_window->get_framebuffer_size();
+    glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
 
     extent = {
       static_cast<uint32_t>(fbo_dim.x),

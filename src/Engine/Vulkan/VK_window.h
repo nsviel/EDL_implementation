@@ -1,5 +1,5 @@
-#ifndef ENGINE_WINDOW_H
-#define ENGINE_WINDOW_H
+#ifndef VK_WINDOW_H
+#define VK_WINDOW_H
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
@@ -8,12 +8,12 @@
 class Node_engine;
 
 
-class Engine_window
+class VK_window
 {
 public:
   //Constructor / Destructor
-  Engine_window(Node_engine* node_engine);
-  ~Engine_window();
+  VK_window();
+  ~VK_window();
 
 public:
   //Main functions

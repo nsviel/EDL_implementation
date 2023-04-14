@@ -6,8 +6,9 @@
 #include "VK_pipeline.h"
 #include "VK_framebuffer.h"
 #include "VK_command.h"
+#include "VK_synchronization.h"
+#include "VK_window.h"
 
-#include "../Core/Engine_window.h"
 #include "../Core/GUI.h"
 
 #include "../Node_engine.h"
@@ -33,7 +34,7 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   //---------------------------
 
   this->node_engine = node_engine;
-  this->engine_window = node_engine->get_engine_window();
+  this->vk_window = new VK_window();
   this->vk_instance = new VK_instance();
   this->vk_device = new VK_device(this);
   this->vk_swapchain = new VK_swapchain(this);
@@ -41,6 +42,7 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_command = new VK_command(this);
+  this->vk_synchronization = new VK_synchronization(this);
 
   //---------------------------
 }
@@ -50,9 +52,10 @@ Engine_vulkan::~Engine_vulkan(){}
 void Engine_vulkan::init_vulkan(){
   //---------------------------
 
+  vk_window->init_window();
   vk_instance->create_instance();
   this->instance = vk_instance->get_vk_instance();
-  this->surface = engine_window->create_window_surface(instance);
+  this->surface = vk_window->create_window_surface(instance);
   this->physical_device = vk_device->select_physical_device(instance);
   this->device = vk_device->create_logical_device();
   this->queue_graphics = vk_device->get_queue_graphics();
@@ -87,7 +90,12 @@ void Engine_vulkan::init_vulkan(){
   this->commandBuffers = vk_command->get_commandBuffers();
 
 
-  this->create_sync_objects();
+  vk_synchronization->create_sync_objects();
+  this->imageAvailableSemaphores = vk_synchronization->get_imageAvailableSemaphores();
+  this->renderFinishedSemaphores = vk_synchronization->get_renderFinishedSemaphores();
+  this->inFlightFences = vk_synchronization->get_inFlightFences();
+
+
 
   GUI* guiManager= node_engine->get_guiManager();
   guiManager->init();
@@ -95,7 +103,7 @@ void Engine_vulkan::init_vulkan(){
   //---------------------------
 }
 void Engine_vulkan::main_loop() {
-  GLFWwindow* window = engine_window->get_window();
+  GLFWwindow* window = vk_window->get_window();
   //---------------------------
 
   GUI* guiManager= node_engine->get_guiManager();
@@ -111,10 +119,10 @@ void Engine_vulkan::main_loop() {
   //---------------------------
 }
 void Engine_vulkan::draw_frame(){
-  swapChain = this->get_swapChain();
+  swapChain = vk_swapchain->get_swapChain();
   //---------------------------
 
-  framebufferResized = engine_window->check_for_resizing();
+  framebufferResized = vk_window->check_for_resizing();
 
   //Waiting for the previous frame
   vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
@@ -187,60 +195,23 @@ void Engine_vulkan::draw_frame(){
 void Engine_vulkan::clean_vulkan(){
   //---------------------------
 
-  /*if(with_validation_layer){
-    DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
-  }*/
-  VkInstance instance = vk_instance->get_vk_instance();
-
   vk_swapchain->cleanup_swapChain();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();
-
-  for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-    vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
-    vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
-    vkDestroyFence(device, inFlightFences[i], nullptr);
-  }
-
+  vk_synchronization->cleanup();
   vk_command->cleanup();
   vk_device->cleanup();
 
+  VkInstance instance = vk_instance->get_vk_instance();
   vkDestroySurfaceKHR(instance, surface, nullptr);
-  
+
   vk_instance->cleanup();
 
-  //---------------------------
-}
-
-//Subfunction
-void Engine_vulkan::create_sync_objects(){
-  //---------------------------
-
-  imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
-  renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
-  inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
-
-  //Semaphore info
-  VkSemaphoreCreateInfo semaphoreInfo{};
-  semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-
-  //Fence info
-  VkFenceCreateInfo fenceInfo{};
-  fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-  fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
-
-  //Semaphore and fence creation
- for(size_t i=0; i<MAX_FRAMES_IN_FLIGHT; i++){
-    VkResult result_sema_1 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]);
-    VkResult result_sema_2 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]);
-    VkResult result_hence = vkCreateFence(device, &fenceInfo, nullptr, &inFlightFences[i]);
-    if(result_sema_1 != VK_SUCCESS || result_sema_2 != VK_SUCCESS || result_hence != VK_SUCCESS){
-      throw std::runtime_error("[error] failed to create semaphores!");
-    }
-  }
+  vk_window->clean_window();
 
   //---------------------------
 }
+
 
 
 //Swap chain settings

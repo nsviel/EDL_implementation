@@ -18,10 +18,15 @@ public:
 public:
   //Main functions
   void create_sync_objects();
+  void cleanup();
+
+  inline std::vector<VkSemaphore> get_imageAvailableSemaphores(){return imageAvailableSemaphores;}
+  inline std::vector<VkSemaphore> get_renderFinishedSemaphores(){return renderFinishedSemaphores;}
+  inline std::vector<VkFence> get_inFlightFences(){return inFlightFences;}
 
 private:
   Engine_vulkan* engine_vulkan;
-  
+
   std::vector<VkSemaphore> imageAvailableSemaphores;
   std::vector<VkSemaphore> renderFinishedSemaphores;
   std::vector<VkFence> inFlightFences;

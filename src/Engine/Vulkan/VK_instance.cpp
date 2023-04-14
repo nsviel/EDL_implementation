@@ -117,6 +117,10 @@ void VK_instance::create_instance(){
 void VK_instance::cleanup(){
   //---------------------------
 
+  if(with_validation_layer){
+    DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+  }
+
   vkDestroyInstance(instance, nullptr);
 
   //---------------------------

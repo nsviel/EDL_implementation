@@ -2,7 +2,6 @@
 #define ENGINE_H
 
 class Node_engine;
-class Engine_window;
 class Engine_vulkan;
 class Loop;
 
@@ -22,7 +21,6 @@ public:
 
 private:
   Node_engine* node_engine;
-  Engine_window* engine_window;
   Engine_vulkan* engine_vulkan;
   Loop* engine_loop;
 };

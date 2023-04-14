@@ -1,6 +1,6 @@
 #include "GUI.h"
 
-#include "Engine_window.h"
+#include "../Vulkan/VK_window.h"
 #include "../Vulkan/Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -13,8 +13,9 @@
 GUI::GUI(Node_engine* node_engine){
   //---------------------------
 
-  this->engine_window = node_engine->get_engine_window();
+
   this->engine_vulkan = node_engine->get_engine_vulkan();
+  this->vk_window = engine_vulkan->get_vk_window();
 
   //---------------------------
 }
@@ -27,7 +28,7 @@ GUI::~GUI(){
 
 //Main function
 void GUI::init(){
-  GLFWwindow* window = engine_window->get_window();
+  GLFWwindow* window = vk_window->get_window();
   VkInstance instance = engine_vulkan->get_vk_instance();
   VkPhysicalDevice physical_device = engine_vulkan->get_physical_device();
   VkDevice device = engine_vulkan->get_device();
@@ -111,7 +112,7 @@ void GUI::loop(){
   //---------------------------
 }
 void GUI::loop_start(){
-  GLFWwindow* window = engine_window->get_window();
+  GLFWwindow* window = vk_window->get_window();
   //---------------------------
 
   // Start the Dear ImGui frame

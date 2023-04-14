@@ -2,7 +2,7 @@
 #define GUI_H
 
 class Node_engine;
-class Engine_window;
+class VK_window;
 class Engine_vulkan;
 
 
@@ -25,7 +25,7 @@ public:
   void show_basic_stuff();
 
 private:
-  Engine_window* engine_window;
+  VK_window* vk_window;
   Engine_vulkan* engine_vulkan;
 };
 

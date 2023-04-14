@@ -14,7 +14,7 @@
 
 
 class Node_engine;
-class Engine_window;
+class VK_window;
 class VK_instance;
 class VK_device;
 class VK_swapchain;
@@ -22,6 +22,7 @@ class VK_renderpass;
 class VK_pipeline;
 class VK_framebuffer;
 class VK_command;
+class VK_synchronization;
 
 
 class Engine_vulkan
@@ -38,9 +39,6 @@ public:
   void draw_frame();
   void clean_vulkan();
 
-  //Subfunction
-  void create_sync_objects();
-
   //Misc function
   void recreate_swapChain();
   void cleanup_swapChain();
@@ -48,7 +46,7 @@ public:
 
   inline VK_device* get_vk_device(){return vk_device;}
   inline VK_framebuffer* get_vk_framebuffer(){return vk_framebuffer;}
-  inline Engine_window* get_engine_window(){return engine_window;}
+  inline VK_window* get_vk_window(){return vk_window;}
 
   inline VkInstance get_vk_instance(){return instance;}
   inline VkPhysicalDevice get_physical_device(){return physical_device;}
@@ -68,7 +66,7 @@ public:
 
 private:
   Node_engine* node_engine;
-  Engine_window* engine_window;
+  VK_window* vk_window;
   VK_instance* vk_instance;
   VK_device* vk_device;
   VK_swapchain* vk_swapchain;
@@ -76,6 +74,7 @@ private:
   VK_pipeline* vk_pipeline;
   VK_framebuffer* vk_framebuffer;
   VK_command* vk_command;
+  VK_synchronization* vk_synchronization;
 
   VkInstance instance;
   VkDebugUtilsMessengerEXT debugMessenger;

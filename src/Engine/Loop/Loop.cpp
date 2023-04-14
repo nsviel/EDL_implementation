@@ -1,7 +1,6 @@
 #include "Loop.h"
 
 #include "../Node_engine.h"
-#include "../Core/Engine_window.h"
 #include "../Vulkan/Engine_vulkan.h"
 
 
@@ -9,7 +8,6 @@
 Loop::Loop(Node_engine* node_engine){
   //---------------------------
 
-  this->engine_window = node_engine->get_engine_window();
   this->engine_vulkan = node_engine->get_engine_vulkan();
 
   //---------------------------
