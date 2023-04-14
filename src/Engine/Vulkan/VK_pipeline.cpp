@@ -184,6 +184,15 @@ void VK_pipeline::create_graphics_pipeline(){
 
   //---------------------------
 }
+void VK_pipeline::cleanup(){
+  VkDevice device = engine_vulkan->get_device();
+  //---------------------------
+
+  vkDestroyPipeline(device, graphicsPipeline, nullptr);
+  vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+
+  //---------------------------
+}
 
 VkShaderModule VK_pipeline::create_shader_module(const std::vector<char>& code){
   //Shader modules are just a thin wrapper around the shader bytecode

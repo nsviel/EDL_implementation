@@ -18,6 +18,7 @@ public:
 public:
   //Main functions
   void create_render_pass();
+  void cleanup();
 
   inline VkRenderPass get_renderPass(){return renderPass;}
 

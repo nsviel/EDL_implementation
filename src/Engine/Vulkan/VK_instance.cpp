@@ -114,6 +114,13 @@ void VK_instance::create_instance(){
 
   //---------------------------
 }
+void VK_instance::cleanup(){
+  //---------------------------
+
+  vkDestroyInstance(instance, nullptr);
+
+  //---------------------------
+}
 
 //Validation layers
 bool VK_instance::check_validationLayer_support(){

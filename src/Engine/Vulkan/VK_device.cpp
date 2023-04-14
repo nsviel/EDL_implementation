@@ -95,6 +95,13 @@ VkPhysicalDevice VK_device::select_physical_device(VkInstance instance){
   //---------------------------
   return physical_device;
 }
+void VK_device::cleanup(){
+  //---------------------------
+
+  vkDestroyDevice(device, nullptr);
+
+  //---------------------------
+}
 
 
 struct_queueFamily_indices VK_device::find_queue_families(VkPhysicalDevice device){

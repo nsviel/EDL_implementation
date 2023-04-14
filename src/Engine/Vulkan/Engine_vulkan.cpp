@@ -4,6 +4,8 @@
 #include "VK_swapchain.h"
 #include "VK_renderpass.h"
 #include "VK_pipeline.h"
+#include "VK_framebuffer.h"
+#include "VK_command.h"
 
 #include "../Core/Engine_window.h"
 #include "../Core/GUI.h"
@@ -37,6 +39,8 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_swapchain = new VK_swapchain(this);
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_pipeline = new VK_pipeline(this);
+  this->vk_framebuffer = new VK_framebuffer(this);
+  this->vk_command = new VK_command(this);
 
   //---------------------------
 }
@@ -73,9 +77,16 @@ void Engine_vulkan::init_vulkan(){
   this->graphicsPipeline = vk_pipeline->get_graphicsPipeline();
 
 
-  this->create_framebuffers();
-  this->create_command_pool();
-  this->create_command_buffers();
+  vk_framebuffer->create_framebuffers();
+  this->swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
+
+
+  vk_command->create_command_pool();
+  vk_command->create_command_buffers();
+  this->commandPool = vk_command->get_commandPool();
+  this->commandBuffers = vk_command->get_commandBuffers();
+
+
   this->create_sync_objects();
 
   GUI* guiManager= node_engine->get_guiManager();
@@ -130,7 +141,7 @@ void Engine_vulkan::draw_frame(){
   }
 
   vkResetCommandBuffer(commandBuffers[currentFrame], 0);
-  record_command_buffer(commandBuffers[currentFrame], imageIndex);
+  vk_command->record_command_buffer(commandBuffers[currentFrame], imageIndex);
 
   VkSubmitInfo submitInfo{};
   submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -181,11 +192,9 @@ void Engine_vulkan::clean_vulkan(){
   }*/
   VkInstance instance = vk_instance->get_vk_instance();
 
-  this->cleanup_swapChain();
-
-  vkDestroyPipeline(device, graphicsPipeline, nullptr);
-  vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-  vkDestroyRenderPass(device, renderPass, nullptr);
+  vk_swapchain->cleanup_swapChain();
+  vk_pipeline->cleanup();
+  vk_renderpass->cleanup();
 
   for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
     vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
@@ -193,86 +202,17 @@ void Engine_vulkan::clean_vulkan(){
     vkDestroyFence(device, inFlightFences[i], nullptr);
   }
 
-  vkDestroyCommandPool(device, commandPool, nullptr);
-  vkDestroyDevice(device, nullptr);
+  vk_command->cleanup();
+  vk_device->cleanup();
+
   vkDestroySurfaceKHR(instance, surface, nullptr);
-  vkDestroyInstance(instance, nullptr);
+  
+  vk_instance->cleanup();
 
   //---------------------------
 }
 
 //Subfunction
-void Engine_vulkan::create_framebuffers(){
-  swapChain_image_views = this->get_swapChain_image_views();
-  swapChain_fbo = this->get_swapChain_fbo();
-  swapChain_extent = this->get_swapChain_extent();
-  //---------------------------
-
-  //Resize to hold all fbos
-  swapChain_fbo.resize(swapChain_image_views.size());
-
-  //Create frambuffer
-  for(size_t i=0; i<swapChain_image_views.size(); i++){
-    VkImageView attachments[] = {
-      swapChain_image_views[i]
-    };
-
-    VkFramebufferCreateInfo framebufferInfo{};
-    framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-    framebufferInfo.renderPass = renderPass;
-    framebufferInfo.attachmentCount = 1;
-    framebufferInfo.pAttachments = attachments;
-    framebufferInfo.width = swapChain_extent.width;
-    framebufferInfo.height = swapChain_extent.height;
-    framebufferInfo.layers = 1;
-
-    VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &swapChain_fbo[i]);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("[error] failed to create framebuffer!");
-    }
-  }
-
-
-  //---------------------------
-}
-void Engine_vulkan::create_command_pool(){
-  //---------------------------
-
-  struct_queueFamily_indices queueFamily_indices = find_queue_families(physical_device);
-
-  //Command pool info
-  VkCommandPoolCreateInfo poolInfo{};
-  poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-  poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-  poolInfo.queueFamilyIndex = queueFamily_indices.family_graphics.value();
-
-  //Command pool creation
-  VkResult result = vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create command pool!");
-  }
-
-  //---------------------------
-}
-void Engine_vulkan::create_command_buffers(){
-  //---------------------------
-
-  commandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
-
-  //Command buffer allocation
-  VkCommandBufferAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-  allocInfo.commandPool = commandPool;
-  allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-  allocInfo.commandBufferCount = (uint32_t) commandBuffers.size();
-
-  VkResult result = vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data());
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to allocate command buffers!");
-  }
-
-  //---------------------------
-}
 void Engine_vulkan::create_sync_objects(){
   //---------------------------
 
@@ -302,48 +242,6 @@ void Engine_vulkan::create_sync_objects(){
   //---------------------------
 }
 
-//Misc function
-struct_queueFamily_indices Engine_vulkan::find_queue_families(VkPhysicalDevice device){
-  struct_queueFamily_indices indices;
-  //---------------------------
-
-  //Get queue family number
-  uint32_t nb_queueFamily = 0;
-  vkGetPhysicalDeviceQueueFamilyProperties(device, &nb_queueFamily, nullptr);
-  if(nb_queueFamily == 0) {
-    throw std::runtime_error("[error] No queue families on selected GPU");
-  }
-
-  //List queue families
-  std::vector<VkQueueFamilyProperties> vec_queueFamily(nb_queueFamily);
-  vkGetPhysicalDeviceQueueFamilyProperties(device, &nb_queueFamily, vec_queueFamily.data());
-
-  //Search for specific properties (e.g, graphics)
-  int i = 0;
-  for(const auto& queueFamily : vec_queueFamily) {
-    //Querying for graphics family
-    if(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-      indices.family_graphics = i;
-    }
-
-    //Querying for presentation family
-    VkBool32 presentSupport = false;
-    vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
-    if(presentSupport){
-      indices.family_presentation = i;
-    }
-
-    //Break if complete
-    if(indices.is_complete()){
-      break;
-    }
-
-    i++;
-  }
-
-  //---------------------------
-  return indices;
-}
 
 //Swap chain settings
 void Engine_vulkan::recreate_swapChain(){
@@ -361,7 +259,8 @@ void Engine_vulkan::recreate_swapChain(){
   this->swapChain_images = vk_swapchain->get_swapChain_images();
   this->swapChain_image_views = vk_swapchain->get_swapChain_image_views();
   this->swapChain_fbo = vk_swapchain->get_swapChain_fbo();
-  create_framebuffers();
+  vk_framebuffer->create_framebuffers();
+  this->swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
 
   //---------------------------
 }
@@ -377,63 +276,6 @@ void Engine_vulkan::cleanup_swapChain(){
   }
 
   vkDestroySwapchainKHR(device, swapChain, nullptr);
-
-  //---------------------------
-}
-
-//Graphics pipeline
-void Engine_vulkan::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex){
-  swapChain_fbo = this->get_swapChain_fbo();
-  swapChain_extent = this->get_swapChain_extent();
-  //---------------------------
-
-  VkCommandBufferBeginInfo beginInfo{};
-  beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-  beginInfo.flags = 0; // Optional
-  beginInfo.pInheritanceInfo = nullptr; // Optional
-
-  VkResult result = vkBeginCommandBuffer(commandBuffer, &beginInfo);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to begin recording command buffer!");
-  }
-
-  //Starting a render pass
-  VkRenderPassBeginInfo renderPassInfo{};
-  renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-  renderPassInfo.renderPass = renderPass;
-  renderPassInfo.framebuffer = swapChain_fbo[imageIndex];
-  renderPassInfo.renderArea.offset = {0, 0};
-  renderPassInfo.renderArea.extent = swapChain_extent;
-  VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
-  renderPassInfo.clearValueCount = 1;
-  renderPassInfo.pClearValues = &clearColor;
-
-  vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-
-  //Dynamic commands
-  VkViewport viewport{};
-  viewport.x = 0.0f;
-  viewport.y = 0.0f;
-  viewport.width = static_cast<float>(swapChain_extent.width);
-  viewport.height = static_cast<float>(swapChain_extent.height);
-  viewport.minDepth = 0.0f;
-  viewport.maxDepth = 1.0f;
-  vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-
-  VkRect2D scissor{};
-  scissor.offset = {0, 0};
-  scissor.extent = swapChain_extent;
-  vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-
-  vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-  vkCmdEndRenderPass(commandBuffer);
-
-  result = vkEndCommandBuffer(commandBuffer);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to record command buffer!");
-  }
-
 
   //---------------------------
 }

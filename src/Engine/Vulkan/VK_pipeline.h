@@ -18,6 +18,7 @@ public:
 public:
   //Main functions
   void create_graphics_pipeline();
+  void cleanup();
 
   VkShaderModule create_shader_module(const std::vector<char>& code);
   std::vector<char> read_file(const std::string& filename);

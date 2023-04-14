@@ -24,7 +24,7 @@ public:
   //Main functions
   VkDevice create_logical_device();
   VkPhysicalDevice select_physical_device(VkInstance instance);
-
+  void cleanup();
 
   struct_queueFamily_indices find_queue_families(VkPhysicalDevice device);
   bool is_device_suitable(VkPhysicalDevice device);

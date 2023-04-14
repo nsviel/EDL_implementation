@@ -68,3 +68,11 @@ void VK_renderpass::create_render_pass(){
 
   //---------------------------
 }
+void VK_renderpass::cleanup(){
+  VkDevice device = engine_vulkan->get_device();
+  //---------------------------
+
+  vkDestroyRenderPass(device, renderPass, nullptr);
+
+  //---------------------------
+}

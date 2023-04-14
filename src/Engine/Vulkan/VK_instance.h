@@ -24,6 +24,7 @@ public:
 public:
   //Main functions
   void create_instance();
+  void cleanup();
 
   //Validation layers
   bool check_validationLayer_support();

@@ -1,6 +1,7 @@
 #include "VK_swapchain.h"
 #include "VK_device.h"
 #include "VK_swapchain.h"
+#include "VK_framebuffer.h"
 #include "Engine_vulkan.h"
 
 #include "../Core/Engine_window.h"
@@ -211,6 +212,7 @@ VkExtent2D VK_swapchain::swapChain_extent_setting(const VkSurfaceCapabilitiesKHR
 }
 void VK_swapchain::recreate_swapChain(){
   VkDevice device = vk_device->get_device();
+  VK_framebuffer* vk_framebuffer = engine_vulkan->get_vk_framebuffer();
   //---------------------------
 
   vkDeviceWaitIdle(device);
@@ -219,7 +221,8 @@ void VK_swapchain::recreate_swapChain(){
 
   create_swapChain();
   create_image_views();
-  engine_vulkan->create_framebuffers();
+  vk_framebuffer->create_framebuffers();
+  this->swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
 
   //---------------------------
 }
