@@ -1,6 +1,9 @@
 #include "Engine_vulkan.h"
 #include "VK_instance.h"
 #include "VK_device.h"
+#include "VK_swapchain.h"
+#include "VK_renderpass.h"
+#include "VK_pipeline.h"
 
 #include "../Core/Engine_window.h"
 #include "../Core/GUI.h"
@@ -17,46 +20,6 @@
 const int MAX_FRAMES_IN_FLIGHT = 2;
 uint32_t currentFrame = 0;
 
-//Static debugging function
-/*static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
-    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-    VkDebugUtilsMessageTypeFlagsEXT messageType,
-    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-    void* pUserData) {
-
-    std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
-
-    return VK_FALSE;
-}
-VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
-  //---------------------------
-
-  auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
-  if(func != nullptr){
-    return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
-  }else{
-    return VK_ERROR_EXTENSION_NOT_PRESENT;
-  }
-
-  //---------------------------
-}
-void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
-    auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
-    if (func != nullptr) {
-        func(instance, debugMessenger, pAllocator);
-    }
-}
-void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo){
-  //---------------------------
-
-  createInfo = {};
-  createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-  createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-  createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-  createInfo.pfnUserCallback = debugCallback;
-
-  //---------------------------
-}*/
 
 void sayHello(){
   std::cout<<"Hello"<<std::endl;
@@ -70,7 +33,10 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->node_engine = node_engine;
   this->engine_window = node_engine->get_engine_window();
   this->vk_instance = new VK_instance();
-  this->vk_device = new VK_device(node_engine);
+  this->vk_device = new VK_device(this);
+  this->vk_swapchain = new VK_swapchain(this);
+  this->vk_renderpass = new VK_renderpass(this);
+  this->vk_pipeline = new VK_pipeline(this);
 
   //---------------------------
 }
@@ -83,18 +49,30 @@ void Engine_vulkan::init_vulkan(){
   vk_instance->create_instance();
   this->instance = vk_instance->get_vk_instance();
   this->surface = engine_window->create_window_surface(instance);
-
-
-  //this->create_instance();
-  //this->create_window_surface();
   this->physical_device = vk_device->select_physical_device(instance);
   this->device = vk_device->create_logical_device();
+  this->queue_graphics = vk_device->get_queue_graphics();
+  this->queue_presentation = vk_device->get_queue_presentation();
 
-  this->create_logical_device();
-  this->create_swapChain();
-  this->create_image_views();
-  this->create_render_pass();
-  this->create_graphics_pipeline();
+  vk_swapchain->create_swapChain();
+  this->swapChain = vk_swapchain->get_swapChain();
+  this->swapChain_image_format = vk_swapchain->get_swapChain_image_format();
+  this->swapChain_extent = vk_swapchain->get_swapChain_extent();
+  this->swapChain_images = vk_swapchain->get_swapChain_images();
+  this->swapChain_image_views = vk_swapchain->get_swapChain_image_views();
+  this->swapChain_fbo = vk_swapchain->get_swapChain_fbo();
+  vk_swapchain->create_image_views();
+  this->swapChain_image_views = vk_swapchain->get_swapChain_image_views();
+
+  vk_renderpass->create_render_pass();
+  this->renderPass = vk_renderpass->get_renderPass();
+
+
+  vk_pipeline->create_graphics_pipeline();
+  this->pipelineLayout = vk_pipeline->get_pipelineLayout();
+  this->graphicsPipeline = vk_pipeline->get_graphicsPipeline();
+
+
   this->create_framebuffers();
   this->create_command_pool();
   this->create_command_buffers();
@@ -122,6 +100,7 @@ void Engine_vulkan::main_loop() {
   //---------------------------
 }
 void Engine_vulkan::draw_frame(){
+  swapChain = this->get_swapChain();
   //---------------------------
 
   framebufferResized = engine_window->check_for_resizing();
@@ -223,438 +202,10 @@ void Engine_vulkan::clean_vulkan(){
 }
 
 //Subfunction
-void Engine_vulkan::create_instance(){
-  //The instance is the connection between application and Vulkan library
-  //---------------------------
-
-  //Check validation layers
-/*  if(with_validation_layer && !check_validationLayer_support()){
-    throw std::runtime_error("[error] validation layers requested, but not available!");
-  }*/
-
-  //Application info
-  VkApplicationInfo appInfo{};
-  appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-  appInfo.pApplicationName = "Hello Triangle";
-  appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-  appInfo.pEngineName = "No Engine";
-  appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-  appInfo.apiVersion = VK_API_VERSION_1_0;
-
-  //Instance info
-  VkInstanceCreateInfo createInfo{};
-  createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-  createInfo.pApplicationInfo = &appInfo;
-  if(with_validation_layer){
-    createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-    createInfo.ppEnabledLayerNames = validationLayers.data();
-  }else{
-    createInfo.enabledLayerCount = 0;
-  }
-  auto extensions = get_required_extensions();
-  createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-  createInfo.ppEnabledExtensionNames = extensions.data();
-
-  VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
-  if(with_validation_layer){
-    createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-    createInfo.ppEnabledLayerNames = validationLayers.data();
-
-  //  populateDebugMessengerCreateInfo(debugCreateInfo);
-    createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
-  }else{
-    createInfo.enabledLayerCount = 0;
-    createInfo.pNext = nullptr;
-  }
-
-  //Instance extensions
-  uint32_t glfwExtensionCount = 0;
-  const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-  createInfo.enabledExtensionCount = glfwExtensionCount;
-  createInfo.ppEnabledExtensionNames = glfwExtensions;
-  createInfo.enabledLayerCount = 0;
-/*
-  //Create instance
-  VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create instance!");
-  }*/
-
-  //---------------------------
-}
-void Engine_vulkan::create_window_surface(){
-  GLFWwindow* window = engine_window->get_window();
-  //---------------------------
-  VkInstance instance = vk_instance->get_vk_instance();
-  VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create window surface!");
-  }
-
-  //---------------------------
-}
-void Engine_vulkan::create_logical_device(){
-  //Interface between selected GPU and application
-  //---------------------------
-
-  //Get GPU qeue families
-  struct_queueFamily_indices indices = find_queue_families(physical_device);
-
-  std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-  std::set<uint32_t> uniqueQueueFamilies = {
-    indices.family_graphics.value(),
-    indices.family_presentation.value()
-  };
-
-  float queuePriority = 1.0f;
-  for (uint32_t queueFamily : uniqueQueueFamilies) {
-    VkDeviceQueueCreateInfo queueCreateInfo{};
-    queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-    queueCreateInfo.queueFamilyIndex = queueFamily;
-    queueCreateInfo.queueCount = 1;
-    queueCreateInfo.pQueuePriorities = &queuePriority;
-    queueCreateInfos.push_back(queueCreateInfo);
-  }
-
-  //Specifying used device features
-  VkPhysicalDeviceFeatures deviceFeatures{};
-
-  //Logical device info
-  VkDeviceCreateInfo createInfo{};
-  createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-  createInfo.pQueueCreateInfos = queueCreateInfos.data();
-  createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-  createInfo.pEnabledFeatures = &deviceFeatures;
-  createInfo.enabledExtensionCount = static_cast<uint32_t>(required_extensions.size());
-  createInfo.ppEnabledExtensionNames = required_extensions.data();
-  createInfo.enabledLayerCount = 0;
-
-  //Creating the logical device
-  VkResult result = vkCreateDevice(physical_device, &createInfo, nullptr, &device);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create logical device!");
-  }
-
-  //Get queue family handles
-  vkGetDeviceQueue(device, indices.family_graphics.value(), 0, &queue_graphics);
-  vkGetDeviceQueue(device, indices.family_presentation.value(), 0, &queue_presentation);
-
-  //---------------------------
-}
-void Engine_vulkan::create_swapChain(){
-  //---------------------------
-
-  //Get swap chain
-  struct_swapChain_details swapChain_setting = find_swapChain_details(physical_device);
-
-  //Retrieve settings
-  VkSurfaceFormatKHR surfaceFormat = swapChain_surface_format(swapChain_setting.formats);
-  VkPresentModeKHR presentation_mode = swapChain_presentation_mode(swapChain_setting.mode_presentation);
-  VkExtent2D extent = swapChain_extent_setting(swapChain_setting.capabilities);
-
-  //Get swap chain image capacity (0 means no maximum)
-  uint32_t nb_image = swapChain_setting.capabilities.minImageCount + 1;
-  if(swapChain_setting.capabilities.maxImageCount > 0 && nb_image > swapChain_setting.capabilities.maxImageCount){
-    nb_image = swapChain_setting.capabilities.maxImageCount;
-  }
-
-  //Create swap chain info
-  VkSwapchainCreateInfoKHR createInfo{};
-  createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-  createInfo.surface = surface;
-  createInfo.minImageCount = nb_image;
-  createInfo.imageFormat = surfaceFormat.format;
-  createInfo.imageColorSpace = surfaceFormat.colorSpace;
-  createInfo.imageExtent = extent;
-  createInfo.imageArrayLayers = 1;
-  createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; //VK_IMAGE_USAGE_TRANSFER_DST_BIT for post-processing
-
-  //Link with queue families
-  struct_queueFamily_indices indices = find_queue_families(physical_device);
-  uint32_t queueFamilyIndices[] = {indices.family_graphics.value(), indices.family_presentation.value()};
-
-  if(indices.family_graphics != indices.family_presentation){
-    createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-    createInfo.queueFamilyIndexCount = 2;
-    createInfo.pQueueFamilyIndices = queueFamilyIndices;
-  }else{
-    createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    createInfo.queueFamilyIndexCount = 0; // Optional
-    createInfo.pQueueFamilyIndices = nullptr; // Optional
-  }
-
-  createInfo.preTransform = swapChain_setting.capabilities.currentTransform;
-  createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; //Ignore alpha channel
-  createInfo.presentMode = presentation_mode;
-  createInfo.clipped = VK_TRUE;
-  createInfo.oldSwapchain = VK_NULL_HANDLE;
-
-  //Create swap chain
-  VkResult result = vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create swap chain!");
-  }
-
-  //Swap chain handler
-  vkGetSwapchainImagesKHR(device, swapChain, &nb_image, nullptr);
-  swapChain_images.resize(nb_image);
-  vkGetSwapchainImagesKHR(device, swapChain, &nb_image, swapChain_images.data());
-
-  //Store values
-  this->swapChain_image_format = surfaceFormat.format;
-  this->swapChain_extent = extent;
-
-  //---------------------------
-}
-void Engine_vulkan::create_image_views(){
-  //---------------------------
-
-  //Resize the image view vector
-  swapChain_image_views.resize(swapChain_images.size());
-
-  //Image view settings & creation
-  for (size_t i = 0; i < swapChain_images.size(); i++) {
-    VkImageViewCreateInfo createInfo{};
-    createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-    createInfo.image = swapChain_images[i];
-    createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-    createInfo.format = swapChain_image_format;
-    createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-    createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-    createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-    createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-    createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-    createInfo.subresourceRange.baseMipLevel = 0;
-    createInfo.subresourceRange.levelCount = 1;
-    createInfo.subresourceRange.baseArrayLayer = 0;
-    createInfo.subresourceRange.layerCount = 1;
-
-    VkResult result = vkCreateImageView(device, &createInfo, nullptr, &swapChain_image_views[i]);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("[error] failed to create image views!");
-    }
-  }
-
-  //---------------------------
-}
-void Engine_vulkan::create_render_pass(){
-  //---------------------------
-
-  //Attachement description
-  VkAttachmentDescription colorAttachment{};
-  colorAttachment.format = swapChain_image_format;
-  colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-  colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-  colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-  colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-  colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-  colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-  colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-
-  //Attachment references
-  VkAttachmentReference colorAttachmentRef{};
-  colorAttachmentRef.attachment = 0;
-  colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
-  //Subpasses
-  VkSubpassDescription subpass{};
-  subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-  subpass.colorAttachmentCount = 1;
-  subpass.pColorAttachments = &colorAttachmentRef;
-
-  VkSubpassDependency dependency{};
-  dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
-  dependency.dstSubpass = 0;
-  dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-  dependency.srcAccessMask = 0;
-  dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-  dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-
-  //Render pass info
-  VkRenderPassCreateInfo renderPassInfo{};
-  renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-  renderPassInfo.attachmentCount = 1;
-  renderPassInfo.pAttachments = &colorAttachment;
-  renderPassInfo.subpassCount = 1;
-  renderPassInfo.pSubpasses = &subpass;
-  renderPassInfo.dependencyCount = 1;
-  renderPassInfo.pDependencies = &dependency;
-
-  //Render pass creation
-  VkResult result = vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderPass);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create render pass!");
-  }
-
-  //---------------------------
-}
-void Engine_vulkan::create_graphics_pipeline(){
-  //---------------------------
-
-  //Load spir format shaders
-  auto code_vert = read_file("../src/Engine/Shader/spir/vert.spv");
-  auto code_frag = read_file("../src/Engine/Shader/spir/frag.spv");
-
-  //Create associated shader modules
-  VkShaderModule module_vert = create_shader_module(code_vert);
-  VkShaderModule module_frag = create_shader_module(code_frag);
-
-  //Vertex shader link in pipeline
-  VkPipelineShaderStageCreateInfo info_vert{};
-  info_vert.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-  info_vert.stage = VK_SHADER_STAGE_VERTEX_BIT;
-  info_vert.module = module_vert;
-  info_vert.pName = "main";
-  info_vert.pSpecializationInfo = nullptr;
-
-  //Fragment shader link in pipeline
-  VkPipelineShaderStageCreateInfo info_frag{};
-  info_frag.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-  info_frag.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-  info_frag.module = module_frag;
-  info_frag.pName = "main";
-  info_frag.pSpecializationInfo = nullptr;
-
-  //Shader info array
-  VkPipelineShaderStageCreateInfo shaderStages[] = {info_vert, info_frag};
-
-  //Vertex input settings
-  VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
-  vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-  vertexInputInfo.vertexBindingDescriptionCount = 0;
-  vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-  vertexInputInfo.vertexAttributeDescriptionCount = 0;
-  vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
-
-  //Drawing topology
-  VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
-  inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-  inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-  inputAssembly.primitiveRestartEnable = VK_FALSE;
-
-  //Viewport
-  VkViewport viewport{};
-  viewport.x = 0.0f;
-  viewport.y = 0.0f;
-  viewport.width  = (float) swapChain_extent.width;
-  viewport.height = (float) swapChain_extent.height;
-  viewport.minDepth = 0.0f;
-  viewport.maxDepth = 1.0f;
-
-  //Dynamic internal variables (viewport, line width, ...)
-  //the subsequent values has to be given at runtime
-  std::vector<VkDynamicState> dynamicStates = {
-    VK_DYNAMIC_STATE_VIEWPORT,
-    VK_DYNAMIC_STATE_SCISSOR
-  };
-  VkPipelineDynamicStateCreateInfo dynamicState{};
-  dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-  dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
-  dynamicState.pDynamicStates = dynamicStates.data();
-
-  //Full viewport scissor
-  VkRect2D scissor{};
-  scissor.offset = {0, 0};
-  scissor.extent = swapChain_extent;
-
-  //Viewport info
-  VkPipelineViewportStateCreateInfo viewportState{};
-  viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-  viewportState.viewportCount = 1;
-  viewportState.scissorCount = 1;
-
-  //Rasterization stage
-  VkPipelineRasterizationStateCreateInfo rasterizer{};
-  rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-  rasterizer.depthClampEnable = VK_FALSE;
-  rasterizer.rasterizerDiscardEnable = VK_FALSE;
-  rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
-  rasterizer.lineWidth = 1.0f;
-  rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
-  rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
-  rasterizer.depthBiasEnable = VK_FALSE;
-  rasterizer.depthBiasConstantFactor = 0.0f; // Optional
-  rasterizer.depthBiasClamp = 0.0f; // Optional
-  rasterizer.depthBiasSlopeFactor = 0.0f; // Optional
-
-  //Multisampling -> disabled
-  VkPipelineMultisampleStateCreateInfo multisampling{};
-  multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
-  multisampling.sampleShadingEnable = VK_FALSE;
-  multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-  multisampling.minSampleShading = 1.0f; // Optional
-  multisampling.pSampleMask = nullptr; // Optional
-  multisampling.alphaToCoverageEnable = VK_FALSE; // Optional
-  multisampling.alphaToOneEnable = VK_FALSE; // Optional
-
-  //Color blending stage
-  VkPipelineColorBlendAttachmentState colorBlendAttachment{};
-  colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-  colorBlendAttachment.blendEnable = VK_FALSE;
-  colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
-  colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
-  colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD; // Optional
-  colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
-  colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
-  colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD; // Optional
-
-  VkPipelineColorBlendStateCreateInfo colorBlending{};
-  colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-  colorBlending.logicOpEnable = VK_FALSE;
-  colorBlending.logicOp = VK_LOGIC_OP_COPY; // Optional
-  colorBlending.attachmentCount = 1;
-  colorBlending.pAttachments = &colorBlendAttachment;
-  colorBlending.blendConstants[0] = 0.0f; // Optional
-  colorBlending.blendConstants[1] = 0.0f; // Optional
-  colorBlending.blendConstants[2] = 0.0f; // Optional
-  colorBlending.blendConstants[3] = 0.0f; // Optional
-
-  //Pipeline layout info -> usefull for shader uniform variables
-  VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
-  pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-  pipelineLayoutInfo.setLayoutCount = 0; // Optional
-  pipelineLayoutInfo.pSetLayouts = nullptr; // Optional
-  pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
-  pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
-
-  //Pipeline layout creation
-  VkResult result = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create pipeline layout!");
-  }
-
-  //Final graphics pipeline info
-  VkGraphicsPipelineCreateInfo pipelineInfo{};
-  pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-  pipelineInfo.stageCount = 2;
-  pipelineInfo.pStages = shaderStages;
-  pipelineInfo.pVertexInputState = &vertexInputInfo;
-  pipelineInfo.pInputAssemblyState = &inputAssembly;
-  pipelineInfo.pViewportState = &viewportState;
-  pipelineInfo.pRasterizationState = &rasterizer;
-  pipelineInfo.pMultisampleState = &multisampling;
-  pipelineInfo.pDepthStencilState = nullptr; // Optional
-  pipelineInfo.pColorBlendState = &colorBlending;
-  pipelineInfo.pDynamicState = &dynamicState;
-  pipelineInfo.layout = pipelineLayout;
-  pipelineInfo.renderPass = renderPass;
-  pipelineInfo.subpass = 0;
-  pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
-  pipelineInfo.basePipelineIndex = -1; // Optional
-
-  //Final graphics pipeline creation
-  VkResult result_pipe = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline);
-  if(result_pipe != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create graphics pipeline!");
-  }
-
-  //Destroy shader modules
-  vkDestroyShaderModule(device, module_vert, nullptr);
-  vkDestroyShaderModule(device, module_frag, nullptr);
-
-  //---------------------------
-}
 void Engine_vulkan::create_framebuffers(){
+  swapChain_image_views = this->get_swapChain_image_views();
+  swapChain_fbo = this->get_swapChain_fbo();
+  swapChain_extent = this->get_swapChain_extent();
   //---------------------------
 
   //Resize to hold all fbos
@@ -752,103 +303,6 @@ void Engine_vulkan::create_sync_objects(){
 }
 
 //Misc function
-void Engine_vulkan::select_physical_device(){
-  //---------------------------
-  VkInstance instance = vk_instance->get_vk_instance();
-  this->physical_device = VK_NULL_HANDLE;
-
-  //Find how many GPU are available
-  uint32_t nb_device = 0;
-  vkEnumeratePhysicalDevices(instance, &nb_device, nullptr);
-  if (nb_device == 0) {
-    throw std::runtime_error("failed to find GPUs with Vulkan support!");
-  }
-
-  //List all available GPU and take suitable one
-  std::vector<VkPhysicalDevice> devices(nb_device);
-  vkEnumeratePhysicalDevices(instance, &nb_device, devices.data());
-  for (const auto& device : devices) {
-    if (is_device_suitable(device)) {
-      physical_device = device;
-      break;
-    }
-  }
-  if (physical_device == VK_NULL_HANDLE) {
-    throw std::runtime_error("failed to find a suitable GPU!");
-  }
-
-  //---------------------------
-}
-bool Engine_vulkan::is_device_suitable(VkPhysicalDevice device){
-  //---------------------------
-
-  //Queue suitable
-  struct_queueFamily_indices queue_indices = find_queue_families(device);
-  bool queue_ok = queue_indices.is_complete();
-
-  //Extension suitable
-  bool extension_ok = check_extension_support(device);
-
-  //Swap chain suitable
-  bool swapChain_ok = false;
-  if(extension_ok){
-    struct_swapChain_details swapChain_setting = find_swapChain_details(device);
-    swapChain_ok = !swapChain_setting.formats.empty() && !swapChain_setting.mode_presentation.empty();
-  }
-
-  //---------------------------
-  return queue_ok && extension_ok && swapChain_ok;
-}
-bool Engine_vulkan::check_extension_support(VkPhysicalDevice device){
-  //---------------------------
-
-  //Get device extension number
-  uint32_t nb_extension;
-  vkEnumerateDeviceExtensionProperties(device, nullptr, &nb_extension, nullptr);
-
-  //List device extension
-  std::vector<VkExtensionProperties> vec_extension(nb_extension);
-  vkEnumerateDeviceExtensionProperties(device, nullptr, &nb_extension, vec_extension.data());
-
-  //Check if all required extension are in the list
-  std::set<std::string> requiredExtensions(required_extensions.begin(), required_extensions.end());
-  for (const auto& extension : vec_extension) {
-    requiredExtensions.erase(extension.extensionName);
-  }
-
-  //---------------------------
-  return requiredExtensions.empty();
-}
-struct_swapChain_details Engine_vulkan::find_swapChain_details(VkPhysicalDevice device){
-  struct_swapChain_details details;
-  //---------------------------
-
-  //Get basic surface capabilities
-  vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
-
-  //Get supported surface format number
-  uint32_t nb_format;
-  vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &nb_format, nullptr);
-
-  //Get supported surface format list
-  if(nb_format != 0){
-    details.formats.resize(nb_format);
-    vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &nb_format, details.formats.data());
-  }
-
-  //Get presentation mode number
-  uint32_t nb_mode_presentation;
-  vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &nb_mode_presentation, nullptr);
-
-  //Get presentation mode list
-  if(nb_mode_presentation != 0){
-    details.mode_presentation.resize(nb_mode_presentation);
-    vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &nb_mode_presentation, details.mode_presentation.data());
-  }
-
-  //---------------------------
-  return details;
-}
 struct_queueFamily_indices Engine_vulkan::find_queue_families(VkPhysicalDevice device){
   struct_queueFamily_indices indices;
   //---------------------------
@@ -890,80 +344,8 @@ struct_queueFamily_indices Engine_vulkan::find_queue_families(VkPhysicalDevice d
   //---------------------------
   return indices;
 }
-std::vector<char> Engine_vulkan::read_file(const std::string& filename){
-  std::ifstream file(filename, std::ios::ate | std::ios::binary);
-  //---------------------------
-
-  if (!file.is_open()) {
-    throw std::runtime_error("[error] failed to open file!");
-  }
-
-  size_t fileSize = (size_t) file.tellg();
-  std::vector<char> buffer(fileSize);
-
-  file.seekg(0);
-  file.read(buffer.data(), fileSize);
-
-  file.close();
-
-  //---------------------------
-  return buffer;
-}
 
 //Swap chain settings
-VkSurfaceFormatKHR Engine_vulkan::swapChain_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats){
-  //---------------------------
-
-  //Check if standar RGB is available
-  for(const auto& format : availableFormats){
-    if(format.format == VK_FORMAT_B8G8R8A8_SRGB && format.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR){
-      return format;
-    }
-  }
-
-  //---------------------------
-  return availableFormats[0];
-}
-VkPresentModeKHR Engine_vulkan::swapChain_presentation_mode(const std::vector<VkPresentModeKHR>& availablePresentModes){
-  //4 possible modes:
-  //- VK_PRESENT_MODE_IMMEDIATE_KHR
-  //- VK_PRESENT_MODE_FIFO_KHR
-  //- VK_PRESENT_MODE_FIFO_RELAXED_KHR
-  //- VK_PRESENT_MODE_MAILBOX_KHR
-  //---------------------------
-
-  //Check for VK_PRESENT_MODE_MAILBOX_KHR mode
-  for(const auto& mode : availablePresentModes){
-    if(mode == VK_PRESENT_MODE_MAILBOX_KHR){
-      return mode;
-    }
-  }
-
-  //---------------------------
-  return VK_PRESENT_MODE_FIFO_KHR;
-}
-VkExtent2D Engine_vulkan::swapChain_extent_setting(const VkSurfaceCapabilitiesKHR& capabilities){
-  //Resolution of the swap chain image
-  VkExtent2D extent;
-  //---------------------------
-
-  if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
-    extent = capabilities.currentExtent;
-  }else{
-    glm::vec2 fbo_dim = engine_window->get_framebuffer_size();
-
-    extent = {
-      static_cast<uint32_t>(fbo_dim.x),
-      static_cast<uint32_t>(fbo_dim.y)
-    };
-
-    extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-    extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
-  }
-
-  //---------------------------
-  return extent;
-}
 void Engine_vulkan::recreate_swapChain(){
   //---------------------------
 
@@ -971,8 +353,14 @@ void Engine_vulkan::recreate_swapChain(){
 
   this->cleanup_swapChain();
 
-  create_swapChain();
-  create_image_views();
+  vk_swapchain->create_swapChain();
+  vk_swapchain->create_image_views();
+  this->swapChain = vk_swapchain->get_swapChain();
+  this->swapChain_image_format = vk_swapchain->get_swapChain_image_format();
+  this->swapChain_extent = vk_swapchain->get_swapChain_extent();
+  this->swapChain_images = vk_swapchain->get_swapChain_images();
+  this->swapChain_image_views = vk_swapchain->get_swapChain_image_views();
+  this->swapChain_fbo = vk_swapchain->get_swapChain_fbo();
   create_framebuffers();
 
   //---------------------------
@@ -994,27 +382,9 @@ void Engine_vulkan::cleanup_swapChain(){
 }
 
 //Graphics pipeline
-VkShaderModule Engine_vulkan::create_shader_module(const std::vector<char>& code){
-  //Shader modules are just a thin wrapper around the shader bytecode
-  //---------------------------
-
-  //Shader module info
-  VkShaderModuleCreateInfo createInfo{};
-  createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-  createInfo.codeSize = code.size();
-  createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
-
-  //Shader module creation
-  VkShaderModule shaderModule;
-  VkResult result = vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule);
-  if (result != VK_SUCCESS) {
-    throw std::runtime_error("[error] failed to create shader module!");
-  }
-
-  //---------------------------
-  return shaderModule;
-}
 void Engine_vulkan::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex){
+  swapChain_fbo = this->get_swapChain_fbo();
+  swapChain_extent = this->get_swapChain_extent();
   //---------------------------
 
   VkCommandBufferBeginInfo beginInfo{};
@@ -1065,68 +435,5 @@ void Engine_vulkan::record_command_buffer(VkCommandBuffer commandBuffer, uint32_
   }
 
 
-  //---------------------------
-}
-
-//Validation layers
-bool Engine_vulkan::check_validationLayer_support(){
-  //---------------------------
-
-  //Checks if all of the requested layers are available
-  uint32_t layerCount;
-  vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-
-  std::vector<VkLayerProperties> availableLayers(layerCount);
-  vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-  //Check if all of the layers in validationLayers exist in the availableLayers list
-  for(const char* layerName : validationLayers){
-    bool layerFound = false;
-
-    for(const auto& layerProperties : availableLayers){
-      if(strcmp(layerName, layerProperties.layerName) == 0){
-        layerFound = true;
-        break;
-      }
-    }
-
-    if(!layerFound){
-      return false;
-    }
-  }
-
-  //---------------------------
-  return true;
-}
-std::vector<const char*> Engine_vulkan::get_required_extensions(){
-  //Return the required list of extensions based on whether validation layers are enabled or not
-  //---------------------------
-
-  uint32_t glfwExtensionCount = 0;
-  const char** glfwExtensions;
-  glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-  std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
-
-  if(with_validation_layer){
-    extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-  }
-
-  //---------------------------
-  return extensions;
-}
-void Engine_vulkan::setup_debug_messenger(){
-  //---------------------------
-
-  if(!with_validation_layer) return;
-
-  VkDebugUtilsMessengerCreateInfoEXT createInfo{};
-  //populateDebugMessengerCreateInfo(createInfo);
-
-  //VkResult result = CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger);
-  /*if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to set up debug messenger!");
-  }
-*/
   //---------------------------
 }

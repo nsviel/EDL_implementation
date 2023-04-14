@@ -3,28 +3,10 @@
 
 #include <vulkan/vulkan.h>
 
+#include "VK_struct.h"
+
 #include "../../common.h"
 
-#ifndef STRUCT_FOO
-#define STRUCT_FOO
-struct struct_queueFamily_indices {
-  std::optional<uint32_t> family_graphics;
-  std::optional<uint32_t> family_presentation;
-  bool is_complete() {
-    return family_graphics.has_value() && family_presentation.has_value();
-  }
-};
-struct struct_swapChain_details {
-    VkSurfaceCapabilitiesKHR capabilities;
-    std::vector<VkSurfaceFormatKHR> formats;
-    std::vector<VkPresentModeKHR> mode_presentation;
-};
-
-//List of required device extensions
-const std::vector<const char*> required_extensions = {
-  VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
-#endif
 
 class Node_engine;
 class Engine_vulkan;
@@ -35,7 +17,7 @@ class VK_device
 {
 public:
   //Constructor / Destructor
-  VK_device(Node_engine* node_engine);
+  VK_device(Engine_vulkan* node_engine);
   ~VK_device();
 
 public:
@@ -49,11 +31,14 @@ public:
   bool check_extension_support(VkPhysicalDevice device);
   struct_swapChain_details find_swapChain_details(VkPhysicalDevice device);
 
-  inline VkPhysicalDevice get_vk_gpu(){return physical_device;}
-  inline VkDevice get_vk_device(){return device;}
+  inline VkPhysicalDevice get_physical_device(){return physical_device;}
+  inline VkDevice get_device(){return device;}
+  inline VkQueue get_queue_graphics(){return queue_graphics;}
+  inline VkQueue get_queue_presentation(){return queue_presentation;}
 
 private:
   Engine_window* engine_window;
+  Engine_vulkan* engine_vulkan;
 
   VkDevice device;
   VkPhysicalDevice physical_device;

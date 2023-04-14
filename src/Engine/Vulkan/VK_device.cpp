@@ -5,11 +5,13 @@
 #include "../Node_engine.h"
 
 
+
 //Constructor / Destructor
-VK_device::VK_device(Node_engine* node_engine){
+VK_device::VK_device(Engine_vulkan* engine_vulkan){
   //---------------------------
 
-  this->engine_window = node_engine->get_engine_window();
+  this->engine_window = engine_vulkan->get_engine_window();
+  this->engine_vulkan = engine_vulkan;
 
   //---------------------------
 }

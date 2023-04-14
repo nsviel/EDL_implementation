@@ -5,12 +5,14 @@
 
 #include "../../common.h"
 
+class Engine_vulkan;
+
 
 class VK_class
 {
 public:
   //Constructor / Destructor
-  VK_class();
+  VK_class(Engine_vulkan* engine_vulkan);
   ~VK_class();
 
 public:

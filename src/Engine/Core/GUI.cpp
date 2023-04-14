@@ -29,8 +29,8 @@ GUI::~GUI(){
 void GUI::init(){
   GLFWwindow* window = engine_window->get_window();
   VkInstance instance = engine_vulkan->get_vk_instance();
-  VkPhysicalDevice physical_device = engine_vulkan->get_vk_gpu();
-  VkDevice device = engine_vulkan->get_vk_device();
+  VkPhysicalDevice physical_device = engine_vulkan->get_physical_device();
+  VkDevice device = engine_vulkan->get_device();
   VkSurfaceKHR surface = engine_vulkan->get_vk_surface();
   VkQueue queue_graphics = engine_vulkan->get_queue_graphics();
   VkRenderPass renderPass = engine_vulkan->get_renderPass();
