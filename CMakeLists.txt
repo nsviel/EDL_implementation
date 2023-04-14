@@ -26,6 +26,8 @@ add_subdirectory(extern)
 set(ALL_LIBS
   ${GLFW_LIBRARY}
     
+  Eigen3::Eigen #Eigen library
+  stdc++fs #STD filesystem experimental
   -std=c++17 -O2
   -lglfw 
   -lvulkan 

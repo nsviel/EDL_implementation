@@ -8,26 +8,12 @@
 #include "VK_command.h"
 #include "VK_synchronization.h"
 #include "VK_window.h"
+#include "VK_drawing.h"
 
 #include "../Core/GUI.h"
-
 #include "../Node_engine.h"
 
-#include <vector>
-#include <set>
-#include <glm/glm.hpp>
-#include <algorithm>
-#include <fstream>
-#include <cstring>
-
-const int MAX_FRAMES_IN_FLIGHT = 2;
-uint32_t currentFrame = 0;
-
-
-void sayHello(){
-  std::cout<<"Hello"<<std::endl;
-}
-
+static uint32_t currentFrame = 0;
 
 //Constructor / Destructor
 Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
@@ -43,6 +29,7 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_command = new VK_command(this);
   this->vk_synchronization = new VK_synchronization(this);
+  this->vk_drawing = new VK_drawing(this);
 
   //---------------------------
 }
@@ -110,7 +97,8 @@ void Engine_vulkan::main_loop() {
 
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
-    this->draw_frame();
+    //this->draw_frame();
+    vk_drawing->draw_frame();
     guiManager->loop();
   }
 
@@ -132,7 +120,16 @@ void Engine_vulkan::draw_frame(){
   VkResult result = vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
 
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
-    this->recreate_swapChain();
+    vk_swapchain->recreate_swapChain();
+    this->swapChain = vk_swapchain->get_swapChain();
+    this->swapChain_image_format = vk_swapchain->get_swapChain_image_format();
+    this->swapChain_extent = vk_swapchain->get_swapChain_extent();
+    this->swapChain_images = vk_swapchain->get_swapChain_images();
+    this->swapChain_image_views = vk_swapchain->get_swapChain_image_views();
+    this->swapChain_fbo = vk_swapchain->get_swapChain_fbo();
+
+    vk_framebuffer->create_framebuffers();
+    this->swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
     return;
   } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
@@ -142,7 +139,16 @@ void Engine_vulkan::draw_frame(){
 
   //If window resized
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
-    this->recreate_swapChain();
+    vk_swapchain->recreate_swapChain();
+    this->swapChain = vk_swapchain->get_swapChain();
+    this->swapChain_image_format = vk_swapchain->get_swapChain_image_format();
+    this->swapChain_extent = vk_swapchain->get_swapChain_extent();
+    this->swapChain_images = vk_swapchain->get_swapChain_images();
+    this->swapChain_image_views = vk_swapchain->get_swapChain_image_views();
+    this->swapChain_fbo = vk_swapchain->get_swapChain_fbo();
+
+    vk_framebuffer->create_framebuffers();
+    this->swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
     return;
   }else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
@@ -183,7 +189,16 @@ void Engine_vulkan::draw_frame(){
   result = vkQueuePresentKHR(queue_presentation, &presentInfo);
   if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized){
     this->framebufferResized = false;
-    this->recreate_swapChain();
+    vk_swapchain->recreate_swapChain();
+    this->swapChain = vk_swapchain->get_swapChain();
+    this->swapChain_image_format = vk_swapchain->get_swapChain_image_format();
+    this->swapChain_extent = vk_swapchain->get_swapChain_extent();
+    this->swapChain_images = vk_swapchain->get_swapChain_images();
+    this->swapChain_image_views = vk_swapchain->get_swapChain_image_views();
+    this->swapChain_fbo = vk_swapchain->get_swapChain_fbo();
+
+    vk_framebuffer->create_framebuffers();
+    this->swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
   }else if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
@@ -208,45 +223,6 @@ void Engine_vulkan::clean_vulkan(){
   vk_instance->cleanup();
 
   vk_window->clean_window();
-
-  //---------------------------
-}
-
-
-
-//Swap chain settings
-void Engine_vulkan::recreate_swapChain(){
-  //---------------------------
-
-  vkDeviceWaitIdle(device);
-
-  this->cleanup_swapChain();
-
-  vk_swapchain->create_swapChain();
-  vk_swapchain->create_image_views();
-  this->swapChain = vk_swapchain->get_swapChain();
-  this->swapChain_image_format = vk_swapchain->get_swapChain_image_format();
-  this->swapChain_extent = vk_swapchain->get_swapChain_extent();
-  this->swapChain_images = vk_swapchain->get_swapChain_images();
-  this->swapChain_image_views = vk_swapchain->get_swapChain_image_views();
-  this->swapChain_fbo = vk_swapchain->get_swapChain_fbo();
-  vk_framebuffer->create_framebuffers();
-  this->swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
-
-  //---------------------------
-}
-void Engine_vulkan::cleanup_swapChain(){
-  //---------------------------
-
-  for(size_t i=0; i<swapChain_fbo.size(); i++){
-    vkDestroyFramebuffer(device, swapChain_fbo[i], nullptr);
-  }
-
-  for(size_t i=0; i<swapChain_image_views.size(); i++){
-    vkDestroyImageView(device, swapChain_image_views[i], nullptr);
-  }
-
-  vkDestroySwapchainKHR(device, swapChain, nullptr);
 
   //---------------------------
 }

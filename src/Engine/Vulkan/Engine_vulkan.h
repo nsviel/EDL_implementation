@@ -3,15 +3,7 @@
 
 #include "VK_struct.h"
 
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-#include <iostream>
-#include <stdexcept>
-#include <vector>
-#include <optional>
-#include <cstdlib>
-#include <stdint.h>
-
+#include "../../common.h"
 
 class Node_engine;
 class VK_window;
@@ -23,6 +15,7 @@ class VK_pipeline;
 class VK_framebuffer;
 class VK_command;
 class VK_synchronization;
+class VK_drawing;
 
 
 class Engine_vulkan
@@ -39,14 +32,12 @@ public:
   void draw_frame();
   void clean_vulkan();
 
-  //Misc function
-  void recreate_swapChain();
-  void cleanup_swapChain();
-
-
   inline VK_device* get_vk_device(){return vk_device;}
   inline VK_framebuffer* get_vk_framebuffer(){return vk_framebuffer;}
   inline VK_window* get_vk_window(){return vk_window;}
+  inline VK_swapchain* get_vk_swapchain(){return vk_swapchain;}
+  inline VK_synchronization* get_vk_synchronization(){return vk_synchronization;}
+  inline VK_command* get_vk_command(){return vk_command;}
 
   inline VkInstance get_vk_instance(){return instance;}
   inline VkPhysicalDevice get_physical_device(){return physical_device;}
@@ -75,6 +66,7 @@ private:
   VK_framebuffer* vk_framebuffer;
   VK_command* vk_command;
   VK_synchronization* vk_synchronization;
+  VK_drawing* vk_drawing;
 
   VkInstance instance;
   VkDebugUtilsMessengerEXT debugMessenger;

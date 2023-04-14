@@ -3,8 +3,6 @@
 
 #include "../Node_engine.h"
 
-const int MAX_FRAMES_IN_FLIGHT = 2;
-
 
 //Constructor / Destructor
 VK_synchronization::VK_synchronization(Engine_vulkan* engine_vulkan){

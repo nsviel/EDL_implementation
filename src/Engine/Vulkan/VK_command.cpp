@@ -4,8 +4,6 @@
 
 #include "../Node_engine.h"
 
-const int MAX_FRAMES_IN_FLIGHT = 2;
-
 
 //Constructor / Destructor
 VK_command::VK_command(Engine_vulkan* engine_vulkan){

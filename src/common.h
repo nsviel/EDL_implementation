@@ -20,4 +20,9 @@
 using namespace std;
 using namespace glm;
 
+//Function
+#include "Specific/Function/fct_terminal.h"
+#include "Specific/Function/fct_math.h"
+
+
 #endif
