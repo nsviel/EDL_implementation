@@ -31,7 +31,7 @@ public:
   std::vector<const char*> get_required_extensions();
   void setup_debug_messenger();
 
-  inline VkInstance get_vk_instance(){return instance;}
+  inline VkInstance get_instance(){return instance;}
 
 private:
   VkInstance instance;

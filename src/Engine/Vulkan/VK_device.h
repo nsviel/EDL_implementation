@@ -11,6 +11,7 @@
 class Node_engine;
 class Engine_vulkan;
 class VK_window;
+class VK_instance;
 
 
 class VK_device
@@ -22,8 +23,8 @@ public:
 
 public:
   //Main functions
-  VkDevice create_logical_device();
-  VkPhysicalDevice select_physical_device(VkInstance instance);
+  void create_logical_device();
+  void select_physical_device();
   void cleanup();
 
   struct_queueFamily_indices find_queue_families(VkPhysicalDevice device);
@@ -39,6 +40,7 @@ public:
 private:
   VK_window* vk_window;
   Engine_vulkan* engine_vulkan;
+  VK_instance* vk_instance;
 
   VkDevice device;
   VkPhysicalDevice physical_device;

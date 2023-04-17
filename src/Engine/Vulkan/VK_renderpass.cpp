@@ -1,4 +1,6 @@
 #include "VK_renderpass.h"
+#include "VK_device.h"
+#include "VK_swapchain.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -9,6 +11,8 @@ VK_renderpass::VK_renderpass(Engine_vulkan* engine_vulkan){
   //---------------------------
 
   this->engine_vulkan = engine_vulkan;
+  this->vk_device = engine_vulkan->get_vk_device();
+  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
 
   //---------------------------
 }
@@ -16,8 +20,8 @@ VK_renderpass::~VK_renderpass(){}
 
 //Main function
 void VK_renderpass::create_render_pass(){
-  VkFormat swapChain_image_format = engine_vulkan->get_swapChain_image_format();
-  VkDevice device = engine_vulkan->get_device();
+  VkFormat swapChain_image_format = vk_swapchain->get_swapChain_image_format();
+  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //Attachement description
@@ -69,7 +73,7 @@ void VK_renderpass::create_render_pass(){
   //---------------------------
 }
 void VK_renderpass::cleanup(){
-  VkDevice device = engine_vulkan->get_device();
+  VkDevice device = vk_device->get_device();
   //---------------------------
 
   vkDestroyRenderPass(device, renderPass, nullptr);

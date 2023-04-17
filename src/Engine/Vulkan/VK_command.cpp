@@ -1,5 +1,8 @@
 #include "VK_command.h"
 #include "VK_device.h"
+#include "VK_swapchain.h"
+#include "VK_renderpass.h"
+#include "VK_pipeline.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -11,6 +14,9 @@ VK_command::VK_command(Engine_vulkan* engine_vulkan){
 
   this->engine_vulkan = engine_vulkan;
   this->vk_device = engine_vulkan->get_vk_device();
+  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
+  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
+  this->vk_pipeline = engine_vulkan->get_vk_pipeline();
 
   //---------------------------
 }
@@ -18,8 +24,8 @@ VK_command::~VK_command(){}
 
 //Main function
 void VK_command::create_command_pool(){
-  VkPhysicalDevice physical_device = engine_vulkan->get_physical_device();
-  VkDevice device = engine_vulkan->get_device();
+  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkDevice device = vk_device->get_device();
   //---------------------------
 
   struct_queueFamily_indices queueFamily_indices = vk_device->find_queue_families(physical_device);
@@ -39,7 +45,7 @@ void VK_command::create_command_pool(){
   //---------------------------
 }
 void VK_command::create_command_buffers(){
-  VkDevice device = engine_vulkan->get_device();
+  VkDevice device = vk_device->get_device();
   //---------------------------
 
   commandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
@@ -59,7 +65,7 @@ void VK_command::create_command_buffers(){
   //---------------------------
 }
 void VK_command::cleanup(){
-  VkDevice device = engine_vulkan->get_device();
+  VkDevice device = vk_device->get_device();
   //---------------------------
 
   vkDestroyCommandPool(device, commandPool, nullptr);
@@ -69,10 +75,10 @@ void VK_command::cleanup(){
 
 //Graphics pipeline
 void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex){
-  std::vector<VkFramebuffer> swapChain_fbo = engine_vulkan->get_swapChain_fbo();
-  VkExtent2D swapChain_extent = engine_vulkan->get_swapChain_extent();
-  VkRenderPass renderPass = engine_vulkan->get_renderPass();
-  VkPipeline graphicsPipeline = engine_vulkan->get_graphicsPipeline();
+  std::vector<VkFramebuffer> swapChain_fbo = vk_swapchain->get_swapChain_fbo();
+  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkRenderPass renderPass = vk_renderpass->get_renderPass();
+  VkPipeline graphicsPipeline = vk_pipeline->get_graphicsPipeline();
   //---------------------------
 
   VkCommandBufferBeginInfo beginInfo{};

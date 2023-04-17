@@ -29,7 +29,6 @@ public:
   //Main functions
   void init_vulkan();
   void main_loop();
-  void draw_frame();
   void clean_vulkan();
 
   inline VK_device* get_vk_device(){return vk_device;}
@@ -38,22 +37,9 @@ public:
   inline VK_swapchain* get_vk_swapchain(){return vk_swapchain;}
   inline VK_synchronization* get_vk_synchronization(){return vk_synchronization;}
   inline VK_command* get_vk_command(){return vk_command;}
-
-  inline VkInstance get_vk_instance(){return instance;}
-  inline VkPhysicalDevice get_physical_device(){return physical_device;}
-  inline VkDevice get_device(){return device;}
-  inline VkSurfaceKHR get_vk_surface(){return surface;}
-  inline VkQueue get_queue_graphics(){return queue_graphics;}
-  inline VkQueue get_queue_presentation(){return queue_presentation;}
-  inline VkRenderPass get_renderPass(){return renderPass;}
-  inline VkSwapchainKHR get_swapChain(){return swapChain;}
-  inline VkFormat get_swapChain_image_format(){return swapChain_image_format;}
-  inline VkExtent2D get_swapChain_extent(){return swapChain_extent;}
-  inline VkPipeline get_graphicsPipeline(){return graphicsPipeline;}
-
-  inline std::vector<VkImage> get_swapChain_images(){return swapChain_images;}
-  inline std::vector<VkImageView> get_swapChain_image_views(){return swapChain_image_views;}
-  inline std::vector<VkFramebuffer> get_swapChain_fbo(){return swapChain_fbo;}
+  inline VK_instance* get_vk_instance(){return vk_instance;}
+  inline VK_renderpass* get_vk_renderpass(){return vk_renderpass;}
+  inline VK_pipeline* get_vk_pipeline(){return vk_pipeline;}
 
 private:
   Node_engine* node_engine;
@@ -68,29 +54,7 @@ private:
   VK_synchronization* vk_synchronization;
   VK_drawing* vk_drawing;
 
-  VkInstance instance;
   VkDebugUtilsMessengerEXT debugMessenger;
-  VkDevice device;
-  VkPhysicalDevice physical_device;
-  VkSurfaceKHR surface;
-  VkRenderPass renderPass;
-  VkPipelineLayout pipelineLayout;
-  VkPipeline graphicsPipeline;
-  VkCommandPool commandPool;
-  VkQueue queue_graphics;
-  VkQueue queue_presentation;
-  VkSwapchainKHR swapChain;
-  VkFormat swapChain_image_format;
-  VkExtent2D swapChain_extent;
-
-  std::vector<VkCommandBuffer> commandBuffers;
-  std::vector<VkImage> swapChain_images;
-  std::vector<VkImageView> swapChain_image_views;
-  std::vector<VkFramebuffer> swapChain_fbo;
-  std::vector<VkSemaphore> imageAvailableSemaphores;
-  std::vector<VkSemaphore> renderFinishedSemaphores;
-  std::vector<VkFence> inFlightFences;
-
   bool framebufferResized = false;
   bool with_validation_layer = true;
 };

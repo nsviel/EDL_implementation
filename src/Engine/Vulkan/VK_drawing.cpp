@@ -32,7 +32,7 @@ VK_drawing::~VK_drawing(){}
 //Main function
 void VK_drawing::draw_frame(){
   VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
-  VkDevice device = engine_vulkan->get_device();
+  VkDevice device = vk_device->get_device();
   std::vector<VkFence> inFlightFences = vk_synchronization->get_inFlightFences();
   std::vector<VkSemaphore> imageAvailableSemaphores = vk_synchronization->get_imageAvailableSemaphores();
   std::vector<VkSemaphore> renderFinishedSemaphores = vk_synchronization->get_renderFinishedSemaphores();

@@ -1,6 +1,7 @@
 #include "VK_device.h"
 #include "Engine_vulkan.h"
 #include "VK_window.h"
+#include "VK_instance.h"
 
 #include "../Node_engine.h"
 
@@ -11,6 +12,7 @@ VK_device::VK_device(Engine_vulkan* engine_vulkan){
   //---------------------------
 
   this->vk_window = engine_vulkan->get_vk_window();
+  this->vk_instance = engine_vulkan->get_vk_instance();
   this->engine_vulkan = engine_vulkan;
 
   //---------------------------
@@ -18,7 +20,7 @@ VK_device::VK_device(Engine_vulkan* engine_vulkan){
 VK_device::~VK_device(){}
 
 //Main function
-VkDevice VK_device::create_logical_device(){
+void VK_device::create_logical_device(){
   //Interface between selected GPU and application
   //---------------------------
 
@@ -65,9 +67,9 @@ VkDevice VK_device::create_logical_device(){
   vkGetDeviceQueue(device, indices.family_presentation.value(), 0, &queue_presentation);
 
   //---------------------------
-  return device;
 }
-VkPhysicalDevice VK_device::select_physical_device(VkInstance instance){
+void VK_device::select_physical_device(){
+  VkInstance instance = vk_instance->get_instance();
   //---------------------------
 
   this->physical_device = VK_NULL_HANDLE;
@@ -93,7 +95,6 @@ VkPhysicalDevice VK_device::select_physical_device(VkInstance instance){
   }
 
   //---------------------------
-  return physical_device;
 }
 void VK_device::cleanup(){
   //---------------------------
@@ -106,7 +107,7 @@ void VK_device::cleanup(){
 
 struct_queueFamily_indices VK_device::find_queue_families(VkPhysicalDevice device){
   struct_queueFamily_indices indices;
-  VkSurfaceKHR surface = vk_window->get_vk_surface();
+  VkSurfaceKHR surface = vk_window->get_surface();
   //---------------------------
 
   //Get queue family number
@@ -188,7 +189,7 @@ bool VK_device::check_extension_support(VkPhysicalDevice device){
 }
 struct_swapChain_details VK_device::find_swapChain_details(VkPhysicalDevice device){
   struct_swapChain_details details;
-  VkSurfaceKHR surface = vk_window->get_vk_surface();
+  VkSurfaceKHR surface = vk_window->get_surface();
   //---------------------------
 
   //Get basic surface capabilities

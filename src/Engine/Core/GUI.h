@@ -3,6 +3,9 @@
 
 class Node_engine;
 class VK_window;
+class VK_instance;
+class VK_device;
+class VK_renderpass;
 class Engine_vulkan;
 
 
@@ -26,6 +29,9 @@ public:
 
 private:
   VK_window* vk_window;
+  VK_instance* vk_instance;
+  VK_device* vk_device;
+  VK_renderpass* vk_renderpass;
   Engine_vulkan* engine_vulkan;
 };
 

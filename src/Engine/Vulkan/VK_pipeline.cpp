@@ -1,4 +1,7 @@
 #include "VK_pipeline.h"
+#include "VK_device.h"
+#include "VK_swapchain.h"
+#include "VK_renderpass.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -9,6 +12,9 @@ VK_pipeline::VK_pipeline(Engine_vulkan* engine_vulkan){
   //---------------------------
 
   this->engine_vulkan = engine_vulkan;
+  this->vk_device = engine_vulkan->get_vk_device();
+  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
+  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
 
   //---------------------------
 }
@@ -16,9 +22,9 @@ VK_pipeline::~VK_pipeline(){}
 
 //Main function
 void VK_pipeline::create_graphics_pipeline(){
-  VkExtent2D swapChain_extent = engine_vulkan->get_swapChain_extent();
-  VkDevice device = engine_vulkan->get_device();
-  VkRenderPass renderPass = engine_vulkan->get_renderPass();
+  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkDevice device = vk_device->get_device();
+  VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
   //Load spir format shaders
@@ -185,7 +191,7 @@ void VK_pipeline::create_graphics_pipeline(){
   //---------------------------
 }
 void VK_pipeline::cleanup(){
-  VkDevice device = engine_vulkan->get_device();
+  VkDevice device = vk_device->get_device();
   //---------------------------
 
   vkDestroyPipeline(device, graphicsPipeline, nullptr);
@@ -198,7 +204,7 @@ VkShaderModule VK_pipeline::create_shader_module(const std::vector<char>& code){
   //Shader modules are just a thin wrapper around the shader bytecode
   //---------------------------
 
-  VkDevice device = engine_vulkan->get_device();
+  VkDevice device = vk_device->get_device();
 
   //Shader module info
   VkShaderModuleCreateInfo createInfo{};

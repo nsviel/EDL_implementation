@@ -1,4 +1,6 @@
 #include "VK_window.h"
+#include "VK_instance.h"
+#include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
 
@@ -7,10 +9,11 @@
 
 
 //Constructor / Destructor
-VK_window::VK_window(){
+VK_window::VK_window(Engine_vulkan* engine_vulkan){
   //---------------------------
 
   this->render_dim = glm::vec2(800, 600);
+  this->vk_instance = engine_vulkan->get_vk_instance();
 
   //---------------------------
 }
@@ -29,6 +32,14 @@ void VK_window::init_window(){
 
   //---------------------------
 }
+void VK_window::clean_surface(){
+  //---------------------------
+
+  VkInstance instance = vk_instance->get_instance();
+  vkDestroySurfaceKHR(instance, surface, nullptr);
+
+  //---------------------------
+}
 void VK_window::clean_window(){
   //---------------------------
 
@@ -39,16 +50,16 @@ void VK_window::clean_window(){
 }
 
 //Subfunction
-VkSurfaceKHR VK_window::create_window_surface(VkInstance instance){
+void VK_window::create_window_surface(){
+  VkInstance instancee = vk_instance->get_instance();
   //---------------------------
 
-  VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
+  VkResult result = glfwCreateWindowSurface(instancee, window, nullptr, &surface);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create window surface!");
   }
 
   //---------------------------
-  return surface;
 }
 glm::vec2 VK_window::get_framebuffer_size(){
   glm::vec2 dim = glm::vec2(0);

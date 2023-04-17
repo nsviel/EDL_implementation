@@ -25,8 +25,8 @@ VK_swapchain::~VK_swapchain(){}
 
 //Main function
 void VK_swapchain::create_swapChain(){
-  VkPhysicalDevice physical_device = engine_vulkan->get_physical_device();
-  VkSurfaceKHR surface = engine_vulkan->get_vk_surface();
+  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkSurfaceKHR surface = vk_window->get_surface();
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -128,7 +128,7 @@ void VK_swapchain::create_image_views(){
 //Swap chain settings
 struct_swapChain_details VK_swapchain::find_swapChain_details(VkPhysicalDevice device){
   struct_swapChain_details details;
-  VkSurfaceKHR surface = engine_vulkan->get_vk_surface();
+  VkSurfaceKHR surface = vk_window->get_surface();
   //---------------------------
 
   //Get basic surface capabilities

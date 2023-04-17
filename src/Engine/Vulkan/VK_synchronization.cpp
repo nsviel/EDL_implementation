@@ -1,4 +1,5 @@
 #include "VK_synchronization.h"
+#include "VK_device.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -9,6 +10,7 @@ VK_synchronization::VK_synchronization(Engine_vulkan* engine_vulkan){
   //---------------------------
 
   this->engine_vulkan = engine_vulkan;
+  this->vk_device = engine_vulkan->get_vk_device();
 
   //---------------------------
 }
@@ -16,7 +18,7 @@ VK_synchronization::~VK_synchronization(){}
 
 //Main function
 void VK_synchronization::create_sync_objects(){
-  VkDevice device = engine_vulkan->get_device();
+  VkDevice device = vk_device->get_device();
   //---------------------------
 
   imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
@@ -45,7 +47,7 @@ void VK_synchronization::create_sync_objects(){
   //---------------------------
 }
 void VK_synchronization::cleanup(){
-  VkDevice device = engine_vulkan->get_device();
+  VkDevice device = vk_device->get_device();
   //---------------------------
 
   for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {

@@ -6,6 +6,9 @@
 #include "../../common.h"
 
 class Engine_vulkan;
+class VK_device;
+class VK_swapchain;
+class VK_renderpass;
 
 
 class VK_pipeline
@@ -28,6 +31,9 @@ public:
 
 private:
   Engine_vulkan* engine_vulkan;
+  VK_device* vk_device;
+  VK_swapchain* vk_swapchain;
+  VK_renderpass* vk_renderpass;
 
   VkPipelineLayout pipelineLayout;
   VkPipeline graphicsPipeline;

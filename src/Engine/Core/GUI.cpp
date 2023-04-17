@@ -1,6 +1,9 @@
 #include "GUI.h"
 
 #include "../Vulkan/VK_window.h"
+#include "../Vulkan/VK_instance.h"
+#include "../Vulkan/VK_device.h"
+#include "../Vulkan/VK_renderpass.h"
 #include "../Vulkan/Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -9,6 +12,7 @@
 #include "../../../extern/imgui/imgui_impl_glfw.h"
 #include "../../../extern/imgui/imgui_impl_vulkan.h"
 
+
 //Constructor / Destructor
 GUI::GUI(Node_engine* node_engine){
   //---------------------------
@@ -16,6 +20,9 @@ GUI::GUI(Node_engine* node_engine){
 
   this->engine_vulkan = node_engine->get_engine_vulkan();
   this->vk_window = engine_vulkan->get_vk_window();
+  this->vk_instance = engine_vulkan->get_vk_instance();
+  this->vk_device = engine_vulkan->get_vk_device();
+  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
 
   //---------------------------
 }
@@ -29,12 +36,12 @@ GUI::~GUI(){
 //Main function
 void GUI::init(){
   GLFWwindow* window = vk_window->get_window();
-  VkInstance instance = engine_vulkan->get_vk_instance();
-  VkPhysicalDevice physical_device = engine_vulkan->get_physical_device();
-  VkDevice device = engine_vulkan->get_device();
-  VkSurfaceKHR surface = engine_vulkan->get_vk_surface();
-  VkQueue queue_graphics = engine_vulkan->get_queue_graphics();
-  VkRenderPass renderPass = engine_vulkan->get_renderPass();
+  VkInstance instance = vk_instance->get_instance();
+  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkDevice device = vk_device->get_device();
+  VkSurfaceKHR surface = vk_window->get_surface();
+  VkQueue queue_graphics = vk_device->get_queue_graphics();
+  VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
   //1: create descriptor pool for IMGUI

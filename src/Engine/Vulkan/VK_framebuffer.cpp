@@ -1,4 +1,7 @@
 #include "VK_framebuffer.h"
+#include "VK_device.h"
+#include "VK_swapchain.h"
+#include "VK_renderpass.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -10,6 +13,9 @@ VK_framebuffer::VK_framebuffer(Engine_vulkan* engine_vulkan){
   //---------------------------
 
   this->engine_vulkan = engine_vulkan;
+  this->vk_device = engine_vulkan->get_vk_device();
+  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
+  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
 
   //---------------------------
 }
@@ -17,10 +23,10 @@ VK_framebuffer::~VK_framebuffer(){}
 
 //Main function
 void VK_framebuffer::create_framebuffers(){
-  std::vector<VkImageView> swapChain_image_views = engine_vulkan->get_swapChain_image_views();
-  VkExtent2D swapChain_extent = engine_vulkan->get_swapChain_extent();
-  VkDevice device = engine_vulkan->get_device();
-  VkRenderPass renderPass = engine_vulkan->get_renderPass();
+  std::vector<VkImageView> swapChain_image_views = vk_swapchain->get_swapChain_image_views();
+  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkDevice device = vk_device->get_device();
+  VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
   //Resize to hold all fbos
@@ -47,6 +53,6 @@ void VK_framebuffer::create_framebuffers(){
     }
   }
 
-
   //---------------------------
+  vk_swapchain->set_swapChain_fbo(swapChain_fbo);
 }

@@ -6,6 +6,7 @@
 #include "../../common.h"
 
 class Engine_vulkan;
+class VK_device;
 
 
 class VK_synchronization
@@ -26,6 +27,7 @@ public:
 
 private:
   Engine_vulkan* engine_vulkan;
+  VK_device* vk_device;
 
   std::vector<VkSemaphore> imageAvailableSemaphores;
   std::vector<VkSemaphore> renderFinishedSemaphores;
