@@ -123,7 +123,16 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   scissor.extent = swapChain_extent;
   vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-  vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+  //Binding the vertex buffer
+  VkBuffer vertexBuffer = vk_buffer->get_buffer();
+
+  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+  VkBuffer vertexBuffers[] = {vertexBuffer};
+  VkDeviceSize offsets[] = {0};
+  vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+  vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+
+  //vkCmdDraw(commandBuffer, 3, 1, 0, 0);
   vkCmdEndRenderPass(commandBuffer);
 
   result = vkEndCommandBuffer(commandBuffer);
@@ -131,14 +140,7 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
     throw std::runtime_error("[error] failed to record command buffer!");
   }
 
-  //Binding the vertex buffer
-  /*VkBuffer vertexBuffer = vk_buffer->get_buffer();
 
-  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-  VkBuffer vertexBuffers[] = {vertexBuffer};
-  VkDeviceSize offsets[] = {0};
-  vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-  vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);*/
 
   //---------------------------
 }
