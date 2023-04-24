@@ -19,10 +19,12 @@ public:
 public:
   //Main functions
   void create_vertex_buffer();
+  void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
   void cleanup();
 
   //Subfunctions
   uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+  void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
   inline VkBuffer get_buffer(){return vertexBuffer;};
 
