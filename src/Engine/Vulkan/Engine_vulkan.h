@@ -17,6 +17,8 @@ class VK_command;
 class VK_synchronization;
 class VK_drawing;
 class VK_buffer;
+class VK_descriptor;
+class VK_uniform;
 
 
 class Engine_vulkan
@@ -42,6 +44,8 @@ public:
   inline VK_renderpass* get_vk_renderpass(){return vk_renderpass;}
   inline VK_pipeline* get_vk_pipeline(){return vk_pipeline;}
   inline VK_buffer* get_vk_buffer(){return vk_buffer;}
+  inline VK_descriptor* get_vk_descriptor(){return vk_descriptor;}
+  inline VK_uniform* get_vk_uniform(){return vk_uniform;}
 
 private:
   Node_engine* node_engine;
@@ -56,6 +60,8 @@ private:
   VK_synchronization* vk_synchronization;
   VK_drawing* vk_drawing;
   VK_buffer* vk_buffer;
+  VK_descriptor* vk_descriptor;
+  VK_uniform* vk_uniform;
 };
 
 #endif

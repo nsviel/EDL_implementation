@@ -20,13 +20,15 @@ public:
   //Main functions
   void create_vertex_buffer();
   void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+  void create_index_buffer();
   void cleanup();
 
   //Subfunctions
   uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
   void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
-  inline VkBuffer get_buffer(){return vertexBuffer;};
+  inline VkBuffer get_buffer_vertex(){return vertexBuffer;}
+  inline VkBuffer get_buffer_index(){return indexBuffer;}
 
 private:
   Engine_vulkan* engine_vulkan;
@@ -34,6 +36,8 @@ private:
 
   VkBuffer vertexBuffer;
   VkDeviceMemory vertexBufferMemory;
+  VkBuffer indexBuffer;
+  VkDeviceMemory indexBufferMemory;
 };
 
 #endif

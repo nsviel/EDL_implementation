@@ -7,10 +7,11 @@
 #include "VK_command.h"
 #include "VK_device.h"
 #include "VK_struct.h"
+#include "VK_uniform.h"
 
 #include "../Node_engine.h"
 
-static uint32_t currentFrame = 0;
+
 
 
 //Constructor / Destructor
@@ -24,6 +25,7 @@ VK_drawing::VK_drawing(Engine_vulkan* engine_vulkan){
   this->vk_synchronization = engine_vulkan->get_vk_synchronization();
   this->vk_command = engine_vulkan->get_vk_command();
   this->vk_device = engine_vulkan->get_vk_device();
+  this->vk_uniform = engine_vulkan->get_vk_uniform();
 
   //---------------------------
 }
@@ -71,6 +73,12 @@ void VK_drawing::draw_frame(){
 
   vkResetCommandBuffer(command_buffer_vec[currentFrame], 0);
   vk_command->record_command_buffer(command_buffer_vec[currentFrame], imageIndex);
+
+
+
+  vk_uniform->update_uniform_buffer(currentFrame);
+
+
 
   VkSubmitInfo submitInfo{};
   submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;

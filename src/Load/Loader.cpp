@@ -32,6 +32,10 @@ Cloud* Loader::load_cloud(string path){
   //Load file data
   Data* data = plyManager->Loader(path);
 
+  cloud->name = data->name;
+  cloud->xyz = data->xyz;
+  cloud->rgb = data->rgb;
+
   //Delete raw data
   delete data;
 

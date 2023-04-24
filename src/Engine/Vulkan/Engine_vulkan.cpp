@@ -10,6 +10,8 @@
 #include "VK_window.h"
 #include "VK_drawing.h"
 #include "VK_buffer.h"
+#include "VK_descriptor.h"
+#include "VK_uniform.h"
 
 #include "../Core/GUI.h"
 #include "../Node_engine.h"
@@ -26,11 +28,13 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_device = new VK_device(this);
   this->vk_swapchain = new VK_swapchain(this);
   this->vk_renderpass = new VK_renderpass(this);
+  this->vk_descriptor = new VK_descriptor(this);
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_command = new VK_command(this);
   this->vk_synchronization = new VK_synchronization(this);
+  this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
 
   //---------------------------
@@ -50,10 +54,15 @@ void Engine_vulkan::init_vulkan(){
   vk_swapchain->create_swapChain();
   vk_swapchain->create_image_views();
   vk_renderpass->create_render_pass();
+  vk_descriptor->create_descriptorSet_layout();
   vk_pipeline->create_graphics_pipeline();
   vk_framebuffer->create_framebuffers();
   vk_command->create_command_pool();
   vk_buffer->create_vertex_buffer();
+  vk_buffer->create_index_buffer();
+  vk_uniform->create_uniform_buffers();
+  vk_descriptor->create_descriptor_pool();
+  vk_descriptor->create_descriptor_sets();
   vk_command->create_command_buffers();
   vk_synchronization->create_sync_objects();
 
@@ -82,6 +91,8 @@ void Engine_vulkan::clean_vulkan(){
 
   vk_framebuffer->cleanup();
   vk_swapchain->cleanup_swapChain();
+  vk_uniform->cleanup();
+  vk_descriptor->cleanup();
   vk_buffer->cleanup();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();

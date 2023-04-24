@@ -6,6 +6,7 @@
 #include "VK_buffer.h"
 #include "VK_struct.h"
 #include "VK_framebuffer.h"
+#include "VK_descriptor.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -22,6 +23,7 @@ VK_command::VK_command(Engine_vulkan* engine_vulkan){
   this->vk_pipeline = engine_vulkan->get_vk_pipeline();
   this->vk_buffer = engine_vulkan->get_vk_buffer();
   this->vk_framebuffer = engine_vulkan->get_vk_framebuffer();
+  this->vk_descriptor = engine_vulkan->get_vk_descriptor();
 
   //---------------------------
 }
@@ -84,6 +86,7 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   VkPipeline graphicsPipeline = vk_pipeline->get_graphicsPipeline();
+  VkPipelineLayout pipelineLayout = vk_pipeline->get_pipelineLayout();
   //---------------------------
 
   VkCommandBufferBeginInfo beginInfo{};
@@ -126,13 +129,19 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
   //Binding the vertex buffer
-  VkBuffer vertexBuffer = vk_buffer->get_buffer();
+  std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
+  VkBuffer vertexBuffer = vk_buffer->get_buffer_vertex();
+  VkBuffer indexBuffer = vk_buffer->get_buffer_index();
 
   vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
   VkBuffer vertexBuffers[] = {vertexBuffer};
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-  vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+  vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+  vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+  //vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+  vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
   //vkCmdDraw(commandBuffer, 3, 1, 0, 0);
   vkCmdEndRenderPass(commandBuffer);
@@ -141,8 +150,6 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to record command buffer!");
   }
-
-
 
   //---------------------------
 }

@@ -5,6 +5,8 @@ class Engine_vulkan;
 class Loop;
 class GUI;
 
+class Node_load;
+
 
 class Node_engine
 {
@@ -22,6 +24,8 @@ private:
   Engine_vulkan* engine_vulkan;
   Loop* engine_loop;
   GUI* guiManager;
+
+  Node_load* node_load;
 };
 
 #endif

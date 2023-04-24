@@ -1,6 +1,8 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include "../../common.h"
+
 class Node_engine;
 class Engine_vulkan;
 class Loop;

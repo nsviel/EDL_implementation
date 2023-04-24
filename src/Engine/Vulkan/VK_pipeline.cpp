@@ -3,6 +3,7 @@
 #include "VK_swapchain.h"
 #include "VK_renderpass.h"
 #include "VK_struct.h"
+#include "VK_descriptor.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -16,6 +17,7 @@ VK_pipeline::VK_pipeline(Engine_vulkan* engine_vulkan){
   this->vk_device = engine_vulkan->get_vk_device();
   this->vk_swapchain = engine_vulkan->get_vk_swapchain();
   this->vk_renderpass = engine_vulkan->get_vk_renderpass();
+  this->vk_descriptor = engine_vulkan->get_vk_descriptor();
 
   //---------------------------
 }
@@ -119,7 +121,7 @@ void VK_pipeline::create_graphics_pipeline(){
   rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
   rasterizer.lineWidth = 1.0f;
   rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
-  rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+  rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
   rasterizer.depthBiasEnable = VK_FALSE;
   rasterizer.depthBiasConstantFactor = 0.0f; // Optional
   rasterizer.depthBiasClamp = 0.0f; // Optional
@@ -158,10 +160,11 @@ void VK_pipeline::create_graphics_pipeline(){
   colorBlending.blendConstants[3] = 0.0f; // Optional
 
   //Pipeline layout info -> usefull for shader uniform variables
+  VkDescriptorSetLayout descriptorSetLayout = vk_descriptor->get_descriptorSetLayout();
   VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
   pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-  pipelineLayoutInfo.setLayoutCount = 0; // Optional
-  pipelineLayoutInfo.pSetLayouts = nullptr; // Optional
+  pipelineLayoutInfo.setLayoutCount = 1;
+  pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
   pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
   pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
