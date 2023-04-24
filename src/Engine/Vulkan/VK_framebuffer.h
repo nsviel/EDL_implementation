@@ -21,6 +21,7 @@ public:
 public:
   //Main functions
   void create_framebuffers();
+  void cleanup();
 
   inline std::vector<VkFramebuffer> get_swapChain_fbo(){return swapChain_fbo;}
 

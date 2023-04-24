@@ -10,6 +10,7 @@ class VK_device;
 class VK_swapchain;
 class VK_renderpass;
 class VK_pipeline;
+class VK_framebuffer;
 class VK_buffer;
 
 
@@ -38,6 +39,7 @@ private:
   VK_renderpass* vk_renderpass;
   VK_pipeline* vk_pipeline;
   VK_buffer* vk_buffer;
+  VK_framebuffer* vk_framebuffer;
 
   VkCommandPool command_pool;
   std::vector<VkCommandBuffer> command_buffer_vec;

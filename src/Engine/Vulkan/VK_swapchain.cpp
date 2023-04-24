@@ -222,17 +222,12 @@ void VK_swapchain::recreate_swapChain(){
   create_swapChain();
   create_image_views();
   vk_framebuffer->create_framebuffers();
-  this->swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
 
   //---------------------------
 }
 void VK_swapchain::cleanup_swapChain(){
   VkDevice device = vk_device->get_device();
   //---------------------------
-
-  for(size_t i=0; i<swapChain_fbo.size(); i++){
-    vkDestroyFramebuffer(device, swapChain_fbo[i], nullptr);
-  }
 
   for(size_t i=0; i<swapChain_image_views.size(); i++){
     vkDestroyImageView(device, swapChain_image_views[i], nullptr);

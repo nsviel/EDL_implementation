@@ -39,8 +39,6 @@ public:
 
   inline std::vector<VkImage> get_swapChain_images(){return swapChain_images;}
   inline std::vector<VkImageView> get_swapChain_image_views(){return swapChain_image_views;}
-  inline std::vector<VkFramebuffer> get_swapChain_fbo(){return swapChain_fbo;}
-  inline void set_swapChain_fbo(std::vector<VkFramebuffer> value){this->swapChain_fbo = value;}
 
 private:
   Engine_vulkan* engine_vulkan;
@@ -53,9 +51,6 @@ private:
 
   std::vector<VkImage> swapChain_images;
   std::vector<VkImageView> swapChain_image_views;
-  std::vector<VkFramebuffer> swapChain_fbo;
-
-
 };
 
 #endif

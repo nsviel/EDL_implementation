@@ -29,6 +29,8 @@ void VK_framebuffer::create_framebuffers(){
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
+  this->cleanup();
+
   //Resize to hold all fbos
   swapChain_fbo.resize(swapChain_image_views.size());
 
@@ -54,5 +56,15 @@ void VK_framebuffer::create_framebuffers(){
   }
 
   //---------------------------
-  vk_swapchain->set_swapChain_fbo(swapChain_fbo);
+  //vk_swapchain->set_swapChain_fbo(swapChain_fbo);
+}
+void VK_framebuffer::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(auto framebuffer : swapChain_fbo){
+    vkDestroyFramebuffer(device, framebuffer, nullptr);
+  }
+
+  //---------------------------
 }

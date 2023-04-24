@@ -80,6 +80,7 @@ void Engine_vulkan::main_loop() {
 void Engine_vulkan::clean_vulkan(){
   //---------------------------
 
+  vk_framebuffer->cleanup();
   vk_swapchain->cleanup_swapChain();
   vk_buffer->cleanup();
   vk_pipeline->cleanup();

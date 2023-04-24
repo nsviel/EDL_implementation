@@ -5,6 +5,7 @@
 #include "VK_pipeline.h"
 #include "VK_buffer.h"
 #include "VK_struct.h"
+#include "VK_framebuffer.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -20,6 +21,7 @@ VK_command::VK_command(Engine_vulkan* engine_vulkan){
   this->vk_renderpass = engine_vulkan->get_vk_renderpass();
   this->vk_pipeline = engine_vulkan->get_vk_pipeline();
   this->vk_buffer = engine_vulkan->get_vk_buffer();
+  this->vk_framebuffer = engine_vulkan->get_vk_framebuffer();
 
   //---------------------------
 }
@@ -78,7 +80,7 @@ void VK_command::cleanup(){
 
 //Graphics pipeline
 void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex){
-  std::vector<VkFramebuffer> swapChain_fbo = vk_swapchain->get_swapChain_fbo();
+  std::vector<VkFramebuffer> swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
   VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   VkPipeline graphicsPipeline = vk_pipeline->get_graphicsPipeline();
