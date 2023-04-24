@@ -19,6 +19,7 @@ class VK_drawing;
 class VK_buffer;
 class VK_descriptor;
 class VK_uniform;
+class VK_texture;
 
 
 class Engine_vulkan
@@ -62,6 +63,7 @@ private:
   VK_buffer* vk_buffer;
   VK_descriptor* vk_descriptor;
   VK_uniform* vk_uniform;
+  VK_texture* vk_texture;
 };
 
 #endif

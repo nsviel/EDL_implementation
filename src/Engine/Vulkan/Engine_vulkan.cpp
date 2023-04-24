@@ -12,6 +12,7 @@
 #include "VK_buffer.h"
 #include "VK_descriptor.h"
 #include "VK_uniform.h"
+#include "VK_texture.h"
 
 #include "../../Load/Loader.h"
 
@@ -38,6 +39,7 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
+  this->vk_texture = new VK_texture(this);
 
   //---------------------------
 }
@@ -77,6 +79,7 @@ void Engine_vulkan::init_vulkan(){
   vk_pipeline->create_graphics_pipeline();
   vk_framebuffer->create_framebuffers();
   vk_command->create_command_pool();
+  vk_texture->create_texture_image();
   vk_buffer->load_model();
   vk_buffer->create_vertex_buffer();
   vk_buffer->create_index_buffer();
@@ -85,8 +88,6 @@ void Engine_vulkan::init_vulkan(){
   vk_descriptor->create_descriptor_sets();
   vk_command->create_command_buffers();
   vk_synchronization->create_sync_objects();
-
-
 
   //---------------------------
 }
@@ -113,6 +114,7 @@ void Engine_vulkan::clean_vulkan(){
 
   vk_framebuffer->cleanup();
   vk_swapchain->cleanup_swapChain();
+  vk_texture->cleanup();
   vk_uniform->cleanup();
   vk_descriptor->cleanup();
   vk_buffer->cleanup();
