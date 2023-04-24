@@ -36,9 +36,7 @@ void Engine::init_engine(){
   engine_vulkan->init_vulkan();
   guiManager->init();
 
-  Loader loaderManager;
-  Cloud* cloud = loaderManager.load_cloud("/home/aeter/Desktop/Point_cloud/ply/bun_zipper.ply");
-  say("Bunny loaded !");
+
 
   //---------------------------
 }

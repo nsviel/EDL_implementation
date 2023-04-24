@@ -4,9 +4,10 @@
 #include "VK_renderpass.h"
 #include "VK_pipeline.h"
 #include "VK_buffer.h"
-#include "VK_struct.h"
 #include "VK_framebuffer.h"
 #include "VK_descriptor.h"
+#include "VK_struct.h"
+#include "VK_parameter.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -137,7 +138,7 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   VkBuffer vertexBuffers[] = {vertexBuffer};
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-  vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+  vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
   vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
   //vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);

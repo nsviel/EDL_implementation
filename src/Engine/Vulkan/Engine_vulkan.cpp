@@ -13,6 +13,8 @@
 #include "VK_descriptor.h"
 #include "VK_uniform.h"
 
+#include "../../Load/Loader.h"
+
 #include "../Core/GUI.h"
 #include "../Node_engine.h"
 
@@ -44,6 +46,23 @@ Engine_vulkan::~Engine_vulkan(){}
 //Main function
 void Engine_vulkan::init_vulkan(){
   //---------------------------
+/*
+  Loader loaderManager;
+  Cloud* cloud = loaderManager.load_cloud("/home/aeter/Desktop/Point_cloud/ply/bun_zipper.ply");
+  say("Bunny loaded !");
+
+  const std::vector<Vertex> vertices = {
+      {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+      {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+      {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+      {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+  };
+
+  for(int i=0; i<cloud->xyz.size(); i++){
+    Vertex vertex;
+    vertex.pos =
+  }*/
+
 
   vk_window->init_window();
   vk_instance->create_instance();
@@ -58,6 +77,7 @@ void Engine_vulkan::init_vulkan(){
   vk_pipeline->create_graphics_pipeline();
   vk_framebuffer->create_framebuffers();
   vk_command->create_command_pool();
+  vk_buffer->load_model();
   vk_buffer->create_vertex_buffer();
   vk_buffer->create_index_buffer();
   vk_uniform->create_uniform_buffers();
@@ -65,6 +85,8 @@ void Engine_vulkan::init_vulkan(){
   vk_descriptor->create_descriptor_sets();
   vk_command->create_command_buffers();
   vk_synchronization->create_sync_objects();
+
+
 
   //---------------------------
 }

@@ -15,7 +15,7 @@ struct UniformBufferObject {
     glm::mat4 proj;
 };
 
-static uint32_t currentFrame = 0;
+
 
 
 //List of all validation layers
@@ -53,10 +53,6 @@ const std::vector<const char*> required_extensions = {
   VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
-
-const int MAX_FRAMES_IN_FLIGHT = 2;
-
-
 struct Vertex {
   glm::vec2 pos;
   glm::vec3 color;
@@ -84,13 +80,7 @@ struct Vertex {
 
 };
 
-const std::vector<Vertex> vertices = {
-    {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
-};
-const std::vector<uint16_t> indices = {
+const std::vector<uint32_t> indices = {
     0, 1, 2, 2, 3, 0
 };
 

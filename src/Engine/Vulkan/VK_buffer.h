@@ -1,9 +1,10 @@
 #ifndef VK_BUFFER_H
 #define VK_BUFFER_H
 
-#include <vulkan/vulkan.h>
-
+#include "VK_struct.h"
 #include "../../common.h"
+
+#include <vulkan/vulkan.h>
 
 class Engine_vulkan;
 class VK_device;
@@ -19,9 +20,12 @@ public:
 public:
   //Main functions
   void create_vertex_buffer();
+  void create_vertex_buffer(std::vector<Vertex> vertices);
   void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
   void create_index_buffer();
   void cleanup();
+
+  void load_model();
 
   //Subfunctions
   uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
@@ -38,6 +42,9 @@ private:
   VkDeviceMemory vertexBufferMemory;
   VkBuffer indexBuffer;
   VkDeviceMemory indexBufferMemory;
+
+  //std::vector<Vertex> vertices;
+  //std::vector<uint32_t> indices;
 };
 
 #endif

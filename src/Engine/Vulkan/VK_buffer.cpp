@@ -1,10 +1,20 @@
 #include "VK_buffer.h"
 #include "VK_device.h"
-#include "VK_struct.h"
 #include "VK_command.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
+
+#define TINYOBJLOADER_IMPLEMENTATION
+#include "../../../extern/tiny_obj_loader.h"
+
+const std::vector<Vertex> vertices = {
+    {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+    {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+    {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+    {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+};
+
 
 
 //Constructor / Destructor
@@ -20,6 +30,30 @@ VK_buffer::~VK_buffer(){}
 
 //Main function
 void VK_buffer::create_vertex_buffer(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
+  VkBuffer stagingBuffer;
+  VkDeviceMemory stagingBufferMemory;
+  this->create_buffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+  //Filling the vertex buffer
+  void* data;
+  vkMapMemory(device, stagingBufferMemory, 0, size, 0, &data);
+  memcpy(data, vertices.data(), (size_t) size);
+  vkUnmapMemory(device, stagingBufferMemory);
+
+  this->create_buffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
+
+  this->copyBuffer(stagingBuffer, vertexBuffer, size);
+
+  vkDestroyBuffer(device, stagingBuffer, nullptr);
+  vkFreeMemory(device, stagingBufferMemory, nullptr);
+
+  //---------------------------
+}
+void VK_buffer::create_vertex_buffer(std::vector<Vertex> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -108,6 +142,46 @@ void VK_buffer::cleanup(){
 
   vkDestroyBuffer(device, vertexBuffer, nullptr);
   vkFreeMemory(device, vertexBufferMemory, nullptr);
+
+  //---------------------------
+}
+
+void VK_buffer::load_model(){
+  //---------------------------
+
+  tinyobj::attrib_t attrib;
+  std::vector<tinyobj::shape_t> shapes;
+  std::vector<tinyobj::material_t> materials;
+  std::string warn, err;
+
+  std::string path = "/home/aeter/Desktop/Point_cloud/obj/dread.obj";
+  if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str())) {
+      throw std::runtime_error(warn + err);
+  }
+/*
+  for (const auto& shape : shapes) {
+    for (const auto& index : shape.mesh.indices) {
+        Vertex vertex{};
+
+        vertex.pos = {
+            attrib.vertices[3 * index.vertex_index + 0],
+            attrib.vertices[3 * index.vertex_index + 1],
+            //attrib.vertices[3 * index.vertex_index + 2]
+        };
+
+        vertex.texCoord = {
+            attrib.texcoords[2 * index.texcoord_index + 0],
+            attrib.texcoords[2 * index.texcoord_index + 1]
+        };
+
+        vertex.color = {1.0f, 1.0f, 1.0f};
+
+        vertices.push_back(vertex);
+        indices.push_back(indices.size());
+    }
+  }*/
+
+
 
   //---------------------------
 }
