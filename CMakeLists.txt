@@ -25,21 +25,19 @@ add_subdirectory(extern)
 # Denpendancies
 set(ALL_LIBS
   ${GLFW_LIBRARY}
-    
+
   Eigen3::Eigen #Eigen library
   stdc++fs #STD filesystem experimental
   -std=c++17 -O2
-  -lglfw 
-  -lvulkan 
-  -ldl 
-  -lpthread 
-  -lX11 
-  -lXxf86vm 
-  -lXrandr 
+  -lglfw
+  -lvulkan
+  -ldl
+  -lpthread
+  -lX11
+  -lXxf86vm
+  -lXrandr
   -lXi
 )
-
-
 
 # Executable
 add_executable(executable
@@ -52,3 +50,7 @@ target_link_libraries(executable
   ${ALL_LIBS}
 )
 
+# External source linking
+target_sources(executable PRIVATE
+  ${EXTERN_TRG_SRC}
+)

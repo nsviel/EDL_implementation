@@ -4,6 +4,7 @@
 class Node_engine;
 class Engine_vulkan;
 class Loop;
+class GUI;
 
 
 class Engine
@@ -23,6 +24,7 @@ private:
   Node_engine* node_engine;
   Engine_vulkan* engine_vulkan;
   Loop* engine_loop;
+  GUI* guiManager;
 };
 
 #endif

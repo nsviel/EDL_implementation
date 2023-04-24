@@ -20,6 +20,34 @@ VK_device::VK_device(Engine_vulkan* engine_vulkan){
 VK_device::~VK_device(){}
 
 //Main function
+void VK_device::select_physical_device(){
+  VkInstance instance = vk_instance->get_instance();
+  //---------------------------
+
+  this->physical_device = VK_NULL_HANDLE;
+
+  //Find how many GPU are available
+  uint32_t nb_device = 0;
+  vkEnumeratePhysicalDevices(instance, &nb_device, nullptr);
+  if (nb_device == 0) {
+    throw std::runtime_error("failed to find GPUs with Vulkan support!");
+  }
+
+  //List all available GPU and take suitable one
+  std::vector<VkPhysicalDevice> devices(nb_device);
+  vkEnumeratePhysicalDevices(instance, &nb_device, devices.data());
+  for (const auto& device : devices) {
+    if (is_device_suitable(device)) {
+      physical_device = device;
+      break;
+    }
+  }
+  if (physical_device == VK_NULL_HANDLE) {
+    throw std::runtime_error("failed to find a suitable GPU!");
+  }
+
+  //---------------------------
+}
 void VK_device::create_logical_device(){
   //Interface between selected GPU and application
   //---------------------------
@@ -68,34 +96,6 @@ void VK_device::create_logical_device(){
 
   //---------------------------
 }
-void VK_device::select_physical_device(){
-  VkInstance instance = vk_instance->get_instance();
-  //---------------------------
-
-  this->physical_device = VK_NULL_HANDLE;
-
-  //Find how many GPU are available
-  uint32_t nb_device = 0;
-  vkEnumeratePhysicalDevices(instance, &nb_device, nullptr);
-  if (nb_device == 0) {
-    throw std::runtime_error("failed to find GPUs with Vulkan support!");
-  }
-
-  //List all available GPU and take suitable one
-  std::vector<VkPhysicalDevice> devices(nb_device);
-  vkEnumeratePhysicalDevices(instance, &nb_device, devices.data());
-  for (const auto& device : devices) {
-    if (is_device_suitable(device)) {
-      physical_device = device;
-      break;
-    }
-  }
-  if (physical_device == VK_NULL_HANDLE) {
-    throw std::runtime_error("failed to find a suitable GPU!");
-  }
-
-  //---------------------------
-}
 void VK_device::cleanup(){
   //---------------------------
 
@@ -104,7 +104,49 @@ void VK_device::cleanup(){
   //---------------------------
 }
 
+//Subfunctions
+bool VK_device::is_device_suitable(VkPhysicalDevice device){
+  //---------------------------
 
+  //Queue suitable
+  struct_queueFamily_indices queue_indices = find_queue_families(device);
+  bool queue_ok = queue_indices.is_complete();
+
+  //Extension suitable
+  bool extension_ok = check_extension_support(device);
+
+  //Swap chain suitable
+  bool swapChain_ok = false;
+  if(extension_ok){
+    struct_swapChain_details swapChain_setting = find_swapChain_details(device);
+    swapChain_ok = !swapChain_setting.formats.empty() && !swapChain_setting.mode_presentation.empty();
+  }
+
+  //---------------------------
+  return queue_ok && extension_ok && swapChain_ok;
+}
+bool VK_device::check_extension_support(VkPhysicalDevice device){
+  //---------------------------
+
+  //Get device extension number
+  uint32_t nb_extension;
+  vkEnumerateDeviceExtensionProperties(device, nullptr, &nb_extension, nullptr);
+
+  //List device extension
+  std::vector<VkExtensionProperties> vec_extension(nb_extension);
+  vkEnumerateDeviceExtensionProperties(device, nullptr, &nb_extension, vec_extension.data());
+
+  //Check if all required extension are in the list
+  std::set<std::string> requiredExtensions(required_extensions.begin(), required_extensions.end());
+  for (const auto& extension : vec_extension) {
+    requiredExtensions.erase(extension.extensionName);
+  }
+
+  //---------------------------
+  return requiredExtensions.empty();
+}
+
+//Specific info retrieval
 struct_queueFamily_indices VK_device::find_queue_families(VkPhysicalDevice device){
   struct_queueFamily_indices indices;
   VkSurfaceKHR surface = vk_window->get_surface();
@@ -146,46 +188,6 @@ struct_queueFamily_indices VK_device::find_queue_families(VkPhysicalDevice devic
 
   //---------------------------
   return indices;
-}
-bool VK_device::is_device_suitable(VkPhysicalDevice device){
-  //---------------------------
-
-  //Queue suitable
-  struct_queueFamily_indices queue_indices = find_queue_families(device);
-  bool queue_ok = queue_indices.is_complete();
-
-  //Extension suitable
-  bool extension_ok = check_extension_support(device);
-
-  //Swap chain suitable
-  bool swapChain_ok = false;
-  if(extension_ok){
-    struct_swapChain_details swapChain_setting = find_swapChain_details(device);
-    swapChain_ok = !swapChain_setting.formats.empty() && !swapChain_setting.mode_presentation.empty();
-  }
-
-  //---------------------------
-  return queue_ok && extension_ok && swapChain_ok;
-}
-bool VK_device::check_extension_support(VkPhysicalDevice device){
-  //---------------------------
-
-  //Get device extension number
-  uint32_t nb_extension;
-  vkEnumerateDeviceExtensionProperties(device, nullptr, &nb_extension, nullptr);
-
-  //List device extension
-  std::vector<VkExtensionProperties> vec_extension(nb_extension);
-  vkEnumerateDeviceExtensionProperties(device, nullptr, &nb_extension, vec_extension.data());
-
-  //Check if all required extension are in the list
-  std::set<std::string> requiredExtensions(required_extensions.begin(), required_extensions.end());
-  for (const auto& extension : vec_extension) {
-    requiredExtensions.erase(extension.extensionName);
-  }
-
-  //---------------------------
-  return requiredExtensions.empty();
 }
 struct_swapChain_details VK_device::find_swapChain_details(VkPhysicalDevice device){
   struct_swapChain_details details;

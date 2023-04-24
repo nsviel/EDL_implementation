@@ -9,11 +9,12 @@
 #include "VK_synchronization.h"
 #include "VK_window.h"
 #include "VK_drawing.h"
+#include "VK_buffer.h"
 
 #include "../Core/GUI.h"
 #include "../Node_engine.h"
 
-static uint32_t currentFrame = 0;
+
 
 //Constructor / Destructor
 Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
@@ -27,6 +28,7 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_framebuffer = new VK_framebuffer(this);
+  this->vk_buffer = new VK_buffer(this);
   this->vk_command = new VK_command(this);
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_drawing = new VK_drawing(this);
@@ -41,6 +43,7 @@ void Engine_vulkan::init_vulkan(){
 
   vk_window->init_window();
   vk_instance->create_instance();
+  vk_instance->create_validationLayer();
   vk_window->create_window_surface();
   vk_device->select_physical_device();
   vk_device->create_logical_device();
@@ -50,15 +53,9 @@ void Engine_vulkan::init_vulkan(){
   vk_pipeline->create_graphics_pipeline();
   vk_framebuffer->create_framebuffers();
   vk_command->create_command_pool();
+  vk_buffer->create_vertex_buffer();
   vk_command->create_command_buffers();
-
   vk_synchronization->create_sync_objects();
-
-
-
-
-  GUI* guiManager= node_engine->get_guiManager();
-  guiManager->init();
 
   //---------------------------
 }
@@ -71,8 +68,9 @@ void Engine_vulkan::main_loop() {
 
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
-    vk_drawing->draw_frame();
     guiManager->loop();
+    vk_drawing->draw_frame();
+
   }
 
   vkDeviceWaitIdle(device);
@@ -83,6 +81,7 @@ void Engine_vulkan::clean_vulkan(){
   //---------------------------
 
   vk_swapchain->cleanup_swapChain();
+  vk_buffer->cleanup();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();
   vk_synchronization->cleanup();

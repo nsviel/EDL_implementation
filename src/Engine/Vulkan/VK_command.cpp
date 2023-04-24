@@ -3,6 +3,8 @@
 #include "VK_swapchain.h"
 #include "VK_renderpass.h"
 #include "VK_pipeline.h"
+#include "VK_buffer.h"
+#include "VK_struct.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -17,6 +19,7 @@ VK_command::VK_command(Engine_vulkan* engine_vulkan){
   this->vk_swapchain = engine_vulkan->get_vk_swapchain();
   this->vk_renderpass = engine_vulkan->get_vk_renderpass();
   this->vk_pipeline = engine_vulkan->get_vk_pipeline();
+  this->vk_buffer = engine_vulkan->get_vk_buffer();
 
   //---------------------------
 }
@@ -37,7 +40,7 @@ void VK_command::create_command_pool(){
   poolInfo.queueFamilyIndex = queueFamily_indices.family_graphics.value();
 
   //Command pool creation
-  VkResult result = vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool);
+  VkResult result = vkCreateCommandPool(device, &poolInfo, nullptr, &command_pool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create command pool!");
   }
@@ -48,16 +51,16 @@ void VK_command::create_command_buffers(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  commandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
+  command_buffer_vec.resize(MAX_FRAMES_IN_FLIGHT);
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-  allocInfo.commandPool = commandPool;
+  allocInfo.commandPool = command_pool;
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-  allocInfo.commandBufferCount = (uint32_t) commandBuffers.size();
+  allocInfo.commandBufferCount = (uint32_t) command_buffer_vec.size();
 
-  VkResult result = vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data());
+  VkResult result = vkAllocateCommandBuffers(device, &allocInfo, command_buffer_vec.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
@@ -68,7 +71,7 @@ void VK_command::cleanup(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyCommandPool(device, commandPool, nullptr);
+  vkDestroyCommandPool(device, command_pool, nullptr);
 
   //---------------------------
 }
@@ -128,6 +131,14 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
     throw std::runtime_error("[error] failed to record command buffer!");
   }
 
+  //Binding the vertex buffer
+  /*VkBuffer vertexBuffer = vk_buffer->get_buffer();
+
+  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+  VkBuffer vertexBuffers[] = {vertexBuffer};
+  VkDeviceSize offsets[] = {0};
+  vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+  vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);*/
 
   //---------------------------
 }

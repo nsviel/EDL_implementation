@@ -1,3 +1,4 @@
+
 #include "GUI.h"
 
 #include "../Vulkan/VK_window.h"
@@ -43,58 +44,52 @@ void GUI::init(){
   VkQueue queue_graphics = vk_device->get_queue_graphics();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
+/*
+  // Create Descriptor Pool
+  VkDescriptorPoolSize pool_sizes[] =
+  {
+      { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+      { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+      { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+      { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+      { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+      { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+      { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+      { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+      { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+      { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+      { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
+  };
+  VkDescriptorPoolCreateInfo pool_info = {};
+  pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+  pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+  pool_info.maxSets = 1000 * IM_ARRAYSIZE(pool_sizes);
+  pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
+  pool_info.pPoolSizes = pool_sizes;
+  vkCreateDescriptorPool(device, &pool_info, g_Allocator, &g_DescriptorPool);
 
-  //1: create descriptor pool for IMGUI
-	// the size of the pool is very oversize, but it's copied from imgui demo itself.
-	VkDescriptorPoolSize pool_sizes[] =
-	{
-		{ VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
-		{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
-		{ VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
-		{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
-		{ VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
-	};
-
-	VkDescriptorPoolCreateInfo pool_info = {};
-	pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
-	pool_info.maxSets = 1000 * IM_ARRAYSIZE(pool_sizes);
-	pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
-	pool_info.pPoolSizes = pool_sizes;
-
-	VkDescriptorPool imguiPool;
-	VkResult result = vkCreateDescriptorPool(device, &pool_info, nullptr, &imguiPool);
+  VkDescriptorPool imguiPool;
+  VkResult result = vkCreateDescriptorPool(device, &pool_info, nullptr, &imguiPool);
   if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create gui");
+    throw std::runtime_error("[error] failed to create gui");
   }
 
-  // Setup Dear ImGui context
-  IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
 
-  // Setup Platform/Renderer backends
+  // Setup Platform/Renderer bindings
   ImGui_ImplGlfw_InitForVulkan(window, true);
   ImGui_ImplVulkan_InitInfo init_info = {};
   init_info.Instance = instance;
   init_info.PhysicalDevice = physical_device;
   init_info.Device = device;
   init_info.Queue = queue_graphics;
-  init_info.DescriptorPool = imguiPool;
+  init_info.PipelineCache = VK_NULL_HANDLE;
   init_info.MinImageCount = 3;
   init_info.ImageCount = 3;
   init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
-  ImGui_ImplVulkan_Init(&init_info, renderPass);
 
-  //execute a gpu command to upload imgui font textures
-	/*immediate_submit([&](VkCommandBuffer cmd) {
-		ImGui_ImplVulkan_CreateFontsTexture(cmd);
-  });*/
+  ImGui_ImplVulkan_Init(&init_info, renderPass);
+*/
+
 
 
   //---------------------------
@@ -123,9 +118,13 @@ void GUI::loop_start(){
   //---------------------------
 
   // Start the Dear ImGui frame
-  ImGui_ImplVulkan_NewFrame();
-  ImGui_ImplGlfw_NewFrame();
+  //ImGui_ImplVulkan_NewFrame();
+  //ImGui_ImplGlfw_NewFrame();
   //ImGui::NewFrame();
+
+  //imgui commands
+  //ImGui::ShowDemoWindow();
+
 
   //---------------------------
 }

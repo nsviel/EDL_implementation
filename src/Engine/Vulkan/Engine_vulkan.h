@@ -16,6 +16,7 @@ class VK_framebuffer;
 class VK_command;
 class VK_synchronization;
 class VK_drawing;
+class VK_buffer;
 
 
 class Engine_vulkan
@@ -40,6 +41,7 @@ public:
   inline VK_instance* get_vk_instance(){return vk_instance;}
   inline VK_renderpass* get_vk_renderpass(){return vk_renderpass;}
   inline VK_pipeline* get_vk_pipeline(){return vk_pipeline;}
+  inline VK_buffer* get_vk_buffer(){return vk_buffer;}
 
 private:
   Node_engine* node_engine;
@@ -53,10 +55,7 @@ private:
   VK_command* vk_command;
   VK_synchronization* vk_synchronization;
   VK_drawing* vk_drawing;
-
-  VkDebugUtilsMessengerEXT debugMessenger;
-  bool framebufferResized = false;
-  bool with_validation_layer = true;
+  VK_buffer* vk_buffer;
 };
 
 #endif

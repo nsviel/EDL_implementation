@@ -21,17 +21,17 @@ public:
   void create_sync_objects();
   void cleanup();
 
-  inline std::vector<VkSemaphore> get_imageAvailableSemaphores(){return imageAvailableSemaphores;}
-  inline std::vector<VkSemaphore> get_renderFinishedSemaphores(){return renderFinishedSemaphores;}
-  inline std::vector<VkFence> get_inFlightFences(){return inFlightFences;}
+  inline std::vector<VkSemaphore> get_semvec_image_available(){return semvec_image_available;}
+  inline std::vector<VkSemaphore> get_semvec_render_finish(){return semvec_render_finish;}
+  inline std::vector<VkFence> get_fenvec_inFlight(){return fenvec_inFlight;}
 
 private:
   Engine_vulkan* engine_vulkan;
   VK_device* vk_device;
 
-  std::vector<VkSemaphore> imageAvailableSemaphores;
-  std::vector<VkSemaphore> renderFinishedSemaphores;
-  std::vector<VkFence> inFlightFences;
+  std::vector<VkSemaphore> semvec_image_available;
+  std::vector<VkSemaphore> semvec_render_finish;
+  std::vector<VkFence> fenvec_inFlight;
 };
 
 #endif

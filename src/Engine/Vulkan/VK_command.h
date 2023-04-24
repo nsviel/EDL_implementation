@@ -10,6 +10,7 @@ class VK_device;
 class VK_swapchain;
 class VK_renderpass;
 class VK_pipeline;
+class VK_buffer;
 
 
 class VK_command
@@ -27,8 +28,8 @@ public:
 
   void record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
-  inline VkCommandPool get_commandPool(){return commandPool;}
-  inline std::vector<VkCommandBuffer> get_commandBuffers(){return commandBuffers;}
+  inline VkCommandPool get_command_pool(){return command_pool;}
+  inline std::vector<VkCommandBuffer> get_command_buffer_vec(){return command_buffer_vec;}
 
 private:
   Engine_vulkan* engine_vulkan;
@@ -36,9 +37,10 @@ private:
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;
   VK_pipeline* vk_pipeline;
+  VK_buffer* vk_buffer;
 
-  VkCommandPool commandPool;
-  std::vector<VkCommandBuffer> commandBuffers;
+  VkCommandPool command_pool;
+  std::vector<VkCommandBuffer> command_buffer_vec;
 };
 
 #endif

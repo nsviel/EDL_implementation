@@ -27,9 +27,12 @@ public:
   void select_physical_device();
   void cleanup();
 
-  struct_queueFamily_indices find_queue_families(VkPhysicalDevice device);
+  //Subfunctions
   bool is_device_suitable(VkPhysicalDevice device);
   bool check_extension_support(VkPhysicalDevice device);
+
+  //Specific info retrieval
+  struct_queueFamily_indices find_queue_families(VkPhysicalDevice device);
   struct_swapChain_details find_swapChain_details(VkPhysicalDevice device);
 
   inline VkPhysicalDevice get_physical_device(){return physical_device;}
@@ -44,7 +47,6 @@ private:
 
   VkDevice device;
   VkPhysicalDevice physical_device;
-
   VkQueue queue_graphics;
   VkQueue queue_presentation;
 };

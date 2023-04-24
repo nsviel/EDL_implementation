@@ -2,6 +2,7 @@
 #include "VK_device.h"
 #include "VK_swapchain.h"
 #include "VK_renderpass.h"
+#include "VK_struct.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -26,6 +27,9 @@ void VK_pipeline::create_graphics_pipeline(){
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
+
+  //Compile shader from GLSL to SPIR-V
+  int result_ = system("../src/Engine/Shader/glsl/compile.sh");
 
   //Load spir format shaders
   auto code_vert = read_file("../src/Engine/Shader/spir/vert.spv");
@@ -61,6 +65,14 @@ void VK_pipeline::create_graphics_pipeline(){
   vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
   vertexInputInfo.vertexAttributeDescriptionCount = 0;
   vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+/*
+  auto bindingDescription = Vertex::getBindingDescription();
+  auto attributeDescriptions = Vertex::getAttributeDescriptions();
+
+  vertexInputInfo.vertexBindingDescriptionCount = 1;
+  vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+  vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+  vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();*/
 
   //Drawing topology
   VkPipelineInputAssemblyStateCreateInfo inputAssembly{};

@@ -1,2 +1,4 @@
-/home/aeter/Desktop/Nephos/install/glslc shader.vert -o ../spir/vert.spv
-/home/aeter/Desktop/Nephos/install/glslc shader.frag -o ../spir/frag.spv
+#!/bin/bash
+
+../extern/glslc ../src/Engine/Shader/glsl/shader.vert -o ../src/Engine/Shader/spir/vert.spv
+../extern/glslc ../src/Engine/Shader/glsl/shader.frag -o ../src/Engine/Shader/spir/frag.spv
