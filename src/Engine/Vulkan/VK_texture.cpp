@@ -57,8 +57,6 @@ void VK_texture::create_texture_image_view(){
 
   textureImageView = create_image_view(textureImage, VK_FORMAT_R8G8B8A8_SRGB);
 
-
-
   //---------------------------
 }
 VkImageView VK_texture::create_image_view(VkImage image, VkFormat format){
@@ -107,9 +105,6 @@ void VK_texture::create_texture_sampler(){
   samplerInfo.compareEnable = VK_FALSE;
   samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
   samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-  samplerInfo.mipLodBias = 0.0f;
-  samplerInfo.minLod = 0.0f;
-  samplerInfo.maxLod = 0.0f;
 
   VkResult result = vkCreateSampler(device, &samplerInfo, nullptr, &textureSampler);
   if(result != VK_SUCCESS){

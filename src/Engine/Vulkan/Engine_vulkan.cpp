@@ -81,6 +81,7 @@ void Engine_vulkan::init_vulkan(){
   vk_command->create_command_pool();
   vk_texture->create_texture_image();
   vk_texture->create_texture_image_view();
+  vk_texture->create_texture_sampler();
   vk_buffer->load_model();
   vk_buffer->create_vertex_buffer();
   vk_buffer->create_index_buffer();
@@ -99,11 +100,10 @@ void Engine_vulkan::main_loop() {
 
   GUI* guiManager= node_engine->get_guiManager();
 
-  while (!glfwWindowShouldClose(window)) {
+  while(!glfwWindowShouldClose(window)) {
     glfwPollEvents();
     guiManager->loop();
     vk_drawing->draw_frame();
-
   }
 
   vkDeviceWaitIdle(device);
@@ -115,12 +115,15 @@ void Engine_vulkan::clean_vulkan(){
 
   vk_framebuffer->cleanup();
   vk_swapchain->cleanup_swapChain();
-  vk_texture->cleanup();
-  vk_uniform->cleanup();
-  vk_descriptor->cleanup();
-  vk_buffer->cleanup();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();
+  vk_uniform->cleanup();
+
+  vk_descriptor->cleanup_pool();
+  vk_texture->cleanup();
+  vk_descriptor->cleanup_layout();
+  vk_buffer->cleanup();
+
   vk_synchronization->cleanup();
   vk_command->cleanup();
   vk_device->cleanup();

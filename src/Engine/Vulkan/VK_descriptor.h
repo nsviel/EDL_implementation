@@ -21,7 +21,8 @@ public:
   void create_descriptorSet_layout();
   void create_descriptor_pool();
   void create_descriptor_sets();
-  void cleanup();
+  void cleanup_pool();
+  void cleanup_layout();
 
   inline VkDescriptorSetLayout get_descriptorSetLayout(){return descriptorSetLayout;}
   inline std::vector<VkDescriptorSet> get_descriptorSets(){return descriptorSets;}

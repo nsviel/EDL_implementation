@@ -8,13 +8,6 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "../../../extern/tiny_obj_loader.h"
 
-const std::vector<Vertex> vertices = {
-    {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
-};
-
 
 
 //Constructor / Destructor
@@ -195,18 +188,12 @@ uint32_t VK_buffer::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags pr
   vkGetPhysicalDeviceMemoryProperties(physical_device, &memProperties);
 
   for(uint32_t i=0; i<memProperties.memoryTypeCount; i++){
-    if(typeFilter & (1 << i)){
+    if((typeFilter &(1<<i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties){
       return i;
     }
   }
 
   throw std::runtime_error("failed to find suitable memory type!");
-
-  for(uint32_t i=0; i<memProperties.memoryTypeCount; i++){
-    if((typeFilter &(1<<i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties){
-      return i;
-    }
-  }
 
   //---------------------------
 }
@@ -273,9 +260,6 @@ void VK_buffer::endSingleTimeCommands(VkCommandBuffer commandBuffer){
 void VK_buffer::transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout){
   //---------------------------
 
-  VkPipelineStageFlags sourceStage;
-  VkPipelineStageFlags destinationStage;
-
   VkCommandBuffer commandBuffer = beginSingleTimeCommands();
 
   VkImageMemoryBarrier barrier{};
@@ -290,6 +274,9 @@ void VK_buffer::transitionImageLayout(VkImage image, VkFormat format, VkImageLay
   barrier.subresourceRange.levelCount = 1;
   barrier.subresourceRange.baseArrayLayer = 0;
   barrier.subresourceRange.layerCount = 1;
+
+  VkPipelineStageFlags sourceStage;
+  VkPipelineStageFlags destinationStage;
 
   if(oldLayout == VK_IMAGE_LAYOUT_UNDEFINED && newLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL){
     barrier.srcAccessMask = 0;

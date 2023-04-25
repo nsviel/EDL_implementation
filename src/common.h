@@ -20,6 +20,7 @@
 #include <iomanip>
 #include <sys/file.h>
 #include <chrono>
+#include <array>
 
 //Namespaces
 using namespace std;

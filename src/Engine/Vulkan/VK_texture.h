@@ -27,6 +27,9 @@ public:
   void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
   void cleanup();
 
+  inline VkImageView get_textureImageView(){return textureImageView;}
+  inline VkSampler get_textureSampler(){return textureSampler;}
+
 private:
   VK_device* vk_device;
   VK_buffer* vk_buffer;

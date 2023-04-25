@@ -92,8 +92,6 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
 
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-  beginInfo.flags = 0; // Optional
-  beginInfo.pInheritanceInfo = nullptr; // Optional
 
   VkResult result = vkBeginCommandBuffer(commandBuffer, &beginInfo);
   if(result != VK_SUCCESS){
@@ -107,6 +105,7 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   renderPassInfo.framebuffer = swapChain_fbo[imageIndex];
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = swapChain_extent;
+
   VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
   renderPassInfo.clearValueCount = 1;
   renderPassInfo.pClearValues = &clearColor;
@@ -134,11 +133,12 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   VkBuffer vertexBuffer = vk_buffer->get_buffer_vertex();
   VkBuffer indexBuffer = vk_buffer->get_buffer_index();
 
-  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
   VkBuffer vertexBuffers[] = {vertexBuffer};
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
   vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+
+  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
   vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
   //vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
