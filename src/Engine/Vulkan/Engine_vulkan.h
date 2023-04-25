@@ -47,6 +47,7 @@ public:
   inline VK_buffer* get_vk_buffer(){return vk_buffer;}
   inline VK_descriptor* get_vk_descriptor(){return vk_descriptor;}
   inline VK_uniform* get_vk_uniform(){return vk_uniform;}
+  inline VK_texture* get_vk_texture(){return vk_texture;}
 
 private:
   Node_engine* node_engine;

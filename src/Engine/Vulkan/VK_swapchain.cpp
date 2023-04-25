@@ -2,6 +2,7 @@
 #include "VK_device.h"
 #include "VK_swapchain.h"
 #include "VK_framebuffer.h"
+#include "VK_texture.h"
 #include "Engine_vulkan.h"
 
 #include "VK_window.h"
@@ -94,32 +95,15 @@ void VK_swapchain::create_swapChain(){
 }
 void VK_swapchain::create_image_views(){
   VkDevice device = vk_device->get_device();
+  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
   //---------------------------
 
   //Resize the image view vector
   swapChain_image_views.resize(swapChain_images.size());
 
   //Image view settings & creation
-  for (size_t i = 0; i < swapChain_images.size(); i++) {
-    VkImageViewCreateInfo createInfo{};
-    createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-    createInfo.image = swapChain_images[i];
-    createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-    createInfo.format = swapChain_image_format;
-    createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-    createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-    createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-    createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-    createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-    createInfo.subresourceRange.baseMipLevel = 0;
-    createInfo.subresourceRange.levelCount = 1;
-    createInfo.subresourceRange.baseArrayLayer = 0;
-    createInfo.subresourceRange.layerCount = 1;
-
-    VkResult result = vkCreateImageView(device, &createInfo, nullptr, &swapChain_image_views[i]);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("[error] failed to create image views!");
-    }
+  for(size_t i=0; i<swapChain_images.size(); i++){
+    swapChain_image_views[i] = vk_texture->create_image_view(swapChain_images[i], swapChain_image_format);
   }
 
   //---------------------------

@@ -80,6 +80,7 @@ void Engine_vulkan::init_vulkan(){
   vk_framebuffer->create_framebuffers();
   vk_command->create_command_pool();
   vk_texture->create_texture_image();
+  vk_texture->create_texture_image_view();
   vk_buffer->load_model();
   vk_buffer->create_vertex_buffer();
   vk_buffer->create_index_buffer();

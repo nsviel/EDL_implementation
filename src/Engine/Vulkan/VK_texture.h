@@ -20,16 +20,21 @@ public:
 public:
   //Main functions
   void create_texture_image();
+  void create_texture_image_view();
+  VkImageView create_image_view(VkImage image, VkFormat format);
+  void create_texture_sampler();
   void create_image(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
   void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
   void cleanup();
-  
+
 private:
   VK_device* vk_device;
   VK_buffer* vk_buffer;
 
   VkImage textureImage;
   VkDeviceMemory textureImageMemory;
+  VkImageView textureImageView;
+  VkSampler textureSampler;
 };
 
 #endif

@@ -73,6 +73,7 @@ void VK_device::create_logical_device(){
 
   //Specifying used device features
   VkPhysicalDeviceFeatures deviceFeatures{};
+  deviceFeatures.samplerAnisotropy = VK_TRUE;
 
   //Logical device info
   VkDeviceCreateInfo createInfo{};
@@ -122,8 +123,13 @@ bool VK_device::is_device_suitable(VkPhysicalDevice device){
     swapChain_ok = !swapChain_setting.formats.empty() && !swapChain_setting.mode_presentation.empty();
   }
 
+  //Supported features
+  VkPhysicalDeviceFeatures supportedFeatures;
+  vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
+  bool msaa_ok = supportedFeatures.samplerAnisotropy;
+
   //---------------------------
-  return queue_ok && extension_ok && swapChain_ok;
+  return queue_ok && extension_ok && swapChain_ok && msaa_ok;
 }
 bool VK_device::check_extension_support(VkPhysicalDevice device){
   //---------------------------
