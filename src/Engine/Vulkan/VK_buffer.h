@@ -37,6 +37,7 @@ public:
 
   inline VkBuffer get_buffer_vertex(){return vertexBuffer;}
   inline VkBuffer get_buffer_index(){return indexBuffer;}
+  inline vector<uint32_t> get_indices(){return indices;}
 
 private:
   Engine_vulkan* engine_vulkan;
@@ -47,8 +48,8 @@ private:
   VkBuffer indexBuffer;
   VkDeviceMemory indexBufferMemory;
 
-  //std::vector<Vertex> vertices;
-  //std::vector<uint32_t> indices;
+  std::vector<Vertex> vertices;
+  std::vector<uint32_t> indices;
 };
 
 #endif

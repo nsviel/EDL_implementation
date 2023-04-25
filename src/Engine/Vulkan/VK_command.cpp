@@ -88,6 +88,7 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   VkPipeline graphicsPipeline = vk_pipeline->get_graphicsPipeline();
   VkPipelineLayout pipelineLayout = vk_pipeline->get_pipelineLayout();
+  vector<uint32_t> indices = vk_buffer->get_indices();
   //---------------------------
 
   VkCommandBufferBeginInfo beginInfo{};
