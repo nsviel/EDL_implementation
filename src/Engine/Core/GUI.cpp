@@ -44,7 +44,7 @@ void GUI::init(){
   VkQueue queue_graphics = vk_device->get_queue_graphics();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
-/*
+
   // Create Descriptor Pool
   VkDescriptorPoolSize pool_sizes[] =
   {
@@ -63,10 +63,9 @@ void GUI::init(){
   VkDescriptorPoolCreateInfo pool_info = {};
   pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
   pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
-  pool_info.maxSets = 1000 * IM_ARRAYSIZE(pool_sizes);
-  pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
+  pool_info.maxSets = 1000;
+  pool_info.poolSizeCount = std::size(pool_sizes);
   pool_info.pPoolSizes = pool_sizes;
-  vkCreateDescriptorPool(device, &pool_info, g_Allocator, &g_DescriptorPool);
 
   VkDescriptorPool imguiPool;
   VkResult result = vkCreateDescriptorPool(device, &pool_info, nullptr, &imguiPool);
@@ -88,7 +87,7 @@ void GUI::init(){
   init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 
   ImGui_ImplVulkan_Init(&init_info, renderPass);
-*/
+
 
 
 
