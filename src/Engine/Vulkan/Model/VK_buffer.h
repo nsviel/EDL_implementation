@@ -36,6 +36,7 @@ public:
 
   inline VkBuffer get_buffer_vertex(){return vertexBuffer;}
   inline VkBuffer get_buffer_index(){return indexBuffer;}
+  inline VkBuffer get_buffer_color(){return rgb_buffer;}
   inline vector<uint32_t> get_indices(){return indices;}
 
 private:
@@ -44,6 +45,8 @@ private:
 
   VkBuffer vertexBuffer;
   VkDeviceMemory vertexBufferMemory;
+  VkBuffer rgb_buffer;
+  VkDeviceMemory rgb_bufferMemory;
   VkBuffer indexBuffer;
   VkDeviceMemory indexBufferMemory;
 

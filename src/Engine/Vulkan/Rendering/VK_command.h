@@ -29,6 +29,9 @@ public:
   void cleanup();
 
   void record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+  void command_drawing(VkCommandBuffer commandBuffer);
+  void command_pipeline(VkCommandBuffer commandBuffer);
+  void command_viewport(VkCommandBuffer commandBuffer);
 
   inline VkCommandPool get_command_pool(){return command_pool;}
   inline std::vector<VkCommandBuffer> get_command_buffer_vec(){return command_buffer_vec;}

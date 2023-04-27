@@ -12,6 +12,7 @@ struct Set
   Set(std::string name);
   void reset();
 
+  std::string name;
   std::list<Cloud*> list_cloud;
 
   //---------------------------

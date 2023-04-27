@@ -40,7 +40,6 @@ void VK_buffer::create_vertex_buffer(std::vector<Vertex> vertices){
   vkUnmapMemory(device, stagingBufferMemory);
 
   this->create_buffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
-
   this->copy_buffer(stagingBuffer, vertexBuffer, size);
 
   vkDestroyBuffer(device, stagingBuffer, nullptr);
@@ -151,7 +150,6 @@ void VK_buffer::load_model(){
       vertex.color = {1.0f, 1.0f, 1.0f};
 
       vertices.push_back(vertex);
-      indices.push_back(indices.size());
     }
   }
 
@@ -159,9 +157,8 @@ void VK_buffer::load_model(){
   vk_texture->load_texture(TEXTURE_PATH);
 
 
-
   this->create_vertex_buffer(vertices);
-  this->create_index_buffer();
+
 
 
   //---------------------------

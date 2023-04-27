@@ -89,9 +89,6 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   std::vector<VkFramebuffer> swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
   VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
-  VkPipeline graphicsPipeline = vk_pipeline->get_graphicsPipeline();
-  VkPipelineLayout pipelineLayout = vk_pipeline->get_pipelineLayout();
-  vector<uint32_t> indices = vk_buffer->get_indices();
   //---------------------------
 
   VkCommandBufferBeginInfo beginInfo{};
@@ -103,22 +100,38 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   }
 
   //Starting a render pass
+  std::array<VkClearValue, 2> clearValues{};
+  clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
+  clearValues[1].depthStencil = {1.0f, 0};
+
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
   renderPassInfo.renderPass = renderPass;
   renderPassInfo.framebuffer = swapChain_fbo[imageIndex];
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = swapChain_extent;
-
-  std::array<VkClearValue, 2> clearValues{};
-  clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
-  clearValues[1].depthStencil = {1.0f, 0};
-
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
   renderPassInfo.pClearValues = clearValues.data();
 
+  //start render pass
   vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+
+  this->command_viewport(commandBuffer);
+  this->command_pipeline(commandBuffer);
+  this->command_drawing(commandBuffer);
+
+  //End render pass
+  vkCmdEndRenderPass(commandBuffer);
+  result = vkEndCommandBuffer(commandBuffer);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to record command buffer!");
+  }
+
+  //---------------------------
+}
+void VK_command::command_viewport(VkCommandBuffer commandBuffer){
+  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  //---------------------------
 
   //Dynamic commands
   VkViewport viewport{};
@@ -135,29 +148,27 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
   scissor.extent = swapChain_extent;
   vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-  //Binding the vertex buffer
+  //---------------------------
+}
+void VK_command::command_pipeline(VkCommandBuffer commandBuffer){
+  VkPipeline graphicsPipeline = vk_pipeline->get_graphicsPipeline();
+  VkPipelineLayout pipelineLayout = vk_pipeline->get_pipelineLayout();
+  //---------------------------
+
   std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
-  VkBuffer vertexBuffer = vk_buffer->get_buffer_vertex();
-  VkBuffer indexBuffer = vk_buffer->get_buffer_index();
-
-  VkBuffer vertexBuffers[] = {vertexBuffer};
-  VkDeviceSize offsets[] = {0};
-  vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-  vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
-
   vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
   vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-  //vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
-  vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+  //---------------------------
+}
+void VK_command::command_drawing(VkCommandBuffer commandBuffer){
+  //---------------------------
 
-  //vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-  vkCmdEndRenderPass(commandBuffer);
-
-  result = vkEndCommandBuffer(commandBuffer);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to record command buffer!");
-  }
+  VkBuffer vertexBuffer = vk_buffer->get_buffer_vertex();
+  VkBuffer vertexBuffers[] = {vertexBuffer};
+  VkDeviceSize offsets[] = {0};
+  vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+  vkCmdDraw(commandBuffer, 11484, 1, 0, 0);
 
   //---------------------------
 }

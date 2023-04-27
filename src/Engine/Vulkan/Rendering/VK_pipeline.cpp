@@ -59,19 +59,19 @@ void VK_pipeline::create_graphics_pipeline(){
   info_frag.pSpecializationInfo = nullptr;
 
   //Shader info array
-  VkPipelineShaderStageCreateInfo shaderStages[] = {info_vert, info_frag};
+  vector<VkPipelineShaderStageCreateInfo> shaderStages;
+  shaderStages.push_back(info_vert);
+  shaderStages.push_back(info_frag);
+
+  VkVertexInputBindingDescription bindingDescription{};
+  bindingDescription.binding = 0;
+  bindingDescription.stride = sizeof(Vertex);
+  bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 
   //Vertex input settings
+  std::vector<VkVertexInputAttributeDescription> attributeDescriptions = vertex_attribute();
   VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
   vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-  /*vertexInputInfo.vertexBindingDescriptionCount = 0;
-  vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-  vertexInputInfo.vertexAttributeDescriptionCount = 0;
-  vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional*/
-
-  auto bindingDescription = Vertex::getBindingDescription();
-  auto attributeDescriptions = Vertex::getAttributeDescriptions();
-
   vertexInputInfo.vertexBindingDescriptionCount = 1;
   vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
   vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
@@ -191,7 +191,7 @@ void VK_pipeline::create_graphics_pipeline(){
   VkGraphicsPipelineCreateInfo pipelineInfo{};
   pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
   pipelineInfo.stageCount = 2;
-  pipelineInfo.pStages = shaderStages;
+  pipelineInfo.pStages = shaderStages.data();
   pipelineInfo.pVertexInputState = &vertexInputInfo;
   pipelineInfo.pInputAssemblyState = &inputAssembly;
   pipelineInfo.pViewportState = &viewportState;
@@ -228,6 +228,63 @@ void VK_pipeline::cleanup(){
   //---------------------------
 }
 
+//Subfunction
+vector<VkPipelineShaderStageCreateInfo> VK_pipeline::pipeline_shader_info(VkShaderModule module_vert, VkShaderModule module_frag){
+  //---------------------------
+
+  //Vertex shader link in pipeline
+  VkPipelineShaderStageCreateInfo info_vert{};
+  info_vert.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+  info_vert.stage = VK_SHADER_STAGE_VERTEX_BIT;
+  info_vert.module = module_vert;
+  info_vert.pName = "main";
+  info_vert.pSpecializationInfo = nullptr;
+
+  //Fragment shader link in pipeline
+  VkPipelineShaderStageCreateInfo info_frag{};
+  info_frag.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+  info_frag.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+  info_frag.module = module_frag;
+  info_frag.pName = "main";
+  info_frag.pSpecializationInfo = nullptr;
+
+  //Shader info array
+  vector<VkPipelineShaderStageCreateInfo> shaderStages;
+  shaderStages.push_back(info_vert);
+  shaderStages.push_back(info_frag);
+
+  //---------------------------
+  return shaderStages;
+}
+std::vector<VkVertexInputAttributeDescription> VK_pipeline::vertex_attribute(){
+  //---------------------------
+
+  std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
+
+  VkVertexInputAttributeDescription attribut_1;
+  attribut_1.binding = 0;
+  attribut_1.location = 0;
+  attribut_1.format = VK_FORMAT_R32G32B32_SFLOAT;
+  attribut_1.offset = offsetof(Vertex, pos);
+  attributeDescriptions.push_back(attribut_1);
+
+  VkVertexInputAttributeDescription attribut_2;
+  attribut_2.binding = 0;
+  attribut_2.location = 1;
+  attribut_2.format = VK_FORMAT_R32G32B32_SFLOAT;
+  attribut_2.offset = offsetof(Vertex, color);
+  attributeDescriptions.push_back(attribut_2);
+
+  VkVertexInputAttributeDescription attribut_3;
+  attribut_3.binding = 0;
+  attribut_3.location = 2;
+  attribut_3.format = VK_FORMAT_R32G32_SFLOAT;
+  attribut_3.offset = offsetof(Vertex, texCoord);
+  attributeDescriptions.push_back(attribut_3);
+
+  //---------------------------
+  return attributeDescriptions;
+}
 VkShaderModule VK_pipeline::create_shader_module(const std::vector<char>& code){
   //Shader modules are just a thin wrapper around the shader bytecode
   //---------------------------
