@@ -1,10 +1,10 @@
 
 #include "GUI.h"
 
-#include "../Vulkan/VK_window.h"
-#include "../Vulkan/VK_instance.h"
-#include "../Vulkan/VK_device.h"
-#include "../Vulkan/VK_renderpass.h"
+#include "../Vulkan/Element/VK_window.h"
+#include "../Vulkan/Core/VK_instance.h"
+#include "../Vulkan/Element/VK_device.h"
+#include "../Vulkan/Rendering/VK_renderpass.h"
 #include "../Vulkan/Engine_vulkan.h"
 
 #include "../Node_engine.h"

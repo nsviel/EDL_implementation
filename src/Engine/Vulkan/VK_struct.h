@@ -15,24 +15,7 @@ struct UniformBufferObject {
     glm::mat4 proj;
 };
 
-const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";
-const std::string TEXTURE_PATH = "../src/Engine/Texture/viking_room.png";
 
-
-//List of all validation layers
-const std::vector<const char*> validationLayers = {
-    "VK_LAYER_KHRONOS_validation"
-};
-
-static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,VkDebugUtilsMessageTypeFlagsEXT messageType,const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,void* pUserData){
-  //---------------------------
-
-  std::cerr << "--------------------------" << std::endl;
-  std::cerr << "[\033[1;32mVL\033[0m] " << pCallbackData->pMessage << std::endl;
-
-  //---------------------------
-  return VK_FALSE;
-}
 
 struct struct_queueFamily_indices {
   std::optional<uint32_t> family_graphics;
@@ -48,11 +31,6 @@ struct struct_swapChain_details {
     std::vector<VkPresentModeKHR> mode_presentation;
 };
 
-
-//List of required device extensions
-const std::vector<const char*> required_extensions = {
-  VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
 
 struct Vertex {
   glm::vec3 pos;

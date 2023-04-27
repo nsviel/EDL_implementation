@@ -1,19 +1,20 @@
 #include "Engine_vulkan.h"
-#include "VK_instance.h"
-#include "VK_device.h"
-#include "VK_swapchain.h"
-#include "VK_renderpass.h"
-#include "VK_pipeline.h"
-#include "VK_framebuffer.h"
-#include "VK_command.h"
-#include "VK_synchronization.h"
-#include "VK_window.h"
-#include "VK_drawing.h"
-#include "VK_buffer.h"
-#include "VK_descriptor.h"
-#include "VK_uniform.h"
-#include "VK_texture.h"
-#include "VK_depth.h"
+
+#include "Rendering/VK_renderpass.h"
+#include "Rendering/VK_pipeline.h"
+#include "Rendering/VK_command.h"
+#include "Rendering/VK_synchronization.h"
+#include "Shader/VK_descriptor.h"
+#include "Shader/VK_uniform.h"
+#include "Model/VK_buffer.h"
+#include "Model/VK_texture.h"
+#include "Core/VK_instance.h"
+#include "Core/VK_drawing.h"
+#include "Element/VK_device.h"
+#include "Element/VK_window.h"
+#include "Swapchain/VK_framebuffer.h"
+#include "Swapchain/VK_depth.h"
+#include "Swapchain/VK_swapchain.h"
 
 #include "../../Load/Loader.h"
 
@@ -74,12 +75,14 @@ void Engine_vulkan::init_vulkan(){
   vk_window->create_window_surface();
   vk_device->select_physical_device();
   vk_device->create_logical_device();
+
   vk_swapchain->create_swapChain();
   vk_swapchain->create_image_views();
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptorSet_layout();
   vk_pipeline->create_graphics_pipeline();
   vk_command->create_command_pool();
+
   vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();
   vk_texture->create_texture_image();
@@ -88,6 +91,7 @@ void Engine_vulkan::init_vulkan(){
   vk_buffer->load_model();
   vk_buffer->create_vertex_buffer();
   vk_buffer->create_index_buffer();
+
   vk_uniform->create_uniform_buffers();
   vk_descriptor->create_descriptor_pool();
   vk_descriptor->create_descriptor_sets();
@@ -118,17 +122,16 @@ void Engine_vulkan::clean_vulkan(){
 
   vk_depth->cleanup();
   vk_framebuffer->cleanup();
-  vk_swapchain->cleanup_swapChain();
+  vk_swapchain->cleanup();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();
+
   vk_uniform->cleanup();
-
-  vk_descriptor->cleanup_pool();
   vk_texture->cleanup();
-  vk_descriptor->cleanup_layout();
+  vk_descriptor->cleanup();
   vk_buffer->cleanup();
-
   vk_synchronization->cleanup();
+
   vk_command->cleanup();
   vk_device->cleanup();
   vk_window->clean_surface();
