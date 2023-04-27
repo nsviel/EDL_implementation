@@ -78,8 +78,7 @@ void VK_descriptor::create_descriptor_sets(){
   VK_uniform* vk_uniform = engine_vulkan->get_vk_uniform();
   VkDevice device = vk_device->get_device();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
-  VkImageView textureImageView = vk_texture->get_textureImageView();
-  VkSampler textureSampler = vk_texture->get_textureSampler();
+  VkDescriptorImageInfo imageInfo = vk_texture->get_image_info();
   //---------------------------
 
   std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptorSetLayout);
@@ -101,10 +100,10 @@ void VK_descriptor::create_descriptor_sets(){
     bufferInfo.offset = 0;
     bufferInfo.range = sizeof(UniformBufferObject);
 
-    VkDescriptorImageInfo imageInfo{};
+    /*VkDescriptorImageInfo imageInfo{};
     imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
     imageInfo.imageView = textureImageView;
-    imageInfo.sampler = textureSampler;
+    imageInfo.sampler = textureSampler;*/
 
     std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
     descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;

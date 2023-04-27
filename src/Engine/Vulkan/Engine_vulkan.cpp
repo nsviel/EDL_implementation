@@ -51,47 +51,32 @@ Engine_vulkan::~Engine_vulkan(){}
 //Main function
 void Engine_vulkan::init_vulkan(){
   //---------------------------
-/*
-  Loader loaderManager;
-  Cloud* cloud = loaderManager.load_cloud("/home/aeter/Desktop/Point_cloud/ply/bun_zipper.ply");
-  say("Bunny loaded !");
-
-  const std::vector<Vertex> vertices = {
-      {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-      {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-      {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-      {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
-  };
-
-  for(int i=0; i<cloud->xyz.size(); i++){
-    Vertex vertex;
-    vertex.pos =
-  }*/
-
 
   vk_window->init_window();
   vk_instance->create_instance();
   vk_instance->create_validationLayer();
+
+  //Element centered
   vk_window->create_window_surface();
   vk_device->select_physical_device();
   vk_device->create_logical_device();
 
+  //Swap chain centered
   vk_swapchain->create_swapChain();
   vk_swapchain->create_image_views();
+
+  //Rendering centered
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptorSet_layout();
   vk_pipeline->create_graphics_pipeline();
   vk_command->create_command_pool();
-
   vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();
-  vk_texture->create_texture_image();
-  vk_texture->create_texture_image_view();
-  vk_texture->create_texture_sampler();
-  vk_buffer->load_model();
-  vk_buffer->create_vertex_buffer();
-  vk_buffer->create_index_buffer();
 
+  //Model centered
+  vk_buffer->load_model();
+
+  //Shader centered
   vk_uniform->create_uniform_buffers();
   vk_descriptor->create_descriptor_pool();
   vk_descriptor->create_descriptor_sets();

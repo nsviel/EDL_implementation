@@ -50,7 +50,9 @@ void Engine::loop(){
 void Engine::cleanup(){
   //---------------------------
 
+  guiManager->cleanup();
   engine_vulkan->clean_vulkan();
+
 
 
   //---------------------------

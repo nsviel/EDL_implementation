@@ -19,7 +19,6 @@ public:
 
 public:
   //Main functions
-  void create_vertex_buffer();
   void create_vertex_buffer(std::vector<Vertex> vertices);
   void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
   void create_index_buffer();
@@ -48,7 +47,7 @@ private:
   VkBuffer indexBuffer;
   VkDeviceMemory indexBufferMemory;
 
-  std::vector<Vertex> vertices;
+
   std::vector<uint32_t> indices;
 };
 

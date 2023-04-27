@@ -23,6 +23,7 @@
 #include <sys/file.h>
 #include <chrono>
 #include <array>
+#include <vulkan/vulkan.h>
 
 //Namespaces
 using namespace std;

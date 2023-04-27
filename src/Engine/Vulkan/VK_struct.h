@@ -31,6 +31,13 @@ struct struct_swapChain_details {
     std::vector<VkPresentModeKHR> mode_presentation;
 };
 
+struct Struct_texture{
+  VkImage textureImage;
+  VkDeviceMemory textureImageMemory;
+  VkImageView textureImageView;
+  VkSampler textureSampler;
+  VkDescriptorImageInfo imageInfo;
+};
 
 struct Vertex {
   glm::vec3 pos;

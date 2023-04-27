@@ -1,4 +1,5 @@
 #include "VK_buffer.h"
+#include "VK_texture.h"
 
 #include "../Rendering/VK_command.h"
 #include "../Engine_vulkan.h"
@@ -23,29 +24,6 @@ VK_buffer::VK_buffer(Engine_vulkan* engine_vulkan){
 VK_buffer::~VK_buffer(){}
 
 //Main function
-void VK_buffer::create_vertex_buffer(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
-  VkBuffer stagingBuffer;
-  VkDeviceMemory stagingBufferMemory;
-  this->create_buffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
-
-  //Filling the vertex buffer
-  void* data;
-  vkMapMemory(device, stagingBufferMemory, 0, size, 0, &data);
-  memcpy(data, vertices.data(), (size_t) size);
-  vkUnmapMemory(device, stagingBufferMemory);
-
-  this->create_buffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
-  this->copy_buffer(stagingBuffer, vertexBuffer, size);
-
-  vkDestroyBuffer(device, stagingBuffer, nullptr);
-  vkFreeMemory(device, stagingBufferMemory, nullptr);
-
-  //---------------------------
-}
 void VK_buffer::create_vertex_buffer(std::vector<Vertex> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
@@ -154,6 +132,7 @@ void VK_buffer::load_model(){
     throw std::runtime_error(warn + err);
   }
 
+  std::vector<Vertex> vertices;
   for (const auto& shape : shapes) {
     for (const auto& index : shape.mesh.indices) {
       Vertex vertex{};
@@ -176,6 +155,13 @@ void VK_buffer::load_model(){
     }
   }
 
+  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
+  vk_texture->load_texture(TEXTURE_PATH);
+
+
+
+  this->create_vertex_buffer(vertices);
+  this->create_index_buffer();
 
 
   //---------------------------

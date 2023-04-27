@@ -45,6 +45,11 @@ void GUI::init(){
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
+  // Setup Dear ImGui context
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGui::StyleColorsDark();
+
   // Create Descriptor Pool
   VkDescriptorPoolSize pool_sizes[] =
   {
@@ -67,12 +72,11 @@ void GUI::init(){
   pool_info.poolSizeCount = std::size(pool_sizes);
   pool_info.pPoolSizes = pool_sizes;
 
-  VkDescriptorPool imguiPool;
+
   VkResult result = vkCreateDescriptorPool(device, &pool_info, nullptr, &imguiPool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create gui");
   }
-
 
   // Setup Platform/Renderer bindings
   ImGui_ImplGlfw_InitForVulkan(window, true);
@@ -81,20 +85,25 @@ void GUI::init(){
   init_info.PhysicalDevice = physical_device;
   init_info.Device = device;
   init_info.Queue = queue_graphics;
+  init_info.DescriptorPool = imguiPool;
   init_info.PipelineCache = VK_NULL_HANDLE;
-  init_info.MinImageCount = 3;
-  init_info.ImageCount = 3;
+  init_info.Allocator = nullptr;
+  init_info.MinImageCount = 1;
+  init_info.ImageCount = 2;
+  init_info.Subpass = 0;
   init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 
   ImGui_ImplVulkan_Init(&init_info, renderPass);
 
 
 
-
   //---------------------------
 }
 void GUI::cleanup(){
+  VkDevice device = vk_device->get_device();
   //---------------------------
+
+  vkDestroyDescriptorPool(device, imguiPool, nullptr);
 
   ImGui_ImplVulkan_Shutdown();
   ImGui_ImplGlfw_Shutdown();
@@ -105,10 +114,19 @@ void GUI::cleanup(){
 
 void GUI::loop(){
   //---------------------------
+/*sayHello();
 
-  this->loop_start();
-  //this->show_basic_stuff();
-  //this->loop_end();
+
+
+  // Start the Dear ImGui frame
+  ImGui_ImplVulkan_NewFrame();
+  ImGui_ImplGlfw_NewFrame();sayHello();
+  ImGui::NewFrame();sayHello();
+  ImGui::ShowDemoWindow();
+  ImGui::Render();
+
+sayHello();*/
+
 
   //---------------------------
 }
@@ -117,9 +135,19 @@ void GUI::loop_start(){
   //---------------------------
 
   // Start the Dear ImGui frame
-  //ImGui_ImplVulkan_NewFrame();
-  //ImGui_ImplGlfw_NewFrame();
-  //ImGui::NewFrame();
+  ImGui_ImplVulkan_NewFrame();
+  ImGui_ImplGlfw_NewFrame();
+  ImGui::NewFrame();
+
+  ImGui::Text("Hello, world %d", 123);
+if (ImGui::Button("Save"))
+{
+    // do stuff
+}
+
+
+  ImGui::Render();
+  //ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), cmd);
 
   //imgui commands
   //ImGui::ShowDemoWindow();

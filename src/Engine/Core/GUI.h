@@ -1,6 +1,8 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include "../../common.h"
+
 class Node_engine;
 class VK_window;
 class VK_instance;
@@ -33,6 +35,8 @@ private:
   VK_device* vk_device;
   VK_renderpass* vk_renderpass;
   Engine_vulkan* engine_vulkan;
+
+  VkDescriptorPool imguiPool;
 };
 
 #endif

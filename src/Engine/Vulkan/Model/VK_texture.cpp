@@ -20,12 +20,46 @@ VK_texture::VK_texture(Engine_vulkan* engine_vulkan){
 VK_texture::~VK_texture(){}
 
 //Main function
-void VK_texture::create_texture_image(){
+void VK_texture::load_texture(string path){
+  //---------------------------
+
+  Struct_texture texture;
+
+  this->create_texture_image(path, texture.textureImage, texture.textureImageMemory);
+  this->create_texture_image_view(texture.textureImage, texture.textureImageView);
+  this->create_texture_sampler(texture.textureSampler);
+
+  texture.imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+  texture.imageInfo.imageView = texture.textureImageView;
+  texture.imageInfo.sampler = texture.textureSampler;
+
+  this->list_texture.push_back(texture);
+
+  //---------------------------
+}
+void VK_texture::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(int i=0; i< list_texture.size(); i++){
+    Struct_texture texture = *next(list_texture.begin(), i);
+
+    vkDestroySampler(device, texture.textureSampler, nullptr);
+    vkDestroyImageView(device, texture.textureImageView, nullptr);
+    vkDestroyImage(device, texture.textureImage, nullptr);
+    vkFreeMemory(device, texture.textureImageMemory, nullptr);
+  }
+
+  //---------------------------
+}
+
+//Texture creation
+void VK_texture::create_texture_image(string path, VkImage& textureImage, VkDeviceMemory& textureImageMemory){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
   int texWidth, texHeight, texChannels;
-  stbi_uc* pixels = stbi_load("../src/Engine/Texture/viking_room.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+  stbi_uc* pixels = stbi_load(path.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
   VkDeviceSize imageSize = texWidth * texHeight * 4;
   if(!pixels){
     throw std::runtime_error("failed to load texture image!");
@@ -45,7 +79,7 @@ void VK_texture::create_texture_image(){
   this->create_image(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
 
   vk_buffer->transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-  this->copyBufferToImage(stagingBuffer, textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
+  this->copy_buffer_to_image(stagingBuffer, textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
   vk_buffer->transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
   vkDestroyBuffer(device, stagingBuffer, nullptr);
@@ -53,38 +87,14 @@ void VK_texture::create_texture_image(){
 
   //---------------------------
 }
-void VK_texture::create_texture_image_view(){
+void VK_texture::create_texture_image_view(VkImage& textureImage, VkImageView& textureImageView){
   //---------------------------
 
   textureImageView = create_image_view(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
 }
-VkImageView VK_texture::create_image_view(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  VkImageViewCreateInfo viewInfo{};
-  viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-  viewInfo.image = image;
-  viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-  viewInfo.format = format;
-  viewInfo.subresourceRange.aspectMask = aspectFlags;
-  viewInfo.subresourceRange.baseMipLevel = 0;
-  viewInfo.subresourceRange.levelCount = 1;
-  viewInfo.subresourceRange.baseArrayLayer = 0;
-  viewInfo.subresourceRange.layerCount = 1;
-
-  VkImageView imageView;
-  VkResult result = vkCreateImageView(device, &viewInfo, nullptr, &imageView);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create texture image view!");
-  }
-
-  //---------------------------
-  return imageView;
-}
-void VK_texture::create_texture_sampler(){
+void VK_texture::create_texture_sampler(VkSampler& textureSampler){
   VkDevice device = vk_device->get_device();
   VkPhysicalDevice physical_device = vk_device->get_physical_device();
   //---------------------------
@@ -113,6 +123,32 @@ void VK_texture::create_texture_sampler(){
   }
 
   //---------------------------
+}
+
+//Generic image creation
+VkImageView VK_texture::create_image_view(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  VkImageViewCreateInfo viewInfo{};
+  viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+  viewInfo.image = image;
+  viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+  viewInfo.format = format;
+  viewInfo.subresourceRange.aspectMask = aspectFlags;
+  viewInfo.subresourceRange.baseMipLevel = 0;
+  viewInfo.subresourceRange.levelCount = 1;
+  viewInfo.subresourceRange.baseArrayLayer = 0;
+  viewInfo.subresourceRange.layerCount = 1;
+
+  VkImageView imageView;
+  VkResult result = vkCreateImageView(device, &viewInfo, nullptr, &imageView);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to create texture image view!");
+  }
+
+  //---------------------------
+  return imageView;
 }
 void VK_texture::create_image(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory){
   VkDevice device = vk_device->get_device();
@@ -155,7 +191,7 @@ void VK_texture::create_image(uint32_t width, uint32_t height, VkFormat format, 
 
   //---------------------------
 }
-void VK_texture::copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height){
+void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height){
   //---------------------------
 
   VkCommandBuffer commandBuffer = vk_buffer->beginSingleTimeCommands();
@@ -187,17 +223,6 @@ void VK_texture::copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t widt
   );
 
   vk_buffer->endSingleTimeCommands(commandBuffer);
-
-  //---------------------------
-}
-void VK_texture::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  vkDestroySampler(device, textureSampler, nullptr);
-  vkDestroyImageView(device, textureImageView, nullptr);
-  vkDestroyImage(device, textureImage, nullptr);
-  vkFreeMemory(device, textureImageMemory, nullptr);
 
   //---------------------------
 }
