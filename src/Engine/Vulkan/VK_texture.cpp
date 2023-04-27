@@ -55,11 +55,11 @@ void VK_texture::create_texture_image(){
 void VK_texture::create_texture_image_view(){
   //---------------------------
 
-  textureImageView = create_image_view(textureImage, VK_FORMAT_R8G8B8A8_SRGB);
+  textureImageView = create_image_view(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
 }
-VkImageView VK_texture::create_image_view(VkImage image, VkFormat format){
+VkImageView VK_texture::create_image_view(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -68,7 +68,7 @@ VkImageView VK_texture::create_image_view(VkImage image, VkFormat format){
   viewInfo.image = image;
   viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
   viewInfo.format = format;
-  viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+  viewInfo.subresourceRange.aspectMask = aspectFlags;
   viewInfo.subresourceRange.baseMipLevel = 0;
   viewInfo.subresourceRange.levelCount = 1;
   viewInfo.subresourceRange.baseArrayLayer = 0;

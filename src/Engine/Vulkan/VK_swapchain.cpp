@@ -3,6 +3,7 @@
 #include "VK_swapchain.h"
 #include "VK_framebuffer.h"
 #include "VK_texture.h"
+#include "VK_depth.h"
 #include "Engine_vulkan.h"
 
 #include "VK_window.h"
@@ -103,7 +104,7 @@ void VK_swapchain::create_image_views(){
 
   //Image view settings & creation
   for(size_t i=0; i<swapChain_images.size(); i++){
-    swapChain_image_views[i] = vk_texture->create_image_view(swapChain_images[i], swapChain_image_format);
+    swapChain_image_views[i] = vk_texture->create_image_view(swapChain_images[i], swapChain_image_format, VK_IMAGE_ASPECT_COLOR_BIT);
   }
 
   //---------------------------
@@ -195,16 +196,29 @@ VkExtent2D VK_swapchain::swapChain_extent_setting(const VkSurfaceCapabilitiesKHR
   return extent;
 }
 void VK_swapchain::recreate_swapChain(){
+  VK_depth* vk_depth = engine_vulkan->get_vk_depth();
   VkDevice device = vk_device->get_device();
   VK_framebuffer* vk_framebuffer = engine_vulkan->get_vk_framebuffer();
   //---------------------------
 
+  //Minimization managment
+  /*int width = 0, height = 0;
+  while(width == 0 || height == 0){
+    //glfwGetFramebufferSize(window, &width, &height);
+    //glfwWaitEvents();
+  }*/
+
   vkDeviceWaitIdle(device);
 
+  //Clean old values
+  vk_depth->cleanup();
+  vk_framebuffer->cleanup();
   this->cleanup_swapChain();
 
+  //Recreate values
   create_swapChain();
   create_image_views();
+  vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();
 
   //---------------------------

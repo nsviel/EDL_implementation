@@ -13,6 +13,7 @@
 #include "VK_descriptor.h"
 #include "VK_uniform.h"
 #include "VK_texture.h"
+#include "VK_depth.h"
 
 #include "../../Load/Loader.h"
 
@@ -40,6 +41,7 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
   this->vk_texture = new VK_texture(this);
+  this->vk_depth = new VK_depth(this);
 
   //---------------------------
 }
@@ -77,8 +79,9 @@ void Engine_vulkan::init_vulkan(){
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptorSet_layout();
   vk_pipeline->create_graphics_pipeline();
-  vk_framebuffer->create_framebuffers();
   vk_command->create_command_pool();
+  vk_depth->create_depth_resources();
+  vk_framebuffer->create_framebuffers();
   vk_texture->create_texture_image();
   vk_texture->create_texture_image_view();
   vk_texture->create_texture_sampler();
@@ -113,6 +116,7 @@ void Engine_vulkan::main_loop() {
 void Engine_vulkan::clean_vulkan(){
   //---------------------------
 
+  vk_depth->cleanup();
   vk_framebuffer->cleanup();
   vk_swapchain->cleanup_swapChain();
   vk_pipeline->cleanup();

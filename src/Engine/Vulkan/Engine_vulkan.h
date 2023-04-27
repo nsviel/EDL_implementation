@@ -20,6 +20,7 @@ class VK_buffer;
 class VK_descriptor;
 class VK_uniform;
 class VK_texture;
+class VK_depth;
 
 
 class Engine_vulkan
@@ -48,6 +49,7 @@ public:
   inline VK_descriptor* get_vk_descriptor(){return vk_descriptor;}
   inline VK_uniform* get_vk_uniform(){return vk_uniform;}
   inline VK_texture* get_vk_texture(){return vk_texture;}
+  inline VK_depth* get_vk_depth(){return vk_depth;}
 
 private:
   Node_engine* node_engine;
@@ -64,6 +66,7 @@ private:
   VK_buffer* vk_buffer;
   VK_descriptor* vk_descriptor;
   VK_uniform* vk_uniform;
+  VK_depth* vk_depth;
   VK_texture* vk_texture;
 };
 

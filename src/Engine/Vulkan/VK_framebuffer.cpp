@@ -2,6 +2,7 @@
 #include "VK_device.h"
 #include "VK_swapchain.h"
 #include "VK_renderpass.h"
+#include "VK_depth.h"
 #include "Engine_vulkan.h"
 
 #include "../Node_engine.h"
@@ -27,24 +28,27 @@ void VK_framebuffer::create_framebuffers(){
   VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
+  VK_depth* vk_depth = engine_vulkan->get_vk_depth();
   //---------------------------
 
-  this->cleanup();
+  VkImageView depthImageView = vk_depth->get_depthImageView();
+
 
   //Resize to hold all fbos
   swapChain_fbo.resize(swapChain_image_views.size());
 
   //Create frambuffer
   for(size_t i=0; i<swapChain_image_views.size(); i++){
-    VkImageView attachments[] = {
-      swapChain_image_views[i]
+    std::array<VkImageView, 2> attachments = {
+      swapChain_image_views[i],
+      depthImageView
     };
 
     VkFramebufferCreateInfo framebufferInfo{};
     framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
     framebufferInfo.renderPass = renderPass;
-    framebufferInfo.attachmentCount = 1;
-    framebufferInfo.pAttachments = attachments;
+    framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+    framebufferInfo.pAttachments = attachments.data();
     framebufferInfo.width = swapChain_extent.width;
     framebufferInfo.height = swapChain_extent.height;
     framebufferInfo.layers = 1;
@@ -56,7 +60,6 @@ void VK_framebuffer::create_framebuffers(){
   }
 
   //---------------------------
-  //vk_swapchain->set_swapChain_fbo(swapChain_fbo);
 }
 void VK_framebuffer::cleanup(){
   VkDevice device = vk_device->get_device();

@@ -55,7 +55,6 @@ void VK_drawing::draw_frame(){
 
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
-    vk_framebuffer->create_framebuffers();
     return;
   } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
@@ -66,7 +65,6 @@ void VK_drawing::draw_frame(){
   //If window resized
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
-    vk_framebuffer->create_framebuffers();
     return;
   }else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
@@ -113,7 +111,6 @@ void VK_drawing::draw_frame(){
   result = vkQueuePresentKHR(queue_presentation, &presentInfo);
   if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized){
     vk_swapchain->recreate_swapChain();
-    vk_framebuffer->create_framebuffers();
   }else if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
