@@ -36,7 +36,7 @@ VK_drawing::VK_drawing(Engine_vulkan* engine_vulkan){
 VK_drawing::~VK_drawing(){}
 
 //Main function
-void VK_drawing::draw_frame(){
+void VK_drawing::draw_frame(Cloud* cloud){
   VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
   VkDevice device = vk_device->get_device();
   std::vector<VkFence> inFlightFences = vk_synchronization->get_fenvec_inFlight();
@@ -74,7 +74,7 @@ void VK_drawing::draw_frame(){
   }
 
   vkResetCommandBuffer(command_buffer_vec[currentFrame], 0);
-  vk_command->record_command_buffer(command_buffer_vec[currentFrame], imageIndex);
+  vk_command->record_command_buffer(cloud, command_buffer_vec[currentFrame], imageIndex);
 
 
 

@@ -8,10 +8,6 @@
 
 #include "../../Node_engine.h"
 
-#define TINYOBJLOADER_IMPLEMENTATION
-#include "../../../../extern/tiny_obj_loader.h"
-
-
 
 //Constructor / Destructor
 VK_buffer::VK_buffer(Engine_vulkan* engine_vulkan){
@@ -26,106 +22,167 @@ VK_buffer::VK_buffer(Engine_vulkan* engine_vulkan){
 VK_buffer::~VK_buffer(){}
 
 //Main function
-void VK_buffer::load_model(){
-  //---------------------------
-  const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";
-  const std::string TEXTURE_PATH = "../src/Engine/Texture/viking_room.png";
-
-  Cloud* cloud = new Cloud();
-
-  tinyobj::attrib_t attrib;
-  std::vector<tinyobj::shape_t> shapes;
-  std::vector<tinyobj::material_t> materials;
-  std::string warn, err;
-
-  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str());
-  if(!load_ok){
-    throw std::runtime_error(warn + err);
-  }
-
-  std::vector<Vertex> vertices;
-  for(const auto& shape : shapes){
-    for(const auto& index : shape.mesh.indices){
-      Vertex vertex;
-      vertex.pos = {
-        attrib.vertices[3 * index.vertex_index + 0],
-        attrib.vertices[3 * index.vertex_index + 1],
-        attrib.vertices[3 * index.vertex_index + 2]
-      };
-      vertex.texCoord = {
-        attrib.texcoords[2 * index.texcoord_index + 0],
-        1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
-      };
-      vertex.color = {1.0f, 1.0f, 1.0f};
-      vertices.push_back(vertex);
-
-      cloud->xyz.push_back(vertex.pos);
-      cloud->rgb.push_back(vec4(1, 1, 1, 1));
-      cloud->uv.push_back(vertex.texCoord);
-    }
-  }
-
-  cloud->path_file = MODEL_PATH;
-  cloud->path_texture = TEXTURE_PATH;
-
-
-  this->insert_model_in_engine(vertices, cloud->path_texture);
-
-  //---------------------------
-}
 void VK_buffer::insert_model_in_engine(std::vector<Vertex> vertices, std::string tex_path){
   VK_texture* vk_texture = engine_vulkan->get_vk_texture();
   //---------------------------
 
   vk_texture->load_texture(tex_path);
-  this->create_vertex_buffer(vertices);
+  this->create_buffer_data(vertices);
   vk_descriptor->create_descriptor_set();
 
   //---------------------------
 }
-void VK_buffer::cleanup(){
+void VK_buffer::insert_cloud_in_engine(Cloud* cloud){
+  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
+  //---------------------------
+
+  vk_texture->load_texture(cloud->path_texture);
+  this->create_buffer_xyz(cloud, cloud->xyz);
+  this->create_buffer_rgb(cloud, cloud->rgb);
+  this->create_buffer_uv(cloud, cloud->uv);
+  vk_descriptor->create_descriptor_set();
+
+  //---------------------------
+}
+void VK_buffer::cleanup(Cloud* cloud){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyBuffer(device, buffer_vertex, nullptr);
-  vkFreeMemory(device, buffer_vertex_memory, nullptr);
+  vkDestroyBuffer(device, cloud->vbo_xyz, nullptr);
+  vkDestroyBuffer(device, cloud->vbo_rgb, nullptr);
+  vkDestroyBuffer(device, cloud->vbo_uv, nullptr);
+  vkFreeMemory(device, dev_memory, nullptr);
 
   //---------------------------
 }
 
 //Buffer functions
-void VK_buffer::create_vertex_buffer(std::vector<Vertex> vertices){
+void VK_buffer::create_buffer_data(std::vector<Vertex> vertices){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+/*
+  VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
+
+  VkBuffer staging_buffer;
+  VkDeviceMemory staging_buffer_memory;
+  VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+  VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+  this->create_buffer(size, usage, staging_buffer);
+  this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
+
+  //Filling the vertex buffer
+  void* data;
+  vkMapMemory(device, staging_buffer_memory, 0, size, 0, &data);
+  memcpy(data, vertices.data(), (size_t)size);
+  vkUnmapMemory(device, staging_buffer_memory);
+
+  usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+  properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+  this->create_buffer(size, usage, buffer_vertex);
+  this->bind_buffer_memory(properties, buffer_vertex, dev_memory);
+  this->copy_buffer_to_gpu(staging_buffer, buffer_vertex, size);
+
+  vkDestroyBuffer(device, staging_buffer, nullptr);
+  vkFreeMemory(device, staging_buffer_memory, nullptr);*/
+
+  //---------------------------
+}
+void VK_buffer::create_buffer_uv(Cloud* cloud, std::vector<vec2> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
   VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
-  VkBuffer stagingBuffer;
-  VkDeviceMemory stagingBufferMemory;
 
+  VkBuffer staging_buffer;
+  VkDeviceMemory staging_buffer_memory;
   VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
   VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-  this->create_buffer(size, usage, properties, stagingBuffer, stagingBufferMemory);
+  this->create_buffer(size, usage, staging_buffer);
+  this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
 
   //Filling the vertex buffer
   void* data;
-  vkMapMemory(device, stagingBufferMemory, 0, size, 0, &data);
+  vkMapMemory(device, staging_buffer_memory, 0, size, 0, &data);
   memcpy(data, vertices.data(), (size_t)size);
-  vkUnmapMemory(device, stagingBufferMemory);
+  vkUnmapMemory(device, staging_buffer_memory);
 
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-  this->create_buffer(size, usage, properties, buffer_vertex, buffer_vertex_memory);
-  this->copy_buffer(stagingBuffer, buffer_vertex, size);
+  this->create_buffer(size, usage, cloud->vbo_uv);
+  this->bind_buffer_memory(properties, cloud->vbo_uv, dev_memory);
+  this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_uv, size);
 
-  vkDestroyBuffer(device, stagingBuffer, nullptr);
-  vkFreeMemory(device, stagingBufferMemory, nullptr);
+  vkDestroyBuffer(device, staging_buffer, nullptr);
+  vkFreeMemory(device, staging_buffer_memory, nullptr);
 
   //---------------------------
 }
-void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory){
+void VK_buffer::create_buffer_xyz(Cloud* cloud, std::vector<vec3> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
+  VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
+
+  VkBuffer staging_buffer;
+  VkDeviceMemory staging_buffer_memory;
+  VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+  VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+  this->create_buffer(size, usage, staging_buffer);
+  this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
+
+  //Copy the vertex data from the CPU to the GPU
+  void* data;
+  vkMapMemory(device, staging_buffer_memory, 0, size, 0, &data);
+  memcpy(data, vertices.data(), (size_t)size);
+  vkUnmapMemory(device, staging_buffer_memory);
+
+  usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+  properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+  this->create_buffer(size, usage, cloud->vbo_xyz);
+  this->bind_buffer_memory(properties, cloud->vbo_xyz, dev_memory);
+  this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_xyz, size);
+
+  vkDestroyBuffer(device, staging_buffer, nullptr);
+  vkFreeMemory(device, staging_buffer_memory, nullptr);
+
+  //---------------------------
+}
+void VK_buffer::create_buffer_rgb(Cloud* cloud, std::vector<vec4> vertices){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
+
+  VkBuffer staging_buffer;
+  VkDeviceMemory staging_buffer_memory;
+  VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+  VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+  this->create_buffer(size, usage, staging_buffer);
+  this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
+
+  //Filling the vertex buffer
+  void* data;
+  vkMapMemory(device, staging_buffer_memory, 0, size, 0, &data);
+  memcpy(data, vertices.data(), (size_t)size);
+  vkUnmapMemory(device, staging_buffer_memory);
+
+  usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+  properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+  this->create_buffer(size, usage, cloud->vbo_rgb);
+  this->bind_buffer_memory(properties, cloud->vbo_rgb, dev_memory);
+  this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_rgb, size);
+
+  vkDestroyBuffer(device, staging_buffer, nullptr);
+  vkFreeMemory(device, staging_buffer_memory, nullptr);
+
+  //---------------------------
+}
+
+void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuffer& buffer){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  //Buffer creation
   VkBufferCreateInfo bufferInfo{};
   bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
   bufferInfo.size = size;
@@ -137,6 +194,13 @@ void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMem
     throw std::runtime_error("failed to create buffer!");
   }
 
+  //---------------------------
+}
+void VK_buffer::bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  //Buffer memory attribution
   VkMemoryRequirements memRequirements;
   vkGetBufferMemoryRequirements(device, buffer, &memRequirements);
 
@@ -145,7 +209,8 @@ void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMem
   allocInfo.allocationSize = memRequirements.size;
   allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
 
-  result = vkAllocateMemory(device, &allocInfo, nullptr, &bufferMemory);
+  //1llocate memory on the GPU
+  VkResult result = vkAllocateMemory(device, &allocInfo, nullptr, &bufferMemory);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate buffer memory!");
   }
@@ -154,45 +219,22 @@ void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMem
 
   //---------------------------
 }
-void VK_buffer::copy_buffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size){
+void VK_buffer::copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size){
+  VK_command* vk_command = engine_vulkan->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer commandBuffer = beginSingleTimeCommands();
+  VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();
 
   VkBufferCopy copyRegion{};
   copyRegion.size = size;
   vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
 
-  this->endSingleTimeCommands(commandBuffer);
+  vk_command->command_buffer_end(commandBuffer);
 
   //---------------------------
 }
 
 //Specific function
-VkCommandBuffer VK_buffer::beginSingleTimeCommands(){
-  VK_command* vk_command = engine_vulkan->get_vk_command();
-  VkCommandPool commandPool = vk_command->get_command_pool();
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  VkCommandBufferAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-  allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-  allocInfo.commandPool = commandPool;
-  allocInfo.commandBufferCount = 1;
-
-  VkCommandBuffer commandBuffer;
-  vkAllocateCommandBuffers(device, &allocInfo, &commandBuffer);
-
-  VkCommandBufferBeginInfo beginInfo{};
-  beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-  beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-
-  vkBeginCommandBuffer(commandBuffer, &beginInfo);
-
-  //---------------------------
-  return commandBuffer;
-}
 uint32_t VK_buffer::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties){
   VkPhysicalDevice physical_device = vk_device->get_physical_device();
   //---------------------------
@@ -210,31 +252,11 @@ uint32_t VK_buffer::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags pr
 
   //---------------------------
 }
-void VK_buffer::endSingleTimeCommands(VkCommandBuffer commandBuffer){
-  VK_command* vk_command = engine_vulkan->get_vk_command();
-  VkCommandPool commandPool = vk_command->get_command_pool();
-  VkDevice device = vk_device->get_device();
-  VkQueue queue_graphics = vk_device->get_queue_graphics();
-  //---------------------------
-
-  vkEndCommandBuffer(commandBuffer);
-
-  VkSubmitInfo submitInfo{};
-  submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-  submitInfo.commandBufferCount = 1;
-  submitInfo.pCommandBuffers = &commandBuffer;
-
-  vkQueueSubmit(queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
-  vkQueueWaitIdle(queue_graphics);
-
-  vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
-
-  //---------------------------
-}
 void VK_buffer::transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout){
+  VK_command* vk_command = engine_vulkan->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer commandBuffer = beginSingleTimeCommands();
+  VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();
 
   VkImageMemoryBarrier barrier{};
   barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -277,7 +299,7 @@ void VK_buffer::transitionImageLayout(VkImage image, VkFormat format, VkImageLay
     1, &barrier
   );
 
-  this->endSingleTimeCommands(commandBuffer);
+  vk_command->command_buffer_end(commandBuffer);
 
   //---------------------------
 }

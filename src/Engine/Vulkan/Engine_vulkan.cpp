@@ -8,6 +8,7 @@
 #include "Shader/VK_uniform.h"
 #include "Data/VK_buffer.h"
 #include "Data/VK_texture.h"
+#include "Data/VK_data.h"
 #include "Instance/VK_instance.h"
 #include "Command/VK_drawing.h"
 #include "Device/VK_device.h"
@@ -43,6 +44,7 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_drawing = new VK_drawing(this);
   this->vk_texture = new VK_texture(this);
   this->vk_depth = new VK_depth(this);
+  this->vk_data = new VK_data(this);
 
   //---------------------------
 }
@@ -87,12 +89,12 @@ void Engine_vulkan::main_loop() {
   GUI* guiManager= node_engine->get_guiManager();
 
   //Model centered
-  vk_buffer->load_model();
+  cloud = vk_data->load_model();
 
   while(!glfwWindowShouldClose(window)) {
     glfwPollEvents();
     guiManager->loop();
-    vk_drawing->draw_frame();
+    vk_drawing->draw_frame(cloud);
   }
 
   vkDeviceWaitIdle(device);
@@ -111,7 +113,7 @@ void Engine_vulkan::clean_vulkan(){
   vk_uniform->cleanup();
   vk_texture->cleanup();
   vk_descriptor->cleanup();
-  vk_buffer->cleanup();
+  vk_buffer->cleanup(cloud);
   vk_synchronization->cleanup();
 
   vk_command->cleanup();

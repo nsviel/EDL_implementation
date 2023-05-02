@@ -11,7 +11,6 @@ class VK_swapchain;
 class VK_renderpass;
 class VK_pipeline;
 class VK_framebuffer;
-class VK_buffer;
 class VK_descriptor;
 
 
@@ -28,10 +27,14 @@ public:
   void create_command_buffers();
   void cleanup();
 
-  void record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
-  void command_drawing(VkCommandBuffer commandBuffer);
+  void record_command_buffer(Cloud* cloud, VkCommandBuffer commandBuffer, uint32_t imageIndex);
+  void command_drawing(Cloud* cloud, VkCommandBuffer commandBuffer);
   void command_pipeline(VkCommandBuffer commandBuffer);
   void command_viewport(VkCommandBuffer commandBuffer);
+
+  //One time command
+  VkCommandBuffer command_buffer_begin();
+  void command_buffer_end(VkCommandBuffer commandBuffer);
 
   inline VkCommandPool get_command_pool(){return command_pool;}
   inline std::vector<VkCommandBuffer> get_command_buffer_vec(){return command_buffer_vec;}
@@ -42,7 +45,6 @@ private:
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;
   VK_pipeline* vk_pipeline;
-  VK_buffer* vk_buffer;
   VK_framebuffer* vk_framebuffer;
   VK_descriptor* vk_descriptor;
 

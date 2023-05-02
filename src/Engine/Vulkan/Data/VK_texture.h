@@ -34,6 +34,7 @@ public:
   VkDescriptorImageInfo get_image_info();
 
 private:
+  Engine_vulkan* engine_vulkan;
   VK_device* vk_device;
   VK_buffer* vk_buffer;
 

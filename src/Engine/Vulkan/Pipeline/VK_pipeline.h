@@ -24,7 +24,6 @@ public:
   void create_graphics_pipeline();
   void cleanup();
 
-  std::vector<VkVertexInputAttributeDescription> vertex_attribute();
   VkShaderModule create_shader_module(const std::vector<char>& code);
   std::vector<char> read_file(const std::string& filename);
   vector<VkPipelineShaderStageCreateInfo> pipeline_shader_info(VkShaderModule module_vert, VkShaderModule module_frag);

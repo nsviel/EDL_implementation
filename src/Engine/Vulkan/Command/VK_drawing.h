@@ -24,7 +24,7 @@ public:
 
 public:
   //Main functions
-  void draw_frame();
+  void draw_frame(Cloud* cloud);
 
 private:
   Engine_vulkan* engine_vulkan;

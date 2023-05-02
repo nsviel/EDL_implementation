@@ -18,33 +18,30 @@ public:
 
 public:
   //Main functions
-  void load_model();
+  void insert_cloud_in_engine(Cloud* cloud);
   void insert_model_in_engine(std::vector<Vertex> vertices, std::string tex_path);
-  void cleanup();
+  void cleanup(Cloud* cloud);
 
   //Buffer functions
-  void create_vertex_buffer(std::vector<Vertex> vertices);
-  void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-  void copy_buffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+  void create_buffer_data(std::vector<Vertex> vertices);
+  void create_buffer_uv(Cloud* cloud, std::vector<vec2> vertices);
+  void create_buffer_xyz(Cloud* cloud, std::vector<vec3> vertices);
+  void create_buffer_rgb(Cloud* cloud, std::vector<vec4> vertices);
+
+  void bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+  void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuffer& buffer);
+  void copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
   //Specific functions
   uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
-  VkCommandBuffer beginSingleTimeCommands();
-  void endSingleTimeCommands(VkCommandBuffer commandBuffer);
   void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
-
-  inline VkBuffer get_buffer_vertex(){return buffer_vertex;}
-  inline VkBuffer get_buffer_color(){return rgb_buffer;}
 
 private:
   Engine_vulkan* engine_vulkan;
   VK_device* vk_device;
   VK_descriptor* vk_descriptor;
 
-  VkBuffer buffer_vertex;
-  VkDeviceMemory buffer_vertex_memory;
-  VkBuffer rgb_buffer;
-  VkDeviceMemory rgb_bufferMemory;
+  VkDeviceMemory dev_memory;
 };
 
 #endif

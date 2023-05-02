@@ -5,6 +5,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include <Eigen/Dense>
+#include <vulkan/vulkan.h>
 
 
 struct Cloud
@@ -28,6 +29,11 @@ struct Cloud
   std::vector<glm::vec2> uv;
   std::vector<float> ts;
   std::vector<float> Is;
+
+  //Vulkan stuff
+  VkBuffer vbo_xyz;
+  VkBuffer vbo_rgb;
+  VkBuffer vbo_uv;
 
   //Pose
   Eigen::Matrix3d pose_R;

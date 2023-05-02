@@ -3,6 +3,7 @@
 
 #include "../Engine_vulkan.h"
 #include "../Device/VK_device.h"
+#include "../Command/VK_command.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../../../extern/image/stb_image.h"
@@ -12,6 +13,7 @@
 VK_texture::VK_texture(Engine_vulkan* engine_vulkan){
   //---------------------------
 
+  this->engine_vulkan = engine_vulkan;
   this->vk_device = engine_vulkan->get_vk_device();
   this->vk_buffer = engine_vulkan->get_vk_buffer();
 
@@ -67,7 +69,8 @@ void VK_texture::create_texture_image(string path, VkImage& textureImage, VkDevi
 
   VkBuffer stagingBuffer;
   VkDeviceMemory stagingBufferMemory;
-  vk_buffer->create_buffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+  vk_buffer->create_buffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, stagingBuffer);
+  vk_buffer->bind_buffer_memory(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
 
   void* data;
   vkMapMemory(device, stagingBufferMemory, 0, imageSize, 0, &data);
@@ -192,9 +195,10 @@ void VK_texture::create_image(uint32_t width, uint32_t height, VkFormat format, 
   //---------------------------
 }
 void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height){
+  VK_command* vk_command = engine_vulkan->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer commandBuffer = vk_buffer->beginSingleTimeCommands();
+  VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();
 
   VkBufferImageCopy region{};
   region.bufferOffset = 0;
@@ -222,7 +226,7 @@ void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t w
     &region
   );
 
-  vk_buffer->endSingleTimeCommands(commandBuffer);
+  vk_command->command_buffer_end(commandBuffer);
 
   //---------------------------
 }

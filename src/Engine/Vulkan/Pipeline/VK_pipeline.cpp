@@ -3,6 +3,7 @@
 
 #include "../VK_struct.h"
 #include "../Data/VK_descriptor.h"
+#include "../Data/VK_data.h"
 #include "../Engine_vulkan.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
@@ -65,11 +66,12 @@ void VK_pipeline::create_graphics_pipeline(){
 
   VkVertexInputBindingDescription bindingDescription{};
   bindingDescription.binding = 0;
-  bindingDescription.stride = sizeof(Vertex);
+  bindingDescription.stride = sizeof(glm::vec3);
   bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 
   //Vertex input settings
-  std::vector<VkVertexInputAttributeDescription> attributeDescriptions = vertex_attribute();
+  VK_data* vk_data = engine_vulkan->get_vk_data();
+  std::vector<VkVertexInputAttributeDescription> attributeDescriptions = vk_data->vertex_attribute();
   VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
   vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
   vertexInputInfo.vertexBindingDescriptionCount = 1;
@@ -80,7 +82,7 @@ void VK_pipeline::create_graphics_pipeline(){
   //Drawing topology
   VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
   inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-  inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+  inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST; //VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
   inputAssembly.primitiveRestartEnable = VK_FALSE;
 
   //Viewport
@@ -255,35 +257,6 @@ vector<VkPipelineShaderStageCreateInfo> VK_pipeline::pipeline_shader_info(VkShad
 
   //---------------------------
   return shaderStages;
-}
-std::vector<VkVertexInputAttributeDescription> VK_pipeline::vertex_attribute(){
-  //---------------------------
-
-  std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
-
-  VkVertexInputAttributeDescription attribut_1;
-  attribut_1.binding = 0;
-  attribut_1.location = 0;
-  attribut_1.format = VK_FORMAT_R32G32B32_SFLOAT;
-  attribut_1.offset = offsetof(Vertex, pos);
-  attributeDescriptions.push_back(attribut_1);
-
-  VkVertexInputAttributeDescription attribut_2;
-  attribut_2.binding = 0;
-  attribut_2.location = 1;
-  attribut_2.format = VK_FORMAT_R32G32B32_SFLOAT;
-  attribut_2.offset = offsetof(Vertex, color);
-  attributeDescriptions.push_back(attribut_2);
-
-  VkVertexInputAttributeDescription attribut_3;
-  attribut_3.binding = 0;
-  attribut_3.location = 2;
-  attribut_3.format = VK_FORMAT_R32G32_SFLOAT;
-  attribut_3.offset = offsetof(Vertex, texCoord);
-  attributeDescriptions.push_back(attribut_3);
-
-  //---------------------------
-  return attributeDescriptions;
 }
 VkShaderModule VK_pipeline::create_shader_module(const std::vector<char>& code){
   //Shader modules are just a thin wrapper around the shader bytecode

@@ -18,6 +18,7 @@ void main() {
   //---------------------------
 
   gl_Position = ubo.proj * ubo.view * ubo.model * vec4(in_position, 1.0);
+  gl_PointSize = 10.0;
   frag_color = in_color;
   frag_tex_coord = in_tex_coord;
 

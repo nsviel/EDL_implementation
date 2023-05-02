@@ -7,7 +7,6 @@
 #include "../VK_parameter.h"
 #include "../Engine_vulkan.h"
 
-#include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
 #include "../Data/VK_descriptor.h"
 
@@ -26,7 +25,6 @@ VK_command::VK_command(Engine_vulkan* engine_vulkan){
   this->vk_swapchain = engine_vulkan->get_vk_swapchain();
   this->vk_renderpass = engine_vulkan->get_vk_renderpass();
   this->vk_pipeline = engine_vulkan->get_vk_pipeline();
-  this->vk_buffer = engine_vulkan->get_vk_buffer();
   this->vk_framebuffer = engine_vulkan->get_vk_framebuffer();
   this->vk_descriptor = engine_vulkan->get_vk_descriptor();
 
@@ -86,7 +84,7 @@ void VK_command::cleanup(){
 }
 
 //Graphics pipeline
-void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex){
+void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer commandBuffer, uint32_t imageIndex){
   std::vector<VkFramebuffer> swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
   VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
@@ -119,7 +117,7 @@ void VK_command::record_command_buffer(VkCommandBuffer commandBuffer, uint32_t i
 
   this->command_viewport(commandBuffer);
   this->command_pipeline(commandBuffer);
-  this->command_drawing(commandBuffer);
+  this->command_drawing(cloud, commandBuffer);
 
   //End render pass
   vkCmdEndRenderPass(commandBuffer);
@@ -162,14 +160,60 @@ void VK_command::command_pipeline(VkCommandBuffer commandBuffer){
 
   //---------------------------
 }
-void VK_command::command_drawing(VkCommandBuffer commandBuffer){
+void VK_command::command_drawing(Cloud* cloud, VkCommandBuffer commandBuffer){
   //---------------------------
 
-  VkBuffer vertexBuffer = vk_buffer->get_buffer_vertex();
-  VkBuffer vertexBuffers[] = {vertexBuffer};
+  VkBuffer vertexBuffers[] = {cloud->vbo_xyz, cloud->vbo_rgb, cloud->vbo_uv};
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
   vkCmdDraw(commandBuffer, 11484, 1, 0, 0);
+
+  //---------------------------
+}
+
+//One time command
+VkCommandBuffer VK_command::command_buffer_begin(){
+  VK_command* vk_command = engine_vulkan->get_vk_command();
+  VkCommandPool commandPool = vk_command->get_command_pool();
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  VkCommandBufferAllocateInfo allocInfo{};
+  allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+  allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+  allocInfo.commandPool = commandPool;
+  allocInfo.commandBufferCount = 1;
+
+  VkCommandBuffer commandBuffer;
+  vkAllocateCommandBuffers(device, &allocInfo, &commandBuffer);
+
+  VkCommandBufferBeginInfo beginInfo{};
+  beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+  vkBeginCommandBuffer(commandBuffer, &beginInfo);
+
+  //---------------------------
+  return commandBuffer;
+}
+void VK_command::command_buffer_end(VkCommandBuffer commandBuffer){
+  VK_command* vk_command = engine_vulkan->get_vk_command();
+  VkCommandPool commandPool = vk_command->get_command_pool();
+  VkDevice device = vk_device->get_device();
+  VkQueue queue_graphics = vk_device->get_queue_graphics();
+  //---------------------------
+
+  vkEndCommandBuffer(commandBuffer);
+
+  VkSubmitInfo submitInfo{};
+  submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  submitInfo.commandBufferCount = 1;
+  submitInfo.pCommandBuffers = &commandBuffer;
+
+  vkQueueSubmit(queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
+  vkQueueWaitIdle(queue_graphics);
+
+  vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
 
   //---------------------------
 }
