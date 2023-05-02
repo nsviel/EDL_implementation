@@ -1,5 +1,6 @@
 #include "VK_buffer.h"
 #include "VK_texture.h"
+#include "VK_descriptor.h"
 
 #include "../Command/VK_command.h"
 #include "../Engine_vulkan.h"
@@ -18,6 +19,7 @@ VK_buffer::VK_buffer(Engine_vulkan* engine_vulkan){
 
   this->engine_vulkan = engine_vulkan;
   this->vk_device = engine_vulkan->get_vk_device();
+  this->vk_descriptor = engine_vulkan->get_vk_descriptor();
 
   //---------------------------
 }
@@ -28,6 +30,8 @@ void VK_buffer::load_model(){
   //---------------------------
   const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";
   const std::string TEXTURE_PATH = "../src/Engine/Texture/viking_room.png";
+
+  Cloud* cloud = new Cloud();
 
   tinyobj::attrib_t attrib;
   std::vector<tinyobj::shape_t> shapes;
@@ -43,27 +47,39 @@ void VK_buffer::load_model(){
   for(const auto& shape : shapes){
     for(const auto& index : shape.mesh.indices){
       Vertex vertex;
-
       vertex.pos = {
         attrib.vertices[3 * index.vertex_index + 0],
         attrib.vertices[3 * index.vertex_index + 1],
         attrib.vertices[3 * index.vertex_index + 2]
       };
-
       vertex.texCoord = {
         attrib.texcoords[2 * index.texcoord_index + 0],
         1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
       };
-
       vertex.color = {1.0f, 1.0f, 1.0f};
-
       vertices.push_back(vertex);
+
+      cloud->xyz.push_back(vertex.pos);
+      cloud->rgb.push_back(vec4(1, 1, 1, 1));
+      cloud->uv.push_back(vertex.texCoord);
     }
   }
 
+  cloud->path_file = MODEL_PATH;
+  cloud->path_texture = TEXTURE_PATH;
+
+
+  this->insert_model_in_engine(vertices, cloud->path_texture);
+
+  //---------------------------
+}
+void VK_buffer::insert_model_in_engine(std::vector<Vertex> vertices, std::string tex_path){
   VK_texture* vk_texture = engine_vulkan->get_vk_texture();
-  vk_texture->load_texture(TEXTURE_PATH);
+  //---------------------------
+
+  vk_texture->load_texture(tex_path);
   this->create_vertex_buffer(vertices);
+  vk_descriptor->create_descriptor_set();
 
   //---------------------------
 }

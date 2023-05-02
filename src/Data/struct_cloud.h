@@ -17,6 +17,8 @@ struct Cloud
   //Info
   int nb_element;
   std::string name;
+  std::string path_file;
+  std::string path_texture;
   std::string draw_type;
 
   //Data

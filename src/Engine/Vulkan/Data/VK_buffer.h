@@ -6,6 +6,7 @@
 
 class Engine_vulkan;
 class VK_device;
+class VK_descriptor;
 
 
 class VK_buffer
@@ -18,10 +19,11 @@ public:
 public:
   //Main functions
   void load_model();
-  void create_vertex_buffer(std::vector<Vertex> vertices);
+  void insert_model_in_engine(std::vector<Vertex> vertices, std::string tex_path);
   void cleanup();
 
   //Buffer functions
+  void create_vertex_buffer(std::vector<Vertex> vertices);
   void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
   void copy_buffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
@@ -37,6 +39,7 @@ public:
 private:
   Engine_vulkan* engine_vulkan;
   VK_device* vk_device;
+  VK_descriptor* vk_descriptor;
 
   VkBuffer buffer_vertex;
   VkDeviceMemory buffer_vertex_memory;

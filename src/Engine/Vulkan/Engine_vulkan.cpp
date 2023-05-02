@@ -52,14 +52,16 @@ Engine_vulkan::~Engine_vulkan(){}
 void Engine_vulkan::init_vulkan(){
   //---------------------------
 
-  //Interface centered
+  //Instance
   vk_window->init_window();
   vk_instance->init_instance();
   vk_window->create_window_surface();
-  vk_device->init_device();
-  vk_swapchain->init_swapchain();
 
-  //Rendering centered
+  //Device
+  vk_device->init_device();
+
+  //Pipeline / swap chain
+  vk_swapchain->init_swapchain();
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptor_set_layout();
   vk_pipeline->create_graphics_pipeline();
@@ -67,17 +69,11 @@ void Engine_vulkan::init_vulkan(){
   vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();
 
-  //Shader centered
+  //Shader
   vk_uniform->create_uniform_buffers();
   vk_descriptor->create_descriptor_pool();
 
-  //Model centered
-  vk_buffer->load_model();
-
-
-  vk_descriptor->create_descriptor_set();
-
-  //vk_descriptor->init_descriptor();
+  //Command
   vk_command->create_command_buffers();
   vk_synchronization->create_sync_objects();
 
@@ -89,6 +85,9 @@ void Engine_vulkan::main_loop() {
   //---------------------------
 
   GUI* guiManager= node_engine->get_guiManager();
+
+  //Model centered
+  vk_buffer->load_model();
 
   while(!glfwWindowShouldClose(window)) {
     glfwPollEvents();
