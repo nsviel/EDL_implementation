@@ -18,21 +18,24 @@ public:
 
 public:
   //Main functions
-  void create_descriptorSet_layout();
+  void init_descriptor();
+
+  //Subfunctions
+  void create_descriptor_set_layout();
   void create_descriptor_pool();
-  void create_descriptor_sets();
+  void create_descriptor_set();
   void cleanup();
 
-  inline VkDescriptorSetLayout get_descriptorSetLayout(){return descriptorSetLayout;}
-  inline std::vector<VkDescriptorSet> get_descriptorSets(){return descriptorSets;}
+  inline VkDescriptorSetLayout get_descriptorSetLayout(){return descriptor_layout;}
+  inline std::vector<VkDescriptorSet> get_descriptorSets(){return descriptor_set;}
 
 private:
   Engine_vulkan* engine_vulkan;
   VK_device* vk_device;
 
-  VkDescriptorPool descriptorPool;
-  VkDescriptorSetLayout descriptorSetLayout;
-  std::vector<VkDescriptorSet> descriptorSets;
+  VkDescriptorPool descriptor_pool;
+  VkDescriptorSetLayout descriptor_layout;
+  std::vector<VkDescriptorSet> descriptor_set;
 };
 
 #endif

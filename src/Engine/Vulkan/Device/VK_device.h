@@ -28,6 +28,7 @@ public:
 
 public:
   //Main functions
+  void init_device();
   void create_logical_device();
   void select_physical_device();
   void cleanup();

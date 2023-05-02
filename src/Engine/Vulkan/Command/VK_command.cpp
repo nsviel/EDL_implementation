@@ -1,14 +1,15 @@
 #include "VK_command.h"
-#include "VK_renderpass.h"
-#include "VK_pipeline.h"
+
+#include "../Pipeline/VK_renderpass.h"
+#include "../Pipeline/VK_pipeline.h"
 
 #include "../VK_struct.h"
 #include "../VK_parameter.h"
 #include "../Engine_vulkan.h"
 
-#include "../Model/VK_buffer.h"
-#include "../Element/VK_device.h"
-#include "../Shader/VK_descriptor.h"
+#include "../Data/VK_buffer.h"
+#include "../Device/VK_device.h"
+#include "../Data/VK_descriptor.h"
 
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_framebuffer.h"

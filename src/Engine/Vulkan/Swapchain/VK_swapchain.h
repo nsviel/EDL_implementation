@@ -22,6 +22,7 @@ public:
 
 public:
   //Main functions
+  void init_swapchain();
   void create_swapChain();
   void create_image_views();
 

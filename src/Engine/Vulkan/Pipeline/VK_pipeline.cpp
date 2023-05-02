@@ -2,9 +2,9 @@
 #include "VK_renderpass.h"
 
 #include "../VK_struct.h"
-#include "../Shader/VK_descriptor.h"
+#include "../Data/VK_descriptor.h"
 #include "../Engine_vulkan.h"
-#include "../Element/VK_device.h"
+#include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
 
 #include "../../Node_engine.h"

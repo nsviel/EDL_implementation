@@ -32,6 +32,7 @@ public:
 
 public:
   //Main functions
+  void init_instance();
   void create_instance();
   void create_validationLayer();
   void cleanup();

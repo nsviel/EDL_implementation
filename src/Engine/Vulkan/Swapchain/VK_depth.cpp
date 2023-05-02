@@ -1,8 +1,8 @@
 #include "VK_depth.h"
 #include "VK_swapchain.h"
 
-#include "../Element/VK_device.h"
-#include "../Model/VK_texture.h"
+#include "../Device/VK_device.h"
+#include "../Data/VK_texture.h"
 #include "../Engine_vulkan.h"
 
 

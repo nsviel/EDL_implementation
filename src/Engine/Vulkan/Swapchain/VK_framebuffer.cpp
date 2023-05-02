@@ -2,8 +2,8 @@
 #include "VK_swapchain.h"
 #include "VK_depth.h"
 
-#include "../Rendering/VK_renderpass.h"
-#include "../Element/VK_device.h"
+#include "../Pipeline/VK_renderpass.h"
+#include "../Device/VK_device.h"
 #include "../Engine_vulkan.h"
 
 #include "../../Node_engine.h"

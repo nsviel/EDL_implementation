@@ -2,8 +2,8 @@
 
 #include "../VK_parameter.h"
 #include "../Engine_vulkan.h"
-#include "../Model/VK_buffer.h"
-#include "../Element/VK_device.h"
+#include "../Data/VK_buffer.h"
+#include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
 
 

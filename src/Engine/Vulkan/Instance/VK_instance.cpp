@@ -14,6 +14,14 @@ VK_instance::VK_instance(){
 VK_instance::~VK_instance(){}
 
 //Main function
+void VK_instance::init_instance(){
+  //---------------------------
+
+  this->create_instance();
+  this->create_validationLayer();
+
+  //---------------------------
+}
 void VK_instance::create_instance(){
   //The instance is the connection between application and Vulkan library
   //---------------------------

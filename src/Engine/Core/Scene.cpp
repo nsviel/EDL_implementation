@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 #include "../Vulkan/Engine_vulkan.h"
-#include "../Vulkan/Model/VK_buffer.h"
+#include "../Vulkan/Data/VK_buffer.h"
 #include "../Node_engine.h"
 
 //#define TINYOBJLOADER_IMPLEMENTATION

@@ -4,8 +4,6 @@
 #include "../VK_struct.h"
 #include "../../../common.h"
 
-#include <vulkan/vulkan.h>
-
 class Engine_vulkan;
 class VK_device;
 
@@ -19,39 +17,31 @@ public:
 
 public:
   //Main functions
+  void load_model();
   void create_vertex_buffer(std::vector<Vertex> vertices);
-  void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-  void create_index_buffer();
   void cleanup();
 
-  void load_model();
-
-  //Subfunctions
-  uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+  //Buffer functions
+  void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
   void copy_buffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
+  //Specific functions
+  uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
   VkCommandBuffer beginSingleTimeCommands();
   void endSingleTimeCommands(VkCommandBuffer commandBuffer);
   void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
 
-  inline VkBuffer get_buffer_vertex(){return vertexBuffer;}
-  inline VkBuffer get_buffer_index(){return indexBuffer;}
+  inline VkBuffer get_buffer_vertex(){return buffer_vertex;}
   inline VkBuffer get_buffer_color(){return rgb_buffer;}
-  inline vector<uint32_t> get_indices(){return indices;}
 
 private:
   Engine_vulkan* engine_vulkan;
   VK_device* vk_device;
 
-  VkBuffer vertexBuffer;
-  VkDeviceMemory vertexBufferMemory;
+  VkBuffer buffer_vertex;
+  VkDeviceMemory buffer_vertex_memory;
   VkBuffer rgb_buffer;
   VkDeviceMemory rgb_bufferMemory;
-  VkBuffer indexBuffer;
-  VkDeviceMemory indexBufferMemory;
-
-
-  std::vector<uint32_t> indices;
 };
 
 #endif

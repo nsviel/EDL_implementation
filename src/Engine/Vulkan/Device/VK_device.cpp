@@ -1,8 +1,8 @@
 #include "VK_device.h"
-#include "VK_window.h"
 
 #include "../Engine_vulkan.h"
-#include "../Core/VK_instance.h"
+#include "../Instance/VK_window.h"
+#include "../Instance/VK_instance.h"
 
 #include "../../Node_engine.h"
 
@@ -20,7 +20,15 @@ VK_device::VK_device(Engine_vulkan* engine_vulkan){
 }
 VK_device::~VK_device(){}
 
-//Main function
+//Main functions
+void VK_device::init_device(){
+  //---------------------------
+
+  this->select_physical_device();
+  this->create_logical_device();
+
+  //---------------------------
+}
 void VK_device::select_physical_device(){
   VkInstance instance = vk_instance->get_instance();
   //---------------------------

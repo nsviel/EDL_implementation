@@ -31,7 +31,7 @@ public:
   void create_image(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
   void copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
 
-  inline VkDescriptorImageInfo get_image_info(){Struct_texture texture = *next(list_texture.begin(), 0); return texture.imageInfo;}
+  VkDescriptorImageInfo get_image_info();
 
 private:
   VK_device* vk_device;

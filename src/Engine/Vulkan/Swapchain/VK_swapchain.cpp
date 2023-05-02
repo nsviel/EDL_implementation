@@ -3,9 +3,9 @@
 #include "VK_framebuffer.h"
 #include "VK_depth.h"
 
-#include "../Model/VK_texture.h"
-#include "../Element/VK_device.h"
-#include "../Element/VK_window.h"
+#include "../Data/VK_texture.h"
+#include "../Device/VK_device.h"
+#include "../Instance/VK_window.h"
 #include "../Engine_vulkan.h"
 
 #include "../../Node_engine.h"
@@ -26,6 +26,14 @@ VK_swapchain::VK_swapchain(Engine_vulkan* engine_vulkan){
 VK_swapchain::~VK_swapchain(){}
 
 //Main function
+void VK_swapchain::init_swapchain(){
+  //---------------------------
+
+  this->create_swapChain();
+  this->create_image_views();
+
+  //---------------------------
+}
 void VK_swapchain::create_swapChain(){
   VkPhysicalDevice physical_device = vk_device->get_physical_device();
   VkSurfaceKHR surface = vk_window->get_surface();

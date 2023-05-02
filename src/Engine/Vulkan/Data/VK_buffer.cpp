@@ -1,9 +1,9 @@
 #include "VK_buffer.h"
 #include "VK_texture.h"
 
-#include "../Rendering/VK_command.h"
+#include "../Command/VK_command.h"
 #include "../Engine_vulkan.h"
-#include "../Element/VK_device.h"
+#include "../Device/VK_device.h"
 
 #include "../../Node_engine.h"
 
@@ -24,6 +24,60 @@ VK_buffer::VK_buffer(Engine_vulkan* engine_vulkan){
 VK_buffer::~VK_buffer(){}
 
 //Main function
+void VK_buffer::load_model(){
+  //---------------------------
+  const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";
+  const std::string TEXTURE_PATH = "../src/Engine/Texture/viking_room.png";
+
+  tinyobj::attrib_t attrib;
+  std::vector<tinyobj::shape_t> shapes;
+  std::vector<tinyobj::material_t> materials;
+  std::string warn, err;
+
+  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str());
+  if(!load_ok){
+    throw std::runtime_error(warn + err);
+  }
+
+  std::vector<Vertex> vertices;
+  for(const auto& shape : shapes){
+    for(const auto& index : shape.mesh.indices){
+      Vertex vertex;
+
+      vertex.pos = {
+        attrib.vertices[3 * index.vertex_index + 0],
+        attrib.vertices[3 * index.vertex_index + 1],
+        attrib.vertices[3 * index.vertex_index + 2]
+      };
+
+      vertex.texCoord = {
+        attrib.texcoords[2 * index.texcoord_index + 0],
+        1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
+      };
+
+      vertex.color = {1.0f, 1.0f, 1.0f};
+
+      vertices.push_back(vertex);
+    }
+  }
+
+  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
+  vk_texture->load_texture(TEXTURE_PATH);
+  this->create_vertex_buffer(vertices);
+
+  //---------------------------
+}
+void VK_buffer::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  vkDestroyBuffer(device, buffer_vertex, nullptr);
+  vkFreeMemory(device, buffer_vertex_memory, nullptr);
+
+  //---------------------------
+}
+
+//Buffer functions
 void VK_buffer::create_vertex_buffer(std::vector<Vertex> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
@@ -31,16 +85,21 @@ void VK_buffer::create_vertex_buffer(std::vector<Vertex> vertices){
   VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
   VkBuffer stagingBuffer;
   VkDeviceMemory stagingBufferMemory;
-  this->create_buffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+  VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+  VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+  this->create_buffer(size, usage, properties, stagingBuffer, stagingBufferMemory);
 
   //Filling the vertex buffer
   void* data;
   vkMapMemory(device, stagingBufferMemory, 0, size, 0, &data);
-  memcpy(data, vertices.data(), (size_t) size);
+  memcpy(data, vertices.data(), (size_t)size);
   vkUnmapMemory(device, stagingBufferMemory);
 
-  this->create_buffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
-  this->copy_buffer(stagingBuffer, vertexBuffer, size);
+  usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+  properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+  this->create_buffer(size, usage, properties, buffer_vertex, buffer_vertex_memory);
+  this->copy_buffer(stagingBuffer, buffer_vertex, size);
 
   vkDestroyBuffer(device, stagingBuffer, nullptr);
   vkFreeMemory(device, stagingBufferMemory, nullptr);
@@ -79,92 +138,21 @@ void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMem
 
   //---------------------------
 }
-void VK_buffer::create_index_buffer(){
-  VkDevice device = vk_device->get_device();
+void VK_buffer::copy_buffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size){
   //---------------------------
 
-  VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
+  VkCommandBuffer commandBuffer = beginSingleTimeCommands();
 
-  VkBuffer stagingBuffer;
-  VkDeviceMemory stagingBufferMemory;
-  this->create_buffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+  VkBufferCopy copyRegion{};
+  copyRegion.size = size;
+  vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
 
-  void* data;
-  vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);
-  memcpy(data, indices.data(), (size_t) bufferSize);
-  vkUnmapMemory(device, stagingBufferMemory);
-
-  this->create_buffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, indexBuffer, indexBufferMemory);
-
-  copy_buffer(stagingBuffer, indexBuffer, bufferSize);
-
-  vkDestroyBuffer(device, stagingBuffer, nullptr);
-  vkFreeMemory(device, stagingBufferMemory, nullptr);
-
-  //---------------------------
-}
-void VK_buffer::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  vkDestroyBuffer(device, indexBuffer, nullptr);
-  vkFreeMemory(device, indexBufferMemory, nullptr);
-
-  vkDestroyBuffer(device, vertexBuffer, nullptr);
-  vkFreeMemory(device, vertexBufferMemory, nullptr);
+  this->endSingleTimeCommands(commandBuffer);
 
   //---------------------------
 }
 
-void VK_buffer::load_model(){
-  //---------------------------
-  const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";
-  const std::string TEXTURE_PATH = "../src/Engine/Texture/viking_room.png";
-
-  tinyobj::attrib_t attrib;
-  std::vector<tinyobj::shape_t> shapes;
-  std::vector<tinyobj::material_t> materials;
-  std::string warn, err;
-
-  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str());
-  if(!load_ok){
-    throw std::runtime_error(warn + err);
-  }
-
-  std::vector<Vertex> vertices;
-  for (const auto& shape : shapes) {
-    for (const auto& index : shape.mesh.indices) {
-      Vertex vertex{};
-
-      vertex.pos = {
-        attrib.vertices[3 * index.vertex_index + 0],
-        attrib.vertices[3 * index.vertex_index + 1],
-        attrib.vertices[3 * index.vertex_index + 2]
-      };
-
-      vertex.texCoord = {
-        attrib.texcoords[2 * index.texcoord_index + 0],
-        1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
-      };
-
-      vertex.color = {1.0f, 1.0f, 1.0f};
-
-      vertices.push_back(vertex);
-    }
-  }
-
-  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
-  vk_texture->load_texture(TEXTURE_PATH);
-
-
-  this->create_vertex_buffer(vertices);
-
-
-
-  //---------------------------
-}
-
-//Subfunctions
+//Specific function
 VkCommandBuffer VK_buffer::beginSingleTimeCommands(){
   VK_command* vk_command = engine_vulkan->get_vk_command();
   VkCommandPool commandPool = vk_command->get_command_pool();
@@ -203,19 +191,6 @@ uint32_t VK_buffer::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags pr
   }
 
   throw std::runtime_error("failed to find suitable memory type!");
-
-  //---------------------------
-}
-void VK_buffer::copy_buffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size){
-  //---------------------------
-
-  VkCommandBuffer commandBuffer = beginSingleTimeCommands();
-
-  VkBufferCopy copyRegion{};
-  copyRegion.size = size;
-  vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
-
-  this->endSingleTimeCommands(commandBuffer);
 
   //---------------------------
 }

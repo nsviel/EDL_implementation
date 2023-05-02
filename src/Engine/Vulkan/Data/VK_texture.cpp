@@ -2,7 +2,7 @@
 #include "VK_buffer.h"
 
 #include "../Engine_vulkan.h"
-#include "../Element/VK_device.h"
+#include "../Device/VK_device.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../../../extern/image/stb_image.h"
@@ -225,4 +225,13 @@ void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t w
   vk_buffer->endSingleTimeCommands(commandBuffer);
 
   //---------------------------
+}
+
+VkDescriptorImageInfo VK_texture::get_image_info(){
+  //---------------------------
+
+  Struct_texture texture = *next(list_texture.begin(), 0);
+
+  //---------------------------
+  return texture.imageInfo;
 }

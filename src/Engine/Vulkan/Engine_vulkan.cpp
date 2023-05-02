@@ -1,17 +1,17 @@
 #include "Engine_vulkan.h"
 
-#include "Rendering/VK_renderpass.h"
-#include "Rendering/VK_pipeline.h"
-#include "Rendering/VK_command.h"
-#include "Rendering/VK_synchronization.h"
-#include "Shader/VK_descriptor.h"
+#include "Pipeline/VK_renderpass.h"
+#include "Pipeline/VK_pipeline.h"
+#include "Command/VK_command.h"
+#include "Command/VK_synchronization.h"
+#include "Data/VK_descriptor.h"
 #include "Shader/VK_uniform.h"
-#include "Model/VK_buffer.h"
-#include "Model/VK_texture.h"
-#include "Core/VK_instance.h"
-#include "Core/VK_drawing.h"
-#include "Element/VK_device.h"
-#include "Element/VK_window.h"
+#include "Data/VK_buffer.h"
+#include "Data/VK_texture.h"
+#include "Instance/VK_instance.h"
+#include "Command/VK_drawing.h"
+#include "Device/VK_device.h"
+#include "Instance/VK_window.h"
 #include "Swapchain/VK_framebuffer.h"
 #include "Swapchain/VK_depth.h"
 #include "Swapchain/VK_swapchain.h"
@@ -52,34 +52,32 @@ Engine_vulkan::~Engine_vulkan(){}
 void Engine_vulkan::init_vulkan(){
   //---------------------------
 
+  //Interface centered
   vk_window->init_window();
-  vk_instance->create_instance();
-  vk_instance->create_validationLayer();
-
-  //Element centered
+  vk_instance->init_instance();
   vk_window->create_window_surface();
-  vk_device->select_physical_device();
-  vk_device->create_logical_device();
-
-  //Swap chain centered
-  vk_swapchain->create_swapChain();
-  vk_swapchain->create_image_views();
+  vk_device->init_device();
+  vk_swapchain->init_swapchain();
 
   //Rendering centered
   vk_renderpass->create_render_pass();
-  vk_descriptor->create_descriptorSet_layout();
+  vk_descriptor->create_descriptor_set_layout();
   vk_pipeline->create_graphics_pipeline();
   vk_command->create_command_pool();
   vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();
 
-  //Model centered
-  vk_buffer->load_model();
-
   //Shader centered
   vk_uniform->create_uniform_buffers();
   vk_descriptor->create_descriptor_pool();
-  vk_descriptor->create_descriptor_sets();
+
+  //Model centered
+  vk_buffer->load_model();
+
+
+  vk_descriptor->create_descriptor_set();
+
+  //vk_descriptor->init_descriptor();
   vk_command->create_command_buffers();
   vk_synchronization->create_sync_objects();
 

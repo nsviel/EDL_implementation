@@ -1,6 +1,6 @@
 #include "VK_window.h"
 
-#include "../Core/VK_instance.h"
+#include "../Instance/VK_instance.h"
 #include "../Engine_vulkan.h"
 
 #include "../../Node_engine.h"

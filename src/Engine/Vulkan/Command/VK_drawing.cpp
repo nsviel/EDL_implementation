@@ -1,7 +1,7 @@
 #include "VK_drawing.h"
 
-#include "../Rendering/VK_synchronization.h"
-#include "../Rendering/VK_command.h"
+#include "../Command/VK_synchronization.h"
+#include "../Command/VK_command.h"
 #include "../VK_struct.h"
 #include "../Shader/VK_uniform.h"
 #include "../VK_parameter.h"
@@ -10,8 +10,8 @@
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_framebuffer.h"
 
-#include "../Element/VK_window.h"
-#include "../Element/VK_device.h"
+#include "../Instance/VK_window.h"
+#include "../Device/VK_device.h"
 
 #include "../../Node_engine.h"
 
