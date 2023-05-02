@@ -22,16 +22,6 @@ VK_buffer::VK_buffer(Engine_vulkan* engine_vulkan){
 VK_buffer::~VK_buffer(){}
 
 //Main function
-void VK_buffer::insert_model_in_engine(std::vector<Vertex> vertices, std::string tex_path){
-  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
-  //---------------------------
-
-  vk_texture->load_texture(tex_path);
-  this->create_buffer_data(vertices);
-  vk_descriptor->create_descriptor_set();
-
-  //---------------------------
-}
 void VK_buffer::insert_cloud_in_engine(Cloud* cloud){
   VK_texture* vk_texture = engine_vulkan->get_vk_texture();
   //---------------------------
@@ -51,42 +41,14 @@ void VK_buffer::cleanup(Cloud* cloud){
   vkDestroyBuffer(device, cloud->vbo_xyz, nullptr);
   vkDestroyBuffer(device, cloud->vbo_rgb, nullptr);
   vkDestroyBuffer(device, cloud->vbo_uv, nullptr);
-  vkFreeMemory(device, dev_memory, nullptr);
+  vkFreeMemory(device, cloud->mem_xyz, nullptr);
+  vkFreeMemory(device, cloud->mem_rgb, nullptr);
+  vkFreeMemory(device, cloud->mem_uv, nullptr);
 
   //---------------------------
 }
 
-//Buffer functions
-void VK_buffer::create_buffer_data(std::vector<Vertex> vertices){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-/*
-  VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
-
-  VkBuffer staging_buffer;
-  VkDeviceMemory staging_buffer_memory;
-  VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-  VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-  this->create_buffer(size, usage, staging_buffer);
-  this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
-
-  //Filling the vertex buffer
-  void* data;
-  vkMapMemory(device, staging_buffer_memory, 0, size, 0, &data);
-  memcpy(data, vertices.data(), (size_t)size);
-  vkUnmapMemory(device, staging_buffer_memory);
-
-  usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-  properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-  this->create_buffer(size, usage, buffer_vertex);
-  this->bind_buffer_memory(properties, buffer_vertex, dev_memory);
-  this->copy_buffer_to_gpu(staging_buffer, buffer_vertex, size);
-
-  vkDestroyBuffer(device, staging_buffer, nullptr);
-  vkFreeMemory(device, staging_buffer_memory, nullptr);*/
-
-  //---------------------------
-}
+//Data buffer functions
 void VK_buffer::create_buffer_uv(Cloud* cloud, std::vector<vec2> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
@@ -109,7 +71,7 @@ void VK_buffer::create_buffer_uv(Cloud* cloud, std::vector<vec2> vertices){
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
   this->create_buffer(size, usage, cloud->vbo_uv);
-  this->bind_buffer_memory(properties, cloud->vbo_uv, dev_memory);
+  this->bind_buffer_memory(properties, cloud->vbo_uv, cloud->mem_uv);
   this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_uv, size);
 
   vkDestroyBuffer(device, staging_buffer, nullptr);
@@ -139,7 +101,7 @@ void VK_buffer::create_buffer_xyz(Cloud* cloud, std::vector<vec3> vertices){
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
   this->create_buffer(size, usage, cloud->vbo_xyz);
-  this->bind_buffer_memory(properties, cloud->vbo_xyz, dev_memory);
+  this->bind_buffer_memory(properties, cloud->vbo_xyz, cloud->mem_xyz);
   this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_xyz, size);
 
   vkDestroyBuffer(device, staging_buffer, nullptr);
@@ -169,7 +131,7 @@ void VK_buffer::create_buffer_rgb(Cloud* cloud, std::vector<vec4> vertices){
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
   this->create_buffer(size, usage, cloud->vbo_rgb);
-  this->bind_buffer_memory(properties, cloud->vbo_rgb, dev_memory);
+  this->bind_buffer_memory(properties, cloud->vbo_rgb, cloud->mem_rgb);
   this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_rgb, size);
 
   vkDestroyBuffer(device, staging_buffer, nullptr);
@@ -178,6 +140,7 @@ void VK_buffer::create_buffer_rgb(Cloud* cloud, std::vector<vec4> vertices){
   //---------------------------
 }
 
+//Buffer functions
 void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuffer& buffer){
   VkDevice device = vk_device->get_device();
   //---------------------------

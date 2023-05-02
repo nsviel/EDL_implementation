@@ -73,22 +73,22 @@ std::vector<VkVertexInputAttributeDescription> VK_data::vertex_attribute(){
 
   std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
 
-  VkVertexInputAttributeDescription attribut_1;
+  VkVertexInputAttributeDescription attribut_1{};
   attribut_1.binding = 0;
   attribut_1.location = 0;
   attribut_1.format = VK_FORMAT_R32G32B32_SFLOAT;
   attribut_1.offset = 0;
   attributeDescriptions.push_back(attribut_1);
 
-  VkVertexInputAttributeDescription attribut_2;
-  attribut_2.binding = 0;
+  VkVertexInputAttributeDescription attribut_2{};
+  attribut_2.binding = 1;
   attribut_2.location = 1;
-  attribut_2.format = VK_FORMAT_R32G32B32_SFLOAT;
+  attribut_2.format = VK_FORMAT_R32G32B32A32_SFLOAT;
   attribut_2.offset = 0;
   attributeDescriptions.push_back(attribut_2);
 
-  VkVertexInputAttributeDescription attribut_3;
-  attribut_3.binding = 0;
+  VkVertexInputAttributeDescription attribut_3{};
+  attribut_3.binding = 2;
   attribut_3.location = 2;
   attribut_3.format = VK_FORMAT_R32G32_SFLOAT;
   attribut_3.offset = 0;

@@ -19,15 +19,14 @@ public:
 public:
   //Main functions
   void insert_cloud_in_engine(Cloud* cloud);
-  void insert_model_in_engine(std::vector<Vertex> vertices, std::string tex_path);
   void cleanup(Cloud* cloud);
 
-  //Buffer functions
-  void create_buffer_data(std::vector<Vertex> vertices);
+  //Data buffer functions
   void create_buffer_uv(Cloud* cloud, std::vector<vec2> vertices);
   void create_buffer_xyz(Cloud* cloud, std::vector<vec3> vertices);
   void create_buffer_rgb(Cloud* cloud, std::vector<vec4> vertices);
 
+  //Buffer functions
   void bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
   void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuffer& buffer);
   void copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);

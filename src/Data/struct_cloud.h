@@ -35,6 +35,10 @@ struct Cloud
   VkBuffer vbo_rgb;
   VkBuffer vbo_uv;
 
+  VkDeviceMemory mem_xyz;
+  VkDeviceMemory mem_rgb;
+  VkDeviceMemory mem_uv;
+
   //Pose
   Eigen::Matrix3d pose_R;
   Eigen::Vector3d pose_T;

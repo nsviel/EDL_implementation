@@ -164,8 +164,8 @@ void VK_command::command_drawing(Cloud* cloud, VkCommandBuffer commandBuffer){
   //---------------------------
 
   VkBuffer vertexBuffers[] = {cloud->vbo_xyz, cloud->vbo_rgb, cloud->vbo_uv};
-  VkDeviceSize offsets[] = {0};
-  vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+  VkDeviceSize offsets[] = {0, 0, 0};
+  vkCmdBindVertexBuffers(commandBuffer, 0, 3, vertexBuffers, offsets);
   vkCmdDraw(commandBuffer, 11484, 1, 0, 0);
 
   //---------------------------
