@@ -3,6 +3,10 @@
 
 #include "../../common.h"
 
+#include "../../../extern/imgui/imgui.h"
+#include "../../../extern/imgui/imgui_impl_glfw.h"
+#include "../../../extern/imgui/imgui_impl_vulkan.h"
+
 class Node_engine;
 class VK_window;
 class VK_instance;
@@ -22,6 +26,7 @@ public:
   //Main functions
   void init();
   void cleanup();
+  void command_gui(VkCommandBuffer command_buffer);
 
   void loop();
   void loop_start();
@@ -37,6 +42,7 @@ private:
   Engine_vulkan* engine_vulkan;
 
   VkDescriptorPool imguiPool;
+  ImDrawData* draw_data;
 };
 
 #endif

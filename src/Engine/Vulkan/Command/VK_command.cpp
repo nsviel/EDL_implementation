@@ -13,6 +13,7 @@
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_framebuffer.h"
 
+#include "../../Core/GUI.h"
 #include "../../Node_engine.h"
 
 
@@ -58,6 +59,7 @@ void VK_command::create_command_buffers(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
+  //One command buffer per frame
   command_buffer_vec.resize(MAX_FRAMES_IN_FLIGHT);
 
   //Command buffer allocation
@@ -83,8 +85,8 @@ void VK_command::cleanup(){
   //---------------------------
 }
 
-//Graphics pipeline
-void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer commandBuffer, uint32_t imageIndex){
+//Command functions
+void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer command_buffer, uint32_t imageIndex){
   std::vector<VkFramebuffer> swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
   VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
@@ -93,7 +95,7 @@ void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer commandBuff
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
-  VkResult result = vkBeginCommandBuffer(commandBuffer, &beginInfo);
+  VkResult result = vkBeginCommandBuffer(command_buffer, &beginInfo);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to begin recording command buffer!");
   }
@@ -113,22 +115,27 @@ void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer commandBuff
   renderPassInfo.pClearValues = clearValues.data();
 
   //start render pass
-  vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+  vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-  this->command_viewport(commandBuffer);
-  this->command_pipeline(commandBuffer);
-  this->command_drawing(cloud, commandBuffer);
+  this->command_viewport(command_buffer);
+  this->command_pipeline(command_buffer);
+  this->command_drawing(cloud, command_buffer);
+
+  //ICI command pour draw gui
+  Node_engine* node_engine = engine_vulkan->get_node_engine();
+  GUI* guiManager = node_engine->get_guiManager();
+  guiManager->command_gui(command_buffer);
 
   //End render pass
-  vkCmdEndRenderPass(commandBuffer);
-  result = vkEndCommandBuffer(commandBuffer);
+  vkCmdEndRenderPass(command_buffer);
+  result = vkEndCommandBuffer(command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to record command buffer!");
   }
 
   //---------------------------
 }
-void VK_command::command_viewport(VkCommandBuffer commandBuffer){
+void VK_command::command_viewport(VkCommandBuffer command_buffer){
   VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
   //---------------------------
 
@@ -140,33 +147,33 @@ void VK_command::command_viewport(VkCommandBuffer commandBuffer){
   viewport.height = static_cast<float>(swapChain_extent.height);
   viewport.minDepth = 0.0f;
   viewport.maxDepth = 1.0f;
-  vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+  vkCmdSetViewport(command_buffer, 0, 1, &viewport);
 
   VkRect2D scissor{};
   scissor.offset = {0, 0};
   scissor.extent = swapChain_extent;
-  vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+  vkCmdSetScissor(command_buffer, 0, 1, &scissor);
 
   //---------------------------
 }
-void VK_command::command_pipeline(VkCommandBuffer commandBuffer){
+void VK_command::command_pipeline(VkCommandBuffer command_buffer){
   VkPipeline graphicsPipeline = vk_pipeline->get_graphicsPipeline();
   VkPipelineLayout pipelineLayout = vk_pipeline->get_pipelineLayout();
   //---------------------------
 
   std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
-  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-  vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
   //---------------------------
 }
-void VK_command::command_drawing(Cloud* cloud, VkCommandBuffer commandBuffer){
+void VK_command::command_drawing(Cloud* cloud, VkCommandBuffer command_buffer){
   //---------------------------
 
   VkBuffer vertexBuffers[] = {cloud->vbo_xyz, cloud->vbo_rgb, cloud->vbo_uv};
   VkDeviceSize offsets[] = {0, 0, 0};
-  vkCmdBindVertexBuffers(commandBuffer, 0, 3, vertexBuffers, offsets);
-  vkCmdDraw(commandBuffer, cloud->xyz.size(), 1, 0, 0);
+  vkCmdBindVertexBuffers(command_buffer, 0, 3, vertexBuffers, offsets);
+  vkCmdDraw(command_buffer, cloud->xyz.size(), 1, 0, 0);
 
   //---------------------------
 }
@@ -184,36 +191,36 @@ VkCommandBuffer VK_command::command_buffer_begin(){
   allocInfo.commandPool = commandPool;
   allocInfo.commandBufferCount = 1;
 
-  VkCommandBuffer commandBuffer;
-  vkAllocateCommandBuffers(device, &allocInfo, &commandBuffer);
+  VkCommandBuffer command_buffer;
+  vkAllocateCommandBuffers(device, &allocInfo, &command_buffer);
 
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
   beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
-  vkBeginCommandBuffer(commandBuffer, &beginInfo);
+  vkBeginCommandBuffer(command_buffer, &beginInfo);
 
   //---------------------------
-  return commandBuffer;
+  return command_buffer;
 }
-void VK_command::command_buffer_end(VkCommandBuffer commandBuffer){
+void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
   VK_command* vk_command = engine_vulkan->get_vk_command();
   VkCommandPool commandPool = vk_command->get_command_pool();
   VkDevice device = vk_device->get_device();
   VkQueue queue_graphics = vk_device->get_queue_graphics();
   //---------------------------
 
-  vkEndCommandBuffer(commandBuffer);
+  vkEndCommandBuffer(command_buffer);
 
   VkSubmitInfo submitInfo{};
   submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
   submitInfo.commandBufferCount = 1;
-  submitInfo.pCommandBuffers = &commandBuffer;
+  submitInfo.pCommandBuffers = &command_buffer;
 
   vkQueueSubmit(queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
   vkQueueWaitIdle(queue_graphics);
 
-  vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
+  vkFreeCommandBuffers(device, commandPool, 1, &command_buffer);
 
   //---------------------------
 }

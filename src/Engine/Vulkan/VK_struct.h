@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include <stdint.h>
 
-struct UniformBufferObject {
+struct MVP{
   glm::mat4 model;
   glm::mat4 view;
   glm::mat4 proj;

@@ -65,49 +65,10 @@ void VK_pipeline::create_graphics_pipeline(){
   shaderStages.push_back(info_frag);
 
 
-
-/*  VkVertexInputBindingDescription binding_desc_xyz{};
-  binding_desc_xyz.binding = 0;
-  binding_desc_xyz.stride = sizeof(glm::vec3);
-  binding_desc_xyz.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-
-  VkVertexInputBindingDescription binding_desc_rgb{};
-  binding_desc_rgb.binding = 1;
-  binding_desc_rgb.stride = sizeof(glm::vec4);
-  binding_desc_rgb.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-
-  VkVertexInputBindingDescription binding_desc_uv{};
-  binding_desc_uv.binding = 2;
-  binding_desc_uv.stride = sizeof(glm::vec2);
-  binding_desc_uv.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;*/
-
-  std::vector<VkVertexInputBindingDescription> bindingDescriptions;
-  // position buffer binding
-  VkVertexInputBindingDescription desc_xyz{};
-  desc_xyz.binding = 0;
-  desc_xyz.stride = sizeof(glm::vec3);
-  desc_xyz.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  bindingDescriptions.push_back(desc_xyz);
-
-  // normal buffer binding
-  VkVertexInputBindingDescription desc_rgb{};
-  desc_rgb.binding = 1;
-  desc_rgb.stride = sizeof(glm::vec4);
-  desc_rgb.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  bindingDescriptions.push_back(desc_rgb);
-
-  // texture coordinate buffer binding
-  VkVertexInputBindingDescription desc_uv{};
-  desc_uv.binding = 2;
-  desc_uv.stride = sizeof(glm::vec2);
-  desc_uv.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  bindingDescriptions.push_back(desc_uv);
-
-
-
   //Vertex input settings
   VK_data* vk_data = engine_vulkan->get_vk_data();
-  std::vector<VkVertexInputAttributeDescription> attributeDescriptions = vk_data->vertex_attribute();
+  std::vector<VkVertexInputBindingDescription> bindingDescriptions = vk_data->description_binding();
+  std::vector<VkVertexInputAttributeDescription> attributeDescriptions = vk_data->description_vertex();
   VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
   vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
   vertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescriptions.size());
@@ -118,7 +79,8 @@ void VK_pipeline::create_graphics_pipeline(){
   //Drawing topology
   VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
   inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-  inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST; //VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
+  //inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+  inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
   inputAssembly.primitiveRestartEnable = VK_FALSE;
 
   //Viewport

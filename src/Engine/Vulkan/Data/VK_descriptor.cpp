@@ -60,7 +60,7 @@ void VK_descriptor::create_descriptor_set(){
     VkDescriptorBufferInfo bufferInfo{};
     bufferInfo.buffer = uniformBuffers[i];
     bufferInfo.offset = 0;
-    bufferInfo.range = sizeof(UniformBufferObject);
+    bufferInfo.range = sizeof(MVP);
 
     //MVP matrix to GPU
     std::array<VkWriteDescriptorSet, 2> descriptor_write{};

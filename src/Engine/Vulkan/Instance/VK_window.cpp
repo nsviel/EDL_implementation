@@ -31,6 +31,11 @@ void VK_window::init_window(){
   this->window = glfwCreateWindow(render_dim.x, render_dim.y, "Vulkan", nullptr, nullptr);
   this->render_dim = get_framebuffer_size();
 
+  if (!glfwVulkanSupported()){
+    printf("GLFW: Vulkan Not Supported\n");
+    exit(0);
+  }
+
   //---------------------------
 }
 void VK_window::clean_surface(){

@@ -27,14 +27,14 @@ public:
   void create_command_buffers();
   void cleanup();
 
-  void record_command_buffer(Cloud* cloud, VkCommandBuffer commandBuffer, uint32_t imageIndex);
-  void command_drawing(Cloud* cloud, VkCommandBuffer commandBuffer);
-  void command_pipeline(VkCommandBuffer commandBuffer);
-  void command_viewport(VkCommandBuffer commandBuffer);
+  void record_command_buffer(Cloud* cloud, VkCommandBuffer command_buffer, uint32_t imageIndex);
+  void command_drawing(Cloud* cloud, VkCommandBuffer command_buffer);
+  void command_pipeline(VkCommandBuffer command_buffer);
+  void command_viewport(VkCommandBuffer command_buffer);
 
   //One time command
   VkCommandBuffer command_buffer_begin();
-  void command_buffer_end(VkCommandBuffer commandBuffer);
+  void command_buffer_end(VkCommandBuffer command_buffer);
 
   inline VkCommandPool get_command_pool(){return command_pool;}
   inline std::vector<VkCommandBuffer> get_command_buffer_vec(){return command_buffer_vec;}

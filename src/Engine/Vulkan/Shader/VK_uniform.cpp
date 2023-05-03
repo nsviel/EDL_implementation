@@ -5,6 +5,7 @@
 #include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
+#include "../Camera/VK_camera.h"
 
 
 //Constructor / Destructor
@@ -14,6 +15,7 @@ VK_uniform::VK_uniform(Engine_vulkan* engine_vulkan){
   this->vk_device = engine_vulkan->get_vk_device();
   this->vk_buffer = engine_vulkan->get_vk_buffer();
   this->vk_swapchain = engine_vulkan->get_vk_swapchain();
+  this->vk_camera = engine_vulkan->get_vk_camera();
 
   //---------------------------
 }
@@ -24,7 +26,7 @@ void VK_uniform::create_uniform_buffers(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+  VkDeviceSize bufferSize = sizeof(MVP);
 
   uniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
   uniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
@@ -46,15 +48,17 @@ void VK_uniform::update_uniform_buffer(uint32_t currentImage){
   auto currentTime = std::chrono::high_resolution_clock::now();
   float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
-  UniformBufferObject ubo{};
-  ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f) * 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
+  //mat4 truc = vk_camera->compute_cam_mvp();
+  //say(truc);
 
-  ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+  MVP mvp{};
+  mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f) * 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
+  //mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f) * 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
+  mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+  mvp.proj = glm::perspective(glm::radians(45.0f), swapChain_extent.width / (float) swapChain_extent.height, 0.1f, 10.0f);
+  mvp.proj[1][1] *= -1; // Because glm is designed for OpenGL convention
 
-  ubo.proj = glm::perspective(glm::radians(45.0f), swapChain_extent.width / (float) swapChain_extent.height, 0.1f, 10.0f);
-  ubo.proj[1][1] *= -1; // Because glm is designed for OpenGL convention
-
-  memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
+  memcpy(uniformBuffersMapped[currentImage], &mvp, sizeof(mvp));
 
   //---------------------------
 }

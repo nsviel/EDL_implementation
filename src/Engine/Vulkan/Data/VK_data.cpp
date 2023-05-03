@@ -27,8 +27,7 @@ Cloud* VK_data::load_model(){
   Cloud* cloud = new Cloud();
   cloud->path_file = "../src/Engine/Texture/viking_room.obj";
   cloud->path_texture = "../src/Engine/Texture/viking_room.png";
-
-
+  cloud->draw_type = "point";
 
   tinyobj::attrib_t attrib;
   std::vector<tinyobj::shape_t> shapes;
@@ -43,35 +42,30 @@ Cloud* VK_data::load_model(){
   std::vector<Vertex> vertices;
   for(const auto& shape : shapes){
     for(const auto& index : shape.mesh.indices){
-      Vertex vertex;
-      vertex.pos = {
+      vec3 xyz{
         attrib.vertices[3 * index.vertex_index + 0],
         attrib.vertices[3 * index.vertex_index + 1],
         attrib.vertices[3 * index.vertex_index + 2]
       };
-      vertex.texCoord = {
+      vec2 uv{
         attrib.texcoords[2 * index.texcoord_index + 0],
         1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
       };
-      vertex.color = {1.0f, 1.0f, 1.0f};
-      vertices.push_back(vertex);
 
-      cloud->xyz.push_back(vertex.pos);
+      cloud->xyz.push_back(xyz);
       cloud->rgb.push_back(vec4(1, 1, 1, 1));
-      cloud->uv.push_back(vertex.texCoord);
+      cloud->uv.push_back(uv);
     }
   }
 
-  //vk_buffer->insert_model_in_engine(vertices, cloud->path_texture);
   vk_buffer->insert_cloud_in_engine(cloud);
 
   //---------------------------
   return cloud;
 }
-std::vector<VkVertexInputAttributeDescription> VK_data::vertex_attribute(){
-  //---------------------------
-
+std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
   std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
+  //---------------------------
 
   VkVertexInputAttributeDescription attribut_1{};
   attribut_1.binding = 0;
@@ -96,4 +90,32 @@ std::vector<VkVertexInputAttributeDescription> VK_data::vertex_attribute(){
 
   //---------------------------
   return attributeDescriptions;
+}
+std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
+  std::vector<VkVertexInputBindingDescription> bindingDescriptions;
+  //---------------------------
+
+  // position buffer binding
+  VkVertexInputBindingDescription desc_xyz{};
+  desc_xyz.binding = 0;
+  desc_xyz.stride = sizeof(glm::vec3);
+  desc_xyz.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+  bindingDescriptions.push_back(desc_xyz);
+
+  // normal buffer binding
+  VkVertexInputBindingDescription desc_rgb{};
+  desc_rgb.binding = 1;
+  desc_rgb.stride = sizeof(glm::vec4);
+  desc_rgb.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+  bindingDescriptions.push_back(desc_rgb);
+
+  // texture coordinate buffer binding
+  VkVertexInputBindingDescription desc_uv{};
+  desc_uv.binding = 2;
+  desc_uv.stride = sizeof(glm::vec2);
+  desc_uv.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+  bindingDescriptions.push_back(desc_uv);
+
+  //---------------------------
+  return bindingDescriptions;
 }

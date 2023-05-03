@@ -17,7 +17,8 @@ public:
 public:
   //Main functions
   Cloud* load_model();
-  std::vector<VkVertexInputAttributeDescription> vertex_attribute();
+  std::vector<VkVertexInputAttributeDescription> description_vertex();
+  std::vector<VkVertexInputBindingDescription> description_binding();
 
 private:
   Engine_vulkan* engine_vulkan;
