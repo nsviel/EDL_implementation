@@ -1,13 +1,13 @@
 #include "Engine.h"
 
-#include "GUI.h"
-
 #include "../Vulkan/Engine_vulkan.h"
 
 #include "../Node_engine.h"
 #include "../Loop/Loop.h"
 
 #include "../../Load/Loader.h"
+#include "../../GUI/GUI.h"
+#include "../../GUI/Node_gui.h"
 
 
 //Constructor / Destructor
@@ -15,9 +15,11 @@ Engine::Engine(){
   //---------------------------
 
   this->node_engine = new Node_engine();
+  Node_gui* node_gui = node_engine->get_node_gui();
+
   this->engine_vulkan = node_engine->get_engine_vulkan();
   this->engine_loop = node_engine->get_engine_loop();
-  this->guiManager= node_engine->get_guiManager();
+  this->guiManager= node_gui->get_guiManager();
 
   //---------------------------
 }

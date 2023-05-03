@@ -2,19 +2,18 @@
 
 #include "../Pipeline/VK_renderpass.h"
 #include "../Pipeline/VK_pipeline.h"
-
 #include "../VK_struct.h"
 #include "../VK_parameter.h"
 #include "../Engine_vulkan.h"
-
 #include "../Device/VK_device.h"
 #include "../Data/VK_descriptor.h"
-
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_framebuffer.h"
 
-#include "../../Core/GUI.h"
 #include "../../Node_engine.h"
+
+#include "../../../GUI/GUI.h"
+#include "../../../GUI/Node_gui.h"
 
 
 //Constructor / Destructor
@@ -123,7 +122,8 @@ void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer command_buf
 
   //ICI command pour draw gui
   Node_engine* node_engine = engine_vulkan->get_node_engine();
-  GUI* guiManager = node_engine->get_guiManager();
+  Node_gui* node_gui = node_engine->get_node_gui();
+  GUI* guiManager = node_gui->get_guiManager();
   guiManager->command_gui(command_buffer);
 
   //End render pass

@@ -7,6 +7,7 @@
 
 class Node_engine;
 class Dimension;
+class GUI;
 
 class VK_window;
 class VK_instance;
@@ -64,6 +65,7 @@ private:
 
   Node_engine* node_engine;
   Dimension* dimManager;
+  GUI* guiManager;
 
   VK_window* vk_window;
   VK_instance* vk_instance;

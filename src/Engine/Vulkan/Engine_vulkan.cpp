@@ -18,19 +18,22 @@
 #include "Swapchain/VK_swapchain.h"
 #include "Camera/VK_camera.h"
 
-#include "../../Load/Loader.h"
-
-#include "../Core/GUI.h"
 #include "../Node_engine.h"
 
+#include "../../Load/Loader.h"
+#include "../../GUI/Node_gui.h"
+#include "../../GUI/GUI.h"
 
 
 //Constructor / Destructor
 Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   //---------------------------
 
+  Node_gui* node_gui = node_engine->get_node_gui();
+
   this->node_engine = node_engine;
   this->dimManager = node_engine->get_dimManager();
+  this->guiManager= node_gui->get_guiManager();
 
   this->vk_instance = new VK_instance();
   this->vk_window = new VK_window(this);
@@ -89,8 +92,6 @@ void Engine_vulkan::main_loop() {
   GLFWwindow* window = vk_window->get_window();
   VkDevice device = vk_device->get_device();
   //---------------------------
-
-  GUI* guiManager= node_engine->get_guiManager();
 
   //Model centered
   cloud = vk_data->load_model();
