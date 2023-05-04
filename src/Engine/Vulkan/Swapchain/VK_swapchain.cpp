@@ -8,9 +8,6 @@
 #include "../Instance/VK_window.h"
 #include "../Engine_vulkan.h"
 
-#include "../../Node_engine.h"
-
-
 
 //Constructor / Destructor
 VK_swapchain::VK_swapchain(Engine_vulkan* engine_vulkan){
@@ -19,7 +16,6 @@ VK_swapchain::VK_swapchain(Engine_vulkan* engine_vulkan){
   this->engine_vulkan = engine_vulkan;
   this->vk_window = engine_vulkan->get_vk_window();
   this->vk_device = engine_vulkan->get_vk_device();
-
 
   //---------------------------
 }

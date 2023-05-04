@@ -1,13 +1,12 @@
 #ifndef VK_WINDOW_H
 #define VK_WINDOW_H
 
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+#include "../../../common.h"
 
 class Engine_vulkan;
 class Node_engine;
 class VK_instance;
+class Dimension;
 
 
 class VK_window
@@ -33,6 +32,7 @@ public:
 
 private:
   GLFWwindow* window;
+  Dimension* dimManager;
   glm::vec2 render_dim;
   VkSurfaceKHR surface;
   VK_instance* vk_instance;

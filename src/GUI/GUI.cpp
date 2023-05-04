@@ -1,6 +1,6 @@
 #include "GUI.h"
 
-#include "../Engine/Core/Dimension.h"
+#include "../Engine/Dimension/Dimension.h"
 #include "../Engine/Node_engine.h"
 
 
@@ -25,25 +25,31 @@ GUI::~GUI(){
 
 //Loop functions
 void GUI::loop(){
-  vec2 dim_win = dimManager->get_win_dim();
+  Tab* tab_left = dimManager->get_tab("left_panel");
   //---------------------------
 
   ImGui::ShowDemoWindow();
 
-say(dim_win);
 
-    //Options
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBringToFrontOnFocus;
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImVec2(250, 100));
-    //ImGui::SetNextWindowSizeConstraints(ImVec2(1, 10), ImVec2(500, win_dim.y));
-    ImGui::Begin("LeftPanel##botOuter", NULL, window_flags);
+  //Left panel
+  ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBringToFrontOnFocus;
+  ImGui::SetNextWindowPos(ImVec2(tab_left->pos.x, tab_left->pos.y));
+  ImGui::SetNextWindowSize(ImVec2(tab_left->dim.x, tab_left->dim.y));
+  ImGui::SetNextWindowSizeConstraints(ImVec2(tab_left->dim_min.x, tab_left->dim_min.y), ImVec2(tab_left->dim_max.x, tab_left->dim_max.y));
+  ImGui::Begin("LeftPanel##botOuter", NULL, window_flags);
 
-    ImGui::Button("hello");
+  //Update panel dimension
+  float dim_x = ImGui::GetWindowSize().x;
+  if(dim_x != tab_left->dim.x){
+    tab_left->dim.x = ImGui::GetWindowSize().x;
+    dimManager->update();
+  }
+
+  ImGui::Button("hello");
 
 
-    ImGui::PopStyleVar();
-    ImGui::End();
+  ImGui::PopStyleVar();
+  ImGui::End();
 
   //---------------------------
 }

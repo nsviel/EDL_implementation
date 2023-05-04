@@ -2,14 +2,17 @@
 
 #include "../Engine_vulkan.h"
 
-#include "../../Core/Dimension.h"
+#include "../../Dimension/Dimension.h"
+#include "../../Node_engine.h"
 
 
 //Constructor / Destructor
 VK_camera::VK_camera(Engine_vulkan* engine_vulkan){
   //---------------------------
 
-  this->dimManager = engine_vulkan->get_dimManager();
+  Node_engine* node_engine = engine_vulkan->get_node_engine();
+
+  this->dimManager = node_engine->get_dimManager();
   this->viewport = new Viewport();
   this->mouse_pose_old = vec2(0.0f);
 

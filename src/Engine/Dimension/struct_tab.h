@@ -1,0 +1,22 @@
+#ifndef TAB_STRUCT_H
+#define TAB_STRUCT_H
+
+#include "../../common.h"
+
+
+//Collection are cloud containers
+struct Tab{
+  //---------------------------
+
+  Tab(std::string name);
+
+  std::string name;
+  glm::vec2 pos;
+  glm::vec2 dim;
+  glm::vec2 dim_min;
+  glm::vec2 dim_max;
+
+  //---------------------------
+};
+
+#endif

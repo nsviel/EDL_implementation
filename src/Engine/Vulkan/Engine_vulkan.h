@@ -6,8 +6,6 @@
 #include "../../common.h"
 
 class Node_engine;
-class Dimension;
-
 class VK_window;
 class VK_instance;
 class VK_device;
@@ -42,7 +40,6 @@ public:
   void clean_vulkan();
 
   inline Node_engine* get_node_engine(){return node_engine;}
-  inline Dimension* get_dimManager(){return dimManager;}
   inline VK_device* get_vk_device(){return vk_device;}
   inline VK_framebuffer* get_vk_framebuffer(){return vk_framebuffer;}
   inline VK_window* get_vk_window(){return vk_window;}
@@ -65,8 +62,6 @@ private:
   Cloud* cloud;
 
   Node_engine* node_engine;
-  Dimension* dimManager;
-
   VK_window* vk_window;
   VK_instance* vk_instance;
   VK_device* vk_device;

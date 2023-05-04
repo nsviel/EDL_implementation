@@ -1,9 +1,8 @@
 #include "Node_engine.h"
 
 #include "Vulkan/Engine_vulkan.h"
-#include "Loop/Loop.h"
 #include "Core/Scene.h"
-#include "Core/Dimension.h"
+#include "Dimension/Dimension.h"
 
 #include "../Load/Node_load.h"
 #include "../GUI/Node_gui.h"
@@ -13,10 +12,9 @@
 Node_engine::Node_engine(){
   //---------------------------
 
-  this->engine_vulkan = new Engine_vulkan(this);
-  this->engine_loop = new Loop(this);
-  this->sceneManager = new Scene(this);
   this->dimManager = new Dimension();
+  this->engine_vulkan = new Engine_vulkan(this);
+  this->sceneManager = new Scene(this);
 
   this->node_load = new Node_load(this);
   this->node_gui = new Node_gui(this);
@@ -27,7 +25,6 @@ Node_engine::~Node_engine(){
   //---------------------------
 
   delete engine_vulkan;
-  delete engine_loop;
   delete dimManager;
   delete sceneManager;
 
@@ -38,6 +35,13 @@ Node_engine::~Node_engine(){
 }
 
 //Main function
+void Node_engine::init(){
+  //---------------------------
+
+  dimManager->init();
+
+  //---------------------------
+}
 void Node_engine::loop(){
   //---------------------------
 

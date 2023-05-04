@@ -5,8 +5,6 @@
 
 #include "../../../common.h"
 
-#include <vulkan/vulkan.h>
-
 class Node_engine;
 
 

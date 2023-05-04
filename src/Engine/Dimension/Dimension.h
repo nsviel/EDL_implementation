@@ -1,6 +1,7 @@
 #ifndef DIMENSION_H
 #define DIMENSION_H
 
+#include "struct_tab.h"
 #include "../../common.h"
 
 
@@ -12,10 +13,12 @@ public:
 
 public:
   //Main functions
+  void init();
+  Tab* get_tab(std::string name);
+
+  //Update function
   void update();
   void update_window_dim();
-  void update_opengl_dim();
-  void update_gui_consol();
 
   //Subfunctions
   vec2 get_gl_middle();
@@ -24,6 +27,7 @@ public:
   void set_mouse_pose(vec2 pos);
 
   inline GLFWwindow* get_window(){return window;}
+  inline void set_window(GLFWwindow* win){this->window = win;}
   inline vec2* get_gui_ltp_dim(){update();return &gui_ltp_dim;}
   inline vec2* get_gui_ltp_pos(){update();return &gui_ltp_pos;}
   inline vec2* get_gui_lbp_dim(){update();return &gui_lbp_dim;}
@@ -42,11 +46,17 @@ public:
 
 private:
   GLFWwindow* window;
+  list<Tab*> list_tab;
+  vec2 win_dim;
+
+
+
+
 
   //Rendering
   vec2 gl_pos;
   vec2 gl_dim;
-  vec2 win_dim;
+
 
   //GUI
   vec2 gui_ltp_dim;

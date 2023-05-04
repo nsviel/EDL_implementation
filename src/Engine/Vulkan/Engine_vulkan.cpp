@@ -21,16 +21,12 @@
 
 #include "../Node_engine.h"
 
-#include "../../Load/Loader.h"
-
 
 //Constructor / Destructor
 Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   //---------------------------
 
   this->node_engine = node_engine;
-  this->dimManager = node_engine->get_dimManager();
-
   this->vk_instance = new VK_instance();
   this->vk_window = new VK_window(this);
   this->vk_device = new VK_device(this);

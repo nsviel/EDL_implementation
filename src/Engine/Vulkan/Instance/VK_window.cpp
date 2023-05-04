@@ -4,22 +4,22 @@
 #include "../Engine_vulkan.h"
 
 #include "../../Node_engine.h"
-
-#include <stdint.h>
-#include <iostream>
+#include "../../Dimension/Dimension.h"
 
 
 //Constructor / Destructor
 VK_window::VK_window(Engine_vulkan* engine_vulkan){
   //---------------------------
 
+  Node_engine* node_engine = engine_vulkan->get_node_engine();
+
+  this->dimManager = node_engine->get_dimManager();
   this->render_dim = glm::vec2(800, 600);
   this->vk_instance = engine_vulkan->get_vk_instance();
 
   //---------------------------
 }
 VK_window::~VK_window(){}
-
 
 //Main function
 void VK_window::init_window(){
@@ -28,8 +28,9 @@ void VK_window::init_window(){
   glfwInit();
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-  this->window = glfwCreateWindow(render_dim.x, render_dim.y, "Vulkan", nullptr, nullptr);
+  this->window = glfwCreateWindow(render_dim.x, render_dim.y, "Nephos", nullptr, nullptr);
   this->render_dim = get_framebuffer_size();
+  dimManager->set_window(window);
 
   if (!glfwVulkanSupported()){
     printf("GLFW: Vulkan Not Supported\n");
@@ -87,6 +88,9 @@ bool VK_window::check_for_resizing(){
   if(dim.x != render_dim.x || dim.y != render_dim.y){
     is_resized = true;
     render_dim = dim;
+
+    //update dimension
+    dimManager->update();
   }
 
   //---------------------------

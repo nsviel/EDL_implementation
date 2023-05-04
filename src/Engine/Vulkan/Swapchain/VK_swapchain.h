@@ -1,12 +1,8 @@
 #ifndef VK_SWAPCHAIN_H
 #define VK_SWAPCHAIN_H
 
-#include <vulkan/vulkan.h>
-
-#include "../../../common.h"
-
-
 #include "../VK_struct.h"
+#include "../../../common.h"
 
 class Engine_vulkan;
 class VK_window;
