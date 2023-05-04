@@ -7,7 +7,6 @@
 
 class Node_engine;
 class Dimension;
-class GUI;
 
 class VK_window;
 class VK_instance;
@@ -26,6 +25,7 @@ class VK_texture;
 class VK_depth;
 class VK_data;
 class VK_camera;
+class VK_gui;
 
 
 class Engine_vulkan
@@ -59,13 +59,13 @@ public:
   inline VK_depth* get_vk_depth(){return vk_depth;}
   inline VK_data* get_vk_data(){return vk_data;}
   inline VK_camera* get_vk_camera(){return vk_camera;}
+  inline VK_gui* get_vk_gui(){return vk_gui;}
 
 private:
   Cloud* cloud;
 
   Node_engine* node_engine;
   Dimension* dimManager;
-  GUI* guiManager;
 
   VK_window* vk_window;
   VK_instance* vk_instance;
@@ -84,6 +84,7 @@ private:
   VK_texture* vk_texture;
   VK_data* vk_data;
   VK_camera* vk_camera;
+  VK_gui* vk_gui;
 };
 
 #endif

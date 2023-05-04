@@ -8,6 +8,7 @@
 #include "../../extern/imgui/imgui_impl_vulkan.h"
 
 class Node_engine;
+class Dimension;
 
 
 class GUI
@@ -19,21 +20,13 @@ public:
 
 public:
   //Main functions
-  void init();
-  void cleanup();
-  void command_gui(VkCommandBuffer command_buffer);
 
   //Loop functions
   void loop();
-  void loop_start();
-  void loop_run();
-  void loop_end();
 
 private:
   Node_engine* node_engine;
-
-  VkDescriptorPool imguiPool;
-  ImDrawData* draw_data;
+  Dimension* dimManager;
 };
 
 #endif

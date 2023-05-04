@@ -1,5 +1,6 @@
 #include "VK_command.h"
 
+#include "../Instance/VK_gui.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Pipeline/VK_pipeline.h"
 #include "../VK_struct.h"
@@ -121,10 +122,8 @@ void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer command_buf
   this->command_drawing(cloud, command_buffer);
 
   //ICI command pour draw gui
-  Node_engine* node_engine = engine_vulkan->get_node_engine();
-  Node_gui* node_gui = node_engine->get_node_gui();
-  GUI* guiManager = node_gui->get_guiManager();
-  guiManager->command_gui(command_buffer);
+  VK_gui* vk_gui = engine_vulkan->get_vk_gui();
+  vk_gui->command_gui(command_buffer);
 
   //End render pass
   vkCmdEndRenderPass(command_buffer);

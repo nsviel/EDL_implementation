@@ -18,6 +18,8 @@ public:
   ~Node_engine();
 
 public:
+  void loop();
+  
   inline Engine_vulkan* get_engine_vulkan(){return engine_vulkan;}
   inline Loop* get_engine_loop(){return engine_loop;}
   inline Dimension* get_dimManager(){return dimManager;}

@@ -36,9 +36,6 @@ void Engine::init_engine(){
   //---------------------------
 
   engine_vulkan->init_vulkan();
-  guiManager->init();
-
-
 
   //---------------------------
 }
@@ -52,7 +49,6 @@ void Engine::loop(){
 void Engine::cleanup(){
   //---------------------------
 
-  guiManager->cleanup();
   engine_vulkan->clean_vulkan();
 
 

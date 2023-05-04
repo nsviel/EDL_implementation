@@ -13,13 +13,13 @@
 Node_engine::Node_engine(){
   //---------------------------
 
-  this->node_load = new Node_load(this);
-  this->node_gui = new Node_gui(this);
-
   this->engine_vulkan = new Engine_vulkan(this);
   this->engine_loop = new Loop(this);
   this->sceneManager = new Scene(this);
   this->dimManager = new Dimension();
+
+  this->node_load = new Node_load(this);
+  this->node_gui = new Node_gui(this);
 
   //---------------------------
 }
@@ -38,3 +38,10 @@ Node_engine::~Node_engine(){
 }
 
 //Main function
+void Node_engine::loop(){
+  //---------------------------
+
+  node_gui->loop();
+
+  //---------------------------
+}

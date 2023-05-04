@@ -13,6 +13,7 @@
 #include "Command/VK_drawing.h"
 #include "Device/VK_device.h"
 #include "Instance/VK_window.h"
+#include "Instance/VK_gui.h"
 #include "Swapchain/VK_framebuffer.h"
 #include "Swapchain/VK_depth.h"
 #include "Swapchain/VK_swapchain.h"
@@ -21,19 +22,14 @@
 #include "../Node_engine.h"
 
 #include "../../Load/Loader.h"
-#include "../../GUI/Node_gui.h"
-#include "../../GUI/GUI.h"
 
 
 //Constructor / Destructor
 Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   //---------------------------
 
-  Node_gui* node_gui = node_engine->get_node_gui();
-
   this->node_engine = node_engine;
   this->dimManager = node_engine->get_dimManager();
-  this->guiManager= node_gui->get_guiManager();
 
   this->vk_instance = new VK_instance();
   this->vk_window = new VK_window(this);
@@ -52,6 +48,7 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_texture = new VK_texture(this);
   this->vk_depth = new VK_depth(this);
   this->vk_data = new VK_data(this);
+  this->vk_gui = new VK_gui(this);
 
   //---------------------------
 }
@@ -85,6 +82,7 @@ void Engine_vulkan::init_vulkan(){
   //Command
   vk_command->create_command_buffers();
   vk_synchronization->create_sync_objects();
+  vk_gui->init_gui();
 
   //---------------------------
 }
@@ -98,7 +96,9 @@ void Engine_vulkan::main_loop() {
 
   while(!glfwWindowShouldClose(window)) {
     glfwPollEvents();
-    guiManager->loop();
+    vk_gui->loop_start();
+    node_engine->loop();
+    vk_gui->loop_end();
     vk_drawing->draw_frame(cloud);
   }
 
@@ -109,6 +109,7 @@ void Engine_vulkan::main_loop() {
 void Engine_vulkan::clean_vulkan(){
   //---------------------------
 
+  vk_gui->cleanup();
   vk_depth->cleanup();
   vk_framebuffer->cleanup();
   vk_swapchain->cleanup();

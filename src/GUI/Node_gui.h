@@ -15,6 +15,8 @@ public:
   ~Node_gui();
 
 public:
+  void loop();
+
   inline Node_engine* get_node_engine(){return node_engine;}
   inline GUI* get_guiManager(){return guiManager;}
 

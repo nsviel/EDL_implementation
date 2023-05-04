@@ -22,3 +22,10 @@ Node_gui::~Node_gui(){
 }
 
 //Main function
+void Node_gui::loop(){
+  //---------------------------
+
+  guiManager->loop();
+
+  //---------------------------
+}
