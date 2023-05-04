@@ -13,11 +13,6 @@
 #include "../Swapchain/VK_framebuffer.h"
 #include "../Camera/VK_viewport.h"
 
-#include "../../Node_engine.h"
-
-#include "../../../GUI/GUI.h"
-#include "../../../GUI/Node_gui.h"
-
 
 //Constructor / Destructor
 VK_command::VK_command(Engine_vulkan* engine_vulkan){

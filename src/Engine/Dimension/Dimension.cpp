@@ -19,7 +19,7 @@ void Dimension::init(){
   //Left tab
   Tab* tab_panel_left = new Tab("left_panel");
   tab_panel_left->pos = vec2(0, 0);
-  tab_panel_left->dim = vec2(100, 100);
+  tab_panel_left->dim = vec2(200, 00);
   this->list_tab.push_back(tab_panel_left);
 
   //Rendering tab
@@ -55,6 +55,7 @@ void Dimension::update(){
   tab_left->dim.y = win_dim.y;
   tab_left->dim_min.y = win_dim.y;
   tab_left->dim_max.y = win_dim.y;
+  tab_left->dim_max.x = win_dim.y - 50;
 
   tab_rendering->pos.x = tab_left->dim.x;
   tab_rendering->dim.x = win_dim.x - tab_left->dim.x;

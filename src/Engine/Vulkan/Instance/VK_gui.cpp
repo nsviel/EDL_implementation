@@ -14,6 +14,11 @@ VK_gui::VK_gui(Engine_vulkan* engine_vulkan){
   //---------------------------
 
   this->engine_vulkan = engine_vulkan;
+  this->vk_command = engine_vulkan->get_vk_command();
+  this->vk_window = engine_vulkan->get_vk_window();
+  this->vk_instance = engine_vulkan->get_vk_instance();
+  this->vk_device = engine_vulkan->get_vk_device();
+  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
 
   //---------------------------
 }
@@ -25,16 +30,38 @@ VK_gui::~VK_gui(){
 }
 
 //Main function
-void VK_gui::init_gui(){
-  VK_window* vk_window = engine_vulkan->get_vk_window();
-  VK_instance* vk_instance = engine_vulkan->get_vk_instance();
+void VK_gui::cleanup(){
   VK_device* vk_device = engine_vulkan->get_vk_device();
-  VK_renderpass* vk_renderpass = engine_vulkan->get_vk_renderpass();
-  VK_command* vk_command = engine_vulkan->get_vk_command();
   //---------------------------
 
-  //Get vulkan objects
-  VkCommandPool command_pool = vk_command->get_command_pool();
+  VkDevice device = vk_device->get_device();
+  vkDestroyDescriptorPool(device, imguiPool, nullptr);
+
+  ImGui_ImplVulkan_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
+
+  //---------------------------
+}
+void VK_gui::command_gui(VkCommandBuffer command_buffer){
+  //---------------------------
+
+  ImGui_ImplVulkan_RenderDrawData(draw_data, command_buffer);
+
+  //---------------------------
+}
+
+//Init function
+void VK_gui::init_gui(){
+  //---------------------------
+
+  this->gui_vulkan();
+  this->gui_font();
+  this->gui_style();
+
+  //---------------------------
+}
+void VK_gui::gui_vulkan(){
   GLFWwindow* window = vk_window->get_window();
   VkInstance instance = vk_instance->get_instance();
   VkPhysicalDevice physical_device = vk_device->get_physical_device();
@@ -42,6 +69,7 @@ void VK_gui::init_gui(){
   VkSurfaceKHR surface = vk_window->get_surface();
   VkQueue queue_graphics = vk_device->get_queue_graphics();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
+  //---------------------------
 
   // Setup Dear ImGui context
   IMGUI_CHECKVERSION();
@@ -89,68 +117,83 @@ void VK_gui::init_gui(){
 
   ImGui_ImplVulkan_Init(&init_info, renderPass);
 
-  // Upload Fonts
-  {
-    // Use any command queue
-    std::vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
-    VkCommandBuffer command_buffer = command_buffer_vec[currentFrame];
+  //---------------------------
+}
+void VK_gui::gui_style(){
+  ImGuiStyle& style = ImGui::GetStyle();
+  ImGuiIO& io = ImGui::GetIO();
+  //---------------------------
 
-    result = vkResetCommandPool(device, command_pool, 0);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("gui font error");
-    }
+  //Formatting
+  style.FrameBorderSize = 0.0f;
+  style.WindowPadding.x = 5.0f;
 
-    VkCommandBufferBeginInfo begin_info = {};
-    begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-    result = vkBeginCommandBuffer(command_buffer, &begin_info);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("gui font error");
-    }
+  //Rounding
+  style.WindowRounding = 0.0f;
+  style.TabRounding = 0.0f;
+  style.GrabRounding = 0.0f;
+  style.ScrollbarRounding = 0.0f;
+  style.ChildRounding = 0.0f;
+  style.FrameRounding = 0.0f;
+  style.PopupRounding = 0.0f;
+  //style.IndentSpacing = 0.0f; //Pas d'indentation des tree
 
-    ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+  //Colors
+  ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(112, 112, 112, 127)); //Frame background
+  ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(200, 200, 200, 127)); //Button color
+  ImGui::PushStyleColor(ImGuiCol_Header, IM_COL32(76, 76, 76, 124));
+  ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(117, 117, 117, 220));
 
-    VkSubmitInfo end_info = {};
-    end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-    end_info.commandBufferCount = 1;
-    end_info.pCommandBuffers = &command_buffer;
-    result = vkEndCommandBuffer(command_buffer);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("gui font error");
-    }
+  //IO parameters
+  io.ConfigWindowsResizeFromEdges = true;
 
-    result = vkQueueSubmit(queue_graphics, 1, &end_info, VK_NULL_HANDLE);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("gui font error");
-    }
+  //---------------------------
+}
+void VK_gui::gui_font(){
+  VkDevice device = vk_device->get_device();
+  VkCommandPool command_pool = vk_command->get_command_pool();
+  VkQueue queue_graphics = vk_device->get_queue_graphics();
+  //---------------------------
 
-    result = vkDeviceWaitIdle(device);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("gui font error");
-    }
+  // Use any command queue
+  std::vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
+  VkCommandBuffer command_buffer = command_buffer_vec[currentFrame];
 
-    ImGui_ImplVulkan_DestroyFontUploadObjects();
+  VkResult result = vkResetCommandPool(device, command_pool, 0);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("gui font error");
   }
 
-  //---------------------------
-}
-void VK_gui::cleanup(){
-  VK_device* vk_device = engine_vulkan->get_vk_device();
-  //---------------------------
+  VkCommandBufferBeginInfo begin_info = {};
+  begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+  result = vkBeginCommandBuffer(command_buffer, &begin_info);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("gui font error");
+  }
 
-  VkDevice device = vk_device->get_device();
-  vkDestroyDescriptorPool(device, imguiPool, nullptr);
+  ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
 
-  ImGui_ImplVulkan_Shutdown();
-  ImGui_ImplGlfw_Shutdown();
-  ImGui::DestroyContext();
+  VkSubmitInfo end_info = {};
+  end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  end_info.commandBufferCount = 1;
+  end_info.pCommandBuffers = &command_buffer;
+  result = vkEndCommandBuffer(command_buffer);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("gui font error");
+  }
 
-  //---------------------------
-}
-void VK_gui::command_gui(VkCommandBuffer command_buffer){
-  //---------------------------
+  result = vkQueueSubmit(queue_graphics, 1, &end_info, VK_NULL_HANDLE);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("gui font error");
+  }
 
-  ImGui_ImplVulkan_RenderDrawData(draw_data, command_buffer);
+  result = vkDeviceWaitIdle(device);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("gui font error");
+  }
+
+  ImGui_ImplVulkan_DestroyFontUploadObjects();
 
   //---------------------------
 }

@@ -1,5 +1,5 @@
-#ifndef GUI_H
-#define GUI_H
+#ifndef GUI_LEFT_PAN_H
+#define GUI_LEFT_PAN_H
 
 #include "../common.h"
 
@@ -11,18 +11,19 @@ class Node_engine;
 class Dimension;
 
 
-class GUI
+class GUI_left_panel
 {
 public:
   //Constructor / Destructor
-  GUI(Node_engine* node_engine);
-  ~GUI();
+  GUI_left_panel(Node_engine* node_engine);
+  ~GUI_left_panel();
 
 public:
   //Main functions
-
-  //Loop functions
-  void loop();
+  void draw_left_panel();
+  void left_panel_dim();
+  void left_panel_menu();
+  void left_panel_content();
 
 private:
   Node_engine* node_engine;
