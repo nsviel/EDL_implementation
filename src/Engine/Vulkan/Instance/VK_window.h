@@ -33,9 +33,10 @@ public:
 private:
   GLFWwindow* window;
   Dimension* dimManager;
-  glm::vec2 render_dim;
+
   VkSurfaceKHR surface;
   VK_instance* vk_instance;
+  glm::vec2 window_dim;
 };
 
 #endif

@@ -23,6 +23,7 @@ class VK_texture;
 class VK_depth;
 class VK_data;
 class VK_camera;
+class VK_viewport;
 class VK_gui;
 
 
@@ -56,6 +57,7 @@ public:
   inline VK_depth* get_vk_depth(){return vk_depth;}
   inline VK_data* get_vk_data(){return vk_data;}
   inline VK_camera* get_vk_camera(){return vk_camera;}
+  inline VK_viewport* get_vk_viewport(){return vk_viewport;}
   inline VK_gui* get_vk_gui(){return vk_gui;}
 
 private:
@@ -79,6 +81,7 @@ private:
   VK_texture* vk_texture;
   VK_data* vk_data;
   VK_camera* vk_camera;
+  VK_viewport* vk_viewport;
   VK_gui* vk_gui;
 };
 

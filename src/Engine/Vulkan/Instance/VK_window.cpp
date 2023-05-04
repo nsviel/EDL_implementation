@@ -14,7 +14,7 @@ VK_window::VK_window(Engine_vulkan* engine_vulkan){
   Node_engine* node_engine = engine_vulkan->get_node_engine();
 
   this->dimManager = node_engine->get_dimManager();
-  this->render_dim = glm::vec2(800, 600);
+  this->window_dim = glm::vec2(800, 600);
   this->vk_instance = engine_vulkan->get_vk_instance();
 
   //---------------------------
@@ -28,8 +28,8 @@ void VK_window::init_window(){
   glfwInit();
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-  this->window = glfwCreateWindow(render_dim.x, render_dim.y, "Nephos", nullptr, nullptr);
-  this->render_dim = get_framebuffer_size();
+  this->window = glfwCreateWindow(window_dim.x, window_dim.y, "Nephos", nullptr, nullptr);
+  this->window_dim = get_framebuffer_size();
   dimManager->set_window(window);
 
   if (!glfwVulkanSupported()){
@@ -85,9 +85,9 @@ bool VK_window::check_for_resizing(){
   //---------------------------
 
   glm::vec2 dim = get_framebuffer_size();
-  if(dim.x != render_dim.x || dim.y != render_dim.y){
+  if(dim.x != window_dim.x || dim.y != window_dim.y){
     is_resized = true;
-    render_dim = dim;
+    window_dim = dim;
 
     //update dimension
     dimManager->update();

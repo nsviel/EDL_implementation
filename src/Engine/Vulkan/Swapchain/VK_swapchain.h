@@ -32,7 +32,7 @@ public:
 
   inline VkSwapchainKHR get_swapChain(){return swapChain;}
   inline VkFormat get_swapChain_image_format(){return swapChain_image_format;}
-  inline VkExtent2D get_swapChain_extent(){return swapChain_extent;}
+  inline VkExtent2D get_swapChain_extent(){return swapchain_extent;}
 
   inline std::vector<VkImage> get_swapChain_images(){return swapChain_images;}
   inline std::vector<VkImageView> get_swapChain_image_views(){return swapChain_image_views;}
@@ -44,7 +44,7 @@ private:
 
   VkSwapchainKHR swapChain;
   VkFormat swapChain_image_format;
-  VkExtent2D swapChain_extent;
+  VkExtent2D swapchain_extent;
 
   std::vector<VkImage> swapChain_images;
   std::vector<VkImageView> swapChain_image_views;

@@ -94,7 +94,7 @@ void VK_swapchain::create_swapChain(){
 
   //Store values
   this->swapChain_image_format = surfaceFormat.format;
-  this->swapChain_extent = extent;
+  this->swapchain_extent = extent;
 
   //---------------------------
 }
@@ -183,8 +183,8 @@ VkExtent2D VK_swapchain::swapChain_extent_setting(const VkSurfaceCapabilitiesKHR
   //---------------------------
 
   if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
-    extent = capabilities.currentExtent;
-  }else{
+    extent = capabilities.currentExtent;say("up");
+  }else{sayHello();
     glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
 
     extent = {

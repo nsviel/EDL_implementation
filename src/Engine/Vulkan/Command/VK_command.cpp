@@ -10,6 +10,7 @@
 #include "../Data/VK_descriptor.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_framebuffer.h"
+#include "../Camera/VK_viewport.h"
 
 #include "../../Node_engine.h"
 
@@ -28,6 +29,7 @@ VK_command::VK_command(Engine_vulkan* engine_vulkan){
   this->vk_pipeline = engine_vulkan->get_vk_pipeline();
   this->vk_framebuffer = engine_vulkan->get_vk_framebuffer();
   this->vk_descriptor = engine_vulkan->get_vk_descriptor();
+  this->vk_viewport = engine_vulkan->get_vk_viewport();
 
   //---------------------------
 }
@@ -88,7 +90,7 @@ void VK_command::cleanup(){
 //Command functions
 void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer command_buffer, uint32_t imageIndex){
   std::vector<VkFramebuffer> swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
-  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
@@ -110,7 +112,7 @@ void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer command_buf
   renderPassInfo.renderPass = renderPass;
   renderPassInfo.framebuffer = swapChain_fbo[imageIndex];
   renderPassInfo.renderArea.offset = {0, 0};
-  renderPassInfo.renderArea.extent = swapChain_extent;
+  renderPassInfo.renderArea.extent = swapchain_extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
   renderPassInfo.pClearValues = clearValues.data();
 
@@ -135,22 +137,22 @@ void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer command_buf
   //---------------------------
 }
 void VK_command::command_viewport(VkCommandBuffer command_buffer){
-  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   //---------------------------
 
   //Dynamic commands
   VkViewport viewport{};
   viewport.x = 0.0f;
   viewport.y = 0.0f;
-  viewport.width = static_cast<float>(swapChain_extent.width);
-  viewport.height = static_cast<float>(swapChain_extent.height);
+  viewport.width = static_cast<float>(swapchain_extent.width);
+  viewport.height = static_cast<float>(swapchain_extent.height);
   viewport.minDepth = 0.0f;
   viewport.maxDepth = 1.0f;
   vkCmdSetViewport(command_buffer, 0, 1, &viewport);
 
   VkRect2D scissor{};
   scissor.offset = {0, 0};
-  scissor.extent = swapChain_extent;
+  scissor.extent = swapchain_extent;
   vkCmdSetScissor(command_buffer, 0, 1, &scissor);
 
   //---------------------------

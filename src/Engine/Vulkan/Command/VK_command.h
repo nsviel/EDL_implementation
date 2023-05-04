@@ -12,6 +12,7 @@ class VK_renderpass;
 class VK_pipeline;
 class VK_framebuffer;
 class VK_descriptor;
+class VK_viewport;
 
 
 class VK_command
@@ -47,6 +48,7 @@ private:
   VK_pipeline* vk_pipeline;
   VK_framebuffer* vk_framebuffer;
   VK_descriptor* vk_descriptor;
+  VK_viewport* vk_viewport;
 
   VkCommandPool command_pool;
   std::vector<VkCommandBuffer> command_buffer_vec;

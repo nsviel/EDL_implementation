@@ -41,7 +41,7 @@ void VK_uniform::create_uniform_buffers(){
   //---------------------------
 }
 void VK_uniform::update_uniform_buffer(uint32_t currentImage){
-  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   //---------------------------
 
   static auto startTime = std::chrono::high_resolution_clock::now();
@@ -55,7 +55,7 @@ void VK_uniform::update_uniform_buffer(uint32_t currentImage){
   mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f) * 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
   //mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f) * 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
   mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-  mvp.proj = glm::perspective(glm::radians(45.0f), swapChain_extent.width / (float) swapChain_extent.height, 0.1f, 10.0f);
+  mvp.proj = glm::perspective(glm::radians(45.0f), swapchain_extent.width / (float) swapchain_extent.height, 0.1f, 10.0f);
   mvp.proj[1][1] *= -1; // Because glm is designed for OpenGL convention
 
   memcpy(uniformBuffersMapped[currentImage], &mvp, sizeof(mvp));

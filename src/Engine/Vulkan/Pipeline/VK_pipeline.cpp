@@ -7,6 +7,7 @@
 #include "../Engine_vulkan.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
+#include "../Camera/VK_viewport.h"
 
 #include "../../Node_engine.h"
 
@@ -20,6 +21,7 @@ VK_pipeline::VK_pipeline(Engine_vulkan* engine_vulkan){
   this->vk_swapchain = engine_vulkan->get_vk_swapchain();
   this->vk_renderpass = engine_vulkan->get_vk_renderpass();
   this->vk_descriptor = engine_vulkan->get_vk_descriptor();
+  this->vk_viewport = engine_vulkan->get_vk_viewport();
 
   //---------------------------
 }
@@ -27,7 +29,7 @@ VK_pipeline::~VK_pipeline(){}
 
 //Main function
 void VK_pipeline::create_graphics_pipeline(){
-  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
@@ -83,15 +85,6 @@ void VK_pipeline::create_graphics_pipeline(){
   inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
   inputAssembly.primitiveRestartEnable = VK_FALSE;
 
-  //Viewport
-  VkViewport viewport{};
-  viewport.x = 0.0f;
-  viewport.y = 0.0f;
-  viewport.width  = (float) swapChain_extent.width;
-  viewport.height = (float) swapChain_extent.height;
-  viewport.minDepth = 0.0f;
-  viewport.maxDepth = 1.0f;
-
   //Dynamic internal variables (viewport, line width, ...)
   //the subsequent values has to be given at runtime
   std::vector<VkDynamicState> dynamicStates = {
@@ -103,16 +96,18 @@ void VK_pipeline::create_graphics_pipeline(){
   dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
   dynamicState.pDynamicStates = dynamicStates.data();
 
-  //Full viewport scissor
-  VkRect2D scissor{};
-  scissor.offset = {0, 0};
-  scissor.extent = swapChain_extent;
+  //Viewport
+  vk_viewport->init_viewport(swapchain_extent);
+  VkViewport viewport = vk_viewport->get_viewport();
+  VkRect2D scissor = vk_viewport->get_scissor();
 
   //Viewport info
   VkPipelineViewportStateCreateInfo viewportState{};
   viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
   viewportState.viewportCount = 1;
+  viewportState.pViewports = &viewport;
   viewportState.scissorCount = 1;
+  viewportState.pScissors = &scissor;
 
   //Rasterization stage
   VkPipelineRasterizationStateCreateInfo rasterizer{};

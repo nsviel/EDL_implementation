@@ -21,12 +21,12 @@ VK_depth::~VK_depth(){}
 
 //Main function
 void VK_depth::create_depth_resources(){
-  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   //---------------------------
 
   VkFormat depthFormat = findDepthFormat();
 
-  vk_texture->create_image(swapChain_extent.width, swapChain_extent.height, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, depthImage, depthImageMemory);
+  vk_texture->create_image(swapchain_extent.width, swapchain_extent.height, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, depthImage, depthImageMemory);
   depthImageView = vk_texture->create_image_view(depthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT);
 
   //---------------------------

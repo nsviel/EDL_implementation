@@ -26,7 +26,7 @@ VK_framebuffer::~VK_framebuffer(){}
 //Main function
 void VK_framebuffer::create_framebuffers(){
   std::vector<VkImageView> swapChain_image_views = vk_swapchain->get_swapChain_image_views();
-  VkExtent2D swapChain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   VK_depth* vk_depth = engine_vulkan->get_vk_depth();
@@ -50,8 +50,8 @@ void VK_framebuffer::create_framebuffers(){
     framebufferInfo.renderPass = renderPass;
     framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
     framebufferInfo.pAttachments = attachments.data();
-    framebufferInfo.width = swapChain_extent.width;
-    framebufferInfo.height = swapChain_extent.height;
+    framebufferInfo.width = swapchain_extent.width;
+    framebufferInfo.height = swapchain_extent.height;
     framebufferInfo.layers = 1;
 
     VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &swapChain_fbo[i]);
