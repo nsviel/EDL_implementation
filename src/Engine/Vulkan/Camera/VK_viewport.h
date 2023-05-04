@@ -16,7 +16,7 @@ public:
   ~VK_viewport();
 
 public:
-  void init_viewport(VkExtent2D swapchain_extent);
+  void update_viewport(VkExtent2D swapchain_extent);
 
   inline VkViewport get_viewport(){return viewport;}
   inline VkRect2D get_scissor(){return scissor;}

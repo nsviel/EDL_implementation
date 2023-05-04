@@ -183,8 +183,8 @@ VkExtent2D VK_swapchain::swapChain_extent_setting(const VkSurfaceCapabilitiesKHR
   //---------------------------
 
   if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
-    extent = capabilities.currentExtent;say("up");
-  }else{sayHello();
+    extent = capabilities.currentExtent;
+  }else{
     glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
 
     extent = {

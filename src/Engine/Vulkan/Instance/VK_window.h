@@ -4,9 +4,9 @@
 #include "../../../common.h"
 
 class Engine_vulkan;
-class Node_engine;
-class VK_instance;
 class Dimension;
+class VK_instance;
+class VK_viewport;
 
 
 class VK_window
@@ -33,9 +33,10 @@ public:
 private:
   GLFWwindow* window;
   Dimension* dimManager;
+  VK_instance* vk_instance;
+  VK_viewport* vk_viewport;
 
   VkSurfaceKHR surface;
-  VK_instance* vk_instance;
   glm::vec2 window_dim;
 };
 

@@ -38,7 +38,7 @@ Node_engine::~Node_engine(){
 void Node_engine::init(){
   //---------------------------
 
-  dimManager->init();
+  dimManager->update();
 
   //---------------------------
 }

@@ -97,7 +97,7 @@ void VK_pipeline::create_graphics_pipeline(){
   dynamicState.pDynamicStates = dynamicStates.data();
 
   //Viewport
-  vk_viewport->init_viewport(swapchain_extent);
+  vk_viewport->update_viewport(swapchain_extent);
   VkViewport viewport = vk_viewport->get_viewport();
   VkRect2D scissor = vk_viewport->get_scissor();
 

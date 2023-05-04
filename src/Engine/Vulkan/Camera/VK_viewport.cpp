@@ -18,15 +18,16 @@ VK_viewport::VK_viewport(Engine_vulkan* engine_vulkan){
 }
 VK_viewport::~VK_viewport(){}
 
-void VK_viewport::init_viewport(VkExtent2D swapchain_extent){
+void VK_viewport::update_viewport(VkExtent2D swapchain_extent){
+  Tab* tab = dimManager->get_tab("rendering");
   //---------------------------
 
   //Viewport
   viewport = {};
-  viewport.x = 0.0f;
-  viewport.y = 0.0f;
-  viewport.width  = (float) swapchain_extent.width;
-  viewport.height = (float) swapchain_extent.height;
+  viewport.x = tab->pos.x;
+  viewport.y = tab->pos.y;
+  viewport.width  = tab->dim.x;
+  viewport.height = tab->dim.y;
   viewport.minDepth = 0.0f;
   viewport.maxDepth = 1.0f;
 

@@ -1,6 +1,7 @@
 #include "VK_window.h"
 
 #include "../Instance/VK_instance.h"
+#include "../Camera/VK_viewport.h"
 #include "../Engine_vulkan.h"
 
 #include "../../Node_engine.h"
@@ -16,6 +17,7 @@ VK_window::VK_window(Engine_vulkan* engine_vulkan){
   this->dimManager = node_engine->get_dimManager();
   this->window_dim = glm::vec2(800, 600);
   this->vk_instance = engine_vulkan->get_vk_instance();
+  this->vk_viewport = engine_vulkan->get_vk_viewport();
 
   //---------------------------
 }

@@ -1,6 +1,7 @@
 #include "VK_command.h"
 
 #include "../Instance/VK_gui.h"
+#include "../Instance/VK_window.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Pipeline/VK_pipeline.h"
 #include "../VK_struct.h"
@@ -30,6 +31,7 @@ VK_command::VK_command(Engine_vulkan* engine_vulkan){
   this->vk_framebuffer = engine_vulkan->get_vk_framebuffer();
   this->vk_descriptor = engine_vulkan->get_vk_descriptor();
   this->vk_viewport = engine_vulkan->get_vk_viewport();
+  this->vk_window = engine_vulkan->get_vk_window();
 
   //---------------------------
 }
@@ -140,19 +142,12 @@ void VK_command::command_viewport(VkCommandBuffer command_buffer){
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   //---------------------------
 
-  //Dynamic commands
-  VkViewport viewport{};
-  viewport.x = 0.0f;
-  viewport.y = 0.0f;
-  viewport.width = static_cast<float>(swapchain_extent.width);
-  viewport.height = static_cast<float>(swapchain_extent.height);
-  viewport.minDepth = 0.0f;
-  viewport.maxDepth = 1.0f;
-  vkCmdSetViewport(command_buffer, 0, 1, &viewport);
+  vk_viewport->update_viewport(swapchain_extent);
 
-  VkRect2D scissor{};
-  scissor.offset = {0, 0};
-  scissor.extent = swapchain_extent;
+  VkViewport viewport = vk_viewport->get_viewport();
+  VkRect2D scissor = vk_viewport->get_scissor();
+
+  vkCmdSetViewport(command_buffer, 0, 1, &viewport);
   vkCmdSetScissor(command_buffer, 0, 1, &scissor);
 
   //---------------------------

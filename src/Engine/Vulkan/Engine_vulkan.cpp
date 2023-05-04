@@ -29,12 +29,12 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
 
   this->node_engine = node_engine;
   this->vk_instance = new VK_instance();
+  this->vk_viewport = new VK_viewport(this);
   this->vk_window = new VK_window(this);
   this->vk_device = new VK_device(this);
   this->vk_swapchain = new VK_swapchain(this);
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_descriptor = new VK_descriptor(this);
-  this->vk_viewport = new VK_viewport(this);
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_buffer = new VK_buffer(this);

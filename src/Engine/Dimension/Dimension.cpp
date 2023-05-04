@@ -6,6 +6,7 @@ Dimension::Dimension(){
   //---------------------------
 
   this->win_dim = vec2(0);
+  this->init();
 
   //---------------------------
 }
@@ -18,16 +19,14 @@ void Dimension::init(){
   //Left tab
   Tab* tab_panel_left = new Tab("left_panel");
   tab_panel_left->pos = vec2(0, 0);
-  tab_panel_left->dim = vec2(100, win_dim.y);
+  tab_panel_left->dim = vec2(100, 100);
   this->list_tab.push_back(tab_panel_left);
 
   //Rendering tab
   Tab* tab_rendering = new Tab("rendering");
   tab_rendering->pos = vec2(100, 0);
-  tab_rendering->dim = vec2(100, win_dim.y);
+  tab_rendering->dim = vec2(100, 100);
   this->list_tab.push_back(tab_rendering);
-
-  this->update();
 
   //---------------------------
 }
@@ -53,10 +52,13 @@ void Dimension::update(){
 
   this->update_window_dim();
 
-  tab_rendering->pos.x = tab_left->dim.x;
   tab_left->dim.y = win_dim.y;
   tab_left->dim_min.y = win_dim.y;
   tab_left->dim_max.y = win_dim.y;
+
+  tab_rendering->pos.x = tab_left->dim.x;
+  tab_rendering->dim.x = win_dim.x - tab_left->dim.x;
+  tab_rendering->dim.y = win_dim.y;
 
   //---------------------------
 }
