@@ -9,6 +9,7 @@ class Node_engine;
 class Dimension;
 class CAM_arcball;
 class CAM_fps;
+class CAM_zoom;
 
 
 class Camera
@@ -62,6 +63,7 @@ private:
   Dimension* dimManager;
   CAM_arcball* cam_arcball;
   CAM_fps* cam_fps;
+  CAM_zoom* cam_zoom;
 
 
   Cam* camera;

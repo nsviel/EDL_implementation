@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Mode/CAM_fps.h"
 #include "Mode/CAM_arcball.h"
+#include "Mode/CAM_zoom.h"
 
 #include "../Dimension/Dimension.h"
 #include "../Node_engine.h"
@@ -16,6 +17,7 @@ Camera::Camera(Node_engine* node_engine){
 
   this->cam_arcball = new CAM_arcball(node_engine);
   this->cam_fps = new CAM_fps(node_engine);
+  this->cam_zoom = new CAM_zoom(node_engine);
 
   //---------------------------
 }
@@ -123,8 +125,6 @@ void Camera::compute_zoom_position(float yoffset){
 
   //---------------------------
 }
-
-//Inputs
 void Camera::input_cam_mouse(){
   if(camera->cam_move){
     //---------------------------
