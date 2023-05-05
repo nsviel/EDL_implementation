@@ -8,6 +8,7 @@
 struct Cam{
 
   Cam();
+  void reset();
 
   glm::vec2 pos;
   glm::vec2 dim;

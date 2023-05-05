@@ -189,3 +189,10 @@ void Camera::control(string what, bool fast){
 
   //---------------------------
 }
+void Camera::reset_camera(){
+  //---------------------------
+
+  this->camera->reset();
+
+  //---------------------------
+}

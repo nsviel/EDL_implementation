@@ -1,6 +1,7 @@
 #include "Control.h"
 
 #include "../Dimension/Dimension.h"
+#include "../Camera/Camera.h"
 #include "../Node_engine.h"
 
 
@@ -10,6 +11,7 @@ Control::Control(Node_engine* node_engine){
 
   this->node_engine = node_engine;
   this->dimManager = node_engine->get_dimManager();
+  this->cameraManager = node_engine->get_cameraManager();
 
   //---------------------------
 }
@@ -21,6 +23,13 @@ void Control::exit(){
   //---------------------------
 
   glfwSetWindowShouldClose(window, true);
+
+  //---------------------------
+}
+void Control::reset(){
+  //---------------------------
+
+  cameraManager->reset_camera();
 
   //---------------------------
 }

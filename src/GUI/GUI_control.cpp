@@ -120,6 +120,13 @@ void GUI_control::control_keyboard_oneAction(){
     if(ImGui::IsKeyPressed(ImGuiKey_Escape)){
       controlManager->exit();
     }
+
+    //R key - Reset
+    if(ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantCaptureMouse){
+      controlManager->reset();
+      break;
+    }
+
     /*
     //Tab key
     if (ImGui::IsKeyPressed(258)){
@@ -140,12 +147,6 @@ void GUI_control::control_keyboard_oneAction(){
     //Fin key - Delete all
     if (ImGui::IsKeyPressed(269)){
       sceneManager->remove_collection_all();
-      break;
-    }
-
-    //R key - Reset
-    if (ImGui::IsKeyPressed(82) && !io.WantCaptureMouse){
-      node_gui->reset();
       break;
     }
 

@@ -34,6 +34,7 @@ public:
   void set_mode_view(int value);
 
   void control(string what, bool fast);
+  void reset_camera();
 
   inline mat4 get_cam_view(){return compute_cam_view();}
   inline mat4 get_cam_proj(){return compute_cam_proj();}

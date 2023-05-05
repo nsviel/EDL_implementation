@@ -5,6 +5,7 @@
 
 class Node_engine;
 class Dimension;
+class Camera;
 
 
 class Control
@@ -17,10 +18,12 @@ public:
 public:
   //Main function
   void exit();
+  void reset();
 
 private:
   Node_engine* node_engine;
   Dimension* dimManager;
+  Camera* cameraManager;
 };
 
 #endif
