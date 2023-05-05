@@ -5,9 +5,9 @@
 #include <string>
 
 
-struct Viewport{
+struct Cam{
 
-  Viewport();
+  Cam();
 
   glm::vec2 pos;
   glm::vec2 dim;

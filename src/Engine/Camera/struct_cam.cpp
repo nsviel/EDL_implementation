@@ -1,7 +1,7 @@
 #include "struct_cam.h"
 
 
-Viewport::Viewport(){
+Cam::Cam(){
   //---------------------------
 
   this->pos = glm::vec2(0.0f);

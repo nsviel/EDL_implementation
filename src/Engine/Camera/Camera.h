@@ -7,6 +7,8 @@
 
 class Node_engine;
 class Dimension;
+class CAM_arcball;
+class CAM_fps;
 
 
 class Camera
@@ -18,58 +20,51 @@ public:
 public:
   //MVP matrices
   mat4 compute_cam_view();
-  mat4 compute_cam_default();
-  mat4 compute_cam_arcball();
   mat4 compute_cam_proj();
   mat4 compute_cam_mvp();
   mat4 compute_cam_world_pose();
+  void input_cam_mouse();
 
   //Zoom
   void compute_zoom_optic(float value);
   void compute_zoom_position(float value);
-
-  //Input commands
-  void input_cam_mouse();
-  void input_cam_mouse_default();
-  void input_cam_mouse_arcball();
 
   //Camera mode
   void set_mode_projection(int value);
   void set_mode_angle(int value);
   void set_mode_view(int value);
 
-  //Arcball function
-  vec2 arcball_mouse_angle();
-  void arcball_viewport_angle(vec2 angle);
-
-  inline void set_desiredViewMatrix(mat4 value){viewport->cam_pose_mat = value;}
-  inline void set_desiredPoseON(bool value){viewport->cam_pose = value;}
-  inline void set_cameraFOV(float value){viewport->fov = value;}
-  inline void set_cameraSpeed(float value){viewport->speed_move = value;}
-  inline void set_cameraPos(vec3 value){viewport->cam_P = value;}
-  inline void set_camForward(vec3 value){viewport->cam_F = value;}
-  inline void set_angle_azimuth(float value){viewport->angle_azimuth = value;}
+  inline void set_desiredViewMatrix(mat4 value){camera->cam_pose_mat = value;}
+  inline void set_desiredPoseON(bool value){camera->cam_pose = value;}
+  inline void set_cameraFOV(float value){camera->fov = value;}
+  inline void set_cameraSpeed(float value){camera->speed_move = value;}
+  inline void set_cameraPos(vec3 value){camera->cam_P = value;}
+  inline void set_camForward(vec3 value){camera->cam_F = value;}
+  inline void set_angle_azimuth(float value){camera->angle_azimuth = value;}
 
   inline mat4 get_cam_view(){return compute_cam_view();}
   inline mat4 get_cam_proj(){return compute_cam_proj();}
   inline mat4 get_mvpMatrix(){return compute_cam_mvp();}
-  inline float* get_angle_azimuth(){return &viewport->angle_azimuth;}
-  inline float get_angle_elevati(){return viewport->angle_elevation;}
-  inline float get_fov(){return viewport->fov;}
-  inline vec3 get_cam_P(){return viewport->cam_P;}
-  inline vec3 get_cam_target(){return viewport->cam_P + viewport->cam_F;}
-  inline vec3 get_cam_F(){return viewport->cam_F;}
-  inline vec3 get_cam_U(){return viewport->cam_U;}
-  inline vec3 get_cam_R(){return viewport->cam_R;}
-  inline vec3* get_cam_COM(){return &viewport->cam_COM;}
-  inline vec3* get_cam_PPtr(){return &viewport->cam_P;}
-  inline Viewport* get_viewport(){return viewport;}
-  inline bool is_cameraMovON(){return viewport->cam_move;}
+  inline float* get_angle_azimuth(){return &camera->angle_azimuth;}
+  inline float get_angle_elevati(){return camera->angle_elevation;}
+  inline float get_fov(){return camera->fov;}
+  inline vec3 get_cam_P(){return camera->cam_P;}
+  inline vec3 get_cam_target(){return camera->cam_P + camera->cam_F;}
+  inline vec3 get_cam_F(){return camera->cam_F;}
+  inline vec3 get_cam_U(){return camera->cam_U;}
+  inline vec3 get_cam_R(){return camera->cam_R;}
+  inline vec3* get_cam_COM(){return &camera->cam_COM;}
+  inline vec3* get_cam_PPtr(){return &camera->cam_P;}
+  inline Cam* get_camera(){return camera;}
+  inline bool is_cameraMovON(){return camera->cam_move;}
 
 private:
   Dimension* dimManager;
+  CAM_arcball* cam_arcball;
+  CAM_fps* cam_fps;
 
-  Viewport* viewport;
+
+  Cam* camera;
   vec2 mouse_pose_old;
 };
 
