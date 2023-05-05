@@ -1,5 +1,5 @@
-#ifndef STRUCT_VIEWPORT_H
-#define STRUCT_VIEWPORT_H
+#ifndef STRUCT_CAMERA_H
+#define STRUCT_CAMERA_H
 
 #include <glm/glm.hpp>
 #include <string>

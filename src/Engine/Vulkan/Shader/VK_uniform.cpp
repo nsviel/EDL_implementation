@@ -5,17 +5,21 @@
 #include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
-#include "../Camera/VK_camera.h"
+
+#include "../../Camera/Camera.h"
+#include "../../Node_engine.h"
 
 
 //Constructor / Destructor
 VK_uniform::VK_uniform(Engine_vulkan* engine_vulkan){
   //---------------------------
 
+  Node_engine* node_engine = engine_vulkan->get_node_engine();
+
   this->vk_device = engine_vulkan->get_vk_device();
   this->vk_buffer = engine_vulkan->get_vk_buffer();
   this->vk_swapchain = engine_vulkan->get_vk_swapchain();
-  this->vk_camera = engine_vulkan->get_vk_camera();
+  this->vk_camera = node_engine->get_cameraManager();
 
   //---------------------------
 }

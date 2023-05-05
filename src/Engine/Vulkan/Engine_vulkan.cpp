@@ -17,7 +17,6 @@
 #include "Swapchain/VK_framebuffer.h"
 #include "Swapchain/VK_depth.h"
 #include "Swapchain/VK_swapchain.h"
-#include "Camera/VK_camera.h"
 #include "Camera/VK_viewport.h"
 
 #include "../Node_engine.h"
@@ -40,7 +39,6 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
   this->vk_buffer = new VK_buffer(this);
   this->vk_command = new VK_command(this);
   this->vk_synchronization = new VK_synchronization(this);
-  this->vk_camera = new VK_camera(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
   this->vk_texture = new VK_texture(this);

@@ -1,19 +1,19 @@
-#ifndef VK_CAMERA_H
-#define VK_CAMERA_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
-#include "struct_viewport.h"
+#include "struct_cam.h"
 
-#include "../../../common.h"
+#include "../../common.h"
 
-class Engine_vulkan;
+class Node_engine;
 class Dimension;
 
 
-class VK_camera
+class Camera
 {
 public:
-  VK_camera(Engine_vulkan* engine_vulkan);
-  ~VK_camera();
+  Camera(Node_engine* node_engine);
+  ~Camera();
 
 public:
   //MVP matrices
@@ -33,7 +33,7 @@ public:
   void input_cam_mouse_default();
   void input_cam_mouse_arcball();
 
-  //VK_camera mode
+  //Camera mode
   void set_mode_projection(int value);
   void set_mode_angle(int value);
   void set_mode_view(int value);

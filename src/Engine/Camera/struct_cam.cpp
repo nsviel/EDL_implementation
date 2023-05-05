@@ -1,4 +1,4 @@
-#include "struct_viewport.h"
+#include "struct_cam.h"
 
 
 Viewport::Viewport(){

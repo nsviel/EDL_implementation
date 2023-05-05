@@ -15,6 +15,7 @@ struct Tab{
   glm::vec2 dim;
   glm::vec2 dim_min;
   glm::vec2 dim_max;
+  glm::vec2 center;
 
   //---------------------------
 };

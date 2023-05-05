@@ -1,16 +1,12 @@
-#include "VK_camera.h"
+#include "Camera.h"
 
-#include "../Engine_vulkan.h"
-
-#include "../../Dimension/Dimension.h"
-#include "../../Node_engine.h"
+#include "../Dimension/Dimension.h"
+#include "../Node_engine.h"
 
 
 //Constructor / Destructor
-VK_camera::VK_camera(Engine_vulkan* engine_vulkan){
+Camera::Camera(Node_engine* node_engine){
   //---------------------------
-
-  Node_engine* node_engine = engine_vulkan->get_node_engine();
 
   this->dimManager = node_engine->get_dimManager();
   this->viewport = new Viewport();
@@ -18,10 +14,10 @@ VK_camera::VK_camera(Engine_vulkan* engine_vulkan){
 
   //---------------------------
 }
-VK_camera::~VK_camera(){}
+Camera::~Camera(){}
 
 //MVP Matrix
-mat4 VK_camera::compute_cam_view(){
+mat4 Camera::compute_cam_view(){
   mat4 cam_view;
   //---------------------------
 
@@ -36,7 +32,7 @@ mat4 VK_camera::compute_cam_view(){
   //---------------------------
   return cam_view;
 }
-mat4 VK_camera::compute_cam_default(){
+mat4 Camera::compute_cam_default(){
   //---------------------------
 
   float azimuth = viewport->angle_azimuth;
@@ -59,7 +55,7 @@ mat4 VK_camera::compute_cam_default(){
   //---------------------------
   return cam_view;
 }
-mat4 VK_camera::compute_cam_arcball(){
+mat4 Camera::compute_cam_arcball(){
   mat4 cam_view;
   //---------------------------
 
@@ -73,7 +69,7 @@ mat4 VK_camera::compute_cam_arcball(){
   //---------------------------
   return cam_view;
 }
-mat4 VK_camera::compute_cam_proj(){
+mat4 Camera::compute_cam_proj(){
   mat4 cam_proj;
   //---------------------------
 
@@ -97,7 +93,7 @@ mat4 VK_camera::compute_cam_proj(){
   //---------------------------
   return cam_proj;
 }
-mat4 VK_camera::compute_cam_mvp(){
+mat4 Camera::compute_cam_mvp(){
   //---------------------------
 
   //mat4 cam_view = compute_cam_view();
@@ -109,7 +105,7 @@ mat4 VK_camera::compute_cam_mvp(){
   //---------------------------
   return mvpMatrix;
 }
-mat4 VK_camera::compute_cam_world_pose(){
+mat4 Camera::compute_cam_world_pose(){
   //---------------------------
 
   vec3 zaxis = normalize(viewport->cam_F);
@@ -127,7 +123,7 @@ mat4 VK_camera::compute_cam_world_pose(){
 }
 
 //Functions
-void VK_camera::compute_zoom_optic(float yoffset){
+void Camera::compute_zoom_optic(float yoffset){
   GLFWwindow* window = glfwGetCurrentContext();
   //---------------------------
 
@@ -144,7 +140,7 @@ void VK_camera::compute_zoom_optic(float yoffset){
 
   //---------------------------
 }
-void VK_camera::compute_zoom_position(float yoffset){
+void Camera::compute_zoom_position(float yoffset){
   GLFWwindow* window = glfwGetCurrentContext();
   //---------------------------
 
@@ -161,7 +157,7 @@ void VK_camera::compute_zoom_position(float yoffset){
 }
 
 //Inputs
-void VK_camera::input_cam_mouse(){
+void Camera::input_cam_mouse(){
   if(viewport->cam_move){
     //---------------------------
 
@@ -174,7 +170,7 @@ void VK_camera::input_cam_mouse(){
     //---------------------------
   }
 }
-void VK_camera::input_cam_mouse_default(){
+void Camera::input_cam_mouse_default(){
   //---------------------------
 
   float& azimuth = viewport->angle_azimuth;
@@ -204,7 +200,7 @@ void VK_camera::input_cam_mouse_default(){
 
   //---------------------------
 }
-void VK_camera::input_cam_mouse_arcball(){
+void Camera::input_cam_mouse_arcball(){
   //---------------------------
 
   vec2 angle = arcball_mouse_angle();
@@ -214,7 +210,7 @@ void VK_camera::input_cam_mouse_arcball(){
 }
 
 //Arcball function
-vec2 VK_camera::arcball_mouse_angle(){
+vec2 Camera::arcball_mouse_angle(){
   //---------------------------
 
   vec2 mouse_pose = dimManager->get_mouse_pose();
@@ -234,7 +230,7 @@ vec2 VK_camera::arcball_mouse_angle(){
   //---------------------------
   return angle;
 }
-void VK_camera::arcball_viewport_angle(vec2 angle){
+void Camera::arcball_viewport_angle(vec2 angle){
   //---------------------------
 
   // Get the homogenous position of the camera and pivot point
@@ -256,8 +252,8 @@ void VK_camera::arcball_viewport_angle(vec2 angle){
   //---------------------------
 }
 
-//VK_camera mode
-void VK_camera::set_mode_projection(int proj){
+//Camera mode
+void Camera::set_mode_projection(int proj){
   //---------------------------
 
   switch(proj){
@@ -273,7 +269,7 @@ void VK_camera::set_mode_projection(int proj){
 
   //---------------------------
 }
-void VK_camera::set_mode_angle(int view){
+void Camera::set_mode_angle(int view){
   //---------------------------
 
   switch(view){
@@ -289,7 +285,7 @@ void VK_camera::set_mode_angle(int view){
 
   //---------------------------
 }
-void VK_camera::set_mode_view(int mode){
+void Camera::set_mode_view(int mode){
   //---------------------------
 
   switch(mode){

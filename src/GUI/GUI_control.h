@@ -3,8 +3,13 @@
 
 #include "../common.h"
 
+#include "../../extern/imgui/imgui.h"
+#include "../../extern/imgui/imgui_impl_glfw.h"
+#include "../../extern/imgui/imgui_impl_vulkan.h"
+
 class Node_engine;
 class Dimension;
+class Control;
 
 
 class GUI_control
@@ -29,6 +34,7 @@ public:
 private:
   Node_engine* node_engine;
   Dimension* dimManager;
+  Control* controlManager;
 };
 
 #endif

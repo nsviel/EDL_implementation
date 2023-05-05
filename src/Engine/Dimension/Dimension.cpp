@@ -60,6 +60,7 @@ void Dimension::update(){
   tab_rendering->pos.x = tab_left->dim.x;
   tab_rendering->dim.x = win_dim.x - tab_left->dim.x;
   tab_rendering->dim.y = win_dim.y;
+  tab_rendering->center = vec2(tab_rendering->pos.x + tab_rendering->dim.x/2, tab_rendering->dim.y/2);
 
   //---------------------------
 }

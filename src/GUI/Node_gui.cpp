@@ -30,6 +30,7 @@ void Node_gui::loop(){
   //---------------------------
 
   gui_left_panel->draw_left_panel();
+  gui_control->make_control();
 
   //---------------------------
 }

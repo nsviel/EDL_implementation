@@ -1,8 +1,6 @@
 #ifndef VK_VIEWPORT_H
 #define VK_VIEWPORT_H
 
-#include "struct_viewport.h"
-
 #include "../../../common.h"
 
 class Engine_vulkan;

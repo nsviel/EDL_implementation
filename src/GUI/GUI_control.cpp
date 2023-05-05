@@ -2,6 +2,7 @@
 
 #include "../Engine/Node_engine.h"
 #include "../Engine/Dimension/Dimension.h"
+#include "../Engine/Core/Control.h"
 
 
 //Constructor / Destructor
@@ -10,29 +11,33 @@ GUI_control::GUI_control(Node_engine* node_engine){
 
   this->node_engine = node_engine;
   this->dimManager = node_engine->get_dimManager();
+  this->controlManager = node_engine->get_controlManager();
 
   //---------------------------
 }
 GUI_control::~GUI_control(){}
-/*
+
 //Main function
 void GUI_control::make_control(){
   //---------------------------
 
   this->control_mouse();
-  this->control_mouse_wheel();
+  //this->control_mouse_wheel();
   this->control_keyboard_oneAction();
-  this->control_keyboard_camMove();
+  //this->control_keyboard_camMove();
 
   //---------------------------
 }
 
 //Mouse function
 void GUI_control::control_mouse(){
+  Tab* tab_rendering = dimManager->get_tab("rendering");
   ImGuiIO io = ImGui::GetIO();
   GLFWwindow* window = dimManager->get_window();
-  Viewport_obj* view = cameraManager->get_current_viewport();
+  static bool cam_move = false;
   //----------------------------
+
+  io.BackendFlags = ImGuiBackendFlags_HasMouseCursors;
 
   //Right click - Camera movement
   static vec2 cursorPos;
@@ -44,27 +49,29 @@ void GUI_control::control_mouse(){
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
     //Set cursor to screen middle
-    vec2 glMiddle = dimManager->get_gl_middle();
-    glfwSetCursorPos(window, glMiddle.x, glMiddle.y);
+    glfwSetCursorPos(window, tab_rendering->center.x, tab_rendering->center.y);
 
     //Enable camera movement
-    view->cam_move = true;
+    cam_move = true;
   }
   //Right click release
-  if(ImGui::IsMouseReleased(1) && cameraManager->is_cameraMovON()){
+  if(ImGui::IsMouseReleased(1) && cam_move){
     //Restaure cursor position
     dimManager->set_mouse_pose(cursorPos);
 
     //Disable camera movement
-    view->cam_move = false;
+    cam_move = false;
   }
   if(io.MouseDown[1] && !io.WantCaptureMouse){
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+    //Set cursor to screen middle
+    glfwSetCursorPos(window, tab_rendering->center.x, tab_rendering->center.y);
   }
 
   //---------------------------
 }
-void GUI_control::control_mouse_wheel(){
+/*void GUI_control::control_mouse_wheel(){
   Collection* collection = sceneManager->get_selected_collection();
   static int wheelMode = 0;
   ImGuiIO io = ImGui::GetIO();
@@ -119,21 +126,18 @@ void GUI_control::control_mouse_wheel(){
   }
 
   //----------------------------
-}
+}*/
 
 //Keyboard function
 void GUI_control::control_keyboard_oneAction(){
-  Collection* collection = sceneManager->get_selected_collection();
   ImGuiIO io = ImGui::GetIO();
-  GLFWwindow* window = glfwGetCurrentContext();
   //----------------------------
 
-  for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++){
-    //Esc key
-    if(ImGui::IsKeyPressed(256)){
-      node_gui->exit();
+  for(int i=0; i<IM_ARRAYSIZE(io.KeysDown); i++){
+    if(ImGui::IsKeyPressed(ImGuiKey_Escape)){
+      controlManager->exit();
     }
-
+    /*
     //Tab key
     if (ImGui::IsKeyPressed(258)){
       bool* highlightON = extractionManager->get_highlightON();
@@ -197,12 +201,12 @@ void GUI_control::control_keyboard_oneAction(){
       GUI_Player* gui_player = node_gui->get_gui_player();
       gui_player->player_pause();
       break;
-    }
+    }*/
   }
 
   //----------------------------
 }
-void GUI_control::control_keyboard_camMove(){
+/*void GUI_control::control_keyboard_camMove(){
   ImGuiIO io = ImGui::GetIO();
   Viewport_obj* view = cameraManager->get_current_viewport();
   //----------------------------
@@ -265,5 +269,4 @@ void GUI_control::control_keyboard_camMove(){
   }
 
   //---------------------------
-}
-*/
+}*/
