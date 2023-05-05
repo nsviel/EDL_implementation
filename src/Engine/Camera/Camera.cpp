@@ -2,6 +2,7 @@
 #include "Mode/CAM_first_person.h"
 #include "Mode/CAM_arcball.h"
 #include "Mode/CAM_zoom.h"
+#include "Mode/CAM_proj.h"
 
 #include "../Dimension/Dimension.h"
 #include "../Node_engine.h"
@@ -15,6 +16,7 @@ Camera::Camera(Node_engine* node_engine){
   this->cam_arcball = new CAM_arcball(node_engine);
   this->cam_fp = new CAM_first_person(node_engine);
   this->cam_zoom = new CAM_zoom(node_engine);
+  this->cam_proj = new CAM_proj(node_engine);
 
   this->camera = new Cam();
 
@@ -39,29 +41,18 @@ mat4 Camera::compute_cam_view(){
   return cam_view;
 }
 mat4 Camera::compute_cam_proj(){
-  Tab* tab_rendering = dimManager->get_tab("rendering");
-  mat4 cam_proj;
+  mat4 projection;
   //---------------------------
 
-  //Compute projection matrix
   if(camera->projection == "perspective"){
-    float z_near = camera->clip_near;
-    float z_far = camera->clip_far;
-    float fov = glm::radians(camera->fov);
-    float ratio = (float)tab_rendering->dim.x / (float)tab_rendering->dim.y;
-
-    cam_proj = perspective(fov, ratio, z_near, z_far);
-    cam_proj[1][1] *= -1; // Because glm is designed for OpenGL convention
+    projection = cam_proj->compute_proj_perspective(camera);
   }
   else if(camera->projection == "orthographic"){
-    float z_near = camera->clip_near;
-    float z_far = camera->clip_far;
-    float zoom = camera->zoom;
-    cam_proj = ortho(-5.f - zoom, 5.f + zoom, -5.f - zoom, 5.f + zoom, z_near, z_far);
+    projection = cam_proj->compute_proj_ortho(camera);
   }
 
   //---------------------------
-  return cam_proj;
+  return projection;
 }
 mat4 Camera::compute_cam_mvp(){
   //---------------------------
@@ -156,6 +147,43 @@ void Camera::set_mode_view(int mode){
     case 1:{ //Arcball
       camera->mode = "arcball";
       break;
+    }
+  }
+
+  //---------------------------
+}
+
+void Camera::control(string what, bool fast){
+  //---------------------------
+
+  //Compute camera movment speed value
+  float cam_speed = camera->speed_move * 0.0000016;
+  if(fast){
+    cam_speed *= 5;
+  }
+
+  if(what == "up"){
+    camera->cam_P += camera->cam_F * cam_speed;
+  }
+  else if(what == "down"){
+    camera->cam_P -= camera->cam_F * cam_speed;
+  }
+  else if(what == "right"){
+    if(camera->mode == "first_person"){
+      camera->cam_P += camera->cam_R * cam_speed;
+    }else if(camera->mode == "arcball"){
+      vec2 angle =vec2(-cam_speed/10, 0);
+      cam_arcball->arcball_viewport_angle(camera, angle);
+      cam_arcball->arcball_view_mat(camera);
+    }
+  }
+  else if(what == "left"){
+    if(camera->mode == "first_person"){
+      camera->cam_P -= camera->cam_R * cam_speed;
+    }else if(camera->mode == "arcball"){
+      vec2 angle =vec2(cam_speed/10, 0);
+      cam_arcball->arcball_viewport_angle(camera, angle);
+      cam_arcball->arcball_view_mat(camera);
     }
   }
 

@@ -15,6 +15,8 @@ public:
   ~CAM_proj();
 
 public:
+  mat4 compute_proj_perspective(Cam* camera);
+  mat4 compute_proj_ortho(Cam* camera);
 
 private:
   Dimension* dimManager;

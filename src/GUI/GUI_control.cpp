@@ -26,7 +26,7 @@ void GUI_control::make_control(){
   this->control_mouse();
   this->control_mouse_wheel();
   this->control_keyboard_oneAction();
-  //this->control_keyboard_camMove();
+  this->control_keyboard_camMove();
 
   //---------------------------
 }
@@ -64,7 +64,7 @@ void GUI_control::control_mouse_wheel(){
   if(io.MouseWheel && io.MouseDownDuration[1] >= 0.0f && !io.WantCaptureMouse){
     cameraManager->compute_zoom(io.MouseWheel);
   }
-/*
+  /*
   //Wheel click - Change mouse wheel mode
   if(ImGui::IsMouseClicked(2) && !io.WantCaptureMouse){
     wheelMode++;
@@ -189,67 +189,40 @@ void GUI_control::control_keyboard_oneAction(){
 
   //----------------------------
 }
-/*void GUI_control::control_keyboard_camMove(){
+void GUI_control::control_keyboard_camMove(){
   ImGuiIO io = ImGui::GetIO();
-  Viewport_obj* view = cameraManager->get_current_viewport();
   //----------------------------
 
-  if(view->cam_move){
-    float delta = 0.00016;
-    float cam_speed = view->speed_move * delta;
-    float cam_speed_fast = view->speed_move * delta * 5;
+  for(int i=0; i<IM_ARRAYSIZE(io.KeysDown); i++){
+    if(io.MouseDown[1] && !io.WantCaptureMouse){
 
-    for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++){
-      if(io.MouseDown[1] && !io.WantCaptureMouse){
+      //Shift speed up
+      bool is_fast = false;
+      if(io.KeysDown[340]){
+        is_fast = true;
+      }
 
-        //Shift speed up
-        if(io.KeysDown[340]){
-          cam_speed = cam_speed_fast;
-        }
+      //Z key or Up key
+      if(io.KeysDown[571] || io.KeysDown[515]){
+        cameraManager->control("up", is_fast);
+      }
 
-        //Z key or Up key
-        if(io.KeysDown[87] || io.KeysDown[265]){
-          if(view->view == "top"){
-            view->cam_P += view->cam_U * cam_speed;
-          }else{
-            vec3 old = view->cam_P;
-            view->cam_P += view->cam_F * cam_speed;
-          }
-        }
+      //S key or Down key
+      if(io.KeysDown[564] || io.KeysDown[516]){
+        cameraManager->control("down", is_fast);
+      }
 
-        //S key or Down key
-        if(io.KeysDown[83] || io.KeysDown[264]){
-          if(view->view == "top"){
-            view->cam_P -= view->cam_U * cam_speed;
-          }else{
-            view->cam_P -= view->cam_F * cam_speed;
-          }
-        }
+      //Q key or Left key
+      if(io.KeysDown[562] || io.KeysDown[513]){
+        cameraManager->control("left", is_fast);
+      }
 
-        //Q key or Right key
-        if(io.KeysDown[65] || io.KeysDown[263]){
-          if(view->mode == "default"){
-            view->cam_P -= view->cam_R * cam_speed;
-          }else if(view->mode == "arcball"){
-            vec2 angle =vec2(-cam_speed/10, 0);
-            cameraManager->arcball_viewport_angle(angle);
-            cameraManager->compute_cam_arcball();
-          }
-        }
-
-        //D key or Left key
-        if(io.KeysDown[68] || io.KeysDown[262]){
-          if(view->mode == "default"){
-            view->cam_P += view->cam_R * cam_speed;
-          }else if(view->mode == "arcball"){
-            vec2 angle =vec2(cam_speed/10, 0);
-            cameraManager->arcball_viewport_angle(angle);
-            cameraManager->compute_cam_arcball();
-          }
-        }
+      //D key or Left key
+      if(io.KeysDown[549] || io.KeysDown[514]){
+        cameraManager->control("right", is_fast);
       }
     }
   }
 
   //---------------------------
-}*/
+}
