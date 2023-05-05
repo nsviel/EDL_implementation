@@ -5,6 +5,7 @@
 #include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
+#include "../Camera/VK_camera.h"
 
 #include "../../Camera/Camera.h"
 #include "../../Node_engine.h"
@@ -19,7 +20,7 @@ VK_uniform::VK_uniform(Engine_vulkan* engine_vulkan){
   this->vk_device = engine_vulkan->get_vk_device();
   this->vk_buffer = engine_vulkan->get_vk_buffer();
   this->vk_swapchain = engine_vulkan->get_vk_swapchain();
-  this->vk_camera = node_engine->get_cameraManager();
+  this->vk_camera = engine_vulkan->get_vk_camera();
 
   //---------------------------
 }
@@ -48,20 +49,16 @@ void VK_uniform::update_uniform_buffer(uint32_t currentImage){
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   //---------------------------
 
-  static auto startTime = std::chrono::high_resolution_clock::now();
-  auto currentTime = std::chrono::high_resolution_clock::now();
-  float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
-  //mat4 truc = vk_camera->compute_cam_mvp();
-  //say(truc);
 
+  MVP mvp = vk_camera->get_mvp();
+/*
   MVP mvp{};
   mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f) * 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
-  //mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f) * 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
   mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
   mvp.proj = glm::perspective(glm::radians(45.0f), swapchain_extent.width / (float) swapchain_extent.height, 0.1f, 10.0f);
   mvp.proj[1][1] *= -1; // Because glm is designed for OpenGL convention
-
+*/
   memcpy(uniformBuffersMapped[currentImage], &mvp, sizeof(mvp));
 
   //---------------------------

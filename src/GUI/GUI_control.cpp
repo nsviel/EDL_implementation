@@ -3,6 +3,7 @@
 #include "../Engine/Node_engine.h"
 #include "../Engine/Dimension/Dimension.h"
 #include "../Engine/Core/Control.h"
+#include "../Engine/Camera/Camera.h"
 
 
 //Constructor / Destructor
@@ -11,6 +12,7 @@ GUI_control::GUI_control(Node_engine* node_engine){
 
   this->node_engine = node_engine;
   this->dimManager = node_engine->get_dimManager();
+  this->cameraManager = node_engine->get_cameraManager();
   this->controlManager = node_engine->get_controlManager();
 
   //---------------------------
@@ -22,7 +24,7 @@ void GUI_control::make_control(){
   //---------------------------
 
   this->control_mouse();
-  //this->control_mouse_wheel();
+  this->control_mouse_wheel();
   this->control_keyboard_oneAction();
   //this->control_keyboard_camMove();
 
@@ -33,55 +35,36 @@ void GUI_control::make_control(){
 void GUI_control::control_mouse(){
   Tab* tab_rendering = dimManager->get_tab("rendering");
   ImGuiIO io = ImGui::GetIO();
-  GLFWwindow* window = dimManager->get_window();
-  static bool cam_move = false;
+  Cam* camera = cameraManager->get_camera();
   //----------------------------
-
-  io.BackendFlags = ImGuiBackendFlags_HasMouseCursors;
 
   //Right click - Camera movement
   static vec2 cursorPos;
   if(ImGui::IsMouseClicked(1) && !io.WantCaptureMouse){
-    //Save cursor position
     cursorPos = dimManager->get_mouse_pose();
-
-    //Hide cursor
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
-    //Set cursor to screen middle
-    glfwSetCursorPos(window, tab_rendering->center.x, tab_rendering->center.y);
-
-    //Enable camera movement
-    cam_move = true;
+    dimManager->set_mouse_visibility(false);
+    dimManager->set_mouse_pose(tab_rendering->center);
+    camera->cam_move = true;
   }
-  //Right click release
-  if(ImGui::IsMouseReleased(1) && cam_move){
-    //Restaure cursor position
+  //Release - back to normal
+  if(ImGui::IsMouseReleased(1) && camera->cam_move){
+    dimManager->set_mouse_visibility(true);
     dimManager->set_mouse_pose(cursorPos);
-
-    //Disable camera movement
-    cam_move = false;
-  }
-  if(io.MouseDown[1] && !io.WantCaptureMouse){
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
-    //Set cursor to screen middle
-    glfwSetCursorPos(window, tab_rendering->center.x, tab_rendering->center.y);
+    camera->cam_move = false;
   }
 
   //---------------------------
 }
-/*void GUI_control::control_mouse_wheel(){
-  Collection* collection = sceneManager->get_selected_collection();
+void GUI_control::control_mouse_wheel(){
   static int wheelMode = 0;
   ImGuiIO io = ImGui::GetIO();
   //----------------------------
 
   //Wheel + right clicked - Camera zoom
   if(io.MouseWheel && io.MouseDownDuration[1] >= 0.0f && !io.WantCaptureMouse){
-    cameraManager->compute_zoom_position(io.MouseWheel);
+    cameraManager->compute_zoom(io.MouseWheel);
   }
-
+/*
   //Wheel click - Change mouse wheel mode
   if(ImGui::IsMouseClicked(2) && !io.WantCaptureMouse){
     wheelMode++;
@@ -124,9 +107,9 @@ void GUI_control::control_mouse(){
       }
     }
   }
-
+*/
   //----------------------------
-}*/
+}
 
 //Keyboard function
 void GUI_control::control_keyboard_oneAction(){

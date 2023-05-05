@@ -15,10 +15,10 @@ Node_engine::Node_engine(){
   //---------------------------
 
   this->dimManager = new Dimension();
+  this->cameraManager = new Camera(this);
   this->engine_vulkan = new Engine_vulkan(this);
   this->sceneManager = new Scene(this);
   this->controlManager = new Control(this);
-  this->cameraManager = new Camera(this);
 
   this->node_load = new Node_load(this);
   this->node_gui = new Node_gui(this);
@@ -49,6 +49,7 @@ void Node_engine::init(){
 void Node_engine::loop(){
   //---------------------------
 
+  cameraManager->input_cam_mouse();
   node_gui->loop();
 
   //---------------------------

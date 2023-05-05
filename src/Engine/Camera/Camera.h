@@ -25,6 +25,7 @@ public:
   mat4 compute_cam_mvp();
   mat4 compute_cam_world_pose();
   void input_cam_mouse();
+  void compute_zoom(float value);
 
   //Camera mode
   void set_mode_projection(int value);
@@ -35,6 +36,7 @@ public:
   inline mat4 get_cam_proj(){return compute_cam_proj();}
   inline mat4 get_mvpMatrix(){return compute_cam_mvp();}
   inline Cam* get_camera(){return camera;}
+  inline CAM_zoom* get_cam_zoom(){return cam_zoom;}
 
 private:
   Dimension* dimManager;

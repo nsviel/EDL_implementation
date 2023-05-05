@@ -9,7 +9,7 @@ CAM_arcball::CAM_arcball(Node_engine* node_engine){
   //---------------------------
 
   this->dimManager = node_engine->get_dimManager();
-  
+
   //---------------------------
 }
 CAM_arcball::~CAM_arcball(){}
@@ -53,8 +53,6 @@ vec2 CAM_arcball::arcball_mouse_angle(){
   float xAngle = float(gl_mid.x - mouse_pose.x) * deltaAngleX * 0.1;
   float yAngle = float(gl_mid.y - mouse_pose.y) * deltaAngleY * 0.1;
   vec2 angle = vec2(xAngle, yAngle);
-
-  glfwSetInputMode(dimManager->get_window(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
   //---------------------------
   return angle;

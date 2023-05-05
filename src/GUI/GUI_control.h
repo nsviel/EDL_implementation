@@ -9,6 +9,7 @@
 
 class Node_engine;
 class Dimension;
+class Camera;
 class Control;
 
 
@@ -35,6 +36,7 @@ private:
   Node_engine* node_engine;
   Dimension* dimManager;
   Control* controlManager;
+  Camera* cameraManager;
 };
 
 #endif

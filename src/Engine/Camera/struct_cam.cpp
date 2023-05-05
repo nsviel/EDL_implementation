@@ -13,8 +13,8 @@ Cam::Cam(){
   this->speed_mouse = 0.0030000000260770321;
   this->speed_move = 3;
   this->zoom = 0;
-  this->clip_near = 1000.0;
-  this->clip_far = 0.001;
+  this->clip_far = 1000.0;
+  this->clip_near = 0.001;
 
   this->cam_F = glm::vec3(0.0f);
   this->cam_R = glm::normalize(glm::vec3(cos(angle_azimuth - M_PI/2.0f), sin(angle_azimuth - M_PI/2.0f), 0));
@@ -24,7 +24,7 @@ Cam::Cam(){
 
   this->projection = "perspective";
   this->view = "oblique";
-  this->mode = "default";
+  this->mode = "first_person";
 
   this->cam_move = false;
   this->cam_pose = false;

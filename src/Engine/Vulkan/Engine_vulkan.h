@@ -24,6 +24,7 @@ class VK_depth;
 class VK_data;
 class VK_viewport;
 class VK_gui;
+class VK_camera;
 
 
 class Engine_vulkan
@@ -57,6 +58,7 @@ public:
   inline VK_data* get_vk_data(){return vk_data;}
   inline VK_viewport* get_vk_viewport(){return vk_viewport;}
   inline VK_gui* get_vk_gui(){return vk_gui;}
+  inline VK_camera* get_vk_camera(){return vk_camera;}
 
 private:
   Cloud* cloud;
@@ -80,6 +82,7 @@ private:
   VK_data* vk_data;
   VK_viewport* vk_viewport;
   VK_gui* vk_gui;
+  VK_camera* vk_camera;
 };
 
 #endif

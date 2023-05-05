@@ -25,6 +25,7 @@ public:
   vec2 get_cursorPos_gl();
   vec2 get_mouse_pose();
   void set_mouse_pose(vec2 pos);
+  void set_mouse_visibility(bool visible);
 
   inline GLFWwindow* get_window(){return window;}
   inline void set_window(GLFWwindow* win){this->window = win;}

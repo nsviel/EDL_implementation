@@ -9,7 +9,7 @@ CAM_first_person::CAM_first_person(Node_engine* node_engine){
   //---------------------------
 
   this->dimManager = node_engine->get_dimManager();
-  
+
   this->mouse_pose_old = vec2(0.0f);
 
   //---------------------------
@@ -40,6 +40,7 @@ mat4 CAM_first_person::fp_view_mat(Cam* camera){
   return cam_view;
 }
 void CAM_first_person::fp_cam_mouse(Cam* camera){
+  Tab* tab_rendering = dimManager->get_tab("rendering");
   //---------------------------
 
   float& azimuth = camera->angle_azimuth;
@@ -49,12 +50,12 @@ void CAM_first_person::fp_cam_mouse(Cam* camera){
   vec2 mouse_pose = dimManager->get_mouse_pose();
 
   if(mouse_pose != mouse_pose_old){
-    dimManager->set_mouse_pose(dimManager->get_gl_middle());
+    dimManager->set_mouse_pose(tab_rendering->center);
 
     // Compute new orientation
     vec2 gl_mid = dimManager->get_gl_middle();
-    azimuth += camera->speed_mouse * float(gl_mid.x - mouse_pose.x);
-    elevation += camera->speed_mouse * float(gl_mid.y - mouse_pose.y);
+    azimuth += camera->speed_mouse * float(tab_rendering->center.x - mouse_pose.x);
+    elevation += camera->speed_mouse * float(tab_rendering->center.y - mouse_pose.y);
 
     //Limites of camera rotation
     if(elevation > M_PI/2) elevation = M_PI/2;
@@ -63,7 +64,6 @@ void CAM_first_person::fp_cam_mouse(Cam* camera){
     if(azimuth < -M_PI*2) azimuth = 0;
 
     //Setup mouse
-    glfwSetInputMode(dimManager->get_window(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     mouse_pose_old = mouse_pose;
   }
 

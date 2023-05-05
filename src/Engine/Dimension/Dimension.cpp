@@ -127,6 +127,7 @@ vec2 Dimension::get_mouse_pose(){
   glfwGetCursorPos(window, &xpos, &ypos);
   pos = vec2(xpos, ypos);
 
+
   //---------------------------
   return pos;
 }
@@ -134,6 +135,17 @@ void Dimension::set_mouse_pose(vec2 pos){
   //---------------------------
 
   glfwSetCursorPos(window, pos.x, pos.y);
+
+  //---------------------------
+}
+void Dimension::set_mouse_visibility(bool visible){
+  //---------------------------
+
+  if(visible){
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+  }else{
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  }
 
   //---------------------------
 }

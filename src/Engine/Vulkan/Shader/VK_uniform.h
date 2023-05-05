@@ -9,7 +9,7 @@ class Engine_vulkan;
 class VK_device;
 class VK_buffer;
 class VK_swapchain;
-class Camera;
+class VK_camera;
 
 
 class VK_uniform
@@ -31,7 +31,7 @@ private:
   VK_device* vk_device;
   VK_buffer* vk_buffer;
   VK_swapchain* vk_swapchain;
-  Camera* vk_camera;
+  VK_camera* vk_camera;
 
   std::vector<VkBuffer> uniformBuffers;
   std::vector<VkDeviceMemory> uniformBuffersMemory;
