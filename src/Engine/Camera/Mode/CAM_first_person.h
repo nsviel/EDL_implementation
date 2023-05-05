@@ -8,20 +8,19 @@ class Node_engine;
 class Dimension;
 
 
-class CAM_fps
+class CAM_first_person
 {
 public:
-  CAM_fps(Node_engine* node_engine);
-  ~CAM_fps();
+  CAM_first_person(Node_engine* node_engine);
+  ~CAM_first_person();
 
 public:
-  mat4 fps_view_mat();
-  void fps_cam_mouse();
+  mat4 fp_view_mat(Cam* camera);
+  void fp_cam_mouse(Cam* camera);
 
 private:
   Dimension* dimManager;
 
-  Cam* camera;
   vec2 mouse_pose_old;
 };
 

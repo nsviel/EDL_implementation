@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "Mode/CAM_fps.h"
+#include "Mode/CAM_first_person.h"
 #include "Mode/CAM_arcball.h"
 #include "Mode/CAM_zoom.h"
 
@@ -12,12 +12,11 @@ Camera::Camera(Node_engine* node_engine){
   //---------------------------
 
   this->dimManager = node_engine->get_dimManager();
-  this->camera = new Cam();
-  this->mouse_pose_old = vec2(0.0f);
-
   this->cam_arcball = new CAM_arcball(node_engine);
-  this->cam_fps = new CAM_fps(node_engine);
+  this->cam_fp = new CAM_first_person(node_engine);
   this->cam_zoom = new CAM_zoom(node_engine);
+
+  this->camera = new Cam();
 
   //---------------------------
 }
@@ -30,10 +29,10 @@ mat4 Camera::compute_cam_view(){
 
   if(camera->cam_pose){
     cam_view = camera->cam_pose_mat;
-  }else if(camera->mode == "default"){
-    cam_view = cam_fps->fps_view_mat();
+  }else if(camera->mode == "fps"){
+    cam_view = cam_fp->fp_view_mat(camera);
   }else if(camera->mode == "arcball"){
-    cam_view = cam_arcball->arcball_view_mat();
+    cam_view = cam_arcball->arcball_view_mat(camera);
   }
 
   //---------------------------
@@ -91,52 +90,18 @@ mat4 Camera::compute_cam_world_pose(){
   //---------------------------
   return absPose;
 }
-
-//Functions
-void Camera::compute_zoom_optic(float yoffset){
-  GLFWwindow* window = glfwGetCurrentContext();
-  //---------------------------
-
-  if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS){
-    //Perspective zoom
-    float camFOV = 65;
-    if(camera->fov >= 1.0f && camera->fov <= camFOV) camera->fov -= yoffset;
-    if(camera->fov <= 1.0f) camera->fov = 1.0f;
-    if(camera->fov >= camFOV) camera->fov = camFOV;
-
-    //Ortho zoom
-    camera->zoom -= yoffset * 0.1;
-  }
-
-  //---------------------------
-}
-void Camera::compute_zoom_position(float yoffset){
-  GLFWwindow* window = glfwGetCurrentContext();
-  //---------------------------
-
-  if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS){
-    //Perspective zoom
-    vec3 cam_forwardMove = camera->cam_F * yoffset * camera->speed_move * vec3(0.1,0.1,0.1);
-    camera->cam_P += cam_forwardMove;
-
-    //Ortho zoom
-    camera->zoom -= yoffset * 0.1;
-  }
-
-  //---------------------------
-}
 void Camera::input_cam_mouse(){
+  //---------------------------
+
   if(camera->cam_move){
-    //---------------------------
-
-    if(camera->mode == "default"){
-      cam_fps->fps_cam_mouse();
+    if(camera->mode == "fps"){
+      cam_fp->fp_cam_mouse(camera);
     }else if(camera->mode == "arcball"){
-      cam_arcball->arcball_cam_mouse();
+      cam_arcball->arcball_cam_mouse(camera);
     }
-
-    //---------------------------
   }
+
+  //---------------------------
 }
 
 //Camera mode
@@ -177,7 +142,7 @@ void Camera::set_mode_view(int mode){
 
   switch(mode){
     case 0:{ //Default
-      camera->mode = "default";
+      camera->mode = "fps";
       break;
     }
     case 1:{ //Arcball

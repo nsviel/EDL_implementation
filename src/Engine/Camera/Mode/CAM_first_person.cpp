@@ -1,22 +1,22 @@
-#include "CAM_fps.h"
+#include "CAM_first_person.h"
 
 #include "../../Dimension/Dimension.h"
 #include "../../Node_engine.h"
 
 
 //Constructor / Destructor
-CAM_fps::CAM_fps(Node_engine* node_engine){
+CAM_first_person::CAM_first_person(Node_engine* node_engine){
   //---------------------------
 
   this->dimManager = node_engine->get_dimManager();
-  this->camera = new Cam();
+  
   this->mouse_pose_old = vec2(0.0f);
 
   //---------------------------
 }
-CAM_fps::~CAM_fps(){}
+CAM_first_person::~CAM_first_person(){}
 
-mat4 CAM_fps::fps_view_mat(){
+mat4 CAM_first_person::fp_view_mat(Cam* camera){
   //---------------------------
 
   float azimuth = camera->angle_azimuth;
@@ -39,7 +39,7 @@ mat4 CAM_fps::fps_view_mat(){
   //---------------------------
   return cam_view;
 }
-void CAM_fps::fps_cam_mouse(){
+void CAM_first_person::fp_cam_mouse(Cam* camera){
   //---------------------------
 
   float& azimuth = camera->angle_azimuth;

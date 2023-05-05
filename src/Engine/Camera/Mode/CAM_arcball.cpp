@@ -9,15 +9,13 @@ CAM_arcball::CAM_arcball(Node_engine* node_engine){
   //---------------------------
 
   this->dimManager = node_engine->get_dimManager();
-  this->camera = new Cam();
-  this->mouse_pose_old = vec2(0.0f);
-
+  
   //---------------------------
 }
 CAM_arcball::~CAM_arcball(){}
 
 //Main function
-mat4 CAM_arcball::arcball_view_mat(){
+mat4 CAM_arcball::arcball_view_mat(Cam* camera){
   mat4 cam_view;
   //---------------------------
 
@@ -31,11 +29,11 @@ mat4 CAM_arcball::arcball_view_mat(){
   //---------------------------
   return cam_view;
 }
-void CAM_arcball::arcball_cam_mouse(){
+void CAM_arcball::arcball_cam_mouse(Cam* camera){
   //---------------------------
 
   vec2 angle = arcball_mouse_angle();
-  this->arcball_viewport_angle(angle);
+  this->arcball_viewport_angle(camera, angle);
 
   //---------------------------
 }
@@ -61,7 +59,7 @@ vec2 CAM_arcball::arcball_mouse_angle(){
   //---------------------------
   return angle;
 }
-void CAM_arcball::arcball_viewport_angle(vec2 angle){
+void CAM_arcball::arcball_viewport_angle(Cam* camera, vec2 angle){
   //---------------------------
 
   // Get the homogenous position of the camera and pivot point

@@ -15,14 +15,11 @@ public:
   ~CAM_zoom();
 
 public:
-  mat4 fps_view_mat();
-  void fps_cam_mouse();
+  void compute_zoom_optic(Cam* camera, float value);
+  void compute_zoom_position(Cam* camera, float value);
 
 private:
   Dimension* dimManager;
-
-  Cam* camera;
-  vec2 mouse_pose_old;
 };
 
 #endif

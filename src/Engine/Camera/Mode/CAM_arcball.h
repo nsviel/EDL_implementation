@@ -15,15 +15,13 @@ public:
   ~CAM_arcball();
 
 public:
-  mat4 arcball_view_mat();
-  void arcball_cam_mouse();
+  mat4 arcball_view_mat(Cam* camera);
+  void arcball_cam_mouse(Cam* camera);
   vec2 arcball_mouse_angle();
-  void arcball_viewport_angle(vec2 angle);
+  void arcball_viewport_angle(Cam* camera, vec2 angle);
 
 private:
   Dimension* dimManager;
-  Cam* camera;
-  vec2 mouse_pose_old;
 };
 
 #endif
