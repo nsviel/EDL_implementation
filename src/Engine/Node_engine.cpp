@@ -5,6 +5,7 @@
 #include "Core/Control.h"
 #include "Dimension/Dimension.h"
 #include "Camera/Camera.h"
+#include "Param_engine.h"
 
 #include "../Node.h"
 
@@ -14,6 +15,7 @@ Node_engine::Node_engine(Node* node){
   //---------------------------
 
   this->node = node;
+  this->param_engine = new Param_engine();
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
   this->engineManager = new Engine(this);

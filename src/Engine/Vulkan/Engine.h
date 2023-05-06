@@ -25,6 +25,7 @@ class VK_data;
 class VK_viewport;
 class VK_gui;
 class VK_camera;
+class Param_engine;
 
 
 class Engine
@@ -59,11 +60,13 @@ public:
   inline VK_viewport* get_vk_viewport(){return vk_viewport;}
   inline VK_gui* get_vk_gui(){return vk_gui;}
   inline VK_camera* get_vk_camera(){return vk_camera;}
+  inline Param_engine* get_param_engine(){return param_engine;}
 
 private:
   Cloud* cloud;
 
   Node_engine* node_engine;
+  Param_engine* param_engine;
   VK_window* vk_window;
   VK_instance* vk_instance;
   VK_device* vk_device;

@@ -16,8 +16,8 @@ Mesh::Mesh(){
 Mesh::~Mesh(){
   //---------------------------
 
-  delete objectManager;
-  delete gpuManager;
+  //delete objectManager;
+  //delete gpuManager;
 
   //---------------------------
 }

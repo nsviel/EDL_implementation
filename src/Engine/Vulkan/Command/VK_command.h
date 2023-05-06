@@ -6,6 +6,7 @@
 #include "../../../common.h"
 
 class Engine;
+class Param_engine;
 class VK_device;
 class VK_swapchain;
 class VK_renderpass;
@@ -43,6 +44,7 @@ public:
 
 private:
   Engine* engineManager;
+  Param_engine* param_engine;
   VK_device* vk_device;
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;

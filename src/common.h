@@ -40,5 +40,10 @@ using namespace glm;
 #include "Data/Struct/struct_data.h"
 #include "Data/Struct/struct_glyph.h"
 
+//GUI
+#include "../extern/imgui/imgui.h"
+#include "../extern/imgui/imgui_impl_glfw.h"
+#include "../extern/imgui/imgui_impl_vulkan.h"
+
 
 #endif

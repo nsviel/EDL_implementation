@@ -2,6 +2,7 @@
 
 #include "Panel/GUI_left_panel.h"
 #include "Operation/GUI_control.h"
+#include "Operation/GUI_option.h"
 
 #include "../Node.h"
 
@@ -11,6 +12,7 @@
 Node_gui::Node_gui(Node* node){
   //---------------------------
 
+  this->gui_option = new GUI_option(node);
   this->gui_left_panel = new GUI_left_panel(node);
   this->gui_control = new GUI_control(node);
 

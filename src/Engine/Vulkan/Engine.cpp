@@ -21,6 +21,7 @@
 #include "Camera/VK_camera.h"
 
 #include "../Node_engine.h"
+#include "../Param_engine.h"
 
 
 //Constructor / Destructor
@@ -28,6 +29,7 @@ Engine::Engine(Node_engine* node_engine){
   //---------------------------
 
   this->node_engine = node_engine;
+  this->param_engine = node_engine->get_param_engine();
   this->vk_instance = new VK_instance();
   this->vk_viewport = new VK_viewport(this);
   this->vk_window = new VK_window(this);

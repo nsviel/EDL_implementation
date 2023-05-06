@@ -3,13 +3,9 @@
 
 #include "../../common.h"
 
-#include "../../../extern/imgui/imgui.h"
-#include "../../../extern/imgui/imgui_impl_glfw.h"
-#include "../../../extern/imgui/imgui_impl_vulkan.h"
-
 class Node;
-class Node_engine;
 class Dimension;
+class GUI_option;
 
 
 class GUI_left_panel
@@ -27,8 +23,9 @@ public:
   void left_panel_content();
 
 private:
-  Node_engine* node_engine;
+  Node* node;
   Dimension* dimManager;
+  GUI_option* gui_option;
 };
 
 #endif

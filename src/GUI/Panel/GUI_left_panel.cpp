@@ -1,5 +1,8 @@
 #include "GUI_left_panel.h"
 
+#include "../Node_gui.h"
+#include "../Operation/GUI_option.h"
+
 #include "../../Engine/Dimension/Dimension.h"
 #include "../../Engine/Node_engine.h"
 #include "../../Node.h"
@@ -9,6 +12,7 @@
 GUI_left_panel::GUI_left_panel(Node* node){
   //---------------------------
 
+  this->node = node;
   Node_engine* node_engine = node->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
 
@@ -58,11 +62,17 @@ void GUI_left_panel::left_panel_dim(){
 }
 void GUI_left_panel::left_panel_menu(){
   static bool show_demo = false;
+  Node_gui* node_gui = node->get_node_gui();
+  this->gui_option = node_gui->get_gui_option();
   //---------------------------
 
   if(ImGui::BeginMenuBar()){
     if(ImGui::BeginMenu("File")){
       ImGui::Checkbox("Demo", &show_demo);
+      ImGui::EndMenu();
+    }
+    if(ImGui::BeginMenu("Option")){
+      gui_option->design_option();
       ImGui::EndMenu();
     }
     if(ImGui::BeginMenu("Init")){

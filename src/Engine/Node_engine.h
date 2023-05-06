@@ -4,6 +4,7 @@
 #include "../common.h"
 
 class Node;
+class Param_engine;
 class Engine;
 class Scene;
 class Dimension;
@@ -27,9 +28,11 @@ public:
   inline Dimension* get_dimManager(){return dimManager;}
   inline Control* get_controlManager(){return controlManager;}
   inline Camera* get_cameraManager(){return cameraManager;}
+  inline Param_engine* get_param_engine(){return param_engine;}
 
 private:
   Node* node;
+  Param_engine* param_engine;
   Engine* engineManager;
   Scene* sceneManager;
   Dimension* dimManager;

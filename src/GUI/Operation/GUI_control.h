@@ -3,10 +3,6 @@
 
 #include "../../common.h"
 
-#include "../../../extern/imgui/imgui.h"
-#include "../../../extern/imgui/imgui_impl_glfw.h"
-#include "../../../extern/imgui/imgui_impl_vulkan.h"
-
 class Node;
 class Dimension;
 class Camera;

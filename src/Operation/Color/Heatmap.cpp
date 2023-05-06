@@ -36,9 +36,6 @@ Heatmap::~Heatmap(){
   //---------------------------
 
   delete colormapManager;
-  delete sceneManager;
-  delete attribManager;
-  delete gpuManager;
 
   //---------------------------
 }

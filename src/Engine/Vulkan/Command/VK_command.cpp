@@ -13,12 +13,15 @@
 #include "../Swapchain/VK_framebuffer.h"
 #include "../Camera/VK_viewport.h"
 
+#include "../../Param_engine.h"
+
 
 //Constructor / Destructor
 VK_command::VK_command(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
+  this->param_engine = engineManager->get_param_engine();
   this->vk_device = engineManager->get_vk_device();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();
@@ -101,7 +104,11 @@ void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer command_buf
 
   //Starting a render pass
   std::array<VkClearValue, 2> clearValues{};
-  clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
+  clearValues[0].color = {{
+    param_engine->background_color.x,
+    param_engine->background_color.y,
+    param_engine->background_color.z,
+    param_engine->background_color.w}};
   clearValues[1].depthStencil = {1.0f, 0};
 
   VkRenderPassBeginInfo renderPassInfo{};

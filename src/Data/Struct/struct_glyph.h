@@ -13,7 +13,6 @@ struct Glyph : public Object
   Glyph();
 
   bool is_permanent;
-  std::vector<glm::vec3> xyz_init;
   Object* linked_object;
 
   //---------------------------
