@@ -5,6 +5,7 @@
 #include "../Engine.h"
 
 #include "../../Node_engine.h"
+#include "../../Param_engine.h"
 #include "../../Dimension/Dimension.h"
 
 
@@ -14,10 +15,12 @@ VK_window::VK_window(Engine* engineManager){
 
   Node_engine* node_engine = engineManager->get_node_engine();
 
+  this->param_engine = engineManager->get_param_engine();
   this->dimManager = node_engine->get_dimManager();
-  this->window_dim = glm::vec2(800, 600);
   this->vk_instance = engineManager->get_vk_instance();
   this->vk_viewport = engineManager->get_vk_viewport();
+
+  this->window_dim = param_engine->window_dim;
 
   //---------------------------
 }
@@ -30,7 +33,7 @@ void VK_window::init_window(){
   glfwInit();
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-  this->window = glfwCreateWindow(window_dim.x, window_dim.y, "Nephos", nullptr, nullptr);
+  this->window = glfwCreateWindow(window_dim.x, window_dim.y, param_engine->title.c_str(), nullptr, nullptr);
   this->window_dim = get_framebuffer_size();
   dimManager->set_window(window);
 

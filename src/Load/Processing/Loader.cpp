@@ -1,6 +1,6 @@
 #include "Loader.h"
 
-#include "Format/PLY/PLY_importer.h"
+#include "../Format/PLY/PLY_importer.h"
 
 
 //Constructor / Destructor

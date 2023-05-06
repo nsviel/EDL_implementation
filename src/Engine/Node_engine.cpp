@@ -1,7 +1,6 @@
 #include "Node_engine.h"
 
 #include "Vulkan/Engine.h"
-#include "Core/Scene.h"
 #include "Core/Control.h"
 #include "Dimension/Dimension.h"
 #include "Camera/Camera.h"
@@ -19,7 +18,6 @@ Node_engine::Node_engine(Node* node){
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
   this->engineManager = new Engine(this);
-  this->sceneManager = new Scene(this);
   this->controlManager = new Control(this);
 
   //---------------------------
@@ -30,7 +28,6 @@ Node_engine::~Node_engine(){
   delete dimManager;
   delete cameraManager;
   delete engineManager;
-  delete sceneManager;
   delete controlManager;
 
   //---------------------------

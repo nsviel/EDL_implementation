@@ -1,7 +1,7 @@
 #ifndef LOADER_H
 #define LOADER_H
 
-#include "../common.h"
+#include "../../common.h"
 
 class PLY_importer;
 

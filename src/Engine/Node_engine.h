@@ -6,7 +6,6 @@
 class Node;
 class Param_engine;
 class Engine;
-class Scene;
 class Dimension;
 class Control;
 class Camera;
@@ -34,7 +33,6 @@ private:
   Node* node;
   Param_engine* param_engine;
   Engine* engineManager;
-  Scene* sceneManager;
   Dimension* dimManager;
   Control* controlManager;
   Camera* cameraManager;
