@@ -32,11 +32,13 @@ using namespace glm;
 //Function
 #include "Specific/Function/fct_terminal.h"
 #include "Specific/Function/fct_math.h"
+#include "Specific/Function/fct_chrono.h"
 
 //Data
-#include "Data/struct_cloud.h"
-#include "Data/struct_set.h"
-#include "Data/struct_data.h"
+#include "Data/Struct/struct_cloud.h"
+#include "Data/Struct/struct_set.h"
+#include "Data/Struct/struct_data.h"
+#include "Data/Struct/struct_glyph.h"
 
 
 #endif

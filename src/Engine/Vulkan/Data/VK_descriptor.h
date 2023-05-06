@@ -5,7 +5,7 @@
 
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_device;
 
 
@@ -13,7 +13,7 @@ class VK_descriptor
 {
 public:
   //Constructor / Destructor
-  VK_descriptor(Engine_vulkan* engine_vulkan);
+  VK_descriptor(Engine* engineManager);
   ~VK_descriptor();
 
 public:
@@ -30,7 +30,7 @@ public:
   inline std::vector<VkDescriptorSet> get_descriptorSets(){return descriptor_set;}
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_device* vk_device;
 
   VkDescriptorPool descriptor_pool;

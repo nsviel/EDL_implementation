@@ -1,7 +1,7 @@
 #include "VK_texture.h"
 #include "VK_buffer.h"
 
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Device/VK_device.h"
 #include "../Command/VK_command.h"
 
@@ -10,12 +10,12 @@
 
 
 //Constructor / Destructor
-VK_texture::VK_texture(Engine_vulkan* engine_vulkan){
+VK_texture::VK_texture(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_buffer = engine_vulkan->get_vk_buffer();
+  this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_buffer = engineManager->get_vk_buffer();
 
   //---------------------------
 }
@@ -195,7 +195,7 @@ void VK_texture::create_image(uint32_t width, uint32_t height, VkFormat format, 
   //---------------------------
 }
 void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height){
-  VK_command* vk_command = engine_vulkan->get_vk_command();
+  VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
   VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();

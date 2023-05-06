@@ -4,7 +4,7 @@
 #include "../VK_struct.h"
 #include "../Data/VK_descriptor.h"
 #include "../Data/VK_data.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Camera/VK_viewport.h"
@@ -13,15 +13,15 @@
 
 
 //Constructor / Destructor
-VK_pipeline::VK_pipeline(Engine_vulkan* engine_vulkan){
+VK_pipeline::VK_pipeline(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
-  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
-  this->vk_descriptor = engine_vulkan->get_vk_descriptor();
-  this->vk_viewport = engine_vulkan->get_vk_viewport();
+  this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_swapchain = engineManager->get_vk_swapchain();
+  this->vk_renderpass = engineManager->get_vk_renderpass();
+  this->vk_descriptor = engineManager->get_vk_descriptor();
+  this->vk_viewport = engineManager->get_vk_viewport();
 
   //---------------------------
 }
@@ -68,7 +68,7 @@ void VK_pipeline::create_graphics_pipeline(){
 
 
   //Vertex input settings
-  VK_data* vk_data = engine_vulkan->get_vk_data();
+  VK_data* vk_data = engineManager->get_vk_data();
   std::vector<VkVertexInputBindingDescription> bindingDescriptions = vk_data->description_binding();
   std::vector<VkVertexInputAttributeDescription> attributeDescriptions = vk_data->description_vertex();
   VkPipelineVertexInputStateCreateInfo vertexInputInfo{};

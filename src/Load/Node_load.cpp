@@ -2,9 +2,11 @@
 
 #include "Loader.h"
 
+#include "../Node.h"
+
 
 //Constructor / Destructor
-Node_load::Node_load(Node_engine* Node_engine){
+Node_load::Node_load(Node* node){
   //---------------------------
 
   this->loaderManager = new Loader();

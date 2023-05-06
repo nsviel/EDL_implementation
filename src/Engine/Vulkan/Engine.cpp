@@ -1,4 +1,4 @@
-#include "Engine_vulkan.h"
+#include "Engine.h"
 
 #include "Pipeline/VK_renderpass.h"
 #include "Pipeline/VK_pipeline.h"
@@ -24,7 +24,7 @@
 
 
 //Constructor / Destructor
-Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
+Engine::Engine(Node_engine* node_engine){
   //---------------------------
 
   this->node_engine = node_engine;
@@ -50,10 +50,10 @@ Engine_vulkan::Engine_vulkan(Node_engine* node_engine){
 
   //---------------------------
 }
-Engine_vulkan::~Engine_vulkan(){}
+Engine::~Engine(){}
 
 //Main function
-void Engine_vulkan::init_vulkan(){
+void Engine::init_vulkan(){
   //---------------------------
 
   //Instance
@@ -84,7 +84,7 @@ void Engine_vulkan::init_vulkan(){
 
   //---------------------------
 }
-void Engine_vulkan::main_loop() {
+void Engine::main_loop() {
   GLFWwindow* window = vk_window->get_window();
   VkDevice device = vk_device->get_device();
   //---------------------------
@@ -104,7 +104,7 @@ void Engine_vulkan::main_loop() {
 
   //---------------------------
 }
-void Engine_vulkan::clean_vulkan(){
+void Engine::clean_vulkan(){
   //---------------------------
 
   vk_gui->cleanup();

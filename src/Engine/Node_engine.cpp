@@ -1,39 +1,35 @@
 #include "Node_engine.h"
 
-#include "Vulkan/Engine_vulkan.h"
+#include "Vulkan/Engine.h"
 #include "Core/Scene.h"
 #include "Core/Control.h"
 #include "Dimension/Dimension.h"
 #include "Camera/Camera.h"
 
-#include "../Load/Node_load.h"
-#include "../GUI/Node_gui.h"
+#include "../Node.h"
 
 
 //Constructor / Destructor
-Node_engine::Node_engine(){
+Node_engine::Node_engine(Node* node){
   //---------------------------
 
+  this->node = node;
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
-  this->engine_vulkan = new Engine_vulkan(this);
+  this->engineManager = new Engine(this);
   this->sceneManager = new Scene(this);
   this->controlManager = new Control(this);
-
-  this->node_load = new Node_load(this);
-  this->node_gui = new Node_gui(this);
 
   //---------------------------
 }
 Node_engine::~Node_engine(){
   //---------------------------
 
-  delete engine_vulkan;
   delete dimManager;
+  delete cameraManager;
+  delete engineManager;
   delete sceneManager;
-
-  delete node_load;
-  delete node_gui;
+  delete controlManager;
 
   //---------------------------
 }
@@ -42,7 +38,9 @@ Node_engine::~Node_engine(){
 void Node_engine::init(){
   //---------------------------
 
+  engineManager->init_vulkan();
   dimManager->update();
+  engineManager->main_loop();
 
   //---------------------------
 }
@@ -50,7 +48,14 @@ void Node_engine::loop(){
   //---------------------------
 
   cameraManager->input_cam_mouse();
-  node_gui->loop();
+  node->loop();
+
+  //---------------------------
+}
+void Node_engine::exit(){
+  //---------------------------
+
+  engineManager->clean_vulkan();
 
   //---------------------------
 }

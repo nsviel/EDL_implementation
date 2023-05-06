@@ -1,14 +1,15 @@
 #include "GUI_left_panel.h"
 
-#include "../Engine/Dimension/Dimension.h"
-#include "../Engine/Node_engine.h"
+#include "../../Engine/Dimension/Dimension.h"
+#include "../../Engine/Node_engine.h"
+#include "../../Node.h"
 
 
 //Constructor / Destructor
-GUI_left_panel::GUI_left_panel(Node_engine* node_engine){
+GUI_left_panel::GUI_left_panel(Node* node){
   //---------------------------
 
-  this->node_engine = node_engine;
+  Node_engine* node_engine = node->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
 
   //---------------------------

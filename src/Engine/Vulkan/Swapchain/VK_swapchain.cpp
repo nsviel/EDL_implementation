@@ -6,16 +6,16 @@
 #include "../Data/VK_texture.h"
 #include "../Device/VK_device.h"
 #include "../Instance/VK_window.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 
 
 //Constructor / Destructor
-VK_swapchain::VK_swapchain(Engine_vulkan* engine_vulkan){
+VK_swapchain::VK_swapchain(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_window = engine_vulkan->get_vk_window();
-  this->vk_device = engine_vulkan->get_vk_device();
+  this->engineManager = engineManager;
+  this->vk_window = engineManager->get_vk_window();
+  this->vk_device = engineManager->get_vk_device();
 
   //---------------------------
 }
@@ -100,7 +100,7 @@ void VK_swapchain::create_swapChain(){
 }
 void VK_swapchain::create_image_views(){
   VkDevice device = vk_device->get_device();
-  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
+  VK_texture* vk_texture = engineManager->get_vk_texture();
   //---------------------------
 
   //Resize the image view vector
@@ -200,9 +200,9 @@ VkExtent2D VK_swapchain::swapChain_extent_setting(const VkSurfaceCapabilitiesKHR
   return extent;
 }
 void VK_swapchain::recreate_swapChain(){
-  VK_depth* vk_depth = engine_vulkan->get_vk_depth();
+  VK_depth* vk_depth = engineManager->get_vk_depth();
   VkDevice device = vk_device->get_device();
-  VK_framebuffer* vk_framebuffer = engine_vulkan->get_vk_framebuffer();
+  VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   //---------------------------
 
   //Minimization managment

@@ -1,6 +1,6 @@
 #include "VK_renderpass.h"
 
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_depth.h"
@@ -9,12 +9,12 @@
 
 
 //Constructor / Destructor
-VK_renderpass::VK_renderpass(Engine_vulkan* engine_vulkan){
+VK_renderpass::VK_renderpass(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
+  this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_swapchain = engineManager->get_vk_swapchain();
 
   //---------------------------
 }
@@ -22,7 +22,7 @@ VK_renderpass::~VK_renderpass(){}
 
 //Main function
 void VK_renderpass::create_render_pass(){
-  VK_depth* vk_depth = engine_vulkan->get_vk_depth();
+  VK_depth* vk_depth = engineManager->get_vk_depth();
   VkFormat swapChain_image_format = vk_swapchain->get_swapChain_image_format();
   VkDevice device = vk_device->get_device();
   //---------------------------

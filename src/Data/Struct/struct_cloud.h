@@ -1,15 +1,12 @@
 #ifndef CLOUD_STRUCT_H
 #define CLOUD_STRUCT_H
 
-#include <vector>
-#include <string>
-#include <glm/glm.hpp>
-#include <Eigen/Dense>
-#include <vulkan/vulkan.h>
+#include "struct_object.h"
+
+#include "../../common.h"
 
 
-struct Cloud
-{
+struct Cloud : public Object{
   //---------------------------
 
   Cloud();

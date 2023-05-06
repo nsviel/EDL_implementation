@@ -1,7 +1,8 @@
 #ifndef SET_STRUCT_H
 #define SET_STRUCT_H
 
-#include "../common.h"
+#include "struct_object.h"
+#include "../../common.h"
 
 
 //Collection are cloud containers
@@ -13,7 +14,8 @@ struct Set
   void reset();
 
   std::string name;
-  std::list<Cloud*> list_cloud;
+  std::list<Object*> list_obj;
+  int nb_obj;
 
   //---------------------------
 };

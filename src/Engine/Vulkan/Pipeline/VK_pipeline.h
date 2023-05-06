@@ -5,7 +5,7 @@
 
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_device;
 class VK_swapchain;
 class VK_renderpass;
@@ -17,7 +17,7 @@ class VK_pipeline
 {
 public:
   //Constructor / Destructor
-  VK_pipeline(Engine_vulkan* engine_vulkan);
+  VK_pipeline(Engine* engineManager);
   ~VK_pipeline();
 
 public:
@@ -33,7 +33,7 @@ public:
   inline VkPipeline get_graphicsPipeline(){return graphicsPipeline;}
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_device* vk_device;
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;

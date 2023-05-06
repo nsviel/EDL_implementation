@@ -4,7 +4,7 @@
 #include "../VK_struct.h"
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_device;
 class VK_descriptor;
 
@@ -13,7 +13,7 @@ class VK_buffer
 {
 public:
   //Constructor / Destructor
-  VK_buffer(Engine_vulkan* engine_vulkan);
+  VK_buffer(Engine* engineManager);
   ~VK_buffer();
 
 public:
@@ -36,7 +36,7 @@ public:
   void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_device* vk_device;
   VK_descriptor* vk_descriptor;
 

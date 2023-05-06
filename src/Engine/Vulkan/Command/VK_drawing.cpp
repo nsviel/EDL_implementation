@@ -5,7 +5,7 @@
 #include "../VK_struct.h"
 #include "../Shader/VK_uniform.h"
 #include "../VK_parameter.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_framebuffer.h"
@@ -19,17 +19,17 @@
 
 
 //Constructor / Destructor
-VK_drawing::VK_drawing(Engine_vulkan* engine_vulkan){
+VK_drawing::VK_drawing(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
-  this->vk_window = engine_vulkan->get_vk_window();
-  this->vk_framebuffer = engine_vulkan->get_vk_framebuffer();
-  this->vk_synchronization = engine_vulkan->get_vk_synchronization();
-  this->vk_command = engine_vulkan->get_vk_command();
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_uniform = engine_vulkan->get_vk_uniform();
+  this->engineManager = engineManager;
+  this->vk_swapchain = engineManager->get_vk_swapchain();
+  this->vk_window = engineManager->get_vk_window();
+  this->vk_framebuffer = engineManager->get_vk_framebuffer();
+  this->vk_synchronization = engineManager->get_vk_synchronization();
+  this->vk_command = engineManager->get_vk_command();
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_uniform = engineManager->get_vk_uniform();
 
   //---------------------------
 }

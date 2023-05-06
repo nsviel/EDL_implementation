@@ -5,7 +5,7 @@
 
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_window;
 class VK_swapchain;
 class VK_synchronization;
@@ -19,7 +19,7 @@ class VK_drawing
 {
 public:
   //Constructor / Destructor
-  VK_drawing(Engine_vulkan* engine_vulkan);
+  VK_drawing(Engine* engineManager);
   ~VK_drawing();
 
 public:
@@ -27,7 +27,7 @@ public:
   void draw_frame(Cloud* cloud);
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_window* vk_window;
   VK_swapchain* vk_swapchain;
   VK_synchronization* vk_synchronization;

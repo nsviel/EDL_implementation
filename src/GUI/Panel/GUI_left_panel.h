@@ -1,12 +1,13 @@
 #ifndef GUI_LEFT_PAN_H
 #define GUI_LEFT_PAN_H
 
-#include "../common.h"
+#include "../../common.h"
 
-#include "../../extern/imgui/imgui.h"
-#include "../../extern/imgui/imgui_impl_glfw.h"
-#include "../../extern/imgui/imgui_impl_vulkan.h"
+#include "../../../extern/imgui/imgui.h"
+#include "../../../extern/imgui/imgui_impl_glfw.h"
+#include "../../../extern/imgui/imgui_impl_vulkan.h"
 
+class Node;
 class Node_engine;
 class Dimension;
 
@@ -15,7 +16,7 @@ class GUI_left_panel
 {
 public:
   //Constructor / Destructor
-  GUI_left_panel(Node_engine* node_engine);
+  GUI_left_panel(Node* node);
   ~GUI_left_panel();
 
 public:

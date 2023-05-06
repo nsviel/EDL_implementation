@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-#include "../Vulkan/Engine_vulkan.h"
+#include "../Vulkan/Engine.h"
 #include "../Vulkan/Data/VK_buffer.h"
 #include "../Node_engine.h"
 
@@ -12,9 +12,9 @@
 Scene::Scene(Node_engine* node_engine){
   //---------------------------
 
-  Engine_vulkan* engine_vulkan = node_engine->get_engine_vulkan();
+  Engine* engineManager = node_engine->get_engineManager();
 
-  this->vk_buffer = engine_vulkan->get_vk_buffer();
+  this->vk_buffer = engineManager->get_vk_buffer();
 
   this->list_set = new list<Set*>();
 
@@ -33,7 +33,7 @@ void Scene::load_model(){
 
   Set* set = new Set("Viking");
   Cloud* cloud = new Cloud();
-  set->list_cloud.push_back(cloud);
+  set->list_obj.push_back(cloud);
   list_set->push_back(set);
 
   const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";

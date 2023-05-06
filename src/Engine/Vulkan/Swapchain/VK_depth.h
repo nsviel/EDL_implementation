@@ -6,7 +6,7 @@
 
 #include <vulkan/vulkan.h>
 
-class Engine_vulkan;
+class Engine;
 class VK_device;
 class VK_texture;
 class VK_swapchain;
@@ -16,7 +16,7 @@ class VK_depth
 {
 public:
   //Constructor / Destructor
-  VK_depth(Engine_vulkan* engine_vulkan);
+  VK_depth(Engine* engineManager);
   ~VK_depth();
 
 public:
@@ -32,7 +32,7 @@ public:
   inline VkImageView get_depthImageView(){return depthImageView;};
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_device* vk_device;
   VK_texture* vk_texture;
   VK_swapchain* vk_swapchain;

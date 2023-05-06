@@ -2,7 +2,7 @@
 
 #include "../Shader/VK_uniform.h"
 #include "../VK_parameter.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Data/VK_texture.h"
 #include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
@@ -11,11 +11,11 @@
 
 
 //Constructor / Destructor
-VK_descriptor::VK_descriptor(Engine_vulkan* engine_vulkan){
+VK_descriptor::VK_descriptor(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_device = engine_vulkan->get_vk_device();
+  this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
 
   //---------------------------
 }
@@ -33,8 +33,8 @@ void VK_descriptor::init_descriptor(){
 
 //Subfunctions
 void VK_descriptor::create_descriptor_set(){
-  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
-  VK_uniform* vk_uniform = engine_vulkan->get_vk_uniform();
+  VK_texture* vk_texture = engineManager->get_vk_texture();
+  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   VkDevice device = vk_device->get_device();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   VkDescriptorImageInfo imageInfo = vk_texture->get_image_info();

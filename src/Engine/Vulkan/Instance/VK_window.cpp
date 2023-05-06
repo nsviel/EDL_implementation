@@ -2,22 +2,22 @@
 
 #include "../Instance/VK_instance.h"
 #include "../Camera/VK_viewport.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 
 #include "../../Node_engine.h"
 #include "../../Dimension/Dimension.h"
 
 
 //Constructor / Destructor
-VK_window::VK_window(Engine_vulkan* engine_vulkan){
+VK_window::VK_window(Engine* engineManager){
   //---------------------------
 
-  Node_engine* node_engine = engine_vulkan->get_node_engine();
+  Node_engine* node_engine = engineManager->get_node_engine();
 
   this->dimManager = node_engine->get_dimManager();
   this->window_dim = glm::vec2(800, 600);
-  this->vk_instance = engine_vulkan->get_vk_instance();
-  this->vk_viewport = engine_vulkan->get_vk_viewport();
+  this->vk_instance = engineManager->get_vk_instance();
+  this->vk_viewport = engineManager->get_vk_viewport();
 
   //---------------------------
 }

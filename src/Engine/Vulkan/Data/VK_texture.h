@@ -4,7 +4,7 @@
 #include "../VK_struct.h"
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_device;
 class VK_buffer;
 
@@ -13,7 +13,7 @@ class VK_texture
 {
 public:
   //Constructor / Destructor
-  VK_texture(Engine_vulkan* engine_vulkan);
+  VK_texture(Engine* engineManager);
   ~VK_texture();
 
 public:
@@ -34,7 +34,7 @@ public:
   VkDescriptorImageInfo get_image_info();
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_device* vk_device;
   VK_buffer* vk_buffer;
 

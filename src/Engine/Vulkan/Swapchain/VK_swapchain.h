@@ -4,7 +4,7 @@
 #include "../VK_struct.h"
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_window;
 class VK_device;
 
@@ -13,7 +13,7 @@ class VK_swapchain
 {
 public:
   //Constructor / Destructor
-  VK_swapchain(Engine_vulkan* engine_vulkan);
+  VK_swapchain(Engine* engineManager);
   ~VK_swapchain();
 
 public:
@@ -38,7 +38,7 @@ public:
   inline std::vector<VkImageView> get_swapChain_image_views(){return swapChain_image_views;}
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_window* vk_window;
   VK_device* vk_device;
 

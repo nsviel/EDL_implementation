@@ -1,7 +1,7 @@
 #ifndef DATAFILE_STRUCT_H
 #define DATAFILE_STRUCT_H
 
-#include "../common.h"
+#include "../../common.h"
 
 
 //Generique structure to parse file point clouds

@@ -1,7 +1,7 @@
 #include "VK_uniform.h"
 
 #include "../VK_parameter.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
@@ -12,15 +12,15 @@
 
 
 //Constructor / Destructor
-VK_uniform::VK_uniform(Engine_vulkan* engine_vulkan){
+VK_uniform::VK_uniform(Engine* engineManager){
   //---------------------------
 
-  Node_engine* node_engine = engine_vulkan->get_node_engine();
+  Node_engine* node_engine = engineManager->get_node_engine();
 
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_buffer = engine_vulkan->get_vk_buffer();
-  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
-  this->vk_camera = engine_vulkan->get_vk_camera();
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_buffer = engineManager->get_vk_buffer();
+  this->vk_swapchain = engineManager->get_vk_swapchain();
+  this->vk_camera = engineManager->get_vk_camera();
 
   //---------------------------
 }

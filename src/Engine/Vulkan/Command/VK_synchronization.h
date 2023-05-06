@@ -5,7 +5,7 @@
 
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_device;
 
 
@@ -13,7 +13,7 @@ class VK_synchronization
 {
 public:
   //Constructor / Destructor
-  VK_synchronization(Engine_vulkan* engine_vulkan);
+  VK_synchronization(Engine* engineManager);
   ~VK_synchronization();
 
 public:
@@ -26,7 +26,7 @@ public:
   inline std::vector<VkFence> get_fenvec_inFlight(){return fenvec_inFlight;}
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_device* vk_device;
 
   std::vector<VkSemaphore> semvec_image_available;

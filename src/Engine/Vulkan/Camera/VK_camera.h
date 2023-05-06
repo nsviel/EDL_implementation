@@ -4,7 +4,7 @@
 #include "../VK_struct.h"
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class Camera;
 
 
@@ -12,7 +12,7 @@ class VK_camera
 {
 public:
   //Constructor / Destructor
-  VK_camera(Engine_vulkan* engine_vulkan);
+  VK_camera(Engine* engineManager);
   ~VK_camera();
 
 public:

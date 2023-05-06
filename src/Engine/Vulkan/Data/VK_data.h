@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_buffer;
 
 
@@ -11,7 +11,7 @@ class VK_data
 {
 public:
   //Constructor / Destructor
-  VK_data(Engine_vulkan* engine_vulkan);
+  VK_data(Engine* engineManager);
   ~VK_data();
 
 public:
@@ -21,7 +21,7 @@ public:
   std::vector<VkVertexInputBindingDescription> description_binding();
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_buffer* vk_buffer;
 };
 

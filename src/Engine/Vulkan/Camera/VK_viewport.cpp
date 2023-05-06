@@ -1,16 +1,16 @@
 #include "VK_viewport.h"
 
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 
 #include "../../Dimension/Dimension.h"
 #include "../../Node_engine.h"
 
 
 //Constructor / Destructor
-VK_viewport::VK_viewport(Engine_vulkan* engine_vulkan){
+VK_viewport::VK_viewport(Engine* engineManager){
   //---------------------------
 
-  Node_engine* node_engine = engine_vulkan->get_node_engine();
+  Node_engine* node_engine = engineManager->get_node_engine();
 
   this->dimManager = node_engine->get_dimManager();
 

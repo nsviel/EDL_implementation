@@ -5,7 +5,7 @@
 
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_device;
 class VK_swapchain;
 class VK_renderpass;
@@ -15,7 +15,7 @@ class VK_framebuffer
 {
 public:
   //Constructor / Destructor
-  VK_framebuffer(Engine_vulkan* engine_vulkan);
+  VK_framebuffer(Engine* engineManager);
   ~VK_framebuffer();
 
 public:
@@ -26,7 +26,7 @@ public:
   inline std::vector<VkFramebuffer> get_swapChain_fbo(){return swapChain_fbo;}
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_device* vk_device;
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;

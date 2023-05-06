@@ -6,7 +6,7 @@
 #include "../Pipeline/VK_pipeline.h"
 #include "../VK_struct.h"
 #include "../VK_parameter.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Device/VK_device.h"
 #include "../Data/VK_descriptor.h"
 #include "../Swapchain/VK_swapchain.h"
@@ -15,18 +15,18 @@
 
 
 //Constructor / Destructor
-VK_command::VK_command(Engine_vulkan* engine_vulkan){
+VK_command::VK_command(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
-  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
-  this->vk_pipeline = engine_vulkan->get_vk_pipeline();
-  this->vk_framebuffer = engine_vulkan->get_vk_framebuffer();
-  this->vk_descriptor = engine_vulkan->get_vk_descriptor();
-  this->vk_viewport = engine_vulkan->get_vk_viewport();
-  this->vk_window = engine_vulkan->get_vk_window();
+  this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_swapchain = engineManager->get_vk_swapchain();
+  this->vk_renderpass = engineManager->get_vk_renderpass();
+  this->vk_pipeline = engineManager->get_vk_pipeline();
+  this->vk_framebuffer = engineManager->get_vk_framebuffer();
+  this->vk_descriptor = engineManager->get_vk_descriptor();
+  this->vk_viewport = engineManager->get_vk_viewport();
+  this->vk_window = engineManager->get_vk_window();
 
   //---------------------------
 }
@@ -121,7 +121,7 @@ void VK_command::record_command_buffer(Cloud* cloud, VkCommandBuffer command_buf
   this->command_drawing(cloud, command_buffer);
 
   //ICI command pour draw gui
-  VK_gui* vk_gui = engine_vulkan->get_vk_gui();
+  VK_gui* vk_gui = engineManager->get_vk_gui();
   vk_gui->command_gui(command_buffer);
 
   //End render pass
@@ -171,7 +171,7 @@ void VK_command::command_drawing(Cloud* cloud, VkCommandBuffer command_buffer){
 
 //One time command
 VkCommandBuffer VK_command::command_buffer_begin(){
-  VK_command* vk_command = engine_vulkan->get_vk_command();
+  VK_command* vk_command = engineManager->get_vk_command();
   VkCommandPool commandPool = vk_command->get_command_pool();
   VkDevice device = vk_device->get_device();
   //---------------------------
@@ -195,7 +195,7 @@ VkCommandBuffer VK_command::command_buffer_begin(){
   return command_buffer;
 }
 void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
-  VK_command* vk_command = engine_vulkan->get_vk_command();
+  VK_command* vk_command = engineManager->get_vk_command();
   VkCommandPool commandPool = vk_command->get_command_pool();
   VkDevice device = vk_device->get_device();
   VkQueue queue_graphics = vk_device->get_queue_graphics();

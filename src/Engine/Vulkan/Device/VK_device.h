@@ -9,7 +9,7 @@
 
 
 class Node_engine;
-class Engine_vulkan;
+class Engine;
 class VK_window;
 class VK_instance;
 
@@ -23,7 +23,7 @@ class VK_device
 {
 public:
   //Constructor / Destructor
-  VK_device(Engine_vulkan* node_engine);
+  VK_device(Engine* node_engine);
   ~VK_device();
 
 public:
@@ -48,7 +48,7 @@ public:
 
 private:
   VK_window* vk_window;
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_instance* vk_instance;
 
   VkDevice device;

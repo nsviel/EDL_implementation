@@ -1,18 +1,18 @@
-#include "Engine/Core/Engine.h"
+#include "Node.h"
 
 #include <iostream>
 #include <stdexcept>
 
 
 int main() {
-  Engine engine;
+  Node node;
   //---------------------------
 
-  try {
-    engine.init_engine();
-    engine.loop();
-    engine.cleanup();
-  } catch (const std::exception& e) {
+  try{
+    node.init();
+    node.loop();
+    node.exit();
+  }catch(const std::exception& e){
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }

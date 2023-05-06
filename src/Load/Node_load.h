@@ -3,7 +3,7 @@
 
 #include "../common.h"
 
-class Node_engine;
+class Node;
 class Loader;
 
 
@@ -11,7 +11,7 @@ class Node_load
 {
 public:
   //Constructor / Destructor
-  Node_load(Node_engine* Node_engine);
+  Node_load(Node* node);
   ~Node_load();
 
 public:

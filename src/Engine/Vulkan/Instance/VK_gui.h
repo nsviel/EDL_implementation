@@ -7,7 +7,7 @@
 #include "../../../../extern/imgui/imgui_impl_glfw.h"
 #include "../../../../extern/imgui/imgui_impl_vulkan.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_command;
 class VK_window;
 class VK_instance;
@@ -19,7 +19,7 @@ class VK_gui
 {
 public:
   //Constructor / Destructor
-  VK_gui(Engine_vulkan* engine_vulkan);
+  VK_gui(Engine* engineManager);
   ~VK_gui();
 
 public:
@@ -38,7 +38,7 @@ public:
   void loop_end();
 
 private:
-  Engine_vulkan* engine_vulkan;
+  Engine* engineManager;
   VK_command* vk_command;
   VK_window* vk_window;
   VK_instance* vk_instance;

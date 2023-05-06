@@ -4,21 +4,21 @@
 
 #include "../Device/VK_device.h"
 #include "../Pipeline/VK_renderpass.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Command/VK_command.h"
 #include "../VK_parameter.h"
 
 
 //Constructor / Destructor
-VK_gui::VK_gui(Engine_vulkan* engine_vulkan){
+VK_gui::VK_gui(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_command = engine_vulkan->get_vk_command();
-  this->vk_window = engine_vulkan->get_vk_window();
-  this->vk_instance = engine_vulkan->get_vk_instance();
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
+  this->engineManager = engineManager;
+  this->vk_command = engineManager->get_vk_command();
+  this->vk_window = engineManager->get_vk_window();
+  this->vk_instance = engineManager->get_vk_instance();
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_renderpass = engineManager->get_vk_renderpass();
 
   //---------------------------
 }
@@ -31,7 +31,7 @@ VK_gui::~VK_gui(){
 
 //Main function
 void VK_gui::cleanup(){
-  VK_device* vk_device = engine_vulkan->get_vk_device();
+  VK_device* vk_device = engineManager->get_vk_device();
   //---------------------------
 
   VkDevice device = vk_device->get_device();

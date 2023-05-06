@@ -4,20 +4,20 @@
 
 #include "../Pipeline/VK_renderpass.h"
 #include "../Device/VK_device.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 
 #include "../../Node_engine.h"
 
 
 
 //Constructor / Destructor
-VK_framebuffer::VK_framebuffer(Engine_vulkan* engine_vulkan){
+VK_framebuffer::VK_framebuffer(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
-  this->vk_renderpass = engine_vulkan->get_vk_renderpass();
+  this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_swapchain = engineManager->get_vk_swapchain();
+  this->vk_renderpass = engineManager->get_vk_renderpass();
 
   //---------------------------
 }
@@ -29,7 +29,7 @@ void VK_framebuffer::create_framebuffers(){
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
-  VK_depth* vk_depth = engine_vulkan->get_vk_depth();
+  VK_depth* vk_depth = engineManager->get_vk_depth();
   //---------------------------
 
   VkImageView depthImageView = vk_depth->get_depthImageView();

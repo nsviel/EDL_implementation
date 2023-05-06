@@ -1,6 +1,6 @@
 #include "VK_device.h"
 
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Instance/VK_window.h"
 #include "../Instance/VK_instance.h"
 
@@ -9,12 +9,12 @@
 
 
 //Constructor / Destructor
-VK_device::VK_device(Engine_vulkan* engine_vulkan){
+VK_device::VK_device(Engine* engineManager){
   //---------------------------
 
-  this->vk_window = engine_vulkan->get_vk_window();
-  this->vk_instance = engine_vulkan->get_vk_instance();
-  this->engine_vulkan = engine_vulkan;
+  this->vk_window = engineManager->get_vk_window();
+  this->vk_instance = engineManager->get_vk_instance();
+  this->engineManager = engineManager;
 
   //---------------------------
 }

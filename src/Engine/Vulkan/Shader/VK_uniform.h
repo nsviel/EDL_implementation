@@ -5,7 +5,7 @@
 
 #include "../../../common.h"
 
-class Engine_vulkan;
+class Engine;
 class VK_device;
 class VK_buffer;
 class VK_swapchain;
@@ -16,7 +16,7 @@ class VK_uniform
 {
 public:
   //Constructor / Destructor
-  VK_uniform(Engine_vulkan* engine_vulkan);
+  VK_uniform(Engine* engineManager);
   ~VK_uniform();
 
 public:

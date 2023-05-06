@@ -1,16 +1,17 @@
 #include "GUI_control.h"
 
-#include "../Engine/Node_engine.h"
-#include "../Engine/Dimension/Dimension.h"
-#include "../Engine/Core/Control.h"
-#include "../Engine/Camera/Camera.h"
+#include "../../Engine/Node_engine.h"
+#include "../../Engine/Dimension/Dimension.h"
+#include "../../Engine/Core/Control.h"
+#include "../../Engine/Camera/Camera.h"
+#include "../../Node.h"
 
 
 //Constructor / Destructor
-GUI_control::GUI_control(Node_engine* node_engine){
+GUI_control::GUI_control(Node* node){
   //---------------------------
 
-  this->node_engine = node_engine;
+  Node_engine* node_engine = node->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
   this->cameraManager = node_engine->get_cameraManager();
   this->controlManager = node_engine->get_controlManager();

@@ -3,19 +3,19 @@
 #include "VK_descriptor.h"
 
 #include "../Command/VK_command.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 #include "../Device/VK_device.h"
 
 #include "../../Node_engine.h"
 
 
 //Constructor / Destructor
-VK_buffer::VK_buffer(Engine_vulkan* engine_vulkan){
+VK_buffer::VK_buffer(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_descriptor = engine_vulkan->get_vk_descriptor();
+  this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_descriptor = engineManager->get_vk_descriptor();
 
   //---------------------------
 }
@@ -23,7 +23,7 @@ VK_buffer::~VK_buffer(){}
 
 //Main function
 void VK_buffer::insert_cloud_in_engine(Cloud* cloud){
-  VK_texture* vk_texture = engine_vulkan->get_vk_texture();
+  VK_texture* vk_texture = engineManager->get_vk_texture();
   //---------------------------
 
   vk_texture->load_texture(cloud->path_texture);
@@ -183,7 +183,7 @@ void VK_buffer::bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& b
   //---------------------------
 }
 void VK_buffer::copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size){
-  VK_command* vk_command = engine_vulkan->get_vk_command();
+  VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
   VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();
@@ -216,7 +216,7 @@ uint32_t VK_buffer::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags pr
   //---------------------------
 }
 void VK_buffer::transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout){
-  VK_command* vk_command = engine_vulkan->get_vk_command();
+  VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
   VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();

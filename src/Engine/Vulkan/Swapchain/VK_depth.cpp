@@ -3,17 +3,17 @@
 
 #include "../Device/VK_device.h"
 #include "../Data/VK_texture.h"
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 
 
 //Constructor / Destructor
-VK_depth::VK_depth(Engine_vulkan* engine_vulkan){
+VK_depth::VK_depth(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_device = engine_vulkan->get_vk_device();
-  this->vk_texture = engine_vulkan->get_vk_texture();
-  this->vk_swapchain = engine_vulkan->get_vk_swapchain();
+  this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_texture = engineManager->get_vk_texture();
+  this->vk_swapchain = engineManager->get_vk_swapchain();
 
   //---------------------------
 }

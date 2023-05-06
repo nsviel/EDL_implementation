@@ -13,7 +13,7 @@ Set::Set(std::string name){
 void Set::reset(){
   //---------------------------
 
-  for(int i=0; i<list_cloud.size(); i++){
+  for(int i=0; i<list_obj.size(); i++){
 
   }
 

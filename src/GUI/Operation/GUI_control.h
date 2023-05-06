@@ -1,13 +1,13 @@
 #ifndef GUI_CONTROL_H
 #define GUI_CONTROL_H
 
-#include "../common.h"
+#include "../../common.h"
 
-#include "../../extern/imgui/imgui.h"
-#include "../../extern/imgui/imgui_impl_glfw.h"
-#include "../../extern/imgui/imgui_impl_vulkan.h"
+#include "../../../extern/imgui/imgui.h"
+#include "../../../extern/imgui/imgui_impl_glfw.h"
+#include "../../../extern/imgui/imgui_impl_vulkan.h"
 
-class Node_engine;
+class Node;
 class Dimension;
 class Camera;
 class Control;
@@ -17,7 +17,7 @@ class GUI_control
 {
 public:
   //Constructor / Destructor
-  GUI_control(Node_engine* node_engine);
+  GUI_control(Node* node);
   ~GUI_control();
 
 public:
@@ -33,7 +33,6 @@ public:
   void control_keyboard_camMove();
 
 private:
-  Node_engine* node_engine;
   Dimension* dimManager;
   Control* controlManager;
   Camera* cameraManager;

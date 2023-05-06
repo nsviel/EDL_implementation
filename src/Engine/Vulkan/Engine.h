@@ -27,12 +27,12 @@ class VK_gui;
 class VK_camera;
 
 
-class Engine_vulkan
+class Engine
 {
 public:
   //Constructor / Destructor
-  Engine_vulkan(Node_engine* node_engine);
-  ~Engine_vulkan();
+  Engine(Node_engine* node_engine);
+  ~Engine();
 
 public:
   //Main functions

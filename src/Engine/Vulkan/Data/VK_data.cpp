@@ -1,18 +1,18 @@
 #include "VK_data.h"
 #include "VK_buffer.h"
 
-#include "../Engine_vulkan.h"
+#include "../Engine.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "../../../../extern/tiny_obj_loader.h"
 
 
 //Constructor / Destructor
-VK_data::VK_data(Engine_vulkan* engine_vulkan){
+VK_data::VK_data(Engine* engineManager){
   //---------------------------
 
-  this->engine_vulkan = engine_vulkan;
-  this->vk_buffer = engine_vulkan->get_vk_buffer();
+  this->engineManager = engineManager;
+  this->vk_buffer = engineManager->get_vk_buffer();
 
   //---------------------------
 }
