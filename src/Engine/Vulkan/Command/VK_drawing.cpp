@@ -37,29 +37,32 @@ VK_drawing::~VK_drawing(){}
 
 //Main function
 void VK_drawing::draw_frame(Object* object){
-  VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
-  VkDevice device = vk_device->get_device();
-  std::vector<VkFence> inFlightFences = vk_synchronization->get_fenvec_inFlight();
-  std::vector<VkSemaphore> semvec_image_available = vk_synchronization->get_semvec_image_available();
-  std::vector<VkSemaphore> renderFinishedSemaphores = vk_synchronization->get_semvec_render_finish();
-  std::vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
-  VkQueue queue_graphics = vk_device->get_queue_graphics();
-  VkQueue queue_presentation = vk_device->get_queue_presentation();
   //---------------------------
 
-  bool framebufferResized = vk_window->check_for_resizing();
+  this->draw_swapchain();
+  this->draw_command(object);
+  this->draw_queue();
+
+  //---------------------------
+}
+void VK_drawing::draw_swapchain(){
+  std::vector<VkFence> inFlightFences = vk_synchronization->get_fenvec_inFlight();
+  std::vector<VkSemaphore> semvec_image_available = vk_synchronization->get_semvec_image_available();
+  VkDevice device = vk_device->get_device();
+  VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
+  //---------------------------
+
+  framebufferResized = vk_window->check_for_resizing();
 
   //Waiting for the previous frame
   vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  uint32_t imageIndex;
   VkResult result = vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, semvec_image_available[currentFrame], VK_NULL_HANDLE, &imageIndex);
-
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
-  } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR){
+  }else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
   }
 
@@ -73,14 +76,27 @@ void VK_drawing::draw_frame(Object* object){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
   }
 
+  //---------------------------
+}
+void VK_drawing::draw_command(Object* object){
+  std::vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
+  //---------------------------
+
   vkResetCommandBuffer(command_buffer_vec[currentFrame], 0);
-  vk_command->record_command_buffer(object, command_buffer_vec[currentFrame], imageIndex);
-
-
-
+  vk_command->record_command_buffer(command_buffer_vec[currentFrame], imageIndex);
   vk_uniform->update_uniform_buffer(currentFrame);
 
-
+  //---------------------------
+}
+void VK_drawing::draw_queue(){
+  std::vector<VkFence> inFlightFences = vk_synchronization->get_fenvec_inFlight();
+  std::vector<VkSemaphore> semvec_image_available = vk_synchronization->get_semvec_image_available();
+  std::vector<VkSemaphore> renderFinishedSemaphores = vk_synchronization->get_semvec_render_finish();
+  std::vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
+  VkQueue queue_graphics = vk_device->get_queue_graphics();
+  VkQueue queue_presentation = vk_device->get_queue_presentation();
+  VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
+  //---------------------------
 
   VkSubmitInfo submitInfo{};
   submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -95,7 +111,7 @@ void VK_drawing::draw_frame(Object* object){
   submitInfo.signalSemaphoreCount = 1;
   submitInfo.pSignalSemaphores = signalSemaphores;
 
-  result = vkQueueSubmit(queue_graphics, 1, &submitInfo, inFlightFences[currentFrame]);
+  VkResult result = vkQueueSubmit(queue_graphics, 1, &submitInfo, inFlightFences[currentFrame]);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to submit draw command buffer!");
   }

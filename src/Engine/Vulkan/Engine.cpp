@@ -23,6 +23,8 @@
 #include "../Node_engine.h"
 #include "../Param_engine.h"
 
+#include "../GPU/GPU_data.h"
+
 
 //Constructor / Destructor
 Engine::Engine(Node_engine* node_engine){
@@ -93,6 +95,8 @@ void Engine::main_loop() {
 
   //Model centered
   object = vk_data->load_model();
+  GPU_data* gpu_data = node_engine->get_gpu_data();
+  gpu_data->insert_object_for_drawing(object);
 
   while(!glfwWindowShouldClose(window)) {
     glfwPollEvents();

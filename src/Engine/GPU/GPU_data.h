@@ -7,6 +7,7 @@ class Node_engine;
 class VK_texture;
 class VK_buffer;
 class VK_descriptor;
+class VK_command;
 
 
 class GPU_data
@@ -17,13 +18,20 @@ public:
   ~GPU_data();
 
 public:
-  void draw_object(Object* object);
+  //Insert function
+  void insert_object_for_drawing(Object* object);
   void insert_object_in_engine(Object* object);
+
+  //Remove function
+  void remove_object_for_drawing(Object* object);
 
 private:
   VK_texture* vk_texture;
   VK_buffer* vk_buffer;
   VK_descriptor* vk_descriptor;
+  VK_command* vk_command;
+
+  std::list<Object*> list_draw;
 };
 
 #endif

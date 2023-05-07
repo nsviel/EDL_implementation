@@ -25,6 +25,9 @@ public:
 public:
   //Main functions
   void draw_frame(Object* object);
+  void draw_swapchain();
+  void draw_command(Object* object);
+  void draw_queue();
 
 private:
   Engine* engineManager;
@@ -35,6 +38,9 @@ private:
   VK_command* vk_command;
   VK_device* vk_device;
   VK_uniform* vk_uniform;
+
+  uint32_t imageIndex;
+  bool framebufferResized;
 };
 
 #endif

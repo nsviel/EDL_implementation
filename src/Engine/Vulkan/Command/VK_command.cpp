@@ -88,7 +88,7 @@ void VK_command::cleanup(){
 }
 
 //Command functions
-void VK_command::record_command_buffer(Object* object, VkCommandBuffer command_buffer, uint32_t imageIndex){
+void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex){
   std::vector<VkFramebuffer> swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
@@ -125,7 +125,7 @@ void VK_command::record_command_buffer(Object* object, VkCommandBuffer command_b
 
   this->command_viewport(command_buffer);
   this->command_pipeline(command_buffer);
-  this->command_drawing(object, command_buffer);
+  this->command_drawing(command_buffer);
 
   //ICI command pour draw gui
   VK_gui* vk_gui = engineManager->get_vk_gui();
@@ -165,13 +165,17 @@ void VK_command::command_pipeline(VkCommandBuffer command_buffer){
 
   //---------------------------
 }
-void VK_command::command_drawing(Object* object, VkCommandBuffer command_buffer){
+void VK_command::command_drawing(VkCommandBuffer command_buffer){
   //---------------------------
 
-  VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb, object->vbo_uv};
-  VkDeviceSize offsets[] = {0, 0, 0};
-  vkCmdBindVertexBuffers(command_buffer, 0, 3, vertexBuffers, offsets);
-  vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
+  for(int i=0; i<list_draw.size(); i++){
+    Object* object = *next(list_draw.begin(),i);
+
+    VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb, object->vbo_uv};
+    VkDeviceSize offsets[] = {0, 0, 0};
+    vkCmdBindVertexBuffers(command_buffer, 0, 3, vertexBuffers, offsets);
+    vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
+  }
 
   //---------------------------
 }

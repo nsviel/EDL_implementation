@@ -21,8 +21,6 @@ VK_data::~VK_data(){}
 //Main function
 Object* VK_data::load_model(){
   //---------------------------
-  const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";
-  const std::string TEXTURE_PATH = "../src/Engine/Texture/viking_room.png";
 
   Object* object = new Object();
   object->path_file = "../src/Engine/Texture/viking_room.obj";
@@ -34,7 +32,7 @@ Object* VK_data::load_model(){
   std::vector<tinyobj::material_t> materials;
   std::string warn, err;
 
-  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str());
+  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, object->path_file.c_str());
   if(!load_ok){
     throw std::runtime_error(warn + err);
   }

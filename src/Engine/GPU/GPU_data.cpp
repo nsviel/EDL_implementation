@@ -5,6 +5,7 @@
 #include "../Vulkan/Data/VK_buffer.h"
 #include "../Vulkan/Data/VK_texture.h"
 #include "../Vulkan/Data/VK_descriptor.h"
+#include "../Vulkan/Command/VK_command.h"
 
 
 //Constructor / Destructor
@@ -15,15 +16,28 @@ GPU_data::GPU_data(Node_engine* node_engine){
   this->vk_buffer = engineManager->get_vk_buffer();
   this->vk_texture = engineManager->get_vk_texture();
   this->vk_descriptor = engineManager->get_vk_descriptor();
+  this->vk_command = engineManager->get_vk_command();
 
   //---------------------------
 }
 GPU_data::~GPU_data(){}
 
-//Main function
-void GPU_data::draw_object(Object* object){
+//Insert function
+void GPU_data::insert_object_for_drawing(Object* object){
   //---------------------------
 
+  bool is_in_list = false;
+  for(int i=0; i<list_draw.size(); i++){
+    Object* object_list = *next(list_draw.begin(),i);
+    if(object->ID == object_list->ID){
+      is_in_list = true;
+    }
+  }
+
+  if(is_in_list == false){
+    list_draw.push_back(object);
+    vk_command->set_list_draw(list_draw);
+  }
 
   //---------------------------
 }
@@ -35,6 +49,22 @@ void GPU_data::insert_object_in_engine(Object* object){
   vk_buffer->create_buffer_rgb(object, object->rgb);
   vk_buffer->create_buffer_uv(object, object->uv);
   vk_descriptor->create_descriptor_set();
+
+  //---------------------------
+}
+
+//Remove function
+void GPU_data::remove_object_for_drawing(Object* object){
+  //---------------------------
+
+  bool is_in_list = false;
+  for(int i=0; i<list_draw.size(); i++){
+    Object* object_list = *next(list_draw.begin(),i);
+    if(object->ID == object_list->ID){
+      list_draw.remove(object_list);
+      vk_command->set_list_draw(list_draw);
+    }
+  }
 
   //---------------------------
 }

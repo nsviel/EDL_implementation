@@ -1,8 +1,7 @@
 #ifndef VK_COMMAND_H
 #define VK_COMMAND_H
 
-#include <vulkan/vulkan.h>
-
+#include "../VK_parameter.h"
 #include "../../../common.h"
 
 class Engine;
@@ -30,8 +29,8 @@ public:
   void create_command_buffers();
   void cleanup();
 
-  void record_command_buffer(Object* object, VkCommandBuffer command_buffer, uint32_t imageIndex);
-  void command_drawing(Object* object, VkCommandBuffer command_buffer);
+  void record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex);
+  void command_drawing(VkCommandBuffer command_buffer);
   void command_pipeline(VkCommandBuffer command_buffer);
   void command_viewport(VkCommandBuffer command_buffer);
 
@@ -39,8 +38,10 @@ public:
   VkCommandBuffer command_buffer_begin();
   void command_buffer_end(VkCommandBuffer command_buffer);
 
-  inline VkCommandPool get_command_pool(){return command_pool;}
   inline std::vector<VkCommandBuffer> get_command_buffer_vec(){return command_buffer_vec;}
+  inline VkCommandBuffer get_current_command_buffer(){return command_buffer_vec[currentFrame];}
+  inline VkCommandPool get_command_pool(){return command_pool;}
+  inline void set_list_draw(std::list<Object*> value){this->list_draw = value;}
 
 private:
   Engine* engineManager;
@@ -56,6 +57,7 @@ private:
 
   VkCommandPool command_pool;
   std::vector<VkCommandBuffer> command_buffer_vec;
+  std::list<Object*> list_draw;
 };
 
 #endif
