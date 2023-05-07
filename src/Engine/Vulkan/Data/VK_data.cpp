@@ -19,15 +19,15 @@ VK_data::VK_data(Engine* engineManager){
 VK_data::~VK_data(){}
 
 //Main function
-Cloud* VK_data::load_model(){
+Object* VK_data::load_model(){
   //---------------------------
   const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";
   const std::string TEXTURE_PATH = "../src/Engine/Texture/viking_room.png";
 
-  Cloud* cloud = new Cloud();
-  cloud->path_file = "../src/Engine/Texture/viking_room.obj";
-  cloud->path_texture = "../src/Engine/Texture/viking_room.png";
-  cloud->draw_type = "point";
+  Object* object = new Object();
+  object->path_file = "../src/Engine/Texture/viking_room.obj";
+  object->path_texture = "../src/Engine/Texture/viking_room.png";
+  object->draw_type_name = "point";
 
   tinyobj::attrib_t attrib;
   std::vector<tinyobj::shape_t> shapes;
@@ -52,16 +52,16 @@ Cloud* VK_data::load_model(){
         1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
       };
 
-      cloud->xyz.push_back(xyz);
-      cloud->rgb.push_back(vec4(1, 1, 1, 1));
-      cloud->uv.push_back(uv);
+      object->xyz.push_back(xyz);
+      object->rgb.push_back(vec4(1, 1, 1, 1));
+      object->uv.push_back(uv);
     }
   }
 
-  vk_buffer->insert_cloud_in_engine(cloud);
+  vk_buffer->insert_cloud_in_engine(object);
 
   //---------------------------
-  return cloud;
+  return object;
 }
 std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
   std::vector<VkVertexInputAttributeDescription> attributeDescriptions;

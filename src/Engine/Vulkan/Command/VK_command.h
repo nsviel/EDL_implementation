@@ -30,8 +30,8 @@ public:
   void create_command_buffers();
   void cleanup();
 
-  void record_command_buffer(Cloud* cloud, VkCommandBuffer command_buffer, uint32_t imageIndex);
-  void command_drawing(Cloud* cloud, VkCommandBuffer command_buffer);
+  void record_command_buffer(Object* object, VkCommandBuffer command_buffer, uint32_t imageIndex);
+  void command_drawing(Object* object, VkCommandBuffer command_buffer);
   void command_pipeline(VkCommandBuffer command_buffer);
   void command_viewport(VkCommandBuffer command_buffer);
 

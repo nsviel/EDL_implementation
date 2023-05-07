@@ -35,6 +35,7 @@ using namespace glm;
 #include "Specific/Function/fct_chrono.h"
 
 //Data
+#include "Data/Struct/struct_object.h"
 #include "Data/Struct/struct_cloud.h"
 #include "Data/Struct/struct_set.h"
 #include "Data/Struct/struct_data.h"

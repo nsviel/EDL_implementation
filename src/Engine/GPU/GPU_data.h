@@ -6,6 +6,7 @@
 class Node_engine;
 class VK_texture;
 class VK_buffer;
+class VK_descriptor;
 
 
 class GPU_data
@@ -22,6 +23,7 @@ public:
 private:
   VK_texture* vk_texture;
   VK_buffer* vk_buffer;
+  VK_descriptor* vk_descriptor;
 };
 
 #endif

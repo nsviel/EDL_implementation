@@ -15,6 +15,8 @@ public:
   ~Node_load();
 
 public:
+  void loop();
+
   inline Loader* get_loaderManager(){return loaderManager;}
 
 private:

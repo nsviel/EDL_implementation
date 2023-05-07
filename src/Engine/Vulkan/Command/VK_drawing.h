@@ -24,7 +24,7 @@ public:
 
 public:
   //Main functions
-  void draw_frame(Cloud* cloud);
+  void draw_frame(Object* object);
 
 private:
   Engine* engineManager;

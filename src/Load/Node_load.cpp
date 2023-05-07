@@ -9,7 +9,7 @@
 Node_load::Node_load(Node* node){
   //---------------------------
 
-  this->loaderManager = new Loader();
+  this->loaderManager = new Loader(node);
 
   //---------------------------
 }
@@ -22,3 +22,11 @@ Node_load::~Node_load(){
 }
 
 //Main function
+void Node_load::loop(){
+  //---------------------------
+
+  //loaderManager->load_model();
+
+
+  //---------------------------
+}

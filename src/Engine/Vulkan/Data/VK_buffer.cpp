@@ -22,34 +22,34 @@ VK_buffer::VK_buffer(Engine* engineManager){
 VK_buffer::~VK_buffer(){}
 
 //Main function
-void VK_buffer::insert_cloud_in_engine(Cloud* cloud){
+void VK_buffer::insert_cloud_in_engine(Object* object){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   //---------------------------
 
-  vk_texture->load_texture(cloud->path_texture);
-  this->create_buffer_xyz(cloud, cloud->xyz);
-  this->create_buffer_rgb(cloud, cloud->rgb);
-  this->create_buffer_uv(cloud, cloud->uv);
+  vk_texture->load_texture(object->path_texture);
+  this->create_buffer_xyz(object, object->xyz);
+  this->create_buffer_rgb(object, object->rgb);
+  this->create_buffer_uv(object, object->uv);
   vk_descriptor->create_descriptor_set();
 
   //---------------------------
 }
-void VK_buffer::cleanup(Cloud* cloud){
+void VK_buffer::cleanup(Object* object){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyBuffer(device, cloud->vbo_xyz, nullptr);
-  vkDestroyBuffer(device, cloud->vbo_rgb, nullptr);
-  vkDestroyBuffer(device, cloud->vbo_uv, nullptr);
-  vkFreeMemory(device, cloud->mem_xyz, nullptr);
-  vkFreeMemory(device, cloud->mem_rgb, nullptr);
-  vkFreeMemory(device, cloud->mem_uv, nullptr);
+  vkDestroyBuffer(device, object->vbo_xyz, nullptr);
+  vkDestroyBuffer(device, object->vbo_rgb, nullptr);
+  vkDestroyBuffer(device, object->vbo_uv, nullptr);
+  vkFreeMemory(device, object->mem_xyz, nullptr);
+  vkFreeMemory(device, object->mem_rgb, nullptr);
+  vkFreeMemory(device, object->mem_uv, nullptr);
 
   //---------------------------
 }
 
 //Data buffer functions
-void VK_buffer::create_buffer_uv(Cloud* cloud, std::vector<vec2> vertices){
+void VK_buffer::create_buffer_uv(Object* object, std::vector<vec2> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -70,16 +70,16 @@ void VK_buffer::create_buffer_uv(Cloud* cloud, std::vector<vec2> vertices){
 
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-  this->create_buffer(size, usage, cloud->vbo_uv);
-  this->bind_buffer_memory(properties, cloud->vbo_uv, cloud->mem_uv);
-  this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_uv, size);
+  this->create_buffer(size, usage, object->vbo_uv);
+  this->bind_buffer_memory(properties, object->vbo_uv, object->mem_uv);
+  this->copy_buffer_to_gpu(staging_buffer, object->vbo_uv, size);
 
   vkDestroyBuffer(device, staging_buffer, nullptr);
   vkFreeMemory(device, staging_buffer_memory, nullptr);
 
   //---------------------------
 }
-void VK_buffer::create_buffer_xyz(Cloud* cloud, std::vector<vec3> vertices){
+void VK_buffer::create_buffer_xyz(Object* object, std::vector<vec3> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -100,16 +100,16 @@ void VK_buffer::create_buffer_xyz(Cloud* cloud, std::vector<vec3> vertices){
 
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-  this->create_buffer(size, usage, cloud->vbo_xyz);
-  this->bind_buffer_memory(properties, cloud->vbo_xyz, cloud->mem_xyz);
-  this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_xyz, size);
+  this->create_buffer(size, usage, object->vbo_xyz);
+  this->bind_buffer_memory(properties, object->vbo_xyz, object->mem_xyz);
+  this->copy_buffer_to_gpu(staging_buffer, object->vbo_xyz, size);
 
   vkDestroyBuffer(device, staging_buffer, nullptr);
   vkFreeMemory(device, staging_buffer_memory, nullptr);
 
   //---------------------------
 }
-void VK_buffer::create_buffer_rgb(Cloud* cloud, std::vector<vec4> vertices){
+void VK_buffer::create_buffer_rgb(Object* object, std::vector<vec4> vertices){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -130,9 +130,9 @@ void VK_buffer::create_buffer_rgb(Cloud* cloud, std::vector<vec4> vertices){
 
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-  this->create_buffer(size, usage, cloud->vbo_rgb);
-  this->bind_buffer_memory(properties, cloud->vbo_rgb, cloud->mem_rgb);
-  this->copy_buffer_to_gpu(staging_buffer, cloud->vbo_rgb, size);
+  this->create_buffer(size, usage, object->vbo_rgb);
+  this->bind_buffer_memory(properties, object->vbo_rgb, object->mem_rgb);
+  this->copy_buffer_to_gpu(staging_buffer, object->vbo_rgb, size);
 
   vkDestroyBuffer(device, staging_buffer, nullptr);
   vkFreeMemory(device, staging_buffer_memory, nullptr);

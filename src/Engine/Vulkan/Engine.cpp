@@ -92,14 +92,14 @@ void Engine::main_loop() {
   //---------------------------
 
   //Model centered
-  cloud = vk_data->load_model();
+  object = vk_data->load_model();
 
   while(!glfwWindowShouldClose(window)) {
     glfwPollEvents();
     vk_gui->loop_start();
     node_engine->loop();
     vk_gui->loop_end();
-    vk_drawing->draw_frame(cloud);
+    vk_drawing->draw_frame(object);
   }
 
   vkDeviceWaitIdle(device);
@@ -119,7 +119,7 @@ void Engine::clean_vulkan(){
   vk_uniform->cleanup();
   vk_texture->cleanup();
   vk_descriptor->cleanup();
-  vk_buffer->cleanup(cloud);
+  vk_buffer->cleanup(object);
   vk_synchronization->cleanup();
 
   vk_command->cleanup();

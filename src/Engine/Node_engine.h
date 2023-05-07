@@ -9,6 +9,7 @@ class Engine;
 class Dimension;
 class Control;
 class Camera;
+class GPU_data;
 
 
 class Node_engine
@@ -28,9 +29,11 @@ public:
   inline Control* get_controlManager(){return controlManager;}
   inline Camera* get_cameraManager(){return cameraManager;}
   inline Param_engine* get_param_engine(){return param_engine;}
+  inline GPU_data* get_gpu_data(){return gpu_data;}
 
 private:
   Node* node;
+  GPU_data* gpu_data;
   Param_engine* param_engine;
   Engine* engineManager;
   Dimension* dimManager;

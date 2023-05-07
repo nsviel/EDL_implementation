@@ -5,6 +5,7 @@
 #include "Dimension/Dimension.h"
 #include "Camera/Camera.h"
 #include "Param_engine.h"
+#include "GPU/GPU_data.h"
 
 #include "../Node.h"
 
@@ -19,6 +20,7 @@ Node_engine::Node_engine(Node* node){
   this->cameraManager = new Camera(this);
   this->engineManager = new Engine(this);
   this->controlManager = new Control(this);
+  this->gpu_data = new GPU_data(this);
 
   //---------------------------
 }

@@ -18,13 +18,13 @@ public:
 
 public:
   //Main functions
-  void insert_cloud_in_engine(Cloud* cloud);
-  void cleanup(Cloud* cloud);
+  void insert_cloud_in_engine(Object* object);
+  void cleanup(Object* object);
 
   //Data buffer functions
-  void create_buffer_uv(Cloud* cloud, std::vector<vec2> vertices);
-  void create_buffer_xyz(Cloud* cloud, std::vector<vec3> vertices);
-  void create_buffer_rgb(Cloud* cloud, std::vector<vec4> vertices);
+  void create_buffer_uv(Object* object, std::vector<vec2> vertices);
+  void create_buffer_xyz(Object* object, std::vector<vec3> vertices);
+  void create_buffer_rgb(Object* object, std::vector<vec4> vertices);
 
   //Buffer functions
   void bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);

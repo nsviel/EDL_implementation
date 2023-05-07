@@ -63,7 +63,7 @@ public:
   inline Param_engine* get_param_engine(){return param_engine;}
 
 private:
-  Cloud* cloud;
+  Object* object;
 
   Node_engine* node_engine;
   Param_engine* param_engine;
