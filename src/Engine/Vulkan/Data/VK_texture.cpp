@@ -22,12 +22,12 @@ VK_texture::VK_texture(Engine* engineManager){
 VK_texture::~VK_texture(){}
 
 //Main function
-void VK_texture::load_texture(string path){
+void VK_texture::load_texture(Object* object){
   //---------------------------
 
   Struct_texture texture;
 
-  this->create_texture_image(path, texture.textureImage, texture.textureImageMemory);
+  this->create_texture_image(object->path_text, texture.textureImage, texture.textureImageMemory);
   this->create_texture_image_view(texture.textureImage, texture.textureImageView);
   this->create_texture_sampler(texture.textureSampler);
 

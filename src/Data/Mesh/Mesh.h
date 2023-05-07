@@ -10,12 +10,12 @@ class Object;
 class GPU_data;
 
 
-class Mesh
+class truc
 {
 public:
   //Constructor / Destructor
-  Mesh();
-  ~Mesh();
+  truc();
+  ~truc();
 
 public:
   //Remove functions

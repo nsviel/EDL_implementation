@@ -5,7 +5,7 @@
 
 
 //Constructor / Destructor
-Mesh::Mesh(){
+truc::truc(){
   //---------------------------
 
   //this->objectManager = new Object();
@@ -13,7 +13,7 @@ Mesh::Mesh(){
 
   //---------------------------
 }
-Mesh::~Mesh(){
+truc::~truc(){
   //---------------------------
 
   //delete objectManager;
@@ -23,7 +23,7 @@ Mesh::~Mesh(){
 }
 /*
 //Remove functions
-void Mesh::remove_collection(Collection* collection){
+void truc::remove_collection(Collection* collection){
   std::list<Collection*>* list_collection = data->get_list_col_object();
   //---------------------------
 
@@ -58,7 +58,7 @@ void Mesh::remove_collection(Collection* collection){
 
   //---------------------------
 }
-void Mesh::remove_collection_all(){
+void truc::remove_collection_all(){
   std::list<Collection*>* list_collection = data->get_list_col_object();
   //---------------------------
 
@@ -71,7 +71,7 @@ void Mesh::remove_collection_all(){
 }
 
 //Reset functions
-void Mesh::reset_collection(Collection* collection){
+void truc::reset_collection(Collection* collection){
   //---------------------------
 
   collection->reset();
@@ -86,7 +86,7 @@ void Mesh::reset_collection(Collection* collection){
   //---------------------------
   this->update_glyph(collection);
 }
-void Mesh::reset_collection_all(){
+void truc::reset_collection_all(){
   std::list<Collection*>* list_collection = data->get_list_col_object();
   //---------------------------
 
@@ -104,7 +104,7 @@ void Mesh::reset_collection_all(){
 }
 
 //Update collection
-void Mesh::update_collection_location(Collection* collection){
+void truc::update_collection_location(Collection* collection){
   //---------------------------
 
   for(int i=0; i<collection->nb_obj; i++){
@@ -114,7 +114,7 @@ void Mesh::update_collection_location(Collection* collection){
 
   //---------------------------
 }
-void Mesh::update_collection_color(Collection* collection){
+void truc::update_collection_color(Collection* collection){
   //---------------------------
 
   for(int i=0; i<collection->nb_obj; i++){
@@ -124,7 +124,7 @@ void Mesh::update_collection_color(Collection* collection){
 
   //---------------------------
 }
-void Mesh::update_collection_MinMax(Collection* collection){
+void truc::update_collection_MinMax(Collection* collection){
   //---------------------------
 
   for(int i=0; i<collection->nb_obj; i++){
@@ -136,21 +136,21 @@ void Mesh::update_collection_MinMax(Collection* collection){
 }
 
 //Update object
-void Mesh::update_buffer_location(Object_* object){
+void truc::update_buffer_location(Object_* object){
   //---------------------------
 
   gpuManager->update_buffer_location(object);
 
   //---------------------------
 }
-void Mesh::update_buffer_color(Object_* object){
+void truc::update_buffer_color(Object_* object){
   //---------------------------
 
   gpuManager->update_buffer_color(object);
 
   //---------------------------
 }
-void Mesh::update_MinMax(Object_* object){
+void truc::update_MinMax(Object_* object){
   vector<vec3>& XYZ = object->xyz;
   vec3 centroid = vec3(0, 0, 0);
   vec3 min = XYZ[0];
@@ -176,7 +176,7 @@ void Mesh::update_MinMax(Object_* object){
 }
 
 //Update collection function
-void Mesh::update_glyph(Collection* collection){
+void truc::update_glyph(Collection* collection){
   if(collection == nullptr) return;
   if(collection->obj_type != "cloud") return;
   //---------------------------
@@ -189,7 +189,7 @@ void Mesh::update_glyph(Collection* collection){
 
   //---------------------------
 }
-void Mesh::update_MinMax_col(Collection* collection){
+void truc::update_MinMax_col(Collection* collection){
   vec3 min_cloud = vec3(100, 100, 100);
   vec3 max_cloud = vec3(-100, -100, -100);
   //---------------------------

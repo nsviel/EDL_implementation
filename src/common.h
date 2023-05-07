@@ -40,6 +40,7 @@ using namespace glm;
 #include "Data/Struct/struct_set.h"
 #include "Data/Struct/struct_data.h"
 #include "Data/Struct/struct_glyph.h"
+#include "Data/Struct/struct_mesh.h"
 
 //GUI
 #include "../extern/imgui/imgui.h"

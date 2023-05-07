@@ -20,12 +20,12 @@ VK_data::VK_data(Engine* engineManager){
 VK_data::~VK_data(){}
 
 //Main function
-Object* VK_data::load_model(){
+Mesh* VK_data::load_model(){
   Node_engine* node_engine = engineManager->get_node_engine();
   GPU_data* gpu_data = node_engine->get_gpu_data();
   //---------------------------
 
-  Object* object = new Object();
+  Mesh* object = new Mesh();
   object->path_file = "../src/Engine/Texture/viking_room.obj";
   object->path_text = "../src/Engine/Texture/viking_room.png";
   object->draw_type_name = "point";

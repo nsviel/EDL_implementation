@@ -1,7 +1,7 @@
 #ifndef STRUCT_TEXTURE_H
 #define STRUCT_TEXTURE_H
 
-#include "../../../common.h"
+#include <vulkan/vulkan.h>
 
 
 struct Struct_texture{

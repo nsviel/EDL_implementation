@@ -18,7 +18,7 @@ public:
 
 public:
   //Main functions
-  void load_texture(string path);
+  void load_texture(Object* object);
   void cleanup();
 
   //Texture creation
