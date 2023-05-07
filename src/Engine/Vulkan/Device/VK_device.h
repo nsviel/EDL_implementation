@@ -1,12 +1,9 @@
 #ifndef VK_DEVICE_H
 #define VK_DEVICE_H
 
-#include <vulkan/vulkan.h>
-
-#include "../VK_struct.h"
-
+#include "../Struct/struct_queue.h"
+#include "../Struct/struct_swapchain.h"
 #include "../../../common.h"
-
 
 class Node_engine;
 class Engine;

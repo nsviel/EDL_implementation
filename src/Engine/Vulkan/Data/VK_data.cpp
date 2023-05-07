@@ -1,7 +1,9 @@
 #include "VK_data.h"
-#include "VK_buffer.h"
 
 #include "../Engine.h"
+
+#include "../../GPU/GPU_data.h"
+#include "../../Node_engine.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "../../../../extern/tiny_obj_loader.h"
@@ -12,7 +14,6 @@ VK_data::VK_data(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
-  this->vk_buffer = engineManager->get_vk_buffer();
 
   //---------------------------
 }
@@ -20,11 +21,13 @@ VK_data::~VK_data(){}
 
 //Main function
 Object* VK_data::load_model(){
+  Node_engine* node_engine = engineManager->get_node_engine();
+  GPU_data* gpu_data = node_engine->get_gpu_data();
   //---------------------------
 
   Object* object = new Object();
   object->path_file = "../src/Engine/Texture/viking_room.obj";
-  object->path_texture = "../src/Engine/Texture/viking_room.png";
+  object->path_text = "../src/Engine/Texture/viking_room.png";
   object->draw_type_name = "point";
 
   tinyobj::attrib_t attrib;
@@ -37,7 +40,6 @@ Object* VK_data::load_model(){
     throw std::runtime_error(warn + err);
   }
 
-  std::vector<Vertex> vertices;
   for(const auto& shape : shapes){
     for(const auto& index : shape.mesh.indices){
       vec3 xyz{
@@ -56,7 +58,7 @@ Object* VK_data::load_model(){
     }
   }
 
-  vk_buffer->insert_cloud_in_engine(object);
+  gpu_data->insert_object_in_engine(object);
 
   //---------------------------
   return object;

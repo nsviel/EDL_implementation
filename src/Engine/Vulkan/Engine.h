@@ -1,8 +1,6 @@
 #ifndef ENGINE_VULKAN_H
 #define ENGINE_VULKAN_H
 
-#include "VK_struct.h"
-
 #include "../../common.h"
 
 class Node_engine;
@@ -63,8 +61,6 @@ public:
   inline Param_engine* get_param_engine(){return param_engine;}
 
 private:
-  Object* object;
-
   Node_engine* node_engine;
   Param_engine* param_engine;
   VK_window* vk_window;

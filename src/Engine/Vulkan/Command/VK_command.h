@@ -14,6 +14,8 @@ class VK_framebuffer;
 class VK_descriptor;
 class VK_viewport;
 class VK_window;
+class VK_buffer;
+class VK_data;
 
 
 class VK_command
@@ -41,7 +43,6 @@ public:
   inline std::vector<VkCommandBuffer> get_command_buffer_vec(){return command_buffer_vec;}
   inline VkCommandBuffer get_current_command_buffer(){return command_buffer_vec[currentFrame];}
   inline VkCommandPool get_command_pool(){return command_pool;}
-  inline void set_list_draw(std::list<Object*> value){this->list_draw = value;}
 
 private:
   Engine* engineManager;
@@ -54,10 +55,11 @@ private:
   VK_descriptor* vk_descriptor;
   VK_viewport* vk_viewport;
   VK_window* vk_window;
+  VK_buffer* vk_buffer;
+  VK_data* vk_data;
 
   VkCommandPool command_pool;
   std::vector<VkCommandBuffer> command_buffer_vec;
-  std::list<Object*> list_draw;
 };
 
 #endif

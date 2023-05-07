@@ -8,6 +8,7 @@ class VK_texture;
 class VK_buffer;
 class VK_descriptor;
 class VK_command;
+class VK_data;
 
 
 class GPU_data
@@ -30,6 +31,7 @@ private:
   VK_buffer* vk_buffer;
   VK_descriptor* vk_descriptor;
   VK_command* vk_command;
+  VK_data* vk_data;
 
   std::list<Object*> list_draw;
 };

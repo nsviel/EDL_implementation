@@ -1,7 +1,6 @@
 #ifndef VK_DEPTH_H
 #define VK_DEPTH_H
 
-#include "../VK_struct.h"
 #include "../../../common.h"
 
 #include <vulkan/vulkan.h>

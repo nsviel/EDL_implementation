@@ -1,7 +1,6 @@
 #include "VK_pipeline.h"
 #include "VK_renderpass.h"
 
-#include "../VK_struct.h"
 #include "../Data/VK_descriptor.h"
 #include "../Data/VK_data.h"
 #include "../Engine.h"

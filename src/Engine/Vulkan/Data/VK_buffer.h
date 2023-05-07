@@ -1,12 +1,12 @@
 #ifndef VK_BUFFER_H
 #define VK_BUFFER_H
 
-#include "../VK_struct.h"
 #include "../../../common.h"
 
 class Engine;
 class VK_device;
 class VK_descriptor;
+class VK_data;
 
 
 class VK_buffer
@@ -18,8 +18,7 @@ public:
 
 public:
   //Main functions
-  void insert_cloud_in_engine(Object* object);
-  void cleanup(Object* object);
+  void cleanup_object(Object* object);
 
   //Data buffer functions
   void create_buffer_uv(Object* object, std::vector<vec2> vertices);
@@ -39,6 +38,7 @@ private:
   Engine* engineManager;
   VK_device* vk_device;
   VK_descriptor* vk_descriptor;
+  VK_data* vk_data;
 
   VkDeviceMemory dev_memory;
 };

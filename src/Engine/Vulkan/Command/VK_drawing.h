@@ -1,8 +1,6 @@
 #ifndef VK_DRAWING_H
 #define VK_DRAWING_H
 
-#include <vulkan/vulkan.h>
-
 #include "../../../common.h"
 
 class Engine;
@@ -24,9 +22,9 @@ public:
 
 public:
   //Main functions
-  void draw_frame(Object* object);
+  void draw_frame();
   void draw_swapchain();
-  void draw_command(Object* object);
+  void draw_command();
   void draw_queue();
 
 private:

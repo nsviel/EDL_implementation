@@ -1,8 +1,6 @@
 #ifndef VK_UNIFORM_H
 #define VK_UNIFORM_H
 
-#include <vulkan/vulkan.h>
-
 #include "../../../common.h"
 
 class Engine;

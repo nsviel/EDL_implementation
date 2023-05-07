@@ -1,14 +1,15 @@
 #include "VK_command.h"
 
+#include "../Engine.h"
 #include "../Instance/VK_gui.h"
 #include "../Instance/VK_window.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Pipeline/VK_pipeline.h"
-#include "../VK_struct.h"
 #include "../VK_parameter.h"
-#include "../Engine.h"
 #include "../Device/VK_device.h"
 #include "../Data/VK_descriptor.h"
+#include "../Data/VK_buffer.h"
+#include "../Data/VK_data.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_framebuffer.h"
 #include "../Camera/VK_viewport.h"
@@ -30,6 +31,8 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_descriptor = engineManager->get_vk_descriptor();
   this->vk_viewport = engineManager->get_vk_viewport();
   this->vk_window = engineManager->get_vk_window();
+  this->vk_buffer = engineManager->get_vk_buffer();
+  this->vk_data = engineManager->get_vk_data();
 
   //---------------------------
 }
@@ -80,9 +83,15 @@ void VK_command::create_command_buffers(){
 }
 void VK_command::cleanup(){
   VkDevice device = vk_device->get_device();
+  list<Object*> list_data = vk_data->get_list_data();
   //---------------------------
 
   vkDestroyCommandPool(device, command_pool, nullptr);
+
+  for(int i=0; i<list_data.size(); i++){
+    Object* object = *next(list_data.begin(),i);
+    vk_buffer->cleanup_object(object);
+  }
 
   //---------------------------
 }
@@ -166,10 +175,11 @@ void VK_command::command_pipeline(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_command::command_drawing(VkCommandBuffer command_buffer){
+  list<Object*> list_data = vk_data->get_list_data();
   //---------------------------
 
-  for(int i=0; i<list_draw.size(); i++){
-    Object* object = *next(list_draw.begin(),i);
+  for(int i=0; i<list_data.size(); i++){
+    Object* object = *next(list_data.begin(),i);
 
     VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb, object->vbo_uv};
     VkDeviceSize offsets[] = {0, 0, 0};

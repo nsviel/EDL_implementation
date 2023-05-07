@@ -1,8 +1,7 @@
 #ifndef VK_DESCRIPTOR_H
 #define VK_DESCRIPTOR_H
 
-#include <vulkan/vulkan.h>
-
+#include "../Struct/struct_mvp.h"
 #include "../../../common.h"
 
 class Engine;

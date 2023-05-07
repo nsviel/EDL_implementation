@@ -40,8 +40,6 @@ void VK_descriptor::create_descriptor_set(){
   VkDescriptorImageInfo imageInfo = vk_texture->get_image_info();
   //---------------------------
 
-
-
   std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptor_layout);
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;

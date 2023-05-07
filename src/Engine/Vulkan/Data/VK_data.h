@@ -4,7 +4,6 @@
 #include "../../../common.h"
 
 class Engine;
-class VK_buffer;
 
 
 class VK_data
@@ -20,9 +19,13 @@ public:
   std::vector<VkVertexInputAttributeDescription> description_vertex();
   std::vector<VkVertexInputBindingDescription> description_binding();
 
+  inline void set_list_data(std::list<Object*> value){this->list_data = value;}
+  inline std::list<Object*> get_list_data(){return list_data;}
+
 private:
   Engine* engineManager;
-  VK_buffer* vk_buffer;
+
+  std::list<Object*> list_data;
 };
 
 #endif

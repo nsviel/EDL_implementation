@@ -1,8 +1,6 @@
 #ifndef VK_INSTANCE_H
 #define VK_INSTANCE_H
 
-#include "../VK_struct.h"
-
 #include "../../../common.h"
 
 class Node_engine;

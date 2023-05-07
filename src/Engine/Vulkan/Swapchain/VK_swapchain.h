@@ -1,7 +1,7 @@
 #ifndef VK_SWAPCHAIN_H
 #define VK_SWAPCHAIN_H
 
-#include "../VK_struct.h"
+#include "../Struct/struct_swapchain.h"
 #include "../../../common.h"
 
 class Engine;

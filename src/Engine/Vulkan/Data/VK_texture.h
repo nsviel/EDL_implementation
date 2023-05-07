@@ -1,7 +1,7 @@
 #ifndef VK_TEXTURE_H
 #define VK_TEXTURE_H
 
-#include "../VK_struct.h"
+#include "../Struct/struct_texture.h"
 #include "../../../common.h"
 
 class Engine;

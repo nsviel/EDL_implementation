@@ -57,7 +57,7 @@ Object* Loader::load_model(){
 
   Object* object = new Object();
   object->path_file = "../src/Engine/Texture/viking_room.obj";
-  object->path_texture = "../src/Engine/Texture/viking_room.png";
+  object->path_text = "../src/Engine/Texture/viking_room.png";
   object->draw_type_name = "point";
 
   tinyobj::attrib_t attrib;

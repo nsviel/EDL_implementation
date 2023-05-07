@@ -40,6 +40,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_descriptor = new VK_descriptor(this);
   this->vk_pipeline = new VK_pipeline(this);
+  this->vk_data = new VK_data(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_command = new VK_command(this);
@@ -49,7 +50,6 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_drawing = new VK_drawing(this);
   this->vk_texture = new VK_texture(this);
   this->vk_depth = new VK_depth(this);
-  this->vk_data = new VK_data(this);
   this->vk_gui = new VK_gui(this);
 
   //---------------------------
@@ -94,16 +94,17 @@ void Engine::main_loop() {
   //---------------------------
 
   //Model centered
-  object = vk_data->load_model();
+  Object* object = vk_data->load_model();
+  //vk_descriptor->create_descriptor_set();
   GPU_data* gpu_data = node_engine->get_gpu_data();
   gpu_data->insert_object_for_drawing(object);
 
-  while(!glfwWindowShouldClose(window)) {
+  while(!glfwWindowShouldClose(window)){
     glfwPollEvents();
     vk_gui->loop_start();
     node_engine->loop();
     vk_gui->loop_end();
-    vk_drawing->draw_frame(object);
+    vk_drawing->draw_frame();
   }
 
   vkDeviceWaitIdle(device);
@@ -123,7 +124,6 @@ void Engine::clean_vulkan(){
   vk_uniform->cleanup();
   vk_texture->cleanup();
   vk_descriptor->cleanup();
-  vk_buffer->cleanup(object);
   vk_synchronization->cleanup();
 
   vk_command->cleanup();

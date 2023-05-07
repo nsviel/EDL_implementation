@@ -19,18 +19,13 @@ struct Object{ //Cloud cloud / part
   int nb_point = 0;
   bool is_visible = true;
 
-  //Drawing
-  int draw_type;
-  int draw_point_size;
-  int draw_line_width;
-
   //Infos
   std::string name = "";
-  std::string path_file;
-  std::string path_save;
-  std::string path_texture;
-  std::string file_format;
-  std::string draw_type_name;
+  std::string path_file = "";
+  std::string path_save = "";
+  std::string path_text = "";
+  std::string file_format = "";
+  std::string draw_type_name = "";
   glm::vec4 unicolor;
 
   //Data
@@ -57,8 +52,6 @@ struct Object{ //Cloud cloud / part
   VkDeviceMemory mem_uv;
 
   //Pose
-  Eigen::Matrix3d pose_R;
-  Eigen::Vector3d pose_T;
   glm::vec3 min = glm::vec3(0.0f);
   glm::vec3 max = glm::vec3(0.0f);
   glm::vec3 root = glm::vec3(0.0f);

@@ -2,7 +2,6 @@
 
 #include "../Command/VK_synchronization.h"
 #include "../Command/VK_command.h"
-#include "../VK_struct.h"
 #include "../Shader/VK_uniform.h"
 #include "../VK_parameter.h"
 #include "../Engine.h"
@@ -36,11 +35,11 @@ VK_drawing::VK_drawing(Engine* engineManager){
 VK_drawing::~VK_drawing(){}
 
 //Main function
-void VK_drawing::draw_frame(Object* object){
+void VK_drawing::draw_frame(){
   //---------------------------
 
   this->draw_swapchain();
-  this->draw_command(object);
+  this->draw_command();
   this->draw_queue();
 
   //---------------------------
@@ -78,7 +77,7 @@ void VK_drawing::draw_swapchain(){
 
   //---------------------------
 }
-void VK_drawing::draw_command(Object* object){
+void VK_drawing::draw_command(){
   std::vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
   //---------------------------
 
