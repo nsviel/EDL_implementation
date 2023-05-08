@@ -1,7 +1,7 @@
 #ifndef VK_PARAMETER_H
 #define VK_PARAMETER_H
 
-#include "../../common.h"
+#include <stdint.h>
 
 
 static uint32_t currentFrame = 0;

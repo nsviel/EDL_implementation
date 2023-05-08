@@ -37,6 +37,8 @@ void VK_window::init_window(){
   this->window_dim = get_framebuffer_size();
   dimManager->set_window(window);
 
+  glfwSetWindowSizeLimits(window, param_engine->window_dim_min.x, param_engine->window_dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
+
   if (!glfwVulkanSupported()){
     printf("GLFW: Vulkan Not Supported\n");
     exit(0);

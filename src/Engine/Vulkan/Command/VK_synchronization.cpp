@@ -1,6 +1,6 @@
 #include "VK_synchronization.h"
 
-#include "../VK_parameter.h"
+#include "../Instance/VK_parameter.h"
 #include "../Engine.h"
 #include "../Device/VK_device.h"
 

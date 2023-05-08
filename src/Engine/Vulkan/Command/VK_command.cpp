@@ -5,7 +5,7 @@
 #include "../Instance/VK_window.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Pipeline/VK_pipeline.h"
-#include "../VK_parameter.h"
+#include "../Instance/VK_parameter.h"
 #include "../Device/VK_device.h"
 #include "../Data/VK_descriptor.h"
 #include "../Data/VK_buffer.h"

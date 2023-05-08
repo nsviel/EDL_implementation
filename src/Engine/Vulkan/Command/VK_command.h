@@ -1,7 +1,7 @@
 #ifndef VK_COMMAND_H
 #define VK_COMMAND_H
 
-#include "../VK_parameter.h"
+#include "../Instance/VK_parameter.h"
 #include "../../../common.h"
 
 class Engine;

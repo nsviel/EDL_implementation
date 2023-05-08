@@ -3,7 +3,7 @@
 
 #include "../../common.h"
 
-class Node;
+class Node_gui;
 class Param_engine;
 
 
@@ -11,7 +11,7 @@ class GUI_option
 {
 public:
   //Constructor / Destructor
-  GUI_option(Node* node);
+  GUI_option(Node_gui* node_gui);
   ~GUI_option();
 
 public:
@@ -27,7 +27,7 @@ public:
 
 private:
   Param_engine* param_engine;
-  
+
   int width;
 };
 

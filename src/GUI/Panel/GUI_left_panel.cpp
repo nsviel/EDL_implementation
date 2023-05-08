@@ -2,6 +2,7 @@
 
 #include "../Node_gui.h"
 #include "../Operation/GUI_option.h"
+#include "../Module/GUI_filemanager.h"
 
 #include "../../Load/Node_load.h"
 #include "../../Load/Processing/Loader.h"
@@ -11,12 +12,14 @@
 
 
 //Constructor / Destructor
-GUI_left_panel::GUI_left_panel(Node* node){
+GUI_left_panel::GUI_left_panel(Node_gui* node_gui){
   //---------------------------
 
-  this->node = node;
-  Node_engine* node_engine = node->get_node_engine();
+  Node_engine* node_engine = node_gui->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
+  this->node_gui = node_gui;
+  this->gui_filemanager = node_gui->get_gui_filemanager();
+  this->gui_option = node_gui->get_gui_option();
 
   //---------------------------
 }
@@ -64,8 +67,6 @@ void GUI_left_panel::left_panel_dim(){
 }
 void GUI_left_panel::left_panel_menu(){
   static bool show_demo = false;
-  Node_gui* node_gui = node->get_node_gui();
-  this->gui_option = node_gui->get_gui_option();
   //---------------------------
 
   if(ImGui::BeginMenuBar()){
@@ -90,14 +91,9 @@ void GUI_left_panel::left_panel_menu(){
 
   //---------------------------
 }
-#include "../../Engine/Vulkan/Engine.h"
-#include "../../Engine/Vulkan/Data/VK_data.h"
 void GUI_left_panel::left_panel_content(){
   //---------------------------
 
-  Node_load* node_load = node->get_node_load();
-  Loader* loaderManager = node_load->get_loaderManager();
-  //VK_data* vk_data = engineManager->get_vk_data();
 
   if(ImGui::Button("load")){
     //loaderManager->load_model();

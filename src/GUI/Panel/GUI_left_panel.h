@@ -3,16 +3,17 @@
 
 #include "../../common.h"
 
-class Node;
+class Node_gui;
 class Dimension;
 class GUI_option;
+class GUI_filemanager;
 
 
 class GUI_left_panel
 {
 public:
   //Constructor / Destructor
-  GUI_left_panel(Node* node);
+  GUI_left_panel(Node_gui* node_gui);
   ~GUI_left_panel();
 
 public:
@@ -23,9 +24,10 @@ public:
   void left_panel_content();
 
 private:
-  Node* node;
+  Node_gui* node_gui;
   Dimension* dimManager;
   GUI_option* gui_option;
+  GUI_filemanager* gui_filemanager;
 };
 
 #endif

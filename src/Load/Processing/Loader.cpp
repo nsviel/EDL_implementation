@@ -3,6 +3,7 @@
 
 #include "../Format/PLY/PLY_importer.h"
 
+#include "../../Specific/File/Directory.h"
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/GPU/GPU_data.h"
 #include "../../Node.h"
@@ -30,28 +31,6 @@ Loader::~Loader(){
 }
 
 //Main functions
-Cloud* Loader::load_cloud(string path){
-  Cloud* cloud = new Cloud();
-  //---------------------------
-
-  //Check file existence
-  if(is_file_exist(path) == false){
-    string log = "File doesn't exists: "+ path;
-  }
-
-  //Load file data
-  Data_file* data = plyManager->Loader(path);
-
-  cloud->name = data->name;
-  cloud->xyz = data->xyz;
-  cloud->rgb = data->rgb;
-
-  //Delete raw data
-  delete data;
-
-  //---------------------------
-  return cloud;
-}
 Object* Loader::load_object(string path){
   //---------------------------
 
@@ -70,14 +49,6 @@ Object* Loader::load_object(string path){
 }
 
 //Subfunctions
-bool Loader::is_file_exist(std::string path){
-  //---------------------------
-
-  std::ifstream infile(path.c_str());
-
-  //---------------------------
-  return infile.good();
-}
 void Loader::transfert_data(Object* object, Data_file* data){
   //---------------------------
 

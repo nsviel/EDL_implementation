@@ -1,15 +1,16 @@
 #include "GUI_option.h"
 
+#include "../Node_gui.h"
+
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Param_engine.h"
-#include "../../Node.h"
 
 
 //Constructor / Destructor
-GUI_option::GUI_option(Node* node){
+GUI_option::GUI_option(Node_gui* node_gui){
   //---------------------------
 
-  Node_engine* node_engine = node->get_node_engine();
+  Node_engine* node_engine = node_gui->get_node_engine();
   this->param_engine = node_engine->get_param_engine();
   this->width = 150;
 

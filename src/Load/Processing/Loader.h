@@ -18,11 +18,9 @@ public:
 
 public:
   //Main functions
-  Cloud* load_cloud(string path);
   Object* load_object(string path);
 
   //Subfunctions
-  bool is_file_exist(std::string path);
   void transfert_data(Object* object, Data_file* data);
 
 private:

@@ -1,5 +1,7 @@
 #include "GUI_control.h"
 
+#include "../Node_gui.h"
+
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Dimension/Dimension.h"
 #include "../../Engine/Core/Control.h"
@@ -8,10 +10,10 @@
 
 
 //Constructor / Destructor
-GUI_control::GUI_control(Node* node){
+GUI_control::GUI_control(Node_gui* node_gui){
   //---------------------------
 
-  Node_engine* node_engine = node->get_node_engine();
+  Node_engine* node_engine = node_gui->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
   this->cameraManager = node_engine->get_cameraManager();
   this->controlManager = node_engine->get_controlManager();

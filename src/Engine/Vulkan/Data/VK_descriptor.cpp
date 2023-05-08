@@ -1,7 +1,7 @@
 #include "VK_descriptor.h"
 
 #include "../Shader/VK_uniform.h"
-#include "../VK_parameter.h"
+#include "../Instance/VK_parameter.h"
 #include "../Engine.h"
 #include "../Data/VK_texture.h"
 #include "../Data/VK_buffer.h"

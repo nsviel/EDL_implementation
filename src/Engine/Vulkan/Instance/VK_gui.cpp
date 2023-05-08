@@ -6,7 +6,7 @@
 #include "../Pipeline/VK_renderpass.h"
 #include "../Engine.h"
 #include "../Command/VK_command.h"
-#include "../VK_parameter.h"
+#include "../Instance/VK_parameter.h"
 
 
 //Constructor / Destructor
@@ -136,7 +136,8 @@ void VK_gui::gui_style(){
   style.ChildRounding = 0.0f;
   style.FrameRounding = 0.0f;
   style.PopupRounding = 0.0f;
-  //style.IndentSpacing = 0.0f; //Pas d'indentation des tree
+  style.FrameBorderSize = 1.0f;
+  style.WindowBorderSize = 0.0f;
 
   //Colors
   ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(112, 112, 112, 127)); //Frame background

@@ -3,7 +3,7 @@
 #include "../Command/VK_synchronization.h"
 #include "../Command/VK_command.h"
 #include "../Shader/VK_uniform.h"
-#include "../VK_parameter.h"
+#include "../Instance/VK_parameter.h"
 #include "../Engine.h"
 
 #include "../Swapchain/VK_swapchain.h"

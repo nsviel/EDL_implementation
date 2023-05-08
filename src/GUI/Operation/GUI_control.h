@@ -3,7 +3,7 @@
 
 #include "../../common.h"
 
-class Node;
+class Node_gui;
 class Dimension;
 class Camera;
 class Control;
@@ -13,7 +13,7 @@ class GUI_control
 {
 public:
   //Constructor / Destructor
-  GUI_control(Node* node);
+  GUI_control(Node_gui* node_gui);
   ~GUI_control();
 
 public:
