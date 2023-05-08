@@ -32,7 +32,6 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_viewport = engineManager->get_vk_viewport();
   this->vk_window = engineManager->get_vk_window();
   this->vk_buffer = engineManager->get_vk_buffer();
-  this->vk_data = engineManager->get_vk_data();
 
   //---------------------------
 }
@@ -83,6 +82,7 @@ void VK_command::create_command_buffers(){
 }
 void VK_command::cleanup(){
   VkDevice device = vk_device->get_device();
+  VK_data* vk_data = engineManager->get_vk_data();
   list<Object*> list_data = vk_data->get_list_data();
   //---------------------------
 
@@ -175,6 +175,7 @@ void VK_command::command_pipeline(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_command::command_drawing(VkCommandBuffer command_buffer){
+  VK_data* vk_data = engineManager->get_vk_data();
   list<Object*> list_data = vk_data->get_list_data();
   //---------------------------
 

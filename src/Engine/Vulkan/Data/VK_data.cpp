@@ -1,5 +1,8 @@
 #include "VK_data.h"
+#include "VK_buffer.h"
+#include "VK_texture.h"
 
+#include "../Device/VK_device.h"
 #include "../Engine.h"
 
 #include "../../GPU/GPU_data.h"
@@ -14,6 +17,9 @@ VK_data::VK_data(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
+  this->vk_device = engineManager->get_vk_device();
+  this->vk_buffer = engineManager->get_vk_buffer();
+  this->vk_texture = engineManager->get_vk_texture();
 
   //---------------------------
 }
@@ -118,4 +124,15 @@ std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
 
   //---------------------------
   return bindingDescriptions;
+}
+void VK_data::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(int i=0; i<list_data.size(); i++){
+    Object* object = *next(list_data.begin(),i);
+    vk_buffer->cleanup_object(object);
+  }
+
+  //---------------------------
 }

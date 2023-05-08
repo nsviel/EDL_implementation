@@ -40,7 +40,6 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_descriptor = new VK_descriptor(this);
   this->vk_pipeline = new VK_pipeline(this);
-  this->vk_data = new VK_data(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_command = new VK_command(this);
@@ -49,6 +48,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
   this->vk_texture = new VK_texture(this);
+  this->vk_data = new VK_data(this);
   this->vk_depth = new VK_depth(this);
   this->vk_gui = new VK_gui(this);
 

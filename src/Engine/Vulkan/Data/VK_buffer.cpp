@@ -1,7 +1,6 @@
 #include "VK_buffer.h"
 #include "VK_texture.h"
 #include "VK_descriptor.h"
-#include "VK_data.h"
 
 #include "../Command/VK_command.h"
 #include "../Engine.h"
@@ -17,7 +16,6 @@ VK_buffer::VK_buffer(Engine* engineManager){
   this->engineManager = engineManager;
   this->vk_device = engineManager->get_vk_device();
   this->vk_descriptor = engineManager->get_vk_descriptor();
-  this->vk_data = engineManager->get_vk_data();
 
   //---------------------------
 }

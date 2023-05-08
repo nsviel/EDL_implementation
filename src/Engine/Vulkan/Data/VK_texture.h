@@ -20,6 +20,7 @@ public:
   //Main functions
   void load_texture(Object* object);
   void cleanup();
+  void cleanup(Object* object);
 
   //Texture creation
   void create_texture_image(string path, VkImage& textureImage, VkDeviceMemory& textureImageMemory);

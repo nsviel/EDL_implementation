@@ -36,6 +36,7 @@ void VK_texture::load_texture(Object* object){
   texture.imageInfo.sampler = texture.textureSampler;
 
   this->list_texture.push_back(texture);
+  //object->list_texture.push_back(texture);
 
   //---------------------------
 }
@@ -45,6 +46,21 @@ void VK_texture::cleanup(){
 
   for(int i=0; i< list_texture.size(); i++){
     Struct_texture texture = *next(list_texture.begin(), i);
+
+    vkDestroySampler(device, texture.textureSampler, nullptr);
+    vkDestroyImageView(device, texture.textureImageView, nullptr);
+    vkDestroyImage(device, texture.textureImage, nullptr);
+    vkFreeMemory(device, texture.textureImageMemory, nullptr);
+  }
+
+  //---------------------------
+}
+void VK_texture::cleanup(Object* object){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(int i=0; i<object->list_texture.size(); i++){
+    Struct_texture texture = *next(object->list_texture.begin(), i);
 
     vkDestroySampler(device, texture.textureSampler, nullptr);
     vkDestroyImageView(device, texture.textureImageView, nullptr);

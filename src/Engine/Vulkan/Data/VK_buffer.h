@@ -6,7 +6,6 @@
 class Engine;
 class VK_device;
 class VK_descriptor;
-class VK_data;
 
 
 class VK_buffer
@@ -38,7 +37,6 @@ private:
   Engine* engineManager;
   VK_device* vk_device;
   VK_descriptor* vk_descriptor;
-  VK_data* vk_data;
 
   VkDeviceMemory dev_memory;
 };

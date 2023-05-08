@@ -1,6 +1,8 @@
 #ifndef OBJECT_STRUCT_H
 #define OBJECT_STRUCT_H
 
+#include "struct_texture.h"
+
 #include <string>
 #include <vector>
 #include <list>
@@ -50,6 +52,8 @@ struct Object{ //Cloud cloud / part
   VkDeviceMemory mem_xyz;
   VkDeviceMemory mem_rgb;
   VkDeviceMemory mem_uv;
+
+  std::list<Struct_texture> list_texture;
 
   //Pose
   glm::vec3 min = glm::vec3(0.0f);
