@@ -5,7 +5,7 @@
 
 
 //Generique structure to parse file point clouds
-struct Data{
+struct Data_file{
   //---------------------------
 
   //Info

@@ -75,7 +75,7 @@ public:
 private:
   Glyphs* glyphManager;
   Configuration* configManager;
-  Data* data;
+  Data_file* data;
 
   vector<Glyph_source*> vec_glyph_src;
 

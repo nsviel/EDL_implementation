@@ -9,8 +9,8 @@ File_obj::File_obj(){}
 File_obj::~File_obj(){}
 
 //Main function
-Data* File_obj::Loader(string path){
-  Data* data = new Data();
+Data_file* File_obj::Loader(string path){
+  Data_file* data = new Data_file();
   //---------------------------
 
   //Init
@@ -165,7 +165,7 @@ void File_obj::parse_mtl(string path_obj){
 
   //---------------------------
 }
-void File_obj::fill_data_file(Data* data, vector<Vertex>& vertex_vec){
+void File_obj::fill_data_file(Data_file* data, vector<Vertex>& vertex_vec){
   //---------------------------
 
   if(is_face){

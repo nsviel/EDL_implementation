@@ -1,6 +1,5 @@
--faire plusieur pipeline en fonction des données (texture ou non, etc)
 -virer VK_parameter et mettre dans param_engine
 -pouvoir charger tout type de nuage
--load ply object
+  -pouvoir charger sans ou avec uv
+  -faire plusieur pipeline en fonction des données (texture ou non, etc)
 -abstraction fbo / uniform / shader / pipeline
--pouvoir charger sans ou avec uv

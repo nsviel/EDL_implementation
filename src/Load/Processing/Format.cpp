@@ -23,8 +23,8 @@ Format::~Format(){
 }
 
 //Main functions
-Data* Format::get_data_from_file(string path){
-  Data* data;
+Data_file* Format::get_data_from_file(string path){
+  Data_file* data;
   //---------------------------
 
   string format = get_format_from_path(path);

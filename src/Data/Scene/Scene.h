@@ -54,7 +54,7 @@ private:
   Param_data* param_data;
   Loader* loaderManager;
   GPU_data* gpuManager;
-  Data* data;
+  Data_file* data;
 };
 
 #endif

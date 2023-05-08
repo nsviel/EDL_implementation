@@ -25,8 +25,6 @@ Node_load::~Node_load(){
 void Node_load::loop(){
   //---------------------------
 
-  //loaderManager->load_model();
-
 
   //---------------------------
 }

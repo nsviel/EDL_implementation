@@ -20,7 +20,7 @@ private:
 
 
 private:
-  Data* data_out;
+  Data_file* data_out;
 
   //Parametrization
   vector<string> property_type;

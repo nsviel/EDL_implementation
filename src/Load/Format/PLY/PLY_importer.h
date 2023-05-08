@@ -13,7 +13,7 @@ public:
 
 public:
   //Main functions
-  Data* Loader(string path_file);
+  Data_file* Loader(string path_file);
 
 private:
   //Loader data
@@ -39,7 +39,7 @@ private:
   float get_uchar_from_binary(char* block_data, int& offset);
 
 private:
-  Data* data_out;
+  Data_file* data_out;
 
   //Parametrization
   vector<string> property_type;

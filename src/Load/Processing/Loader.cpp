@@ -40,7 +40,7 @@ Cloud* Loader::load_cloud(string path){
   }
 
   //Load file data
-  Data* data = plyManager->Loader(path);
+  Data_file* data = plyManager->Loader(path);
 
   cloud->name = data->name;
   cloud->xyz = data->xyz;
@@ -61,7 +61,7 @@ Object* Loader::load_object(string path){
   object->draw_type_name = "point";
   object->has_texture = true;
 
-  Data* data = formatManager->get_data_from_file(path);
+  Data_file* data = formatManager->get_data_from_file(path);
 
   object->xyz = data->xyz;
   object->rgb = data->rgb;
@@ -74,6 +74,9 @@ Object* Loader::load_object(string path){
   }
 
   gpu_data->insert_object_in_engine(object);
+
+  //Delete raw data
+  delete data;
 
   //---------------------------
   return object;

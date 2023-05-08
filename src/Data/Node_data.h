@@ -7,6 +7,7 @@ class Node_load;
 class Node;
 class Scene;
 class Param_data;
+class Data;
 
 
 class Node_data
@@ -27,6 +28,7 @@ private:
   Node_load* node_load;
   Param_data* param_data;
   Scene* sceneManager;
+  Data* dataManager;
 };
 
 #endif

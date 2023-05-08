@@ -16,7 +16,7 @@ public:
   ~Format();
 
 public:
-  Data* get_data_from_file(string path);
+  Data_file* get_data_from_file(string path);
 
 private:
   PLY_importer* ply_import;

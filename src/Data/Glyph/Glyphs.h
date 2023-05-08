@@ -36,7 +36,7 @@ public:
 
 private:
   GPU_data* gpuManager;
-  Data* data;
+  Data_file* data;
 
   list<Glyph*>* list_glyph;
   int ID_glyph;

@@ -38,7 +38,7 @@ using namespace glm;
 #include "Data/Struct/struct_object.h"
 #include "Data/Struct/struct_cloud.h"
 #include "Data/Struct/struct_set.h"
-#include "Data/Struct/struct_data.h"
+#include "Data/Struct/struct_data_file.h"
 #include "Data/Struct/struct_glyph.h"
 #include "Data/Struct/struct_mesh.h"
 

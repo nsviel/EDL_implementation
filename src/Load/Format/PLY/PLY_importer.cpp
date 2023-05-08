@@ -8,8 +8,8 @@ PLY_importer::PLY_importer(){}
 PLY_importer::~PLY_importer(){}
 
 //Main loader functions
-Data* PLY_importer::Loader(string path_file){
-  data_out = new Data();
+Data_file* PLY_importer::Loader(string path_file){
+  data_out = new Data_file();
   string nameFormat = path_file.substr(path_file.find_last_of("/\\") + 1);
   data_out->name = nameFormat.substr(0, nameFormat.find_last_of("."));
   data_out->path_file = path_file;
