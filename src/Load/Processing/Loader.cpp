@@ -62,21 +62,8 @@ Object* Loader::load_object(string path){
   object->has_texture = true;
 
   Data_file* data = formatManager->get_data_from_file(path);
-
-  object->xyz = data->xyz;
-  object->rgb = data->rgb;
-  object->uv = data->uv;
-
-  if(object->rgb.size() == 0){
-    for(int i=0; i<data->xyz.size(); i++){
-      object->rgb.push_back(vec4(1,1,1,1));
-    }
-  }
-
+  this->transfert_data(object, data);
   gpu_data->insert_object_in_engine(object);
-
-  //Delete raw data
-  delete data;
 
   //---------------------------
   return object;
@@ -90,4 +77,22 @@ bool Loader::is_file_exist(std::string path){
 
   //---------------------------
   return infile.good();
+}
+void Loader::transfert_data(Object* object, Data_file* data){
+  //---------------------------
+
+  object->xyz = data->xyz;
+  object->rgb = data->rgb;
+  object->uv = data->uv;
+
+  if(object->rgb.size() == 0){
+    for(int i=0; i<data->xyz.size(); i++){
+      object->rgb.push_back(vec4(1,1,1,1));
+    }
+  }
+
+  //Delete raw data
+  delete data;
+
+  //---------------------------
 }

@@ -23,6 +23,7 @@ public:
 
   //Subfunctions
   bool is_file_exist(std::string path);
+  void transfert_data(Object* object, Data_file* data);
 
 private:
   Format* formatManager;
