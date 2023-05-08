@@ -18,7 +18,6 @@ public:
 
 public:
   //Main functions
-  Mesh* load_model();
   std::vector<VkVertexInputAttributeDescription> description_vertex();
   std::vector<VkVertexInputBindingDescription> description_binding();
   void cleanup();

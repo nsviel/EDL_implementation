@@ -1,29 +1,43 @@
-#include "Mesh.h"
+#include "Scene.h"
+
+#include "../Node_data.h"
+#include "../Param_data.h"
 
 //#include "../Glyph/Object.h"
 //#include "../../Engine/GPU/GPU_data.h"
 
+#include "../../Node.h"
+#include "../../Load/Node_load.h"
+#include "../../Load/Processing/Loader.h"
 
-//Constructor / Destructor
-truc::truc(){
+
+//ConsScenetor / DesScenetor
+Scene::Scene(Node_data* node_data){
   //---------------------------
+
+  Node_load* node_load = node_data->get_node_load();
+  this->loaderManager = node_load->get_loaderManager();
+  this->param_data = node_data->get_param_data();
 
   //this->objectManager = new Object();
   //this->gpuManager = new GPU_data();
 
   //---------------------------
 }
-truc::~truc(){
+Scene::~Scene(){}
+
+void Scene::init_scene(){
   //---------------------------
 
-  //delete objectManager;
-  //delete gpuManager;
+  loaderManager->load_object(param_data->path_initial_object);
 
   //---------------------------
 }
+
+
 /*
 //Remove functions
-void truc::remove_collection(Collection* collection){
+void Scene::remove_collection(Collection* collection){
   std::list<Collection*>* list_collection = data->get_list_col_object();
   //---------------------------
 
@@ -58,7 +72,7 @@ void truc::remove_collection(Collection* collection){
 
   //---------------------------
 }
-void truc::remove_collection_all(){
+void Scene::remove_collection_all(){
   std::list<Collection*>* list_collection = data->get_list_col_object();
   //---------------------------
 
@@ -71,7 +85,7 @@ void truc::remove_collection_all(){
 }
 
 //Reset functions
-void truc::reset_collection(Collection* collection){
+void Scene::reset_collection(Collection* collection){
   //---------------------------
 
   collection->reset();
@@ -86,7 +100,7 @@ void truc::reset_collection(Collection* collection){
   //---------------------------
   this->update_glyph(collection);
 }
-void truc::reset_collection_all(){
+void Scene::reset_collection_all(){
   std::list<Collection*>* list_collection = data->get_list_col_object();
   //---------------------------
 
@@ -104,7 +118,7 @@ void truc::reset_collection_all(){
 }
 
 //Update collection
-void truc::update_collection_location(Collection* collection){
+void Scene::update_collection_location(Collection* collection){
   //---------------------------
 
   for(int i=0; i<collection->nb_obj; i++){
@@ -114,7 +128,7 @@ void truc::update_collection_location(Collection* collection){
 
   //---------------------------
 }
-void truc::update_collection_color(Collection* collection){
+void Scene::update_collection_color(Collection* collection){
   //---------------------------
 
   for(int i=0; i<collection->nb_obj; i++){
@@ -124,7 +138,7 @@ void truc::update_collection_color(Collection* collection){
 
   //---------------------------
 }
-void truc::update_collection_MinMax(Collection* collection){
+void Scene::update_collection_MinMax(Collection* collection){
   //---------------------------
 
   for(int i=0; i<collection->nb_obj; i++){
@@ -136,21 +150,21 @@ void truc::update_collection_MinMax(Collection* collection){
 }
 
 //Update object
-void truc::update_buffer_location(Object_* object){
+void Scene::update_buffer_location(Object_* object){
   //---------------------------
 
   gpuManager->update_buffer_location(object);
 
   //---------------------------
 }
-void truc::update_buffer_color(Object_* object){
+void Scene::update_buffer_color(Object_* object){
   //---------------------------
 
   gpuManager->update_buffer_color(object);
 
   //---------------------------
 }
-void truc::update_MinMax(Object_* object){
+void Scene::update_MinMax(Object_* object){
   vector<vec3>& XYZ = object->xyz;
   vec3 centroid = vec3(0, 0, 0);
   vec3 min = XYZ[0];
@@ -176,7 +190,7 @@ void truc::update_MinMax(Object_* object){
 }
 
 //Update collection function
-void truc::update_glyph(Collection* collection){
+void Scene::update_glyph(Collection* collection){
   if(collection == nullptr) return;
   if(collection->obj_type != "cloud") return;
   //---------------------------
@@ -189,7 +203,7 @@ void truc::update_glyph(Collection* collection){
 
   //---------------------------
 }
-void truc::update_MinMax_col(Collection* collection){
+void Scene::update_MinMax_col(Collection* collection){
   vec3 min_cloud = vec3(100, 100, 100);
   vec3 max_cloud = vec3(-100, -100, -100);
   //---------------------------

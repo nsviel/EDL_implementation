@@ -26,50 +26,6 @@ VK_data::VK_data(Engine* engineManager){
 VK_data::~VK_data(){}
 
 //Main function
-Mesh* VK_data::load_model(){
-  Node_engine* node_engine = engineManager->get_node_engine();
-  GPU_data* gpu_data = node_engine->get_gpu_data();
-  //---------------------------
-
-  Mesh* object = new Mesh();
-  object->path_file = "../src/Engine/Texture/viking_room.obj";
-  object->path_text = "../src/Engine/Texture/viking_room.png";
-  object->draw_type_name = "point";
-  object->has_texture = true;
-
-  tinyobj::attrib_t attrib;
-  std::vector<tinyobj::shape_t> shapes;
-  std::vector<tinyobj::material_t> materials;
-  std::string warn, err;
-
-  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, object->path_file.c_str());
-  if(!load_ok){
-    throw std::runtime_error(warn + err);
-  }
-
-  for(const auto& shape : shapes){
-    for(const auto& index : shape.mesh.indices){
-      vec3 xyz{
-        attrib.vertices[3 * index.vertex_index + 0],
-        attrib.vertices[3 * index.vertex_index + 1],
-        attrib.vertices[3 * index.vertex_index + 2]
-      };
-      vec2 uv{
-        attrib.texcoords[2 * index.texcoord_index + 0],
-        1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
-      };
-
-      object->xyz.push_back(xyz);
-      object->rgb.push_back(vec4(1, 1, 1, 1));
-      object->uv.push_back(uv);
-    }
-  }
-
-  gpu_data->insert_object_in_engine(object);
-
-  //---------------------------
-  return object;
-}
 std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
   std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
   //---------------------------

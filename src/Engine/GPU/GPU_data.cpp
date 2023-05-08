@@ -46,7 +46,10 @@ void GPU_data::insert_object_for_drawing(Object* object){
 void GPU_data::insert_object_in_engine(Object* object){
   //---------------------------
 
-  vk_texture->load_texture(object);
+  if(object->path_text != ""){
+    vk_texture->load_texture(object);
+  }
+
   vk_buffer->create_buffer_xyz(object, object->xyz);
   vk_buffer->create_buffer_rgb(object, object->rgb);
   vk_buffer->create_buffer_uv(object, object->uv);

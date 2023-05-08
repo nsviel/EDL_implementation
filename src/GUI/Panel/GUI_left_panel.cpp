@@ -3,8 +3,10 @@
 #include "../Node_gui.h"
 #include "../Operation/GUI_option.h"
 
-#include "../../Engine/Dimension/Dimension.h"
+#include "../../Load/Node_load.h"
+#include "../../Load/Processing/Loader.h"
 #include "../../Engine/Node_engine.h"
+#include "../../Engine/Dimension/Dimension.h"
 #include "../../Node.h"
 
 
@@ -93,12 +95,12 @@ void GUI_left_panel::left_panel_menu(){
 void GUI_left_panel::left_panel_content(){
   //---------------------------
 
-  Node_engine* node_engine = node->get_node_engine();
-  Engine* engineManager = node_engine->get_engineManager();
-  VK_data* vk_data = engineManager->get_vk_data();
+  Node_load* node_load = node->get_node_load();
+  Loader* loaderManager = node_load->get_loaderManager();
+  //VK_data* vk_data = engineManager->get_vk_data();
 
   if(ImGui::Button("load")){
-    vk_data->load_model();
+    //loaderManager->load_model();
   }
 
   //---------------------------

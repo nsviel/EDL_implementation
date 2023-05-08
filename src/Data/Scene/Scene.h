@@ -3,21 +3,23 @@
 
 #include "../../common.h"
 
-#include <list>
-#include <GLFW/glfw3.h>
-
+class Node_data;
 class Object;
 class GPU_data;
+class Loader;
+class Param_data;
 
 
-class truc
+class Scene
 {
 public:
-  //Constructor / Destructor
-  truc();
-  ~truc();
+  //ConsScenetor / DesScenetor
+  Scene(Node_data* node_data);
+  ~Scene();
 
 public:
+  void init_scene();
+
   //Remove functions
   void remove_collection(Set* set);
   void remove_collection_all();
@@ -49,6 +51,8 @@ public:
 */
 private:
   Object* objectManager;
+  Param_data* param_data;
+  Loader* loaderManager;
   GPU_data* gpuManager;
   Data* data;
 };

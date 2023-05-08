@@ -21,6 +21,7 @@ public:
 
 public:
   void init();
+  void loop_start();
   void loop();
   void exit();
 

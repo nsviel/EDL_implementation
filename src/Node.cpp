@@ -23,6 +23,7 @@ Node::~Node(){
   delete node_engine;
   delete node_load;
   delete node_gui;
+  delete node_data;
 
   //---------------------------
 }
@@ -31,7 +32,8 @@ void Node::init(){
   //---------------------------
 
   node_engine->init();
-
+  node_data->init();
+  node_engine->loop_start();
 
   //---------------------------
 }

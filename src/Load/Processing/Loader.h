@@ -18,7 +18,7 @@ public:
 public:
   //Main functions
   Cloud* load_cloud(string path);
-  Object* load_model();
+  Object* load_object(string path);
 
   //Subfunctions
   bool is_file_exist(std::string path);

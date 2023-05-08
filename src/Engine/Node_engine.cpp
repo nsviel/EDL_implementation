@@ -41,6 +41,12 @@ void Node_engine::init(){
 
   engineManager->init_vulkan();
   dimManager->update();
+
+  //---------------------------
+}
+void Node_engine::loop_start(){
+  //---------------------------
+
   engineManager->main_loop();
 
   //---------------------------

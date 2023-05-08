@@ -50,22 +50,21 @@ Cloud* Loader::load_cloud(string path){
   //---------------------------
   return cloud;
 }
-Object* Loader::load_model(){
+Object* Loader::load_object(string path){
   //---------------------------
-  const std::string MODEL_PATH = "../src/Engine/Texture/viking_room.obj";
-  const std::string TEXTURE_PATH = "../src/Engine/Texture/viking_room.png";
 
   Object* object = new Object();
-  object->path_file = "../src/Engine/Texture/viking_room.obj";
+  object->path_file = path;
   object->path_text = "../src/Engine/Texture/viking_room.png";
   object->draw_type_name = "point";
+  object->has_texture = true;
 
   tinyobj::attrib_t attrib;
   std::vector<tinyobj::shape_t> shapes;
   std::vector<tinyobj::material_t> materials;
   std::string warn, err;
 
-  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str());
+  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, object->path_file.c_str());
   if(!load_ok){
     throw std::runtime_error(warn + err);
   }
