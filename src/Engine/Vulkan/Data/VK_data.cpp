@@ -132,6 +132,7 @@ void VK_data::cleanup(){
   for(int i=0; i<list_data.size(); i++){
     Object* object = *next(list_data.begin(),i);
     vk_buffer->cleanup_object(object);
+    vk_texture->cleanup_texture(object);
   }
 
   //---------------------------

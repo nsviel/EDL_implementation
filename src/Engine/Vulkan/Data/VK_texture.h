@@ -19,8 +19,7 @@ public:
 public:
   //Main functions
   void load_texture(Object* object);
-  void cleanup();
-  void cleanup(Object* object);
+  void cleanup_texture(Object* object);
 
   //Texture creation
   void create_texture_image(string path, VkImage& textureImage, VkDeviceMemory& textureImageMemory);
@@ -32,14 +31,10 @@ public:
   void create_image(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
   void copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
 
-  VkDescriptorImageInfo get_image_info();
-
 private:
   Engine* engineManager;
   VK_device* vk_device;
   VK_buffer* vk_buffer;
-
-  list<Struct_texture> list_texture;
 };
 
 #endif

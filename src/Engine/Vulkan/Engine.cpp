@@ -122,7 +122,7 @@ void Engine::clean_vulkan(){
   vk_renderpass->cleanup();
 
   vk_uniform->cleanup();
-  vk_texture->cleanup();
+  vk_data->cleanup();
   vk_descriptor->cleanup();
   vk_synchronization->cleanup();
 

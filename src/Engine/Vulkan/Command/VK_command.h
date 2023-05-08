@@ -15,7 +15,6 @@ class VK_descriptor;
 class VK_viewport;
 class VK_window;
 class VK_buffer;
-class VK_data;
 
 
 class VK_command
@@ -56,7 +55,6 @@ private:
   VK_viewport* vk_viewport;
   VK_window* vk_window;
   VK_buffer* vk_buffer;
-  VK_data* vk_data;
 
   VkCommandPool command_pool;
   std::vector<VkCommandBuffer> command_buffer_vec;

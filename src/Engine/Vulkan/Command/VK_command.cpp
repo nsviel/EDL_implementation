@@ -82,16 +82,9 @@ void VK_command::create_command_buffers(){
 }
 void VK_command::cleanup(){
   VkDevice device = vk_device->get_device();
-  VK_data* vk_data = engineManager->get_vk_data();
-  list<Object*> list_data = vk_data->get_list_data();
   //---------------------------
 
   vkDestroyCommandPool(device, command_pool, nullptr);
-
-  for(int i=0; i<list_data.size(); i++){
-    Object* object = *next(list_data.begin(),i);
-    vk_buffer->cleanup_object(object);
-  }
 
   //---------------------------
 }

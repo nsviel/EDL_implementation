@@ -35,27 +35,11 @@ void VK_texture::load_texture(Object* object){
   texture.imageInfo.imageView = texture.textureImageView;
   texture.imageInfo.sampler = texture.textureSampler;
 
-  //this->list_texture.push_back(texture);
   object->list_texture.push_back(texture);
 
   //---------------------------
 }
-void VK_texture::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  for(int i=0; i< list_texture.size(); i++){
-    Struct_texture texture = *next(list_texture.begin(), i);
-
-    vkDestroySampler(device, texture.textureSampler, nullptr);
-    vkDestroyImageView(device, texture.textureImageView, nullptr);
-    vkDestroyImage(device, texture.textureImage, nullptr);
-    vkFreeMemory(device, texture.textureImageMemory, nullptr);
-  }
-
-  //---------------------------
-}
-void VK_texture::cleanup(Object* object){
+void VK_texture::cleanup_texture(Object* object){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -245,13 +229,4 @@ void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t w
   vk_command->command_buffer_end(commandBuffer);
 
   //---------------------------
-}
-
-VkDescriptorImageInfo VK_texture::get_image_info(){
-  //---------------------------
-
-  Struct_texture texture = *next(list_texture.begin(), 0);
-
-  //---------------------------
-  return texture.imageInfo;
 }

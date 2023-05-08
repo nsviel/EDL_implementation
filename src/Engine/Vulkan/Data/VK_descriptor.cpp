@@ -37,7 +37,6 @@ void VK_descriptor::create_descriptor_set(){
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   VkDevice device = vk_device->get_device();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
-  VkDescriptorImageInfo imageInfo = vk_texture->get_image_info();
   //---------------------------
 
   std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptor_layout);
@@ -77,7 +76,7 @@ void VK_descriptor::create_descriptor_set(){
     descriptor_write[1].dstArrayElement = 0;
     descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     descriptor_write[1].descriptorCount = 1;
-    descriptor_write[1].pImageInfo = &imageInfo;
+    descriptor_write[1].pImageInfo = 0;
 
     vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptor_write.size()), descriptor_write.data(), 0, nullptr);
   }
@@ -149,7 +148,6 @@ void VK_descriptor::update_descriptor_set(Object* object){
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   VkDevice device = vk_device->get_device();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
-  VkDescriptorImageInfo imageInfo = vk_texture->get_image_info();
   //---------------------------
 
   std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptor_layout);
