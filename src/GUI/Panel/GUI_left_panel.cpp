@@ -94,6 +94,7 @@ void GUI_left_panel::left_panel_menu(){
 void GUI_left_panel::left_panel_content(){
   //---------------------------
 
+gui_filemanager->tree_view();
 
   if(ImGui::Button("load")){
     //loaderManager->load_model();

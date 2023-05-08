@@ -138,6 +138,7 @@ void VK_gui::gui_style(){
   style.PopupRounding = 0.0f;
   style.FrameBorderSize = 1.0f;
   style.WindowBorderSize = 0.0f;
+  style.WindowPadding = ImVec2(0.0f, 0.0f);
 
   //Colors
   ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(112, 112, 112, 127)); //Frame background
@@ -145,6 +146,11 @@ void VK_gui::gui_style(){
   ImGui::PushStyleColor(ImGuiCol_Header, IM_COL32(76, 76, 76, 124));
   ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(117, 117, 117, 220));
   ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 255));
+  ImGui::PushStyleColor(ImGuiCol_MenuBarBg, IM_COL32(0, 0, 0, 255));
+  ImGui::PushStyleColor(ImGuiCol_TableBorderStrong, IM_COL32(0, 0, 0, 255));
+
+  ImGui::PushStyleColor(ImGuiCol_TableRowBg, IM_COL32(7, 7, 7, 245));
+  ImGui::PushStyleColor(ImGuiCol_TableRowBgAlt, IM_COL32(0, 0, 0, 170));
 
   //IO parameters
   io.ConfigWindowsResizeFromEdges = true;
