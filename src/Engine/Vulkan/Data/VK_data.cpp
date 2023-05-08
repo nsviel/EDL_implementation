@@ -35,6 +35,7 @@ Mesh* VK_data::load_model(){
   object->path_file = "../src/Engine/Texture/viking_room.obj";
   object->path_text = "../src/Engine/Texture/viking_room.png";
   object->draw_type_name = "point";
+  object->has_texture = true;
 
   tinyobj::attrib_t attrib;
   std::vector<tinyobj::shape_t> shapes;

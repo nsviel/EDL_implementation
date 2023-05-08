@@ -88,10 +88,18 @@ void GUI_left_panel::left_panel_menu(){
 
   //---------------------------
 }
+#include "../../Engine/Vulkan/Engine.h"
+#include "../../Engine/Vulkan/Data/VK_data.h"
 void GUI_left_panel::left_panel_content(){
   //---------------------------
 
-  ImGui::Button("hello");
+  Node_engine* node_engine = node->get_node_engine();
+  Engine* engineManager = node_engine->get_engineManager();
+  VK_data* vk_data = engineManager->get_vk_data();
+
+  if(ImGui::Button("load")){
+    vk_data->load_model();
+  }
 
   //---------------------------
 }

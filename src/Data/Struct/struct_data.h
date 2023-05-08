@@ -11,8 +11,9 @@ struct Data{
   //Info
   int nb_element;
   std::string name;
-  std::string path;
-  std::string draw_type;
+  std::string path_file;
+  std::string path_texture;
+  std::string draw_type_name;
 
   //Data
   std::vector<glm::vec3> xyz;

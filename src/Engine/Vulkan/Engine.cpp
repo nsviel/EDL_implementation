@@ -90,10 +90,7 @@ void Engine::main_loop() {
   GLFWwindow* window = vk_window->get_window();
   VkDevice device = vk_device->get_device();
   //---------------------------
-
-  //Model centered
-  //Object* object = vk_data->load_model();
-
+  
   while(!glfwWindowShouldClose(window)){
     glfwPollEvents();
     vk_gui->loop_start();

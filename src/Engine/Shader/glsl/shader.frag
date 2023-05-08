@@ -12,7 +12,7 @@ void main() {
   //---------------------------
 
   //out_color = texture(tex, frag_tex_coord);
-  out_color = vec4(1,1,1,1);
+  out_color = vec4(frag_color, 1);
 
   //---------------------------
 }

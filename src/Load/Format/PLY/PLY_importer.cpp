@@ -12,7 +12,7 @@ Data* PLY_importer::Loader(string path_file){
   data_out = new Data();
   string nameFormat = path_file.substr(path_file.find_last_of("/\\") + 1);
   data_out->name = nameFormat.substr(0, nameFormat.find_last_of("."));
-  data_out->path = path_file;
+  data_out->path_file = path_file;
   this->face_number = 0;
   //---------------------------
 
@@ -281,10 +281,10 @@ void PLY_importer::Loader_ascii_withface(std::ifstream& file){
 
     //Deduce drawing type
     if(nb_vertice == 3){
-      data_out->draw_type = "triangle";
+      data_out->draw_type_name = "triangle";
     }
     else if(nb_vertice == 4){
-      data_out->draw_type = "quad";
+      data_out->draw_type_name = "quad";
     }
   }
 
@@ -457,10 +457,10 @@ void PLY_importer::Loader_bin_little_endian_withface(std::ifstream& file){
 
   //Deduce drawing type
   if(nb_vertice == 3){
-    data_out->draw_type = "triangle";
+    data_out->draw_type_name = "triangle";
   }
   else if(nb_vertice == 4){
-    data_out->draw_type = "quad";
+    data_out->draw_type_name = "quad";
   }
 
   //---------------------------
@@ -593,10 +593,10 @@ void PLY_importer::Loader_bin_big_endian_withface(std::ifstream& file){
 
   //Deduce drawing type
   if(nb_vertice == 3){
-    data_out->draw_type = "triangle";
+    data_out->draw_type_name = "triangle";
   }
   else if(nb_vertice == 4){
-    data_out->draw_type = "quad";
+    data_out->draw_type_name = "quad";
   }
 
   //---------------------------
