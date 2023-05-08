@@ -191,7 +191,7 @@ void VK_descriptor::update_descriptor_set(Object* object){
     descriptor_write[1].dstArrayElement = 0;
     descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     descriptor_write[1].descriptorCount = 1;
-    descriptor_write[1].pImageInfo = &imageInfo;
+    descriptor_write[1].pImageInfo = &texture.imageInfo;
 
     vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptor_write.size()), descriptor_write.data(), 0, nullptr);
   }

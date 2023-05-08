@@ -35,8 +35,8 @@ void VK_texture::load_texture(Object* object){
   texture.imageInfo.imageView = texture.textureImageView;
   texture.imageInfo.sampler = texture.textureSampler;
 
-  this->list_texture.push_back(texture);
-  //object->list_texture.push_back(texture);
+  //this->list_texture.push_back(texture);
+  object->list_texture.push_back(texture);
 
   //---------------------------
 }
