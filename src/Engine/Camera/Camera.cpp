@@ -157,7 +157,7 @@ void Camera::control(string what, bool fast){
   //---------------------------
 
   //Compute camera movment speed value
-  float cam_speed = camera->speed_move * 0.0000016;
+  float cam_speed = camera->speed_move * 0.000016;
   if(fast){
     cam_speed *= 5;
   }

@@ -91,24 +91,16 @@ void Engine::main_loop() {
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  constexpr std::chrono::duration<float> max_frame_time = std::chrono::duration<float>(1.0f / param_engine->max_fps);
-
+  auto start_time = std::chrono::steady_clock::now();
   while(!glfwWindowShouldClose(window)){
-    auto start_time = std::chrono::high_resolution_clock::now();
-
+    auto start = std::chrono::steady_clock::now();
     glfwPollEvents();
     vk_gui->loop_start();
     node_engine->loop();
     vk_gui->loop_end();
     vk_drawing->draw_frame();
-
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto frame_time = std::chrono::duration_cast<std::chrono::duration<float>>(end_time - start_time);
-
-    if (frame_time < max_frame_time) {
-      auto sleep_time = max_frame_time - frame_time;
-      std::this_thread::sleep_for(sleep_time);
-    }
+    this->fps_control(start);
+    this->fps_calcul(start_time);
   }
 
   vkDeviceWaitIdle(device);
@@ -135,6 +127,39 @@ void Engine::clean_vulkan(){
   vk_window->clean_surface();
   vk_instance->cleanup();
   vk_window->clean_window();
+
+  //---------------------------
+}
+void Engine::fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start){
+  //---------------------------
+
+  auto end = std::chrono::steady_clock::now();
+  auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+
+  // Calculate the time to sleep to achieve the desired FPS
+  auto time_to_sleep = (1000000 / 60) - elapsed;
+
+  if(time_to_sleep > 0){
+    std::this_thread::sleep_for(std::chrono::microseconds(time_to_sleep));
+  }
+
+  //---------------------------
+}
+void Engine::fps_calcul(std::chrono::steady_clock::time_point& start_time){
+  //---------------------------
+
+  static int num_frames = 0;
+  num_frames++;
+
+  if(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count() >= 1000){
+    auto end_time = std::chrono::steady_clock::now();
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    this->fps = num_frames / (elapsed_time / 1000000.0);
+    num_frames = 0;
+    start_time = end_time;
+
+    //cout<<"fps = "<<fps<<endl;
+  }
 
   //---------------------------
 }

@@ -40,6 +40,10 @@ public:
   void main_loop();
   void clean_vulkan();
 
+  //Subfunction
+  void fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start);
+  void fps_calcul(std::chrono::steady_clock::time_point& start_time);
+
   inline Node_engine* get_node_engine(){return node_engine;}
   inline Param_engine* get_param_engine(){return param_engine;}
   inline VK_device* get_vk_device(){return vk_device;}
@@ -85,6 +89,8 @@ private:
   VK_gui* vk_gui;
   VK_camera* vk_camera;
   VK_shader* vk_shader;
+
+  float fps;
 };
 
 #endif
