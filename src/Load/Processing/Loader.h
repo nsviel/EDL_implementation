@@ -6,6 +6,7 @@
 class Node;
 class GPU_data;
 class PLY_importer;
+class Format;
 
 
 class Loader
@@ -24,6 +25,7 @@ public:
   bool is_file_exist(std::string path);
 
 private:
+  Format* formatManager;
   GPU_data* gpu_data;
   PLY_importer* plyManager;
 };

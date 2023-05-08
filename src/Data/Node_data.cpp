@@ -19,6 +19,7 @@ Node_data::Node_data(Node* node){
 Node_data::~Node_data(){
   //---------------------------
 
+  delete param_data;
   delete sceneManager;
 
   //---------------------------

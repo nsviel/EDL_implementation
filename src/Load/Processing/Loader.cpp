@@ -1,4 +1,5 @@
 #include "Loader.h"
+#include "Format.h"
 
 #include "../Format/PLY/PLY_importer.h"
 
@@ -16,6 +17,7 @@ Loader::Loader(Node* node){
   Node_engine* node_engine = node->get_node_engine();
   this->gpu_data = node_engine->get_gpu_data();
   this->plyManager = new PLY_importer();
+  this->formatManager = new Format();
 
   //---------------------------
 }
@@ -59,31 +61,15 @@ Object* Loader::load_object(string path){
   object->draw_type_name = "point";
   object->has_texture = true;
 
-  tinyobj::attrib_t attrib;
-  std::vector<tinyobj::shape_t> shapes;
-  std::vector<tinyobj::material_t> materials;
-  std::string warn, err;
+  Data* data = formatManager->get_data_from_file(path);
 
-  bool load_ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, object->path_file.c_str());
-  if(!load_ok){
-    throw std::runtime_error(warn + err);
-  }
+  object->xyz = data->xyz;
+  object->rgb = data->rgb;
+  object->uv = data->uv;
 
-  for(const auto& shape : shapes){
-    for(const auto& index : shape.mesh.indices){
-      vec3 xyz{
-        attrib.vertices[3 * index.vertex_index + 0],
-        attrib.vertices[3 * index.vertex_index + 1],
-        attrib.vertices[3 * index.vertex_index + 2]
-      };
-      vec2 uv{
-        attrib.texcoords[2 * index.texcoord_index + 0],
-        1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
-      };
-
-      object->xyz.push_back(xyz);
-      object->rgb.push_back(vec4(1, 1, 1, 1));
-      object->uv.push_back(uv);
+  if(object->rgb.size() == 0){
+    for(int i=0; i<data->xyz.size(); i++){
+      object->rgb.push_back(vec4(1,1,1,1));
     }
   }
 

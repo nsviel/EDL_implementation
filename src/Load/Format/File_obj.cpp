@@ -1,15 +1,15 @@
-#include "file_OBJ.h"
+#include "File_obj.h"
 #include "../../Specific/File/Info.h"
 
 #include <fstream>
 
 
 //Constructor / Destructor
-file_OBJ::file_OBJ(){}
-file_OBJ::~file_OBJ(){}
+File_obj::File_obj(){}
+File_obj::~File_obj(){}
 
 //Main function
-Data* file_OBJ::Loader(string path){
+Data* File_obj::Loader(string path){
   Data* data = new Data();
   //---------------------------
 
@@ -35,7 +35,7 @@ Data* file_OBJ::Loader(string path){
 }
 
 //Subfunction
-void file_OBJ::init_params(){
+void File_obj::init_params(){
   //---------------------------
 
   this->file_mtl = "";
@@ -43,7 +43,7 @@ void file_OBJ::init_params(){
 
   //---------------------------
 }
-vector<Vertex> file_OBJ::get_data_from_file(istream& file){
+vector<Vertex> File_obj::get_data_from_file(istream& file){
   //---------------------------
 
   //Initiate vectors
@@ -135,7 +135,7 @@ vector<Vertex> file_OBJ::get_data_from_file(istream& file){
   //---------------------------
   return vertex_vec;
 }
-void file_OBJ::parse_mtl(string path_obj){
+void File_obj::parse_mtl(string path_obj){
   if(file_mtl == ""){return;}
   //---------------------------
 
@@ -165,7 +165,7 @@ void file_OBJ::parse_mtl(string path_obj){
 
   //---------------------------
 }
-void file_OBJ::fill_data_file(Data* data, vector<Vertex>& vertex_vec){
+void File_obj::fill_data_file(Data* data, vector<Vertex>& vertex_vec){
   //---------------------------
 
   if(is_face){

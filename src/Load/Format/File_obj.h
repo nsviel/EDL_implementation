@@ -23,12 +23,12 @@ struct Vertex_ref{
 };
 
 
-class file_OBJ
+class File_obj
 {
 public:
   //Constructor / Destructor
-  file_OBJ();
-  ~file_OBJ();
+  File_obj();
+  ~File_obj();
 
 public:
   //Main function

@@ -22,6 +22,8 @@ Node_gui::~Node_gui(){
   //---------------------------
 
   delete gui_left_panel;
+  delete gui_control;
+  delete gui_option;
 
   //---------------------------
 }

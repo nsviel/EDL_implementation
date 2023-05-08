@@ -45,14 +45,20 @@ void GPU_data::insert_object_for_drawing(Object* object){
 }
 void GPU_data::insert_object_in_engine(Object* object){
   //---------------------------
+  
+  vk_buffer->create_buffer_xyz(object, object->xyz);
+
+  if(object->rgb.size() != 0){
+    vk_buffer->create_buffer_rgb(object, object->rgb);
+  }
+
+  if(object->uv.size() != 0){
+    vk_buffer->create_buffer_uv(object, object->uv);
+  }
 
   if(object->path_text != ""){
     vk_texture->load_texture(object);
   }
-
-  vk_buffer->create_buffer_xyz(object, object->xyz);
-  vk_buffer->create_buffer_rgb(object, object->rgb);
-  vk_buffer->create_buffer_uv(object, object->uv);
   vk_descriptor->update_descriptor_set(object);
   this->insert_object_for_drawing(object);
 

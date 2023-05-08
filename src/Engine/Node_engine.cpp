@@ -27,10 +27,12 @@ Node_engine::Node_engine(Node* node){
 Node_engine::~Node_engine(){
   //---------------------------
 
+  delete param_engine;
   delete dimManager;
   delete cameraManager;
   delete engineManager;
   delete controlManager;
+  delete gpu_data;
 
   //---------------------------
 }
