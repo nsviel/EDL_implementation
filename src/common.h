@@ -24,6 +24,7 @@
 #include <chrono>
 #include <array>
 #include <vulkan/vulkan.h>
+#include <thread>
 
 //Namespaces
 using namespace std;

@@ -91,12 +91,24 @@ void Engine::main_loop() {
   VkDevice device = vk_device->get_device();
   //---------------------------
 
+  constexpr std::chrono::duration<float> max_frame_time = std::chrono::duration<float>(1.0f / param_engine->max_fps);
+
   while(!glfwWindowShouldClose(window)){
+    auto start_time = std::chrono::high_resolution_clock::now();
+
     glfwPollEvents();
     vk_gui->loop_start();
     node_engine->loop();
     vk_gui->loop_end();
     vk_drawing->draw_frame();
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto frame_time = std::chrono::duration_cast<std::chrono::duration<float>>(end_time - start_time);
+
+    if (frame_time < max_frame_time) {
+      auto sleep_time = max_frame_time - frame_time;
+      std::this_thread::sleep_for(sleep_time);
+    }
   }
 
   vkDeviceWaitIdle(device);
