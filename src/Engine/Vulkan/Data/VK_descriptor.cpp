@@ -26,7 +26,7 @@ void VK_descriptor::init_descriptor(){
   //---------------------------
 
   this->create_descriptor_pool();
-  this->create_descriptor_set();
+  //this->create_descriptor_set();
 
   //---------------------------
 }
@@ -131,7 +131,7 @@ void VK_descriptor::create_descriptor_set(){
     descriptor_write.descriptorCount = 1;
     descriptor_write.pBufferInfo = &bufferInfo;
 
-    vkUpdateDescriptorSets(device, 1, descriptor_write, 0, nullptr);
+    vkUpdateDescriptorSets(device, 1, &descriptor_write, 0, nullptr);
   }
 
   //---------------------------

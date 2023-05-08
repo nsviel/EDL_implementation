@@ -50,7 +50,8 @@ void GPU_data::insert_object_in_engine(Object* object){
   vk_buffer->create_buffer_xyz(object, object->xyz);
   vk_buffer->create_buffer_rgb(object, object->rgb);
   vk_buffer->create_buffer_uv(object, object->uv);
-  vk_descriptor->update_descriptor_set(object);
+  //vk_descriptor->update_descriptor_set(object);
+  vk_descriptor->create_descriptor_set();
   this->insert_object_for_drawing(object);
 
   //---------------------------

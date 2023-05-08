@@ -92,7 +92,7 @@ void Engine::main_loop() {
   //---------------------------
 
   //Model centered
-  Object* object = vk_data->load_model();
+  //Object* object = vk_data->load_model();
 
   while(!glfwWindowShouldClose(window)){
     glfwPollEvents();
