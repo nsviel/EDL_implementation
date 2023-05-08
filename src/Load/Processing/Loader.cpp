@@ -57,7 +57,7 @@ Object* Loader::load_object(string path){
 
   Object* object = new Object();
   object->path_file = path;
-  object->path_text = "../src/Engine/Texture/viking_room.png";
+  object->path_text = "../media/viking_room.png";
   object->draw_type_name = "point";
   object->has_texture = true;
 
@@ -65,7 +65,7 @@ Object* Loader::load_object(string path){
 
   object->xyz = data->xyz;
   object->rgb = data->rgb;
-  //object->uv = data->uv;
+  object->uv = data->uv;
 
   if(object->rgb.size() == 0){
     for(int i=0; i<data->xyz.size(); i++){

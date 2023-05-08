@@ -44,12 +44,14 @@ std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
   attribut_2.offset = 0;
   attributeDescriptions.push_back(attribut_2);
 
+  /*
   VkVertexInputAttributeDescription attribut_3{};
   attribut_3.binding = 2;
   attribut_3.location = 2;
   attribut_3.format = VK_FORMAT_R32G32_SFLOAT;
   attribut_3.offset = 0;
   attributeDescriptions.push_back(attribut_3);
+  */
 
   //---------------------------
   return attributeDescriptions;
@@ -73,11 +75,13 @@ std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
   bindingDescriptions.push_back(desc_rgb);
 
   // texture coordinate buffer binding
+  /*
   VkVertexInputBindingDescription desc_uv{};
   desc_uv.binding = 2;
   desc_uv.stride = sizeof(glm::vec2);
   desc_uv.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
   bindingDescriptions.push_back(desc_uv);
+  */
 
   //---------------------------
   return bindingDescriptions;

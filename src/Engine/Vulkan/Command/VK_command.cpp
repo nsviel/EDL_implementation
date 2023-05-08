@@ -178,10 +178,17 @@ void VK_command::command_drawing(VkCommandBuffer command_buffer){
   for(int i=0; i<list_data.size(); i++){
     Object* object = *next(list_data.begin(),i);
 
+    VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
+    VkDeviceSize offsets[] = {0, 0};
+    vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
+    vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
+
+    /*
     VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb, object->vbo_uv};
     VkDeviceSize offsets[] = {0, 0, 0};
     vkCmdBindVertexBuffers(command_buffer, 0, 3, vertexBuffers, offsets);
     vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
+    */
   }
 
   //---------------------------
