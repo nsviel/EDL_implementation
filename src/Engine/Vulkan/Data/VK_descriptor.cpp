@@ -30,8 +30,70 @@ void VK_descriptor::init_descriptor(){
 
   //---------------------------
 }
+void VK_descriptor::update_descriptor_set(Object* object){
+  VK_texture* vk_texture = engineManager->get_vk_texture();
+  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
+  VkDevice device = vk_device->get_device();
+  vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
+  //---------------------------
 
-//Subfunctions
+  std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptor_layout);
+  VkDescriptorSetAllocateInfo allocInfo{};
+  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+  allocInfo.descriptorPool = descriptor_pool;
+  allocInfo.descriptorSetCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+  allocInfo.pSetLayouts = layouts.data();
+
+  descriptor_set.resize(MAX_FRAMES_IN_FLIGHT);
+  VkResult result = vkAllocateDescriptorSets(device, &allocInfo, descriptor_set.data());
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to allocate descriptor sets!");
+  }
+
+  Struct_texture texture = *next(object->list_texture.begin(), 0);
+
+  //Pour toute les frame, specifier les shader data
+  for(size_t i=0; i<MAX_FRAMES_IN_FLIGHT; i++){
+    VkDescriptorBufferInfo bufferInfo{};
+    bufferInfo.buffer = uniformBuffers[i];
+    bufferInfo.offset = 0;
+    bufferInfo.range = sizeof(MVP);
+
+    //MVP matrix to GPU
+    std::array<VkWriteDescriptorSet, 2> descriptor_write{};
+    descriptor_write[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    descriptor_write[0].dstSet = descriptor_set[i];
+    descriptor_write[0].dstBinding = 0;
+    descriptor_write[0].dstArrayElement = 0;
+    descriptor_write[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    descriptor_write[0].descriptorCount = 1;
+    descriptor_write[0].pBufferInfo = &bufferInfo;
+
+    //Texture to GPU
+    descriptor_write[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    descriptor_write[1].dstSet = descriptor_set[i];
+    descriptor_write[1].dstBinding = 1;
+    descriptor_write[1].dstArrayElement = 0;
+    descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    descriptor_write[1].descriptorCount = 1;
+    descriptor_write[1].pImageInfo = &texture.imageInfo;
+
+    vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptor_write.size()), descriptor_write.data(), 0, nullptr);
+  }
+
+  //---------------------------
+}
+void VK_descriptor::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  vkDestroyDescriptorPool(device, descriptor_pool, nullptr);
+  vkDestroyDescriptorSetLayout(device, descriptor_layout, nullptr);
+
+  //---------------------------
+}
+
+//Initialization function
 void VK_descriptor::create_descriptor_set(){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
@@ -139,69 +201,6 @@ void VK_descriptor::create_descriptor_pool(){
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create descriptor pool!");
   }
-
-  //---------------------------
-}
-
-void VK_descriptor::update_descriptor_set(Object* object){
-  VK_texture* vk_texture = engineManager->get_vk_texture();
-  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  VkDevice device = vk_device->get_device();
-  vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
-  //---------------------------
-
-  std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptor_layout);
-  VkDescriptorSetAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-  allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
-  allocInfo.pSetLayouts = layouts.data();
-
-  descriptor_set.resize(MAX_FRAMES_IN_FLIGHT);
-  VkResult result = vkAllocateDescriptorSets(device, &allocInfo, descriptor_set.data());
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to allocate descriptor sets!");
-  }
-
-  //Pour toute les frame, specifier les shader data
-  for(size_t i=0; i<MAX_FRAMES_IN_FLIGHT; i++){
-    VkDescriptorBufferInfo bufferInfo{};
-    bufferInfo.buffer = uniformBuffers[i];
-    bufferInfo.offset = 0;
-    bufferInfo.range = sizeof(MVP);
-
-    //MVP matrix to GPU
-    std::array<VkWriteDescriptorSet, 2> descriptor_write{};
-    descriptor_write[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    descriptor_write[0].dstSet = descriptor_set[i];
-    descriptor_write[0].dstBinding = 0;
-    descriptor_write[0].dstArrayElement = 0;
-    descriptor_write[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    descriptor_write[0].descriptorCount = 1;
-    descriptor_write[0].pBufferInfo = &bufferInfo;
-
-    Struct_texture texture = *next(object->list_texture.begin(), 0);
-
-    //Texture to GPU
-    descriptor_write[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    descriptor_write[1].dstSet = descriptor_set[i];
-    descriptor_write[1].dstBinding = 1;
-    descriptor_write[1].dstArrayElement = 0;
-    descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    descriptor_write[1].descriptorCount = 1;
-    descriptor_write[1].pImageInfo = &texture.imageInfo;
-
-    vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptor_write.size()), descriptor_write.data(), 0, nullptr);
-  }
-
-  //---------------------------
-}
-void VK_descriptor::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  vkDestroyDescriptorPool(device, descriptor_pool, nullptr);
-  vkDestroyDescriptorSetLayout(device, descriptor_layout, nullptr);
 
   //---------------------------
 }
