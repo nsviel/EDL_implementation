@@ -23,6 +23,7 @@ class VK_data;
 class VK_viewport;
 class VK_gui;
 class VK_camera;
+class VK_shader;
 class Param_engine;
 
 
@@ -40,6 +41,7 @@ public:
   void clean_vulkan();
 
   inline Node_engine* get_node_engine(){return node_engine;}
+  inline Param_engine* get_param_engine(){return param_engine;}
   inline VK_device* get_vk_device(){return vk_device;}
   inline VK_framebuffer* get_vk_framebuffer(){return vk_framebuffer;}
   inline VK_window* get_vk_window(){return vk_window;}
@@ -58,7 +60,7 @@ public:
   inline VK_viewport* get_vk_viewport(){return vk_viewport;}
   inline VK_gui* get_vk_gui(){return vk_gui;}
   inline VK_camera* get_vk_camera(){return vk_camera;}
-  inline Param_engine* get_param_engine(){return param_engine;}
+  inline VK_shader* get_vk_shader(){return vk_shader;}
 
 private:
   Node_engine* node_engine;
@@ -82,6 +84,7 @@ private:
   VK_viewport* vk_viewport;
   VK_gui* vk_gui;
   VK_camera* vk_camera;
+  VK_shader* vk_shader;
 };
 
 #endif

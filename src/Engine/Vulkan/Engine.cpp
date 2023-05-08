@@ -6,6 +6,7 @@
 #include "Command/VK_synchronization.h"
 #include "Data/VK_descriptor.h"
 #include "Shader/VK_uniform.h"
+#include "Shader/VK_shader.h"
 #include "Data/VK_buffer.h"
 #include "Data/VK_texture.h"
 #include "Data/VK_data.h"
@@ -37,6 +38,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_swapchain = new VK_swapchain(this);
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_descriptor = new VK_descriptor(this);
+  this->vk_shader = new VK_shader(this);
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_buffer = new VK_buffer(this);
@@ -62,15 +64,13 @@ void Engine::init_vulkan(){
   vk_window->init_window();
   vk_instance->init_instance();
   vk_window->create_window_surface();
-
-  //Device
   vk_device->init_device();
 
   //Pipeline / swap chain
   vk_swapchain->init_swapchain();
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptor_set_layout();
-  vk_pipeline->create_graphics_pipeline();
+  vk_pipeline->create_pipeline_graphics();
   vk_command->create_command_pool();
   vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();
@@ -90,7 +90,7 @@ void Engine::main_loop() {
   GLFWwindow* window = vk_window->get_window();
   VkDevice device = vk_device->get_device();
   //---------------------------
-  
+
   while(!glfwWindowShouldClose(window)){
     glfwPollEvents();
     vk_gui->loop_start();

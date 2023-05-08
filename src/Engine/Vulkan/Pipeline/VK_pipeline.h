@@ -11,6 +11,7 @@ class VK_swapchain;
 class VK_renderpass;
 class VK_descriptor;
 class VK_viewport;
+class VK_shader;
 
 
 class VK_pipeline
@@ -22,12 +23,22 @@ public:
 
 public:
   //Main functions
-  void create_graphics_pipeline();
+  void create_pipeline_graphics();
+  void create_pipeline_layout();
   void cleanup();
 
-  VkShaderModule create_shader_module(const std::vector<char>& code);
-  std::vector<char> read_file(const std::string& filename);
-  vector<VkPipelineShaderStageCreateInfo> pipeline_shader_info(VkShaderModule module_vert, VkShaderModule module_frag);
+  //Subfunction
+  VkPipelineVertexInputStateCreateInfo pipe_data_description(vector<VkVertexInputBindingDescription>& bindingDescriptions, vector<VkVertexInputAttributeDescription>& attributeDescriptions);
+  VkPipelineDynamicStateCreateInfo pipe_dynamic_state(std::vector<VkDynamicState>& dynamicStates);
+  VkPipelineViewportStateCreateInfo pipe_viewport();
+  VkPipelineRasterizationStateCreateInfo pipe_raster();
+  VkPipelineMultisampleStateCreateInfo pipe_multisampling();
+  VkPipelineDepthStencilStateCreateInfo pipe_depth();
+  VkPipelineColorBlendAttachmentState pipe_color_blending_state();
+  VkPipelineColorBlendStateCreateInfo pipe_color_blending(VkPipelineColorBlendAttachmentState* colorBlendAttachment);
+  VkPipelineInputAssemblyStateCreateInfo pipe_topology();
+
+  VkPipelineRasterizationStateCreateInfo pipe_truc();
 
   inline VkPipelineLayout get_pipelineLayout(){return pipelineLayout;}
   inline VkPipeline get_graphicsPipeline(){return graphicsPipeline;}
@@ -39,6 +50,7 @@ private:
   VK_renderpass* vk_renderpass;
   VK_descriptor* vk_descriptor;
   VK_viewport* vk_viewport;
+  VK_shader* vk_shader;
 
   VkPipelineLayout pipelineLayout;
   VkPipeline graphicsPipeline;
