@@ -4,6 +4,7 @@
 #include "../../common.h"
 
 class Node_gui;
+class Database;
 
 
 class GUI_filemanager
@@ -15,9 +16,10 @@ public:
 
 public:
   void tree_view();
+  void data_node(Set* set);
 
 private:
-
+  Database* dataManager;
 };
 
 #endif

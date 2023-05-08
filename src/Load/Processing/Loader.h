@@ -27,6 +27,8 @@ private:
   Format* formatManager;
   GPU_data* gpu_data;
   PLY_importer* plyManager;
+
+  int ID;
 };
 
 #endif

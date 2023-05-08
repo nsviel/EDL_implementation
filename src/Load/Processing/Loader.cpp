@@ -20,6 +20,8 @@ Loader::Loader(Node* node){
   this->plyManager = new PLY_importer();
   this->formatManager = new Format();
 
+  this->ID = 0;
+
   //---------------------------
 }
 Loader::~Loader(){
@@ -39,6 +41,7 @@ Object* Loader::load_object(string path){
   object->path_text = "../media/viking_room.png";
   object->draw_type_name = "point";
   object->has_texture = true;
+  object->ID = ID++;
 
   Data_file* data = formatManager->get_data_from_file(path);
   this->transfert_data(object, data);
@@ -51,6 +54,8 @@ Object* Loader::load_object(string path){
 //Subfunctions
 void Loader::transfert_data(Object* object, Data_file* data){
   //---------------------------
+
+  object->name = data->name;
 
   object->xyz = data->xyz;
   object->rgb = data->rgb;

@@ -152,6 +152,9 @@ void VK_gui::gui_style(){
   ImGui::PushStyleColor(ImGuiCol_TableRowBg, IM_COL32(7, 7, 7, 245));
   ImGui::PushStyleColor(ImGuiCol_TableRowBgAlt, IM_COL32(0, 0, 0, 170));
 
+  ImGui::PushStyleColor(ImGuiCol_ResizeGrip, IM_COL32(15, 15, 15, 255));
+  ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(15, 15, 15, 255));
+
   //IO parameters
   io.ConfigWindowsResizeFromEdges = true;
 

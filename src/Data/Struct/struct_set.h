@@ -13,9 +13,13 @@ struct Set
   Set(std::string name);
   void reset();
 
-  std::string name;
-  std::list<Object*> list_obj;
+  //Info
   int nb_obj;
+  std::string name;
+
+  //Data
+  std::list<Object*> list_obj;
+  std::list<Set*> list_set;
 
   //---------------------------
 };
