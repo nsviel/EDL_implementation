@@ -37,5 +37,13 @@ void Scene::init_scene(){
   set->list_obj.push_back(object);
   list_data->push_back(set);
 
+  set = new Set("dddd");
+  set->list_obj.push_back(object);
+  list_data->push_back(set);
+
+  set = new Set("fffff");
+  set->list_obj.push_back(object);
+  list_data->push_back(set);
+
   //---------------------------
 }

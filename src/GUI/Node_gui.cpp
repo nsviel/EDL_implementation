@@ -15,6 +15,7 @@ Node_gui::Node_gui(Node* node){
 
   this->node_engine = node->get_node_engine();
   this->node_data = node->get_node_data();
+  this->node_load = node->get_node_load();
 
   this->gui_option = new GUI_option(this);
   this->gui_filemanager = new GUI_filemanager(this);

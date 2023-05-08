@@ -47,6 +47,11 @@ void GUI_filemanager::tree_view(){
     //----------
     ImGui::PopID();
   }
+  for(int i=0; i<6; i++){
+    ImGui::TableNextRow();
+    ImGui::TableSetColumnIndex(0);
+    ImGui::Text(" ");
+  }
 
   ImGui::EndTable();
   ImGui::PopStyleVar();

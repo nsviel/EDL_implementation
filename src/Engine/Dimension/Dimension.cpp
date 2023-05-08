@@ -71,7 +71,7 @@ void Dimension::update_window_dim(){
   int win_w = 0;
   int win_h = 0;
   glfwGetWindowSize(window, &win_w, &win_h);
-  
+
   //Set up new values
   if(win_w != win_dim.x || win_h != win_dim.y){
     this->win_dim = vec2(win_w, win_h);
