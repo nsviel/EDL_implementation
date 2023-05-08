@@ -122,25 +122,16 @@ void VK_descriptor::create_descriptor_set(){
     bufferInfo.range = sizeof(MVP);
 
     //MVP matrix to GPU
-    std::array<VkWriteDescriptorSet, 2> descriptor_write{};
-    descriptor_write[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    descriptor_write[0].dstSet = descriptor_set[i];
-    descriptor_write[0].dstBinding = 0;
-    descriptor_write[0].dstArrayElement = 0;
-    descriptor_write[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    descriptor_write[0].descriptorCount = 1;
-    descriptor_write[0].pBufferInfo = &bufferInfo;
+    VkWriteDescriptorSet descriptor_write{};
+    descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    descriptor_write.dstSet = descriptor_set[i];
+    descriptor_write.dstBinding = 0;
+    descriptor_write.dstArrayElement = 0;
+    descriptor_write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    descriptor_write.descriptorCount = 1;
+    descriptor_write.pBufferInfo = &bufferInfo;
 
-    //Texture to GPU
-    descriptor_write[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    descriptor_write[1].dstSet = descriptor_set[i];
-    descriptor_write[1].dstBinding = 1;
-    descriptor_write[1].dstArrayElement = 0;
-    descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    descriptor_write[1].descriptorCount = 1;
-    descriptor_write[1].pImageInfo = 0;
-
-    vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptor_write.size()), descriptor_write.data(), 0, nullptr);
+    vkUpdateDescriptorSets(device, 1, descriptor_write, 0, nullptr);
   }
 
   //---------------------------
