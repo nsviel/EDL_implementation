@@ -65,7 +65,7 @@ Object* Loader::load_object(string path){
 
   object->xyz = data->xyz;
   object->rgb = data->rgb;
-  object->uv = data->uv;
+  //object->uv = data->uv;
 
   if(object->rgb.size() == 0){
     for(int i=0; i<data->xyz.size(); i++){
