@@ -18,6 +18,8 @@ public:
   inline list<Set*>* get_list_glyph(){return list_glyph;}
 
 private:
+  int ID_obj;
+
   list<Set*>* list_data;
   list<Set*>* list_glyph;
 };

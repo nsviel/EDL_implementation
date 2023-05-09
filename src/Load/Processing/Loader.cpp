@@ -38,6 +38,9 @@ Loader::~Loader(){
 Object* Loader::load_object(string path){
   //---------------------------
 
+  //DOIT se relier à scene et pas a GPU_data
+  //scene doit gérer les IDs et l'envoie à gpu_data
+
   Object* object = new Object();
   object->path_file = path;
   object->path_text = "../media/viking_room.png";
@@ -48,7 +51,6 @@ Object* Loader::load_object(string path){
   Data_file* data = formatManager->get_data_from_file(path);
   this->transfert_data(object, data);
   gpu_data->insert_object_in_engine(object);
-
   gpu_data->update_descriptor_set();
 
   //---------------------------
@@ -75,7 +77,7 @@ vector<Object*> Loader::load_objects(vector<string> path){
   gpu_data->update_descriptor_set();
 
   //---------------------------
-  return vec_obj; 
+  return vec_obj;
 }
 void Loader::load_object_zenity(){
   //---------------------------

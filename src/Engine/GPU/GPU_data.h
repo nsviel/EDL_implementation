@@ -20,12 +20,11 @@ public:
 
 public:
   //Insert function
-  void insert_object_for_drawing(Object* object);
   void insert_object_in_engine(Object* object);
+  void create_object_buffer(Object* object);
 
   //Remove function
   void remove_object_for_drawing(Object* object);
-
   void update_descriptor_set();
 
 private:

@@ -157,8 +157,6 @@ void Engine::fps_calcul(std::chrono::steady_clock::time_point& start_time){
     this->fps = num_frames / (elapsed_time / 1000000.0);
     num_frames = 0;
     start_time = end_time;
-
-    //cout<<"fps = "<<fps<<endl;
   }
 
   //---------------------------

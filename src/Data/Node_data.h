@@ -10,6 +10,7 @@ class Node;
 class Scene;
 class Param_data;
 class Database;
+class Glyphs;
 
 
 class Node_data
@@ -36,6 +37,7 @@ private:
   Param_data* param_data;
   Scene* sceneManager;
   Database* dataManager;
+  Glyphs* glyphManager;
 };
 
 #endif

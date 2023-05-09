@@ -25,9 +25,10 @@ GPU_data::GPU_data(Node_engine* node_engine){
 GPU_data::~GPU_data(){}
 
 //Insert function
-void GPU_data::insert_object_for_drawing(Object* object){
+void GPU_data::insert_object_in_engine(Object* object){
   //---------------------------
 
+  //Check if object already in engine
   bool is_in_list = false;
   for(int i=0; i<list_draw.size(); i++){
     Object* object_list = *next(list_draw.begin(),i);
@@ -36,14 +37,16 @@ void GPU_data::insert_object_for_drawing(Object* object){
     }
   }
 
+  //If not, insert it
   if(is_in_list == false){
+    this->create_object_buffer(object);
     list_draw.push_back(object);
     vk_data->set_list_data(list_draw);
   }
 
   //---------------------------
 }
-void GPU_data::insert_object_in_engine(Object* object){
+void GPU_data::create_object_buffer(Object* object){
   //---------------------------
 
   vk_buffer->create_buffer_xyz(object, object->xyz);
@@ -59,8 +62,6 @@ void GPU_data::insert_object_in_engine(Object* object){
   if(object->path_text != ""){
     //vk_texture->load_texture(object);
   }
-
-  this->insert_object_for_drawing(object);
 
   //---------------------------
 }

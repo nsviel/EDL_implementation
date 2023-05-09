@@ -26,12 +26,21 @@ void VK_buffer::cleanup_object(Object* object){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
+  //Location buffer
   vkDestroyBuffer(device, object->vbo_xyz, nullptr);
-  vkDestroyBuffer(device, object->vbo_rgb, nullptr);
-  vkDestroyBuffer(device, object->vbo_uv, nullptr);
   vkFreeMemory(device, object->mem_xyz, nullptr);
-  vkFreeMemory(device, object->mem_rgb, nullptr);
-  vkFreeMemory(device, object->mem_uv, nullptr);
+
+  //Location buffer
+  if(object->rgb.size() != 0){
+    vkDestroyBuffer(device, object->vbo_rgb, nullptr);
+    vkFreeMemory(device, object->mem_rgb, nullptr);
+  }
+
+  //Location buffer
+  if(object->uv.size() != 0){
+    vkDestroyBuffer(device, object->vbo_uv, nullptr);
+    vkFreeMemory(device, object->mem_uv, nullptr);
+  }
 
   //---------------------------
 }
