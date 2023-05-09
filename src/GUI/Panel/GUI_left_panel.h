@@ -7,6 +7,7 @@ class Node_gui;
 class Dimension;
 class GUI_option;
 class GUI_filemanager;
+class GUI_menubar;
 
 
 class GUI_left_panel
@@ -20,7 +21,6 @@ public:
   //Main functions
   void draw_left_panel();
   void left_panel_dim();
-  void left_panel_menu();
   void left_panel_content();
 
 private:
@@ -28,6 +28,7 @@ private:
   Dimension* dimManager;
   GUI_option* gui_option;
   GUI_filemanager* gui_filemanager;
+  GUI_menubar* gui_menubar;
 };
 
 #endif

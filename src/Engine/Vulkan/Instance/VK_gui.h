@@ -32,6 +32,7 @@ public:
   void gui_vulkan();
   void gui_style();
   void gui_font();
+  void gui_font_load();
 
   //Loop functions
   void loop_start();

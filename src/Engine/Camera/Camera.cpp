@@ -6,6 +6,7 @@
 
 #include "../Dimension/Dimension.h"
 #include "../Node_engine.h"
+#include "../Param_engine.h"
 
 
 //Constructor / Destructor
@@ -13,6 +14,7 @@ Camera::Camera(Node_engine* node_engine){
   //---------------------------
 
   this->dimManager = node_engine->get_dimManager();
+  this->param_engine = node_engine->get_param_engine();
   this->cam_arcball = new CAM_arcball(node_engine);
   this->cam_fp = new CAM_first_person(node_engine);
   this->cam_zoom = new CAM_zoom(node_engine);
@@ -31,9 +33,9 @@ mat4 Camera::compute_cam_view(){
 
   if(camera->cam_pose){
     cam_view = camera->cam_pose_mat;
-  }else if(camera->mode == "first_person"){
+  }else if(param_engine->cam_mode == "first_person"){
     cam_view = cam_fp->fp_view_mat(camera);
-  }else if(camera->mode == "arcball"){
+  }else if(param_engine->cam_mode == "arcball"){
     cam_view = cam_arcball->arcball_view_mat(camera);
   }
 
@@ -44,10 +46,10 @@ mat4 Camera::compute_cam_proj(){
   mat4 projection;
   //---------------------------
 
-  if(camera->projection == "perspective"){
+  if(param_engine->cam_projection == "perspective"){
     projection = cam_proj->compute_proj_perspective(camera);
   }
-  else if(camera->projection == "orthographic"){
+  else if(param_engine->cam_projection == "ortho"){
     projection = cam_proj->compute_proj_ortho(camera);
   }
 
@@ -93,9 +95,9 @@ void Camera::input_cam_mouse(){
   //---------------------------
 
   if(camera->cam_move){
-    if(camera->mode == "first_person"){
+    if(param_engine->cam_mode == "first_person"){
       cam_fp->fp_cam_mouse(camera);
-    }else if(camera->mode == "arcball"){
+    }else if(param_engine->cam_mode == "arcball"){
       cam_arcball->arcball_cam_mouse(camera);
     }
   }

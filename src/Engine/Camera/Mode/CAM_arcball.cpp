@@ -40,18 +40,17 @@ void CAM_arcball::arcball_cam_mouse(Cam* camera){
 
 //Subfunction
 vec2 CAM_arcball::arcball_mouse_angle(){
+  Tab* tab_rendering = dimManager->get_tab("rendering");
   //---------------------------
 
   vec2 mouse_pose = dimManager->get_mouse_pose();
-  dimManager->set_mouse_pose(dimManager->get_gl_middle());
-  vec2 gl_mid = dimManager->get_gl_middle();
-  vec2 gl_dim = dimManager->get_gl_dim();
+  dimManager->set_mouse_pose(tab_rendering->center);
 
   // step 1 : Calculate the amount of rotation given the mouse movement.
-  float deltaAngleX = (2 * M_PI / gl_dim.x); // a movement from left to right = 2*PI = 360 deg
-  float deltaAngleY = (M_PI / gl_dim.y);  // a movement from top to bottom = PI = 180 deg
-  float xAngle = float(gl_mid.x - mouse_pose.x) * deltaAngleX * 0.1;
-  float yAngle = float(gl_mid.y - mouse_pose.y) * deltaAngleY * 0.1;
+  float deltaAngleX = (2 * M_PI / tab_rendering->dim.x); // a movement from left to right = 2*PI = 360 deg
+  float deltaAngleY = (M_PI / tab_rendering->dim.y);  // a movement from top to bottom = PI = 180 deg
+  float xAngle = float(tab_rendering->center.x - mouse_pose.x) * deltaAngleX * 0.1;
+  float yAngle = float(tab_rendering->center.y - mouse_pose.y) * deltaAngleY * 0.1;
   vec2 angle = vec2(xAngle, yAngle);
 
   //---------------------------

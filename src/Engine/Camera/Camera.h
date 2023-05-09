@@ -6,6 +6,7 @@
 #include "../../common.h"
 
 class Node_engine;
+class Param_engine;
 class Dimension;
 class CAM_arcball;
 class CAM_first_person;
@@ -42,6 +43,7 @@ public:
   inline Cam* get_camera(){return camera;}
 
 private:
+  Param_engine* param_engine;
   Dimension* dimManager;
   CAM_arcball* cam_arcball;
   CAM_first_person* cam_fp;

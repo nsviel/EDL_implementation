@@ -37,6 +37,7 @@ mat4 CAM_proj::compute_proj_ortho(Cam* camera){
   float z_far = camera->clip_far;
   float zoom = camera->zoom;
   mat4 cam_proj = ortho(-5.f - zoom, 5.f + zoom, -5.f - zoom, 5.f + zoom, z_near, z_far);
+  cam_proj[1][1] *= -1; // Because glm is designed for OpenGL convention
 
   //---------------------------
   return cam_proj;

@@ -13,10 +13,13 @@ struct Param_engine{
   //---------------------------
 
   std::string title = "Nephos";
+  std::string cam_projection = "perspective";
+  std::string cam_mode = "arcball";
 
   float max_fps = 60.0f;
 
-  glm::vec4 background_color = glm::vec4(0.01, 0.01, 0.01, 0.01);
+  glm::vec4 background_color_ = glm::vec4(0.01, 0.01, 0.01, 1);
+  glm::vec4 background_color = glm::vec4(0.262, 0.262, 0.262, 1);
   glm::vec2 window_dim = glm::vec2(1024, 500);
   glm::vec2 window_dim_min = glm::vec2(500, 250);
 

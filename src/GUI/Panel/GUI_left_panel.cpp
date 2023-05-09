@@ -1,4 +1,5 @@
 #include "GUI_left_panel.h"
+#include "GUI_menubar.h"
 
 #include "../Node_gui.h"
 #include "../Operation/GUI_option.h"
@@ -20,6 +21,7 @@ GUI_left_panel::GUI_left_panel(Node_gui* node_gui){
   this->node_gui = node_gui;
   this->gui_filemanager = node_gui->get_gui_filemanager();
   this->gui_option = node_gui->get_gui_option();
+  this->gui_menubar = node_gui->get_gui_menubar();
 
   //---------------------------
 }
@@ -45,7 +47,7 @@ void GUI_left_panel::draw_left_panel(){
   ImGui::Begin("LeftPanel##botOuter", NULL, window_flags);
 
   this->left_panel_dim();
-  this->left_panel_menu();
+  gui_menubar->design_menubar();
   this->left_panel_content();
 
   ImGui::PopStyleVar();
@@ -61,32 +63,6 @@ void GUI_left_panel::left_panel_dim(){
   if(dim_x != tab_left->dim.x){
     tab_left->dim.x = ImGui::GetWindowSize().x;
     dimManager->update();
-  }
-
-  //---------------------------
-}
-void GUI_left_panel::left_panel_menu(){
-  static bool show_demo = false;
-  //---------------------------
-
-  if(ImGui::BeginMenuBar()){
-    if(ImGui::BeginMenu("File")){
-      ImGui::Checkbox("Demo", &show_demo);
-      ImGui::EndMenu();
-    }
-    if(ImGui::BeginMenu("Option")){
-      gui_option->design_option();
-      ImGui::EndMenu();
-    }
-    if(ImGui::BeginMenu("Init")){
-      ImGui::MenuItem("(demo menu)", NULL, false, false);
-      ImGui::EndMenu();
-    }
-  }
-  ImGui::EndMenuBar();
-
-  if(show_demo){
-    ImGui::ShowDemoWindow();
   }
 
   //---------------------------

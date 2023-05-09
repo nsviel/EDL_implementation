@@ -55,3 +55,9 @@ target_link_libraries(executable
 target_sources(executable PRIVATE
   ${EXTERN_TRG_SRC}
 )
+
+# Add the binary tree to the search path for include files
+target_include_directories(executable PUBLIC
+  "${PROJECT_BINARY_DIR}"
+  "${PROJECT_SOURCE_DIR}/extern"
+)
