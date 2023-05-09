@@ -13,8 +13,8 @@
 Node_data::Node_data(Node* node){
   //---------------------------
 
+  this->node = node;
   this->node_engine = node->get_node_engine();
-  this->node_load = node->get_node_load();
 
   this->param_data = new Param_data();
   this->dataManager = new Database(this);

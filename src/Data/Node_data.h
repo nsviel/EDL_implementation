@@ -23,6 +23,7 @@ public:
 public:
   void init();
 
+  inline Node* get_node(){return node;}
   inline Node_engine* get_node_engine(){return node_engine;}
   inline Node_load* get_node_load(){return node_load;}
 
@@ -31,6 +32,7 @@ public:
   inline Database* get_dataManager(){return dataManager;}
 
 private:
+  Node* node;
   Node_engine* node_engine;
   Node_load* node_load;
 

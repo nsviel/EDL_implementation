@@ -5,7 +5,6 @@
 
 class Node_data;
 class Param_data;
-class Loader;
 class Database;
 
 
@@ -21,8 +20,9 @@ public:
 
 private:
   Param_data* param_data;
-  Loader* loaderManager;
+  Node_data* node_data;
   Database* dataManager;
 };
+
 
 #endif

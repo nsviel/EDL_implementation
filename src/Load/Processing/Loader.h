@@ -3,9 +3,8 @@
 
 #include "../../common.h"
 
-class Node;
+class Node_load;
 class GPU_data;
-class PLY_importer;
 class Format;
 
 
@@ -13,7 +12,7 @@ class Loader
 {
 public:
   //Constructor / Destructor
-  Loader(Node* node);
+  Loader(Node_load* node_load);
   ~Loader();
 
 public:
@@ -28,7 +27,6 @@ public:
 private:
   Format* formatManager;
   GPU_data* gpu_data;
-  PLY_importer* plyManager;
 
   string path_current_dir;
   int ID;

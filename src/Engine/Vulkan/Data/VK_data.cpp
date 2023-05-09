@@ -8,9 +8,6 @@
 #include "../../GPU/GPU_data.h"
 #include "../../Node_engine.h"
 
-#define TINYOBJLOADER_IMPLEMENTATION
-#include "../../../../extern/tiny_obj_loader.h"
-
 
 //Constructor / Destructor
 VK_data::VK_data(Engine* engineManager){

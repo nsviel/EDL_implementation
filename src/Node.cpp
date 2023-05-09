@@ -11,8 +11,8 @@ Node::Node(){
   //---------------------------
 
   this->node_engine = new Node_engine(this);
-  this->node_load = new Node_load(this);
   this->node_data = new Node_data(this);
+  this->node_load = new Node_load(this);
   this->node_gui = new Node_gui(this);
 
   //---------------------------

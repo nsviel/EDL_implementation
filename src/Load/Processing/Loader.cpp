@@ -1,7 +1,7 @@
 #include "Loader.h"
 #include "Format.h"
 
-#include "../Format/PLY/PLY_importer.h"
+#include "../Node_load.h"
 
 #include "../../Specific/File/Directory.h"
 #include "../../Specific/File/Zenity.h"
@@ -9,17 +9,15 @@
 #include "../../Engine/GPU/GPU_data.h"
 #include "../../Node.h"
 
-#include "../../../extern/tiny_obj_loader.h"
-
 
 //Constructor / Destructor
-Loader::Loader(Node* node){
+Loader::Loader(Node_load* node_load){
   //---------------------------
 
-  Node_engine* node_engine = node->get_node_engine();
+  Node_engine* node_engine = node_load->get_node_engine();
   this->gpu_data = node_engine->get_gpu_data();
-  this->plyManager = new PLY_importer();
   this->formatManager = new Format();
+
 
   this->ID = 0;
   this->path_current_dir = "";
@@ -29,7 +27,7 @@ Loader::Loader(Node* node){
 Loader::~Loader(){
   //---------------------------
 
-  delete plyManager;
+  delete formatManager;
 
   //---------------------------
 }

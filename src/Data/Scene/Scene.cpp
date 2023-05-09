@@ -13,8 +13,7 @@
 Scene::Scene(Node_data* node_data){
   //---------------------------
 
-  Node_load* node_load = node_data->get_node_load();
-  this->loaderManager = node_load->get_loaderManager();
+  this->node_data = node_data;
   this->param_data = node_data->get_param_data();
   this->dataManager = node_data->get_dataManager();
 
@@ -23,6 +22,9 @@ Scene::Scene(Node_data* node_data){
 Scene::~Scene(){}
 
 void Scene::init_scene(){
+  Node* node = node_data->get_node();
+  Node_load* node_load = node->get_node_load();
+  Loader* loaderManager = node_load->get_loaderManager();
   list<Set*>* list_data = dataManager->get_list_data();
   //---------------------------
 
