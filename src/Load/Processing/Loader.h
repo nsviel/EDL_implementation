@@ -6,6 +6,7 @@
 class Node_load;
 class GPU_data;
 class Format;
+class Scene;
 
 
 class Loader
@@ -27,6 +28,7 @@ public:
 private:
   Format* formatManager;
   GPU_data* gpu_data;
+  Scene* sceneManager;
 
   string path_current_dir;
   int ID;

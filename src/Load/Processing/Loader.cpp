@@ -8,16 +8,19 @@
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/GPU/GPU_data.h"
 #include "../../Node.h"
+#include "../../Data/Node_data.h"
+#include "../../Data/Scene/Scene.h"
 
 
 //Constructor / Destructor
 Loader::Loader(Node_load* node_load){
   //---------------------------
 
+  Node_data* node_data = node_load->get_node_data();
   Node_engine* node_engine = node_load->get_node_engine();
   this->gpu_data = node_engine->get_gpu_data();
+  this->sceneManager = node_data->get_sceneManager();
   this->formatManager = new Format();
-
 
   this->ID = 0;
   this->path_current_dir = "";
