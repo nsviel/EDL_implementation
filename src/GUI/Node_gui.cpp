@@ -6,6 +6,7 @@
 #include "Operation/GUI_control.h"
 #include "Operation/GUI_option.h"
 #include "Module/GUI_filemanager.h"
+#include "Module/GUI_windows.h"
 
 #include "../Node.h"
 
@@ -25,6 +26,7 @@ Node_gui::Node_gui(Node* node){
   this->gui_menubar = new GUI_menubar(this);
   this->gui_left_panel = new GUI_left_panel(this);
   this->gui_control = new GUI_control(this);
+  this->gui_windows = new GUI_windows(this);
 
   //---------------------------
 }
@@ -46,6 +48,7 @@ void Node_gui::loop(){
 
   gui_left_panel->draw_left_panel();
   gui_control->make_control();
+  gui_windows->draw_windows();
 
   //---------------------------
 }

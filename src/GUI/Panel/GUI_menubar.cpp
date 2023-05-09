@@ -23,10 +23,8 @@ GUI_menubar::~GUI_menubar(){}
 void GUI_menubar::design_menubar(){
   //------------------------
 
-  if(ImGui::BeginMenuBar()){
-    this->menu();
-    this->menu_icons();
-  }
+  ImGui::BeginMenuBar();
+  this->menu();
   ImGui::EndMenuBar();
 
   //-------------------------
@@ -37,17 +35,27 @@ void GUI_menubar::menu(){
   static bool show_demo = false;
   //---------------------------
 
-  if(ImGui::BeginMenu("File")){
+  if(ImGui::BeginMenu(ICON_FA_CUBE, "File")){
     ImGui::Checkbox("Demo", &show_demo);
     ImGui::EndMenu();
   }
-  if(ImGui::BeginMenu(ICON_FA_COG, " Option")){
+  if(ImGui::BeginMenu(ICON_FA_FILE, "Load")){
+    ImGui::EndMenu();
+  }
+  if(ImGui::BeginMenu(ICON_FA_BOOK, "Save")){
+    ImGui::EndMenu();
+  }
+  if(ImGui::BeginMenu(ICON_FA_COG, "Option")){
     gui_option->design_option();
     ImGui::EndMenu();
   }
-  if(ImGui::BeginMenu("Init")){
-    ImGui::MenuItem("(demo menu)", NULL, false, false);
+  if(ImGui::BeginMenu(ICON_FA_COMMENT, "Init")){
+    //ImGui::MenuItem("(demo menu)", NULL, false, false);
     ImGui::EndMenu();
+  }
+  //Camera
+  if(ImGui::MenuItem(ICON_FA_CAMERA, "Camera##111")){
+    param_gui->show_camera = !param_gui->show_camera;
   }
 
   if(show_demo){
@@ -56,16 +64,7 @@ void GUI_menubar::menu(){
 
   //---------------------------
 }
-void GUI_menubar::menu_icons(){
-  //---------------------------
 
-  //Camera
-  if(ImGui::Button(ICON_FA_CAMERA)){
-    param_gui->show_camera = !param_gui->show_camera;
-  }
-
-  //---------------------------
-}
 
 /*
 void GUI_menubar::MenuBar_menu(){

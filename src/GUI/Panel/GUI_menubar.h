@@ -21,7 +21,6 @@ public:
 
   //Subfunctions
   void menu();
-  void menu_icons();
 
 private:
   Node_gui* node_gui;

@@ -12,6 +12,10 @@ class Cam;
 class WIN_camera : public WIN_base
 {
 public:
+  //Constructor / Destructor
+  WIN_camera(Node_gui* node_gui, bool* show_window, string name);
+  ~WIN_camera();
+
   //Main function
   void design_window();
 

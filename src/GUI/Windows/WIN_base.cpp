@@ -1,18 +1,13 @@
 #include "WIN_base.h"
 
-#include "../Node_gui.h"
-
-#include "image/IconsFontAwesome5.h"
-
 
 //Constructor / Destructor
-WIN_base::WIN_base(Node_gui* node_gui, bool* show_window, const char* icon){
+WIN_base::WIN_base(bool* show_window, string name){
   //---------------------------
 
-  this->node_gui = node_gui;
   this->show_window = show_window;
   this->item_width = 150;
-  this->icon = icon;
+  this->name = name;
 
   //---------------------------
 }
@@ -23,7 +18,7 @@ void WIN_base::window(){
   //---------------------------
 
   if(*show_window){
-    ImGui::Begin(icon, show_window, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::Begin(name.c_str(), show_window, ImGuiWindowFlags_AlwaysAutoResize);
 
     this->design_window();
 

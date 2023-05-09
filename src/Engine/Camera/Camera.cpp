@@ -33,9 +33,9 @@ mat4 Camera::compute_cam_view(){
 
   if(camera->cam_pose){
     cam_view = camera->cam_pose_mat;
-  }else if(param_engine->cam_mode == "first_person"){
+  }else if(camera->mode == "first_person"){
     cam_view = cam_fp->fp_view_mat(camera);
-  }else if(param_engine->cam_mode == "arcball"){
+  }else if(camera->mode == "arcball"){
     cam_view = cam_arcball->arcball_view_mat(camera);
   }
 
@@ -46,10 +46,10 @@ mat4 Camera::compute_cam_proj(){
   mat4 projection;
   //---------------------------
 
-  if(param_engine->cam_projection == "perspective"){
+  if(camera->projection == "perspective"){
     projection = cam_proj->compute_proj_perspective(camera);
   }
-  else if(param_engine->cam_projection == "ortho"){
+  else if(camera->projection == "orthographic"){
     projection = cam_proj->compute_proj_ortho(camera);
   }
 
@@ -95,9 +95,9 @@ void Camera::input_cam_mouse(){
   //---------------------------
 
   if(camera->cam_move){
-    if(param_engine->cam_mode == "first_person"){
+    if(camera->mode == "first_person"){
       cam_fp->fp_cam_mouse(camera);
-    }else if(param_engine->cam_mode == "arcball"){
+    }else if(camera->mode == "arcball"){
       cam_arcball->arcball_cam_mouse(camera);
     }
   }

@@ -211,7 +211,6 @@ void VK_gui::gui_font(){
 
   //---------------------------
 }
-
 void VK_gui::gui_font_load(){
   ImGuiIO io = ImGui::GetIO();
   static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };

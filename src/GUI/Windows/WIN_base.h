@@ -3,14 +3,12 @@
 
 #include "../../common.h"
 
-class Node_gui;
-
 
 class WIN_base
 {
 public:
   //Constructor / Destructor
-  WIN_base(Node_gui* node_gui, bool* show_window, const char* icon);
+  WIN_base(bool* show_window, string name);
   ~WIN_base();
 
 public:
@@ -18,14 +16,12 @@ public:
   void window();
 
   //Subfunction
-  void design_window();
+  virtual void design_window();
 
 private:
-  Node_gui* node_gui;
-  
-  bool* show_window;
-  const char* icon;
+  string name;
   int item_width;
+  bool* show_window;
 };
 
 #endif

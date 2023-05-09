@@ -14,6 +14,7 @@ class GUI_control;
 class GUI_option;
 class GUI_filemanager;
 class GUI_menubar;
+class GUI_windows;
 
 
 class Node_gui
@@ -36,6 +37,7 @@ public:
   inline GUI_option* get_gui_option(){return gui_option;}
   inline GUI_filemanager* get_gui_filemanager(){return gui_filemanager;}
   inline GUI_menubar* get_gui_menubar(){return gui_menubar;}
+  inline GUI_windows* get_gui_windows(){return gui_windows;}
 
 private:
   Node_engine* node_engine;
@@ -48,6 +50,7 @@ private:
   GUI_option* gui_option;
   GUI_filemanager* gui_filemanager;
   GUI_menubar* gui_menubar;
+  GUI_windows* gui_windows;
 };
 
 #endif

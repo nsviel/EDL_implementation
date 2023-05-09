@@ -13,8 +13,6 @@ struct Param_engine{
   //---------------------------
 
   std::string title = "Nephos";
-  std::string cam_projection = "perspective";
-  std::string cam_mode = "arcball";
 
   float max_fps = 60.0f;
 
