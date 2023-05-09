@@ -6,7 +6,7 @@
 
 class Node_data;
 class GPU_data;
-class Database;
+class Scene;
 
 
 class Glyphs
@@ -24,7 +24,7 @@ public:
 private:
   Node_data* node_data;
   GPU_data* gpu_data;
-  Database* dataManager;
+  Scene* sceneManager;
 
   vector<Glyph_source*> vec_glyph_src;
 };

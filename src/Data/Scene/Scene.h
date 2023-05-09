@@ -20,6 +20,7 @@ public:
   void init_set();
   void init_scene();
   void insert_object(Object* object);
+  void insert_glyph(Object* object);
 
 private:
   Param_data* param_data;
@@ -27,7 +28,9 @@ private:
   Database* dataManager;
   GPU_data* gpu_data;
 
+  int ID_obj;
   Set* set_object;
+  Set* set_glyph;
 };
 
 

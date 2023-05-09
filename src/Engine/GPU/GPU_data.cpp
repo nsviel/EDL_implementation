@@ -51,7 +51,8 @@ void GPU_data::insert_object_in_engine(Object* object){
 }
 void GPU_data::loop_check_descriptor_update(){
   //---------------------------
-static bool once = true;
+
+  static bool once = true;
   if(is_descriptor_up&&once){once=false;
     this->update_descriptor_set();
     this->is_descriptor_up = false;

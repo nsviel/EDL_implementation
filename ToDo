@@ -1,8 +1,3 @@
 -organisation des données
-  -afficher glyphs
-    -grid
-    -axis
-  -pouvoir charger tout type de nuage
-    -pouvoir charger sans ou avec uv
-    -faire plusieur pipeline en fonction des données (texture ou non, etc)
+  -pouvoir changer line width (axis)
 -abstraction fbo / uniform / shader / pipeline

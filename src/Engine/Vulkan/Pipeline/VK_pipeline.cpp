@@ -64,7 +64,9 @@ void VK_pipeline::create_pipeline(string topology){
   dynamicStates.push_back(VK_DYNAMIC_STATE_VIEWPORT);
   dynamicStates.push_back(VK_DYNAMIC_STATE_SCISSOR);
   //dynamicStates.push_back(VK_DYNAMIC_STATE_POINT_SIZE);
-  //dynamicStates.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
+  if(topology == "line"){
+    dynamicStates.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
+  }
 
   //Construct pipeline elements
   vk_shader->create_shader_module();

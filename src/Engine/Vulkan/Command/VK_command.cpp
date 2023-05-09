@@ -125,7 +125,6 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   //start render pass
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-  //vkCmdSetLineWidth(command_buffer, 1.0f);
   this->command_viewport(command_buffer);
   this->command_drawing_line(command_buffer);
   this->command_drawing_point(command_buffer);
@@ -195,6 +194,7 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer){
   VkPipeline pipeline = vk_pipeline->get_pipeline_line();
   VkPipelineLayout pipeline_layout = vk_pipeline->get_pipeline_layout_line();
   vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+  vkCmdSetLineWidth(command_buffer, 1.0f);
 
   //Bind descriptor
   list<Object*> list_data = vk_data->get_list_data();

@@ -21,6 +21,8 @@ Scene::Scene(Node_data* node_data){
   this->dataManager = node_data->get_dataManager();
   this->gpu_data = node_engine->get_gpu_data();
 
+  this->ID_obj = 0;
+
   //---------------------------
 }
 Scene::~Scene(){}
@@ -30,7 +32,9 @@ void Scene::init_set(){
   //---------------------------
 
   this->set_object = new Set("Object");
+  this->set_glyph = new Set("Glyph");
   list_data->push_back(set_object);
+  list_data->push_back(set_glyph);
 
   //---------------------------
 }
@@ -44,8 +48,8 @@ void Scene::init_scene(){
   //Load init object
   vector<string> vec_path;
   vec_path.push_back(param_data->path_initial_object);
-  vec_path.push_back("../media/bunny.ply");
-  vec_path.push_back("../media/bunny.ply");
+  //vec_path.push_back("../media/bunny.ply");
+  //vec_path.push_back("../media/bunny.ply");
   vector<Object*> vec_obj = loaderManager->load_objects(vec_path);
 
   //---------------------------
@@ -53,9 +57,18 @@ void Scene::init_scene(){
 void Scene::insert_object(Object* object){
   //---------------------------
 
+  object->ID = ID_obj++;
   gpu_data->insert_object_in_engine(object);
   set_object->list_obj.push_back(object);
-  //gpu_data->update_descriptor_set();
+
+  //---------------------------
+}
+void Scene::insert_glyph(Object* object){
+  //---------------------------
+
+  object->ID = ID_obj++;
+  gpu_data->insert_object_in_engine(object);
+  set_glyph->list_obj.push_back(object);
 
   //---------------------------
 }

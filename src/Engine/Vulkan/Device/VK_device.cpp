@@ -45,13 +45,13 @@ void VK_device::select_physical_device(){
   //List all available GPU and take suitable one
   std::vector<VkPhysicalDevice> devices(nb_device);
   vkEnumeratePhysicalDevices(instance, &nb_device, devices.data());
-  for (const auto& device : devices) {
-    if (is_device_suitable(device)) {
+  for(const auto& device : devices){
+    if(is_device_suitable(device)){
       physical_device = device;
       break;
     }
   }
-  if (physical_device == VK_NULL_HANDLE) {
+  if(physical_device == VK_NULL_HANDLE){
     throw std::runtime_error("failed to find a suitable GPU!");
   }
 
