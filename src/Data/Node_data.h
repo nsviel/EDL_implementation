@@ -3,7 +3,9 @@
 
 #include "../common.h"
 
+class Node_engine;
 class Node_load;
+
 class Node;
 class Scene;
 class Param_data;
@@ -20,13 +22,17 @@ public:
 public:
   void init();
 
+  inline Node_engine* get_node_engine(){return node_engine;}
   inline Node_load* get_node_load(){return node_load;}
+
   inline Param_data* get_param_data(){return param_data;}
   inline Scene* get_sceneManager(){return sceneManager;}
   inline Database* get_dataManager(){return dataManager;}
 
 private:
+  Node_engine* node_engine;
   Node_load* node_load;
+
   Param_data* param_data;
   Scene* sceneManager;
   Database* dataManager;

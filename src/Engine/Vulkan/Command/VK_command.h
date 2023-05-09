@@ -31,8 +31,8 @@ public:
   void cleanup();
 
   void record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex);
-  void command_drawing(VkCommandBuffer command_buffer);
-  void command_pipeline(VkCommandBuffer command_buffer);
+  void command_drawing_point(VkCommandBuffer command_buffer);
+  void command_drawing_line(VkCommandBuffer command_buffer);
   void command_viewport(VkCommandBuffer command_buffer);
 
   //One time command

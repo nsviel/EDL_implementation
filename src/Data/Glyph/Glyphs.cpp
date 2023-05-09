@@ -1,25 +1,63 @@
 #include "Glyphs.h"
 
-#include "../Node_data.h"
+#include "Base/Glyph_source.h"
+#include "Scene/Grid.h"
+#include "Scene/Axis_world.h"
 
-#include "../../Operation/Transformation/Transformation.h"
+#include "../Node_data.h"
+#include "../Scene/Database.h"
+
+#include "../../Engine/Node_engine.h"
+#include "../../Engine/GPU/GPU_data.h"
 
 
 //Constructor / Destructor
-Glyphs::Glyphs(){
+Glyphs::Glyphs(Node_data* node_data){
   //---------------------------
 
-  //this->gpuManager = new GPU_data();
+  Node_engine* node_engine = node_data->get_node_engine();
+  this->dataManager = node_data->get_dataManager();
+  this->gpu_data = node_engine->get_gpu_data();
 
-  this->ID_glyph = 0;
+  this->vec_glyph_src.push_back(new Grid());
+  this->vec_glyph_src.push_back(new Axis_world());
 
   //---------------------------
 }
 Glyphs::~Glyphs(){
   //---------------------------
 
+  for(int i=0; i<vec_glyph_src.size(); i++){
+    delete vec_glyph_src[i];
+  }
+
   //---------------------------
 }
+
+//Creation function
+void Glyphs::create_glyph_scene(){
+  //---------------------------
+
+  for(int i=0; i<vec_glyph_src.size(); i++){
+    //glyphManager->create_glyph_scene(vec_glyph_src[i]->get_glyph());
+  }
+
+  //---------------------------
+}
+Glyph_source* Glyphs::get_glyph_src_byName(string name){
+  //---------------------------
+
+  for(int i=0; i<vec_glyph_src.size(); i++){
+    if(name == vec_glyph_src[i]->get_name()){
+      return vec_glyph_src[i];
+    }
+  }
+
+  //---------------------------
+  return nullptr;
+}
+
+
 /*
 //Main functions
 void Glyphs::draw_glyph(Glyph* glyph){

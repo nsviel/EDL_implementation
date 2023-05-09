@@ -19,8 +19,8 @@ public:
   virtual void reset_glyph(){}
   virtual void reset(){}
 
-  inline string get_name(){return name;}
   inline Glyph* get_glyph(){return glyph;}
+  inline string get_name(){return name;}
   inline vec4* get_color(){return &color;}
   inline bool* get_visibility(){return &is_visible;}
   inline void set_visibility(bool value){this->is_visible = value;}

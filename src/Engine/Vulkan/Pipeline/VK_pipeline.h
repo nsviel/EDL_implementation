@@ -43,6 +43,7 @@ public:
   VkPipelineInputAssemblyStateCreateInfo pipe_topology(string topology);
 
   inline VkPipelineLayout get_pipeline_layout_point(){return pipeline_layout_point;}
+  inline VkPipelineLayout get_pipeline_layout_line(){return pipeline_layout_line;}
   inline VkPipeline get_pipeline_point(){return pipeline_point;}
   inline VkPipeline get_pipeline_line(){return pipeline_line;}
 

@@ -2,12 +2,23 @@
 cmake_minimum_required(VERSION 3.1)
 project(NEPHOS LANGUAGES CXX)
 
+# CMake variables
+set(WINDOWS_COMPILATION 0)
+
 # General policy
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE Release)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+if(WINDOWS_COMPILATION)
+  set(CMAKE_SYSTEM_NAME Windows)
+  set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
+  set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
+  set(CMAKE_BUILD_TYPE Release)
+  set(CMAKE_INSTALL_PREFIX bin/windows_bin)
+endif()
 
 # Library dependencies
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)

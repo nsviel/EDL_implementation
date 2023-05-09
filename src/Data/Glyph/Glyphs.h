@@ -1,45 +1,32 @@
 #ifndef GLYPHS_H
 #define GLYPHS_H
 
+#include "Base/Glyph_source.h"
 #include "../../common.h"
 
+class Node_data;
 class GPU_data;
+class Database;
 
 
 class Glyphs
 {
 public:
   //Constructor / Destructor
-  Glyphs();
+  Glyphs(Node_data* node_data);
   ~Glyphs();
 
 public:
   //Main functions
-  void reset_scene();
-  void reset_color();
-  void draw_glyph(Glyph* glyph);
-
-  //Glyph update
-  void update_glyph_buffer(Glyph* glyph);
-  void update_glyph_location(Glyph* glyph);
-  void update_glyph_color(Glyph* glyph);
-  void update_glyph_color(Glyph* glyph, vec4 RGB_in);
-  void update_glyph_MinMax(Glyph* glyph);
-
-  //Glyph creation / supression
-  void insert_into_gpu(Glyph* glyph);
-  void remove_glyph_scene(int ID);
-  void remove_temporary_glyph();
-  void create_glyph_scene(Glyph* glyph);
-  void create_glyph_object(Cloud* cloud, Glyph* glyph);
-  Glyph* create_glyph(vector<vec3>& XYZ, vector<vec4>& RGB, string mode, bool perma);
+  void create_glyph_scene();
+  Glyph_source* get_glyph_src_byName(string name);
 
 private:
-  GPU_data* gpuManager;
-  Data_file* data;
+  Node_data* node_data;
+  GPU_data* gpu_data;
+  Database* dataManager;
 
-  list<Glyph*>* list_glyph;
-  int ID_glyph;
+  vector<Glyph_source*> vec_glyph_src;
 };
 
 #endif

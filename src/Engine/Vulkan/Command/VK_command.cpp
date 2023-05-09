@@ -127,8 +127,8 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
 
   //vkCmdSetLineWidth(command_buffer, 1.0f);
   this->command_viewport(command_buffer);
-  this->command_pipeline(command_buffer);
-  this->command_drawing(command_buffer);
+  this->command_drawing_line(command_buffer);
+  this->command_drawing_point(command_buffer);
 
   //ICI command pour draw gui
   VK_gui* vk_gui = engineManager->get_vk_gui();
@@ -157,39 +157,62 @@ void VK_command::command_viewport(VkCommandBuffer command_buffer){
 
   //---------------------------
 }
-void VK_command::command_pipeline(VkCommandBuffer command_buffer){
-  VkPipeline graphicsPipeline = vk_pipeline->get_pipeline_point();
-  //---------------------------
-
-  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-
-  //---------------------------
-}
-void VK_command::command_drawing(VkCommandBuffer command_buffer){
+void VK_command::command_drawing_point(VkCommandBuffer command_buffer){
   VK_data* vk_data = engineManager->get_vk_data();
-  list<Object*> list_data = vk_data->get_list_data();
-  std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
-  VkPipelineLayout pipeline_layout_point = vk_pipeline->get_pipeline_layout_point();
   //---------------------------
 
+  //Bind pipeline
+  VkPipeline pipeline = vk_pipeline->get_pipeline_point();
+  VkPipelineLayout pipeline_layout = vk_pipeline->get_pipeline_layout_point();
+  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+
+  //Bind descriptor
+  list<Object*> list_data = vk_data->get_list_data();
   if(list_data.size() != 0){
-    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout_point, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+    std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
+    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
   }
 
+  //Bind and draw vertex buffers
   for(int i=0; i<list_data.size(); i++){
     Object* object = *next(list_data.begin(),i);
 
-    VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
-    VkDeviceSize offsets[] = {0, 0};
-    vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
-    vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
+    if(object->draw_type_name == "point"){
+      VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
+      VkDeviceSize offsets[] = {0, 0};
+      vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
+      vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
+    }
+  }
 
-    /*
-    VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb, object->vbo_uv};
-    VkDeviceSize offsets[] = {0, 0, 0};
-    vkCmdBindVertexBuffers(command_buffer, 0, 3, vertexBuffers, offsets);
-    vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
-    */
+  //---------------------------
+}
+void VK_command::command_drawing_line(VkCommandBuffer command_buffer){
+  VK_data* vk_data = engineManager->get_vk_data();
+  //---------------------------
+
+  //Bind pipeline
+  VkPipeline pipeline = vk_pipeline->get_pipeline_line();
+  VkPipelineLayout pipeline_layout = vk_pipeline->get_pipeline_layout_line();
+  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+
+  //Bind descriptor
+  list<Object*> list_data = vk_data->get_list_data();
+  if(list_data.size() != 0){
+    std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
+    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+  }
+
+  //Bind and draw vertex buffers
+  for(int i=0; i<list_data.size(); i++){
+    Object* object = *next(list_data.begin(),i);
+
+    if(object->draw_type_name == "line"){
+      VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
+      VkDeviceSize offsets[] = {0, 0};
+      vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
+      vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
+    }
   }
 
   //---------------------------

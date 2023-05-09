@@ -721,47 +721,6 @@ bool is_number(const std::string& s){
     while (it != s.end() && std::isdigit(*it)) ++it;
     return !s.empty() && it == s.end();
 }
-void fct_sort_alpha_num_(std::vector<std::string>& vec){
-  //---------------------------
-
-  std::sort(vec.begin(), vec.end(), [](const std::string& a, const std::string& b) {
-    if (a[0] < b[0]) {
-        return true;
-    } else if (a[0] > b[0]) {
-        return false;
-    }
-
-    if(is_number(a) && is_number(b)){
-      std::string a_path = a.substr(a.find_last_of("/")+1);
-      std::string b_path = b.substr(b.find_last_of("/")+1);
-
-      std::string a_num = a_path.substr(0, a_path.find_last_of("."));
-      std::string b_num = b_path.substr(0, b_path.find_last_of("."));
-
-      if(a_num.find("_") != std::string::npos){
-        a_num = a_num.substr(a_num.find_last_of("_") + 1);
-      }
-      if(b_num.find("_") != std::string::npos){
-        b_num = b_num.substr(b_num.find_last_of("_") + 1);
-      }
-
-      return std::stoi(a_num) < std::stoi(b_num);
-    }else{
-      if(is_number(a) && is_number(b)){
-        std::string a_path = a.substr(a.find_last_of("/")+1);
-        std::string b_path = b.substr(b.find_last_of("/")+1);
-
-        std::string a_name = a_path.substr(0, a_path.find_last_of("."));
-        std::string b_name = b_path.substr(0, b_path.find_last_of("."));
-
-        return a_name < b_name;
-      }
-    }
-  });
-
-  //---------------------------
-  return;
-}
 
 //Geometric functions
 double fct_angularDistance(const Eigen::Matrix3f &rota, const Eigen::Matrix3f &rotb) {
