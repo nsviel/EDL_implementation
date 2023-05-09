@@ -137,7 +137,7 @@ void Engine::fps_control(const std::chrono::time_point<std::chrono::steady_clock
   auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 
   // Calculate the time to sleep to achieve the desired FPS
-  auto time_to_sleep = (1000000 / 60) - elapsed;
+  auto time_to_sleep = (1000000 / 120) - elapsed;
 
   if(time_to_sleep > 0){
     std::this_thread::sleep_for(std::chrono::microseconds(time_to_sleep));

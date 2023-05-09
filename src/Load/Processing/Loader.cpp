@@ -5,9 +5,6 @@
 
 #include "../../Specific/File/Directory.h"
 #include "../../Specific/File/Zenity.h"
-#include "../../Engine/Node_engine.h"
-#include "../../Engine/GPU/GPU_data.h"
-#include "../../Node.h"
 #include "../../Data/Node_data.h"
 #include "../../Data/Scene/Scene.h"
 
@@ -17,8 +14,6 @@ Loader::Loader(Node_load* node_load){
   //---------------------------
 
   Node_data* node_data = node_load->get_node_data();
-  Node_engine* node_engine = node_load->get_node_engine();
-  this->gpu_data = node_engine->get_gpu_data();
   this->sceneManager = node_data->get_sceneManager();
   this->formatManager = new Format();
 
@@ -51,8 +46,7 @@ Object* Loader::load_object(string path){
 
   Data_file* data = formatManager->get_data_from_file(path);
   this->transfert_data(object, data);
-  gpu_data->insert_object_in_engine(object);
-  gpu_data->update_descriptor_set();
+  sceneManager->insert_object(object);
 
   //---------------------------
   return object;
@@ -71,11 +65,9 @@ vector<Object*> Loader::load_objects(vector<string> path){
 
     Data_file* data = formatManager->get_data_from_file(path[i]);
     this->transfert_data(object, data);
-    gpu_data->insert_object_in_engine(object);
+    sceneManager->insert_object(object);
     vec_obj.push_back(object);
   }
-
-  gpu_data->update_descriptor_set();
 
   //---------------------------
   return vec_obj;
@@ -100,7 +92,7 @@ void Loader::load_object_zenity(){
   for(int i=0; i<path_vec.size(); i++){
     Data_file* data = formatManager->get_data_from_file(path_vec[0]);
     this->transfert_data(object, data);
-    gpu_data->insert_object_in_engine(object);
+    sceneManager->insert_object(object);
   }
 
   //---------------------------

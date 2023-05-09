@@ -20,11 +20,13 @@ GPU_data::GPU_data(Node_engine* node_engine){
   this->vk_command = engineManager->get_vk_command();
   this->vk_data = engineManager->get_vk_data();
 
+  this->is_descriptor_up = false;
+
   //---------------------------
 }
 GPU_data::~GPU_data(){}
 
-//Insert function
+//Main function
 void GPU_data::insert_object_in_engine(Object* object){
   //---------------------------
 
@@ -42,10 +44,23 @@ void GPU_data::insert_object_in_engine(Object* object){
     this->create_object_buffer(object);
     list_draw.push_back(object);
     vk_data->set_list_data(list_draw);
+    this->is_descriptor_up = true;
   }
 
   //---------------------------
 }
+void GPU_data::loop_check_descriptor_update(){
+  //---------------------------
+static bool once = true;
+  if(is_descriptor_up&&once){once=false;
+    this->update_descriptor_set();
+    this->is_descriptor_up = false;
+  }
+
+  //---------------------------
+}
+
+//Subfunctions
 void GPU_data::create_object_buffer(Object* object){
   //---------------------------
 
@@ -65,8 +80,6 @@ void GPU_data::create_object_buffer(Object* object){
 
   //---------------------------
 }
-
-//Remove function
 void GPU_data::remove_object_for_drawing(Object* object){
   //---------------------------
 

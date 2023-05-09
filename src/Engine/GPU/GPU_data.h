@@ -19,11 +19,12 @@ public:
   ~GPU_data();
 
 public:
-  //Insert function
+  //Main function
   void insert_object_in_engine(Object* object);
-  void create_object_buffer(Object* object);
+  void loop_check_descriptor_update();
 
-  //Remove function
+  //Subfunctions
+  void create_object_buffer(Object* object);
   void remove_object_for_drawing(Object* object);
   void update_descriptor_set();
 
@@ -35,6 +36,7 @@ private:
   VK_data* vk_data;
 
   std::list<Object*> list_draw;
+  bool is_descriptor_up;
 };
 
 #endif

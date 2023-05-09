@@ -37,6 +37,7 @@ Node_data::~Node_data(){
 void Node_data::init(){
   //---------------------------
 
+  sceneManager->init_set();
   sceneManager->init_scene();
   glyphManager->create_glyph_scene();
 
