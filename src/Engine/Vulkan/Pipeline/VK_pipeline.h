@@ -23,9 +23,13 @@ public:
 
 public:
   //Main functions
-  void create_pipeline_graphics();
-  void create_pipeline_layout();
+  void create_pipelines();
   void cleanup();
+
+  //Pipeline creation
+  void create_pipeline(string topology);
+  void create_pipeline_graphics(VkGraphicsPipelineCreateInfo pipelineInfo, string topology);
+  void create_pipeline_layout(string topology);
 
   //Subfunction
   VkPipelineVertexInputStateCreateInfo pipe_data_description(vector<VkVertexInputBindingDescription>& bindingDescriptions, vector<VkVertexInputAttributeDescription>& attributeDescriptions);
@@ -36,12 +40,11 @@ public:
   VkPipelineDepthStencilStateCreateInfo pipe_depth();
   VkPipelineColorBlendAttachmentState pipe_color_blending_state();
   VkPipelineColorBlendStateCreateInfo pipe_color_blending(VkPipelineColorBlendAttachmentState* colorBlendAttachment);
-  VkPipelineInputAssemblyStateCreateInfo pipe_topology();
+  VkPipelineInputAssemblyStateCreateInfo pipe_topology(string topology);
 
-  VkPipelineRasterizationStateCreateInfo pipe_truc();
-
-  inline VkPipelineLayout get_pipelineLayout(){return pipelineLayout;}
-  inline VkPipeline get_graphicsPipeline(){return graphicsPipeline;}
+  inline VkPipelineLayout get_pipeline_layout_point(){return pipeline_layout_point;}
+  inline VkPipeline get_pipeline_point(){return pipeline_point;}
+  inline VkPipeline get_pipeline_line(){return pipeline_line;}
 
 private:
   Engine* engineManager;
@@ -52,8 +55,10 @@ private:
   VK_viewport* vk_viewport;
   VK_shader* vk_shader;
 
-  VkPipelineLayout pipelineLayout;
-  VkPipeline graphicsPipeline;
+  VkPipelineLayout pipeline_layout_point;
+  VkPipelineLayout pipeline_layout_line;
+  VkPipeline pipeline_point;
+  VkPipeline pipeline_line;
 };
 
 #endif

@@ -125,6 +125,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   //start render pass
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
+  //vkCmdSetLineWidth(command_buffer, 1.0f);
   this->command_viewport(command_buffer);
   this->command_pipeline(command_buffer);
   this->command_drawing(command_buffer);
@@ -157,7 +158,7 @@ void VK_command::command_viewport(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_command::command_pipeline(VkCommandBuffer command_buffer){
-  VkPipeline graphicsPipeline = vk_pipeline->get_graphicsPipeline();
+  VkPipeline graphicsPipeline = vk_pipeline->get_pipeline_point();
   //---------------------------
 
   vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
@@ -168,11 +169,11 @@ void VK_command::command_drawing(VkCommandBuffer command_buffer){
   VK_data* vk_data = engineManager->get_vk_data();
   list<Object*> list_data = vk_data->get_list_data();
   std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
-  VkPipelineLayout pipelineLayout = vk_pipeline->get_pipelineLayout();
+  VkPipelineLayout pipeline_layout_point = vk_pipeline->get_pipeline_layout_point();
   //---------------------------
 
   if(list_data.size() != 0){
-    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout_point, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
   }
 
   for(int i=0; i<list_data.size(); i++){

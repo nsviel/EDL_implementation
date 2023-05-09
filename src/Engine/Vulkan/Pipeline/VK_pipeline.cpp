@@ -29,7 +29,29 @@ VK_pipeline::VK_pipeline(Engine* engineManager){
 VK_pipeline::~VK_pipeline(){}
 
 //Main function
-void VK_pipeline::create_pipeline_graphics(){
+void VK_pipeline::create_pipelines(){
+  //---------------------------
+
+  this->create_pipeline("point");
+  this->create_pipeline("line");
+
+  //---------------------------
+}
+void VK_pipeline::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  vkDestroyPipeline(device, pipeline_point, nullptr);
+  vkDestroyPipelineLayout(device, pipeline_layout_point, nullptr);
+
+  vkDestroyPipeline(device, pipeline_line, nullptr);
+  vkDestroyPipelineLayout(device, pipeline_layout_line, nullptr);
+
+  //---------------------------
+}
+
+//Pipeline creation
+void VK_pipeline::create_pipeline(string topology){
   VK_data* vk_data = engineManager->get_vk_data();
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
@@ -38,7 +60,11 @@ void VK_pipeline::create_pipeline_graphics(){
   //Get appropriate data
   std::vector<VkVertexInputBindingDescription> bindingDescriptions = vk_data->description_binding();
   std::vector<VkVertexInputAttributeDescription> attributeDescriptions = vk_data->description_vertex();
-  std::vector<VkDynamicState> dynamicStates = {VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR};
+  std::vector<VkDynamicState> dynamicStates;
+  dynamicStates.push_back(VK_DYNAMIC_STATE_VIEWPORT);
+  dynamicStates.push_back(VK_DYNAMIC_STATE_SCISSOR);
+  //dynamicStates.push_back(VK_DYNAMIC_STATE_POINT_SIZE);
+  //dynamicStates.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
   //Construct pipeline elements
   vk_shader->create_shader_module();
@@ -46,7 +72,7 @@ void VK_pipeline::create_pipeline_graphics(){
   VkShaderModule module_frag = vk_shader->get_module_frag();
   vector<VkPipelineShaderStageCreateInfo> shaderStages = vk_shader->pipeline_shader_info(module_vert, module_frag);
   VkPipelineVertexInputStateCreateInfo vertexInputInfo = pipe_data_description(bindingDescriptions, attributeDescriptions);
-  VkPipelineInputAssemblyStateCreateInfo inputAssembly = pipe_topology();
+  VkPipelineInputAssemblyStateCreateInfo inputAssembly = pipe_topology(topology);
   VkPipelineDynamicStateCreateInfo dynamicState = pipe_dynamic_state(dynamicStates);
   VkPipelineViewportStateCreateInfo viewportState = pipe_viewport();
   VkPipelineRasterizationStateCreateInfo rasterizer = pipe_raster();
@@ -54,7 +80,7 @@ void VK_pipeline::create_pipeline_graphics(){
   VkPipelineColorBlendAttachmentState colorBlendAttachment = pipe_color_blending_state();
   VkPipelineColorBlendStateCreateInfo colorBlending = pipe_color_blending(&colorBlendAttachment);
   VkPipelineDepthStencilStateCreateInfo depthStencil = pipe_depth();
-  this->create_pipeline_layout();
+  this->create_pipeline_layout(topology);
 
   //Final graphics pipeline info
   VkGraphicsPipelineCreateInfo pipelineInfo{};
@@ -69,17 +95,14 @@ void VK_pipeline::create_pipeline_graphics(){
   pipelineInfo.pDepthStencilState = &depthStencil;
   pipelineInfo.pColorBlendState = &colorBlending;
   pipelineInfo.pDynamicState = &dynamicState;
-  pipelineInfo.layout = pipelineLayout;
+  pipelineInfo.layout = pipeline_layout_point;
   pipelineInfo.renderPass = renderPass;
   pipelineInfo.subpass = 0;
   pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
   pipelineInfo.basePipelineIndex = -1; // Optional
 
   //Final graphics pipeline creation
-  VkResult result_pipe = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline);
-  if(result_pipe != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create graphics pipeline!");
-  }
+  this->create_pipeline_graphics(pipelineInfo, topology);
 
   //Destroy shader modules
   vkDestroyShaderModule(device, module_vert, nullptr);
@@ -87,7 +110,26 @@ void VK_pipeline::create_pipeline_graphics(){
 
   //---------------------------
 }
-void VK_pipeline::create_pipeline_layout(){
+void VK_pipeline::create_pipeline_graphics(VkGraphicsPipelineCreateInfo pipelineInfo, string topology){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  if(topology == "point"){
+    VkResult result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline_point);
+    if(result != VK_SUCCESS){
+      throw std::runtime_error("[error] failed to create graphics pipeline!");
+    }
+  }
+  else if(topology == "line"){
+    VkResult result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline_line);
+    if(result != VK_SUCCESS){
+      throw std::runtime_error("[error] failed to create graphics pipeline!");
+    }
+  }
+
+  //---------------------------
+}
+void VK_pipeline::create_pipeline_layout(string topology){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -101,19 +143,18 @@ void VK_pipeline::create_pipeline_layout(){
   pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
   //Pipeline layout creation
-  VkResult result = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create pipeline layout!");
+  if(topology == "point"){
+    VkResult result = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipeline_layout_point);
+    if(result != VK_SUCCESS){
+      throw std::runtime_error("[error] failed to create pipeline layout!");
+    }
   }
-
-  //---------------------------
-}
-void VK_pipeline::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  vkDestroyPipeline(device, graphicsPipeline, nullptr);
-  vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+  else if(topology == "line"){
+    VkResult result = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipeline_layout_line);
+    if(result != VK_SUCCESS){
+      throw std::runtime_error("[error] failed to create pipeline layout!");
+    }
+  }
 
   //---------------------------
 }
@@ -250,14 +291,19 @@ VkPipelineColorBlendStateCreateInfo VK_pipeline::pipe_color_blending(VkPipelineC
   //---------------------------
   return colorBlending;
 }
-VkPipelineInputAssemblyStateCreateInfo VK_pipeline::pipe_topology(){
+VkPipelineInputAssemblyStateCreateInfo VK_pipeline::pipe_topology(string topology){
   //---------------------------
 
   VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
   inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-  //inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-  inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
   inputAssembly.primitiveRestartEnable = VK_FALSE;
+
+  if(topology == "point"){
+    inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
+  }
+  else if(topology == "line"){
+    inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+  }
 
   //---------------------------
   return inputAssembly;

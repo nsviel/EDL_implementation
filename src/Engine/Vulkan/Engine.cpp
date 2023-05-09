@@ -70,7 +70,7 @@ void Engine::init_vulkan(){
   vk_swapchain->init_swapchain();
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptor_set_layout();
-  vk_pipeline->create_pipeline_graphics();
+  vk_pipeline->create_pipelines();
   vk_command->create_command_pool();
   vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();

@@ -64,6 +64,7 @@ void GUI_filemanager::data_node(Set* set){
   ImGuiTreeNodeFlags node_flags;
   node_flags |= ImGuiTreeNodeFlags_OpenOnArrow;
   node_flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
+  node_flags |= ImGuiTreeNodeFlags_DefaultOpen;
 
   /*if(selected_col->ID_col_order == collection->ID_col_order){
     node_flags |= ImGuiTreeNodeFlags_Selected;
@@ -84,11 +85,8 @@ void GUI_filemanager::data_node(Set* set){
     for(int j=0; j<set->list_obj.size(); j++){
       Object* object = *next(set->list_obj.begin(), j);
 
-      ImGuiTreeNodeFlags node_flags;
       node_flags |= ImGuiTreeNodeFlags_Leaf;
       node_flags |= ImGuiTreeNodeFlags_Bullet;
-      node_flags |= ImGuiTreeNodeFlags_NoTreePushOnOpen;
-      node_flags |= ImGuiTreeNodeFlags_SpanFullWidth;
 
       bool is_node_open = ImGui::TreeNodeEx(object->name.c_str(), node_flags);
       if(is_node_open){

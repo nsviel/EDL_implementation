@@ -29,11 +29,11 @@ void Scene::init_scene(){
   //Load init object
   vector<string> vec_path;
   vec_path.push_back(param_data->path_initial_object);
-  //vec_path.push_back("/home/aeter/Desktop/Point_cloud/ply/dragon.ply");
+  vec_path.push_back("../media/bunny.ply");
   vector<Object*> vec_obj = loaderManager->load_objects(vec_path);
 
   //Add into database
-  Set* set = new Set("Init_object");
+  Set* set = new Set("Cloud");
   for(int i=0; i<vec_obj.size(); i++){
     set->list_obj.push_back(vec_obj[i]);
   }
