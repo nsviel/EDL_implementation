@@ -6,6 +6,7 @@
 class Node_gui;
 class Param_gui;
 class GUI_option;
+class Loader;
 
 
 class GUI_menubar
@@ -26,6 +27,7 @@ private:
   Node_gui* node_gui;
   Param_gui* param_gui;
   GUI_option* gui_option;
+  Loader* loaderManager;
 };
 
 

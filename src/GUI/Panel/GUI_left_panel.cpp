@@ -71,6 +71,8 @@ void GUI_left_panel::left_panel_content(){
   Tab* tab_panel_left = dimManager->get_tab("left_panel");
   //---------------------------
 
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
   vec2* gui_ltp_dim = dimManager->get_gui_ltp_dim();
   ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar;
   ImGui::SetNextWindowSize(ImVec2(tab_panel_left->dim.x, 100));
@@ -86,5 +88,7 @@ void GUI_left_panel::left_panel_content(){
     loaderManager->load_object_zenity();
   }
 
+  ImGui::PopStyleVar();
+  
   //---------------------------
 }

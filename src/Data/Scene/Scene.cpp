@@ -18,9 +18,6 @@ Scene::Scene(Node_data* node_data){
   this->param_data = node_data->get_param_data();
   this->dataManager = node_data->get_dataManager();
 
-  //this->objectManager = new Object();
-  //this->gpuManager = new GPU_data();
-
   //---------------------------
 }
 Scene::~Scene(){}
@@ -30,19 +27,16 @@ void Scene::init_scene(){
   //---------------------------
 
   //Load init object
-  Object* object = loaderManager->load_object(param_data->path_initial_object);
+  vector<string> vec_path;
+  vec_path.push_back(param_data->path_initial_object);
+  //vec_path.push_back("/home/aeter/Desktop/Point_cloud/ply/dragon.ply");
+  vector<Object*> vec_obj = loaderManager->load_objects(vec_path);
 
   //Add into database
   Set* set = new Set("Init_object");
-  set->list_obj.push_back(object);
-  list_data->push_back(set);
-
-  set = new Set("dddd");
-  set->list_obj.push_back(object);
-  list_data->push_back(set);
-
-  set = new Set("fffff");
-  set->list_obj.push_back(object);
+  for(int i=0; i<vec_obj.size(); i++){
+    set->list_obj.push_back(vec_obj[i]);
+  }
   list_data->push_back(set);
 
   //---------------------------

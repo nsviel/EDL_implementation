@@ -66,6 +66,8 @@ public:
   inline VK_camera* get_vk_camera(){return vk_camera;}
   inline VK_shader* get_vk_shader(){return vk_shader;}
 
+  inline float get_fps(){return fps;}
+
 private:
   Node_engine* node_engine;
   Param_engine* param_engine;

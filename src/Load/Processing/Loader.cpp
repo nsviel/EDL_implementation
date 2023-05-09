@@ -49,22 +49,51 @@ Object* Loader::load_object(string path){
   this->transfert_data(object, data);
   gpu_data->insert_object_in_engine(object);
 
+  gpu_data->update_descriptor_set();
+
   //---------------------------
   return object;
+}
+vector<Object*> Loader::load_objects(vector<string> path){
+  vector<Object*> vec_obj;
+  //---------------------------
+
+  for(int i=0; i<path.size(); i++){
+    Object* object = new Object();
+    object->path_file = path[i];
+    object->path_text = "../media/viking_room.png";
+    object->draw_type_name = "point";
+    object->has_texture = true;
+    object->ID = ID++;
+
+    Data_file* data = formatManager->get_data_from_file(path[i]);
+    this->transfert_data(object, data);
+    gpu_data->insert_object_in_engine(object);
+    vec_obj.push_back(object);
+  }
+
+  gpu_data->update_descriptor_set();
+
+  //---------------------------
+  return vec_obj; 
 }
 void Loader::load_object_zenity(){
   //---------------------------
 
-  //select files
+  //Select files to load
   vector<string> path_vec = zenity_file_vec("Cloud loading", path_current_dir);
+  if(path_vec.size() == 0){
+    return;
+  }
 
+  //Create new object
   Object* object = new Object();
   object->path_file = path_vec[0];
   object->draw_type_name = "point";
   object->has_texture = false;
   object->ID = ID++;
 
-  //Load 1 collection by cloud
+  //Add object in engine
   for(int i=0; i<path_vec.size(); i++){
     Data_file* data = formatManager->get_data_from_file(path_vec[0]);
     this->transfert_data(object, data);

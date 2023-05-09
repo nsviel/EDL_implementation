@@ -18,13 +18,16 @@ public:
 public:
   //Main functions
   void init_descriptor();
+  void cleanup();
 
   //Subfunctions
   void create_descriptor_set_layout();
   void create_descriptor_pool();
   void create_descriptor_set();
-  void cleanup();
-  void update_descriptor_set(Object* object);
+
+  //Update function
+  void update_descriptor_set();
+  void update_descriptor_set_texture(Object* object);
 
   inline VkDescriptorSetLayout get_descriptorSetLayout(){return descriptor_layout;}
   inline std::vector<VkDescriptorSet> get_descriptorSets(){return descriptor_set;}

@@ -4,7 +4,7 @@
 #include "../../common.h"
 
 class Node_gui;
-class Param_engine;
+class Node_engine;
 
 
 class GUI_option
@@ -20,13 +20,12 @@ public:
 
   //Subfunctions
   void option_color();
-  void option_glyph();
-  void option_parameter();
-  void option_mode();
   void option_font();
+  void option_fps();
 
 private:
-  Param_engine* param_engine;
+  Node_gui* node_gui;
+  Node_engine* node_engine;
 
   int width;
 };

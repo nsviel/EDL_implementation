@@ -4,6 +4,9 @@
 #include "../Param_gui.h"
 #include "../Operation/GUI_option.h"
 
+#include "../../Load/Node_load.h"
+#include "../../Load/Processing/Loader.h"
+
 #include "image/IconsFontAwesome5.h"
 
 
@@ -11,9 +14,11 @@
 GUI_menubar::GUI_menubar(Node_gui* node_gui){
   //---------------------------
 
+  Node_load* Node_load = node_gui->get_node_load();
   this->node_gui = node_gui;
   this->param_gui = node_gui->get_param_gui();
   this->gui_option = node_gui->get_gui_option();
+  this->loaderManager = Node_load->get_loaderManager();
 
   //---------------------------
 }
@@ -39,8 +44,8 @@ void GUI_menubar::menu(){
     ImGui::Checkbox("Demo", &show_demo);
     ImGui::EndMenu();
   }
-  if(ImGui::BeginMenu(ICON_FA_FILE, "Load")){
-    ImGui::EndMenu();
+  if(ImGui::MenuItem(ICON_FA_FILE, "Load")){
+    loaderManager->load_object_zenity();
   }
   if(ImGui::BeginMenu(ICON_FA_BOOK, "Save")){
     ImGui::EndMenu();

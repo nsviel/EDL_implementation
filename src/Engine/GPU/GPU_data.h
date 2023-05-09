@@ -26,6 +26,8 @@ public:
   //Remove function
   void remove_object_for_drawing(Object* object);
 
+  void update_descriptor_set();
+
 private:
   VK_texture* vk_texture;
   VK_buffer* vk_buffer;
