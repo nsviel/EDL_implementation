@@ -27,6 +27,7 @@ public:
   //Keyboard function
   void control_keyboard_oneAction();
   void control_keyboard_camMove();
+  void control_keyboard_translation();
 
 private:
   Dimension* dimManager;

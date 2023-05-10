@@ -14,10 +14,11 @@ struct Set
   void reset();
 
   //Info
-  int nb_obj;
+  int nb_obj = 0;
   std::string name;
 
   //Data
+  Object* selected_obj = nullptr;
   std::list<Object*> list_obj;
   std::list<Set*> list_set;
 

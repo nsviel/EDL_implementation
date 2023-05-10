@@ -4,8 +4,9 @@
 
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Dimension/Dimension.h"
-#include "../../Engine/Core/Control.h"
 #include "../../Engine/Camera/Camera.h"
+#include "../../Data/Scene/Control.h"
+#include "../../Data/Node_data.h"
 #include "../../Node.h"
 
 
@@ -14,9 +15,10 @@ GUI_control::GUI_control(Node_gui* node_gui){
   //---------------------------
 
   Node_engine* node_engine = node_gui->get_node_engine();
+  Node_data* node_data = node_gui->get_node_data();
   this->dimManager = node_engine->get_dimManager();
   this->cameraManager = node_engine->get_cameraManager();
-  this->controlManager = node_engine->get_controlManager();
+  this->controlManager = node_data->get_controlManager();
 
   //---------------------------
 }
@@ -30,6 +32,7 @@ void GUI_control::make_control(){
   this->control_mouse_wheel();
   this->control_keyboard_oneAction();
   this->control_keyboard_camMove();
+  this->control_keyboard_translation();
 
   //---------------------------
 }
@@ -229,4 +232,75 @@ void GUI_control::control_keyboard_camMove(){
   }
 
   //---------------------------
+}
+void GUI_control::control_keyboard_translation(){
+  ImGuiIO io = ImGui::GetIO();
+  //----------------------------
+
+  for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++){
+    if(!io.MouseDown[1] && !io.WantCaptureMouse){
+      float transCoef = 0.01;
+
+      //Shift speed up
+      if(io.KeysDown[340]){
+        //transCoef = cloud_trans_speed * 5;
+      }
+
+      // Z key
+      if(io.KeysDown[571]){
+        vec3 translation = vec3(transCoef, 0, 0);
+        controlManager->selected_object_translation(translation);
+        break;
+      }
+      // S key
+      if(io.KeysDown[564]){
+        vec3 translation = vec3(-transCoef, 0, 0);
+        controlManager->selected_object_translation(translation);
+        break;
+      }
+      // D key
+      if(io.KeysDown[549]){
+        vec3 translation = vec3(0, transCoef, 0);
+        controlManager->selected_object_translation(translation);
+        break;
+      }
+      // Q key
+      if(io.KeysDown[562]){
+        vec3 translation = vec3(0, -transCoef, 0);
+        controlManager->selected_object_translation(translation);
+        break;
+      }
+      // A key
+      if(io.KeysDown[546]){
+        vec3 translation = vec3(0, 0, transCoef);
+        controlManager->selected_object_translation(translation);
+        break;
+      }
+      // E key
+      if(io.KeysDown[550]){
+        vec3 translation = vec3(0, 0, -transCoef);
+        controlManager->selected_object_translation(translation);
+        break;
+      }
+      /*
+      // 7 key
+      if(io.KeysDown[327]){
+        float r = cloud_rotat_degree*M_PI/180;
+        vec3 rotation = vec3(0,0,r);
+        this->key_rotation(rotation);
+        break;
+      }
+      // 9 key
+      if(io.KeysDown[329]){
+        float r = cloud_rotat_degree*M_PI/180;
+        vec3 rotation = vec3(0,0,-r);
+        this->key_rotation(rotation);
+        break;
+      }*/
+
+      //transCoef = cloud_trans_speed;
+    }
+  }
+
+  //----------------------------
 }

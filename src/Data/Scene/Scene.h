@@ -22,6 +22,9 @@ public:
   void insert_object(Object* object);
   void insert_glyph(Object* object);
 
+  inline Set* get_set_object(){return set_object;}
+  inline Set* get_set_glyph(){return set_glyph;}
+
 private:
   Param_data* param_data;
   Node_data* node_data;

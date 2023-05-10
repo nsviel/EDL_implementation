@@ -13,9 +13,7 @@ struct Param_data{
   //---------------------------
 
   bool with_glyph_grid = true;
-  std::string path_initial_object_ = "../media/viking_room.obj";
   std::string path_initial_object = "../media/fused.ply";
-  std::string path_initial_texture = "../media/viking_room.png";
 
   //---------------------------
 };

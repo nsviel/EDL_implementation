@@ -11,6 +11,7 @@ class Scene;
 class Param_data;
 class Database;
 class Glyphs;
+class Control;
 
 
 class Node_data
@@ -30,6 +31,7 @@ public:
   inline Param_data* get_param_data(){return param_data;}
   inline Scene* get_sceneManager(){return sceneManager;}
   inline Database* get_dataManager(){return dataManager;}
+  inline Control* get_controlManager(){return controlManager;}
 
 private:
   Node* node;
@@ -40,6 +42,7 @@ private:
   Scene* sceneManager;
   Database* dataManager;
   Glyphs* glyphManager;
+  Control* controlManager;
 };
 
 #endif

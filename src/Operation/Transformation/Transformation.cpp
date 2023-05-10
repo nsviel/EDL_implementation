@@ -6,8 +6,38 @@
 // Constructor / Destructor
 Transformation::Transformation(){}
 Transformation::~Transformation(){}
-/*
+
 // Translation
+void Transformation::make_translation(Object* object, vec3 trans){
+  //Translation matrice creation
+  glm::mat4 translation(1.0);
+  //---------------------------
+
+  translation[0][3] = trans.x;
+  translation[1][3] = trans.y;
+  translation[2][3] = trans.z;
+
+  //---------------------------
+  object->trans *= translation;
+  object->model *= translation;
+  say(object->model);
+}
+void Transformation::make_translation(vector<vec3>& XYZ, vec3 trans){
+  //Translation matrice creation
+  glm::mat4 translation(1.0);
+  //---------------------------
+
+  translation[0][3] = trans.x;
+  translation[1][3] = trans.y;
+  translation[2][3] = trans.z;
+
+  //Apply
+  //this->make_Transformation_atomic(XYZ, vec3(0, 0, 0), translation);
+
+  //---------------------------
+}
+/*
+
 void Transformation::make_translation(Set* set, vec3 trans){
   //Translation matrice creation
   glm::mat4 translation(1.0);
@@ -26,33 +56,7 @@ void Transformation::make_translation(Set* set, vec3 trans){
 
   //---------------------------
 }
-void Transformation::make_translation(Object* object, vec3 trans){
-  //Translation matrice creation
-  glm::mat4 translation(1.0);
-  //---------------------------
 
-  translation[0][3] = trans.x;
-  translation[1][3] = trans.y;
-  translation[2][3] = trans.z;
-
-  //---------------------------
-  object->trans *= translation;
-  this->make_Transformation(object, object->root, translation);
-}
-void Transformation::make_translation(vector<vec3>& XYZ, vec3 trans){
-  //Translation matrice creation
-  glm::mat4 translation(1.0);
-  //---------------------------
-
-  translation[0][3] = trans.x;
-  translation[1][3] = trans.y;
-  translation[2][3] = trans.z;
-
-  //Apply
-  this->make_Transformation_atomic(XYZ, vec3(0, 0, 0), translation);
-
-  //---------------------------
-}
 
 // Rotation
 mat4 Transformation::make_rotation(Set* set, vec3 COM, vec3 radian){

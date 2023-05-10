@@ -3,6 +3,7 @@
 #include "Param_data.h"
 #include "Scene/Scene.h"
 #include "Scene/Database.h"
+#include "Scene/Control.h"
 #include "Glyph/Glyphs.h"
 
 #include "../Load/Node_load.h"
@@ -20,6 +21,7 @@ Node_data::Node_data(Node* node){
   this->dataManager = new Database(this);
   this->sceneManager = new Scene(this);
   this->glyphManager = new Glyphs(this);
+  this->controlManager = new Control(this);
 
   //---------------------------
 }
@@ -30,6 +32,7 @@ Node_data::~Node_data(){
   delete sceneManager;
   delete dataManager;
   delete glyphManager;
+  delete controlManager;
 
   //---------------------------
 }

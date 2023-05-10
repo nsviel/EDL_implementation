@@ -4,12 +4,14 @@
 #include "Load/Node_load.h"
 #include "GUI/Node_gui.h"
 #include "Data/Node_data.h"
+#include "Operation/Node_operation.h"
 
 
 //Constructor / Destructor
 Node::Node(){
   //---------------------------
 
+  this->node_ope = new Node_operation(this);
   this->node_engine = new Node_engine(this);
   this->node_data = new Node_data(this);
   this->node_load = new Node_load(this);

@@ -35,19 +35,19 @@ void Axis_world::create_glyph(){
 
   //Construct glyph
   //X axis
-  XYZ.push_back(vec3(0, 0, 0.001));
-  XYZ.push_back(vec3(1, 0, 0.001));
+  XYZ.push_back(vec3(0, 0, 0.005));
+  XYZ.push_back(vec3(1, 0, 0.005));
   RGB.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
   RGB.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
   //Y axis
-  XYZ.push_back(vec3(0, 0, 0.001));
-  XYZ.push_back(vec3(0, 1, 0.001));
+  XYZ.push_back(vec3(0, 0, 0.005));
+  XYZ.push_back(vec3(0, 1, 0.005));
   RGB.push_back(vec4(0.0f, 1.0f, 0.0f, 1.0f));
   RGB.push_back(vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
   //Z axis
-  XYZ.push_back(vec3(0, 0, 0.001));
+  XYZ.push_back(vec3(0, 0, 0.005));
   XYZ.push_back(vec3(0, 0, 1));
   RGB.push_back(vec4(0.0f, 0.0f, 1.0f, 1.0f));
   RGB.push_back(vec4(0.0f, 0.0f, 1.0f, 1.0f));
