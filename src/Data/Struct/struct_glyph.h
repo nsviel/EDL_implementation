@@ -14,7 +14,6 @@ struct Glyph : public Object
 
   bool is_permanent;
   Object* linked_object;
-  int draw_line_width;
 
   //---------------------------
 };

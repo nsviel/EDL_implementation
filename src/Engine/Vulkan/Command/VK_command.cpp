@@ -194,7 +194,6 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer){
   VkPipeline pipeline = vk_pipeline->get_pipeline_line();
   VkPipelineLayout pipeline_layout = vk_pipeline->get_pipeline_layout_line();
   vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
-  vkCmdSetLineWidth(command_buffer, 1.0f);
 
   //Bind descriptor
   list<Object*> list_data = vk_data->get_list_data();
@@ -210,6 +209,7 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer){
     if(object->draw_type_name == "line"){
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
+      vkCmdSetLineWidth(command_buffer, object->draw_line_width);
       vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
       vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
     }

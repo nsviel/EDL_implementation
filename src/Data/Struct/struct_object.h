@@ -19,7 +19,7 @@ struct Object{ //Cloud cloud / part
   //State
   int ID = -1;
   int nb_point = 0;
-  bool is_visible = true;
+  int draw_line_width;
 
   //Infos
   std::string name = "";
@@ -38,6 +38,7 @@ struct Object{ //Cloud cloud / part
   std::vector<float> ts;
   std::vector<float> Is;
 
+  bool is_visible = true;
   bool has_color;
   bool has_intensity;
   bool has_normal;

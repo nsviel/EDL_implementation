@@ -25,7 +25,7 @@ void Grid::create_glyph(){
 
   //Create glyph
   glyph->name = "grid";
-  glyph->draw_line_width = 2;
+  glyph->draw_line_width = 1;
   glyph->is_visible = true;
   glyph->draw_type_name = "line";
   glyph->is_permanent = true;

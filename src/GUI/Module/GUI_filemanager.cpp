@@ -99,6 +99,7 @@ void GUI_filemanager::data_node(Set* set){
         //graphManager->object_clicked(collection, j);
       }
     }
+    ImGui::TreePop();
   }
 
   //-------------------------------
