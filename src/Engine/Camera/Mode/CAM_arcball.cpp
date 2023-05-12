@@ -20,11 +20,11 @@ mat4 CAM_arcball::arcball_view_mat(Cam* camera){
   //---------------------------
 
   //Compute camera
-  camera->cam_F = camera->cam_COM - camera->cam_P;
+  camera->cam_F = camera->cam_COM_obj - camera->cam_P;
   camera->cam_U = normalize(cross(camera->cam_R, camera->cam_F));
 
   //Compute view matrix
-  cam_view = lookAt(camera->cam_P, camera->cam_COM, camera->cam_U);
+  cam_view = lookAt(camera->cam_P, camera->cam_COM_obj, camera->cam_U);
 
   //---------------------------
   return cam_view;
@@ -61,19 +61,19 @@ void CAM_arcball::arcball_viewport_angle(Cam* camera, vec2 angle){
 
   // Get the homogenous position of the camera and pivot point
   vec4 cam_P (camera->cam_P.x, camera->cam_P.y, camera->cam_P.z, 1);
-  vec4 cam_COM (camera->cam_COM.x, camera->cam_COM.y, camera->cam_COM.z, 1);
+  vec4 cam_COM_obj (camera->cam_COM_obj.x, camera->cam_COM_obj.y, camera->cam_COM_obj.z, 1);
   vec4 cam_R (camera->cam_R.x, camera->cam_R.y, camera->cam_R.z, 1);
 
   // step 2: Rotate the camera around the pivot point on the first axis.
   mat4x4 Rz(1.0f);
   Rz = glm::rotate(Rz, angle.x, vec3(0, 0, 1));
-  cam_P  = (Rz * (cam_P - cam_COM)) + cam_COM;
+  cam_P  = (Rz * (cam_P - cam_COM_obj)) + cam_COM_obj;
   camera->cam_R = Rz * cam_R;
 
   // step 3: Rotate the camera around the pivot point on the second axis.
   mat4x4 Rr(1.0f);
   Rr = glm::rotate(Rr, angle.y, camera->cam_R);
-  camera->cam_P = (Rr * (cam_P - cam_COM)) + cam_COM;
+  camera->cam_P = (Rr * (cam_P - cam_COM_obj)) + cam_COM_obj;
 
   //---------------------------
 }

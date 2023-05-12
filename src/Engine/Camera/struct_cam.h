@@ -18,6 +18,7 @@ struct Cam{
   glm::vec3 cam_U = glm::vec3(0.0f); // Up
   glm::vec3 cam_P = glm::vec3(0.0f); // Pose
   glm::vec3 cam_COM = glm::vec3(0.0f);
+  glm::vec3 cam_COM_obj = glm::vec3(0.0f);
 
   float angle_azimuth;
   float angle_elevation;

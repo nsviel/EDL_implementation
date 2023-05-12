@@ -30,6 +30,7 @@ public:
 
   inline Set* get_set_object(){return set_object;}
   inline Set* get_set_glyph(){return set_glyph;}
+  inline Object* get_selected_object(){return set_object->selected_obj;}
 
 private:
   Param_data* param_data;

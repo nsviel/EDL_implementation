@@ -8,23 +8,37 @@
 #include "../Node_engine.h"
 #include "../Param_engine.h"
 
+#include "../../Node.h"
+#include "../../Data/Node_data.h"
+#include "../../Data/Scene/Scene.h"
+
 
 //Constructor / Destructor
 Camera::Camera(Node_engine* node_engine){
   //---------------------------
 
+  this->node = node_engine->get_node();
   this->dimManager = node_engine->get_dimManager();
   this->param_engine = node_engine->get_param_engine();
   this->cam_arcball = new CAM_arcball(node_engine);
   this->cam_fp = new CAM_first_person(node_engine);
   this->cam_zoom = new CAM_zoom(node_engine);
   this->cam_proj = new CAM_proj(node_engine);
-
   this->camera = new Cam();
 
   //---------------------------
 }
-Camera::~Camera(){}
+Camera::~Camera(){
+  //---------------------------
+
+  delete cam_arcball;
+  delete cam_fp;
+  delete cam_zoom;
+  delete cam_proj;
+  delete camera;
+
+  //---------------------------
+}
 
 //MVP Matrix
 mat4 Camera::compute_cam_view(){
@@ -36,6 +50,10 @@ mat4 Camera::compute_cam_view(){
   }else if(camera->mode == "first_person"){
     cam_view = cam_fp->fp_view_mat(camera);
   }else if(camera->mode == "arcball"){
+    Node_data* node_data = node->get_node_data();
+    Scene* sceneManager = node_data->get_sceneManager();
+    Object* object = sceneManager->get_selected_object();
+    if(object != nullptr) camera->cam_COM_obj = object->COM;
     cam_view = cam_arcball->arcball_view_mat(camera);
   }
 
@@ -176,7 +194,6 @@ void Camera::control(string what, bool fast){
     }else if(camera->mode == "arcball"){
       vec2 angle =vec2(-cam_speed/10, 0);
       cam_arcball->arcball_viewport_angle(camera, angle);
-      cam_arcball->arcball_view_mat(camera);
     }
   }
   else if(what == "left"){
@@ -185,7 +202,6 @@ void Camera::control(string what, bool fast){
     }else if(camera->mode == "arcball"){
       vec2 angle =vec2(cam_speed/10, 0);
       cam_arcball->arcball_viewport_angle(camera, angle);
-      cam_arcball->arcball_view_mat(camera);
     }
   }
 

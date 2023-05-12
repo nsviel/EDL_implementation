@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(NEPHOS LANGUAGES CXX)
 
 # CMake variables
-set(WINDOWS_COMPILATION 1)
+set(WINDOWS_COMPILATION 0)
 
 # General policy
 set(CMAKE_CXX_STANDARD 17)
@@ -46,7 +46,7 @@ set(ALL_LIBS
   Eigen3::Eigen #Eigen library
   stdc++fs #STD filesystem experimental
   -std=c++17 -O2
-  -lglfw3
+  -lglfw
   -lvulkan
   -ldl
   -lpthread

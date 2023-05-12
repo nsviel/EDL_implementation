@@ -25,6 +25,8 @@ public:
   void exit();
   void reset();
 
+  inline Node* get_node(){return node;}
+
   inline Engine* get_engineManager(){return engineManager;}
   inline Dimension* get_dimManager(){return dimManager;}
   inline Camera* get_cameraManager(){return cameraManager;}

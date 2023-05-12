@@ -1,5 +1,6 @@
 ToDo
 //-----------------
+-debug arcball cam
 -cross compilation windows
 -abstraction fbo / uniform / shader
 //-----------------
