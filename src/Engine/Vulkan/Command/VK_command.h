@@ -36,7 +36,6 @@ public:
   void compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo);
 
   //Specific commands
-  void command_mvp();
   void command_gui(VkCommandBuffer command_buffer);
   void command_drawing_point(VkCommandBuffer command_buffer);
   void command_drawing_line(VkCommandBuffer command_buffer);

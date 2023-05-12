@@ -134,7 +134,6 @@ void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPas
 
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-  this->command_mvp();
   this->command_viewport(command_buffer);
   this->command_drawing_line(command_buffer);
   this->command_drawing_point(command_buffer);
@@ -151,15 +150,6 @@ void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPas
 }
 
 //Specific commands
-void VK_command::command_mvp(){
-  //---------------------------
-
-  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  MVP mvp = vk_camera->get_mvp();
-  vk_uniform->update_uniform_buffer(currentFrame, mvp);
-
-  //---------------------------
-}
 void VK_command::command_gui(VkCommandBuffer command_buffer){
   VK_gui* vk_gui = engineManager->get_vk_gui();
   //---------------------------
@@ -203,11 +193,8 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer){
     Object* object = *next(list_data.begin(),i);
 
     if(object->draw_type_name == "point"){
-      VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-      MVP mvp = vk_camera->get_mvp();
-      mvp.model = object->model;
-      vk_uniform->update_uniform_buffer(currentFrame, mvp);
-
+      vk_camera->compute_mvp(object);
+      vkCmdPushConstants(command_buffer, pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(glm::mat4), &object->mvp);
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
@@ -238,11 +225,8 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer){
     Object* object = *next(list_data.begin(),i);
 
     if(object->draw_type_name == "line"){
-      VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-      MVP mvp = vk_camera->get_mvp();
-      mvp.model = object->model;
-      vk_uniform->update_uniform_buffer(currentFrame, mvp);
-
+      vk_camera->compute_mvp(object);
+      vkCmdPushConstants(command_buffer, pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(glm::mat4), &object->mvp);
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdSetLineWidth(command_buffer, object->draw_line_width);

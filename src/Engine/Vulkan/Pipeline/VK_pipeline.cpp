@@ -135,14 +135,20 @@ void VK_pipeline::create_pipeline_layout(string topology){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
+  //Push constant for MVP matrix
+  VkPushConstantRange pushConstantRange = {};
+  pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+  pushConstantRange.offset = 0;
+  pushConstantRange.size = sizeof(glm::mat4);
+
   //Pipeline layout info -> usefull for shader uniform variables
   VkDescriptorSetLayout descriptorSetLayout = vk_descriptor->get_descriptorSetLayout();
   VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
   pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipelineLayoutInfo.setLayoutCount = 1;
   pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
-  pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
-  pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
+  pipelineLayoutInfo.pushConstantRangeCount = 1; 
+  pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
   //Pipeline layout creation
   if(topology == "point"){

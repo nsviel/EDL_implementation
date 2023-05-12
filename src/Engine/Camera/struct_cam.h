@@ -10,22 +10,22 @@ struct Cam{
   Cam();
   void reset();
 
-  glm::vec2 pos;
-  glm::vec2 dim;
+  glm::vec2 pos = glm::vec2(0.0f);
+  glm::vec2 dim = glm::vec2(0.0f);
 
-  glm::vec3 cam_F; // Front
-  glm::vec3 cam_R; // Right
-  glm::vec3 cam_U; // Up
-  glm::vec3 cam_P; // Pose
-  glm::vec3 cam_COM;
+  glm::vec3 cam_F = glm::vec3(0.0f); // Front
+  glm::vec3 cam_R = glm::vec3(0.0f); // Right
+  glm::vec3 cam_U = glm::vec3(0.0f); // Up
+  glm::vec3 cam_P = glm::vec3(0.0f); // Pose
+  glm::vec3 cam_COM = glm::vec3(0.0f);
 
   float angle_azimuth;
   float angle_elevation;
 
-  float fov;
+  float fov = 0;
   float speed_mouse;
   float speed_move;
-  float zoom;
+  float zoom = 0;
   float clip_near;
   float clip_far;
 
@@ -33,9 +33,10 @@ struct Cam{
   std::string view;
   std::string mode;
 
-  bool cam_move;
-  bool cam_pose;
-  glm::mat4 cam_pose_mat;
+  bool cam_move = false;
+  bool cam_pose = false;
+  glm::mat4 cam_pose_mat = glm::mat4(1);
+  glm::mat4 vp = glm::mat4(1);
 };
 
 #endif

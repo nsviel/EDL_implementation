@@ -19,23 +19,12 @@ VK_camera::VK_camera(Engine* engineManager){
 VK_camera::~VK_camera(){}
 
 //Main function
-MVP VK_camera::get_mvp(){
-  //---------------------------
-
-  MVP mvp{};
-  mvp.model = mat4(1);
-  mvp.view = cameraManager->compute_cam_view();
-  mvp.proj = cameraManager->compute_cam_proj();
-
-  //---------------------------
-  return mvp;
-}
 void VK_camera::compute_mvp(Object* object){
   //---------------------------
 
   mat4 view = cameraManager->compute_cam_view();
   mat4 proj = cameraManager->compute_cam_proj();
-  mat4& model = object->model;
+  mat4 model = glm::transpose(object->model);
 
   object->mvp = proj * view * model;
 
