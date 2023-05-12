@@ -16,6 +16,9 @@
 struct Object{ //Cloud cloud / part
   //---------------------------
 
+  //Functions
+  void reset();
+
   //State
   int ID = -1;
   int nb_point = 0;
@@ -55,7 +58,6 @@ struct Object{ //Cloud cloud / part
   VkDeviceMemory mem_uv;
 
   VkDescriptorSet descriptor_set;
-
   std::list<Struct_texture> list_texture;
 
   //Pose

@@ -337,6 +337,17 @@ std::vector<float> fct_crossProduct(std::vector<float>& vec_A, std::vector<float
   //---------------------------
   return vec_cross;
 }
+float fct_sign(float value){
+  //---------------------------
+
+  if(std::signbit(value)){
+    return -1;
+  } else {
+    return 1;
+  }
+
+  //---------------------------
+}
 
 //Minimum / Maximum
 int fct_min_z_id(std::vector<glm::vec3> vec){

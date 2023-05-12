@@ -21,6 +21,7 @@ public:
   void init();
   void loop();
   void exit();
+  void reset();
 
   inline Node_engine* get_node_engine(){return node_engine;}
   inline Node_load* get_node_load(){return node_load;}

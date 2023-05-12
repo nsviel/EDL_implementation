@@ -33,6 +33,7 @@ bool fct_is_nan(Eigen::Vector3d vec);
 std::vector<float> fct_inv(std::vector<float>& vec);
 std::vector<float> fct_ones(int size);
 std::string thousandSeparator(int n);
+float fct_sign(float value);
 
 //Minimum / Mean / Maximum
 int fct_min_z_id(std::vector<glm::vec3> vec);

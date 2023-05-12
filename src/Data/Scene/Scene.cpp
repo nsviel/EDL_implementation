@@ -61,7 +61,7 @@ void Scene::insert_object(Object* object){
   gpu_data->insert_object_in_engine(object);
   set_object->list_obj.push_back(object);
   set_object->selected_obj = object;
-  
+
   //---------------------------
 }
 void Scene::insert_glyph(Object* object){
@@ -71,6 +71,16 @@ void Scene::insert_glyph(Object* object){
   gpu_data->insert_object_in_engine(object);
   set_glyph->list_obj.push_back(object);
   set_glyph->selected_obj = object;
+
+  //---------------------------
+}
+void Scene::reset_scene(){
+  //---------------------------
+
+  for(int i=0; i<set_object->list_obj.size(); i++){
+    Object* object = *next(set_object->list_obj.begin(),i);
+    object->reset();
+  }
 
   //---------------------------
 }

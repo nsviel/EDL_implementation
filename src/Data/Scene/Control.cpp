@@ -7,12 +7,14 @@
 #include "../../Engine/Camera/Camera.h"
 #include "../../Engine/Node_engine.h"
 #include "../../Operation/Transformation/Transformation.h"
+#include "../../Node.h"
 
 
 //Constructor / Destructor
 Control::Control(Node_data* node_data){
   //---------------------------
 
+  this->node = node_data->get_node();
   Node_engine* node_engine = node_data->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
   this->cameraManager = node_engine->get_cameraManager();
@@ -34,7 +36,7 @@ void Control::exit(){
 void Control::reset(){
   //---------------------------
 
-  cameraManager->reset_camera();
+  node->reset();
 
   //---------------------------
 }
@@ -44,6 +46,16 @@ void Control::selected_object_translation(vec3 translation){
 
   Transformation transformManager;
   transformManager.make_translation(set_object->selected_obj, translation);
+
+  //---------------------------
+}
+void Control::selected_object_rotation(vec3 rotation){
+  Set* set_object = sceneManager->get_set_object();
+  //---------------------------
+
+  Transformation transformManager;
+  Object* object = set_object->selected_obj;
+  transformManager.make_rotation(object, object->COM, rotation);
 
   //---------------------------
 }

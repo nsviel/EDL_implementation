@@ -5,6 +5,7 @@
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Dimension/Dimension.h"
 #include "../../Engine/Camera/Camera.h"
+#include "../../Specific/Function/fct_math.h"
 #include "../../Data/Scene/Control.h"
 #include "../../Data/Node_data.h"
 #include "../../Node.h"
@@ -62,7 +63,7 @@ void GUI_control::control_mouse(){
   //---------------------------
 }
 void GUI_control::control_mouse_wheel(){
-  static int wheelMode = 0;
+  static int wheel_mode = 0;
   ImGuiIO io = ImGui::GetIO();
   //----------------------------
 
@@ -70,50 +71,32 @@ void GUI_control::control_mouse_wheel(){
   if(io.MouseWheel && io.MouseDownDuration[1] >= 0.0f && !io.WantCaptureMouse){
     cameraManager->compute_zoom(io.MouseWheel);
   }
-  /*
+
   //Wheel click - Change mouse wheel mode
   if(ImGui::IsMouseClicked(2) && !io.WantCaptureMouse){
-    wheelMode++;
-    if(wheelMode >= 3) wheelMode = 0;
+    wheel_mode++;
+    if(wheel_mode >= 3) wheel_mode = 0;
   }
 
   //Wheel actions
   if(io.MouseWheel && io.MouseDownDuration[1] == -1 && !io.WantCaptureMouse){
-    //Get wheel direction
-    string direction;
-    if(io.MouseWheel > 0){
-      direction = "up";
-    }else{
-      direction = "down";
+    //Rotation quantity
+    float radian = 5 * M_PI/180;
+    vec3 R;
+    if(wheel_mode == 0){
+      R = vec3(0, 0, fct_sign(io.MouseWheel) * radian);
+    }
+    else if(wheel_mode == 1){
+      R = vec3(0, fct_sign(io.MouseWheel) * radian, 0);
+    }
+    else if(wheel_mode == 2){
+      R = vec3(fct_sign(io.MouseWheel) * radian, 0, 0);
     }
 
-    //Subset rotation
-    if(sceneManager->get_is_list_empty() == false){
-      if(collection->nb_obj == 1 && collection->is_onthefly == false){
-        float radian = cloud_rotat_degree*M_PI/180;
-        vec3 R;
-        if(wheelMode == 0){
-          R = vec3(0, 0, radian);
-        }
-        else if(wheelMode == 1){
-          R = vec3(0, radian, 0);
-        }
-        else if(wheelMode == 2){
-          R = vec3(radian, 0, 0);
-        }
-
-        poseManager->compute_COM(collection);
-        transformManager->make_rotation(collection, R, direction);
-        sceneManager->update_buffer_location(collection->selected_obj);
-        sceneManager->update_glyph(collection);
-      }
-      //Subset selection
-      else if(collection->nb_obj > 1 || collection->is_onthefly){
-        playerManager->compute_wheel_selection(direction);
-      }
-    }
+    //Apply rotation
+    controlManager->selected_object_rotation(R);
   }
-*/
+
   //----------------------------
 }
 

@@ -1,5 +1,4 @@
--faire bouger les cloud quand hors camera deplacement
-  -translation et rotation
-  -gestion de la matrice model
+-COM des objects
+  -se fait bouger en meme temps que object->model
 -selection des objects dans filemanager
 -abstraction fbo / uniform / shader / pipeline

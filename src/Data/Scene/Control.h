@@ -3,6 +3,7 @@
 
 #include "../../common.h"
 
+class Node;
 class Node_data;
 class Dimension;
 class Camera;
@@ -21,8 +22,10 @@ public:
   void exit();
   void reset();
   void selected_object_translation(vec3 translation);
+  void selected_object_rotation(vec3 rotation);
 
 private:
+  Node* node;
   Scene* sceneManager;
   Dimension* dimManager;
   Camera* cameraManager;

@@ -95,16 +95,8 @@ void VK_descriptor::create_descriptor_set_layout(){
   layout_ubo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
   layout_ubo.pImmutableSamplers = nullptr; // Optional
 
-  //Sampler
-  VkDescriptorSetLayoutBinding layout_sampler{};
-  layout_sampler.binding = 1;
-  layout_sampler.descriptorCount = 1;
-  layout_sampler.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-  layout_sampler.pImmutableSamplers = nullptr;
-  layout_sampler.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-
   //Combination and info
-  std::array<VkDescriptorSetLayoutBinding, 2> bindings = {layout_ubo, layout_sampler};
+  std::array<VkDescriptorSetLayoutBinding, 1> bindings = {layout_ubo};
   VkDescriptorSetLayoutCreateInfo layoutInfo{};
   layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
   layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());

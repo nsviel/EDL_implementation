@@ -21,6 +21,7 @@ public:
   void init_scene();
   void insert_object(Object* object);
   void insert_glyph(Object* object);
+  void reset_scene();
 
   inline Set* get_set_object(){return set_object;}
   inline Set* get_set_glyph(){return set_glyph;}

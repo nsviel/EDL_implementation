@@ -23,6 +23,7 @@ public:
 
 public:
   void init();
+  void reset();
 
   inline Node* get_node(){return node;}
   inline Node_engine* get_node_engine(){return node_engine;}

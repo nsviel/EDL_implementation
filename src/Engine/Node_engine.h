@@ -23,6 +23,7 @@ public:
   void loop_start();
   void loop();
   void exit();
+  void reset();
 
   inline Engine* get_engineManager(){return engineManager;}
   inline Dimension* get_dimManager(){return dimManager;}

@@ -66,3 +66,10 @@ void Node_engine::exit(){
 
   //---------------------------
 }
+void Node_engine::reset(){
+  //---------------------------
+
+  cameraManager->reset_camera();
+
+  //---------------------------
+}
