@@ -1,0 +1,7 @@
+sudo apt-get install mingw-w64
+
+#A terminer !!
+cd glfw/build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=bin/toolchain_1.cmake
+make
+make install

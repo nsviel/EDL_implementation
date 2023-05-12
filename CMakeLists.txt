@@ -1,9 +1,9 @@
 # Project
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.5)
 project(NEPHOS LANGUAGES CXX)
 
 # CMake variables
-set(WINDOWS_COMPILATION 0)
+set(WINDOWS_COMPILATION 1)
 
 # General policy
 set(CMAKE_CXX_STANDARD 17)
@@ -18,6 +18,11 @@ if(WINDOWS_COMPILATION)
   set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
   set(CMAKE_BUILD_TYPE Release)
   set(CMAKE_INSTALL_PREFIX bin/windows_bin)
+  set(CMAKE_AR x86_64-w64-mingw32-ar)
+  set(CMAKE_RANLIB x86_64-w64-mingw32-ranlib)
+
+  include_directories(/bin/glfw_cross_compiled)
+  link_directories(/bin/glfw_cross_compiled)
 endif()
 
 # Library dependencies
@@ -41,7 +46,7 @@ set(ALL_LIBS
   Eigen3::Eigen #Eigen library
   stdc++fs #STD filesystem experimental
   -std=c++17 -O2
-  -lglfw
+  -lglfw3
   -lvulkan
   -ldl
   -lpthread

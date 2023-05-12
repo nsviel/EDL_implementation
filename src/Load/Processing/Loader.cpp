@@ -34,9 +34,7 @@ Loader::~Loader(){
 Object* Loader::load_object(string path){
   //---------------------------
 
-  //DOIT se relier à scene et pas a GPU_data
-  //scene doit gérer les IDs et l'envoie à gpu_data
-
+  //Create new object
   Object* object = new Object();
   object->path_file = path;
   object->path_text = "../media/viking_room.png";
@@ -44,6 +42,7 @@ Object* Loader::load_object(string path){
   object->has_texture = true;
   object->ID = ID++;
 
+  //Retrieve data and insert into engine
   Data_file* data = formatManager->get_data_from_file(path);
   this->transfert_data(object, data);
   sceneManager->insert_object(object);
@@ -56,16 +55,7 @@ vector<Object*> Loader::load_objects(vector<string> path){
   //---------------------------
 
   for(int i=0; i<path.size(); i++){
-    Object* object = new Object();
-    object->path_file = path[i];
-    object->path_text = "../media/viking_room.png";
-    object->draw_type_name = "point";
-    object->has_texture = true;
-    object->ID = ID++;
-
-    Data_file* data = formatManager->get_data_from_file(path[i]);
-    this->transfert_data(object, data);
-    sceneManager->insert_object(object);
+    Object* object = load_object(path[i]);
     vec_obj.push_back(object);
   }
 
@@ -76,27 +66,10 @@ void Loader::load_object_zenity(){
   //---------------------------
 
   //Select files to load
-  vector<string> path_vec = zenity_file_vec("Cloud loading", path_current_dir);
-  if(path_vec.size() == 0){
-    return;
-  }
+  vector<string> path_vec = zenity_file_vec("Load", path_current_dir);
 
   //Add object in engine
-  for(int i=0; i<path_vec.size(); i++){
-    //Create new object
-    Object* object = new Object();
-    object->path_file = path_vec[i];
-    object->draw_type_name = "point";
-    object->has_texture = false;
-    object->ID = ID++;
-
-    //Get data
-    Data_file* data = formatManager->get_data_from_file(path_vec[i]);
-    this->transfert_data(object, data);
-
-    //Insert into engine
-    sceneManager->insert_object(object);
-  }
+  this->load_objects(path_vec);
 
   //---------------------------
 }
