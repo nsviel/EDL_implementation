@@ -9,6 +9,7 @@
 #include "../../Load/Processing/Loader.h"
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/GPU/GPU_data.h"
+#include "../../Operation/Transformation/Attribut.h"
 
 
 //ConsScenetor / DesScenetor
@@ -20,6 +21,7 @@ Scene::Scene(Node_data* node_data){
   this->param_data = node_data->get_param_data();
   this->dataManager = node_data->get_dataManager();
   this->gpu_data = node_engine->get_gpu_data();
+  this->attributManager = new Attribut();
 
   this->ID_obj = 0;
 
@@ -57,8 +59,12 @@ void Scene::init_scene(){
 void Scene::insert_object(Object* object){
   //---------------------------
 
+  //Set new object functions
   object->ID = ID_obj++;
   gpu_data->insert_object_in_engine(object);
+  attributManager->compute_MinMax(object);
+
+  //Insert it into database
   set_object->list_obj.push_back(object);
   set_object->selected_obj = object;
 

@@ -7,6 +7,7 @@ class Node_data;
 class Param_data;
 class Database;
 class GPU_data;
+class Attribut;
 
 
 class Scene
@@ -31,6 +32,7 @@ private:
   Node_data* node_data;
   Database* dataManager;
   GPU_data* gpu_data;
+  Attribut* attributManager;
 
   int ID_obj;
   Set* set_object;

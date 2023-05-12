@@ -6,7 +6,7 @@ Attribut::Attribut(){}
 Attribut::~Attribut(){}
 
 //Main function
-void Attribut::update_MinMax(Object* object){
+void Attribut::compute_MinMax(Object* object){
   vector<vec3>& XYZ = object->xyz;
   vec3 centroid = vec3(0, 0, 0);
   vec3 min = XYZ[0];

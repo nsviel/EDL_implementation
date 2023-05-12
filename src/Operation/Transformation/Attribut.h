@@ -13,7 +13,7 @@ public:
 
 public:
   //Main functions
-  void update_MinMax(Object* object);
+  void compute_MinMax(Object* object);
 
 private:
 };
