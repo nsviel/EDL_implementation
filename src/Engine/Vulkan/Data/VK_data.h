@@ -18,9 +18,12 @@ public:
 
 public:
   //Main functions
+  void cleanup();
+  void clean_object(Object* object);
+
+  //Data description
   std::vector<VkVertexInputAttributeDescription> description_vertex();
   std::vector<VkVertexInputBindingDescription> description_binding();
-  void cleanup();
 
   inline void set_list_data(std::list<Object*> value){this->list_data = value;}
   inline std::list<Object*> get_list_data(){return list_data;}

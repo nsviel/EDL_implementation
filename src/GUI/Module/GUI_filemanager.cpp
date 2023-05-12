@@ -64,7 +64,10 @@ void GUI_filemanager::data_node(Set* set){
   ImGuiTreeNodeFlags node_flags;
   node_flags |= ImGuiTreeNodeFlags_OpenOnArrow;
   node_flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
-  node_flags |= ImGuiTreeNodeFlags_DefaultOpen;
+
+  if(set->name != "Glyph"){
+    node_flags |= ImGuiTreeNodeFlags_DefaultOpen;
+  }
 
   /*if(selected_col->ID_col_order == collection->ID_col_order){
     node_flags |= ImGuiTreeNodeFlags_Selected;
@@ -78,10 +81,7 @@ void GUI_filemanager::data_node(Set* set){
   }
 
   //Subset tree node
-  if(is_node_open && set != nullptr && (set->list_obj.size() > 0)){
-
-    //this->info_collection(collection);
-
+  if(is_node_open){
     for(int j=0; j<set->list_obj.size(); j++){
       Object* object = *next(set->list_obj.begin(), j);
 
@@ -99,6 +99,7 @@ void GUI_filemanager::data_node(Set* set){
         //graphManager->object_clicked(collection, j);
       }
     }
+
     ImGui::TreePop();
   }
 

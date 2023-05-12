@@ -40,6 +40,8 @@ void Control::reset(){
 
   //---------------------------
 }
+
+//Selected object function
 void Control::selected_object_translation(vec3 translation){
   Set* set_object = sceneManager->get_set_object();
   //---------------------------
@@ -58,4 +60,13 @@ void Control::selected_object_rotation(vec3 rotation){
   transformManager.make_rotation(object, object->COM, rotation);
 
   //---------------------------
+}
+void Control::selected_object_deletion(){
+  Set* set_object = sceneManager->get_set_object();
+  //----------------------------
+
+  Object* object = set_object->selected_obj;
+  sceneManager->delete_object(object);
+
+  //----------------------------
 }

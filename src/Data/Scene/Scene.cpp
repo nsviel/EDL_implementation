@@ -29,18 +29,19 @@ Scene::Scene(Node_data* node_data){
 }
 Scene::~Scene(){}
 
+//Scene function
 void Scene::init_set(){
   list<Set*>* list_data = dataManager->get_list_data();
   //---------------------------
 
-  this->set_object = new Set("Object");
   this->set_glyph = new Set("Glyph");
-  list_data->push_back(set_object);
   list_data->push_back(set_glyph);
+  
+  this->set_object = new Set("Object");
+  list_data->push_back(set_object);
 
   //---------------------------
 }
-
 void Scene::init_scene(){
   Node* node = node_data->get_node();
   Node_load* node_load = node->get_node_load();
@@ -56,6 +57,18 @@ void Scene::init_scene(){
 
   //---------------------------
 }
+void Scene::reset_scene(){
+  //---------------------------
+
+  for(int i=0; i<set_object->list_obj.size(); i++){
+    Object* object = *next(set_object->list_obj.begin(),i);
+    object->reset();
+  }
+
+  //---------------------------
+}
+
+//Insertion / deletion
 void Scene::insert_object(Object* object){
   //---------------------------
 
@@ -80,12 +93,16 @@ void Scene::insert_glyph(Object* object){
 
   //---------------------------
 }
-void Scene::reset_scene(){
+void Scene::delete_object(Object* object){
   //---------------------------
 
+  //Delete it from database and engine
   for(int i=0; i<set_object->list_obj.size(); i++){
-    Object* object = *next(set_object->list_obj.begin(),i);
-    object->reset();
+    Object* object_list = *next(set_object->list_obj.begin(),i);
+    if(object->ID == object_list->ID){
+      set_object->list_obj.remove(object);
+      gpu_data->remove_object_in_engine(object);
+    }
   }
 
   //---------------------------

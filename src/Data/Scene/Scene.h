@@ -18,11 +18,15 @@ public:
   ~Scene();
 
 public:
+  //Scene function
   void init_set();
   void init_scene();
+  void reset_scene();
+
+  //Insertion / deletion
   void insert_object(Object* object);
   void insert_glyph(Object* object);
-  void reset_scene();
+  void delete_object(Object* object);
 
   inline Set* get_set_object(){return set_object;}
   inline Set* get_set_glyph(){return set_glyph;}

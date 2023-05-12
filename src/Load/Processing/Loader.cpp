@@ -81,17 +81,20 @@ void Loader::load_object_zenity(){
     return;
   }
 
-  //Create new object
-  Object* object = new Object();
-  object->path_file = path_vec[0];
-  object->draw_type_name = "point";
-  object->has_texture = false;
-  object->ID = ID++;
-
   //Add object in engine
   for(int i=0; i<path_vec.size(); i++){
-    Data_file* data = formatManager->get_data_from_file(path_vec[0]);
+    //Create new object
+    Object* object = new Object();
+    object->path_file = path_vec[i];
+    object->draw_type_name = "point";
+    object->has_texture = false;
+    object->ID = ID++;
+
+    //Get data
+    Data_file* data = formatManager->get_data_from_file(path_vec[i]);
     this->transfert_data(object, data);
+
+    //Insert into engine
     sceneManager->insert_object(object);
   }
 

@@ -23,6 +23,7 @@ public:
   void reset();
   void selected_object_translation(vec3 translation);
   void selected_object_rotation(vec3 rotation);
+  void selected_object_deletion();
 
 private:
   Node* node;

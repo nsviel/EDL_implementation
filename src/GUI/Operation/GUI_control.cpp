@@ -110,6 +110,12 @@ void GUI_control::control_keyboard_oneAction(){
       controlManager->exit();
     }
 
+    //Suppr key - Delete selected
+    if(io.KeysDown[522]){
+      controlManager->selected_object_deletion();
+      break;
+    }
+
     //R key - Reset
     if(ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantCaptureMouse){
       controlManager->reset();
@@ -124,12 +130,6 @@ void GUI_control::control_keyboard_oneAction(){
 
       //Select the next collection in the list
       graphManager->select_next_collection();
-      break;
-    }
-
-    //Suppr key - Delete selected
-    if (ImGui::IsKeyPressed(261)){
-      this->key_suppr();
       break;
     }
 

@@ -1,4 +1,14 @@
--COM des objects
-  -se fait bouger en meme temps que object->model
--selection des objects dans filemanager
+ToDo
+//-----------------
+-selection des objects: tab & filemanager
 -abstraction fbo / uniform / shader / pipeline
+//-----------------
+
+
+
+Done
+//-----------------
+-deletion object
+-load several cloud by once
+
+//-----------------

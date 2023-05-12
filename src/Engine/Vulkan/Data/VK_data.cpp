@@ -23,6 +23,30 @@ VK_data::VK_data(Engine* engineManager){
 VK_data::~VK_data(){}
 
 //Main function
+void VK_data::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(int i=0; i<list_data.size(); i++){
+    Object* object = *next(list_data.begin(),i);
+    this->clean_object(object);
+  }
+
+  //---------------------------
+}
+void VK_data::clean_object(Object* object){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  vkDeviceWaitIdle(device);
+
+  vk_buffer->cleanup_object(object);
+  vk_texture->cleanup_texture(object);
+
+  //---------------------------
+}
+
+//Data description
 std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
   std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
   //---------------------------
@@ -82,16 +106,4 @@ std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
 
   //---------------------------
   return bindingDescriptions;
-}
-void VK_data::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  for(int i=0; i<list_data.size(); i++){
-    Object* object = *next(list_data.begin(),i);
-    vk_buffer->cleanup_object(object);
-    vk_texture->cleanup_texture(object);
-  }
-
-  //---------------------------
 }

@@ -49,6 +49,21 @@ void GPU_data::insert_object_in_engine(Object* object){
 
   //---------------------------
 }
+void GPU_data::remove_object_in_engine(Object* object){
+  //---------------------------
+
+  bool is_in_list = false;
+  for(int i=0; i<list_draw.size(); i++){
+    Object* object_list = *next(list_draw.begin(),i);
+    if(object->ID == object_list->ID){
+      list_draw.remove(object_list);
+      vk_data->set_list_data(list_draw);
+      vk_data->clean_object(object);
+    }
+  }
+
+  //---------------------------
+}
 void GPU_data::loop_check_descriptor_update(){
   //---------------------------
 
@@ -77,20 +92,6 @@ void GPU_data::create_object_buffer(Object* object){
 
   if(object->path_text != ""){
     //vk_texture->load_texture(object);
-  }
-
-  //---------------------------
-}
-void GPU_data::remove_object_for_drawing(Object* object){
-  //---------------------------
-
-  bool is_in_list = false;
-  for(int i=0; i<list_draw.size(); i++){
-    Object* object_list = *next(list_draw.begin(),i);
-    if(object->ID == object_list->ID){
-      list_draw.remove(object_list);
-      vk_data->set_list_data(list_draw);
-    }
   }
 
   //---------------------------
