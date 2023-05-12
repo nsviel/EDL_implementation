@@ -1,6 +1,5 @@
 ToDo
 //-----------------
--selection des objects: tab & filemanager
 -abstraction fbo / uniform / shader / pipeline
 //-----------------
 
@@ -8,7 +7,7 @@ ToDo
 
 Done
 //-----------------
+-selection des objects: tab & filemanager
 -deletion object
 -load several cloud by once
-
 //-----------------

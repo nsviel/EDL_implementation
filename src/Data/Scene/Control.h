@@ -21,9 +21,12 @@ public:
   //Main function
   void exit();
   void reset();
+
+  //Selected object function
   void selected_object_translation(vec3 translation);
   void selected_object_rotation(vec3 rotation);
   void selected_object_deletion();
+  void selected_object_next();
 
 private:
   Node* node;

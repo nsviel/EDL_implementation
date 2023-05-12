@@ -66,7 +66,31 @@ void Control::selected_object_deletion(){
   //----------------------------
 
   Object* object = set_object->selected_obj;
+  this->selected_object_next();
   sceneManager->delete_object(object);
+
+  //----------------------------
+}
+void Control::selected_object_next(){
+  Set* set_object = sceneManager->get_set_object();
+  Object* selected = set_object->selected_obj;
+  //----------------------------
+
+  for(int i=0; i<set_object->list_obj.size(); i++){
+    Object* object = *next(set_object->list_obj.begin(), i);
+
+    if(selected->ID == object->ID){
+      Object* selection;
+
+      if((i + 1) < set_object->list_obj.size()){
+        selection = *next(set_object->list_obj.begin(), i + 1);
+      }else{
+        selection = *next(set_object->list_obj.begin(), 0);
+      }
+
+      set_object->selected_obj = selection;
+    }
+  }
 
   //----------------------------
 }

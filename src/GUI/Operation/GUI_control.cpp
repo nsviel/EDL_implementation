@@ -110,8 +110,14 @@ void GUI_control::control_keyboard_oneAction(){
       controlManager->exit();
     }
 
+    //Tab key
+    if(ImGui::IsKeyPressed(ImGuiKey_Tab)){
+      controlManager->selected_object_next();
+      break;
+    }
+
     //Suppr key - Delete selected
-    if(io.KeysDown[522]){
+    if(ImGui::IsKeyPressed(ImGuiKey_Delete)){
       controlManager->selected_object_deletion();
       break;
     }
@@ -123,15 +129,7 @@ void GUI_control::control_keyboard_oneAction(){
     }
 
     /*
-    //Tab key
-    if (ImGui::IsKeyPressed(258)){
-      bool* highlightON = extractionManager->get_highlightON();
-      *highlightON = false;
 
-      //Select the next collection in the list
-      graphManager->select_next_collection();
-      break;
-    }
 
     //Fin key - Delete all
     if (ImGui::IsKeyPressed(269)){
