@@ -16,7 +16,7 @@ public:
 
 public:
   void tree_view(float width);
-  void data_node(Set* set);
+  int data_node_tree(Set* set);
 
 private:
   Database* dataManager;

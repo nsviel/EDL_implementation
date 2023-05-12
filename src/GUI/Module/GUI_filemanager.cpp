@@ -34,17 +34,20 @@ void GUI_filemanager::tree_view(float width){
   ImGui::TableSetupColumn("Column 1", ImGuiTableColumnFlags_WidthFixed, width);
 
   //Database
+  int nb_row = 0;
   for(int row_i=0; row_i<list_data->size(); row_i++){
     Set* set = *next(list_data->begin(), row_i);
 
-    ImGui::PushID(set->name.c_str());
     ImGui::TableNextRow();
     ImGui::TableNextColumn();
-    this->data_node(set);
+    nb_row++;
+
+    ImGui::PushID(set->name.c_str());
+    nb_row += data_node_tree(set);
     ImGui::PopID();
 
   }
-  for(int i=0; i<6; i++){
+  for(int i=0; i<6-nb_row; i++){
     ImGui::TableNextRow();
     ImGui::TableSetColumnIndex(0);
     ImGui::Text(" ");
@@ -55,7 +58,8 @@ void GUI_filemanager::tree_view(float width){
 
   //---------------------------
 }
-void GUI_filemanager::data_node(Set* set){
+int GUI_filemanager::data_node_tree(Set* set){
+  int nb_row = 0;
   //-------------------------------
 
   //Node flag_tree
@@ -85,6 +89,7 @@ void GUI_filemanager::data_node(Set* set){
 
       ImGui::TableNextRow();
       ImGui::TableNextColumn();
+      nb_row++;
 
       //If object is selected
       if(object->ID == set->selected_obj->ID && set->name == "Object"){
@@ -107,4 +112,5 @@ void GUI_filemanager::data_node(Set* set){
   }
 
   //-------------------------------
+  return nb_row;
 }

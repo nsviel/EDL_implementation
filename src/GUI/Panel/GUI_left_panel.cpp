@@ -75,7 +75,7 @@ void GUI_left_panel::left_panel_content(){
 
   vec2* gui_ltp_dim = dimManager->get_gui_ltp_dim();
   ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar;
-  ImGui::SetNextWindowSize(ImVec2(tab_panel_left->dim.x, 100));
+  ImGui::SetNextWindowSize(ImVec2(tab_panel_left->dim.x, 110));
   ImGui::SetNextWindowPos(ImVec2(0, 20));
   ImGui::Begin("LeftPanel##topInner", NULL, window_flags);
   gui_filemanager->tree_view(tab_panel_left->dim.x);
