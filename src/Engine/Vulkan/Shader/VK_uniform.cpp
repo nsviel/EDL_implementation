@@ -31,35 +31,26 @@ void VK_uniform::create_uniform_buffers(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
+  //Resize ubo vectors
   VkDeviceSize bufferSize = sizeof(MVP);
+  uniform_buffer.resize(MAX_FRAMES_IN_FLIGHT);
+  uniform_buffer_memory.resize(MAX_FRAMES_IN_FLIGHT);
+  uniform_buffer_mapped.resize(MAX_FRAMES_IN_FLIGHT);
 
-  uniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
-  uniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
-  uniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
-
+  //Create a buffer to hold the UBO data per frame
   for(size_t i=0; i<MAX_FRAMES_IN_FLIGHT; i++){
-    vk_buffer->create_buffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniformBuffers[i]);
-    vk_buffer->bind_buffer_memory(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
-    vkMapMemory(device, uniformBuffersMemory[i], 0, bufferSize, 0, &uniformBuffersMapped[i]);
+    vk_buffer->create_buffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform_buffer[i]);
+    vk_buffer->bind_buffer_memory(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniform_buffer[i], uniform_buffer_memory[i]);
+    vkMapMemory(device, uniform_buffer_memory[i], 0, bufferSize, 0, &uniform_buffer_mapped[i]);
   }
 
   //---------------------------
 }
-void VK_uniform::update_uniform_buffer(uint32_t currentImage){
+void VK_uniform::update_uniform_buffer(uint32_t currentImage, MVP& mvp){
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   //---------------------------
 
-
-
-  MVP mvp = vk_camera->get_mvp();
-/*
-  MVP mvp{};
-  mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f) * 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
-  mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-  mvp.proj = glm::perspective(glm::radians(45.0f), swapchain_extent.width / (float) swapchain_extent.height, 0.1f, 10.0f);
-  mvp.proj[1][1] *= -1; // Because glm is designed for OpenGL convention
-*/
-  memcpy(uniformBuffersMapped[currentImage], &mvp, sizeof(mvp));
+  memcpy(uniform_buffer_mapped[currentImage], &mvp, sizeof(mvp));
 
   //---------------------------
 }
@@ -68,8 +59,8 @@ void VK_uniform::cleanup(){
   //---------------------------
 
   for(size_t i=0; i<MAX_FRAMES_IN_FLIGHT; i++){
-    vkDestroyBuffer(device, uniformBuffers[i], nullptr);
-    vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
+    vkDestroyBuffer(device, uniform_buffer[i], nullptr);
+    vkFreeMemory(device, uniform_buffer_memory[i], nullptr);
   }
 
   //---------------------------

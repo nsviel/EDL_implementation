@@ -1,6 +1,7 @@
 #ifndef VK_UNIFORM_H
 #define VK_UNIFORM_H
 
+#include "../Struct/struct_mvp.h"
 #include "../../../common.h"
 
 class Engine;
@@ -20,10 +21,10 @@ public:
 public:
   //Main functions
   void create_uniform_buffers();
-  void update_uniform_buffer(uint32_t currentImage);
+  void update_uniform_buffer(uint32_t currentImage, MVP& mvp);
   void cleanup();
 
-  inline std::vector<VkBuffer> get_uniformBuffers(){return uniformBuffers;};
+  inline std::vector<VkBuffer> get_uniformBuffers(){return uniform_buffer;};
 
 private:
   VK_device* vk_device;
@@ -31,9 +32,9 @@ private:
   VK_swapchain* vk_swapchain;
   VK_camera* vk_camera;
 
-  std::vector<VkBuffer> uniformBuffers;
-  std::vector<VkDeviceMemory> uniformBuffersMemory;
-  std::vector<void*> uniformBuffersMapped;
+  std::vector<VkBuffer> uniform_buffer;
+  std::vector<VkDeviceMemory> uniform_buffer_memory;
+  std::vector<void*> uniform_buffer_mapped;
 };
 
 #endif

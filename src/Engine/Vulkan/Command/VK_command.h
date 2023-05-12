@@ -15,6 +15,7 @@ class VK_descriptor;
 class VK_viewport;
 class VK_window;
 class VK_buffer;
+class VK_camera;
 
 
 class VK_command
@@ -30,7 +31,13 @@ public:
   void create_command_buffers();
   void cleanup();
 
+  //Render pass
   void record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex);
+  void compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo);
+
+  //Specific commands
+  void command_mvp();
+  void command_gui(VkCommandBuffer command_buffer);
   void command_drawing_point(VkCommandBuffer command_buffer);
   void command_drawing_line(VkCommandBuffer command_buffer);
   void command_viewport(VkCommandBuffer command_buffer);
@@ -55,6 +62,7 @@ private:
   VK_viewport* vk_viewport;
   VK_window* vk_window;
   VK_buffer* vk_buffer;
+  VK_camera* vk_camera;
 
   VkCommandPool command_pool;
   std::vector<VkCommandBuffer> command_buffer_vec;

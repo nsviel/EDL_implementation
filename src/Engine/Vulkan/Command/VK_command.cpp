@@ -13,6 +13,8 @@
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_framebuffer.h"
 #include "../Camera/VK_viewport.h"
+#include "../Camera/VK_camera.h"
+#include "../Shader/VK_uniform.h"
 
 #include "../../Param_engine.h"
 
@@ -32,6 +34,7 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_viewport = engineManager->get_vk_viewport();
   this->vk_window = engineManager->get_vk_window();
   this->vk_buffer = engineManager->get_vk_buffer();
+  this->vk_camera = engineManager->get_vk_camera();
 
   //---------------------------
 }
@@ -89,7 +92,7 @@ void VK_command::cleanup(){
   //---------------------------
 }
 
-//Command functions
+//Render pass
 void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex){
   std::vector<VkFramebuffer> swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
@@ -122,23 +125,46 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
   renderPassInfo.pClearValues = clearValues.data();
 
-  //start render pass
+  this->compute_render_pass(command_buffer, renderPassInfo);
+
+  //---------------------------
+}
+void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo){
+  //---------------------------
+
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
+  this->command_mvp();
   this->command_viewport(command_buffer);
   this->command_drawing_line(command_buffer);
   this->command_drawing_point(command_buffer);
-
-  //ICI command pour draw gui
-  VK_gui* vk_gui = engineManager->get_vk_gui();
-  vk_gui->command_gui(command_buffer);
+  this->command_gui(command_buffer);
 
   //End render pass
   vkCmdEndRenderPass(command_buffer);
-  result = vkEndCommandBuffer(command_buffer);
+  VkResult result = vkEndCommandBuffer(command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to record command buffer!");
   }
+
+  //---------------------------
+}
+
+//Specific commands
+void VK_command::command_mvp(){
+  //---------------------------
+
+  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
+  MVP mvp = vk_camera->get_mvp();
+  vk_uniform->update_uniform_buffer(currentFrame, mvp);
+
+  //---------------------------
+}
+void VK_command::command_gui(VkCommandBuffer command_buffer){
+  VK_gui* vk_gui = engineManager->get_vk_gui();
+  //---------------------------
+
+  vk_gui->command_gui(command_buffer);
 
   //---------------------------
 }
@@ -177,6 +203,11 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer){
     Object* object = *next(list_data.begin(),i);
 
     if(object->draw_type_name == "point"){
+      VK_uniform* vk_uniform = engineManager->get_vk_uniform();
+      MVP mvp = vk_camera->get_mvp();
+      mvp.model = object->model;
+      vk_uniform->update_uniform_buffer(currentFrame, mvp);
+
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
@@ -207,6 +238,11 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer){
     Object* object = *next(list_data.begin(),i);
 
     if(object->draw_type_name == "line"){
+      VK_uniform* vk_uniform = engineManager->get_vk_uniform();
+      MVP mvp = vk_camera->get_mvp();
+      mvp.model = object->model;
+      vk_uniform->update_uniform_buffer(currentFrame, mvp);
+
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdSetLineWidth(command_buffer, object->draw_line_width);

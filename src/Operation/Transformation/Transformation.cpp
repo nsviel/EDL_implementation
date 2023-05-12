@@ -20,7 +20,6 @@ void Transformation::make_translation(Object* object, vec3 trans){
   //---------------------------
   object->trans *= translation;
   object->model *= translation;
-  say(object->model);
 }
 void Transformation::make_translation(vector<vec3>& XYZ, vec3 trans){
   //Translation matrice creation

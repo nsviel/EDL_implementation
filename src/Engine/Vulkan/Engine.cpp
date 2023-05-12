@@ -42,9 +42,9 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_buffer = new VK_buffer(this);
+  this->vk_camera = new VK_camera(this);
   this->vk_command = new VK_command(this);
   this->vk_synchronization = new VK_synchronization(this);
-  this->vk_camera = new VK_camera(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
   this->vk_texture = new VK_texture(this);
@@ -133,11 +133,13 @@ void Engine::clean_vulkan(){
 void Engine::fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start){
   //---------------------------
 
+  int fps_max = param_engine->max_fps;
+
   auto end = std::chrono::steady_clock::now();
   auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 
   // Calculate the time to sleep to achieve the desired FPS
-  auto time_to_sleep = (1000000 / 120) - elapsed;
+  auto time_to_sleep = (1000000 / fps_max) - elapsed;
 
   if(time_to_sleep > 0){
     std::this_thread::sleep_for(std::chrono::microseconds(time_to_sleep));

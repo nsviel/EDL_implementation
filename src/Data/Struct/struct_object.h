@@ -54,6 +54,8 @@ struct Object{ //Cloud cloud / part
   VkDeviceMemory mem_rgb;
   VkDeviceMemory mem_uv;
 
+  VkDescriptorSet descriptor_set;
+
   std::list<Struct_texture> list_texture;
 
   //Pose
@@ -65,6 +67,7 @@ struct Object{ //Cloud cloud / part
   glm::mat4 trans = glm::mat4(1.0f);
   glm::mat4 scale = glm::mat4(1.0f);
   glm::mat4 model = glm::mat4(1.0f);
+  glm::mat4 mvp = glm::mat4(1.0f);
 
   //---------------------------
 };

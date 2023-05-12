@@ -60,7 +60,12 @@ void GUI_option::option_color(){
   }
 }
 void GUI_option::option_fps(){
+  Param_engine* param_engine = node_engine->get_param_engine();
   //---------------------------
+
+  //FPS max value
+  ImGui::SetNextItemWidth(150);
+  ImGui::SliderInt("FPS max", &param_engine->max_fps, 10, 1000);
 
   //Framerate
   ImGuiIO io = ImGui::GetIO();

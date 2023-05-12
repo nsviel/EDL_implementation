@@ -18,6 +18,7 @@ public:
 public:
   //Main functions
   MVP get_mvp();
+  void compute_mvp(Object* object);
 
 private:
   Camera* cameraManager;

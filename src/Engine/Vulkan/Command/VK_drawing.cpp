@@ -83,7 +83,6 @@ void VK_drawing::draw_command(){
 
   vkResetCommandBuffer(command_buffer_vec[currentFrame], 0);
   vk_command->record_command_buffer(command_buffer_vec[currentFrame], imageIndex);
-  vk_uniform->update_uniform_buffer(currentFrame);
 
   //---------------------------
 }
