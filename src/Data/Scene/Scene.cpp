@@ -36,7 +36,7 @@ void Scene::init_set(){
 
   this->set_glyph = new Set("Glyph");
   list_data->push_back(set_glyph);
-  
+
   this->set_object = new Set("Object");
   list_data->push_back(set_object);
 
@@ -51,8 +51,8 @@ void Scene::init_scene(){
   //Load init object
   vector<string> vec_path;
   vec_path.push_back(param_data->path_initial_object);
-  //vec_path.push_back("../media/bunny.ply");
-  //vec_path.push_back("../media/bunny.ply");
+  vec_path.push_back("../media/bunny.ply");
+  vec_path.push_back("/home/aeter/Desktop/Point_cloud/ply/hippo1.ply");
   vector<Object*> vec_obj = loaderManager->load_objects(vec_path);
 
   //---------------------------

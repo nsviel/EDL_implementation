@@ -78,7 +78,7 @@ void GUI_left_panel::left_panel_content(){
   ImGui::SetNextWindowSize(ImVec2(tab_panel_left->dim.x, 100));
   ImGui::SetNextWindowPos(ImVec2(0, 20));
   ImGui::Begin("LeftPanel##topInner", NULL, window_flags);
-  gui_filemanager->tree_view();
+  gui_filemanager->tree_view(tab_panel_left->dim.x);
   ImGui::End();
   ImGui::SetCursorPos(ImVec2(0, 125));
 
@@ -89,6 +89,6 @@ void GUI_left_panel::left_panel_content(){
   }
 
   ImGui::PopStyleVar();
-  
+
   //---------------------------
 }

@@ -15,7 +15,7 @@ public:
   ~GUI_filemanager();
 
 public:
-  void tree_view();
+  void tree_view(float width);
   void data_node(Set* set);
 
 private:

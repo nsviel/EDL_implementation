@@ -18,34 +18,31 @@ GUI_filemanager::GUI_filemanager(Node_gui* node_gui){
 GUI_filemanager::~GUI_filemanager(){}
 
 //Main function
-void GUI_filemanager::tree_view(){
+void GUI_filemanager::tree_view(float width){
   list<Set*>* list_data = dataManager->get_list_data();
   //---------------------------
 
-  static ImGuiTableFlags flags;
-  flags |= ImGuiTableFlags_BordersOuterH;
-  flags |= ImGuiTableFlags_SizingFixedFit;
-  flags |= ImGuiTableFlags_RowBg;
-  flags |= ImGuiTableFlags_NoBordersInBody;
+  static ImGuiTableFlags flag_tree;
+  flag_tree |= ImGuiTableFlags_BordersOuterH;
+  flag_tree |= ImGuiTableFlags_SizingFixedFit;
+  flag_tree |= ImGuiTableFlags_RowBg;
+  flag_tree |= ImGuiTableFlags_NoBordersInBody;
+  flag_tree |= ImGuiTableFlags_SizingFixedSame;
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-  ImGui::BeginTable("data_view", 3, flags);
+  ImGui::BeginTable("data_view", 1, flag_tree);
+  ImGui::TableSetupColumn("Column 1", ImGuiTableColumnFlags_WidthFixed, width);
 
   //Database
   for(int row_i=0; row_i<list_data->size(); row_i++){
     Set* set = *next(list_data->begin(), row_i);
-    //----------
 
-    //Set table row
+    ImGui::PushID(set->name.c_str());
     ImGui::TableNextRow();
-    ImGui::PushID(row_i);
-
-    //Cloud name
     ImGui::TableNextColumn();
     this->data_node(set);
-
-    //----------
     ImGui::PopID();
+
   }
   for(int i=0; i<6; i++){
     ImGui::TableNextRow();
@@ -61,43 +58,49 @@ void GUI_filemanager::tree_view(){
 void GUI_filemanager::data_node(Set* set){
   //-------------------------------
 
-  ImGuiTreeNodeFlags node_flags;
-  node_flags |= ImGuiTreeNodeFlags_OpenOnArrow;
-  node_flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
-
+  //Node flag_tree
+  ImGuiTreeNodeFlags flag_node;
+  flag_node |= ImGuiTreeNodeFlags_OpenOnArrow;
+  flag_node |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
   if(set->name != "Glyph"){
-    node_flags |= ImGuiTreeNodeFlags_DefaultOpen;
+    flag_node |= ImGuiTreeNodeFlags_DefaultOpen;
   }
 
-  /*if(selected_col->ID_col_order == collection->ID_col_order){
-    node_flags |= ImGuiTreeNodeFlags_Selected;
-  }*/
+  //Leaf flag_tree
+  ImGuiTreeNodeFlags flag_leaf;
+  flag_leaf |= ImGuiTreeNodeFlags_OpenOnArrow;
+  flag_leaf |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
+  flag_leaf |= ImGuiTreeNodeFlags_Leaf;
+  flag_leaf |= ImGuiTreeNodeFlags_NoTreePushOnOpen;
+  flag_leaf |= ImGuiTreeNodeFlags_Bullet;
+  flag_leaf |= ImGuiTreeNodeFlags_SpanFullWidth;
 
-  bool is_node_open = ImGui::TreeNodeEx(set->name.c_str(), node_flags);
+  //Set nodes
+  bool is_node_open = ImGui::TreeNodeEx(set->name.c_str(), flag_node);
 
-  //If clicked by mouse
-  if(ImGui::IsItemClicked()){
-    //data->set_selected_collection(collection);
-  }
-
-  //Subset tree node
+  //Set elements leaf nodes
   if(is_node_open){
     for(int j=0; j<set->list_obj.size(); j++){
       Object* object = *next(set->list_obj.begin(), j);
 
-      node_flags |= ImGuiTreeNodeFlags_Leaf;
-      node_flags |= ImGuiTreeNodeFlags_Bullet;
+      ImGui::TableNextRow();
+      ImGui::TableNextColumn();
 
-      bool is_node_open = ImGui::TreeNodeEx(object->name.c_str(), node_flags);
-      if(is_node_open){
-        //this->info_object(object);
-        ImGui::TreePop();
+      //If object is selected
+      if(object->ID == set->selected_obj->ID && set->name == "Object"){
+        flag_leaf |= ImGuiTreeNodeFlags_Selected;
+      }else{
+        flag_leaf &= ~ImGuiTreeNodeFlags_Selected;
       }
+
+      //Display leaf
+      ImGui::TreeNodeEx(object->name.c_str(), flag_leaf);
 
       //If clicked by mouse
       if(ImGui::IsItemClicked()){
-        //graphManager->object_clicked(collection, j);
+        set->selected_obj = object;
       }
+
     }
 
     ImGui::TreePop();
