@@ -3,8 +3,6 @@
 
 #include "../../../common.h"
 
-#include <vulkan/vulkan.h>
-
 class Engine;
 class VK_device;
 class VK_texture;
@@ -25,9 +23,9 @@ public:
   void cleanup();
 
   //Subfunctions
+  bool find_stencil_component(VkFormat format);
   VkFormat find_supported_format(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
   VkFormat find_depth_format();
-  bool find_stencil_component(VkFormat format);
 
   inline VkImageView get_depthImageView(){return depth_image_view;};
 

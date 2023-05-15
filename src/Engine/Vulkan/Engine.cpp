@@ -42,16 +42,16 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_descriptor = new VK_descriptor(this);
   this->vk_shader = new VK_shader(this);
   this->vk_pipeline = new VK_pipeline(this);
-  this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_buffer = new VK_buffer(this);
+  this->vk_texture = new VK_texture(this);
+  this->vk_depth = new VK_depth(this);
+  this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_camera = new VK_camera(this);
   this->vk_command = new VK_command(this);
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
-  this->vk_texture = new VK_texture(this);
   this->vk_data = new VK_data(this);
-  this->vk_depth = new VK_depth(this);
   this->vk_gui = new VK_gui(this);
 
   //---------------------------
@@ -76,7 +76,7 @@ void Engine::init_vulkan(){
   vk_pipeline->create_pipelines();
   vk_command->create_command_pool();
   vk_depth->create_depth_resources();
-  vk_framebuffer->create_framebuffers();
+  vk_framebuffer->init_fbo();
 
   //Shader
   vk_uniform->create_uniform_buffers();

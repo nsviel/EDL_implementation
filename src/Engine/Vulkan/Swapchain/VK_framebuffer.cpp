@@ -18,31 +18,48 @@ VK_framebuffer::VK_framebuffer(Engine* engineManager){
   this->vk_device = engineManager->get_vk_device();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();
+  this->vk_depth = engineManager->get_vk_depth();
 
   //---------------------------
 }
 VK_framebuffer::~VK_framebuffer(){}
 
 //Main function
+void VK_framebuffer::init_fbo(){
+  //---------------------------
+
+  this->create_framebuffers();
+
+  //---------------------------
+}
+void VK_framebuffer::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(auto framebuffer : fbo_vec){
+    vkDestroyFramebuffer(device, framebuffer, nullptr);
+  }
+
+  //---------------------------
+}
+
+//FBO creation
 void VK_framebuffer::create_framebuffers(){
+  //---------------------------
+
+  //Get FBO required elements
   std::vector<VkImageView> swapChain_image_views = vk_swapchain->get_swapChain_image_views();
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
-  VK_depth* vk_depth = engineManager->get_vk_depth();
-  //---------------------------
-
-  VkImageView depthImageView = vk_depth->get_depthImageView();
+  VkImageView depth_image_view = vk_depth->get_depthImageView();
 
   //Resize to hold all fbos
-  swapChain_fbo.resize(swapChain_image_views.size());
+  this->fbo_vec.resize(swapChain_image_views.size());
 
   //Create frambuffer
   for(size_t i=0; i<swapChain_image_views.size(); i++){
-    std::array<VkImageView, 2> attachments = {
-      swapChain_image_views[i],
-      depthImageView
-    };
+    std::array<VkImageView, 2> attachments = {swapChain_image_views[i], depth_image_view};
 
     VkFramebufferCreateInfo framebufferInfo{};
     framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -53,20 +70,10 @@ void VK_framebuffer::create_framebuffers(){
     framebufferInfo.height = swapchain_extent.height;
     framebufferInfo.layers = 1;
 
-    VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &swapChain_fbo[i]);
+    VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &fbo_vec[i]);
     if(result != VK_SUCCESS){
       throw std::runtime_error("[error] failed to create framebuffer!");
     }
-  }
-
-  //---------------------------
-}
-void VK_framebuffer::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  for(auto framebuffer : swapChain_fbo){
-    vkDestroyFramebuffer(device, framebuffer, nullptr);
   }
 
   //---------------------------
