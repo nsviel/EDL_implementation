@@ -25,6 +25,7 @@ class VK_gui;
 class VK_camera;
 class VK_shader;
 class VK_physical_device;
+class VK_image;
 class Param_engine;
 
 
@@ -67,6 +68,7 @@ public:
   inline VK_camera* get_vk_camera(){return vk_camera;}
   inline VK_shader* get_vk_shader(){return vk_shader;}
   inline VK_physical_device* get_vk_physical_device(){return vk_physical_device;}
+  inline VK_image* get_vk_image(){return vk_image;}
 
   inline float get_fps(){return fps;}
 
@@ -94,6 +96,7 @@ private:
   VK_camera* vk_camera;
   VK_shader* vk_shader;
   VK_physical_device* vk_physical_device;
+  VK_image* vk_image;
 
   float fps;
 };

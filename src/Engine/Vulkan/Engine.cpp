@@ -19,6 +19,7 @@
 #include "Rendering/VK_framebuffer.h"
 #include "Rendering/VK_depth.h"
 #include "Swapchain/VK_swapchain.h"
+#include "Swapchain/VK_image.h"
 #include "Camera/VK_viewport.h"
 #include "Camera/VK_camera.h"
 
@@ -37,13 +38,14 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_window = new VK_window(this);
   this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
-  this->vk_swapchain = new VK_swapchain(this);
-  this->vk_renderpass = new VK_renderpass(this);
   this->vk_descriptor = new VK_descriptor(this);
-  this->vk_shader = new VK_shader(this);
-  this->vk_pipeline = new VK_pipeline(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_texture = new VK_texture(this);
+  this->vk_image = new VK_image(this);
+  this->vk_swapchain = new VK_swapchain(this);
+  this->vk_renderpass = new VK_renderpass(this);
+  this->vk_shader = new VK_shader(this);
+  this->vk_pipeline = new VK_pipeline(this);
   this->vk_depth = new VK_depth(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_camera = new VK_camera(this);

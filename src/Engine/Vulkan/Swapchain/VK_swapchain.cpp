@@ -35,19 +35,36 @@ void VK_swapchain::init_swapchain(){
 
 //Swap chain creation
 void VK_swapchain::create_swapchain(){
-  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
-  VkSurfaceKHR surface = vk_window->get_surface();
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  //Retrieve physical device info
+  //Create swap chain info
+  VkSwapchainCreateInfoKHR createInfo{};
+  this->create_swapchain_surface(createInfo);
+  this->create_swapchain_family(createInfo);
+  this->create_swapchain_presentation(createInfo);
+
+  //Create swap chain
+  VkResult result = vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapchain);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to create swap chain!");
+  }
+
+  //Swap chain handler
+  vkGetSwapchainImagesKHR(device, swapchain, &createInfo.minImageCount, nullptr);
+  swapchain_images.resize(createInfo.minImageCount);
+  vkGetSwapchainImagesKHR(device, swapchain, &createInfo.minImageCount, swapchain_images.data());
+
+  //---------------------------
+}
+void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo){
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
+  VkSurfaceKHR surface = vk_window->get_surface();
+  //---------------------------
+
   VkSurfaceCapabilitiesKHR surface_capability = vk_physical_device->find_surface_capability(physical_device);
   vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(physical_device);
-  vector<VkPresentModeKHR> dev_presentation_mode = vk_physical_device->find_presentation_mode(physical_device);
-
-  //Retrieve settings
   VkSurfaceFormatKHR surfaceFormat = swapchain_surface_format(surface_format);
-  VkPresentModeKHR presentation_mode = swapchain_presentation_mode(dev_presentation_mode);
   this->compute_extent(surface_capability);
 
   //Get swap chain image capacity (0 means no maximum)
@@ -56,16 +73,24 @@ void VK_swapchain::create_swapchain(){
     nb_image = surface_capability.maxImageCount;
   }
 
-  //Create swap chain info
-  VkSwapchainCreateInfoKHR createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-  createInfo.surface = surface;
   createInfo.minImageCount = nb_image;
+  createInfo.surface = surface;
   createInfo.imageFormat = surfaceFormat.format;
   createInfo.imageColorSpace = surfaceFormat.colorSpace;
   createInfo.imageExtent = swapchain_extent;
   createInfo.imageArrayLayers = 1;
   createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; //VK_IMAGE_USAGE_TRANSFER_DST_BIT for post-processing
+
+  createInfo.preTransform = surface_capability.currentTransform;
+
+  this->swapchain_image_format = surfaceFormat.format;
+
+  //---------------------------
+}
+void VK_swapchain::create_swapchain_family(VkSwapchainCreateInfoKHR& createInfo){
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
+  //---------------------------
 
   //Link with queue families
   int family_graphics = vk_physical_device->find_queue_family_graphics(physical_device);
@@ -82,28 +107,24 @@ void VK_swapchain::create_swapchain(){
     createInfo.pQueueFamilyIndices = nullptr; // Optional
   }
 
-  createInfo.preTransform = surface_capability.currentTransform;
+  //---------------------------
+}
+void VK_swapchain::create_swapchain_presentation(VkSwapchainCreateInfoKHR& createInfo){
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
+  //---------------------------
+
+  vector<VkPresentModeKHR> dev_presentation_mode = vk_physical_device->find_presentation_mode(physical_device);
+  VkPresentModeKHR presentation_mode = swapchain_presentation_mode(dev_presentation_mode);
+
   createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; //Ignore alpha channel
   createInfo.presentMode = presentation_mode;
   createInfo.clipped = VK_TRUE;
   createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-  //Create swap chain
-  VkResult result = vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapchain);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create swap chain!");
-  }
-
-  //Swap chain handler
-  vkGetSwapchainImagesKHR(device, swapchain, &nb_image, nullptr);
-  swapchain_images.resize(nb_image);
-  vkGetSwapchainImagesKHR(device, swapchain, &nb_image, swapchain_images.data());
-
-  //Store values
-  this->swapchain_image_format = surfaceFormat.format;
-
   //---------------------------
 }
+
+//Swap chain function
 void VK_swapchain::create_image_views(){
   VkDevice device = vk_device->get_device();
   VK_texture* vk_texture = engineManager->get_vk_texture();
@@ -123,14 +144,15 @@ void VK_swapchain::recreate_swapChain(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
   VkDevice device = vk_device->get_device();
   VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
+  GLFWwindow* window = vk_window->get_window();
   //---------------------------
 
   //Minimization managment
-  /*int width = 0, height = 0;
+  int width = 0, height = 0;
   while(width == 0 || height == 0){
-    //glfwGetFramebufferSize(window, &width, &height);
-    //glfwWaitEvents();
-  }*/
+    glfwGetFramebufferSize(window, &width, &height);
+    glfwWaitEvents();
+  }
 
   vkDeviceWaitIdle(device);
 
@@ -140,8 +162,8 @@ void VK_swapchain::recreate_swapChain(){
   this->cleanup();
 
   //Recreate values
-  create_swapchain();
-  create_image_views();
+  this->create_swapchain();
+  this->create_image_views();
   vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();
 
@@ -161,20 +183,20 @@ void VK_swapchain::cleanup(){
 }
 
 //Swap chain parameter
-VkSurfaceFormatKHR VK_swapchain::swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& available_format){
+VkSurfaceFormatKHR VK_swapchain::swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format){
   //---------------------------
 
   //Check if standar RGB is available
-  for(const auto& format : available_format){
+  for(const auto& format : dev_format){
     if(format.format == VK_FORMAT_B8G8R8A8_SRGB && format.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR){
       return format;
     }
   }
 
   //---------------------------
-  return available_format[0];
+  return dev_format[0];
 }
-VkPresentModeKHR VK_swapchain::swapchain_presentation_mode(const std::vector<VkPresentModeKHR>& available_presentation_mode){
+VkPresentModeKHR VK_swapchain::swapchain_presentation_mode(const std::vector<VkPresentModeKHR>& dev_mode){
   //4 possible modes:
   //- VK_PRESENT_MODE_IMMEDIATE_KHR
   //- VK_PRESENT_MODE_FIFO_KHR
@@ -183,7 +205,7 @@ VkPresentModeKHR VK_swapchain::swapchain_presentation_mode(const std::vector<VkP
   //---------------------------
 
   //Check for VK_PRESENT_MODE_MAILBOX_KHR mode
-  for(const auto& mode : available_presentation_mode){
+  for(const auto& mode : dev_mode){
     if(mode == VK_PRESENT_MODE_MAILBOX_KHR){
       return mode;
     }
