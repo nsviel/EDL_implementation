@@ -25,7 +25,7 @@ public:
   //FBO creation
   void create_framebuffers();
 
-  inline std::vector<VkFramebuffer> get_swapChain_fbo(){return fbo_vec;}
+  inline std::vector<VkFramebuffer> get_fbo_vec(){return fbo_vec;}
 
 private:
   Engine* engineManager;

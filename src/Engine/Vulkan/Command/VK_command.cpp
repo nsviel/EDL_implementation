@@ -12,7 +12,7 @@
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
 #include "../Swapchain/VK_swapchain.h"
-#include "../Swapchain/VK_framebuffer.h"
+#include "../Rendering/VK_framebuffer.h"
 #include "../Camera/VK_viewport.h"
 #include "../Camera/VK_camera.h"
 #include "../Shader/VK_uniform.h"
@@ -96,7 +96,7 @@ void VK_command::cleanup(){
 
 //Render pass
 void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex){
-  std::vector<VkFramebuffer> swapChain_fbo = vk_framebuffer->get_swapChain_fbo();
+  std::vector<VkFramebuffer> fbo_vec = vk_framebuffer->get_fbo_vec();
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
@@ -121,7 +121,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
   renderPassInfo.renderPass = renderPass;
-  renderPassInfo.framebuffer = swapChain_fbo[imageIndex];
+  renderPassInfo.framebuffer = fbo_vec[imageIndex];
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = swapchain_extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());

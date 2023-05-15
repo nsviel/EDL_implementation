@@ -7,7 +7,7 @@
 #include "../Engine.h"
 
 #include "../Swapchain/VK_swapchain.h"
-#include "../Swapchain/VK_framebuffer.h"
+#include "../Rendering/VK_framebuffer.h"
 
 #include "../Instance/VK_window.h"
 #include "../Device/VK_device.h"

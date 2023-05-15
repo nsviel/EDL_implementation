@@ -21,22 +21,22 @@ public:
   void init_swapchain();
 
   //Swap chain creation
-  void create_swapChain();
+  void create_swapchain();
   void create_image_views();
   void recreate_swapChain();
   void cleanup();
 
   //Swap chian parameter
-  VkSurfaceFormatKHR swapChain_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-  VkPresentModeKHR swapChain_presentation_mode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-  VkExtent2D swapChain_extent_setting(const VkSurfaceCapabilitiesKHR& capabilities);
+  VkSurfaceFormatKHR swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+  VkPresentModeKHR swapchain_presentation_mode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+  void compute_extent(const VkSurfaceCapabilitiesKHR& capabilities);
 
-  inline VkSwapchainKHR get_swapChain(){return swapChain;}
-  inline VkFormat get_swapChain_image_format(){return swapChain_image_format;}
+  inline VkSwapchainKHR get_swapChain(){return swapchain;}
+  inline VkFormat get_swapChain_image_format(){return swapchain_image_format;}
   inline VkExtent2D get_swapChain_extent(){return swapchain_extent;}
 
-  inline std::vector<VkImage> get_swapChain_images(){return swapChain_images;}
-  inline std::vector<VkImageView> get_swapChain_image_views(){return swapChain_image_views;}
+  inline std::vector<VkImage> get_swapChain_images(){return swapchain_images;}
+  inline std::vector<VkImageView> get_swapChain_image_views(){return swapchain_image_views;}
 
 private:
   Engine* engineManager;
@@ -44,12 +44,12 @@ private:
   VK_device* vk_device;
   VK_physical_device* vk_physical_device;
 
-  VkSwapchainKHR swapChain;
-  VkFormat swapChain_image_format;
+  VkSwapchainKHR swapchain;
+  VkFormat swapchain_image_format;
   VkExtent2D swapchain_extent;
 
-  std::vector<VkImage> swapChain_images;
-  std::vector<VkImageView> swapChain_image_views;
+  std::vector<VkImage> swapchain_images;
+  std::vector<VkImageView> swapchain_image_views;
 };
 
 #endif
