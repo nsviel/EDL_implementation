@@ -2,20 +2,12 @@
 #include "VK_physical_device.h"
 
 #include "../Engine.h"
-#include "../Instance/VK_window.h"
-#include "../Instance/VK_instance.h"
-
-#include "../../Node_engine.h"
-
 
 
 //Constructor / Destructor
 VK_device::VK_device(Engine* engineManager){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->vk_window = engineManager->get_vk_window();
-  this->vk_instance = engineManager->get_vk_instance();
   this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
@@ -25,20 +17,18 @@ VK_device::~VK_device(){}
 //Main functions
 void VK_device::create_logical_device(){
   //Interface between selected GPU and application
-  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   //---------------------------
 
-  //Get GPU qeue families
-  struct_queueFamily_indices indices = vk_physical_device->find_queue_families(physical_device);
+  //Get GPU queue families
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
+  int family_graphics = vk_physical_device->find_queue_family_graphics(physical_device);
+  int family_presentation = vk_physical_device->find_queue_family_presentation(physical_device);
+  std::set<uint32_t> uniqueQueueFamilies = {(unsigned int)family_graphics, (unsigned int)family_presentation};
 
-  std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-  std::set<uint32_t> uniqueQueueFamilies = {
-    indices.family_graphics.value(),
-    indices.family_presentation.value()
-  };
-
+  //Create queue on device
   float queuePriority = 1.0f;
-  for (uint32_t queueFamily : uniqueQueueFamilies) {
+  std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+  for(uint32_t queueFamily : uniqueQueueFamilies){
     VkDeviceQueueCreateInfo queueCreateInfo{};
     queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
     queueCreateInfo.queueFamilyIndex = queueFamily;
@@ -53,13 +43,14 @@ void VK_device::create_logical_device(){
   deviceFeatures.wideLines = VK_TRUE;
 
   //Logical device info
+  vector<char*> required_extension = vk_physical_device->get_required_extension();
   VkDeviceCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
   createInfo.pQueueCreateInfos = queueCreateInfos.data();
   createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
   createInfo.pEnabledFeatures = &deviceFeatures;
-  createInfo.enabledExtensionCount = static_cast<uint32_t>(required_extensions.size());
-  createInfo.ppEnabledExtensionNames = required_extensions.data();
+  createInfo.enabledExtensionCount = static_cast<uint32_t>(required_extension.size());
+  createInfo.ppEnabledExtensionNames = required_extension.data();
   createInfo.enabledLayerCount = 0;
 
   //Creating the logical device
@@ -69,8 +60,8 @@ void VK_device::create_logical_device(){
   }
 
   //Get queue family handles
-  vkGetDeviceQueue(device, indices.family_graphics.value(), 0, &queue_graphics);
-  vkGetDeviceQueue(device, indices.family_presentation.value(), 0, &queue_presentation);
+  vkGetDeviceQueue(device, family_graphics, 0, &queue_graphics);
+  vkGetDeviceQueue(device, family_presentation, 0, &queue_presentation);
 
   //---------------------------
 }

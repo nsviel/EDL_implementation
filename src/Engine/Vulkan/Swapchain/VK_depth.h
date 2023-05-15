@@ -22,14 +22,14 @@ public:
 public:
   //Main functions
   void create_depth_resources();
-
-  //Subfunctions
-  VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
-  VkFormat findDepthFormat();
-  bool hasStencilComponent(VkFormat format);
   void cleanup();
 
-  inline VkImageView get_depthImageView(){return depthImageView;};
+  //Subfunctions
+  VkFormat find_supported_format(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+  VkFormat find_depth_format();
+  bool find_stencil_component(VkFormat format);
+
+  inline VkImageView get_depthImageView(){return depth_image_view;};
 
 private:
   Engine* engineManager;
@@ -38,9 +38,9 @@ private:
   VK_swapchain* vk_swapchain;
   VK_physical_device* vk_physical_device;
 
-  VkImage depthImage;
-  VkDeviceMemory depthImageMemory;
-  VkImageView depthImageView;
+  VkImage depth_image;
+  VkDeviceMemory depth_image_mem;
+  VkImageView depth_image_view;
 };
 
 #endif

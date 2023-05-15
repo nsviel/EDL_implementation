@@ -48,13 +48,13 @@ void VK_command::create_command_pool(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  struct_queueFamily_indices queueFamily_indices = vk_physical_device->find_queue_families(physical_device);
+  int family_graphics = vk_physical_device->find_queue_family_graphics(physical_device);
 
   //Command pool info
   VkCommandPoolCreateInfo poolInfo{};
   poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
   poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-  poolInfo.queueFamilyIndex = queueFamily_indices.family_graphics.value();
+  poolInfo.queueFamilyIndex = family_graphics;
 
   //Command pool creation
   VkResult result = vkCreateCommandPool(device, &poolInfo, nullptr, &command_pool);

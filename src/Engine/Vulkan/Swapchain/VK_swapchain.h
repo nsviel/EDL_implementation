@@ -1,7 +1,6 @@
 #ifndef VK_SWAPCHAIN_H
 #define VK_SWAPCHAIN_H
 
-#include "../Struct/struct_swapchain.h"
 #include "../../../common.h"
 
 class Engine;
@@ -20,16 +19,17 @@ public:
 public:
   //Main functions
   void init_swapchain();
+
+  //Swap chain creation
   void create_swapChain();
   void create_image_views();
+  void recreate_swapChain();
+  void cleanup();
 
-  //Swap chian settings
-  struct_swapChain_details find_swapChain_details(VkPhysicalDevice device);
+  //Swap chian parameter
   VkSurfaceFormatKHR swapChain_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats);
   VkPresentModeKHR swapChain_presentation_mode(const std::vector<VkPresentModeKHR>& availablePresentModes);
   VkExtent2D swapChain_extent_setting(const VkSurfaceCapabilitiesKHR& capabilities);
-  void recreate_swapChain();
-  void cleanup();
 
   inline VkSwapchainKHR get_swapChain(){return swapChain;}
   inline VkFormat get_swapChain_image_format(){return swapChain_image_format;}
