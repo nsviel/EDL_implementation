@@ -8,6 +8,7 @@ class VK_device;
 class VK_swapchain;
 class VK_renderpass;
 class VK_depth;
+class VK_image;
 
 
 class VK_framebuffer
@@ -33,6 +34,7 @@ private:
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;
   VK_depth* vk_depth;
+  VK_image* vk_image;
 
   std::vector<VkFramebuffer> fbo_vec;
 };

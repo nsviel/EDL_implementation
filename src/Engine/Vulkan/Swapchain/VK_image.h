@@ -20,10 +20,14 @@ public:
 public:
   //Main functions
   void create_image_views();
+  void cleanup();
+
+  //Subfunction
+  VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
 
   inline VkFormat get_swapChain_image_format(){return image_format;}
-  inline std::vector<VkImage> get_swapChain_images(){return vec_image;}
   inline std::vector<VkImageView> get_swapChain_image_views(){return vec_image_view;}
+  inline void set_vec_image(vector<VkImage> value){vec_image = value;}
 
 private:
   Engine* engineManager;
@@ -33,7 +37,7 @@ private:
   VK_texture* vk_texture;
 
   VkFormat image_format;
-  std::vector<VkImage> vec_image;
+  vector<VkImage> vec_image;
   std::vector<VkImageView> vec_image_view;
 };
 

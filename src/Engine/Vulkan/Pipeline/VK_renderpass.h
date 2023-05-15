@@ -8,6 +8,7 @@
 class Engine;
 class VK_device;
 class VK_swapchain;
+class VK_image;
 
 
 class VK_renderpass
@@ -28,6 +29,7 @@ private:
   Engine* engineManager;
   VK_device* vk_device;
   VK_swapchain* vk_swapchain;
+  VK_image* vk_image;
 
   VkPipelineLayout pipelineLayout;
   VkRenderPass renderPass;

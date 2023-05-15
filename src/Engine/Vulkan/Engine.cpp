@@ -10,12 +10,13 @@
 #include "Data/VK_buffer.h"
 #include "Data/VK_texture.h"
 #include "Data/VK_data.h"
-#include "Instance/VK_instance.h"
 #include "Command/VK_drawing.h"
 #include "Device/VK_device.h"
 #include "Device/VK_physical_device.h"
 #include "Instance/VK_window.h"
 #include "Instance/VK_gui.h"
+#include "Instance/VK_instance.h"
+#include "Instance/VK_validation.h"
 #include "Rendering/VK_framebuffer.h"
 #include "Rendering/VK_depth.h"
 #include "Swapchain/VK_swapchain.h"
@@ -33,7 +34,9 @@ Engine::Engine(Node_engine* node_engine){
 
   this->node_engine = node_engine;
   this->param_engine = node_engine->get_param_engine();
+
   this->vk_instance = new VK_instance();
+  this->vk_validation = new VK_validation();
   this->vk_viewport = new VK_viewport(this);
   this->vk_window = new VK_window(this);
   this->vk_physical_device = new VK_physical_device(this);
@@ -72,7 +75,8 @@ void Engine::init_vulkan(){
   vk_device->create_logical_device();
 
   //Pipeline / swap chain
-  vk_swapchain->init_swapchain();
+  vk_swapchain->create_swapchain();
+  vk_image->create_image_views();
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptor_set_layout();
   vk_pipeline->create_pipelines();
@@ -118,6 +122,7 @@ void Engine::clean_vulkan(){
   vk_gui->cleanup();
   vk_depth->cleanup();
   vk_framebuffer->cleanup();
+  vk_image->cleanup();
   vk_swapchain->cleanup();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();

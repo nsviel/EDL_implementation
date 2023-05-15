@@ -26,8 +26,12 @@ VK_image::~VK_image(){}
 //Main function
 void VK_image::create_image_views(){
   VkDevice device = vk_device->get_device();
-  VK_texture* vk_texture = engineManager->get_vk_texture();
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   //---------------------------
+
+  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(physical_device);
+  VkSurfaceFormatKHR surfaceFormat = retrieve_surface_format(surface_format);
+  this->image_format = surfaceFormat.format;
 
   //Resize the image view vector
   vec_image_view.resize(vec_image.size());
@@ -35,6 +39,29 @@ void VK_image::create_image_views(){
   //Image view settings & creation
   for(size_t i=0; i<vec_image.size(); i++){
     vec_image_view[i] = vk_texture->create_image_view(vec_image[i], image_format, VK_IMAGE_ASPECT_COLOR_BIT);
+  }
+
+  //---------------------------
+}
+VkSurfaceFormatKHR VK_image::retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format){
+  //---------------------------
+
+  //Check if standar RGB is available
+  for(const auto& format : dev_format){
+    if(format.format == VK_FORMAT_B8G8R8A8_SRGB && format.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR){
+      return format;
+    }
+  }
+
+  //---------------------------
+  return dev_format[0];
+}
+void VK_image::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(size_t i=0; i<vec_image_view.size(); i++){
+    vkDestroyImageView(device, vec_image_view[i], nullptr);
   }
 
   //---------------------------

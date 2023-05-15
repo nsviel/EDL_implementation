@@ -1,5 +1,5 @@
 #include "VK_swapchain.h"
-#include "VK_swapchain.h"
+#include "VK_image.h"
 
 #include "../Rendering/VK_framebuffer.h"
 #include "../Rendering/VK_depth.h"
@@ -18,20 +18,11 @@ VK_swapchain::VK_swapchain(Engine* engineManager){
   this->vk_window = engineManager->get_vk_window();
   this->vk_device = engineManager->get_vk_device();
   this->vk_physical_device = engineManager->get_vk_physical_device();
+  this->vk_image = engineManager->get_vk_image();
 
   //---------------------------
 }
 VK_swapchain::~VK_swapchain(){}
-
-//Main function
-void VK_swapchain::init_swapchain(){
-  //---------------------------
-
-  this->create_swapchain();
-  this->create_image_views();
-
-  //---------------------------
-}
 
 //Swap chain creation
 void VK_swapchain::create_swapchain(){
@@ -52,8 +43,11 @@ void VK_swapchain::create_swapchain(){
 
   //Swap chain handler
   vkGetSwapchainImagesKHR(device, swapchain, &createInfo.minImageCount, nullptr);
+
+  vector<VkImage> swapchain_images;
   swapchain_images.resize(createInfo.minImageCount);
   vkGetSwapchainImagesKHR(device, swapchain, &createInfo.minImageCount, swapchain_images.data());
+  vk_image->set_vec_image(swapchain_images);
 
   //---------------------------
 }
@@ -84,7 +78,7 @@ void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo
 
   createInfo.preTransform = surface_capability.currentTransform;
 
-  this->swapchain_image_format = surfaceFormat.format;
+
 
   //---------------------------
 }
@@ -125,21 +119,6 @@ void VK_swapchain::create_swapchain_presentation(VkSwapchainCreateInfoKHR& creat
 }
 
 //Swap chain function
-void VK_swapchain::create_image_views(){
-  VkDevice device = vk_device->get_device();
-  VK_texture* vk_texture = engineManager->get_vk_texture();
-  //---------------------------
-
-  //Resize the image view vector
-  swapchain_image_views.resize(swapchain_images.size());
-
-  //Image view settings & creation
-  for(size_t i=0; i<swapchain_images.size(); i++){
-    swapchain_image_views[i] = vk_texture->create_image_view(swapchain_images[i], swapchain_image_format, VK_IMAGE_ASPECT_COLOR_BIT);
-  }
-
-  //---------------------------
-}
 void VK_swapchain::recreate_swapChain(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
   VkDevice device = vk_device->get_device();
@@ -159,11 +138,12 @@ void VK_swapchain::recreate_swapChain(){
   //Clean old values
   vk_depth->cleanup();
   vk_framebuffer->cleanup();
+  vk_image->cleanup();
   this->cleanup();
 
   //Recreate values
   this->create_swapchain();
-  this->create_image_views();
+  vk_image->create_image_views();
   vk_depth->create_depth_resources();
   vk_framebuffer->create_framebuffers();
 
@@ -172,10 +152,6 @@ void VK_swapchain::recreate_swapChain(){
 void VK_swapchain::cleanup(){
   VkDevice device = vk_device->get_device();
   //---------------------------
-
-  for(size_t i=0; i<swapchain_image_views.size(); i++){
-    vkDestroyImageView(device, swapchain_image_views[i], nullptr);
-  }
 
   vkDestroySwapchainKHR(device, swapchain, nullptr);
 

@@ -2,6 +2,7 @@
 #include "VK_depth.h"
 
 #include "../Swapchain/VK_swapchain.h"
+#include "../Swapchain/VK_image.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Device/VK_device.h"
 #include "../Engine.h"
@@ -19,6 +20,7 @@ VK_framebuffer::VK_framebuffer(Engine* engineManager){
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();
   this->vk_depth = engineManager->get_vk_depth();
+  this->vk_image = engineManager->get_vk_image();
 
   //---------------------------
 }
@@ -48,7 +50,7 @@ void VK_framebuffer::create_framebuffers(){
   //---------------------------
 
   //Get FBO required elements
-  std::vector<VkImageView> swapChain_image_views = vk_swapchain->get_swapChain_image_views();
+  std::vector<VkImageView> swapChain_image_views = vk_image->get_swapChain_image_views();
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();

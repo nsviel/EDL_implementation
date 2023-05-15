@@ -3,6 +3,7 @@
 #include "../Engine.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
+#include "../Swapchain/VK_image.h"
 #include "../Rendering/VK_depth.h"
 
 #include "../../Node_engine.h"
@@ -15,6 +16,7 @@ VK_renderpass::VK_renderpass(Engine* engineManager){
   this->engineManager = engineManager;
   this->vk_device = engineManager->get_vk_device();
   this->vk_swapchain = engineManager->get_vk_swapchain();
+  this->vk_image = engineManager->get_vk_image();
 
   //---------------------------
 }
@@ -23,7 +25,7 @@ VK_renderpass::~VK_renderpass(){}
 //Main function
 void VK_renderpass::create_render_pass(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
-  VkFormat swapChain_image_format = vk_swapchain->get_swapChain_image_format();
+  VkFormat swapChain_image_format = vk_image->get_swapChain_image_format();
   VkDevice device = vk_device->get_device();
   //---------------------------
 

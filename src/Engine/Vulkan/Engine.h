@@ -4,6 +4,7 @@
 #include "../../common.h"
 
 class Node_engine;
+class Param_engine;
 class VK_window;
 class VK_instance;
 class VK_device;
@@ -26,7 +27,7 @@ class VK_camera;
 class VK_shader;
 class VK_physical_device;
 class VK_image;
-class Param_engine;
+class VK_validation;
 
 
 class Engine
@@ -69,6 +70,7 @@ public:
   inline VK_shader* get_vk_shader(){return vk_shader;}
   inline VK_physical_device* get_vk_physical_device(){return vk_physical_device;}
   inline VK_image* get_vk_image(){return vk_image;}
+  inline VK_validation* get_vk_validation(){return vk_validation;}
 
   inline float get_fps(){return fps;}
 
@@ -97,6 +99,7 @@ private:
   VK_shader* vk_shader;
   VK_physical_device* vk_physical_device;
   VK_image* vk_image;
+  VK_validation* vk_validation;
 
   float fps;
 };
