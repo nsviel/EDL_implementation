@@ -2,6 +2,7 @@
 #include "VK_swapchain.h"
 
 #include "../Device/VK_device.h"
+#include "../Device/VK_physical_device.h"
 #include "../Data/VK_texture.h"
 #include "../Engine.h"
 
@@ -14,6 +15,7 @@ VK_depth::VK_depth(Engine* engineManager){
   this->vk_device = engineManager->get_vk_device();
   this->vk_texture = engineManager->get_vk_texture();
   this->vk_swapchain = engineManager->get_vk_swapchain();
+  this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
 }
@@ -34,7 +36,7 @@ void VK_depth::create_depth_resources(){
 
 //Subfunctions
 VkFormat VK_depth::findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features){
-  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   //---------------------------
 
   for(VkFormat format : candidates){

@@ -16,6 +16,7 @@ class VK_viewport;
 class VK_window;
 class VK_buffer;
 class VK_camera;
+class VK_physical_device;
 
 
 class VK_command
@@ -62,6 +63,7 @@ private:
   VK_window* vk_window;
   VK_buffer* vk_buffer;
   VK_camera* vk_camera;
+  VK_physical_device* vk_physical_device;
 
   VkCommandPool command_pool;
   std::vector<VkCommandBuffer> command_buffer_vec;

@@ -9,6 +9,7 @@ class Node_engine;
 class Engine;
 class VK_window;
 class VK_instance;
+class VK_physical_device;
 
 //List of required device extensions
 const std::vector<const char*> required_extensions = {
@@ -25,31 +26,20 @@ public:
 
 public:
   //Main functions
-  void init_device();
   void create_logical_device();
-  void select_physical_device();
   void cleanup();
 
-  //Subfunctions
-  bool is_device_suitable(VkPhysicalDevice device);
-  bool check_extension_support(VkPhysicalDevice device);
-
-  //Specific info retrieval
-  struct_queueFamily_indices find_queue_families(VkPhysicalDevice device);
-  struct_swapChain_details find_swapChain_details(VkPhysicalDevice device);
-
-  inline VkPhysicalDevice get_physical_device(){return physical_device;}
   inline VkDevice get_device(){return device;}
   inline VkQueue get_queue_graphics(){return queue_graphics;}
   inline VkQueue get_queue_presentation(){return queue_presentation;}
 
 private:
-  VK_window* vk_window;
   Engine* engineManager;
+  VK_window* vk_window;
   VK_instance* vk_instance;
+  VK_physical_device* vk_physical_device;
 
   VkDevice device;
-  VkPhysicalDevice physical_device;
   VkQueue queue_graphics;
   VkQueue queue_presentation;
 };

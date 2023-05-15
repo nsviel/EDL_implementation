@@ -7,6 +7,7 @@
 class Engine;
 class VK_device;
 class VK_buffer;
+class VK_physical_device;
 
 
 class VK_texture
@@ -35,6 +36,7 @@ private:
   Engine* engineManager;
   VK_device* vk_device;
   VK_buffer* vk_buffer;
+  VK_physical_device* vk_physical_device;
 };
 
 #endif

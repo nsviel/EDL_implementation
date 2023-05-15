@@ -437,8 +437,8 @@ void PLY_importer::Loader_bin_little_endian_withface(std::ifstream& file){
   int nb_vertice;
   for(int i=0; i<face_number; i++){
     //Get number of face vertices
-    int value =  (int)*((u_char *) (block_data_id + offset));
-    offset += sizeof(u_char);
+    int value =  (int)*((unsigned char *) (block_data_id + offset));
+    offset += sizeof(unsigned char);
     nb_vertice = value;
 
     //Get face vertices index
@@ -573,8 +573,8 @@ void PLY_importer::Loader_bin_big_endian_withface(std::ifstream& file){
   int nb_vertice;
   for(int i=0; i<face_number; i++){
     //Get number of face vertices
-    int value =  (int)*((u_char *) (block_data_id + offset));
-    offset += sizeof(u_char);
+    int value =  (int)*((unsigned char *) (block_data_id + offset));
+    offset += sizeof(unsigned char);
     nb_vertice = value;
 
     //Get face vertices index
@@ -728,8 +728,8 @@ float PLY_importer::get_uint32_from_binary(char* block_data, int& offset){
 float PLY_importer::get_uchar_from_binary(char* block_data, int& offset){
   //---------------------------
 
-  float value =  (float)*((u_char *) (block_data + offset));
-  offset += sizeof(u_char);
+  float value =  (float)*((unsigned char *) (block_data + offset));
+  offset += sizeof(unsigned char);
 
   //---------------------------
   return value;

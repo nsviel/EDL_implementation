@@ -7,6 +7,7 @@
 class Engine;
 class VK_window;
 class VK_device;
+class VK_physical_device;
 
 
 class VK_swapchain
@@ -41,6 +42,7 @@ private:
   Engine* engineManager;
   VK_window* vk_window;
   VK_device* vk_device;
+  VK_physical_device* vk_physical_device;
 
   VkSwapchainKHR swapChain;
   VkFormat swapChain_image_format;

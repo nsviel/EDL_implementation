@@ -9,6 +9,7 @@ class Engine;
 class VK_device;
 class VK_texture;
 class VK_swapchain;
+class VK_physical_device;
 
 
 class VK_depth
@@ -35,6 +36,7 @@ private:
   VK_device* vk_device;
   VK_texture* vk_texture;
   VK_swapchain* vk_swapchain;
+  VK_physical_device* vk_physical_device;
 
   VkImage depthImage;
   VkDeviceMemory depthImageMemory;

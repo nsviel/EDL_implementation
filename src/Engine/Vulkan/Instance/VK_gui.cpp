@@ -3,6 +3,7 @@
 #include "VK_instance.h"
 
 #include "../Device/VK_device.h"
+#include "../Device/VK_physical_device.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Engine.h"
 #include "../Command/VK_command.h"
@@ -21,6 +22,7 @@ VK_gui::VK_gui(Engine* engineManager){
   this->vk_instance = engineManager->get_vk_instance();
   this->vk_device = engineManager->get_vk_device();
   this->vk_renderpass = engineManager->get_vk_renderpass();
+  this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
 }
@@ -67,7 +69,7 @@ void VK_gui::init_gui(){
 void VK_gui::gui_vulkan(){
   GLFWwindow* window = vk_window->get_window();
   VkInstance instance = vk_instance->get_instance();
-  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   VkDevice device = vk_device->get_device();
   VkSurfaceKHR surface = vk_window->get_surface();
   VkQueue queue_graphics = vk_device->get_queue_graphics();

@@ -3,6 +3,7 @@
 
 #include "../Engine.h"
 #include "../Device/VK_device.h"
+#include "../Device/VK_physical_device.h"
 #include "../Command/VK_command.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -16,6 +17,7 @@ VK_texture::VK_texture(Engine* engineManager){
   this->engineManager = engineManager;
   this->vk_device = engineManager->get_vk_device();
   this->vk_buffer = engineManager->get_vk_buffer();
+  this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
 }
@@ -99,7 +101,7 @@ void VK_texture::create_texture_image_view(VkImage& textureImage, VkImageView& t
 }
 void VK_texture::create_texture_sampler(VkSampler& textureSampler){
   VkDevice device = vk_device->get_device();
-  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   //---------------------------
 
   VkPhysicalDeviceProperties properties{};

@@ -13,6 +13,7 @@
 #include "Instance/VK_instance.h"
 #include "Command/VK_drawing.h"
 #include "Device/VK_device.h"
+#include "Device/VK_physical_device.h"
 #include "Instance/VK_window.h"
 #include "Instance/VK_gui.h"
 #include "Swapchain/VK_framebuffer.h"
@@ -34,6 +35,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_instance = new VK_instance();
   this->vk_viewport = new VK_viewport(this);
   this->vk_window = new VK_window(this);
+  this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
   this->vk_swapchain = new VK_swapchain(this);
   this->vk_renderpass = new VK_renderpass(this);
@@ -64,7 +66,8 @@ void Engine::init_vulkan(){
   vk_window->init_window();
   vk_instance->init_instance();
   vk_window->create_window_surface();
-  vk_device->init_device();
+  vk_physical_device->select_physical_device();
+  vk_device->create_logical_device();
 
   //Pipeline / swap chain
   vk_swapchain->init_swapchain();

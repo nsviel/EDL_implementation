@@ -14,16 +14,30 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(WINDOWS_COMPILATION)
   set(CMAKE_SYSTEM_NAME Windows)
-  set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
-  set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
+  set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc-posix)
+  set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++-posix)
   set(CMAKE_BUILD_TYPE Release)
-  set(CMAKE_INSTALL_PREFIX bin/windows_bin)
   set(CMAKE_AR x86_64-w64-mingw32-ar)
   set(CMAKE_RANLIB x86_64-w64-mingw32-ranlib)
 
-  include_directories(/bin/glfw_cross_compiled)
-  link_directories(/bin/glfw_cross_compiled)
+  # Add cross-compiled GLFW library and header files
+  include_directories(bin/lib/glfw)
+  link_directories(bin/lib/glfw)
+
+  # Add cross-compiled Vulkan SDK library and header files
+  include_directories(bin/lib/vulkansdk)
+  link_directories(bin/lib/vulkansdk)
+  include_directories(bin/lib/vulkansdk/vulkan)
+  find_library(Vulkan_LIBRARY NAMES vulkan-1 vulkan PATHS bin/lib/vulkansdk/lib)
+  link_libraries(${Vulkan_LIBRARY})
+
+  # Add cross-compiled GLM
+  include_directories(bin/lib/glm)
+  link_directories(bin/lib/glm)
+
 endif()
+
+
 
 # Library dependencies
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
@@ -41,13 +55,13 @@ add_subdirectory(extern)
 # Denpendancies
 set(ALL_LIBS
   ${GLFW_LIBRARY}
+  ${Vulkan_LIBRARIES}
 
-  Vulkan::Vulkan
+  #Vulkan::Vulkan
   Eigen3::Eigen #Eigen library
   stdc++fs #STD filesystem experimental
   -std=c++17 -O2
   -lglfw
-  -lvulkan
   -ldl
   -lpthread
   -lX11
@@ -76,4 +90,6 @@ target_sources(executable PRIVATE
 target_include_directories(executable PUBLIC
   "${PROJECT_BINARY_DIR}"
   "${PROJECT_SOURCE_DIR}/extern"
+  ${Vulkan_INCLUDE_DIRS}
 )
+link_libraries(${Vulkan_LIBRARY})

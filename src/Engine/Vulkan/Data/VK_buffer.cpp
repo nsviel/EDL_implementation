@@ -5,6 +5,7 @@
 #include "../Command/VK_command.h"
 #include "../Engine.h"
 #include "../Device/VK_device.h"
+#include "../Device/VK_physical_device.h"
 
 #include "../../Node_engine.h"
 
@@ -16,6 +17,7 @@ VK_buffer::VK_buffer(Engine* engineManager){
   this->engineManager = engineManager;
   this->vk_device = engineManager->get_vk_device();
   this->vk_descriptor = engineManager->get_vk_descriptor();
+  this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
 }
@@ -196,7 +198,7 @@ void VK_buffer::copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDev
 
 //Specific function
 uint32_t VK_buffer::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties){
-  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   //---------------------------
 
   VkPhysicalDeviceMemoryProperties memProperties;

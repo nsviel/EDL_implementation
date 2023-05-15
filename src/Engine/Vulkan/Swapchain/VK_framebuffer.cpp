@@ -34,7 +34,6 @@ void VK_framebuffer::create_framebuffers(){
 
   VkImageView depthImageView = vk_depth->get_depthImageView();
 
-
   //Resize to hold all fbos
   swapChain_fbo.resize(swapChain_image_views.size());
 

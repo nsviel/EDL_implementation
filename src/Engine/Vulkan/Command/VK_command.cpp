@@ -7,6 +7,7 @@
 #include "../Pipeline/VK_pipeline.h"
 #include "../Instance/VK_parameter.h"
 #include "../Device/VK_device.h"
+#include "../Device/VK_physical_device.h"
 #include "../Data/VK_descriptor.h"
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
@@ -35,6 +36,7 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_window = engineManager->get_vk_window();
   this->vk_buffer = engineManager->get_vk_buffer();
   this->vk_camera = engineManager->get_vk_camera();
+  this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
 }
@@ -42,11 +44,11 @@ VK_command::~VK_command(){}
 
 //Main function
 void VK_command::create_command_pool(){
-  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  struct_queueFamily_indices queueFamily_indices = vk_device->find_queue_families(physical_device);
+  struct_queueFamily_indices queueFamily_indices = vk_physical_device->find_queue_families(physical_device);
 
   //Command pool info
   VkCommandPoolCreateInfo poolInfo{};

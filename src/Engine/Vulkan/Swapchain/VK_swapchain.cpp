@@ -5,6 +5,7 @@
 
 #include "../Data/VK_texture.h"
 #include "../Device/VK_device.h"
+#include "../Device/VK_physical_device.h"
 #include "../Instance/VK_window.h"
 #include "../Engine.h"
 
@@ -16,6 +17,7 @@ VK_swapchain::VK_swapchain(Engine* engineManager){
   this->engineManager = engineManager;
   this->vk_window = engineManager->get_vk_window();
   this->vk_device = engineManager->get_vk_device();
+  this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
 }
@@ -31,7 +33,7 @@ void VK_swapchain::init_swapchain(){
   //---------------------------
 }
 void VK_swapchain::create_swapChain(){
-  VkPhysicalDevice physical_device = vk_device->get_physical_device();
+  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   VkSurfaceKHR surface = vk_window->get_surface();
   VkDevice device = vk_device->get_device();
   //---------------------------
@@ -62,7 +64,7 @@ void VK_swapchain::create_swapChain(){
   createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; //VK_IMAGE_USAGE_TRANSFER_DST_BIT for post-processing
 
   //Link with queue families
-  struct_queueFamily_indices indices = vk_device->find_queue_families(physical_device);
+  struct_queueFamily_indices indices = vk_physical_device->find_queue_families(physical_device);
   uint32_t queueFamilyIndices[] = {indices.family_graphics.value(), indices.family_presentation.value()};
 
   if(indices.family_graphics != indices.family_presentation){
