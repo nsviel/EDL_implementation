@@ -22,11 +22,6 @@ void VK_validation::create_validationLayer(){
   VkInstance instance = vk_instance->get_instance();
   //---------------------------
 
-  //Check validation layers
-  if(with_validation_layer && !check_validationLayer_support()){
-    throw std::runtime_error("[error] validation layers requested, but not available!");
-  }
-
   if(!with_validation_layer) return;
 
   VkDebugUtilsMessengerCreateInfoEXT createInfo{};

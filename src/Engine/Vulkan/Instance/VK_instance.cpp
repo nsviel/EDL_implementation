@@ -31,20 +31,20 @@ void VK_instance::create_instance(){
   appInfo.apiVersion = VK_API_VERSION_1_0;
 
   //Instance info
+  auto extensions = get_required_extensions();
   VkInstanceCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
-  auto extensions = get_required_extensions();
   createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
   createInfo.ppEnabledExtensionNames = extensions.data();
 
-  VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
+  vector<const char*> validation_layers = vk_validation->get_validation_layers();
   if(with_validation_layer){
-    vector<const char*> validation_layers = vk_validation->get_validation_layers();
+    VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
+    vk_validation->populateDebugMessengerCreateInfo(debugCreateInfo);
+
     createInfo.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
     createInfo.ppEnabledLayerNames = validation_layers.data();
-
-    vk_validation->populateDebugMessengerCreateInfo(debugCreateInfo);
     createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
   }else{
     createInfo.enabledLayerCount = 0;
