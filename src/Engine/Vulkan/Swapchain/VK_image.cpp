@@ -8,12 +8,14 @@
 #include "../Instance/VK_window.h"
 #include "../Engine.h"
 
+#include "../../Param_engine.h"
+
 
 //Constructor / Destructor
 VK_image::VK_image(Engine* engineManager){
   //---------------------------
 
-  this->engineManager = engineManager;
+  this->param_engine = engineManager->get_param_engine();
   this->vk_window = engineManager->get_vk_window();
   this->vk_device = engineManager->get_vk_device();
   this->vk_physical_device = engineManager->get_vk_physical_device();
@@ -24,7 +26,37 @@ VK_image::VK_image(Engine* engineManager){
 VK_image::~VK_image(){}
 
 //Main function
-void VK_image::create_image_views(){
+void VK_image::init_image(){
+  //---------------------------
+
+  this->create_image_struct();
+  this->create_image_view();
+
+  //---------------------------
+}
+void VK_image::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(size_t i=0; i<vec_image_view.size(); i++){
+    vkDestroyImageView(device, vec_image_view[i], nullptr);
+  }
+
+  //---------------------------
+}
+
+//Creation function
+void VK_image::create_image_struct(){
+  //---------------------------
+
+  for(int i=0; i<param_engine->max_frame_inflight; i++){
+    Image* image = new Image();
+    vec_image_obj.push_back(image);
+  }
+
+  //---------------------------
+}
+void VK_image::create_image_view(){
   VkDevice device = vk_device->get_device();
   VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   //---------------------------
@@ -51,21 +83,12 @@ void VK_image::create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min
   vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, nullptr);
 
   //Fill swapchain image
+  //vector<VkImage> vec_image;
   vec_image.resize(min_image_count);
   vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
 
   vec_image_obj.resize(min_image_count);
-  //vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
-
-  //---------------------------
-}
-void VK_image::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  for(size_t i=0; i<vec_image_view.size(); i++){
-    vkDestroyImageView(device, vec_image_view[i], nullptr);
-  }
+  vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
 
   //---------------------------
 }

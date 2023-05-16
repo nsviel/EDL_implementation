@@ -133,7 +133,7 @@ void VK_drawing::draw_queue(){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  current_frame = (current_frame + 1) % param_engine->MAX_FRAMES_IN_FLIGHT;
+  current_frame = (current_frame + 1) % param_engine->max_frame_inflight;
 
   //---------------------------
 }

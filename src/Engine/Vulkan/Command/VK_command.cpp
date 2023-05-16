@@ -68,7 +68,7 @@ void VK_command::create_command_buffers(){
   //---------------------------
 
   //One command buffer per frame
-  command_buffer_vec.resize(param_engine->MAX_FRAMES_IN_FLIGHT);
+  command_buffer_vec.resize(param_engine->max_frame_inflight);
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};

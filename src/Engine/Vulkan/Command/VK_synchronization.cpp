@@ -23,9 +23,9 @@ void VK_synchronization::create_sync_objects(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  semvec_image_available.resize(param_engine->MAX_FRAMES_IN_FLIGHT);
-  semvec_render_finish.resize(param_engine->MAX_FRAMES_IN_FLIGHT);
-  fenvec_inFlight.resize(param_engine->MAX_FRAMES_IN_FLIGHT);
+  semvec_image_available.resize(param_engine->max_frame_inflight);
+  semvec_render_finish.resize(param_engine->max_frame_inflight);
+  fenvec_inFlight.resize(param_engine->max_frame_inflight);
 
   //Semaphore info
   VkSemaphoreCreateInfo semaphoreInfo{};
@@ -37,7 +37,7 @@ void VK_synchronization::create_sync_objects(){
   fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
   //Semaphore and fence creation
- for(size_t i=0; i<param_engine->MAX_FRAMES_IN_FLIGHT; i++){
+ for(size_t i=0; i<param_engine->max_frame_inflight; i++){
     VkResult result_sema_1 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &semvec_image_available[i]);
     VkResult result_sema_2 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &semvec_render_finish[i]);
     VkResult result_hence = vkCreateFence(device, &fenceInfo, nullptr, &fenvec_inFlight[i]);
@@ -52,7 +52,7 @@ void VK_synchronization::cleanup(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  for(size_t i=0; i<param_engine->MAX_FRAMES_IN_FLIGHT; i++){
+  for(size_t i=0; i<param_engine->max_frame_inflight; i++){
     vkDestroySemaphore(device, semvec_render_finish[i], nullptr);
     vkDestroySemaphore(device, semvec_image_available[i], nullptr);
     vkDestroyFence(device, fenvec_inFlight[i], nullptr);

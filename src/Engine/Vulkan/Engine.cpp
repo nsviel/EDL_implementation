@@ -77,7 +77,7 @@ void Engine::init_vulkan(){
 
   //Pipeline / swap chain
   vk_swapchain->create_swapchain();
-  vk_image->create_image_views();
+  vk_image->init_image();
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptor_set_layout();
   vk_pipeline->create_pipelines();
