@@ -27,24 +27,11 @@ VK_image::VK_image(Engine* engineManager){
 VK_image::~VK_image(){}
 
 //Main function
-void VK_image::init_image(){
-  //---------------------------
-
-  this->create_image_struct();
-
-  //---------------------------
-}
-void VK_image::cleanup(){
+void VK_image::clean_image_view(Image* image){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  for(size_t i=0; i<vec_image_obj.size(); i++){
-    Image* image = vec_image_obj[i];
-    vkDestroyImageView(device, image->image_view, nullptr);
-    delete image;
-  }
-
-  vec_image_obj.clear();
+  vkDestroyImageView(device, image->image_view, nullptr);
 
   //---------------------------
 }
@@ -59,8 +46,7 @@ void VK_image::create_image_struct(){
     Image* image = new Image();
     image->image = vec_image[i];
     this->create_image_view(image);
-    vk_depth->create_depth_resources(image);
-    vk_framebuffer->create_framebuffer(image);
+    vk_depth->create_depth_resource(image);
     vec_image_obj.push_back(image);
   }
 
@@ -90,6 +76,26 @@ void VK_image::create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min
   //Fill swapchain image
   vec_image.resize(min_image_count);
   vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
+
+  //---------------------------
+}
+
+//Deletio function
+void VK_image::clean_image_struct(){
+  VK_depth* vk_depth = engineManager->get_vk_depth();
+  VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
+  //---------------------------
+
+  for(int i=0; i<vec_image_obj.size(); i++){
+    Image* image = vec_image_obj[i];
+
+    this->clean_image_view(image);
+    vk_depth->clean_depth_resource(image);
+    vk_framebuffer->clean_framebuffer(image);
+    delete image;
+  }
+
+  vec_image_obj.clear();
 
   //---------------------------
 }

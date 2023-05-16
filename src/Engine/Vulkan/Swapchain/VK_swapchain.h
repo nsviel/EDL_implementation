@@ -20,7 +20,7 @@ public:
 public:
   //Main function
   void recreate_swapChain();
-  void cleanup();
+  void clean_swapchain();
 
   //Swap chain creation
   void create_swapchain();

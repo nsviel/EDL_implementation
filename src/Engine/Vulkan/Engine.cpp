@@ -77,12 +77,12 @@ void Engine::init_vulkan(){
 
   //Pipeline / swap chain
   vk_swapchain->create_swapchain();
-  vk_image->init_image();
+  vk_image->create_image_struct();
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptor_set_layout();
   vk_pipeline->create_pipelines();
   vk_command->create_command_pool();
-  //vk_framebuffer->create_framebuffers();
+  vk_framebuffer->create_framebuffers();
 
   //Shader
   vk_uniform->create_uniform_buffers();
@@ -120,10 +120,8 @@ void Engine::clean_vulkan(){
   //---------------------------
 
   vk_gui->cleanup();
-  vk_depth->cleanup();
-  vk_framebuffer->cleanup();
-  vk_image->cleanup();
-  vk_swapchain->cleanup();
+  vk_image->clean_image_struct();
+  vk_swapchain->clean_swapchain();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();
 

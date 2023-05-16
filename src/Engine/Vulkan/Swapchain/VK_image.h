@@ -20,14 +20,14 @@ public:
   ~VK_image();
 
 public:
-  //Main functions
-  void init_image();
-  void cleanup();
-
   //Creation function
   void create_image_struct();
   void create_image_view(Image* image);
   void create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min_image_count);
+
+  //Deletion function
+  void clean_image_struct();
+  void clean_image_view(Image* image);
 
   //Subfunction
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);

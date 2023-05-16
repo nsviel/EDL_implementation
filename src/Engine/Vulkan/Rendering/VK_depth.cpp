@@ -24,7 +24,7 @@ VK_depth::VK_depth(Engine* engineManager){
 VK_depth::~VK_depth(){}
 
 //Main function
-void VK_depth::create_depth_resources(Image* image){
+void VK_depth::create_depth_resource(Image* image){
   vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
   //---------------------------
 
@@ -36,18 +36,13 @@ void VK_depth::create_depth_resources(Image* image){
 
   //---------------------------
 }
-void VK_depth::cleanup(){
-  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
+void VK_depth::clean_depth_resource(Image* image){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  for(int i=0; i<vec_image_obj.size(); i++){
-    Image* image = vec_image_obj[i];
-
-    vkDestroyImageView(device, image->depth_view, nullptr);
-    vkDestroyImage(device, image->depth, nullptr);
-    vkFreeMemory(device, image->depth_memory, nullptr);
-  }
+  vkDestroyImageView(device, image->depth_view, nullptr);
+  vkDestroyImage(device, image->depth, nullptr);
+  vkFreeMemory(device, image->depth_memory, nullptr);
 
   //---------------------------
 }

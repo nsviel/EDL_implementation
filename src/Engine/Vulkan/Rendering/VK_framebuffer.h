@@ -22,7 +22,7 @@ public:
 
 public:
   //Main functions
-  void cleanup();
+  void clean_framebuffer(Image* image);
 
   //FBO creation
   void create_framebuffers();

@@ -21,8 +21,8 @@ public:
 
 public:
   //Main functions
-  void create_depth_resources(Image* image);
-  void cleanup();
+  void create_depth_resource(Image* image);
+  void clean_depth_resource(Image* image);
 
   //Subfunctions
   bool find_stencil_component(VkFormat format);

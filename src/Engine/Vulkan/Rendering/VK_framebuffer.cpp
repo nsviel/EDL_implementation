@@ -27,17 +27,12 @@ VK_framebuffer::VK_framebuffer(Engine* engineManager){
 VK_framebuffer::~VK_framebuffer(){}
 
 //Main function
-void VK_framebuffer::cleanup(){
-  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
+void VK_framebuffer::clean_framebuffer(Image* image){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  for(int i=0; i<vec_image_obj.size(); i++){
-    Image* image = vec_image_obj[i];
-
-    for(int j=0; j<image->fbo_vec.size(); j++){
-      vkDestroyFramebuffer(device, image->fbo_vec[j], nullptr);
-    }
+  for(int j=0; j<image->fbo_vec.size(); j++){
+    vkDestroyFramebuffer(device, image->fbo_vec[j], nullptr);
   }
 
   //---------------------------

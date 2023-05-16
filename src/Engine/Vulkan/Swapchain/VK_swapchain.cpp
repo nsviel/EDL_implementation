@@ -130,19 +130,17 @@ void VK_swapchain::recreate_swapChain(){
   vkDeviceWaitIdle(device);
 
   //Clean old values
-  vk_depth->cleanup();
-  vk_framebuffer->cleanup();
-  vk_image->cleanup();
-  this->cleanup();
+  vk_image->clean_image_struct();
+  this->clean_swapchain();
 
   //Recreate values
   this->create_swapchain();
   vk_image->create_image_struct();
-  //vk_framebuffer->create_framebuffers();
+  vk_framebuffer->create_framebuffers();
 
   //---------------------------
 }
-void VK_swapchain::cleanup(){
+void VK_swapchain::clean_swapchain(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
