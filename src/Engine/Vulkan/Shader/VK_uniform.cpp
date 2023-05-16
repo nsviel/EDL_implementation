@@ -44,7 +44,7 @@ void VK_uniform::create_uniform_buffers(){
   //---------------------------
 }
 void VK_uniform::update_uniform_buffer(uint32_t currentImage, MVP& mvp){
-  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   //---------------------------
 
   memcpy(uniform_buffer_mapped[currentImage], &mvp, sizeof(mvp));

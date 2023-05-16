@@ -51,7 +51,7 @@ void VK_framebuffer::create_framebuffers(){
 
   //Get FBO required elements
   std::vector<VkImageView> swapChain_image_views = vk_image->get_swapChain_image_views();
-  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   VkImageView depth_image_view = vk_depth->get_depthImageView();

@@ -96,7 +96,7 @@ void VK_command::cleanup(){
 //Render pass
 void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex, uint32_t current_frame){
   std::vector<VkFramebuffer> fbo_vec = vk_framebuffer->get_fbo_vec();
-  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
@@ -160,7 +160,7 @@ void VK_command::command_gui(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_command::command_viewport(VkCommandBuffer command_buffer){
-  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   //---------------------------
 
   vk_viewport->update_viewport(swapchain_extent);

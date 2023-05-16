@@ -66,7 +66,7 @@ void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo
   createInfo.surface = surface;
   createInfo.imageFormat = surfaceFormat.format;
   createInfo.imageColorSpace = surfaceFormat.colorSpace;
-  createInfo.imageExtent = swapchain_extent;
+  createInfo.imageExtent = extent;
   createInfo.imageArrayLayers = 1;
   createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; //VK_IMAGE_USAGE_TRANSFER_DST_BIT for post-processing
 
@@ -189,17 +189,17 @@ void VK_swapchain::compute_extent(const VkSurfaceCapabilitiesKHR& capabilities){
   //---------------------------
 
   if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
-    swapchain_extent = capabilities.currentExtent;
+    extent = capabilities.currentExtent;
   }else{
     glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
 
-    swapchain_extent = {
+    extent = {
       static_cast<uint32_t>(fbo_dim.x),
       static_cast<uint32_t>(fbo_dim.y)
     };
 
-    swapchain_extent.width = std::clamp(swapchain_extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-    swapchain_extent.height = std::clamp(swapchain_extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+    extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+    extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
   }
 
   //---------------------------

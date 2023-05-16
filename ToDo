@@ -1,5 +1,6 @@
 ToDo
 //-----------------
+-mettre tous les element des images swapchain dans structure image
 -debug arcball cam
 -cross compilation windows
 -abstraction fbo / uniform / shader

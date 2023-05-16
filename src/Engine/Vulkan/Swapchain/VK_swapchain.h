@@ -34,7 +34,7 @@ public:
   void compute_extent(const VkSurfaceCapabilitiesKHR& capabilities);
 
   inline VkSwapchainKHR get_swapChain(){return swapchain;}
-  inline VkExtent2D get_swapChain_extent(){return swapchain_extent;}
+  inline VkExtent2D get_extent(){return extent;}
 
 private:
   Engine* engineManager;
@@ -44,7 +44,7 @@ private:
   VK_image* vk_image;
 
   VkSwapchainKHR swapchain;
-  VkExtent2D swapchain_extent;
+  VkExtent2D extent;
 };
 
 #endif

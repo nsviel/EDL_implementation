@@ -26,7 +26,7 @@ public:
   //Subfunction
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
 
-  inline VkFormat get_swapChain_image_format(){return image_format;}
+  inline VkFormat get_image_format(){return image_format;}
   inline std::vector<VkImageView> get_swapChain_image_views(){return vec_image_view;}
   inline void set_vec_image(vector<VkImage> value){vec_image = value;}
 
@@ -39,7 +39,7 @@ private:
 
   VkFormat image_format;
   vector<VkImage> vec_image;
-  std::vector<VkImageView> vec_image_view;
+  vector<VkImageView> vec_image_view;
 };
 
 #endif

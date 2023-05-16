@@ -25,7 +25,7 @@ VK_renderpass::~VK_renderpass(){}
 //Main function
 void VK_renderpass::create_render_pass(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
-  VkFormat swapChain_image_format = vk_image->get_swapChain_image_format();
+  VkFormat image_format = vk_image->get_image_format();
   VkDevice device = vk_device->get_device();
   //---------------------------
 
@@ -46,7 +46,7 @@ void VK_renderpass::create_render_pass(){
 
   //Attachement description
   VkAttachmentDescription colorAttachment{};
-  colorAttachment.format = swapChain_image_format;
+  colorAttachment.format = image_format;
   colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
   colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
   colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;

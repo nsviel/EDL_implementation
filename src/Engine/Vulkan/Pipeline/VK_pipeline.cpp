@@ -195,7 +195,7 @@ VkPipelineDynamicStateCreateInfo VK_pipeline::pipe_dynamic_state(std::vector<VkD
   return dynamicState;
 }
 VkPipelineViewportStateCreateInfo VK_pipeline::pipe_viewport(){
-  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   //---------------------------
 
   //Viewport

@@ -26,7 +26,7 @@ void VK_depth::create_depth_resources(){
   //---------------------------
 
   VkFormat depth_format = find_depth_format();
-  VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
+  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
 
   vk_texture->create_image(swapchain_extent.width, swapchain_extent.height, depth_format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, depth_image, depth_image_mem);
   this->depth_image_view = vk_texture->create_image_view(depth_image, depth_format, VK_IMAGE_ASPECT_DEPTH_BIT);
