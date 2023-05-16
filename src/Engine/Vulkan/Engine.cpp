@@ -35,8 +35,8 @@ Engine::Engine(Node_engine* node_engine){
   this->node_engine = node_engine;
   this->param_engine = node_engine->get_param_engine();
 
-  this->vk_instance = new VK_instance();
-  this->vk_validation = new VK_validation();
+  this->vk_instance = new VK_instance(this);
+  this->vk_validation = new VK_validation(this);
   this->vk_viewport = new VK_viewport(this);
   this->vk_window = new VK_window(this);
   this->vk_physical_device = new VK_physical_device(this);
@@ -69,7 +69,8 @@ void Engine::init_vulkan(){
 
   //Instance
   vk_window->init_window();
-  vk_instance->init_instance();
+  vk_instance->create_instance();
+  vk_validation->create_validationLayer();
   vk_window->create_window_surface();
   vk_physical_device->select_physical_device();
   vk_device->create_logical_device();
@@ -135,6 +136,7 @@ void Engine::clean_vulkan(){
   vk_command->cleanup();
   vk_device->cleanup();
   vk_window->clean_surface();
+  vk_validation->cleanup();
   vk_instance->cleanup();
   vk_window->clean_window();
 

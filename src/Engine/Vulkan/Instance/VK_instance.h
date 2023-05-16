@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Node_engine;
+class Engine;
 
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,VkDebugUtilsMessageTypeFlagsEXT messageType,const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,void* pUserData){
@@ -23,30 +23,22 @@ class VK_instance
 {
 public:
   //Constructor / Destructor
-  VK_instance();
+  VK_instance(Engine* engineManager);
   ~VK_instance();
 
 public:
   //Main functions
-  void init_instance();
   void create_instance();
-  void create_validationLayer();
   void cleanup();
 
   //Validation layers
-  bool check_validationLayer_support(std::vector<const char*> validationLayers);
   std::vector<const char*> get_required_extensions();
-  VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
-  void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
-  void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 
   inline VkInstance get_instance(){return instance;}
 
 private:
+  Engine* engineManager;
   VkInstance instance;
-  VkDebugUtilsMessengerEXT debugMessenger;
-
-  bool with_validation_layer = true;
 };
 
 #endif
