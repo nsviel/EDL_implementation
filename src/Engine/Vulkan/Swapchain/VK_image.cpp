@@ -54,6 +54,9 @@ void VK_image::create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min
   vec_image.resize(min_image_count);
   vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
 
+  vec_image_obj.resize(min_image_count);
+  //vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
+
   //---------------------------
 }
 void VK_image::cleanup(){

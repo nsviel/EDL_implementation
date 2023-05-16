@@ -1,6 +1,7 @@
 #ifndef VK_IMAGE_H
 #define VK_IMAGE_H
 
+#include "../Struct/struct_image.h"
 #include "../../../common.h"
 
 class Engine;
@@ -40,6 +41,7 @@ private:
   VkFormat image_format;
   vector<VkImage> vec_image;
   vector<VkImageView> vec_image_view;
+  vector<Image*> vec_image_obj;
 };
 
 #endif

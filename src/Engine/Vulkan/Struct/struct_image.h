@@ -5,9 +5,14 @@
 
 
 struct Image{
+  //Image info
   VkImage image;
   VkImageView image_view;
 
+  //Rendering
+  vector<VkFramebuffer> fbo_vec;
+
+  //Associated objects
   VkCommandBuffer command_buffer;
   VkDescriptorSet descriptor_set;
   VkFence fence_inflight;

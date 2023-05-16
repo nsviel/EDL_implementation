@@ -36,7 +36,7 @@ private:
   VK_depth* vk_depth;
   VK_image* vk_image;
 
-  std::vector<VkFramebuffer> fbo_vec;
+  vector<VkFramebuffer> fbo_vec;
 };
 
 #endif
