@@ -31,7 +31,7 @@ void VK_image::init_image(){
   //---------------------------
 
   this->create_image_struct();
-  
+
   //---------------------------
 }
 void VK_image::cleanup(){
@@ -60,7 +60,7 @@ void VK_image::create_image_struct(){
     image->image = vec_image[i];
     this->create_image_view(image);
     vk_depth->create_depth_resources(image);
-    //vk_framebuffer->create_framebuffer(image);
+    vk_framebuffer->create_framebuffer(image);
     vec_image_obj.push_back(image);
   }
 
