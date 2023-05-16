@@ -7,7 +7,7 @@
 #include "../Pipeline/VK_renderpass.h"
 #include "../Engine.h"
 #include "../Command/VK_command.h"
-#include "../Instance/VK_parameter.h"
+#include "../Command/VK_drawing.h"
 
 #include "image/IconsFontAwesome5.h"
 
@@ -167,11 +167,13 @@ void VK_gui::gui_font(){
   VkDevice device = vk_device->get_device();
   VkCommandPool command_pool = vk_command->get_command_pool();
   VkQueue queue_graphics = vk_device->get_queue_graphics();
+  VK_drawing* vk_drawing = engineManager->get_vk_drawing();
+  uint32_t current_frame = vk_drawing->get_current_frame();
   //---------------------------
 
   // Use any command queue
-  std::vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
-  VkCommandBuffer command_buffer = command_buffer_vec[currentFrame];
+  vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
+  VkCommandBuffer command_buffer = command_buffer_vec[current_frame];
 
   VkResult result = vkResetCommandPool(device, command_pool, 0);
   if(result != VK_SUCCESS){

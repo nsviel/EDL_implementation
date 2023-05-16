@@ -20,6 +20,7 @@ public:
 public:
   //Main functions
   void create_image_views();
+  void create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min_image_count);
   void cleanup();
 
   //Subfunction

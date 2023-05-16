@@ -1,7 +1,6 @@
 #ifndef VK_COMMAND_H
 #define VK_COMMAND_H
 
-#include "../Instance/VK_parameter.h"
 #include "../../../common.h"
 
 class Engine;
@@ -33,13 +32,13 @@ public:
   void cleanup();
 
   //Render pass
-  void record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex);
-  void compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo);
+  void record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex, uint32_t current_frame);
+  void compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo, uint32_t current_frame);
 
   //Specific commands
   void command_gui(VkCommandBuffer command_buffer);
-  void command_drawing_point(VkCommandBuffer command_buffer);
-  void command_drawing_line(VkCommandBuffer command_buffer);
+  void command_drawing_point(VkCommandBuffer command_buffer, uint32_t current_frame);
+  void command_drawing_line(VkCommandBuffer command_buffer, uint32_t current_frame);
   void command_viewport(VkCommandBuffer command_buffer);
 
   //One time command
@@ -47,7 +46,6 @@ public:
   void command_buffer_end(VkCommandBuffer command_buffer);
 
   inline std::vector<VkCommandBuffer> get_command_buffer_vec(){return command_buffer_vec;}
-  inline VkCommandBuffer get_current_command_buffer(){return command_buffer_vec[currentFrame];}
   inline VkCommandPool get_command_pool(){return command_pool;}
 
 private:

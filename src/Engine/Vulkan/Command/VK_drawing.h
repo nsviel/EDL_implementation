@@ -4,6 +4,7 @@
 #include "../../../common.h"
 
 class Engine;
+class Param_engine;
 class VK_window;
 class VK_swapchain;
 class VK_synchronization;
@@ -27,8 +28,11 @@ public:
   void draw_command();
   void draw_queue();
 
+  inline uint32_t get_current_frame(){return current_frame;}
+
 private:
   Engine* engineManager;
+  Param_engine* param_engine;
   VK_window* vk_window;
   VK_swapchain* vk_swapchain;
   VK_synchronization* vk_synchronization;
@@ -39,6 +43,7 @@ private:
 
   uint32_t imageIndex;
   bool framebufferResized;
+  uint32_t current_frame;
 };
 
 #endif

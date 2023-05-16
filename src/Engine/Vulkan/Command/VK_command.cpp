@@ -5,7 +5,6 @@
 #include "../Instance/VK_window.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Pipeline/VK_pipeline.h"
-#include "../Instance/VK_parameter.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
 #include "../Data/VK_descriptor.h"
@@ -69,7 +68,7 @@ void VK_command::create_command_buffers(){
   //---------------------------
 
   //One command buffer per frame
-  command_buffer_vec.resize(MAX_FRAMES_IN_FLIGHT);
+  command_buffer_vec.resize(param_engine->MAX_FRAMES_IN_FLIGHT);
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};
@@ -95,7 +94,7 @@ void VK_command::cleanup(){
 }
 
 //Render pass
-void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex){
+void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex, uint32_t current_frame){
   std::vector<VkFramebuffer> fbo_vec = vk_framebuffer->get_fbo_vec();
   VkExtent2D swapchain_extent = vk_swapchain->get_swapChain_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
@@ -127,18 +126,18 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
   renderPassInfo.pClearValues = clearValues.data();
 
-  this->compute_render_pass(command_buffer, renderPassInfo);
+  this->compute_render_pass(command_buffer, renderPassInfo, current_frame);
 
   //---------------------------
 }
-void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo){
+void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo, uint32_t current_frame){
   //---------------------------
 
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
   this->command_viewport(command_buffer);
-  this->command_drawing_line(command_buffer);
-  this->command_drawing_point(command_buffer);
+  this->command_drawing_line(command_buffer, current_frame);
+  this->command_drawing_point(command_buffer, current_frame);
   this->command_gui(command_buffer);
 
   //End render pass
@@ -174,7 +173,7 @@ void VK_command::command_viewport(VkCommandBuffer command_buffer){
 
   //---------------------------
 }
-void VK_command::command_drawing_point(VkCommandBuffer command_buffer){
+void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t current_frame){
   VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
@@ -187,7 +186,7 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer){
   list<Object*> list_data = vk_data->get_list_data();
   if(list_data.size() != 0){
     std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
-    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &descriptorSets[current_frame], 0, nullptr);
   }
 
   //Bind and draw vertex buffers
@@ -206,7 +205,7 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer){
 
   //---------------------------
 }
-void VK_command::command_drawing_line(VkCommandBuffer command_buffer){
+void VK_command::command_drawing_line(VkCommandBuffer command_buffer, uint32_t current_frame){
   VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
@@ -219,7 +218,7 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer){
   list<Object*> list_data = vk_data->get_list_data();
   if(list_data.size() != 0){
     std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
-    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &descriptorSets[current_frame], 0, nullptr);
   }
 
   //Bind and draw vertex buffers

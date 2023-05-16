@@ -43,6 +43,31 @@ void VK_image::create_image_views(){
 
   //---------------------------
 }
+void VK_image::create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min_image_count){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  //Empty swapchain image
+  vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, nullptr);
+
+  //Fill swapchain image
+  vec_image.resize(min_image_count);
+  vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
+
+  //---------------------------
+}
+void VK_image::cleanup(){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(size_t i=0; i<vec_image_view.size(); i++){
+    vkDestroyImageView(device, vec_image_view[i], nullptr);
+  }
+
+  //---------------------------
+}
+
+//Subfunction
 VkSurfaceFormatKHR VK_image::retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format){
   //---------------------------
 
@@ -55,14 +80,4 @@ VkSurfaceFormatKHR VK_image::retrieve_surface_format(const std::vector<VkSurface
 
   //---------------------------
   return dev_format[0];
-}
-void VK_image::cleanup(){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  for(size_t i=0; i<vec_image_view.size(); i++){
-    vkDestroyImageView(device, vec_image_view[i], nullptr);
-  }
-
-  //---------------------------
 }

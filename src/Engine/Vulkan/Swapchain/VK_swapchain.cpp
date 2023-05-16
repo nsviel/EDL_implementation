@@ -41,13 +41,7 @@ void VK_swapchain::create_swapchain(){
     throw std::runtime_error("[error] failed to create swap chain!");
   }
 
-  //Swap chain handler
-  vkGetSwapchainImagesKHR(device, swapchain, &createInfo.minImageCount, nullptr);
-
-  vector<VkImage> swapchain_images;
-  swapchain_images.resize(createInfo.minImageCount);
-  vkGetSwapchainImagesKHR(device, swapchain, &createInfo.minImageCount, swapchain_images.data());
-  vk_image->set_vec_image(swapchain_images);
+  vk_image->create_image_swapchain(swapchain, createInfo.minImageCount);
 
   //---------------------------
 }

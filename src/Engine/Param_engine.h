@@ -15,6 +15,7 @@ struct Param_engine{
   std::string title = "Nephos";
 
   int max_fps = 120;
+  int MAX_FRAMES_IN_FLIGHT = 2;
 
   glm::vec4 background_color_ = glm::vec4(0.01, 0.01, 0.01, 1);
   glm::vec4 background_color = glm::vec4(0.262, 0.262, 0.262, 1);

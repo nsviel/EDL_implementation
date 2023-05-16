@@ -5,6 +5,7 @@
 #include "../../../common.h"
 
 class Engine;
+class Param_engine;
 class VK_device;
 class VK_buffer;
 class VK_swapchain;
@@ -27,6 +28,7 @@ public:
   inline std::vector<VkBuffer> get_uniformBuffers(){return uniform_buffer;};
 
 private:
+  Param_engine* param_engine;
   VK_device* vk_device;
   VK_buffer* vk_buffer;
   VK_swapchain* vk_swapchain;

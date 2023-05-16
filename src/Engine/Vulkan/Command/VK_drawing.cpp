@@ -3,7 +3,6 @@
 #include "../Command/VK_synchronization.h"
 #include "../Command/VK_command.h"
 #include "../Shader/VK_uniform.h"
-#include "../Instance/VK_parameter.h"
 #include "../Engine.h"
 
 #include "../Swapchain/VK_swapchain.h"
@@ -13,8 +12,7 @@
 #include "../Device/VK_device.h"
 
 #include "../../Node_engine.h"
-
-
+#include "../../Param_engine.h"
 
 
 //Constructor / Destructor
@@ -22,6 +20,7 @@ VK_drawing::VK_drawing(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
+  this->param_engine = engineManager->get_param_engine();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_window = engineManager->get_vk_window();
   this->vk_framebuffer = engineManager->get_vk_framebuffer();
@@ -29,6 +28,8 @@ VK_drawing::VK_drawing(Engine* engineManager){
   this->vk_command = engineManager->get_vk_command();
   this->vk_device = engineManager->get_vk_device();
   this->vk_uniform = engineManager->get_vk_uniform();
+
+  this->current_frame = 0;
 
   //---------------------------
 }
@@ -54,10 +55,10 @@ void VK_drawing::draw_swapchain(){
   framebufferResized = vk_window->check_for_resizing();
 
   //Waiting for the previous frame
-  vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
+  vkWaitForFences(device, 1, &inFlightFences[current_frame], VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, semvec_image_available[currentFrame], VK_NULL_HANDLE, &imageIndex);
+  VkResult result = vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, semvec_image_available[current_frame], VK_NULL_HANDLE, &imageIndex);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -65,7 +66,7 @@ void VK_drawing::draw_swapchain(){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
   }
 
-  vkResetFences(device, 1, &inFlightFences[currentFrame]);
+  vkResetFences(device, 1, &inFlightFences[current_frame]);
 
   //If window resized
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
@@ -81,8 +82,8 @@ void VK_drawing::draw_command(){
   std::vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
   //---------------------------
 
-  vkResetCommandBuffer(command_buffer_vec[currentFrame], 0);
-  vk_command->record_command_buffer(command_buffer_vec[currentFrame], imageIndex);
+  vkResetCommandBuffer(command_buffer_vec[current_frame], 0);
+  vk_command->record_command_buffer(command_buffer_vec[current_frame], imageIndex, current_frame);
 
   //---------------------------
 }
@@ -98,18 +99,18 @@ void VK_drawing::draw_queue(){
 
   VkSubmitInfo submitInfo{};
   submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-  VkSemaphore waitSemaphores[] = {semvec_image_available[currentFrame]};
+  VkSemaphore waitSemaphores[] = {semvec_image_available[current_frame]};
   VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
   submitInfo.waitSemaphoreCount = 1;
   submitInfo.pWaitSemaphores = waitSemaphores;
   submitInfo.pWaitDstStageMask = waitStages;
   submitInfo.commandBufferCount = 1;
-  submitInfo.pCommandBuffers = &command_buffer_vec[currentFrame];
-  VkSemaphore signalSemaphores[] = {renderFinishedSemaphores[currentFrame]};
+  submitInfo.pCommandBuffers = &command_buffer_vec[current_frame];
+  VkSemaphore signalSemaphores[] = {renderFinishedSemaphores[current_frame]};
   submitInfo.signalSemaphoreCount = 1;
   submitInfo.pSignalSemaphores = signalSemaphores;
 
-  VkResult result = vkQueueSubmit(queue_graphics, 1, &submitInfo, inFlightFences[currentFrame]);
+  VkResult result = vkQueueSubmit(queue_graphics, 1, &submitInfo, inFlightFences[current_frame]);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to submit draw command buffer!");
   }
@@ -132,7 +133,7 @@ void VK_drawing::draw_queue(){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+  current_frame = (current_frame + 1) % param_engine->MAX_FRAMES_IN_FLIGHT;
 
   //---------------------------
 }

@@ -71,6 +71,7 @@ public:
   inline VK_physical_device* get_vk_physical_device(){return vk_physical_device;}
   inline VK_image* get_vk_image(){return vk_image;}
   inline VK_validation* get_vk_validation(){return vk_validation;}
+  inline VK_drawing* get_vk_drawing(){return vk_drawing;}
 
   inline float get_fps(){return fps;}
 
