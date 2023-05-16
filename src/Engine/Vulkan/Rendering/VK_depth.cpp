@@ -4,6 +4,7 @@
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
 #include "../Data/VK_texture.h"
+#include "../Swapchain/VK_image.h"
 #include "../Engine.h"
 
 
@@ -16,30 +17,37 @@ VK_depth::VK_depth(Engine* engineManager){
   this->vk_texture = engineManager->get_vk_texture();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_physical_device = engineManager->get_vk_physical_device();
+  this->vk_image = engineManager->get_vk_image();
 
   //---------------------------
 }
 VK_depth::~VK_depth(){}
 
 //Main function
-void VK_depth::create_depth_resources(){
+void VK_depth::create_depth_resources(Image* image){
+  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
   //---------------------------
 
   VkFormat depth_format = find_depth_format();
   VkExtent2D swapchain_extent = vk_swapchain->get_extent();
 
-  vk_texture->create_image(swapchain_extent.width, swapchain_extent.height, depth_format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, depth_image, depth_image_mem);
-  this->depth_image_view = vk_texture->create_image_view(depth_image, depth_format, VK_IMAGE_ASPECT_DEPTH_BIT);
+  vk_texture->create_image(swapchain_extent.width, swapchain_extent.height, depth_format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, image->depth, image->depth_memory);
+  image->depth_view = vk_texture->create_image_view(image->depth, depth_format, VK_IMAGE_ASPECT_DEPTH_BIT);
 
   //---------------------------
 }
 void VK_depth::cleanup(){
+  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyImageView(device, depth_image_view, nullptr);
-  vkDestroyImage(device, depth_image, nullptr);
-  vkFreeMemory(device, depth_image_mem, nullptr);
+  for(int i=0; i<vec_image_obj.size(); i++){
+    Image* image = vec_image_obj[i];
+
+    vkDestroyImageView(device, image->depth_view, nullptr);
+    vkDestroyImage(device, image->depth, nullptr);
+    vkFreeMemory(device, image->depth_memory, nullptr);
+  }
 
   //---------------------------
 }

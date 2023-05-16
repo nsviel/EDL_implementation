@@ -7,7 +7,7 @@
 #include "../Device/VK_device.h"
 #include "../Engine.h"
 
-#include "../../Node_engine.h"
+#include "../../Param_engine.h"
 
 
 
@@ -15,7 +15,7 @@
 VK_framebuffer::VK_framebuffer(Engine* engineManager){
   //---------------------------
 
-  this->engineManager = engineManager;
+  this->param_engine = engineManager->get_param_engine();
   this->vk_device = engineManager->get_vk_device();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();
@@ -27,19 +27,17 @@ VK_framebuffer::VK_framebuffer(Engine* engineManager){
 VK_framebuffer::~VK_framebuffer(){}
 
 //Main function
-void VK_framebuffer::init_fbo(){
-  //---------------------------
-
-  this->create_framebuffers();
-
-  //---------------------------
-}
 void VK_framebuffer::cleanup(){
+  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  for(auto framebuffer : fbo_vec){
-    vkDestroyFramebuffer(device, framebuffer, nullptr);
+  for(int i=0; i<vec_image_obj.size(); i++){
+    Image* image = vec_image_obj[i];
+
+    for(int j=0; j<image->fbo_vec.size(); j++){
+      vkDestroyFramebuffer(device, image->fbo_vec[j], nullptr);
+    }
   }
 
   //---------------------------
@@ -47,36 +45,43 @@ void VK_framebuffer::cleanup(){
 
 //FBO creation
 void VK_framebuffer::create_framebuffers(){
+  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
   //---------------------------
 
-  //Get FBO required elements
-  std::vector<VkImageView> swapChain_image_views = vk_image->get_swapChain_image_views();
-  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
-  VkDevice device = vk_device->get_device();
-  VkRenderPass renderPass = vk_renderpass->get_renderPass();
-  VkImageView depth_image_view = vk_depth->get_depthImageView();
-
-  //Resize to hold all fbos
-  this->fbo_vec.resize(swapChain_image_views.size());
-
   //Create frambuffer
-  for(size_t i=0; i<swapChain_image_views.size(); i++){
-    std::array<VkImageView, 2> attachments = {swapChain_image_views[i], depth_image_view};
-
-    VkFramebufferCreateInfo framebufferInfo{};
-    framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-    framebufferInfo.renderPass = renderPass;
-    framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
-    framebufferInfo.pAttachments = attachments.data();
-    framebufferInfo.width = swapchain_extent.width;
-    framebufferInfo.height = swapchain_extent.height;
-    framebufferInfo.layers = 1;
-
-    VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &fbo_vec[i]);
-    if(result != VK_SUCCESS){
-      throw std::runtime_error("[error] failed to create framebuffer!");
-    }
+  for(size_t i=0; i<vec_image_obj.size(); i++){
+    Image* image = vec_image_obj[i];
+    this->create_framebuffer(image);
   }
 
   //---------------------------
+}
+void VK_framebuffer::create_framebuffer(Image* image){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  //Get FBO required elements
+  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
+  VkRenderPass renderPass = vk_renderpass->get_renderPass();
+  VkFramebuffer fbo;
+
+  //Create frambuffer
+  std::array<VkImageView, 2> attachments = {image->image_view, image->depth_view};
+
+  VkFramebufferCreateInfo framebufferInfo{};
+  framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+  framebufferInfo.renderPass = renderPass;
+  framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+  framebufferInfo.pAttachments = attachments.data();
+  framebufferInfo.width = swapchain_extent.width;
+  framebufferInfo.height = swapchain_extent.height;
+  framebufferInfo.layers = 1;
+
+  VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &fbo);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to create framebuffer!");
+  }
+
+  //---------------------------
+  image->fbo_vec.push_back(fbo);
 }

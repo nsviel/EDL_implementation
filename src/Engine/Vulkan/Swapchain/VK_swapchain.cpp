@@ -137,8 +137,7 @@ void VK_swapchain::recreate_swapChain(){
 
   //Recreate values
   this->create_swapchain();
-  vk_image->create_image_view();
-  vk_depth->create_depth_resources();
+  vk_image->create_image_struct();
   vk_framebuffer->create_framebuffers();
 
   //---------------------------

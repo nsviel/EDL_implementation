@@ -26,17 +26,18 @@ public:
 
   //Creation function
   void create_image_struct();
-  void create_image_view();
+  void create_image_view(Image* image);
   void create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min_image_count);
 
   //Subfunction
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
 
+  inline vector<Image*> get_vec_image_obj(){return vec_image_obj;}
   inline VkFormat get_image_format(){return image_format;}
-  inline std::vector<VkImageView> get_swapChain_image_views(){return vec_image_view;}
   inline void set_vec_image(vector<VkImage> value){vec_image = value;}
 
 private:
+  Engine* engineManager;
   Param_engine* param_engine;
   VK_window* vk_window;
   VK_device* vk_device;
@@ -45,7 +46,6 @@ private:
 
   VkFormat image_format;
   vector<VkImage> vec_image;
-  vector<VkImageView> vec_image_view;
   vector<Image*> vec_image_obj;
 };
 

@@ -5,9 +5,14 @@
 
 
 struct Image{
-  //Image info
+  //Image
   VkImage image;
   VkImageView image_view;
+
+  //Depth
+  VkImage depth;
+  VkImageView depth_view;
+  VkDeviceMemory depth_memory;
 
   //Rendering
   vector<VkFramebuffer> fbo_vec;

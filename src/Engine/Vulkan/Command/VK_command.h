@@ -9,13 +9,13 @@ class VK_device;
 class VK_swapchain;
 class VK_renderpass;
 class VK_pipeline;
-class VK_framebuffer;
 class VK_descriptor;
 class VK_viewport;
 class VK_window;
 class VK_buffer;
 class VK_camera;
 class VK_physical_device;
+class VK_image;
 
 
 class VK_command
@@ -55,12 +55,12 @@ private:
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;
   VK_pipeline* vk_pipeline;
-  VK_framebuffer* vk_framebuffer;
   VK_descriptor* vk_descriptor;
   VK_viewport* vk_viewport;
   VK_window* vk_window;
   VK_buffer* vk_buffer;
   VK_camera* vk_camera;
+  VK_image* vk_image;
   VK_physical_device* vk_physical_device;
 
   VkCommandPool command_pool;

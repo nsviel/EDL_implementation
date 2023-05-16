@@ -15,6 +15,7 @@
 VK_image::VK_image(Engine* engineManager){
   //---------------------------
 
+  this->engineManager = engineManager;
   this->param_engine = engineManager->get_param_engine();
   this->vk_window = engineManager->get_vk_window();
   this->vk_device = engineManager->get_vk_device();
@@ -30,34 +31,42 @@ void VK_image::init_image(){
   //---------------------------
 
   this->create_image_struct();
-  this->create_image_view();
-
+  
   //---------------------------
 }
 void VK_image::cleanup(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  for(size_t i=0; i<vec_image_view.size(); i++){
-    vkDestroyImageView(device, vec_image_view[i], nullptr);
+  for(size_t i=0; i<vec_image_obj.size(); i++){
+    Image* image = vec_image_obj[i];
+    vkDestroyImageView(device, image->image_view, nullptr);
+    delete image;
   }
+
+  vec_image_obj.clear();
 
   //---------------------------
 }
 
 //Creation function
 void VK_image::create_image_struct(){
+  VK_depth* vk_depth = engineManager->get_vk_depth();
+  VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   //---------------------------
 
-  for(int i=0; i<param_engine->max_frame_inflight; i++){
+  for(int i=0; i<vec_image.size(); i++){
     Image* image = new Image();
     image->image = vec_image[i];
+    this->create_image_view(image);
+    vk_depth->create_depth_resources(image);
+    //vk_framebuffer->create_framebuffer(image);
     vec_image_obj.push_back(image);
   }
 
   //---------------------------
 }
-void VK_image::create_image_view(){
+void VK_image::create_image_view(Image* image){
   VkDevice device = vk_device->get_device();
   VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   //---------------------------
@@ -66,13 +75,8 @@ void VK_image::create_image_view(){
   VkSurfaceFormatKHR surfaceFormat = retrieve_surface_format(surface_format);
   this->image_format = surfaceFormat.format;
 
-  //Resize the image view vector
-  vec_image_view.resize(vec_image.size());
-
   //Image view settings & creation
-  for(size_t i=0; i<vec_image.size(); i++){
-    vec_image_view[i] = vk_texture->create_image_view(vec_image[i], image_format, VK_IMAGE_ASPECT_COLOR_BIT);
-  }
+  image->image_view = vk_texture->create_image_view(image->image, image_format, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
 }

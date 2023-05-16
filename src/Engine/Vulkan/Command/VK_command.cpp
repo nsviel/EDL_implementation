@@ -11,7 +11,7 @@
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
 #include "../Swapchain/VK_swapchain.h"
-#include "../Rendering/VK_framebuffer.h"
+#include "../Swapchain/VK_image.h"
 #include "../Camera/VK_viewport.h"
 #include "../Camera/VK_camera.h"
 #include "../Shader/VK_uniform.h"
@@ -29,13 +29,13 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();
   this->vk_pipeline = engineManager->get_vk_pipeline();
-  this->vk_framebuffer = engineManager->get_vk_framebuffer();
   this->vk_descriptor = engineManager->get_vk_descriptor();
   this->vk_viewport = engineManager->get_vk_viewport();
   this->vk_window = engineManager->get_vk_window();
   this->vk_buffer = engineManager->get_vk_buffer();
   this->vk_camera = engineManager->get_vk_camera();
   this->vk_physical_device = engineManager->get_vk_physical_device();
+  this->vk_image = engineManager->get_vk_image();
 
   //---------------------------
 }
@@ -95,10 +95,11 @@ void VK_command::cleanup(){
 
 //Render pass
 void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex, uint32_t current_frame){
-  std::vector<VkFramebuffer> fbo_vec = vk_framebuffer->get_fbo_vec();
   VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
+
+  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
 
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -120,7 +121,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
   renderPassInfo.renderPass = renderPass;
-  renderPassInfo.framebuffer = fbo_vec[imageIndex];
+  renderPassInfo.framebuffer = vec_image_obj[imageIndex]->fbo_vec[0];
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = swapchain_extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
