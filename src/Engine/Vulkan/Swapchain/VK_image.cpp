@@ -51,6 +51,7 @@ void VK_image::create_image_struct(){
 
   for(int i=0; i<param_engine->max_frame_inflight; i++){
     Image* image = new Image();
+    image->image = vec_image[i];
     vec_image_obj.push_back(image);
   }
 
@@ -83,11 +84,7 @@ void VK_image::create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min
   vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, nullptr);
 
   //Fill swapchain image
-  //vector<VkImage> vec_image;
   vec_image.resize(min_image_count);
-  vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
-
-  vec_image_obj.resize(min_image_count);
   vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
 
   //---------------------------
