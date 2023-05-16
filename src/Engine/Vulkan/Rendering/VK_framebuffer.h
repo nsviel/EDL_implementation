@@ -21,12 +21,12 @@ public:
   ~VK_framebuffer();
 
 public:
-  //Main functions
-  void clean_framebuffer(Image* image);
-
   //FBO creation
   void create_framebuffers();
   void create_framebuffer(Image* image);
+
+  //Deletion functions
+  void clean_framebuffer(Image* image);
 
 private:
   Param_engine* param_engine;

@@ -26,16 +26,6 @@ VK_image::VK_image(Engine* engineManager){
 }
 VK_image::~VK_image(){}
 
-//Main function
-void VK_image::clean_image_view(Image* image){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  vkDestroyImageView(device, image->image_view, nullptr);
-
-  //---------------------------
-}
-
 //Creation function
 void VK_image::create_image_struct(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
@@ -96,6 +86,14 @@ void VK_image::clean_image_struct(){
   }
 
   vec_image_obj.clear();
+
+  //---------------------------
+}
+void VK_image::clean_image_view(Image* image){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  vkDestroyImageView(device, image->image_view, nullptr);
 
   //---------------------------
 }

@@ -26,18 +26,6 @@ VK_framebuffer::VK_framebuffer(Engine* engineManager){
 }
 VK_framebuffer::~VK_framebuffer(){}
 
-//Main function
-void VK_framebuffer::clean_framebuffer(Image* image){
-  VkDevice device = vk_device->get_device();
-  //---------------------------
-
-  for(int j=0; j<image->fbo_vec.size(); j++){
-    vkDestroyFramebuffer(device, image->fbo_vec[j], nullptr);
-  }
-
-  //---------------------------
-}
-
 //FBO creation
 void VK_framebuffer::create_framebuffers(){
   vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
@@ -79,4 +67,16 @@ void VK_framebuffer::create_framebuffer(Image* image){
 
   //---------------------------
   image->fbo_vec.push_back(fbo);
+}
+
+//Deletion function
+void VK_framebuffer::clean_framebuffer(Image* image){
+  VkDevice device = vk_device->get_device();
+  //---------------------------
+
+  for(int j=0; j<image->fbo_vec.size(); j++){
+    vkDestroyFramebuffer(device, image->fbo_vec[j], nullptr);
+  }
+
+  //---------------------------
 }

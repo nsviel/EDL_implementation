@@ -1,5 +1,6 @@
 ToDo
 //-----------------
+-structure inflight images
 -mettre tous les element des images swapchain dans structure image
 -debug arcball cam
 -cross compilation windows
@@ -10,6 +11,7 @@ ToDo
 
 Done
 //-----------------
+-structure swapchain image
 -selection des objects: tab & filemanager
 -deletion object
 -load several cloud by once
