@@ -1,6 +1,6 @@
 ToDo
 //-----------------
--structure inflight images
+-mettre les object vulkan dans struct param_vulkan
 -mettre tous les element des images swapchain dans structure image
 -debug arcball cam
 -cross compilation windows
@@ -11,6 +11,7 @@ ToDo
 
 Done
 //-----------------
+-structure inflight images
 -structure swapchain image
 -selection des objects: tab & filemanager
 -deletion object

@@ -42,7 +42,6 @@ void VK_drawing::draw_frame(){
   //---------------------------
 }
 void VK_drawing::draw_swapchain(){
-  VkDevice device = vk_device->get_device();
   VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
   //---------------------------
 
@@ -52,10 +51,10 @@ void VK_drawing::draw_swapchain(){
   framebufferResized = vk_window->check_for_resizing();
 
   //Waiting for the previous frame
-  vkWaitForFences(device, 1, &frame->fence_inflight, VK_TRUE, UINT64_MAX);
+  vkWaitForFences(param_vulkan->device, 1, &frame->fence_inflight, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(device, swapChain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &imageIndex);
+  VkResult result = vkAcquireNextImageKHR(param_vulkan->device, swapChain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &imageIndex);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -63,7 +62,7 @@ void VK_drawing::draw_swapchain(){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
   }
 
-  vkResetFences(device, 1, &frame->fence_inflight);
+  vkResetFences(param_vulkan->device, 1, &frame->fence_inflight);
 
   //If window resized
   if(result == VK_ERROR_OUT_OF_DATE_KHR){

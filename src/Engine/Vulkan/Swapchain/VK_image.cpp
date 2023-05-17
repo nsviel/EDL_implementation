@@ -52,11 +52,9 @@ void VK_image::create_image_struct(){
   //---------------------------
 }
 void VK_image::create_image_view(Image* image){
-  VkDevice device = vk_device->get_device();
-  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
   //---------------------------
 
-  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(physical_device);
+  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(param_vulkan->physical_device);
   VkSurfaceFormatKHR surfaceFormat = retrieve_surface_format(surface_format);
   this->image_format = surfaceFormat.format;
 
@@ -66,15 +64,14 @@ void VK_image::create_image_view(Image* image){
   //---------------------------
 }
 void VK_image::create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min_image_count){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //Empty swapchain image
-  vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, nullptr);
+  vkGetSwapchainImagesKHR(param_vulkan->device, swapchain, &min_image_count, nullptr);
 
   //Fill swapchain image
   vec_image_swapchain.resize(min_image_count);
-  vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image_swapchain.data());
+  vkGetSwapchainImagesKHR(param_vulkan->device, swapchain, &min_image_count, vec_image_swapchain.data());
 
   //---------------------------
 }
@@ -110,10 +107,9 @@ void VK_image::clean_frame_struct(){
   //---------------------------
 }
 void VK_image::clean_image_view(Image* image){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyImageView(device, image->image_view, nullptr);
+  vkDestroyImageView(param_vulkan->device, image->image_view, nullptr);
 
   //---------------------------
 }

@@ -24,7 +24,6 @@ VK_uniform::~VK_uniform(){}
 
 //Main function
 void VK_uniform::create_uniform_buffers(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //Resize ubo vectors
@@ -37,13 +36,12 @@ void VK_uniform::create_uniform_buffers(){
   for(size_t i=0; i<param_vulkan->max_frame; i++){
     vk_buffer->create_buffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform_buffer[i]);
     vk_buffer->bind_buffer_memory(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniform_buffer[i], uniform_buffer_memory[i]);
-    vkMapMemory(device, uniform_buffer_memory[i], 0, bufferSize, 0, &uniform_buffer_mapped[i]);
+    vkMapMemory(param_vulkan->device, uniform_buffer_memory[i], 0, bufferSize, 0, &uniform_buffer_mapped[i]);
   }
 
   //---------------------------
 }
 void VK_uniform::update_uniform_buffer(uint32_t currentImage, MVP& mvp){
-  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   //---------------------------
 
   memcpy(uniform_buffer_mapped[currentImage], &mvp, sizeof(mvp));
@@ -51,12 +49,11 @@ void VK_uniform::update_uniform_buffer(uint32_t currentImage, MVP& mvp){
   //---------------------------
 }
 void VK_uniform::cleanup(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   for(size_t i=0; i<param_vulkan->max_frame; i++){
-    vkDestroyBuffer(device, uniform_buffer[i], nullptr);
-    vkFreeMemory(device, uniform_buffer_memory[i], nullptr);
+    vkDestroyBuffer(param_vulkan->device, uniform_buffer[i], nullptr);
+    vkFreeMemory(param_vulkan->device, uniform_buffer_memory[i], nullptr);
   }
 
   //---------------------------

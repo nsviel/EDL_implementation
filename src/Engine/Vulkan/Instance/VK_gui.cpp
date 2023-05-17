@@ -2,10 +2,11 @@
 #include "VK_window.h"
 #include "VK_instance.h"
 
+#include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
 #include "../Pipeline/VK_renderpass.h"
-#include "../Engine.h"
 #include "../Command/VK_command.h"
 #include "../Command/VK_drawing.h"
 #include "../Swapchain/VK_image.h"
@@ -18,6 +19,7 @@ VK_gui::VK_gui(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_command = engineManager->get_vk_command();
   this->vk_window = engineManager->get_vk_window();
   this->vk_instance = engineManager->get_vk_instance();
@@ -40,8 +42,7 @@ void VK_gui::cleanup(){
   VK_device* vk_device = engineManager->get_vk_device();
   //---------------------------
 
-  VkDevice device = vk_device->get_device();
-  vkDestroyDescriptorPool(device, imguiPool, nullptr);
+  vkDestroyDescriptorPool(param_vulkan->device, imguiPool, nullptr);
 
   ImGui_ImplVulkan_Shutdown();
   ImGui_ImplGlfw_Shutdown();
@@ -71,8 +72,6 @@ void VK_gui::init_gui(){
 void VK_gui::gui_vulkan(){
   GLFWwindow* window = vk_window->get_window();
   VkInstance instance = vk_instance->get_instance();
-  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
-  VkDevice device = vk_device->get_device();
   VkSurfaceKHR surface = vk_window->get_surface();
   VkQueue queue_graphics = vk_device->get_queue_graphics();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
@@ -104,7 +103,7 @@ void VK_gui::gui_vulkan(){
   pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
   pool_info.pPoolSizes = pool_sizes;
 
-  VkResult result = vkCreateDescriptorPool(device, &pool_info, nullptr, &imguiPool);
+  VkResult result = vkCreateDescriptorPool(param_vulkan->device, &pool_info, nullptr, &imguiPool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create gui");
   }
@@ -113,8 +112,8 @@ void VK_gui::gui_vulkan(){
   ImGui_ImplGlfw_InitForVulkan(window, true);
   ImGui_ImplVulkan_InitInfo init_info = {};
   init_info.Instance = instance;
-  init_info.PhysicalDevice = physical_device;
-  init_info.Device = device;
+  init_info.PhysicalDevice = param_vulkan->physical_device;
+  init_info.Device = param_vulkan->device;
   init_info.Queue = queue_graphics;
   init_info.DescriptorPool = imguiPool;
   init_info.PipelineCache = VK_NULL_HANDLE;
@@ -166,7 +165,6 @@ void VK_gui::gui_style(){
   //---------------------------
 }
 void VK_gui::gui_font(){
-  VkDevice device = vk_device->get_device();
   VkCommandPool command_pool = vk_command->get_command_pool();
   VkQueue queue_graphics = vk_device->get_queue_graphics();
   VK_drawing* vk_drawing = engineManager->get_vk_drawing();
@@ -176,7 +174,7 @@ void VK_gui::gui_font(){
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
   Frame* frame = vec_frame[current_frame];
 
-  VkResult result = vkResetCommandPool(device, command_pool, 0);
+  VkResult result = vkResetCommandPool(param_vulkan->device, command_pool, 0);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }
@@ -205,7 +203,7 @@ void VK_gui::gui_font(){
     throw std::runtime_error("gui font error");
   }
 
-  result = vkDeviceWaitIdle(device);
+  result = vkDeviceWaitIdle(param_vulkan->device);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }

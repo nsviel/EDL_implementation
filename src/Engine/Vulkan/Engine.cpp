@@ -98,7 +98,6 @@ void Engine::init_vulkan(){
 }
 void Engine::main_loop() {
   GLFWwindow* window = vk_window->get_window();
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   auto start_time = std::chrono::steady_clock::now();
@@ -113,7 +112,7 @@ void Engine::main_loop() {
     this->fps_calcul(start_time);
   }
 
-  vkDeviceWaitIdle(device);
+  vkDeviceWaitIdle(param_vulkan->device);
 
   //---------------------------
 }

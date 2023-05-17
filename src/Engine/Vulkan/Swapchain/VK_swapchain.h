@@ -4,6 +4,7 @@
 #include "../../../common.h"
 
 class Engine;
+class Param_vulkan;
 class VK_window;
 class VK_device;
 class VK_physical_device;
@@ -31,20 +32,18 @@ public:
   //Swap chain parameter
   VkSurfaceFormatKHR swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats);
   VkPresentModeKHR swapchain_presentation_mode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-  void compute_extent(const VkSurfaceCapabilitiesKHR& capabilities);
 
   inline VkSwapchainKHR get_swapChain(){return swapchain;}
-  inline VkExtent2D get_extent(){return extent;}
 
 private:
   Engine* engineManager;
+  Param_vulkan* param_vulkan;
   VK_window* vk_window;
   VK_device* vk_device;
   VK_physical_device* vk_physical_device;
   VK_image* vk_image;
 
   VkSwapchainKHR swapchain;
-  VkExtent2D extent;
 };
 
 #endif

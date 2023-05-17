@@ -2,12 +2,14 @@
 #include "VK_physical_device.h"
 
 #include "../Engine.h"
+#include "../Param_vulkan.h"
 
 
 //Constructor / Destructor
 VK_device::VK_device(Engine* engineManager){
   //---------------------------
 
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
@@ -20,9 +22,8 @@ void VK_device::create_logical_device(){
   //---------------------------
 
   //Get GPU queue families
-  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
-  int family_graphics = vk_physical_device->find_queue_family_graphics(physical_device);
-  int family_presentation = vk_physical_device->find_queue_family_presentation(physical_device);
+  int family_graphics = vk_physical_device->find_queue_family_graphics(param_vulkan->physical_device);
+  int family_presentation = vk_physical_device->find_queue_family_presentation(param_vulkan->physical_device);
   std::set<uint32_t> uniqueQueueFamilies = {(unsigned int)family_graphics, (unsigned int)family_presentation};
 
   //Create queue on device
@@ -54,21 +55,21 @@ void VK_device::create_logical_device(){
   createInfo.enabledLayerCount = 0;
 
   //Creating the logical device
-  VkResult result = vkCreateDevice(physical_device, &createInfo, nullptr, &device);
+  VkResult result = vkCreateDevice(param_vulkan->physical_device, &createInfo, nullptr, &param_vulkan->device);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create logical device!");
   }
 
   //Get queue family handles
-  vkGetDeviceQueue(device, family_graphics, 0, &queue_graphics);
-  vkGetDeviceQueue(device, family_presentation, 0, &queue_presentation);
+  vkGetDeviceQueue(param_vulkan->device, family_graphics, 0, &queue_graphics);
+  vkGetDeviceQueue(param_vulkan->device, family_presentation, 0, &queue_presentation);
 
   //---------------------------
 }
 void VK_device::cleanup(){
   //---------------------------
 
-  vkDestroyDevice(device, nullptr);
+  vkDestroyDevice(param_vulkan->device, nullptr);
 
   //---------------------------
 }

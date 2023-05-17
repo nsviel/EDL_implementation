@@ -45,11 +45,10 @@ void VK_descriptor::fill_vec_frame(vector<VkDescriptorSet> descriptor_set){
   //---------------------------
 }
 void VK_descriptor::cleanup(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyDescriptorPool(device, descriptor_pool, nullptr);
-  vkDestroyDescriptorSetLayout(device, descriptor_layout, nullptr);
+  vkDestroyDescriptorPool(param_vulkan->device, descriptor_pool, nullptr);
+  vkDestroyDescriptorSetLayout(param_vulkan->device, descriptor_layout, nullptr);
 
   //---------------------------
 }
@@ -58,7 +57,6 @@ void VK_descriptor::cleanup(){
 void VK_descriptor::create_descriptor_set(){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  VkDevice device = vk_device->get_device();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
@@ -71,7 +69,7 @@ void VK_descriptor::create_descriptor_set(){
 
   vector<VkDescriptorSet> descriptor_set;
   descriptor_set.resize(param_vulkan->max_frame);
-  VkResult result = vkAllocateDescriptorSets(device, &allocInfo, descriptor_set.data());
+  VkResult result = vkAllocateDescriptorSets(param_vulkan->device, &allocInfo, descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
@@ -93,7 +91,7 @@ void VK_descriptor::create_descriptor_set(){
     descriptor_write.descriptorCount = 1;
     descriptor_write.pBufferInfo = &bufferInfo;
 
-    vkUpdateDescriptorSets(device, 1, &descriptor_write, 0, nullptr);
+    vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
   }
 
   this->fill_vec_frame(descriptor_set);
@@ -101,7 +99,6 @@ void VK_descriptor::create_descriptor_set(){
   //---------------------------
 }
 void VK_descriptor::create_descriptor_set_layout(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //Uniform buffer object
@@ -120,7 +117,7 @@ void VK_descriptor::create_descriptor_set_layout(){
   layoutInfo.pBindings = bindings.data();
 
   //Descriptor set layout creation
-  VkResult result = vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &descriptor_layout);
+  VkResult result = vkCreateDescriptorSetLayout(param_vulkan->device, &layoutInfo, nullptr, &descriptor_layout);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create descriptor set layout!");
   }
@@ -128,7 +125,6 @@ void VK_descriptor::create_descriptor_set_layout(){
   //---------------------------
 }
 void VK_descriptor::create_descriptor_pool(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //One descriptor per frame
@@ -142,7 +138,7 @@ void VK_descriptor::create_descriptor_pool(){
   pool_info.pPoolSizes = pool_size.data();
   pool_info.maxSets = static_cast<uint32_t>(param_vulkan->max_frame);
 
-  VkResult result = vkCreateDescriptorPool(device, &pool_info, nullptr, &descriptor_pool);
+  VkResult result = vkCreateDescriptorPool(param_vulkan->device, &pool_info, nullptr, &descriptor_pool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create descriptor pool!");
   }
@@ -154,7 +150,6 @@ void VK_descriptor::create_descriptor_pool(){
 void VK_descriptor::update_descriptor_set(){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  VkDevice device = vk_device->get_device();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
@@ -167,7 +162,7 @@ void VK_descriptor::update_descriptor_set(){
 
   vector<VkDescriptorSet> descriptor_set;
   descriptor_set.resize(param_vulkan->max_frame);
-  VkResult result = vkAllocateDescriptorSets(device, &allocInfo, descriptor_set.data());
+  VkResult result = vkAllocateDescriptorSets(param_vulkan->device, &allocInfo, descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
@@ -189,7 +184,7 @@ void VK_descriptor::update_descriptor_set(){
     descriptor_write.descriptorCount = 1;
     descriptor_write.pBufferInfo = &bufferInfo;
 
-    vkUpdateDescriptorSets(device, 1, &descriptor_write, 0, nullptr);
+    vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
   }
 
   this->fill_vec_frame(descriptor_set);
@@ -199,7 +194,6 @@ void VK_descriptor::update_descriptor_set(){
 void VK_descriptor::update_descriptor_set_texture(Object* object){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  VkDevice device = vk_device->get_device();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
@@ -212,7 +206,7 @@ void VK_descriptor::update_descriptor_set_texture(Object* object){
 
   vector<VkDescriptorSet> descriptor_set;
   descriptor_set.resize(param_vulkan->max_frame);
-  VkResult result = vkAllocateDescriptorSets(device, &allocInfo, descriptor_set.data());
+  VkResult result = vkAllocateDescriptorSets(param_vulkan->device, &allocInfo, descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
@@ -245,7 +239,7 @@ void VK_descriptor::update_descriptor_set_texture(Object* object){
     descriptor_write[1].descriptorCount = 1;
     descriptor_write[1].pImageInfo = &texture.imageInfo;
 
-    vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptor_write.size()), descriptor_write.data(), 0, nullptr);
+    vkUpdateDescriptorSets(param_vulkan->device, static_cast<uint32_t>(descriptor_write.size()), descriptor_write.data(), 0, nullptr);
   }
 
   this->fill_vec_frame(descriptor_set);

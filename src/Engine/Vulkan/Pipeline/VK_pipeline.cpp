@@ -1,15 +1,14 @@
 #include "VK_pipeline.h"
 #include "VK_renderpass.h"
 
+#include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Data/VK_descriptor.h"
 #include "../Data/VK_data.h"
-#include "../Engine.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Camera/VK_viewport.h"
 #include "../Shader/VK_shader.h"
-
-#include "../../Node_engine.h"
 
 
 //Constructor / Destructor
@@ -17,6 +16,7 @@ VK_pipeline::VK_pipeline(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_device = engineManager->get_vk_device();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();
@@ -38,14 +38,13 @@ void VK_pipeline::create_pipelines(){
   //---------------------------
 }
 void VK_pipeline::cleanup(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyPipeline(device, pipeline_point, nullptr);
-  vkDestroyPipelineLayout(device, pipeline_layout_point, nullptr);
+  vkDestroyPipeline(param_vulkan->device, pipeline_point, nullptr);
+  vkDestroyPipelineLayout(param_vulkan->device, pipeline_layout_point, nullptr);
 
-  vkDestroyPipeline(device, pipeline_line, nullptr);
-  vkDestroyPipelineLayout(device, pipeline_layout_line, nullptr);
+  vkDestroyPipeline(param_vulkan->device, pipeline_line, nullptr);
+  vkDestroyPipelineLayout(param_vulkan->device, pipeline_layout_line, nullptr);
 
   //---------------------------
 }
@@ -53,7 +52,6 @@ void VK_pipeline::cleanup(){
 //Pipeline creation
 void VK_pipeline::create_pipeline(string topology){
   VK_data* vk_data = engineManager->get_vk_data();
-  VkDevice device = vk_device->get_device();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
@@ -107,23 +105,22 @@ void VK_pipeline::create_pipeline(string topology){
   this->create_pipeline_graphics(pipelineInfo, topology);
 
   //Destroy shader modules
-  vkDestroyShaderModule(device, module_vert, nullptr);
-  vkDestroyShaderModule(device, module_frag, nullptr);
+  vkDestroyShaderModule(param_vulkan->device, module_vert, nullptr);
+  vkDestroyShaderModule(param_vulkan->device, module_frag, nullptr);
 
   //---------------------------
 }
 void VK_pipeline::create_pipeline_graphics(VkGraphicsPipelineCreateInfo pipelineInfo, string topology){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   if(topology == "point"){
-    VkResult result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline_point);
+    VkResult result = vkCreateGraphicsPipelines(param_vulkan->device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline_point);
     if(result != VK_SUCCESS){
       throw std::runtime_error("[error] failed to create graphics pipeline!");
     }
   }
   else if(topology == "line"){
-    VkResult result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline_line);
+    VkResult result = vkCreateGraphicsPipelines(param_vulkan->device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline_line);
     if(result != VK_SUCCESS){
       throw std::runtime_error("[error] failed to create graphics pipeline!");
     }
@@ -132,7 +129,6 @@ void VK_pipeline::create_pipeline_graphics(VkGraphicsPipelineCreateInfo pipeline
   //---------------------------
 }
 void VK_pipeline::create_pipeline_layout(string topology){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //Push constant for MVP matrix
@@ -147,18 +143,18 @@ void VK_pipeline::create_pipeline_layout(string topology){
   pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipelineLayoutInfo.setLayoutCount = 1;
   pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
-  pipelineLayoutInfo.pushConstantRangeCount = 1; 
+  pipelineLayoutInfo.pushConstantRangeCount = 1;
   pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
   //Pipeline layout creation
   if(topology == "point"){
-    VkResult result = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipeline_layout_point);
+    VkResult result = vkCreatePipelineLayout(param_vulkan->device, &pipelineLayoutInfo, nullptr, &pipeline_layout_point);
     if(result != VK_SUCCESS){
       throw std::runtime_error("[error] failed to create pipeline layout!");
     }
   }
   else if(topology == "line"){
-    VkResult result = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipeline_layout_line);
+    VkResult result = vkCreatePipelineLayout(param_vulkan->device, &pipelineLayoutInfo, nullptr, &pipeline_layout_line);
     if(result != VK_SUCCESS){
       throw std::runtime_error("[error] failed to create pipeline layout!");
     }
@@ -195,11 +191,10 @@ VkPipelineDynamicStateCreateInfo VK_pipeline::pipe_dynamic_state(std::vector<VkD
   return dynamicState;
 }
 VkPipelineViewportStateCreateInfo VK_pipeline::pipe_viewport(){
-  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   //---------------------------
 
   //Viewport
-  vk_viewport->update_viewport(swapchain_extent);
+  vk_viewport->update_viewport(param_vulkan->extent);
   VkViewport viewport = vk_viewport->get_viewport();
   VkRect2D scissor = vk_viewport->get_scissor();
 

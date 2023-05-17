@@ -8,6 +8,7 @@
 #include "../../../../extern/imgui/imgui_impl_vulkan.h"
 
 class Engine;
+class Param_vulkan;
 class VK_command;
 class VK_window;
 class VK_instance;
@@ -42,6 +43,7 @@ public:
 
 private:
   Engine* engineManager;
+  Param_vulkan* param_vulkan;
   VK_command* vk_command;
   VK_window* vk_window;
   VK_instance* vk_instance;

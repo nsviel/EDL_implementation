@@ -2,8 +2,9 @@
 #include "VK_buffer.h"
 #include "VK_texture.h"
 
-#include "../Device/VK_device.h"
 #include "../Engine.h"
+#include "../Param_vulkan.h"
+#include "../Device/VK_device.h"
 
 #include "../../GPU/GPU_data.h"
 #include "../../Node_engine.h"
@@ -14,6 +15,7 @@ VK_data::VK_data(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_device = engineManager->get_vk_device();
   this->vk_buffer = engineManager->get_vk_buffer();
   this->vk_texture = engineManager->get_vk_texture();
@@ -24,7 +26,6 @@ VK_data::~VK_data(){}
 
 //Main function
 void VK_data::cleanup(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   for(int i=0; i<list_data.size(); i++){
@@ -35,10 +36,9 @@ void VK_data::cleanup(){
   //---------------------------
 }
 void VK_data::clean_object(Object* object){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDeviceWaitIdle(device);
+  vkDeviceWaitIdle(param_vulkan->device);
 
   vk_buffer->cleanup_object(object);
   vk_texture->cleanup_texture(object);

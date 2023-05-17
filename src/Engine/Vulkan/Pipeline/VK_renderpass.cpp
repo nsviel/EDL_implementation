@@ -1,12 +1,11 @@
 #include "VK_renderpass.h"
 
 #include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_image.h"
 #include "../Rendering/VK_depth.h"
-
-#include "../../Node_engine.h"
 
 
 //Constructor / Destructor
@@ -14,6 +13,7 @@ VK_renderpass::VK_renderpass(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_device = engineManager->get_vk_device();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_image = engineManager->get_vk_image();
@@ -26,7 +26,6 @@ VK_renderpass::~VK_renderpass(){}
 void VK_renderpass::create_render_pass(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
   VkFormat image_format = vk_image->get_image_format();
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //Depth attachment
@@ -87,7 +86,7 @@ void VK_renderpass::create_render_pass(){
   renderPassInfo.pDependencies = &dependency;
 
   //Render pass creation
-  VkResult result = vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderPass);
+  VkResult result = vkCreateRenderPass(param_vulkan->device, &renderPassInfo, nullptr, &renderPass);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create render pass!");
   }
@@ -95,10 +94,9 @@ void VK_renderpass::create_render_pass(){
   //---------------------------
 }
 void VK_renderpass::cleanup(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyRenderPass(device, renderPass, nullptr);
+  vkDestroyRenderPass(param_vulkan->device, renderPass, nullptr);
 
   //---------------------------
 }

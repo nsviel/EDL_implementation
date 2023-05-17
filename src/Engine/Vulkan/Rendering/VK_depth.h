@@ -5,6 +5,7 @@
 #include "../../../common.h"
 
 class Engine;
+class Param_vulkan;
 class VK_device;
 class VK_texture;
 class VK_swapchain;
@@ -30,6 +31,7 @@ public:
 
 private:
   Engine* engineManager;
+  Param_vulkan* param_vulkan;
   VK_device* vk_device;
   VK_texture* vk_texture;
   VK_swapchain* vk_swapchain;

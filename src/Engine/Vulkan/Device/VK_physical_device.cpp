@@ -32,7 +32,7 @@ void VK_physical_device::select_physical_device(){
   VkInstance instance = vk_instance->get_instance();
   //---------------------------
 
-  this->physical_device = VK_NULL_HANDLE;
+  param_vulkan->physical_device = VK_NULL_HANDLE;
 
   //Find how many GPU are available
   uint32_t nb_device = 0;
@@ -46,11 +46,11 @@ void VK_physical_device::select_physical_device(){
   vkEnumeratePhysicalDevices(instance, &nb_device, devices.data());
   for(const auto& device : devices){
     if(is_device_suitable(device)){
-      physical_device = device;
+      param_vulkan->physical_device = device;
       break;
     }
   }
-  if(physical_device == VK_NULL_HANDLE){
+  if(param_vulkan->physical_device == VK_NULL_HANDLE){
     throw std::runtime_error("[error] failed to find a suitable GPU!");
   }
 
@@ -60,20 +60,20 @@ void VK_physical_device::compute_extent(){
   //Resolution of the swap chain image
   //---------------------------
 
-  VkSurfaceCapabilitiesKHR capabilities = find_surface_capability(physical_device);
+  VkSurfaceCapabilitiesKHR capabilities = find_surface_capability(param_vulkan->physical_device);
 
   if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
     param_vulkan->extent = capabilities.currentExtent;
   }else{
     glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
 
-    extent = {
+    param_vulkan->extent = {
       static_cast<uint32_t>(fbo_dim.x),
       static_cast<uint32_t>(fbo_dim.y)
     };
 
-    param_vulkan->extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-    param_vulkan->extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+    param_vulkan->extent.width = std::clamp(param_vulkan->extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+    param_vulkan->extent.height = std::clamp(param_vulkan->extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
   }
 
   //---------------------------

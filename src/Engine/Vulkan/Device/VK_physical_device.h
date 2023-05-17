@@ -34,9 +34,7 @@ public:
   vector<VkSurfaceFormatKHR> find_surface_format(VkPhysicalDevice physical_device);
   vector<VkPresentModeKHR> find_presentation_mode(VkPhysicalDevice physical_device);
 
-  inline VkPhysicalDevice get_physical_device(){return physical_device;}
   inline vector<char*> get_required_extension(){return required_extension;}
-  inline VkExtent2D get_extent(){return extent;}
 
 private:
   Engine* engineManager;
@@ -44,9 +42,7 @@ private:
   VK_window* vk_window;
   VK_instance* vk_instance;
 
-  VkPhysicalDevice physical_device;
   vector<char*> required_extension;
-  VkExtent2D extent;
 };
 
 #endif

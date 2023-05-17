@@ -41,11 +41,9 @@ VK_command::~VK_command(){}
 
 //Main function
 void VK_command::create_command_pool(){
-  VkPhysicalDevice physical_device = vk_physical_device->get_physical_device();
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
-  int family_graphics = vk_physical_device->find_queue_family_graphics(physical_device);
+  int family_graphics = vk_physical_device->find_queue_family_graphics(param_vulkan->physical_device);
 
   //Command pool info
   VkCommandPoolCreateInfo poolInfo{};
@@ -54,7 +52,7 @@ void VK_command::create_command_pool(){
   poolInfo.queueFamilyIndex = family_graphics;
 
   //Command pool creation
-  VkResult result = vkCreateCommandPool(device, &poolInfo, nullptr, &command_pool);
+  VkResult result = vkCreateCommandPool(param_vulkan->device, &poolInfo, nullptr, &command_pool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create command pool!");
   }
@@ -62,7 +60,6 @@ void VK_command::create_command_pool(){
   //---------------------------
 }
 void VK_command::create_command_buffers(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //One command buffer per frame
@@ -76,7 +73,7 @@ void VK_command::create_command_buffers(){
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
   allocInfo.commandBufferCount = (uint32_t) command_buffer_vec.size();
 
-  VkResult result = vkAllocateCommandBuffers(device, &allocInfo, command_buffer_vec.data());
+  VkResult result = vkAllocateCommandBuffers(param_vulkan->device, &allocInfo, command_buffer_vec.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
@@ -90,17 +87,15 @@ void VK_command::create_command_buffers(){
   //---------------------------
 }
 void VK_command::cleanup(){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
-  vkDestroyCommandPool(device, command_pool, nullptr);
+  vkDestroyCommandPool(param_vulkan->device, command_pool, nullptr);
 
   //---------------------------
 }
 
 //Render pass
 void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex, uint32_t current_frame){
-  VkExtent2D swapchain_extent = vk_physical_device->get_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
@@ -166,7 +161,6 @@ void VK_command::command_gui(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_command::command_viewport(VkCommandBuffer command_buffer){
-  VkExtent2D swapchain_extent = vk_physical_device->get_extent();
   //---------------------------
 
   vk_viewport->update_viewport(param_vulkan->extent);
@@ -253,7 +247,6 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer, uint32_t c
 VkCommandBuffer VK_command::command_buffer_begin(){
   VK_command* vk_command = engineManager->get_vk_command();
   VkCommandPool commandPool = vk_command->get_command_pool();
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   VkCommandBufferAllocateInfo allocInfo{};
@@ -263,7 +256,7 @@ VkCommandBuffer VK_command::command_buffer_begin(){
   allocInfo.commandBufferCount = 1;
 
   VkCommandBuffer command_buffer;
-  vkAllocateCommandBuffers(device, &allocInfo, &command_buffer);
+  vkAllocateCommandBuffers(param_vulkan->device, &allocInfo, &command_buffer);
 
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -277,7 +270,6 @@ VkCommandBuffer VK_command::command_buffer_begin(){
 void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
   VK_command* vk_command = engineManager->get_vk_command();
   VkCommandPool commandPool = vk_command->get_command_pool();
-  VkDevice device = vk_device->get_device();
   VkQueue queue_graphics = vk_device->get_queue_graphics();
   //---------------------------
 
@@ -291,7 +283,7 @@ void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
   vkQueueSubmit(queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
   vkQueueWaitIdle(queue_graphics);
 
-  vkFreeCommandBuffers(device, commandPool, 1, &command_buffer);
+  vkFreeCommandBuffers(param_vulkan->device, commandPool, 1, &command_buffer);
 
   //---------------------------
 }

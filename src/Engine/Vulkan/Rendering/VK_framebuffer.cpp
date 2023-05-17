@@ -38,11 +38,9 @@ void VK_framebuffer::create_framebuffer_obj(){
   //---------------------------
 }
 void VK_framebuffer::create_framebuffer(Image* image){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   //Get FBO required elements
-  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   VkFramebuffer fbo;
 
@@ -54,11 +52,11 @@ void VK_framebuffer::create_framebuffer(Image* image){
   framebufferInfo.renderPass = renderPass;
   framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
   framebufferInfo.pAttachments = attachments.data();
-  framebufferInfo.width = swapchain_extent.width;
-  framebufferInfo.height = swapchain_extent.height;
+  framebufferInfo.width = param_vulkan->extent.width;
+  framebufferInfo.height = param_vulkan->extent.height;
   framebufferInfo.layers = 1;
 
-  VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &fbo);
+  VkResult result = vkCreateFramebuffer(param_vulkan->device, &framebufferInfo, nullptr, &fbo);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create framebuffer!");
   }
@@ -69,11 +67,10 @@ void VK_framebuffer::create_framebuffer(Image* image){
 
 //Deletion function
 void VK_framebuffer::clean_framebuffer(Image* image){
-  VkDevice device = vk_device->get_device();
   //---------------------------
 
   for(int j=0; j<image->fbo_vec.size(); j++){
-    vkDestroyFramebuffer(device, image->fbo_vec[j], nullptr);
+    vkDestroyFramebuffer(param_vulkan->device, image->fbo_vec[j], nullptr);
   }
 
   //---------------------------

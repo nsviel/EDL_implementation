@@ -4,6 +4,7 @@
 #include "../../../common.h"
 
 class Engine;
+class Param_vulkan;
 class VK_device;
 class VK_physical_device;
 
@@ -35,6 +36,7 @@ public:
 
 private:
   Engine* engineManager;
+  Param_vulkan* param_vulkan;
   VK_device* vk_device;
   VK_physical_device* vk_physical_device;
 

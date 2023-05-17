@@ -22,6 +22,8 @@ struct Param_vulkan{
 
   //Vulkan objects
   VkExtent2D extent;
+  VkPhysicalDevice physical_device;
+  VkDevice device;
 
   //---------------------------
 };
