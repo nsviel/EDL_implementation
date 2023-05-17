@@ -30,12 +30,12 @@ void VK_uniform::create_uniform_buffers(){
 
   //Resize ubo vectors
   VkDeviceSize bufferSize = sizeof(MVP);
-  uniform_buffer.resize(param_engine->max_frame_inflight);
-  uniform_buffer_memory.resize(param_engine->max_frame_inflight);
-  uniform_buffer_mapped.resize(param_engine->max_frame_inflight);
+  uniform_buffer.resize(param_engine->max_frame);
+  uniform_buffer_memory.resize(param_engine->max_frame);
+  uniform_buffer_mapped.resize(param_engine->max_frame);
 
   //Create a buffer to hold the UBO data per frame
-  for(size_t i=0; i<param_engine->max_frame_inflight; i++){
+  for(size_t i=0; i<param_engine->max_frame; i++){
     vk_buffer->create_buffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform_buffer[i]);
     vk_buffer->bind_buffer_memory(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniform_buffer[i], uniform_buffer_memory[i]);
     vkMapMemory(device, uniform_buffer_memory[i], 0, bufferSize, 0, &uniform_buffer_mapped[i]);
@@ -55,7 +55,7 @@ void VK_uniform::cleanup(){
   VkDevice device = vk_device->get_device();
   //---------------------------
 
-  for(size_t i=0; i<param_engine->max_frame_inflight; i++){
+  for(size_t i=0; i<param_engine->max_frame; i++){
     vkDestroyBuffer(device, uniform_buffer[i], nullptr);
     vkFreeMemory(device, uniform_buffer_memory[i], nullptr);
   }

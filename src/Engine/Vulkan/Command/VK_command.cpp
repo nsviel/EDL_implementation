@@ -7,7 +7,6 @@
 #include "../Pipeline/VK_pipeline.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
-#include "../Data/VK_descriptor.h"
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
 #include "../Swapchain/VK_swapchain.h"
@@ -29,7 +28,6 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();
   this->vk_pipeline = engineManager->get_vk_pipeline();
-  this->vk_descriptor = engineManager->get_vk_descriptor();
   this->vk_viewport = engineManager->get_vk_viewport();
   this->vk_window = engineManager->get_vk_window();
   this->vk_buffer = engineManager->get_vk_buffer();
@@ -68,7 +66,8 @@ void VK_command::create_command_buffers(){
   //---------------------------
 
   //One command buffer per frame
-  command_buffer_vec.resize(param_engine->max_frame_inflight);
+  vector<VkCommandBuffer> command_buffer_vec;
+  command_buffer_vec.resize(param_engine->max_frame);
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};
@@ -80,6 +79,12 @@ void VK_command::create_command_buffers(){
   VkResult result = vkAllocateCommandBuffers(device, &allocInfo, command_buffer_vec.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
+  }
+
+  vector<Frame*> vec_frame = vk_image->get_vec_frame();
+  for(int i=0; i<vec_frame.size(); i++){
+    Frame* frame = vec_frame[i];
+    frame->command_buffer = command_buffer_vec[i];
   }
 
   //---------------------------
@@ -99,7 +104,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
-  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
+  vector<Image*> vec_image_obj = vk_image->get_vec_image();
 
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -178,6 +183,9 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t 
   VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
+  vector<Frame*> vec_frame = vk_image->get_vec_frame();
+  Frame* frame = vec_frame[current_frame];
+
   //Bind pipeline
   VkPipeline pipeline = vk_pipeline->get_pipeline_point();
   VkPipelineLayout pipeline_layout = vk_pipeline->get_pipeline_layout_point();
@@ -186,8 +194,7 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t 
   //Bind descriptor
   list<Object*> list_data = vk_data->get_list_data();
   if(list_data.size() != 0){
-    std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
-    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &descriptorSets[current_frame], 0, nullptr);
+    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
   }
 
   //Bind and draw vertex buffers
@@ -210,6 +217,9 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer, uint32_t c
   VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
+  vector<Frame*> vec_frame = vk_image->get_vec_frame();
+  Frame* frame = vec_frame[current_frame];
+
   //Bind pipeline
   VkPipeline pipeline = vk_pipeline->get_pipeline_line();
   VkPipelineLayout pipeline_layout = vk_pipeline->get_pipeline_layout_line();
@@ -218,8 +228,7 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer, uint32_t c
   //Bind descriptor
   list<Object*> list_data = vk_data->get_list_data();
   if(list_data.size() != 0){
-    std::vector<VkDescriptorSet> descriptorSets = vk_descriptor->get_descriptorSets();
-    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &descriptorSets[current_frame], 0, nullptr);
+    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
   }
 
   //Bind and draw vertex buffers

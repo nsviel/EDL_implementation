@@ -32,9 +32,9 @@ public:
   //Subfunction
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
 
-  inline vector<Image*> get_vec_image_obj(){return vec_image_obj;}
+  inline vector<Image*> get_vec_image(){return vec_image;}
+  inline vector<Frame*> get_vec_frame(){return vec_frame;}
   inline VkFormat get_image_format(){return image_format;}
-  inline void set_vec_image(vector<VkImage> value){vec_image = value;}
 
 private:
   Engine* engineManager;
@@ -45,8 +45,9 @@ private:
   VK_texture* vk_texture;
 
   VkFormat image_format;
-  vector<VkImage> vec_image;
-  vector<Image*> vec_image_obj;
+  vector<VkImage> vec_image_swapchain;
+  vector<Image*> vec_image;
+  vector<Frame*> vec_frame;
 };
 
 #endif

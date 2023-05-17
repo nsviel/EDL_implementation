@@ -9,7 +9,6 @@ class VK_device;
 class VK_swapchain;
 class VK_renderpass;
 class VK_pipeline;
-class VK_descriptor;
 class VK_viewport;
 class VK_window;
 class VK_buffer;
@@ -45,7 +44,6 @@ public:
   VkCommandBuffer command_buffer_begin();
   void command_buffer_end(VkCommandBuffer command_buffer);
 
-  inline std::vector<VkCommandBuffer> get_command_buffer_vec(){return command_buffer_vec;}
   inline VkCommandPool get_command_pool(){return command_pool;}
 
 private:
@@ -55,7 +53,6 @@ private:
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;
   VK_pipeline* vk_pipeline;
-  VK_descriptor* vk_descriptor;
   VK_viewport* vk_viewport;
   VK_window* vk_window;
   VK_buffer* vk_buffer;
@@ -64,7 +61,6 @@ private:
   VK_physical_device* vk_physical_device;
 
   VkCommandPool command_pool;
-  std::vector<VkCommandBuffer> command_buffer_vec;
 };
 
 #endif

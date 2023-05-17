@@ -32,12 +32,19 @@ void VK_image::create_image_struct(){
   VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   //---------------------------
 
-  for(int i=0; i<vec_image.size(); i++){
+  //Swapchain images
+  for(int i=0; i<vec_image_swapchain.size(); i++){
     Image* image = new Image();
-    image->image = vec_image[i];
+    image->image = vec_image_swapchain[i];
     this->create_image_view(image);
     vk_depth->create_depth_resource(image);
-    vec_image_obj.push_back(image);
+    vec_image.push_back(image);
+  }
+
+  //Draw frames
+  for(int i=0; i<param_engine->max_frame; i++){
+    Frame* frame = new Frame();
+    vec_frame.push_back(frame);
   }
 
   //---------------------------
@@ -64,8 +71,8 @@ void VK_image::create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min
   vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, nullptr);
 
   //Fill swapchain image
-  vec_image.resize(min_image_count);
-  vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image.data());
+  vec_image_swapchain.resize(min_image_count);
+  vkGetSwapchainImagesKHR(device, swapchain, &min_image_count, vec_image_swapchain.data());
 
   //---------------------------
 }
@@ -76,8 +83,8 @@ void VK_image::clean_image_struct(){
   VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   //---------------------------
 
-  for(int i=0; i<vec_image_obj.size(); i++){
-    Image* image = vec_image_obj[i];
+  for(int i=0; i<vec_image.size(); i++){
+    Image* image = vec_image[i];
 
     this->clean_image_view(image);
     vk_depth->clean_depth_resource(image);
@@ -85,7 +92,7 @@ void VK_image::clean_image_struct(){
     delete image;
   }
 
-  vec_image_obj.clear();
+  vec_image.clear();
 
   //---------------------------
 }

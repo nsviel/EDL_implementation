@@ -28,7 +28,7 @@ VK_framebuffer::~VK_framebuffer(){}
 
 //FBO creation
 void VK_framebuffer::create_framebuffers(){
-  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
+  vector<Image*> vec_image_obj = vk_image->get_vec_image();
   //---------------------------
 
   //Create frambuffer

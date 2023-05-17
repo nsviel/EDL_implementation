@@ -7,6 +7,7 @@
 class Engine;
 class Param_engine;
 class VK_device;
+class VK_image;
 
 
 class VK_descriptor
@@ -19,6 +20,7 @@ public:
 public:
   //Main functions
   void init_descriptor();
+  void fill_vec_frame(vector<VkDescriptorSet> descriptor_set);
   void cleanup();
 
   //Subfunctions
@@ -31,16 +33,15 @@ public:
   void update_descriptor_set_texture(Object* object);
 
   inline VkDescriptorSetLayout get_descriptorSetLayout(){return descriptor_layout;}
-  inline std::vector<VkDescriptorSet> get_descriptorSets(){return descriptor_set;}
 
 private:
   Engine* engineManager;
   Param_engine* param_engine;
   VK_device* vk_device;
+  VK_image* vk_image;
 
   VkDescriptorPool descriptor_pool;
   VkDescriptorSetLayout descriptor_layout;
-  std::vector<VkDescriptorSet> descriptor_set;
 };
 
 #endif

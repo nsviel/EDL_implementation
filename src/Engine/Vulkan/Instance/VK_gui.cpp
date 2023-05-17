@@ -8,6 +8,7 @@
 #include "../Engine.h"
 #include "../Command/VK_command.h"
 #include "../Command/VK_drawing.h"
+#include "../Swapchain/VK_image.h"
 
 #include "image/IconsFontAwesome5.h"
 
@@ -23,6 +24,7 @@ VK_gui::VK_gui(Engine* engineManager){
   this->vk_device = engineManager->get_vk_device();
   this->vk_renderpass = engineManager->get_vk_renderpass();
   this->vk_physical_device = engineManager->get_vk_physical_device();
+  this->vk_image = engineManager->get_vk_image();
 
   //---------------------------
 }
@@ -171,9 +173,8 @@ void VK_gui::gui_font(){
   uint32_t current_frame = vk_drawing->get_current_frame();
   //---------------------------
 
-  // Use any command queue
-  vector<VkCommandBuffer> command_buffer_vec = vk_command->get_command_buffer_vec();
-  VkCommandBuffer command_buffer = command_buffer_vec[current_frame];
+  vector<Frame*> vec_frame = vk_image->get_vec_frame();
+  Frame* frame = vec_frame[current_frame];
 
   VkResult result = vkResetCommandPool(device, command_pool, 0);
   if(result != VK_SUCCESS){
@@ -183,18 +184,18 @@ void VK_gui::gui_font(){
   VkCommandBufferBeginInfo begin_info = {};
   begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
   begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-  result = vkBeginCommandBuffer(command_buffer, &begin_info);
+  result = vkBeginCommandBuffer(frame->command_buffer, &begin_info);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }
 
-  ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+  ImGui_ImplVulkan_CreateFontsTexture(frame->command_buffer);
 
   VkSubmitInfo end_info = {};
   end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
   end_info.commandBufferCount = 1;
-  end_info.pCommandBuffers = &command_buffer;
-  result = vkEndCommandBuffer(command_buffer);
+  end_info.pCommandBuffers = &frame->command_buffer;
+  result = vkEndCommandBuffer(frame->command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }

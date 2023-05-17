@@ -8,6 +8,7 @@
 class Engine;
 class Param_engine;
 class VK_device;
+class VK_image;
 
 
 class VK_synchronization
@@ -20,16 +21,14 @@ public:
 public:
   //Main functions
   void create_sync_objects();
+  void fill_vec_frame();
   void cleanup();
-
-  inline std::vector<VkSemaphore> get_semvec_image_available(){return semvec_image_available;}
-  inline std::vector<VkSemaphore> get_semvec_render_finish(){return semvec_render_finish;}
-  inline std::vector<VkFence> get_fenvec_inFlight(){return fenvec_inFlight;}
 
 private:
   Engine* engineManager;
   Param_engine* param_engine;
   VK_device* vk_device;
+  VK_image* vk_image;
 
   std::vector<VkSemaphore> semvec_image_available;
   std::vector<VkSemaphore> semvec_render_finish;

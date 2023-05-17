@@ -25,7 +25,7 @@ VK_depth::~VK_depth(){}
 
 //Main function
 void VK_depth::create_depth_resource(Image* image){
-  vector<Image*> vec_image_obj = vk_image->get_vec_image_obj();
+  vector<Image*> vec_image_obj = vk_image->get_vec_image();
   //---------------------------
 
   VkFormat depth_format = find_depth_format();

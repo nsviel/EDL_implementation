@@ -16,13 +16,17 @@ struct Image{
 
   //Rendering
   vector<VkFramebuffer> fbo_vec;
+};
 
-  //Associated objects
-  VkCommandBuffer command_buffer;
+struct Frame{
+  int frame_ID;
+
   VkDescriptorSet descriptor_set;
-  VkFence fence_inflight;
+  VkCommandBuffer command_buffer;
+
   VkSemaphore semaphore_render_finished;
   VkSemaphore semaphore_image_available;
+  VkFence fence_inflight;
 };
 
 

@@ -5,7 +5,6 @@
 
 class Engine;
 class VK_device;
-class VK_descriptor;
 class VK_physical_device;
 
 
@@ -37,7 +36,6 @@ public:
 private:
   Engine* engineManager;
   VK_device* vk_device;
-  VK_descriptor* vk_descriptor;
   VK_physical_device* vk_physical_device;
 
   VkDeviceMemory dev_memory;
