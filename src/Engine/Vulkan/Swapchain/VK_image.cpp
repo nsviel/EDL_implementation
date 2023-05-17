@@ -41,6 +41,8 @@ void VK_image::create_image_struct(){
     vec_image.push_back(image);
   }
 
+  VK_synchronization* vk_synchronization = engineManager->get_vk_synchronization();
+
   //Draw frames
   for(int i=0; i<param_engine->max_frame; i++){
     Frame* frame = new Frame();
