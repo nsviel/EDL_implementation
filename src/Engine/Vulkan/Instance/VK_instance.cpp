@@ -2,6 +2,7 @@
 #include "VK_validation.h"
 
 #include "../Engine.h"
+#include "../Param_vulkan.h"
 
 
 //Constructor / Destructor
@@ -9,6 +10,7 @@ VK_instance::VK_instance(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
+  this->param_vulkan = engineManager->get_param_vulkan();
 
   //---------------------------
 }
@@ -52,9 +54,9 @@ void VK_instance::create_instance(){
   }
 
   //Create instance
-  VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
+  VkResult result = vkCreateInstance(&createInfo, nullptr, &param_vulkan->instance);
   if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create instance!");
+    throw std::runtime_error("[error] failed to create instance!");
   }
 
   //---------------------------
@@ -62,7 +64,7 @@ void VK_instance::create_instance(){
 void VK_instance::cleanup(){
   //---------------------------
 
-  vkDestroyInstance(instance, nullptr);
+  vkDestroyInstance(param_vulkan->instance, nullptr);
 
   //---------------------------
 }
@@ -78,7 +80,8 @@ std::vector<const char*> VK_instance::get_required_extensions(){
   const char** glfwExtensions;
   glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
-  std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+  vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+  //extensions.push_back(VK_EXT_EXTENDED_DYNAMIC_STATE_EXTENSION_NAME);
 
   if(with_validation_layer){
     extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);

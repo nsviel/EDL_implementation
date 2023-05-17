@@ -71,7 +71,6 @@ void VK_gui::init_gui(){
 }
 void VK_gui::gui_vulkan(){
   GLFWwindow* window = vk_window->get_window();
-  VkInstance instance = vk_instance->get_instance();
   VkSurfaceKHR surface = vk_window->get_surface();
   VkQueue queue_graphics = vk_device->get_queue_graphics();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
@@ -111,7 +110,7 @@ void VK_gui::gui_vulkan(){
   // Setup Platform/Renderer bindings
   ImGui_ImplGlfw_InitForVulkan(window, true);
   ImGui_ImplVulkan_InitInfo init_info = {};
-  init_info.Instance = instance;
+  init_info.Instance = param_vulkan->instance;
   init_info.PhysicalDevice = param_vulkan->physical_device;
   init_info.Device = param_vulkan->device;
   init_info.Queue = queue_graphics;

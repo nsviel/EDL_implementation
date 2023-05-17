@@ -4,6 +4,7 @@
 #include "../../../common.h"
 
 class Engine;
+class Param_vulkan;
 
 
 class VK_instance
@@ -19,13 +20,11 @@ public:
   void cleanup();
 
   //Validation layers
-  std::vector<const char*> get_required_extensions();
-
-  inline VkInstance get_instance(){return instance;}
+  vector<const char*> get_required_extensions();
 
 private:
   Engine* engineManager;
-  VkInstance instance;
+  Param_vulkan* param_vulkan;
 };
 
 #endif

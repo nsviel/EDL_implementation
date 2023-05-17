@@ -29,21 +29,20 @@ void VK_physical_device::init_device(){
   //---------------------------
 }
 void VK_physical_device::select_physical_device(){
-  VkInstance instance = vk_instance->get_instance();
   //---------------------------
 
   param_vulkan->physical_device = VK_NULL_HANDLE;
 
   //Find how many GPU are available
   uint32_t nb_device = 0;
-  vkEnumeratePhysicalDevices(instance, &nb_device, nullptr);
+  vkEnumeratePhysicalDevices(param_vulkan->instance, &nb_device, nullptr);
   if(nb_device == 0){
     throw std::runtime_error("[error] failed to find GPUs with Vulkan support!");
   }
 
   //List all available GPU and take suitable one
   std::vector<VkPhysicalDevice> devices(nb_device);
-  vkEnumeratePhysicalDevices(instance, &nb_device, devices.data());
+  vkEnumeratePhysicalDevices(param_vulkan->instance, &nb_device, devices.data());
   for(const auto& device : devices){
     if(is_device_suitable(device)){
       param_vulkan->physical_device = device;
@@ -120,6 +119,7 @@ bool VK_physical_device::check_extension_support(VkPhysicalDevice physical_devic
   //---------------------------
 
   this->required_extension.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+  //this->required_extension.push_back(VK_EXT_EXTENDED_DYNAMIC_STATE_EXTENSION_NAME);
 
   //Get physical_device extension number
   uint32_t nb_extension;
@@ -131,7 +131,7 @@ bool VK_physical_device::check_extension_support(VkPhysicalDevice physical_devic
 
   //Check if all required extension are in the list
   std::set<std::string> requiredExtensions(required_extension.begin(), required_extension.end());
-  for (const auto& extension : vec_extension) {
+  for(const auto& extension : vec_extension){
     requiredExtensions.erase(extension.extensionName);
   }
 

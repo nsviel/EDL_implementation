@@ -5,6 +5,7 @@
 #include "../../../common.h"
 
 class Engine;
+class Param_vulkan;
 class VK_instance;
 
 
@@ -30,6 +31,7 @@ public:
   inline bool get_with_validation_layer(){return with_validation_layer;}
 
 private:
+  Param_vulkan* param_vulkan;
   VK_instance* vk_instance;
 
   VkDebugUtilsMessengerEXT debugMessenger;

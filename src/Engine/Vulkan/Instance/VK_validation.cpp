@@ -2,12 +2,14 @@
 #include "VK_instance.h"
 
 #include "../Engine.h"
+#include "../Param_vulkan.h"
 
 
 //Constructor / Destructor
 VK_validation::VK_validation(Engine* engineManager){
   //---------------------------
 
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_instance = engineManager->get_vk_instance();
 
   this->validation_layers = {"VK_LAYER_KHRONOS_validation"};
@@ -19,7 +21,6 @@ VK_validation::~VK_validation(){}
 
 //Main function
 void VK_validation::create_validationLayer(){
-  VkInstance instance = vk_instance->get_instance();
   //---------------------------
 
   if(!with_validation_layer) return;
@@ -27,7 +28,7 @@ void VK_validation::create_validationLayer(){
   VkDebugUtilsMessengerCreateInfoEXT createInfo{};
   populateDebugMessengerCreateInfo(createInfo);
 
-  VkResult result = CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger);
+  VkResult result = CreateDebugUtilsMessengerEXT(param_vulkan->instance, &createInfo, nullptr, &debugMessenger);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to set up debug messenger!");
   }
@@ -64,11 +65,10 @@ bool VK_validation::check_validationLayer_support(){
   return true;
 }
 void VK_validation::cleanup(){
-  VkInstance instance = vk_instance->get_instance();
   //---------------------------
 
   if(with_validation_layer){
-    DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+    DestroyDebugUtilsMessengerEXT(param_vulkan->instance, debugMessenger, nullptr);
   }
 
   //---------------------------

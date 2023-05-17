@@ -185,6 +185,8 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t 
   VkPipelineLayout pipeline_layout = vk_pipeline->get_pipeline_layout_point();
   vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 
+  //vkCmdSetPrimitiveTopology(command_buffer, VK_PRIMITIVE_TOPOLOGY_LINE_LIST);
+
   //Bind descriptor
   list<Object*> list_data = vk_data->get_list_data();
   if(list_data.size() != 0){

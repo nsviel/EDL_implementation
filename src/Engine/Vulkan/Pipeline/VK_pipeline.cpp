@@ -61,6 +61,8 @@ void VK_pipeline::create_pipeline(string topology){
   std::vector<VkDynamicState> dynamicStates;
   dynamicStates.push_back(VK_DYNAMIC_STATE_VIEWPORT);
   dynamicStates.push_back(VK_DYNAMIC_STATE_SCISSOR);
+  //dynamicStates.push_back(VK_DYNAMIC_STATE_PRIMITIVE_TOPOLOGY);
+
   //dynamicStates.push_back(VK_DYNAMIC_STATE_POINT_SIZE);
   if(topology == "line"){
     dynamicStates.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);

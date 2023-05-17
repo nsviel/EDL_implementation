@@ -49,8 +49,7 @@ void VK_window::init_window(){
 void VK_window::clean_surface(){
   //---------------------------
 
-  VkInstance instance = vk_instance->get_instance();
-  vkDestroySurfaceKHR(instance, surface, nullptr);
+  vkDestroySurfaceKHR(param_vulkan->instance, surface, nullptr);
 
   //---------------------------
 }
@@ -65,10 +64,9 @@ void VK_window::clean_window(){
 
 //Subfunction
 void VK_window::create_window_surface(){
-  VkInstance instancee = vk_instance->get_instance();
   //---------------------------
 
-  VkResult result = glfwCreateWindowSurface(instancee, window, nullptr, &surface);
+  VkResult result = glfwCreateWindowSurface(param_vulkan->instance, window, nullptr, &surface);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create window surface!");
   }
