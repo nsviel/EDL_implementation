@@ -1,6 +1,7 @@
 #include "VK_physical_device.h"
 
 #include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Instance/VK_window.h"
 #include "../Instance/VK_instance.h"
 
@@ -9,9 +10,10 @@
 VK_physical_device::VK_physical_device(Engine* engineManager){
   //---------------------------
 
+  this->engineManager = engineManager;
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_window = engineManager->get_vk_window();
   this->vk_instance = engineManager->get_vk_instance();
-  this->engineManager = engineManager;
 
   //---------------------------
 }
@@ -61,7 +63,7 @@ void VK_physical_device::compute_extent(){
   VkSurfaceCapabilitiesKHR capabilities = find_surface_capability(physical_device);
 
   if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
-    extent = capabilities.currentExtent;
+    param_vulkan->extent = capabilities.currentExtent;
   }else{
     glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
 
@@ -70,8 +72,8 @@ void VK_physical_device::compute_extent(){
       static_cast<uint32_t>(fbo_dim.y)
     };
 
-    extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-    extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+    param_vulkan->extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+    param_vulkan->extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
   }
 
   //---------------------------

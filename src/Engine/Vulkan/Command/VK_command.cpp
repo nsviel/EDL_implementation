@@ -128,7 +128,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   renderPassInfo.renderPass = renderPass;
   renderPassInfo.framebuffer = vec_image_obj[imageIndex]->fbo_vec[0];
   renderPassInfo.renderArea.offset = {0, 0};
-  renderPassInfo.renderArea.extent = swapchain_extent;
+  renderPassInfo.renderArea.extent = param_vulkan->extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
   renderPassInfo.pClearValues = clearValues.data();
 
@@ -169,7 +169,7 @@ void VK_command::command_viewport(VkCommandBuffer command_buffer){
   VkExtent2D swapchain_extent = vk_physical_device->get_extent();
   //---------------------------
 
-  vk_viewport->update_viewport(swapchain_extent);
+  vk_viewport->update_viewport(param_vulkan->extent);
 
   VkViewport viewport = vk_viewport->get_viewport();
   VkRect2D scissor = vk_viewport->get_scissor();

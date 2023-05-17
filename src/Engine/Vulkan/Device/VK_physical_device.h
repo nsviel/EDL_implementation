@@ -3,8 +3,8 @@
 
 #include "../../../common.h"
 
-class Node_engine;
 class Engine;
+class Param_vulkan;
 class VK_window;
 class VK_instance;
 
@@ -40,6 +40,7 @@ public:
 
 private:
   Engine* engineManager;
+  Param_vulkan* param_vulkan;
   VK_window* vk_window;
   VK_instance* vk_instance;
 
