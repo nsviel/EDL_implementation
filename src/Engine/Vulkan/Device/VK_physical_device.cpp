@@ -4,8 +4,6 @@
 #include "../Instance/VK_window.h"
 #include "../Instance/VK_instance.h"
 
-#include "../../Node_engine.h"
-
 
 //Constructor / Destructor
 VK_physical_device::VK_physical_device(Engine* engineManager){
@@ -20,6 +18,14 @@ VK_physical_device::VK_physical_device(Engine* engineManager){
 VK_physical_device::~VK_physical_device(){}
 
 //Main functions
+void VK_physical_device::init_device(){
+  //---------------------------
+
+  this->select_physical_device();
+  this->compute_extent();
+
+  //---------------------------
+}
 void VK_physical_device::select_physical_device(){
   VkInstance instance = vk_instance->get_instance();
   //---------------------------
@@ -44,6 +50,28 @@ void VK_physical_device::select_physical_device(){
   }
   if(physical_device == VK_NULL_HANDLE){
     throw std::runtime_error("[error] failed to find a suitable GPU!");
+  }
+
+  //---------------------------
+}
+void VK_physical_device::compute_extent(){
+  //Resolution of the swap chain image
+  //---------------------------
+
+  VkSurfaceCapabilitiesKHR capabilities = find_surface_capability(physical_device);
+
+  if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
+    extent = capabilities.currentExtent;
+  }else{
+    glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
+
+    extent = {
+      static_cast<uint32_t>(fbo_dim.x),
+      static_cast<uint32_t>(fbo_dim.y)
+    };
+
+    extent.width = std::clamp(extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+    extent.height = std::clamp(extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
   }
 
   //---------------------------

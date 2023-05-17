@@ -4,7 +4,9 @@
 #include "../../common.h"
 
 class Node_engine;
+class Param_vulkan;
 class Param_engine;
+
 class VK_window;
 class VK_instance;
 class VK_device;
@@ -48,6 +50,7 @@ public:
   void fps_calcul(std::chrono::steady_clock::time_point& start_time);
 
   inline Node_engine* get_node_engine(){return node_engine;}
+  inline Param_vulkan* get_param_vulkan(){return param_vulkan;}
   inline Param_engine* get_param_engine(){return param_engine;}
   inline VK_device* get_vk_device(){return vk_device;}
   inline VK_framebuffer* get_vk_framebuffer(){return vk_framebuffer;}
@@ -77,7 +80,9 @@ public:
 
 private:
   Node_engine* node_engine;
+  Param_vulkan* param_vulkan;
   Param_engine* param_engine;
+
   VK_window* vk_window;
   VK_instance* vk_instance;
   VK_device* vk_device;

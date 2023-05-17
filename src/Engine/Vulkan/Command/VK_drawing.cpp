@@ -1,18 +1,14 @@
 #include "VK_drawing.h"
 
+#include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Command/VK_command.h"
 #include "../Shader/VK_uniform.h"
-#include "../Engine.h"
-
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_image.h"
 #include "../Rendering/VK_framebuffer.h"
-
 #include "../Instance/VK_window.h"
 #include "../Device/VK_device.h"
-
-#include "../../Node_engine.h"
-#include "../../Param_engine.h"
 
 
 //Constructor / Destructor
@@ -20,7 +16,7 @@ VK_drawing::VK_drawing(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
-  this->param_engine = engineManager->get_param_engine();
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_window = engineManager->get_vk_window();
   this->vk_framebuffer = engineManager->get_vk_framebuffer();
@@ -134,7 +130,7 @@ void VK_drawing::draw_queue(){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  current_frame = (current_frame + 1) % param_engine->max_frame;
+  current_frame = (current_frame + 1) % param_vulkan->max_frame;
 
   //---------------------------
 }

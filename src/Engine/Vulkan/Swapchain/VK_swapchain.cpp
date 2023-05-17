@@ -1,13 +1,13 @@
 #include "VK_swapchain.h"
 #include "VK_image.h"
 
+#include "../Engine.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Rendering/VK_depth.h"
 #include "../Data/VK_texture.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
 #include "../Instance/VK_window.h"
-#include "../Engine.h"
 
 
 //Constructor / Destructor
@@ -137,6 +137,7 @@ void VK_swapchain::recreate_swapChain(){
   this->create_swapchain();
   vk_image->create_image_struct();
   vk_framebuffer->create_framebuffer_obj();
+  vk_physical_device->compute_extent();
 
   //---------------------------
 }

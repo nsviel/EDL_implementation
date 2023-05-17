@@ -1,11 +1,11 @@
 #include "VK_window.h"
 
+#include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Instance/VK_instance.h"
 #include "../Camera/VK_viewport.h"
-#include "../Engine.h"
 
 #include "../../Node_engine.h"
-#include "../../Param_engine.h"
 #include "../../Dimension/Dimension.h"
 
 
@@ -15,12 +15,12 @@ VK_window::VK_window(Engine* engineManager){
 
   Node_engine* node_engine = engineManager->get_node_engine();
 
-  this->param_engine = engineManager->get_param_engine();
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->dimManager = node_engine->get_dimManager();
   this->vk_instance = engineManager->get_vk_instance();
   this->vk_viewport = engineManager->get_vk_viewport();
 
-  this->window_dim = param_engine->window_dim;
+  this->window_dim = param_vulkan->window_dim;
 
   //---------------------------
 }
@@ -33,11 +33,11 @@ void VK_window::init_window(){
   glfwInit();
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-  this->window = glfwCreateWindow(window_dim.x, window_dim.y, param_engine->title.c_str(), nullptr, nullptr);
+  this->window = glfwCreateWindow(window_dim.x, window_dim.y, param_vulkan->title.c_str(), nullptr, nullptr);
   this->window_dim = get_framebuffer_size();
   dimManager->set_window(window);
 
-  glfwSetWindowSizeLimits(window, param_engine->window_dim_min.x, param_engine->window_dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
+  glfwSetWindowSizeLimits(window, param_vulkan->window_dim_min.x, param_vulkan->window_dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
   if (!glfwVulkanSupported()){
     printf("GLFW: Vulkan Not Supported\n");

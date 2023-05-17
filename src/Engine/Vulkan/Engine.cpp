@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include "Param_vulkan.h"
 #include "Pipeline/VK_renderpass.h"
 #include "Pipeline/VK_pipeline.h"
 #include "Command/VK_command.h"
@@ -35,6 +36,7 @@ Engine::Engine(Node_engine* node_engine){
   this->node_engine = node_engine;
   this->param_engine = node_engine->get_param_engine();
 
+  this->param_vulkan = new Param_vulkan();
   this->vk_instance = new VK_instance(this);
   this->vk_validation = new VK_validation(this);
   this->vk_viewport = new VK_viewport(this);
@@ -72,7 +74,7 @@ void Engine::init_vulkan(){
   vk_instance->create_instance();
   vk_validation->create_validationLayer();
   vk_window->create_window_surface();
-  vk_physical_device->select_physical_device();
+  vk_physical_device->init_device();
   vk_device->create_logical_device();
 
   //Pipeline / swap chain

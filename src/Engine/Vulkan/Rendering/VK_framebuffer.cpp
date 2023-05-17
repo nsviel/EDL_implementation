@@ -1,21 +1,19 @@
 #include "VK_framebuffer.h"
 #include "VK_depth.h"
 
+#include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_image.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Device/VK_device.h"
-#include "../Engine.h"
-
-#include "../../Param_engine.h"
-
 
 
 //Constructor / Destructor
 VK_framebuffer::VK_framebuffer(Engine* engineManager){
   //---------------------------
 
-  this->param_engine = engineManager->get_param_engine();
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_device = engineManager->get_vk_device();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();

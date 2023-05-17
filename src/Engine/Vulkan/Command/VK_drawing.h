@@ -4,7 +4,7 @@
 #include "../../../common.h"
 
 class Engine;
-class Param_engine;
+class Param_vulkan;
 class VK_window;
 class VK_swapchain;
 class VK_framebuffer;
@@ -32,7 +32,7 @@ public:
 
 private:
   Engine* engineManager;
-  Param_engine* param_engine;
+  Param_vulkan* param_vulkan;
   VK_window* vk_window;
   VK_swapchain* vk_swapchain;
   VK_framebuffer* vk_framebuffer;

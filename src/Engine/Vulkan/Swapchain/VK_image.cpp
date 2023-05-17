@@ -1,5 +1,7 @@
 #include "VK_image.h"
 
+#include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Command/VK_synchronization.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Rendering/VK_depth.h"
@@ -7,9 +9,6 @@
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
 #include "../Instance/VK_window.h"
-#include "../Engine.h"
-
-#include "../../Param_engine.h"
 
 
 //Constructor / Destructor
@@ -17,7 +16,7 @@ VK_image::VK_image(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
-  this->param_engine = engineManager->get_param_engine();
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_window = engineManager->get_vk_window();
   this->vk_device = engineManager->get_vk_device();
   this->vk_physical_device = engineManager->get_vk_physical_device();
@@ -44,7 +43,7 @@ void VK_image::create_image_struct(){
   }
 
   //Draw frames
-  for(int i=0; i<param_engine->max_frame; i++){
+  for(int i=0; i<param_vulkan->max_frame; i++){
     Frame* frame = new Frame();
     vk_synchronization->create_sync_objects(frame);
     vec_frame.push_back(frame);

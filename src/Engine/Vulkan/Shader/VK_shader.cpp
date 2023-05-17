@@ -1,9 +1,8 @@
 #include "VK_shader.h"
 
 #include "../Engine.h"
+#include "../Param_vulkan.h"
 #include "../Device/VK_device.h"
-
-#include "../../Param_engine.h"
 
 
 //Constructor / Destructor
@@ -11,7 +10,7 @@ VK_shader::VK_shader(Engine* engineManager){
   //---------------------------
 
   this->vk_device = engineManager->get_vk_device();
-  this->param_engine = engineManager->get_param_engine();
+  this->param_vulkan = engineManager->get_param_vulkan();
 
   //---------------------------
 }
@@ -25,8 +24,8 @@ void VK_shader::create_shader_module(){
   int result = system("../src/Engine/Shader/glsl/compile.sh");
 
   //Load spir format shaders
-  auto code_vert = read_file(param_engine->path_shader_vs);
-  auto code_frag = read_file(param_engine->path_shader_fs);
+  auto code_vert = read_file(param_vulkan->path_shader_vs);
+  auto code_frag = read_file(param_vulkan->path_shader_fs);
 
   //Create associated shader modules
   this->module_vert = create_shader_module(code_vert);

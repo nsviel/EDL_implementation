@@ -1,13 +1,12 @@
 #include "VK_descriptor.h"
 
-#include "../Shader/VK_uniform.h"
 #include "../Engine.h"
+#include "../Param_vulkan.h"
+#include "../Shader/VK_uniform.h"
 #include "../Data/VK_texture.h"
 #include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_image.h"
-
-#include "../../Param_engine.h"
 
 //A descriptor set contains a descriptor set layout and a descriptor pool
 
@@ -17,7 +16,7 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
-  this->param_engine = engineManager->get_param_engine();
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_device = engineManager->get_vk_device();
   this->vk_image = engineManager->get_vk_image();
 
@@ -63,22 +62,22 @@ void VK_descriptor::create_descriptor_set(){
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
-  std::vector<VkDescriptorSetLayout> layouts(param_engine->max_frame, descriptor_layout);
+  std::vector<VkDescriptorSetLayout> layouts(param_vulkan->max_frame, descriptor_layout);
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
   allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_engine->max_frame);
+  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_vulkan->max_frame);
   allocInfo.pSetLayouts = layouts.data();
 
   vector<VkDescriptorSet> descriptor_set;
-  descriptor_set.resize(param_engine->max_frame);
+  descriptor_set.resize(param_vulkan->max_frame);
   VkResult result = vkAllocateDescriptorSets(device, &allocInfo, descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
 
   //Pour toute les frame, specifier les shader data
-  for(size_t i=0; i<param_engine->max_frame; i++){
+  for(size_t i=0; i<param_vulkan->max_frame; i++){
     VkDescriptorBufferInfo bufferInfo{};
     bufferInfo.buffer = uniformBuffers[i];
     bufferInfo.offset = 0;
@@ -135,13 +134,13 @@ void VK_descriptor::create_descriptor_pool(){
   //One descriptor per frame
   std::array<VkDescriptorPoolSize, 1> pool_size{};
   pool_size[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-  pool_size[0].descriptorCount = static_cast<uint32_t>(param_engine->max_frame);
+  pool_size[0].descriptorCount = static_cast<uint32_t>(param_vulkan->max_frame);
 
   VkDescriptorPoolCreateInfo pool_info{};
   pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
   pool_info.poolSizeCount = static_cast<uint32_t>(pool_size.size());
   pool_info.pPoolSizes = pool_size.data();
-  pool_info.maxSets = static_cast<uint32_t>(param_engine->max_frame);
+  pool_info.maxSets = static_cast<uint32_t>(param_vulkan->max_frame);
 
   VkResult result = vkCreateDescriptorPool(device, &pool_info, nullptr, &descriptor_pool);
   if(result != VK_SUCCESS){
@@ -159,22 +158,22 @@ void VK_descriptor::update_descriptor_set(){
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
-  std::vector<VkDescriptorSetLayout> layouts(param_engine->max_frame, descriptor_layout);
+  std::vector<VkDescriptorSetLayout> layouts(param_vulkan->max_frame, descriptor_layout);
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
   allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_engine->max_frame);
+  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_vulkan->max_frame);
   allocInfo.pSetLayouts = layouts.data();
 
   vector<VkDescriptorSet> descriptor_set;
-  descriptor_set.resize(param_engine->max_frame);
+  descriptor_set.resize(param_vulkan->max_frame);
   VkResult result = vkAllocateDescriptorSets(device, &allocInfo, descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
 
   //Pour toute les frame, specifier les shader data
-  for(size_t i=0; i<param_engine->max_frame; i++){
+  for(size_t i=0; i<param_vulkan->max_frame; i++){
     VkDescriptorBufferInfo bufferInfo{};
     bufferInfo.buffer = uniformBuffers[i];
     bufferInfo.offset = 0;
@@ -204,15 +203,15 @@ void VK_descriptor::update_descriptor_set_texture(Object* object){
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
-  std::vector<VkDescriptorSetLayout> layouts(param_engine->max_frame, descriptor_layout);
+  std::vector<VkDescriptorSetLayout> layouts(param_vulkan->max_frame, descriptor_layout);
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
   allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_engine->max_frame);
+  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_vulkan->max_frame);
   allocInfo.pSetLayouts = layouts.data();
 
   vector<VkDescriptorSet> descriptor_set;
-  descriptor_set.resize(param_engine->max_frame);
+  descriptor_set.resize(param_vulkan->max_frame);
   VkResult result = vkAllocateDescriptorSets(device, &allocInfo, descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
@@ -221,7 +220,7 @@ void VK_descriptor::update_descriptor_set_texture(Object* object){
   Struct_texture texture = *next(object->list_texture.begin(), 0);
 
   //Pour toute les frame, specifier les shader data
-  for(size_t i=0; i<param_engine->max_frame; i++){
+  for(size_t i=0; i<param_vulkan->max_frame; i++){
     VkDescriptorBufferInfo bufferInfo{};
     bufferInfo.buffer = uniformBuffers[i];
     bufferInfo.offset = 0;

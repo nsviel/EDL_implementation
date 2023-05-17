@@ -19,7 +19,8 @@ struct Image{
 };
 
 struct Frame{
-  int frame_ID;
+  int ID_frame;
+  int ID_draw;
 
   VkDescriptorSet descriptor_set;
   VkCommandBuffer command_buffer;

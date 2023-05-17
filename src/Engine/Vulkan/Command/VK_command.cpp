@@ -1,5 +1,6 @@
 #include "VK_command.h"
 
+#include "../Param_vulkan.h"
 #include "../Engine.h"
 #include "../Instance/VK_gui.h"
 #include "../Instance/VK_window.h"
@@ -9,7 +10,6 @@
 #include "../Device/VK_physical_device.h"
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
-#include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_image.h"
 #include "../Camera/VK_viewport.h"
 #include "../Camera/VK_camera.h"
@@ -24,8 +24,8 @@ VK_command::VK_command(Engine* engineManager){
 
   this->engineManager = engineManager;
   this->param_engine = engineManager->get_param_engine();
+  this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_device = engineManager->get_vk_device();
-  this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_renderpass = engineManager->get_vk_renderpass();
   this->vk_pipeline = engineManager->get_vk_pipeline();
   this->vk_viewport = engineManager->get_vk_viewport();
@@ -67,7 +67,7 @@ void VK_command::create_command_buffers(){
 
   //One command buffer per frame
   vector<VkCommandBuffer> command_buffer_vec;
-  command_buffer_vec.resize(param_engine->max_frame);
+  command_buffer_vec.resize(param_vulkan->max_frame);
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};
@@ -100,7 +100,7 @@ void VK_command::cleanup(){
 
 //Render pass
 void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex, uint32_t current_frame){
-  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
+  VkExtent2D swapchain_extent = vk_physical_device->get_extent();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
@@ -166,7 +166,7 @@ void VK_command::command_gui(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_command::command_viewport(VkCommandBuffer command_buffer){
-  VkExtent2D swapchain_extent = vk_swapchain->get_extent();
+  VkExtent2D swapchain_extent = vk_physical_device->get_extent();
   //---------------------------
 
   vk_viewport->update_viewport(swapchain_extent);

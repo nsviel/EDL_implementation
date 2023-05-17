@@ -5,7 +5,7 @@
 #include "../../../common.h"
 
 class Engine;
-class Param_engine;
+class Param_vulkan;
 class VK_device;
 
 
@@ -23,7 +23,7 @@ public:
 
 private:
   Engine* engineManager;
-  Param_engine* param_engine;
+  Param_vulkan* param_vulkan;
   VK_device* vk_device;
 
   std::vector<VkSemaphore> semvec_image_available;

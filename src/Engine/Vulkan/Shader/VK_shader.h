@@ -4,7 +4,7 @@
 #include "../../../common.h"
 
 class Engine;
-class Param_engine;
+class Param_vulkan;
 class VK_device;
 
 
@@ -28,7 +28,7 @@ public:
   inline VkShaderModule get_module_frag(){return module_frag;}
 
 private:
-  Param_engine* param_engine;
+  Param_vulkan* param_vulkan;
   VK_device* vk_device;
 
   VkShaderModule module_vert;
