@@ -22,7 +22,7 @@ public:
 
 public:
   //FBO creation
-  void create_framebuffers();
+  void create_framebuffer_obj();
   void create_framebuffer(Image* image);
 
   //Deletion functions

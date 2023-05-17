@@ -43,6 +43,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_device = new VK_device(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_texture = new VK_texture(this);
+  this->vk_synchronization = new VK_synchronization(this);
   this->vk_image = new VK_image(this);
   this->vk_descriptor = new VK_descriptor(this);
   this->vk_swapchain = new VK_swapchain(this);
@@ -53,7 +54,6 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_camera = new VK_camera(this);
   this->vk_command = new VK_command(this);
-  this->vk_synchronization = new VK_synchronization(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
   this->vk_data = new VK_data(this);
@@ -82,7 +82,7 @@ void Engine::init_vulkan(){
   vk_descriptor->create_descriptor_set_layout();
   vk_pipeline->create_pipelines();
   vk_command->create_command_pool();
-  vk_framebuffer->create_framebuffers();
+  vk_framebuffer->create_framebuffer_obj();
 
   //Shader
   vk_uniform->create_uniform_buffers();
@@ -90,7 +90,6 @@ void Engine::init_vulkan(){
 
   //Command
   vk_command->create_command_buffers();
-  vk_synchronization->create_sync_objects();
   vk_gui->init_gui();
 
   //---------------------------
@@ -121,6 +120,7 @@ void Engine::clean_vulkan(){
 
   vk_gui->cleanup();
   vk_image->clean_image_struct();
+  vk_image->clean_frame_struct();
   vk_swapchain->clean_swapchain();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();
@@ -128,7 +128,6 @@ void Engine::clean_vulkan(){
   vk_uniform->cleanup();
   vk_data->cleanup();
   vk_descriptor->cleanup();
-  vk_synchronization->cleanup();
 
   vk_command->cleanup();
   vk_device->cleanup();

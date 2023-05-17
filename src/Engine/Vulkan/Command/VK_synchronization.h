@@ -1,14 +1,12 @@
 #ifndef VK_CLASS_H
 #define VK_CLASS_H
 
-#include <vulkan/vulkan.h>
-
+#include "../Struct/struct_image.h"
 #include "../../../common.h"
 
 class Engine;
 class Param_engine;
 class VK_device;
-class VK_image;
 
 
 class VK_synchronization
@@ -20,15 +18,13 @@ public:
 
 public:
   //Main functions
-  void create_sync_objects();
-  void fill_vec_frame();
-  void cleanup();
+  void create_sync_objects(Frame* frame);
+  void clean_sync_obj(Frame* frame);
 
 private:
   Engine* engineManager;
   Param_engine* param_engine;
   VK_device* vk_device;
-  VK_image* vk_image;
 
   std::vector<VkSemaphore> semvec_image_available;
   std::vector<VkSemaphore> semvec_render_finish;

@@ -10,6 +10,7 @@ class VK_window;
 class VK_device;
 class VK_physical_device;
 class VK_texture;
+class VK_synchronization;
 
 
 class VK_image
@@ -26,6 +27,7 @@ public:
   void create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min_image_count);
 
   //Deletion function
+  void clean_frame_struct();
   void clean_image_struct();
   void clean_image_view(Image* image);
 
@@ -43,6 +45,7 @@ private:
   VK_device* vk_device;
   VK_physical_device* vk_physical_device;
   VK_texture* vk_texture;
+  VK_synchronization* vk_synchronization;
 
   VkFormat image_format;
   vector<VkImage> vec_image_swapchain;

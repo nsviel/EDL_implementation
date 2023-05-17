@@ -4,7 +4,6 @@
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
 #include "../Data/VK_texture.h"
-#include "../Swapchain/VK_image.h"
 #include "../Engine.h"
 
 
@@ -17,7 +16,6 @@ VK_depth::VK_depth(Engine* engineManager){
   this->vk_texture = engineManager->get_vk_texture();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_physical_device = engineManager->get_vk_physical_device();
-  this->vk_image = engineManager->get_vk_image();
 
   //---------------------------
 }
@@ -25,7 +23,6 @@ VK_depth::~VK_depth(){}
 
 //Main function
 void VK_depth::create_depth_resource(Image* image){
-  vector<Image*> vec_image_obj = vk_image->get_vec_image();
   //---------------------------
 
   VkFormat depth_format = find_depth_format();

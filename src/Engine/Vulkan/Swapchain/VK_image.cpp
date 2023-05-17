@@ -1,5 +1,6 @@
 #include "VK_image.h"
 
+#include "../Command/VK_synchronization.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Rendering/VK_depth.h"
 #include "../Data/VK_texture.h"
@@ -21,6 +22,7 @@ VK_image::VK_image(Engine* engineManager){
   this->vk_device = engineManager->get_vk_device();
   this->vk_physical_device = engineManager->get_vk_physical_device();
   this->vk_texture = engineManager->get_vk_texture();
+  this->vk_synchronization = engineManager->get_vk_synchronization();
 
   //---------------------------
 }
@@ -41,11 +43,10 @@ void VK_image::create_image_struct(){
     vec_image.push_back(image);
   }
 
-  VK_synchronization* vk_synchronization = engineManager->get_vk_synchronization();
-
   //Draw frames
   for(int i=0; i<param_engine->max_frame; i++){
     Frame* frame = new Frame();
+    vk_synchronization->create_sync_objects(frame);
     vec_frame.push_back(frame);
   }
 
@@ -85,16 +86,27 @@ void VK_image::clean_image_struct(){
   VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   //---------------------------
 
+  //Vec images
   for(int i=0; i<vec_image.size(); i++){
     Image* image = vec_image[i];
-
     this->clean_image_view(image);
     vk_depth->clean_depth_resource(image);
     vk_framebuffer->clean_framebuffer(image);
     delete image;
   }
-
   vec_image.clear();
+
+  //---------------------------
+}
+void VK_image::clean_frame_struct(){
+  //---------------------------
+
+  for(int i=0; i<vec_frame.size(); i++){
+    Frame* frame = vec_frame[i];
+    vk_synchronization->clean_sync_obj(frame);
+    delete frame;
+  }
+  vec_frame.clear();
 
   //---------------------------
 }

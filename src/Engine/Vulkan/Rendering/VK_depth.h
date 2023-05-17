@@ -9,7 +9,6 @@ class VK_device;
 class VK_texture;
 class VK_swapchain;
 class VK_physical_device;
-class VK_image;
 
 
 class VK_depth
@@ -35,7 +34,6 @@ private:
   VK_texture* vk_texture;
   VK_swapchain* vk_swapchain;
   VK_physical_device* vk_physical_device;
-  VK_image* vk_image;
 };
 
 #endif
