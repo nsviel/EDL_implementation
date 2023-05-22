@@ -82,7 +82,7 @@ void Engine::init_vulkan(){
   vk_image->create_image_struct();
   vk_renderpass->create_render_pass();
   vk_descriptor->create_descriptor_set_layout();
-  vk_pipeline->create_pipelines();
+  vk_pipeline->init_pipeline();
   vk_command->create_command_pool();
   vk_framebuffer->create_framebuffer_obj();
 

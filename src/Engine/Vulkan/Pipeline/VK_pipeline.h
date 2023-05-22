@@ -1,8 +1,7 @@
 #ifndef VK_PIPELINE_H
 #define VK_PIPELINE_H
 
-#include <vulkan/vulkan.h>
-
+#include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
 class Engine;
@@ -24,29 +23,27 @@ public:
 
 public:
   //Main functions
-  void create_pipelines();
+  void init_pipeline();
   void cleanup();
 
   //Pipeline creation
-  void create_pipeline(string topology);
-  void create_pipeline_graphics(VkGraphicsPipelineCreateInfo pipelineInfo, string topology);
-  void create_pipeline_layout(string topology);
+  Struct_pipeline* create_pipeline_info(string name, string topology);
+  void create_pipeline_layout(Struct_pipeline* pipeline);
+  void create_pipeline_graphics();
 
-  //Subfunction
+  //Pipeline element
   VkPipelineVertexInputStateCreateInfo pipe_data_description(vector<VkVertexInputBindingDescription>& bindingDescriptions, vector<VkVertexInputAttributeDescription>& attributeDescriptions);
-  VkPipelineDynamicStateCreateInfo pipe_dynamic_state(std::vector<VkDynamicState>& dynamicStates);
+  VkPipelineDynamicStateCreateInfo pipe_dynamic_state(std::vector<VkDynamicState>& dynamic_state);
   VkPipelineViewportStateCreateInfo pipe_viewport();
   VkPipelineRasterizationStateCreateInfo pipe_raster();
   VkPipelineMultisampleStateCreateInfo pipe_multisampling();
   VkPipelineDepthStencilStateCreateInfo pipe_depth();
   VkPipelineColorBlendAttachmentState pipe_color_blending_state();
-  VkPipelineColorBlendStateCreateInfo pipe_color_blending(VkPipelineColorBlendAttachmentState* colorBlendAttachment);
+  VkPipelineColorBlendStateCreateInfo pipe_color_blending(VkPipelineColorBlendAttachmentState* color_blend_attachment);
   VkPipelineInputAssemblyStateCreateInfo pipe_topology(string topology);
 
-  inline VkPipelineLayout get_pipeline_layout_point(){return pipeline_layout_point;}
-  inline VkPipelineLayout get_pipeline_layout_line(){return pipeline_layout_line;}
-  inline VkPipeline get_pipeline_point(){return pipeline_point;}
-  inline VkPipeline get_pipeline_line(){return pipeline_line;}
+  //Subfunction
+  Struct_pipeline* get_pipeline_byName(string name);
 
 private:
   Engine* engineManager;
@@ -58,10 +55,7 @@ private:
   VK_viewport* vk_viewport;
   VK_shader* vk_shader;
 
-  VkPipelineLayout pipeline_layout_point;
-  VkPipelineLayout pipeline_layout_line;
-  VkPipeline pipeline_point;
-  VkPipeline pipeline_line;
+  vector<Struct_pipeline*> vec_pipeline;
 };
 
 #endif

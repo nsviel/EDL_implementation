@@ -137,7 +137,7 @@ void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPas
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
   this->command_viewport(command_buffer);
-  this->command_drawing_line(command_buffer, current_frame);
+  //this->command_drawing_line(command_buffer, current_frame);
   this->command_drawing_point(command_buffer, current_frame);
   this->command_gui(command_buffer);
 
@@ -181,16 +181,13 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t 
   Frame* frame = vec_frame[current_frame];
 
   //Bind pipeline
-  VkPipeline pipeline = vk_pipeline->get_pipeline_point();
-  VkPipelineLayout pipeline_layout = vk_pipeline->get_pipeline_layout_point();
-  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
-
-  //vkCmdSetPrimitiveTopology(command_buffer, VK_PRIMITIVE_TOPOLOGY_LINE_LIST);
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("cloud");
+  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
 
   //Bind descriptor
   list<Object*> list_data = vk_data->get_list_data();
   if(list_data.size() != 0){
-    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
+    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
   }
 
   //Bind and draw vertex buffers
@@ -199,7 +196,7 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t 
 
     if(object->draw_type_name == "point"){
       vk_camera->compute_mvp(object);
-      vkCmdPushConstants(command_buffer, pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(glm::mat4), &object->mvp);
+      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(glm::mat4), &object->mvp);
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
@@ -210,7 +207,7 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t 
   //---------------------------
 }
 void VK_command::command_drawing_line(VkCommandBuffer command_buffer, uint32_t current_frame){
-  VK_data* vk_data = engineManager->get_vk_data();
+  /*VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
@@ -242,7 +239,7 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer, uint32_t c
     }
   }
 
-  //---------------------------
+  //---------------------------*/
 }
 
 //One time command

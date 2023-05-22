@@ -48,7 +48,7 @@ void VK_data::clean_object(Object* object){
 
 //Data description
 std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
-  std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
+  std::vector<VkVertexInputAttributeDescription> attribut_description;
   //---------------------------
 
   VkVertexInputAttributeDescription attribut_1{};
@@ -56,14 +56,14 @@ std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
   attribut_1.location = 0;
   attribut_1.format = VK_FORMAT_R32G32B32_SFLOAT;
   attribut_1.offset = 0;
-  attributeDescriptions.push_back(attribut_1);
+  attribut_description.push_back(attribut_1);
 
   VkVertexInputAttributeDescription attribut_2{};
   attribut_2.binding = 1;
   attribut_2.location = 1;
   attribut_2.format = VK_FORMAT_R32G32B32A32_SFLOAT;
   attribut_2.offset = 0;
-  attributeDescriptions.push_back(attribut_2);
+  attribut_description.push_back(attribut_2);
 
   /*
   VkVertexInputAttributeDescription attribut_3{};
@@ -71,14 +71,14 @@ std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
   attribut_3.location = 2;
   attribut_3.format = VK_FORMAT_R32G32_SFLOAT;
   attribut_3.offset = 0;
-  attributeDescriptions.push_back(attribut_3);
+  attribut_description.push_back(attribut_3);
   */
 
   //---------------------------
-  return attributeDescriptions;
+  return attribut_description;
 }
 std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
-  std::vector<VkVertexInputBindingDescription> bindingDescriptions;
+  std::vector<VkVertexInputBindingDescription> data_description;
   //---------------------------
 
   // position buffer binding
@@ -86,14 +86,14 @@ std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
   desc_xyz.binding = 0;
   desc_xyz.stride = sizeof(glm::vec3);
   desc_xyz.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  bindingDescriptions.push_back(desc_xyz);
+  data_description.push_back(desc_xyz);
 
   // normal buffer binding
   VkVertexInputBindingDescription desc_rgb{};
   desc_rgb.binding = 1;
   desc_rgb.stride = sizeof(glm::vec4);
   desc_rgb.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  bindingDescriptions.push_back(desc_rgb);
+  data_description.push_back(desc_rgb);
 
   // texture coordinate buffer binding
   /*
@@ -101,9 +101,9 @@ std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
   desc_uv.binding = 2;
   desc_uv.stride = sizeof(glm::vec2);
   desc_uv.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  bindingDescriptions.push_back(desc_uv);
+  data_description.push_back(desc_uv);
   */
 
   //---------------------------
-  return bindingDescriptions;
+  return data_description;
 }

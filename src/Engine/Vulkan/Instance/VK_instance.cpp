@@ -70,7 +70,7 @@ void VK_instance::cleanup(){
 }
 
 //Validation layers
-std::vector<const char*> VK_instance::get_required_extensions(){
+vector<const char*> VK_instance::get_required_extensions(){
   //Return the required list of extensions based on whether validation layers are enabled or not
   VK_validation* vk_validation = engineManager->get_vk_validation();
   bool with_validation_layer = vk_validation->get_with_validation_layer();
@@ -81,7 +81,6 @@ std::vector<const char*> VK_instance::get_required_extensions(){
   glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
   vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
-  //extensions.push_back(VK_EXT_EXTENDED_DYNAMIC_STATE_EXTENSION_NAME);
 
   if(with_validation_layer){
     extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);

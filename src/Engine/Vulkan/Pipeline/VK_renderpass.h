@@ -24,7 +24,7 @@ public:
   void create_render_pass();
   void cleanup();
 
-  inline VkRenderPass get_renderPass(){return renderPass;}
+  inline VkRenderPass get_renderPass(){return render_pass;}
 
 private:
   Engine* engineManager;
@@ -34,7 +34,7 @@ private:
   VK_image* vk_image;
 
   VkPipelineLayout pipelineLayout;
-  VkRenderPass renderPass;
+  VkRenderPass render_pass;
 };
 
 #endif

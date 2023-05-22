@@ -32,7 +32,7 @@ public:
   void update_descriptor_set();
   void update_descriptor_set_texture(Object* object);
 
-  inline VkDescriptorSetLayout get_descriptorSetLayout(){return descriptor_layout;}
+  inline VkDescriptorSetLayout get_descriptor_layout(){return descriptor_layout;}
 
 private:
   Engine* engineManager;
