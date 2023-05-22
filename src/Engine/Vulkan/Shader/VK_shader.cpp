@@ -57,12 +57,12 @@ vector<VkPipelineShaderStageCreateInfo> VK_shader::pipeline_shader_info(VkShader
   info_frag.pSpecializationInfo = nullptr;
 
   //Shader info array
-  vector<VkPipelineShaderStageCreateInfo> shaderStages;
-  shaderStages.push_back(info_vert);
-  shaderStages.push_back(info_frag);
+  vector<VkPipelineShaderStageCreateInfo> shader_stage;
+  shader_stage.push_back(info_vert);
+  shader_stage.push_back(info_frag);
 
   //---------------------------
-  return shaderStages;
+  return shader_stage;
 }
 VkShaderModule VK_shader::create_shader_module(const std::vector<char>& code){
   //Shader modules are just a thin wrapper around the shader bytecode

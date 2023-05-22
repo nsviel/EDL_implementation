@@ -25,14 +25,6 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
 VK_descriptor::~VK_descriptor(){}
 
 //Main function
-void VK_descriptor::init_descriptor(){
-  //---------------------------
-
-  this->create_descriptor_pool();
-  //this->create_descriptor_set();
-
-  //---------------------------
-}
 void VK_descriptor::fill_vec_frame(vector<VkDescriptorSet> descriptor_set){
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
   //---------------------------
@@ -54,51 +46,7 @@ void VK_descriptor::cleanup(){
 }
 
 //Initialization function
-void VK_descriptor::create_descriptor_set(){
-  VK_texture* vk_texture = engineManager->get_vk_texture();
-  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
-  //---------------------------
-
-  std::vector<VkDescriptorSetLayout> layouts(param_vulkan->max_frame, descriptor_layout);
-  VkDescriptorSetAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-  allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_vulkan->max_frame);
-  allocInfo.pSetLayouts = layouts.data();
-
-  vector<VkDescriptorSet> descriptor_set;
-  descriptor_set.resize(param_vulkan->max_frame);
-  VkResult result = vkAllocateDescriptorSets(param_vulkan->device, &allocInfo, descriptor_set.data());
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to allocate descriptor sets!");
-  }
-
-  //Pour toute les frame, specifier les shader data
-  for(size_t i=0; i<param_vulkan->max_frame; i++){
-    VkDescriptorBufferInfo bufferInfo{};
-    bufferInfo.buffer = uniformBuffers[i];
-    bufferInfo.offset = 0;
-    bufferInfo.range = sizeof(MVP);
-
-    //MVP matrix to GPU
-    VkWriteDescriptorSet descriptor_write{};
-    descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    descriptor_write.dstSet = descriptor_set[i];
-    descriptor_write.dstBinding = 0;
-    descriptor_write.dstArrayElement = 0;
-    descriptor_write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    descriptor_write.descriptorCount = 1;
-    descriptor_write.pBufferInfo = &bufferInfo;
-
-    vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
-  }
-
-  this->fill_vec_frame(descriptor_set);
-
-  //---------------------------
-}
-void VK_descriptor::create_descriptor_set_layout(){
+void VK_descriptor::create_descriptor_layout(){
   //---------------------------
 
   //Uniform buffer object
@@ -184,52 +132,7 @@ void VK_descriptor::update_descriptor_set(){
     descriptor_write.descriptorCount = 1;
     descriptor_write.pBufferInfo = &bufferInfo;
 
-    vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
-  }
-
-  this->fill_vec_frame(descriptor_set);
-
-  //---------------------------
-}
-void VK_descriptor::update_descriptor_set_texture(Object* object){
-  VK_texture* vk_texture = engineManager->get_vk_texture();
-  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
-  //---------------------------
-
-  std::vector<VkDescriptorSetLayout> layouts(param_vulkan->max_frame, descriptor_layout);
-  VkDescriptorSetAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-  allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_vulkan->max_frame);
-  allocInfo.pSetLayouts = layouts.data();
-
-  vector<VkDescriptorSet> descriptor_set;
-  descriptor_set.resize(param_vulkan->max_frame);
-  VkResult result = vkAllocateDescriptorSets(param_vulkan->device, &allocInfo, descriptor_set.data());
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to allocate descriptor sets!");
-  }
-
-  Struct_texture texture = *next(object->list_texture.begin(), 0);
-
-  //Pour toute les frame, specifier les shader data
-  for(size_t i=0; i<param_vulkan->max_frame; i++){
-    VkDescriptorBufferInfo bufferInfo{};
-    bufferInfo.buffer = uniformBuffers[i];
-    bufferInfo.offset = 0;
-    bufferInfo.range = sizeof(MVP);
-
-    //MVP matrix to GPU
-    std::array<VkWriteDescriptorSet, 2> descriptor_write{};
-    descriptor_write[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    descriptor_write[0].dstSet = descriptor_set[i];
-    descriptor_write[0].dstBinding = 0;
-    descriptor_write[0].dstArrayElement = 0;
-    descriptor_write[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    descriptor_write[0].descriptorCount = 1;
-    descriptor_write[0].pBufferInfo = &bufferInfo;
-
+    /*
     //Texture to GPU
     descriptor_write[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     descriptor_write[1].dstSet = descriptor_set[i];
@@ -238,8 +141,9 @@ void VK_descriptor::update_descriptor_set_texture(Object* object){
     descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     descriptor_write[1].descriptorCount = 1;
     descriptor_write[1].pImageInfo = &texture.imageInfo;
+    */
 
-    vkUpdateDescriptorSets(param_vulkan->device, static_cast<uint32_t>(descriptor_write.size()), descriptor_write.data(), 0, nullptr);
+    vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
   }
 
   this->fill_vec_frame(descriptor_set);

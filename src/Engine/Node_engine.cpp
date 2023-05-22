@@ -55,7 +55,6 @@ void Node_engine::loop(){
 
   cameraManager->input_cam_mouse();
   node->loop();
-  gpu_data->loop_check_descriptor_update();
 
   //---------------------------
 }

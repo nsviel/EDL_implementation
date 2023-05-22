@@ -19,18 +19,15 @@ public:
 
 public:
   //Main functions
-  void init_descriptor();
   void fill_vec_frame(vector<VkDescriptorSet> descriptor_set);
   void cleanup();
 
   //Subfunctions
-  void create_descriptor_set_layout();
+  void create_descriptor_layout();
   void create_descriptor_pool();
-  void create_descriptor_set();
 
   //Update function
   void update_descriptor_set();
-  void update_descriptor_set_texture(Object* object);
 
   inline VkDescriptorSetLayout get_descriptor_layout(){return descriptor_layout;}
 

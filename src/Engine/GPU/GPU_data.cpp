@@ -64,17 +64,6 @@ void GPU_data::remove_object_in_engine(Object* object){
 
   //---------------------------
 }
-void GPU_data::loop_check_descriptor_update(){
-  //---------------------------
-
-  static bool once = true;
-  if(is_descriptor_up&&once){once=false;
-    this->update_descriptor_set();
-    this->is_descriptor_up = false;
-  }
-
-  //---------------------------
-}
 
 //Subfunctions
 void GPU_data::create_object_buffer(Object* object){
@@ -93,13 +82,6 @@ void GPU_data::create_object_buffer(Object* object){
   if(object->path_text != ""){
     //vk_texture->load_texture(object);
   }
-
-  //---------------------------
-}
-void GPU_data::update_descriptor_set(){
-  //---------------------------
-
-  vk_descriptor->update_descriptor_set();
 
   //---------------------------
 }

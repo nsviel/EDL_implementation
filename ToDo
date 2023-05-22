@@ -1,7 +1,7 @@
 ToDo
 //-----------------
--mettre les object vulkan dans struct param_vulkan
--mettre tous les element des images swapchain dans structure image
+-post-processing
+  -quad "canvas" for render-to-texture
 -debug arcball cam
 -cross compilation windows
 -abstraction fbo / uniform / shader
@@ -11,6 +11,9 @@ ToDo
 
 Done
 //-----------------
+-mettre tous les element des images swapchain dans structure image
+-mettre les object vulkan dans struct param_vulkan
+-pipeline drawing point/line/triangle
 -structure inflight images
 -structure swapchain image
 -selection des objects: tab & filemanager
