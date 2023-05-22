@@ -89,7 +89,7 @@ void Engine::init_vulkan(){
   //Shader
   vk_uniform->create_uniform_buffers();
   vk_descriptor->create_descriptor_pool();
-  vk_descriptor->update_descriptor_set();
+  vk_descriptor->create_descriptor_set();
 
   //Command
   vk_command->create_command_buffers();

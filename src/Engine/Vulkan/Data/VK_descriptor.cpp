@@ -93,9 +93,7 @@ void VK_descriptor::create_descriptor_pool(){
 
   //---------------------------
 }
-
-//update function
-void VK_descriptor::update_descriptor_set(){
+void VK_descriptor::create_descriptor_set(){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
@@ -150,3 +148,5 @@ void VK_descriptor::update_descriptor_set(){
 
   //---------------------------
 }
+
+//update function

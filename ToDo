@@ -2,6 +2,7 @@ ToDo
 //-----------------
 -post-processing
   -quad "canvas" for render-to-texture
+  -faire set de shader
 -debug arcball cam
 -cross compilation windows
 -abstraction fbo / uniform / shader

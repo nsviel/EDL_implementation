@@ -22,7 +22,7 @@ void VK_shader::init_shader_module(bool has_compile){
 
   //Compile shader from GLSL to SPIR-V
   if(has_compile){
-    int result = system("../src/Engine/Shader/glsl/compile.sh");
+    int result = system("../src/Engine/Shader/compile.sh");
   }
 
   //Load spir format shaders

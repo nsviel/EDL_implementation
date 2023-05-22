@@ -40,7 +40,7 @@ void VK_pipeline::init_pipeline(){
   //160ms/pipeline
   //---------------------------
 
-  this->create_pipeline_info("cloud", "point", false);
+  this->create_pipeline_info("cloud", "point", true);
   this->create_pipeline_info("glyph", "line", false);
   this->create_pipeline_info("canvas", "triangle", false);
 

@@ -25,9 +25,7 @@ public:
   //Subfunctions
   void create_descriptor_layout();
   void create_descriptor_pool();
-
-  //Update function
-  void update_descriptor_set();
+  void create_descriptor_set();
 
   inline VkDescriptorSetLayout get_descriptor_layout(){return descriptor_layout;}
 
