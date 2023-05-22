@@ -17,11 +17,13 @@ VK_shader::VK_shader(Engine* engineManager){
 VK_shader::~VK_shader(){}
 
 //Main function
-void VK_shader::create_shader_module(){
+void VK_shader::init_shader_module(bool has_compile){
   //---------------------------
 
   //Compile shader from GLSL to SPIR-V
-  int result = system("../src/Engine/Shader/glsl/compile.sh");
+  if(has_compile){
+    int result = system("../src/Engine/Shader/glsl/compile.sh");
+  }
 
   //Load spir format shaders
   auto code_vert = read_file(param_vulkan->path_shader_vs);

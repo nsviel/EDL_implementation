@@ -40,11 +40,9 @@ void VK_pipeline::init_pipeline(){
   //160ms/pipeline
   //---------------------------
 
-  Struct_pipeline* pipeline_cloud = create_pipeline_info("cloud", "point");
-  this->vec_pipeline.push_back(pipeline_cloud);
-
-  //this->create_pipeline_info("line");
-  //this->create_pipeline_info("triangle");
+  this->create_pipeline_info("cloud", "point", false);
+  this->create_pipeline_info("glyph", "line", false);
+  this->create_pipeline_info("canvas", "triangle", false);
 
   this->create_pipeline_graphics();
 
@@ -63,13 +61,13 @@ void VK_pipeline::cleanup(){
 }
 
 //Pipeline creation
-Struct_pipeline* VK_pipeline::create_pipeline_info(string name, string topology){
+void VK_pipeline::create_pipeline_info(string name, string topology, bool compile_shader){
   VK_data* vk_data = engineManager->get_vk_data();
   VkRenderPass render_pass = vk_renderpass->get_renderPass();
   //---------------------------
 
   //Shader
-  vk_shader->create_shader_module();
+  vk_shader->init_shader_module(compile_shader);
   VkShaderModule module_vert = vk_shader->get_module_vert();
   VkShaderModule module_frag = vk_shader->get_module_frag();
 
@@ -96,6 +94,7 @@ Struct_pipeline* VK_pipeline::create_pipeline_info(string name, string topology)
   pipeline->depth_stencil = pipe_depth();
   this->create_pipeline_layout(pipeline);
 
+
   //Pipeline info
   VkGraphicsPipelineCreateInfo pipeline_info{};
   pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -116,9 +115,9 @@ Struct_pipeline* VK_pipeline::create_pipeline_info(string name, string topology)
   pipeline_info.basePipelineIndex = -1; // Optional
 
   pipeline->pipeline_info = pipeline_info;
+  this->vec_pipeline.push_back(pipeline);
 
   //---------------------------
-  return pipeline;
 }
 void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   //---------------------------

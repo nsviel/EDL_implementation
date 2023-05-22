@@ -17,7 +17,7 @@ public:
 
 public:
   //Main function
-  void create_shader_module();
+  void init_shader_module(bool has_compile);
 
   //Subfunction
   VkShaderModule create_shader_module(const std::vector<char>& code);
