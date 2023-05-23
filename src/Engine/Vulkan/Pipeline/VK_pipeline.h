@@ -27,7 +27,7 @@ public:
   void cleanup();
 
   //Pipeline creation
-  void create_pipeline_info(string name, string topology, bool compile_shader);
+  void create_pipeline_info(Struct_pipeline* pipeline);
   void create_pipeline_layout(Struct_pipeline* pipeline);
   void create_pipeline_graphics();
 

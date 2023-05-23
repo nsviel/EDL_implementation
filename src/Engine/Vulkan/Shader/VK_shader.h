@@ -1,6 +1,7 @@
 #ifndef VK_SHADER_H
 #define VK_SHADER_H
 
+#include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
 class Engine;
@@ -17,7 +18,7 @@ public:
 
 public:
   //Main function
-  void init_shader_module(bool has_compile);
+  void compute_shader_module(Struct_pipeline* pipeline);
 
   //Subfunction
   VkShaderModule create_shader_module(const std::vector<char>& code);

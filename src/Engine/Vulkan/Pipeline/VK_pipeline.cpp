@@ -40,9 +40,32 @@ void VK_pipeline::init_pipeline(){
   //160ms/pipeline
   //---------------------------
 
-  this->create_pipeline_info("cloud", "point", true);
-  this->create_pipeline_info("glyph", "line", false);
-  this->create_pipeline_info("canvas", "triangle", false);
+  //Pipeline Cloud
+  Struct_pipeline* pipeline_cloud = new Struct_pipeline();
+  pipeline_cloud->name = "cloud";
+  pipeline_cloud->topology = "point";
+  pipeline_cloud->compile_shader = true;
+  pipeline_cloud->path_shader_vs = "Base/shader_scene_vs";
+  pipeline_cloud->path_shader_fs = "Base/shader_scene_fs";
+  this->create_pipeline_info(pipeline_cloud);
+
+  //Pipeline Glyph
+  Struct_pipeline* pipeline_glyph = new Struct_pipeline();
+  pipeline_glyph->name = "glyph";
+  pipeline_glyph->topology = "line";
+  pipeline_glyph->compile_shader = false;
+  pipeline_glyph->path_shader_vs = "Base/shader_scene_vs";
+  pipeline_glyph->path_shader_fs = "Base/shader_scene_fs";
+  this->create_pipeline_info(pipeline_glyph);
+
+  //Pipeline Canvas
+  Struct_pipeline* pipeline_canvas = new Struct_pipeline();
+  pipeline_canvas->name = "canvas";
+  pipeline_canvas->topology = "triangle";
+  pipeline_canvas->compile_shader = false;
+  pipeline_canvas->path_shader_vs = "Base/shader_scene_vs";
+  pipeline_canvas->path_shader_fs = "Base/shader_scene_fs";
+  this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();
 
@@ -61,30 +84,27 @@ void VK_pipeline::cleanup(){
 }
 
 //Pipeline creation
-void VK_pipeline::create_pipeline_info(string name, string topology, bool compile_shader){
+void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   VK_data* vk_data = engineManager->get_vk_data();
   VkRenderPass render_pass = vk_renderpass->get_renderPass();
   //---------------------------
 
   //Shader
-  vk_shader->init_shader_module(compile_shader);
+  vk_shader->compute_shader_module(pipeline);
   VkShaderModule module_vert = vk_shader->get_module_vert();
   VkShaderModule module_frag = vk_shader->get_module_frag();
+  pipeline->vec_shader_module.push_back(module_vert);
+  pipeline->vec_shader_module.push_back(module_frag);
 
   //Pipeline element info
-  Struct_pipeline* pipeline = new Struct_pipeline();
-  pipeline->name = name;
-  pipeline->topology = topology;
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_SCISSOR);
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
   pipeline->shader_stage = vk_shader->pipeline_shader_info(module_vert, module_frag);
-  pipeline->vec_shader_module.push_back(module_vert);
-  pipeline->vec_shader_module.push_back(module_frag);
   pipeline->data_description = vk_data->description_binding();
   pipeline->attribut_description = vk_data->description_vertex();
   pipeline->vertex_input_info = pipe_data_description(pipeline->data_description, pipeline->attribut_description);
-  pipeline->input_assembly = pipe_topology(topology);
+  pipeline->input_assembly = pipe_topology(pipeline->topology);
   pipeline->dynamic_state = pipe_dynamic_state(pipeline->dynamic_state_object);
   pipeline->viewport_state = pipe_viewport();
   pipeline->rasterizer = pipe_raster();

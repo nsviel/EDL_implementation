@@ -17,17 +17,25 @@ VK_shader::VK_shader(Engine* engineManager){
 VK_shader::~VK_shader(){}
 
 //Main function
-void VK_shader::init_shader_module(bool has_compile){
+void VK_shader::compute_shader_module(Struct_pipeline* pipeline){
   //---------------------------
 
   //Compile shader from GLSL to SPIR-V
-  if(has_compile){
-    int result = system("../src/Engine/Shader/compile.sh");
+  if(pipeline->compile_shader){
+    string vs = pipeline->path_shader_vs;
+    string fs = pipeline->path_shader_fs;
+    string command = "../src/Engine/Shader/compile.sh " + vs + " " + fs;
+    int result = system(command.c_str());
+    if(result != 0){
+      cout<<"[error] Shader compilation GLSL -> SPIR-V"<<endl;
+    }
   }
 
   //Load spir format shaders
-  auto code_vert = read_file(param_vulkan->path_shader_vs);
-  auto code_frag = read_file(param_vulkan->path_shader_fs);
+  string path_vs = param_vulkan->path_shader + pipeline->path_shader_vs + ".spv";
+  string path_fs = param_vulkan->path_shader + pipeline->path_shader_fs + ".spv";
+  auto code_vert = read_file(path_vs);
+  auto code_frag = read_file(path_fs);
 
   //Create associated shader modules
   this->module_vert = create_shader_module(code_vert);
@@ -84,12 +92,12 @@ VkShaderModule VK_shader::create_shader_module(const std::vector<char>& code){
   //---------------------------
   return shaderModule;
 }
-std::vector<char> VK_shader::read_file(const std::string& filename){
-  std::ifstream file(filename, std::ios::ate | std::ios::binary);
+std::vector<char> VK_shader::read_file(const std::string& path){
+  std::ifstream file(path, std::ios::ate | std::ios::binary);
   //---------------------------
 
-  if (!file.is_open()) {
-    throw std::runtime_error("[error] failed to open file!");
+  if(!file.is_open()){
+    throw std::runtime_error("[error] Shader file failed to open " + path);
   }
 
   size_t fileSize = (size_t) file.tellg();

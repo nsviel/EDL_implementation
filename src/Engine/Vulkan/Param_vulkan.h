@@ -17,8 +17,7 @@ struct Param_vulkan{
   std::string title = "Nephos";
   glm::vec2 window_dim = glm::vec2(1024, 500);
   glm::vec2 window_dim_min = glm::vec2(500, 250);
-  std::string path_shader_vs = "../src/Engine/Shader/spir/shader_scene_vs.spv";
-  std::string path_shader_fs = "../src/Engine/Shader/spir/shader_scene_fs.spv";
+  std::string path_shader = "../src/Engine/Shader/spir/";
 
   //Vulkan objects
   VkExtent2D extent;

@@ -11,6 +11,11 @@ struct Struct_pipeline{
   std::string name;
   std::string topology;
 
+  //Pipeline shader
+  bool compile_shader;
+  std::string path_shader_vs;
+  std::string path_shader_fs;
+
   //Pipeline elments
   VkPipeline pipeline;
   VkPipelineLayout pipeline_layout;
