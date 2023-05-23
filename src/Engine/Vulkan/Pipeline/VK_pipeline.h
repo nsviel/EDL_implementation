@@ -32,7 +32,7 @@ public:
   void create_pipeline_graphics();
 
   //Pipeline element
-  VkPipelineVertexInputStateCreateInfo pipe_data_description(vector<VkVertexInputBindingDescription>& bindingDescriptions, vector<VkVertexInputAttributeDescription>& attributeDescriptions);
+  void pipe_data_description(Struct_pipeline* pipeline);
   VkPipelineDynamicStateCreateInfo pipe_dynamic_state(std::vector<VkDynamicState>& dynamic_state);
   VkPipelineViewportStateCreateInfo pipe_viewport();
   VkPipelineRasterizationStateCreateInfo pipe_raster();

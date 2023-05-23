@@ -92,7 +92,6 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   //Object description
   vk_shader->compute_pipeline_shader(pipeline);
   vk_data->compute_pipeline_data(pipeline);
-  this->create_pipeline_layout(pipeline);
 
   //Dynamic
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);
@@ -100,7 +99,8 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
   //Pipeline element info
-  pipeline->vertex_input_info = pipe_data_description(pipeline->data_description, pipeline->attribut_description);
+  this->create_pipeline_layout(pipeline);
+  this->pipe_data_description(pipeline);
   pipeline->input_assembly = pipe_topology(pipeline->topology);
   pipeline->dynamic_state = pipe_dynamic_state(pipeline->dynamic_state_object);
   pipeline->viewport_state = pipe_viewport();
@@ -191,18 +191,18 @@ void VK_pipeline::create_pipeline_graphics(){
 }
 
 //Pipeline element
-VkPipelineVertexInputStateCreateInfo VK_pipeline::pipe_data_description(vector<VkVertexInputBindingDescription>& data_description, vector<VkVertexInputAttributeDescription>& attribut_description){
+void VK_pipeline::pipe_data_description(Struct_pipeline* pipeline){
   //---------------------------
 
   VkPipelineVertexInputStateCreateInfo vertex_input_info{};
   vertex_input_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-  vertex_input_info.vertexBindingDescriptionCount = static_cast<uint32_t>(data_description.size());
-  vertex_input_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(attribut_description.size());
-  vertex_input_info.pVertexBindingDescriptions = data_description.data();
-  vertex_input_info.pVertexAttributeDescriptions = attribut_description.data();
+  vertex_input_info.vertexBindingDescriptionCount = static_cast<uint32_t>(pipeline->data_description.size());
+  vertex_input_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(pipeline->attribut_description.size());
+  vertex_input_info.pVertexBindingDescriptions = pipeline->data_description.data();
+  vertex_input_info.pVertexAttributeDescriptions = pipeline->attribut_description.data();
 
   //---------------------------
-  return vertex_input_info;
+  pipeline->vertex_input_info = vertex_input_info;
 }
 VkPipelineDynamicStateCreateInfo VK_pipeline::pipe_dynamic_state(std::vector<VkDynamicState>& dynamic_state_obj){
   //---------------------------
