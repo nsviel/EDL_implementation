@@ -28,7 +28,7 @@ public:
   void draw_command();
   void draw_queue();
 
-  inline uint32_t get_current_frame(){return current_frame;}
+  inline uint32_t get_current_frame(){return frame_current;}
 
 private:
   Engine* engineManager;
@@ -41,9 +41,9 @@ private:
   VK_uniform* vk_uniform;
   VK_image* vk_image;
 
-  uint32_t imageIndex;
   bool framebufferResized;
-  uint32_t current_frame;
+  uint32_t image_index;
+  uint32_t frame_current;
 };
 
 #endif

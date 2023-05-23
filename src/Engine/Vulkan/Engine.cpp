@@ -19,6 +19,7 @@
 #include "Instance/VK_instance.h"
 #include "Instance/VK_validation.h"
 #include "Rendering/VK_framebuffer.h"
+#include "Rendering/VK_canvas.h"
 #include "Rendering/VK_depth.h"
 #include "Swapchain/VK_swapchain.h"
 #include "Swapchain/VK_image.h"
@@ -56,6 +57,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_depth = new VK_depth(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_camera = new VK_camera(this);
+  this->vk_canvas = new VK_canvas(this);
   this->vk_command = new VK_command(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);

@@ -16,6 +16,7 @@ class VK_buffer;
 class VK_camera;
 class VK_physical_device;
 class VK_image;
+class VK_canvas;
 
 
 class VK_command
@@ -31,15 +32,13 @@ public:
   void create_command_buffers();
   void cleanup();
 
-  //Render pass
-  void record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex, uint32_t current_frame);
-  void compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo, uint32_t current_frame);
-
-  //Specific commands
-  void command_gui(VkCommandBuffer command_buffer);
-  void command_drawing_point(VkCommandBuffer command_buffer, uint32_t current_frame);
-  void command_drawing_line(VkCommandBuffer command_buffer, uint32_t current_frame);
+  //Drawing command
+  void record_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index, uint32_t frame_current);
   void command_viewport(VkCommandBuffer command_buffer);
+  void command_drawing_scene(VkCommandBuffer command_buffer, uint32_t frame_current);
+  void command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t frame_current);
+  void command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t frame_current);
+  void command_gui(VkCommandBuffer command_buffer);
 
   //One time command
   VkCommandBuffer command_buffer_begin();
@@ -61,6 +60,7 @@ private:
   VK_camera* vk_camera;
   VK_image* vk_image;
   VK_physical_device* vk_physical_device;
+  VK_canvas* vk_canvas;
 
   VkCommandPool command_pool;
 };

@@ -18,6 +18,8 @@ public:
   //Main functions
   void gen_canvas();
 
+  inline Object* get_canvas(){return canvas;}
+
 private:
   VK_buffer* vk_buffer;
 

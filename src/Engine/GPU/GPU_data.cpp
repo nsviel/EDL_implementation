@@ -32,8 +32,8 @@ void GPU_data::insert_object_in_engine(Object* object){
 
   //Check if object already in engine
   bool is_in_list = false;
-  for(int i=0; i<list_draw.size(); i++){
-    Object* object_list = *next(list_draw.begin(),i);
+  for(int i=0; i<list_data.size(); i++){
+    Object* object_list = *next(list_data.begin(),i);
     if(object->ID == object_list->ID){
       is_in_list = true;
     }
@@ -42,8 +42,30 @@ void GPU_data::insert_object_in_engine(Object* object){
   //If not, insert it
   if(is_in_list == false){
     this->create_object_buffer(object);
-    list_draw.push_back(object);
-    vk_data->set_list_data(list_draw);
+    list_data.push_back(object);
+    vk_data->set_list_data(list_data);
+    this->is_descriptor_up = true;
+  }
+
+  //---------------------------
+}
+void GPU_data::insert_glyph_in_engine(Object* object){
+  //---------------------------
+
+  //Check if object already in engine
+  bool is_in_list = false;
+  for(int i=0; i<list_glyph.size(); i++){
+    Object* object_list = *next(list_glyph.begin(),i);
+    if(object->ID == object_list->ID){
+      is_in_list = true;
+    }
+  }
+
+  //If not, insert it
+  if(is_in_list == false){
+    this->create_object_buffer(object);
+    list_glyph.push_back(object);
+    vk_data->set_list_glyph(list_glyph);
     this->is_descriptor_up = true;
   }
 
@@ -53,11 +75,11 @@ void GPU_data::remove_object_in_engine(Object* object){
   //---------------------------
 
   bool is_in_list = false;
-  for(int i=0; i<list_draw.size(); i++){
-    Object* object_list = *next(list_draw.begin(),i);
+  for(int i=0; i<list_data.size(); i++){
+    Object* object_list = *next(list_data.begin(),i);
     if(object->ID == object_list->ID){
-      list_draw.remove(object_list);
-      vk_data->set_list_data(list_draw);
+      list_data.remove(object_list);
+      vk_data->set_list_data(list_data);
       vk_data->clean_object(object);
     }
   }

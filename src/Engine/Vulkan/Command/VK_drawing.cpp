@@ -25,7 +25,7 @@ VK_drawing::VK_drawing(Engine* engineManager){
   this->vk_uniform = engineManager->get_vk_uniform();
   this->vk_image = engineManager->get_vk_image();
 
-  this->current_frame = 0;
+  this->frame_current = 0;
 
   //---------------------------
 }
@@ -41,12 +41,14 @@ void VK_drawing::draw_frame(){
 
   //---------------------------
 }
+
+//Subfunction
 void VK_drawing::draw_swapchain(){
   VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[current_frame];
+  Frame* frame = vec_frame[frame_current];
 
   framebufferResized = vk_window->check_for_resizing();
 
@@ -54,7 +56,7 @@ void VK_drawing::draw_swapchain(){
   vkWaitForFences(param_vulkan->device, 1, &frame->fence_inflight, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(param_vulkan->device, swapChain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &imageIndex);
+  VkResult result = vkAcquireNextImageKHR(param_vulkan->device, swapChain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &image_index);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -76,11 +78,11 @@ void VK_drawing::draw_swapchain(){
 }
 void VK_drawing::draw_command(){
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[current_frame];
+  Frame* frame = vec_frame[frame_current];
   //---------------------------
 
   vkResetCommandBuffer(frame->command_buffer, 0);
-  vk_command->record_command_buffer(frame->command_buffer, imageIndex, current_frame);
+  vk_command->record_command_buffer(frame->command_buffer, image_index, frame_current);
 
   //---------------------------
 }
@@ -91,7 +93,7 @@ void VK_drawing::draw_queue(){
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[current_frame];
+  Frame* frame = vec_frame[frame_current];
 
   VkSubmitInfo submitInfo{};
   submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -119,7 +121,7 @@ void VK_drawing::draw_queue(){
   VkSwapchainKHR swapChains[] = {swapChain};
   presentInfo.swapchainCount = 1;
   presentInfo.pSwapchains = swapChains;
-  presentInfo.pImageIndices = &imageIndex;
+  presentInfo.pImageIndices = &image_index;
   presentInfo.pResults = nullptr; // Optional
 
   result = vkQueuePresentKHR(queue_presentation, &presentInfo);
@@ -129,7 +131,7 @@ void VK_drawing::draw_queue(){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  current_frame = (current_frame + 1) % param_vulkan->max_frame;
+  frame_current = (frame_current + 1) % param_vulkan->max_frame;
 
   //---------------------------
 }

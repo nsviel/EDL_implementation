@@ -30,7 +30,9 @@ public:
   void combine_description(Struct_pipeline* pipeline);
 
   inline void set_list_data(std::list<Object*> value){this->list_data = value;}
+  inline void set_list_glyph(std::list<Object*> value){this->list_glyph = value;}
   inline std::list<Object*> get_list_data(){return list_data;}
+  inline std::list<Object*> get_list_glyph(){return list_glyph;}
 
 private:
   Engine* engineManager;
@@ -40,6 +42,7 @@ private:
   VK_texture* vk_texture;
 
   std::list<Object*> list_data;
+  std::list<Object*> list_glyph;
 };
 
 #endif

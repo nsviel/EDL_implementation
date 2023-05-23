@@ -21,6 +21,7 @@ public:
 public:
   //Main function
   void insert_object_in_engine(Object* object);
+  void insert_glyph_in_engine(Object* object);
   void remove_object_in_engine(Object* object);
 
   //Subfunctions
@@ -33,7 +34,8 @@ private:
   VK_command* vk_command;
   VK_data* vk_data;
 
-  std::list<Object*> list_draw;
+  std::list<Object*> list_data;
+  std::list<Object*> list_glyph;
   bool is_descriptor_up;
 };
 

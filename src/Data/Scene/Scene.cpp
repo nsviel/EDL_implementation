@@ -87,7 +87,7 @@ void Scene::insert_glyph(Object* object){
   //---------------------------
 
   object->ID = ID_obj++;
-  gpu_data->insert_object_in_engine(object);
+  gpu_data->insert_glyph_in_engine(object);
   set_glyph->list_obj.push_back(object);
   set_glyph->selected_obj = object;
 

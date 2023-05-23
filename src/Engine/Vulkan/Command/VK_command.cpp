@@ -14,6 +14,7 @@
 #include "../Camera/VK_viewport.h"
 #include "../Camera/VK_camera.h"
 #include "../Shader/VK_uniform.h"
+#include "../Rendering/VK_canvas.h"
 
 #include "../../Param_engine.h"
 
@@ -34,6 +35,7 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_camera = engineManager->get_vk_camera();
   this->vk_physical_device = engineManager->get_vk_physical_device();
   this->vk_image = engineManager->get_vk_image();
+  this->vk_canvas = engineManager->get_vk_canvas();
 
   //---------------------------
 }
@@ -94,12 +96,10 @@ void VK_command::cleanup(){
   //---------------------------
 }
 
-//Render pass
-void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t imageIndex, uint32_t current_frame){
-  VkRenderPass renderPass = vk_renderpass->get_renderPass();
-  //---------------------------
-
+//Drawing commands
+void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index, uint32_t frame_current){
   vector<Image*> vec_image_obj = vk_image->get_vec_image();
+  //---------------------------
 
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -120,8 +120,8 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
 
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-  renderPassInfo.renderPass = renderPass;
-  renderPassInfo.framebuffer = vec_image_obj[imageIndex]->fbo_vec[0];
+  renderPassInfo.renderPass = vk_renderpass->get_renderPass();
+  renderPassInfo.framebuffer = vec_image_obj[image_index]->fbo_vec[0];
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = param_vulkan->extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
@@ -130,33 +130,17 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
   this->command_viewport(command_buffer);
-  this->command_drawing_line(command_buffer, current_frame);
-  this->command_drawing_point(command_buffer, current_frame);
+  this->command_drawing_scene(command_buffer, frame_current);
+  this->command_drawing_glyph(command_buffer, frame_current);
+  this->command_drawing_canvas(command_buffer, frame_current);
   this->command_gui(command_buffer);
 
   //End render pass
   vkCmdEndRenderPass(command_buffer);
-  VkResult result = vkEndCommandBuffer(command_buffer);
+  result = vkEndCommandBuffer(command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to record command buffer!");
   }
-
-  //---------------------------
-}
-void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo, uint32_t current_frame){
-  //---------------------------
-
-
-
-  //---------------------------
-}
-
-//Specific commands
-void VK_command::command_gui(VkCommandBuffer command_buffer){
-  VK_gui* vk_gui = engineManager->get_vk_gui();
-  //---------------------------
-
-  vk_gui->command_gui(command_buffer);
 
   //---------------------------
 }
@@ -173,12 +157,12 @@ void VK_command::command_viewport(VkCommandBuffer command_buffer){
 
   //---------------------------
 }
-void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t current_frame){
+void VK_command::command_drawing_scene(VkCommandBuffer command_buffer, uint32_t frame_current){
   VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[current_frame];
+  Frame* frame = vec_frame[frame_current];
 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("cloud");
@@ -206,26 +190,26 @@ void VK_command::command_drawing_point(VkCommandBuffer command_buffer, uint32_t 
 
   //---------------------------
 }
-void VK_command::command_drawing_line(VkCommandBuffer command_buffer, uint32_t current_frame){
+void VK_command::command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t frame_current){
   VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[current_frame];
+  Frame* frame = vec_frame[frame_current];
 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("glyph");
   vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
 
   //Bind descriptor
-  list<Object*> list_data = vk_data->get_list_data();
-  if(list_data.size() != 0){
+  list<Object*> list_glyph = vk_data->get_list_glyph();
+  if(list_glyph.size() != 0){
     vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
   }
 
   //Bind and draw vertex buffers
-  for(int i=0; i<list_data.size(); i++){
-    Object* object = *next(list_data.begin(),i);
+  for(int i=0; i<list_glyph.size(); i++){
+    Object* object = *next(list_glyph.begin(),i);
 
     if(object->draw_type_name == "line"){
       vk_camera->compute_mvp(object);
@@ -237,6 +221,36 @@ void VK_command::command_drawing_line(VkCommandBuffer command_buffer, uint32_t c
       vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
     }
   }
+
+  //---------------------------
+}
+void VK_command::command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t frame_current){
+  VK_data* vk_data = engineManager->get_vk_data();
+  vector<Frame*> vec_frame = vk_image->get_vec_frame();
+  Frame* frame = vec_frame[frame_current];
+  //---------------------------
+
+  //Bind pipeline
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("canvas");
+  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
+  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
+
+  //Bind and draw vertex buffers
+  Object* canvas = vk_canvas->get_canvas();
+  //vk_camera->compute_mvp(canvas);
+  /*vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(glm::mat4), &canvas->mvp);
+  VkBuffer vertexBuffers[] = {canvas->vbo_xyz, canvas->vbo_rgb};
+  VkDeviceSize offsets[] = {0, 0};
+  vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
+  vkCmdDraw(command_buffer, canvas->xyz.size(), 1, 0, 0);*/
+
+  //---------------------------
+}
+void VK_command::command_gui(VkCommandBuffer command_buffer){
+  VK_gui* vk_gui = engineManager->get_vk_gui();
+  //---------------------------
+
+  vk_gui->command_gui(command_buffer);
 
   //---------------------------
 }

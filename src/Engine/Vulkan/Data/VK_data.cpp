@@ -33,6 +33,11 @@ void VK_data::cleanup(){
     this->clean_object(object);
   }
 
+  for(int i=0; i<list_glyph.size(); i++){
+    Object* object = *next(list_glyph.begin(),i);
+    this->clean_object(object);
+  }
+
   //---------------------------
 }
 void VK_data::clean_object(Object* object){

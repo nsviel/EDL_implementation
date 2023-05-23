@@ -36,6 +36,7 @@ void VK_canvas::gen_canvas(){
   uv.push_back(vec2(1.0f,  0.0f));
   uv.push_back(vec2(1.0f,  1.0f));
 
+  canvas->name = "canvas";
   canvas->xyz = xyz;
   canvas->uv = uv;
   canvas->draw_type_name = "triangle";

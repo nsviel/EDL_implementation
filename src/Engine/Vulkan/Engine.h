@@ -30,6 +30,7 @@ class VK_shader;
 class VK_physical_device;
 class VK_image;
 class VK_validation;
+class VK_canvas;
 
 
 class Engine
@@ -75,6 +76,7 @@ public:
   inline VK_image* get_vk_image(){return vk_image;}
   inline VK_validation* get_vk_validation(){return vk_validation;}
   inline VK_drawing* get_vk_drawing(){return vk_drawing;}
+  inline VK_canvas* get_vk_canvas(){return vk_canvas;}
 
   inline float get_fps(){return fps;}
 
@@ -106,6 +108,7 @@ private:
   VK_physical_device* vk_physical_device;
   VK_image* vk_image;
   VK_validation* vk_validation;
+  VK_canvas* vk_canvas;
 
   float fps;
 };
