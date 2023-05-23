@@ -23,10 +23,11 @@ public:
   void cleanup();
   void clean_object(Object* object);
 
-  //Data description
-  void compute_pipeline_data(Struct_pipeline* pipeline);
-  void compute_vertex_description(Struct_pipeline* pipeline);
-  void compute_data_description(Struct_pipeline* pipeline);
+  //Pipeline data description
+  void create_pipeline_data(Struct_pipeline* pipeline);
+  void create_vertex_description(Struct_pipeline* pipeline);
+  void create_data_description(Struct_pipeline* pipeline);
+  void combine_description(Struct_pipeline* pipeline);
 
   inline void set_list_data(std::list<Object*> value){this->list_data = value;}
   inline std::list<Object*> get_list_data(){return list_data;}

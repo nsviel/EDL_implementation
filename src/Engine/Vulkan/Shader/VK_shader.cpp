@@ -17,17 +17,17 @@ VK_shader::VK_shader(Engine* engineManager){
 VK_shader::~VK_shader(){}
 
 //Main function
-void VK_shader::compute_pipeline_shader(Struct_pipeline* pipeline){
+void VK_shader::create_pipeline_shader(Struct_pipeline* pipeline){
   //---------------------------
 
-  this->compute_pipeline_shader_module(pipeline);
-  this->compute_pipeline_shader_info(pipeline);
+  this->create_pipeline_shader_module(pipeline);
+  this->create_pipeline_shader_info(pipeline);
 
   //---------------------------
 }
 
 //Subfunction
-void VK_shader::compute_pipeline_shader_module(Struct_pipeline* pipeline){
+void VK_shader::create_pipeline_shader_module(Struct_pipeline* pipeline){
   //---------------------------
 
   //Compile shader from GLSL to SPIR-V
@@ -58,7 +58,7 @@ void VK_shader::compute_pipeline_shader_module(Struct_pipeline* pipeline){
 
   //---------------------------
 }
-void VK_shader::compute_pipeline_shader_info(Struct_pipeline* pipeline){
+void VK_shader::create_pipeline_shader_info(Struct_pipeline* pipeline){
   //---------------------------
 
   pair<VkShaderModule, VkShaderModule>& shader_couple = pipeline->vec_shader_couple[0];

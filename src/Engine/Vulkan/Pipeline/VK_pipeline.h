@@ -32,15 +32,14 @@ public:
   void create_pipeline_graphics();
 
   //Pipeline element
-  void pipe_data_description(Struct_pipeline* pipeline);
-  VkPipelineDynamicStateCreateInfo pipe_dynamic_state(std::vector<VkDynamicState>& dynamic_state);
-  VkPipelineViewportStateCreateInfo pipe_viewport();
-  VkPipelineRasterizationStateCreateInfo pipe_raster();
-  VkPipelineMultisampleStateCreateInfo pipe_multisampling();
-  VkPipelineDepthStencilStateCreateInfo pipe_depth();
-  VkPipelineColorBlendAttachmentState pipe_color_blending_state();
-  VkPipelineColorBlendStateCreateInfo pipe_color_blending(VkPipelineColorBlendAttachmentState* color_blend_attachment);
-  VkPipelineInputAssemblyStateCreateInfo pipe_topology(string topology);
+  void create_dynamic_state(Struct_pipeline* pipeline);
+  void create_viewport(Struct_pipeline* pipeline);
+  void create_raster(Struct_pipeline* pipeline);
+  void create_multisampling(Struct_pipeline* pipeline);
+  void create_depth(Struct_pipeline* pipeline);
+  void create_color_blending_state(Struct_pipeline* pipeline);
+  void create_color_blending(Struct_pipeline* pipeline);
+  void create_topology(Struct_pipeline* pipeline);
 
   //Subfunction
   Struct_pipeline* get_pipeline_byName(string name);

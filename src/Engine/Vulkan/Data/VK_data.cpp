@@ -47,16 +47,17 @@ void VK_data::clean_object(Object* object){
 }
 
 //Data description
-void VK_data::compute_pipeline_data(Struct_pipeline* pipeline){
+void VK_data::create_pipeline_data(Struct_pipeline* pipeline){
   //---------------------------
 
-  this->compute_vertex_description(pipeline);
-  this->compute_data_description(pipeline);
+  this->create_vertex_description(pipeline);
+  this->create_data_description(pipeline);
+  this->combine_description(pipeline);
 
   //---------------------------
 }
 
-void VK_data::compute_vertex_description(Struct_pipeline* pipeline){
+void VK_data::create_vertex_description(Struct_pipeline* pipeline){
   vector<VkVertexInputAttributeDescription> attribut_description;
   //---------------------------
 
@@ -86,7 +87,7 @@ void VK_data::compute_vertex_description(Struct_pipeline* pipeline){
   //---------------------------
   pipeline->attribut_description = attribut_description;
 }
-void VK_data::compute_data_description(Struct_pipeline* pipeline){
+void VK_data::create_data_description(Struct_pipeline* pipeline){
   vector<VkVertexInputBindingDescription> data_description;
   //---------------------------
 
@@ -115,4 +116,17 @@ void VK_data::compute_data_description(Struct_pipeline* pipeline){
 
   //---------------------------
   pipeline->data_description = data_description;
+}
+void VK_data::combine_description(Struct_pipeline* pipeline){
+  //---------------------------
+
+  VkPipelineVertexInputStateCreateInfo vertex_input_info{};
+  vertex_input_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+  vertex_input_info.vertexBindingDescriptionCount = static_cast<uint32_t>(pipeline->data_description.size());
+  vertex_input_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(pipeline->attribut_description.size());
+  vertex_input_info.pVertexBindingDescriptions = pipeline->data_description.data();
+  vertex_input_info.pVertexAttributeDescriptions = pipeline->attribut_description.data();
+
+  //---------------------------
+  pipeline->vertex_input_info = vertex_input_info;
 }

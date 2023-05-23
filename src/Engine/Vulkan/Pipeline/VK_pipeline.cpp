@@ -54,17 +54,17 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->name = "glyph";
   pipeline_glyph->topology = "line";
   pipeline_glyph->compile_shader = false;
-  pipeline_glyph->path_shader_vs = "Base/shader_scene_vs";
-  pipeline_glyph->path_shader_fs = "Base/shader_scene_fs";
+  pipeline_glyph->path_shader_vs = "Base/shader_glyph_vs";
+  pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
   this->create_pipeline_info(pipeline_glyph);
 
   //Pipeline Canvas
   Struct_pipeline* pipeline_canvas = new Struct_pipeline();
   pipeline_canvas->name = "canvas";
   pipeline_canvas->topology = "triangle";
-  pipeline_canvas->compile_shader = false;
-  pipeline_canvas->path_shader_vs = "Base/shader_scene_vs";
-  pipeline_canvas->path_shader_fs = "Base/shader_scene_fs";
+  pipeline_canvas->compile_shader = true;
+  pipeline_canvas->path_shader_vs = "Base/shader_canvas_vs";
+  pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
   this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();
@@ -89,26 +89,23 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   VkRenderPass render_pass = vk_renderpass->get_renderPass();
   //---------------------------
 
-  //Object description
-  vk_shader->compute_pipeline_shader(pipeline);
-  vk_data->compute_pipeline_data(pipeline);
-
   //Dynamic
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_SCISSOR);
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
-  //Pipeline element info
+  //Pipeline elements
+  vk_shader->create_pipeline_shader(pipeline);
+  vk_data->create_pipeline_data(pipeline);
   this->create_pipeline_layout(pipeline);
-  this->pipe_data_description(pipeline);
-  pipeline->input_assembly = pipe_topology(pipeline->topology);
-  pipeline->dynamic_state = pipe_dynamic_state(pipeline->dynamic_state_object);
-  pipeline->viewport_state = pipe_viewport();
-  pipeline->rasterizer = pipe_raster();
-  pipeline->multisampling = pipe_multisampling();
-  pipeline->color_blend_attachment = pipe_color_blending_state();
-  pipeline->color_blend_info = pipe_color_blending(&pipeline->color_blend_attachment);
-  pipeline->depth_stencil = pipe_depth();
+  this->create_topology(pipeline);
+  this->create_dynamic_state(pipeline);
+  this->create_viewport(pipeline);
+  this->create_raster(pipeline);
+  this->create_multisampling(pipeline);
+  this->create_color_blending_state(pipeline);
+  this->create_color_blending(pipeline);
+  this->create_depth(pipeline);
 
   //Pipeline info
   VkGraphicsPipelineCreateInfo pipeline_info{};
@@ -191,33 +188,20 @@ void VK_pipeline::create_pipeline_graphics(){
 }
 
 //Pipeline element
-void VK_pipeline::pipe_data_description(Struct_pipeline* pipeline){
-  //---------------------------
-
-  VkPipelineVertexInputStateCreateInfo vertex_input_info{};
-  vertex_input_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-  vertex_input_info.vertexBindingDescriptionCount = static_cast<uint32_t>(pipeline->data_description.size());
-  vertex_input_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(pipeline->attribut_description.size());
-  vertex_input_info.pVertexBindingDescriptions = pipeline->data_description.data();
-  vertex_input_info.pVertexAttributeDescriptions = pipeline->attribut_description.data();
-
-  //---------------------------
-  pipeline->vertex_input_info = vertex_input_info;
-}
-VkPipelineDynamicStateCreateInfo VK_pipeline::pipe_dynamic_state(std::vector<VkDynamicState>& dynamic_state_obj){
+void VK_pipeline::create_dynamic_state(Struct_pipeline* pipeline){
   //---------------------------
 
   //Dynamic internal variables (viewport, line width, ...)
   //the subsequent values has to be given at runtime
   VkPipelineDynamicStateCreateInfo dynamic_state{};
   dynamic_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-  dynamic_state.dynamicStateCount = static_cast<uint32_t>(dynamic_state_obj.size());
-  dynamic_state.pDynamicStates = dynamic_state_obj.data();
+  dynamic_state.dynamicStateCount = static_cast<uint32_t>(pipeline->dynamic_state_object.size());
+  dynamic_state.pDynamicStates = pipeline->dynamic_state_object.data();
 
   //---------------------------
-  return dynamic_state;
+  pipeline->dynamic_state = dynamic_state;
 }
-VkPipelineViewportStateCreateInfo VK_pipeline::pipe_viewport(){
+void VK_pipeline::create_viewport(Struct_pipeline* pipeline){
   //---------------------------
 
   //Viewport
@@ -234,9 +218,9 @@ VkPipelineViewportStateCreateInfo VK_pipeline::pipe_viewport(){
   viewport_state.pScissors = &scissor;
 
   //---------------------------
-  return viewport_state;
+  pipeline->viewport_state = viewport_state;
 }
-VkPipelineRasterizationStateCreateInfo VK_pipeline::pipe_raster(){
+void VK_pipeline::create_raster(Struct_pipeline* pipeline){
   //---------------------------
 
   VkPipelineRasterizationStateCreateInfo rasterizer{};
@@ -253,9 +237,9 @@ VkPipelineRasterizationStateCreateInfo VK_pipeline::pipe_raster(){
   rasterizer.depthBiasSlopeFactor = 0.0f; // Optional
 
   //---------------------------
-  return rasterizer;
+  pipeline->rasterizer = rasterizer;
 }
-VkPipelineMultisampleStateCreateInfo VK_pipeline::pipe_multisampling(){
+void VK_pipeline::create_multisampling(Struct_pipeline* pipeline){
   //---------------------------
 
   VkPipelineMultisampleStateCreateInfo multisampling{};
@@ -268,9 +252,9 @@ VkPipelineMultisampleStateCreateInfo VK_pipeline::pipe_multisampling(){
   multisampling.alphaToOneEnable = VK_FALSE; // Optional
 
   //---------------------------
-  return multisampling;
+  pipeline->multisampling = multisampling;
 }
-VkPipelineDepthStencilStateCreateInfo VK_pipeline::pipe_depth(){
+void VK_pipeline::create_depth(Struct_pipeline* pipeline){
   //---------------------------
 
   VkPipelineDepthStencilStateCreateInfo depth_stencil = {};
@@ -286,9 +270,9 @@ VkPipelineDepthStencilStateCreateInfo VK_pipeline::pipe_depth(){
   depth_stencil.back = {}; // Optional
 
   //---------------------------
-  return depth_stencil;
+  pipeline->depth_stencil = depth_stencil;
 }
-VkPipelineColorBlendAttachmentState VK_pipeline::pipe_color_blending_state(){
+void VK_pipeline::create_color_blending_state(Struct_pipeline* pipeline){
   //---------------------------
 
   VkPipelineColorBlendAttachmentState color_blend_attachment{};
@@ -302,9 +286,10 @@ VkPipelineColorBlendAttachmentState VK_pipeline::pipe_color_blending_state(){
   color_blend_attachment.alphaBlendOp = VK_BLEND_OP_ADD; // Optional
 
   //---------------------------
-  return color_blend_attachment;
+
+  pipeline->color_blend_attachment = color_blend_attachment;
 }
-VkPipelineColorBlendStateCreateInfo VK_pipeline::pipe_color_blending(VkPipelineColorBlendAttachmentState* color_blend_attachment){
+void VK_pipeline::create_color_blending(Struct_pipeline* pipeline){
   //---------------------------
 
   VkPipelineColorBlendStateCreateInfo color_blend_info{};
@@ -312,34 +297,34 @@ VkPipelineColorBlendStateCreateInfo VK_pipeline::pipe_color_blending(VkPipelineC
   color_blend_info.logicOpEnable = VK_FALSE;
   color_blend_info.logicOp = VK_LOGIC_OP_COPY; // Optional
   color_blend_info.attachmentCount = 1;
-  color_blend_info.pAttachments = color_blend_attachment;
+  color_blend_info.pAttachments = &pipeline->color_blend_attachment;
   color_blend_info.blendConstants[0] = 0.0f; // Optional
   color_blend_info.blendConstants[1] = 0.0f; // Optional
   color_blend_info.blendConstants[2] = 0.0f; // Optional
   color_blend_info.blendConstants[3] = 0.0f; // Optional
 
   //---------------------------
-  return color_blend_info;
+  pipeline->color_blend_info = color_blend_info;
 }
-VkPipelineInputAssemblyStateCreateInfo VK_pipeline::pipe_topology(string topology){
+void VK_pipeline::create_topology(Struct_pipeline* pipeline){
   //---------------------------
 
   VkPipelineInputAssemblyStateCreateInfo input_assembly{};
   input_assembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
   input_assembly.primitiveRestartEnable = VK_FALSE;
 
-  if(topology == "point"){
+  if(pipeline->topology == "point"){
     input_assembly.topology = VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
   }
-  else if(topology == "line"){
+  else if(pipeline->topology == "line"){
     input_assembly.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
   }
-  else if(topology == "triangle"){
+  else if(pipeline->topology == "triangle"){
     input_assembly.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
   }
 
   //---------------------------
-  return input_assembly;
+  pipeline->input_assembly = input_assembly;
 }
 
 //Subfunction
