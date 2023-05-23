@@ -47,8 +47,17 @@ void VK_data::clean_object(Object* object){
 }
 
 //Data description
-std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
-  std::vector<VkVertexInputAttributeDescription> attribut_description;
+void VK_data::compute_pipeline_data(Struct_pipeline* pipeline){
+  //---------------------------
+
+  this->compute_vertex_description(pipeline);
+  this->compute_data_description(pipeline);
+
+  //---------------------------
+}
+
+void VK_data::compute_vertex_description(Struct_pipeline* pipeline){
+  vector<VkVertexInputAttributeDescription> attribut_description;
   //---------------------------
 
   VkVertexInputAttributeDescription attribut_1{};
@@ -75,10 +84,10 @@ std::vector<VkVertexInputAttributeDescription> VK_data::description_vertex(){
   */
 
   //---------------------------
-  return attribut_description;
+  pipeline->attribut_description = attribut_description;
 }
-std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
-  std::vector<VkVertexInputBindingDescription> data_description;
+void VK_data::compute_data_description(Struct_pipeline* pipeline){
+  vector<VkVertexInputBindingDescription> data_description;
   //---------------------------
 
   // position buffer binding
@@ -105,5 +114,5 @@ std::vector<VkVertexInputBindingDescription> VK_data::description_binding(){
   */
 
   //---------------------------
-  return data_description;
+  pipeline->data_description = data_description;
 }

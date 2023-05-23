@@ -89,20 +89,17 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   VkRenderPass render_pass = vk_renderpass->get_renderPass();
   //---------------------------
 
-  //Shader
-  vk_shader->compute_shader_module(pipeline);
-  VkShaderModule module_vert = vk_shader->get_module_vert();
-  VkShaderModule module_frag = vk_shader->get_module_frag();
-  pipeline->vec_shader_module.push_back(module_vert);
-  pipeline->vec_shader_module.push_back(module_frag);
+  //Object description
+  vk_shader->compute_pipeline_shader(pipeline);
+  vk_data->compute_pipeline_data(pipeline);
+  this->create_pipeline_layout(pipeline);
 
-  //Pipeline element info
+  //Dynamic
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_SCISSOR);
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
-  pipeline->shader_stage = vk_shader->pipeline_shader_info(module_vert, module_frag);
-  pipeline->data_description = vk_data->description_binding();
-  pipeline->attribut_description = vk_data->description_vertex();
+
+  //Pipeline element info
   pipeline->vertex_input_info = pipe_data_description(pipeline->data_description, pipeline->attribut_description);
   pipeline->input_assembly = pipe_topology(pipeline->topology);
   pipeline->dynamic_state = pipe_dynamic_state(pipeline->dynamic_state_object);
@@ -112,13 +109,11 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline->color_blend_attachment = pipe_color_blending_state();
   pipeline->color_blend_info = pipe_color_blending(&pipeline->color_blend_attachment);
   pipeline->depth_stencil = pipe_depth();
-  this->create_pipeline_layout(pipeline);
-
 
   //Pipeline info
   VkGraphicsPipelineCreateInfo pipeline_info{};
   pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-  pipeline_info.stageCount = 2;
+  pipeline_info.stageCount = static_cast<uint32_t>(pipeline->shader_stage.size());
   pipeline_info.pStages = pipeline->shader_stage.data();
   pipeline_info.pVertexInputState = &pipeline->vertex_input_info;
   pipeline_info.pInputAssemblyState = &pipeline->input_assembly;
@@ -185,8 +180,10 @@ void VK_pipeline::create_pipeline_graphics(){
     pipeline->pipeline = vec_pipeline_obj[i];
 
     //Destroy shader modules
-    for(int i=0; i<pipeline->vec_shader_module.size(); i++){
-      vkDestroyShaderModule(param_vulkan->device, pipeline->vec_shader_module[i], nullptr);
+    for(int i=0; i<pipeline->vec_shader_couple.size(); i++){
+      pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->vec_shader_couple[i];
+      vkDestroyShaderModule(param_vulkan->device, shader_couple.first, nullptr);
+      vkDestroyShaderModule(param_vulkan->device, shader_couple.second, nullptr);
     }
   }
 

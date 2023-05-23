@@ -17,7 +17,17 @@ VK_shader::VK_shader(Engine* engineManager){
 VK_shader::~VK_shader(){}
 
 //Main function
-void VK_shader::compute_shader_module(Struct_pipeline* pipeline){
+void VK_shader::compute_pipeline_shader(Struct_pipeline* pipeline){
+  //---------------------------
+
+  this->compute_pipeline_shader_module(pipeline);
+  this->compute_pipeline_shader_info(pipeline);
+
+  //---------------------------
+}
+
+//Subfunction
+void VK_shader::compute_pipeline_shader_module(Struct_pipeline* pipeline){
   //---------------------------
 
   //Compile shader from GLSL to SPIR-V
@@ -38,21 +48,26 @@ void VK_shader::compute_shader_module(Struct_pipeline* pipeline){
   auto code_frag = read_file(path_fs);
 
   //Create associated shader modules
-  this->module_vert = create_shader_module(code_vert);
-  this->module_frag = create_shader_module(code_frag);
+  VkShaderModule module_vert = create_shader_module(code_vert);
+  VkShaderModule module_frag = create_shader_module(code_frag);
+
+  pair<VkShaderModule, VkShaderModule> shader_couple;
+  shader_couple.first = module_vert;
+  shader_couple.second = module_frag;
+  pipeline->vec_shader_couple.push_back(shader_couple);
 
   //---------------------------
 }
-
-//Subfunction
-vector<VkPipelineShaderStageCreateInfo> VK_shader::pipeline_shader_info(VkShaderModule module_vert, VkShaderModule module_frag){
+void VK_shader::compute_pipeline_shader_info(Struct_pipeline* pipeline){
   //---------------------------
+
+  pair<VkShaderModule, VkShaderModule>& shader_couple = pipeline->vec_shader_couple[0];
 
   //Vertex shader link in pipeline
   VkPipelineShaderStageCreateInfo info_vert{};
   info_vert.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
   info_vert.stage = VK_SHADER_STAGE_VERTEX_BIT;
-  info_vert.module = module_vert;
+  info_vert.module = shader_couple.first;
   info_vert.pName = "main";
   info_vert.pSpecializationInfo = nullptr;
 
@@ -60,17 +75,15 @@ vector<VkPipelineShaderStageCreateInfo> VK_shader::pipeline_shader_info(VkShader
   VkPipelineShaderStageCreateInfo info_frag{};
   info_frag.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
   info_frag.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-  info_frag.module = module_frag;
+  info_frag.module = shader_couple.second;
   info_frag.pName = "main";
   info_frag.pSpecializationInfo = nullptr;
 
   //Shader info array
-  vector<VkPipelineShaderStageCreateInfo> shader_stage;
-  shader_stage.push_back(info_vert);
-  shader_stage.push_back(info_frag);
+  pipeline->shader_stage.push_back(info_vert);
+  pipeline->shader_stage.push_back(info_frag);
 
   //---------------------------
-  return shader_stage;
 }
 VkShaderModule VK_shader::create_shader_module(const std::vector<char>& code){
   //Shader modules are just a thin wrapper around the shader bytecode
