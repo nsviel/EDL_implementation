@@ -30,6 +30,7 @@ VK_pipeline::VK_pipeline(Engine* engineManager){
   this->vk_descriptor = engineManager->get_vk_descriptor();
   this->vk_viewport = engineManager->get_vk_viewport();
   this->vk_shader = engineManager->get_vk_shader();
+  this->vk_data = engineManager->get_vk_data();
 
   //---------------------------
 }
@@ -85,8 +86,6 @@ void VK_pipeline::cleanup(){
 
 //Pipeline creation
 void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
-  VK_data* vk_data = engineManager->get_vk_data();
-  VkRenderPass render_pass = vk_renderpass->get_renderPass();
   //---------------------------
 
   //Dynamic
@@ -121,7 +120,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline_info.pColorBlendState = &pipeline->color_blend_info;
   pipeline_info.pDynamicState = &pipeline->dynamic_state;
   pipeline_info.layout = pipeline->pipeline_layout;
-  pipeline_info.renderPass = render_pass;
+  pipeline_info.renderPass = vk_renderpass->get_renderPass();
   pipeline_info.subpass = 0;
   pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
   pipeline_info.basePipelineIndex = -1; // Optional

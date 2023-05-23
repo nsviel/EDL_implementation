@@ -1,8 +1,7 @@
 #ifndef VK_RENDERPASS_H
 #define VK_RENDERPASS_H
 
-#include <vulkan/vulkan.h>
-
+#include "../Struct/struct_renderpass.h"
 #include "../../../common.h"
 
 class Engine;
@@ -21,10 +20,17 @@ public:
 
 public:
   //Main functions
-  void create_render_pass();
+  void init_renderpass();
   void cleanup();
 
-  inline VkRenderPass get_renderPass(){return render_pass;}
+  //Subfunction
+  void create_depth_attachment(Struct_renderpass* renderpass);
+  void create_color_attachment(Struct_renderpass* renderpass);
+  void create_subpass(Struct_renderpass* renderpass);
+  void create_renderpass_info(Struct_renderpass* renderpass);
+  void create_renderpass(Struct_renderpass* renderpass);
+
+  inline VkRenderPass get_renderPass(){return renderpass->renderpass;}
 
 private:
   Engine* engineManager;
@@ -33,8 +39,7 @@ private:
   VK_swapchain* vk_swapchain;
   VK_image* vk_image;
 
-  VkPipelineLayout pipelineLayout;
-  VkRenderPass render_pass;
+  Struct_renderpass* renderpass;
 };
 
 #endif

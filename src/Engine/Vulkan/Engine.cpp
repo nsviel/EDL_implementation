@@ -45,6 +45,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_device = new VK_device(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_texture = new VK_texture(this);
+  this->vk_data = new VK_data(this);
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_image = new VK_image(this);
   this->vk_descriptor = new VK_descriptor(this);
@@ -58,7 +59,6 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_command = new VK_command(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
-  this->vk_data = new VK_data(this);
   this->vk_gui = new VK_gui(this);
 
   //---------------------------
@@ -80,7 +80,7 @@ void Engine::init_vulkan(){
   //Pipeline / swap chain
   vk_swapchain->create_swapchain();
   vk_image->create_image_struct();
-  vk_renderpass->create_render_pass();
+  vk_renderpass->init_renderpass();
   vk_descriptor->create_descriptor_layout();
   vk_pipeline->init_pipeline();
   vk_command->create_command_pool();
