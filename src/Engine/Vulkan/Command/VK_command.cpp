@@ -127,13 +127,6 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
   renderPassInfo.pClearValues = clearValues.data();
 
-  this->compute_render_pass(command_buffer, renderPassInfo, current_frame);
-
-  //---------------------------
-}
-void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo, uint32_t current_frame){
-  //---------------------------
-
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
   this->command_viewport(command_buffer);
@@ -147,6 +140,13 @@ void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPas
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to record command buffer!");
   }
+
+  //---------------------------
+}
+void VK_command::compute_render_pass(VkCommandBuffer command_buffer, VkRenderPassBeginInfo renderPassInfo, uint32_t current_frame){
+  //---------------------------
+
+
 
   //---------------------------
 }
