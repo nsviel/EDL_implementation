@@ -55,7 +55,7 @@ void VK_buffer::create_buffer_xyz(Object* object, std::vector<vec3> vertices){
   VkDeviceMemory staging_buffer_memory;
   VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
   VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-  this->create_buffer(size, usage, staging_buffer);
+  this->create_gpu_buffer(size, usage, staging_buffer);
   this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
 
   //Copy the vertex data from the CPU to the GPU
@@ -66,7 +66,7 @@ void VK_buffer::create_buffer_xyz(Object* object, std::vector<vec3> vertices){
 
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-  this->create_buffer(size, usage, object->vbo_xyz);
+  this->create_gpu_buffer(size, usage, object->vbo_xyz);
   this->bind_buffer_memory(properties, object->vbo_xyz, object->mem_xyz);
   this->copy_buffer_to_gpu(staging_buffer, object->vbo_xyz, size);
 
@@ -84,7 +84,7 @@ void VK_buffer::create_buffer_rgb(Object* object, std::vector<vec4> vertices){
   VkDeviceMemory staging_buffer_memory;
   VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
   VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-  this->create_buffer(size, usage, staging_buffer);
+  this->create_gpu_buffer(size, usage, staging_buffer);
   this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
 
   //Filling the vertex buffer
@@ -95,7 +95,7 @@ void VK_buffer::create_buffer_rgb(Object* object, std::vector<vec4> vertices){
 
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-  this->create_buffer(size, usage, object->vbo_rgb);
+  this->create_gpu_buffer(size, usage, object->vbo_rgb);
   this->bind_buffer_memory(properties, object->vbo_rgb, object->mem_rgb);
   this->copy_buffer_to_gpu(staging_buffer, object->vbo_rgb, size);
 
@@ -113,7 +113,7 @@ void VK_buffer::create_buffer_uv(Object* object, std::vector<vec2> vertices){
   VkDeviceMemory staging_buffer_memory;
   VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
   VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-  this->create_buffer(size, usage, staging_buffer);
+  this->create_gpu_buffer(size, usage, staging_buffer);
   this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
 
   //Filling the vertex buffer
@@ -124,7 +124,7 @@ void VK_buffer::create_buffer_uv(Object* object, std::vector<vec2> vertices){
 
   usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
   properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-  this->create_buffer(size, usage, object->vbo_uv);
+  this->create_gpu_buffer(size, usage, object->vbo_uv);
   this->bind_buffer_memory(properties, object->vbo_uv, object->mem_uv);
   this->copy_buffer_to_gpu(staging_buffer, object->vbo_uv, size);
 
@@ -135,7 +135,7 @@ void VK_buffer::create_buffer_uv(Object* object, std::vector<vec2> vertices){
 }
 
 //Buffer functions
-void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuffer& buffer){
+void VK_buffer::create_gpu_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuffer& buffer){
   //---------------------------
 
   //Buffer creation
@@ -145,6 +145,7 @@ void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuf
   bufferInfo.usage = usage;
   bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
+  //Create the GPU buffer
   VkResult result = vkCreateBuffer(param_vulkan->device, &bufferInfo, nullptr, &buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create buffer!");
@@ -152,25 +153,27 @@ void VK_buffer::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuf
 
   //---------------------------
 }
-void VK_buffer::bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory){
+void VK_buffer::bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& buffer_memory){
   //---------------------------
 
-  //Buffer memory attribution
-  VkMemoryRequirements memRequirements;
-  vkGetBufferMemoryRequirements(param_vulkan->device, buffer, &memRequirements);
+  //Get buffer memory requirement
+  VkMemoryRequirements buffer_mem_requirement;
+  vkGetBufferMemoryRequirements(param_vulkan->device, buffer, &buffer_mem_requirement);
 
-  VkMemoryAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-  allocInfo.allocationSize = memRequirements.size;
-  allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
+  //Buffer allocation info
+  VkMemoryAllocateInfo buffer_allocation_info{};
+  buffer_allocation_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+  buffer_allocation_info.allocationSize = buffer_mem_requirement.size;
+  buffer_allocation_info.memoryTypeIndex = findMemoryType(buffer_mem_requirement.memoryTypeBits, properties);
 
-  //1llocate memory on the GPU
-  VkResult result = vkAllocateMemory(param_vulkan->device, &allocInfo, nullptr, &bufferMemory);
+  //Allocate buffer memory on the GPU
+  VkResult result = vkAllocateMemory(param_vulkan->device, &buffer_allocation_info, nullptr, &buffer_memory);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate buffer memory!");
   }
 
-  vkBindBufferMemory(param_vulkan->device, buffer, bufferMemory, 0);
+  //Bind the buffer with memory on the GPU side
+  vkBindBufferMemory(param_vulkan->device, buffer, buffer_memory, 0);
 
   //---------------------------
 }

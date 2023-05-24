@@ -27,7 +27,7 @@ public:
 
   //Buffer functions
   void bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-  void create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuffer& buffer);
+  void create_gpu_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkBuffer& buffer);
   void copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
   //Specific functions
@@ -39,8 +39,6 @@ private:
   Param_vulkan* param_vulkan;
   VK_device* vk_device;
   VK_physical_device* vk_physical_device;
-
-  VkDeviceMemory dev_memory;
 };
 
 #endif

@@ -40,24 +40,27 @@ void GUI_menubar::menu(){
   static bool show_demo = false;
   //---------------------------
 
-  if(ImGui::BeginMenu(ICON_FA_CUBE, "File")){
+  //if(ImGui::BeginMenu(ICON_FA_CUBE, "File")){
+  if(ImGui::BeginMenu("File")){
     ImGui::Checkbox("Demo", &show_demo);
     ImGui::EndMenu();
   }
-  if(ImGui::MenuItem(ICON_FA_FILE, "Load")){
+  //if(ImGui::MenuItem(ICON_FA_FILE, "Load")){
+  if(ImGui::MenuItem("Load")){
     loaderManager->load_object_zenity();
   }
-  if(ImGui::BeginMenu(ICON_FA_BOOK, "Save")){
+  /*if(ImGui::BeginMenu(ICON_FA_BOOK, "Save")){
     ImGui::EndMenu();
-  }
-  if(ImGui::BeginMenu(ICON_FA_COG, "Option")){
+  }*/
+  //if(ImGui::BeginMenu(ICON_FA_COG, "Option")){
+  if(ImGui::BeginMenu("Option")){
     gui_option->design_option();
     ImGui::EndMenu();
   }
-  if(ImGui::BeginMenu(ICON_FA_COMMENT, "Init")){
+  /*if(ImGui::BeginMenu(ICON_FA_COMMENT, "Init")){
     //ImGui::MenuItem("(demo menu)", NULL, false, false);
     ImGui::EndMenu();
-  }
+  }*/
   //Camera
   if(ImGui::MenuItem(ICON_FA_CAMERA, "Camera##111")){
     param_gui->show_camera = !param_gui->show_camera;

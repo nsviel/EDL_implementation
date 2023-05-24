@@ -38,7 +38,6 @@ private:
 
   VkDebugUtilsMessengerCreateInfoEXT EXT_debug_info;
   VkDebugUtilsMessengerEXT EXT_debug;
-
   vector<VkValidationFeatureEnableEXT> EXT_enables;
   VkValidationFeaturesEXT EXT_feature;
 };

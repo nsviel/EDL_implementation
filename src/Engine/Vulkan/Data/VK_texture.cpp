@@ -69,7 +69,7 @@ void VK_texture::create_texture_image(Struct_texture* texture){
 
   VkBuffer stagingBuffer;
   VkDeviceMemory stagingBufferMemory;
-  vk_buffer->create_buffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, stagingBuffer);
+  vk_buffer->create_gpu_buffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, stagingBuffer);
   vk_buffer->bind_buffer_memory(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
 
   void* data;
