@@ -48,7 +48,7 @@ void VK_buffer::cleanup_object(Object* object){
 //Data buffer functions
 void VK_buffer::create_buffer_xyz(Object* object, std::vector<vec3> vertices){
   //---------------------------
-sayHello();
+
   VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
 
   VkBuffer staging_buffer;

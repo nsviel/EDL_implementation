@@ -25,17 +25,6 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
 VK_descriptor::~VK_descriptor(){}
 
 //Main function
-void VK_descriptor::fill_vec_frame(vector<VkDescriptorSet> descriptor_set){
-  vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  //---------------------------
-
-  for(int i=0; i<vec_frame.size(); i++){
-    Frame* frame = vec_frame[i];
-    frame->descriptor_set = descriptor_set[i];
-  }
-
-  //---------------------------
-}
 void VK_descriptor::cleanup(){
   //---------------------------
 
@@ -110,7 +99,7 @@ void VK_descriptor::create_descriptor_pool(){
 
   //---------------------------
 }
-void VK_descriptor::create_descriptor_set(){
+void VK_descriptor::allocate_descriptor_set(){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
@@ -123,7 +112,6 @@ void VK_descriptor::create_descriptor_set(){
   allocInfo.descriptorSetCount = static_cast<uint32_t>(param_vulkan->max_frame);
   allocInfo.pSetLayouts = layouts.data();
 
-  vector<VkDescriptorSet> descriptor_set;
   descriptor_set.resize(param_vulkan->max_frame);
   VkResult result = vkAllocateDescriptorSets(param_vulkan->device, &allocInfo, descriptor_set.data());
   if(result != VK_SUCCESS){
@@ -131,6 +119,21 @@ void VK_descriptor::create_descriptor_set(){
   }
 
   //Pour toute les frame, specifier les shader data
+  //this->update_descriptor_set();
+
+  vector<Frame*> vec_frame = vk_image->get_vec_frame();
+  for(int i=0; i<vec_frame.size(); i++){
+    Frame* frame = vec_frame[i];
+    frame->descriptor_set = descriptor_set[i];
+  }
+
+  //---------------------------
+}
+void VK_descriptor::update_descriptor_set(){
+  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
+  vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
+  //---------------------------
+
   for(size_t i=0; i<param_vulkan->max_frame; i++){
     VkDescriptorBufferInfo bufferInfo{};
     bufferInfo.buffer = uniformBuffers[i];
@@ -161,9 +164,5 @@ void VK_descriptor::create_descriptor_set(){
     vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
   }
 
-  this->fill_vec_frame(descriptor_set);
-
   //---------------------------
 }
-
-//update function

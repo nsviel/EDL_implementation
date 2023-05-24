@@ -1,7 +1,7 @@
 #ifndef VK_VALIDATION_H
 #define VK_VALIDATION_H
 
-#include "struct_callback.h"
+#include "../Struct/struct_callback.h"
 #include "../../../common.h"
 
 class Engine;
@@ -19,7 +19,7 @@ public:
 public:
   //Main functions
   void create_validation_layer();
-  bool check_validation_layer();
+  bool check_validation_layer_support();
   void cleanup();
 
   //Subfunction
@@ -34,6 +34,7 @@ private:
   vector<const char*> validation_layers;
   bool with_validation_layer;
   bool with_best_practice;
+  bool with_shader_printf;
 
   VkDebugUtilsMessengerCreateInfoEXT EXT_debug_info;
   VkDebugUtilsMessengerEXT EXT_debug;

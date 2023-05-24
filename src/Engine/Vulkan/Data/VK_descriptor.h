@@ -19,13 +19,13 @@ public:
 
 public:
   //Main functions
-  void fill_vec_frame(vector<VkDescriptorSet> descriptor_set);
   void cleanup();
 
   //Subfunctions
   void create_descriptor_layout();
   void create_descriptor_pool();
-  void create_descriptor_set();
+  void allocate_descriptor_set();
+  void update_descriptor_set();
 
   inline VkDescriptorSetLayout get_descriptor_layout(){return descriptor_layout;}
 
@@ -37,6 +37,7 @@ private:
 
   VkDescriptorPool descriptor_pool;
   VkDescriptorSetLayout descriptor_layout;
+  vector<VkDescriptorSet> descriptor_set;
 };
 
 #endif

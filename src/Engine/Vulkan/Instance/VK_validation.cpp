@@ -17,6 +17,7 @@ VK_validation::VK_validation(Engine* engineManager){
   this->validation_layers = {"VK_LAYER_KHRONOS_validation"};
   this->with_validation_layer = true;
   this->with_best_practice = false;
+  this->with_shader_printf = true;
 
   //---------------------------
 }
@@ -24,24 +25,29 @@ VK_validation::~VK_validation(){}
 
 //Main function
 void VK_validation::create_validation_layer(){
+  if(!with_validation_layer) return;
   //---------------------------
 
-  if(!with_validation_layer) return;
+  VkDebugUtilsMessengerCreateInfoEXT create_info{};
+  create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+  create_info.messageSeverity =
+    VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | \
+    VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | \
+    VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT | \
+    VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
+  create_info.messageType =
+    VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | \
+    VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+  create_info.pfnUserCallback = callback_debug;
 
-  VkDebugUtilsMessengerCreateInfoEXT createInfo{};
-  createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-  createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-  createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-  createInfo.pfnUserCallback = debugCallback;
-
-  VkResult result = create_debug_EXT(param_vulkan->instance, &createInfo, nullptr, &EXT_debug);
+  VkResult result = create_debug_EXT(param_vulkan->instance, &create_info, nullptr, &EXT_debug);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to set up debug messenger!");
   }
 
   //---------------------------
 }
-bool VK_validation::check_validation_layer(){
+bool VK_validation::check_validation_layer_support(){
   //---------------------------
 
   //Checks if all of the requested layers are available
@@ -103,35 +109,44 @@ void VK_validation::destroy_debug_EXT(VkInstance instance, VkDebugUtilsMessenger
 
   //---------------------------
 }
-void VK_validation::fill_instance_info(VkInstanceCreateInfo& createInfo){
+void VK_validation::fill_instance_info(VkInstanceCreateInfo& create_info){
   //---------------------------
 
-  if(with_validation_layer && check_validation_layer()){
+  if(with_validation_layer && check_validation_layer_support()){
     //Debug EXT
     EXT_debug_info = {};
     EXT_debug_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    EXT_debug_info.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    EXT_debug_info.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-    EXT_debug_info.pfnUserCallback = debugCallback;
+    EXT_debug_info.messageSeverity =
+      VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | \
+      VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | \
+      VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT | \
+      VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
+    EXT_debug_info.messageType =
+      VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | \
+      VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+    EXT_debug_info.pfnUserCallback = callback_debug;
 
     //Best practice EXT
     if(with_best_practice){
       EXT_enables.push_back(VK_VALIDATION_FEATURE_ENABLE_BEST_PRACTICES_EXT);
-      EXT_feature = {};
-      EXT_feature.sType = VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT;
-      EXT_feature.enabledValidationFeatureCount = 1;
-      EXT_feature.pEnabledValidationFeatures = EXT_enables.data();
-
-      EXT_debug_info.pNext =&EXT_feature;
+    }
+    if(with_shader_printf){
+      EXT_enables.push_back(VK_VALIDATION_FEATURE_ENABLE_DEBUG_PRINTF_EXT);
     }
 
+    EXT_feature = {};
+    EXT_feature.sType = VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT;
+    EXT_feature.enabledValidationFeatureCount = static_cast<uint32_t>(EXT_enables.size());
+    EXT_feature.pEnabledValidationFeatures = EXT_enables.data();
+    EXT_debug_info.pNext =&EXT_feature;
+
     //Fill info
-    createInfo.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
-    createInfo.ppEnabledLayerNames = validation_layers.data();
-    createInfo.pNext = &EXT_debug_info;
+    create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
+    create_info.ppEnabledLayerNames = validation_layers.data();
+    create_info.pNext = &EXT_feature;
   }else{
-    createInfo.enabledLayerCount = 0;
-    createInfo.pNext = nullptr;
+    create_info.enabledLayerCount = 0;
+    create_info.pNext = nullptr;
   }
 
   //---------------------------
