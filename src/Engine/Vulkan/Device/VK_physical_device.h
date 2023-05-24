@@ -34,15 +34,11 @@ public:
   vector<VkSurfaceFormatKHR> find_surface_format(VkPhysicalDevice physical_device);
   vector<VkPresentModeKHR> find_presentation_mode(VkPhysicalDevice physical_device);
 
-  inline vector<char*> get_required_extension(){return required_extension;}
-
 private:
   Engine* engineManager;
   Param_vulkan* param_vulkan;
   VK_window* vk_window;
   VK_instance* vk_instance;
-
-  vector<char*> required_extension;
 };
 
 #endif

@@ -15,7 +15,7 @@ VK_canvas::VK_canvas(Engine* engineManager){
 VK_canvas::~VK_canvas(){}
 
 //Main function
-void VK_canvas::gen_canvas(){
+void VK_canvas::create_canvas(){
   this->canvas = new Object();
   //---------------------------
 
@@ -43,6 +43,13 @@ void VK_canvas::gen_canvas(){
 
   vk_buffer->create_buffer_xyz(canvas, canvas->xyz);
   vk_buffer->create_buffer_uv(canvas, canvas->uv);
+
+  //---------------------------
+}
+void VK_canvas::cleanup(){
+  //---------------------------
+
+  vk_buffer->cleanup_object(canvas);
 
   //---------------------------
 }

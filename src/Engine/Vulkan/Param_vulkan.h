@@ -25,6 +25,9 @@ struct Param_vulkan{
   VkDevice device;
   VkInstance instance;
 
+  vector<const char*> extension_instance;
+  vector<const char*> extension_device;
+
   //---------------------------
 };
 

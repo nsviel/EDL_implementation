@@ -15,6 +15,8 @@ VK_physical_device::VK_physical_device(Engine* engineManager){
   this->vk_window = engineManager->get_vk_window();
   this->vk_instance = engineManager->get_vk_instance();
 
+  param_vulkan->extension_device.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+
   //---------------------------
 }
 VK_physical_device::~VK_physical_device(){}
@@ -118,9 +120,6 @@ bool VK_physical_device::is_device_suitable(VkPhysicalDevice physical_device){
 bool VK_physical_device::check_extension_support(VkPhysicalDevice physical_device){
   //---------------------------
 
-  this->required_extension.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-  //this->required_extension.push_back(VK_EXT_EXTENDED_DYNAMIC_STATE_EXTENSION_NAME);
-
   //Get physical_device extension number
   uint32_t nb_extension;
   vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &nb_extension, nullptr);
@@ -130,7 +129,7 @@ bool VK_physical_device::check_extension_support(VkPhysicalDevice physical_devic
   vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &nb_extension, vec_extension.data());
 
   //Check if all required extension are in the list
-  std::set<std::string> requiredExtensions(required_extension.begin(), required_extension.end());
+  std::set<std::string> requiredExtensions(param_vulkan->extension_device.begin(), param_vulkan->extension_device.end());
   for(const auto& extension : vec_extension){
     requiredExtensions.erase(extension.extensionName);
   }
@@ -157,9 +156,9 @@ int VK_physical_device::find_queue_family_graphics(VkPhysicalDevice physical_dev
 
   //Search for specific properties (e.g, graphics)
   int i = 0;
-  for(const auto& queueFamily : vec_queueFamily) {
+  for(const auto& queueFamily : vec_queueFamily){
     //Querying for graphics family
-    if(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+    if(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT){
       return i;
     }
     i++;

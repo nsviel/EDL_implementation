@@ -18,25 +18,28 @@ public:
 
 public:
   //Main functions
-  void create_validationLayer();
-  bool check_validationLayer_support();
+  void create_validation_layer();
+  bool check_validation_layer();
   void cleanup();
 
   //Subfunction
-  VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
-  void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
-  void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-
-  inline vector<const char*> get_validation_layers(){return validation_layers;}
-  inline bool get_with_validation_layer(){return with_validation_layer;}
+  VkResult create_debug_EXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
+  void destroy_debug_EXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+  void fill_instance_info(VkInstanceCreateInfo& createInfo);
 
 private:
   Param_vulkan* param_vulkan;
   VK_instance* vk_instance;
 
-  VkDebugUtilsMessengerEXT debugMessenger;
   vector<const char*> validation_layers;
   bool with_validation_layer;
+  bool with_best_practice;
+
+  VkDebugUtilsMessengerCreateInfoEXT EXT_debug_info;
+  VkDebugUtilsMessengerEXT EXT_debug;
+
+  vector<VkValidationFeatureEnableEXT> EXT_enables;
+  VkValidationFeaturesEXT EXT_feature;
 };
 
 #endif

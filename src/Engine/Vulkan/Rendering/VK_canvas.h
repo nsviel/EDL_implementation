@@ -16,7 +16,8 @@ public:
 
 public:
   //Main functions
-  void gen_canvas();
+  void create_canvas();
+  void cleanup();
 
   inline Object* get_canvas(){return canvas;}
 

@@ -19,9 +19,6 @@ public:
   void create_instance();
   void cleanup();
 
-  //Validation layers
-  vector<const char*> get_required_extensions();
-
 private:
   Engine* engineManager;
   Param_vulkan* param_vulkan;

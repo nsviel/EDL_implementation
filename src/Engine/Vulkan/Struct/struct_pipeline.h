@@ -27,6 +27,7 @@ struct Struct_pipeline{
   std::vector<VkVertexInputBindingDescription> data_description;
   std::vector<VkVertexInputAttributeDescription> attribut_description;
   std::vector<std::pair<VkShaderModule, VkShaderModule>> vec_shader_couple;
+  std::vector<std::string> vec_data_name;
 
   VkPipelineVertexInputStateCreateInfo vertex_input_info;
   VkPipelineInputAssemblyStateCreateInfo input_assembly;

@@ -35,6 +35,7 @@ void VK_window::init_window(){
 
   this->window = glfwCreateWindow(window_dim.x, window_dim.y, param_vulkan->title.c_str(), nullptr, nullptr);
   this->window_dim = get_framebuffer_size();
+  this->get_required_extensions();
   dimManager->set_window(window);
 
   glfwSetWindowSizeLimits(window, param_vulkan->window_dim_min.x, param_vulkan->window_dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
@@ -73,23 +74,11 @@ void VK_window::create_window_surface(){
 
   //---------------------------
 }
-glm::vec2 VK_window::get_framebuffer_size(){
-  glm::vec2 dim = glm::vec2(0);
-  //---------------------------
-
-  int width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  dim.x = width;
-  dim.y = height;
-
-  //---------------------------
-  return dim;
-}
 bool VK_window::check_for_resizing(){
   bool is_resized = false;
   //---------------------------
 
-  glm::vec2 dim = get_framebuffer_size();
+  vec2 dim = get_framebuffer_size();
   if(dim.x != window_dim.x || dim.y != window_dim.y){
     is_resized = true;
     window_dim = dim;
@@ -100,4 +89,29 @@ bool VK_window::check_for_resizing(){
 
   //---------------------------
   return is_resized;
+}
+vec2 VK_window::get_framebuffer_size(){
+  vec2 dim = vec2(0);
+  //---------------------------
+
+  int width, height;
+  glfwGetFramebufferSize(window, &width, &height);
+  dim.x = width;
+  dim.y = height;
+
+  //---------------------------
+  return dim;
+}
+void VK_window::get_required_extensions(){
+  //---------------------------
+
+  uint32_t glfw_extension_nb = 0;
+  const char** glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extension_nb);
+  vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_extension_nb);
+
+  for(int i=0; i<extensions.size(); i++){
+    param_vulkan->extension_instance.push_back(extensions[i]);
+  }
+
+  //---------------------------
 }

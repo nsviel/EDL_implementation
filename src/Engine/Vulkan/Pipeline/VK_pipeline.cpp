@@ -48,6 +48,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_cloud->compile_shader = true;
   pipeline_cloud->path_shader_vs = "Base/shader_scene_vs";
   pipeline_cloud->path_shader_fs = "Base/shader_scene_fs";
+  pipeline_cloud->vec_data_name.push_back("location");
+  pipeline_cloud->vec_data_name.push_back("color");
   this->create_pipeline_info(pipeline_cloud);
 
   //Pipeline Glyph
@@ -57,6 +59,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->compile_shader = false;
   pipeline_glyph->path_shader_vs = "Base/shader_glyph_vs";
   pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
+  pipeline_glyph->vec_data_name.push_back("location");
+  pipeline_glyph->vec_data_name.push_back("color");
   this->create_pipeline_info(pipeline_glyph);
 
   //Pipeline Canvas
@@ -66,6 +70,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->compile_shader = true;
   pipeline_canvas->path_shader_vs = "Base/shader_canvas_vs";
   pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
+  pipeline_canvas->vec_data_name.push_back("location");
+  pipeline_canvas->vec_data_name.push_back("tex_coord");
   this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();
@@ -319,7 +325,7 @@ void VK_pipeline::create_topology(Struct_pipeline* pipeline){
     input_assembly.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
   }
   else if(pipeline->topology == "triangle"){
-    input_assembly.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+    input_assembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
   }
 
   //---------------------------

@@ -44,14 +44,13 @@ void VK_device::create_logical_device(){
   deviceFeatures.wideLines = VK_TRUE;
 
   //Logical device info
-  vector<char*> required_extension = vk_physical_device->get_required_extension();
   VkDeviceCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
   createInfo.pQueueCreateInfos = queueCreateInfos.data();
   createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
   createInfo.pEnabledFeatures = &deviceFeatures;
-  createInfo.enabledExtensionCount = static_cast<uint32_t>(required_extension.size());
-  createInfo.ppEnabledExtensionNames = required_extension.data();
+  createInfo.enabledExtensionCount = static_cast<uint32_t>(param_vulkan->extension_device.size());
+  createInfo.ppEnabledExtensionNames = param_vulkan->extension_device.data();
   createInfo.enabledLayerCount = 0;
 
   //Creating the logical device

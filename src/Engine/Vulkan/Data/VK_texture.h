@@ -24,9 +24,9 @@ public:
   void cleanup_texture(Object* object);
 
   //Texture creation
-  void create_texture_image(string path, VkImage& textureImage, VkDeviceMemory& textureImageMemory);
-  void create_texture_image_view(VkImage& textureImage, VkImageView& textureImageView);
-  void create_texture_sampler(VkSampler& textureSampler);
+  void create_texture_image(Struct_texture* texture);
+  void create_texture_image_view(Struct_texture* texture);
+  void create_texture_sampler(Struct_texture* texture);
 
   //Generic image creation
   VkImageView create_image_view(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);

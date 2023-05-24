@@ -29,15 +29,13 @@ VK_texture::~VK_texture(){}
 void VK_texture::load_texture(Object* object){
   //---------------------------
 
-  Struct_texture texture;
+  Struct_texture* texture = new Struct_texture();
+  texture->path_texture = object->path_text;
+  texture->imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
-  this->create_texture_image(object->path_text, texture.textureImage, texture.textureImageMemory);
-  this->create_texture_image_view(texture.textureImage, texture.textureImageView);
-  this->create_texture_sampler(texture.textureSampler);
-
-  texture.imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-  texture.imageInfo.imageView = texture.textureImageView;
-  texture.imageInfo.sampler = texture.textureSampler;
+  this->create_texture_image(texture);
+  this->create_texture_image_view(texture);
+  this->create_texture_sampler(texture);
 
   object->list_texture.push_back(texture);
 
@@ -47,23 +45,23 @@ void VK_texture::cleanup_texture(Object* object){
   //---------------------------
 
   for(int i=0; i<object->list_texture.size(); i++){
-    Struct_texture texture = *next(object->list_texture.begin(), i);
+    Struct_texture* texture = *next(object->list_texture.begin(), i);
 
-    vkDestroySampler(param_vulkan->device, texture.textureSampler, nullptr);
-    vkDestroyImageView(param_vulkan->device, texture.textureImageView, nullptr);
-    vkDestroyImage(param_vulkan->device, texture.textureImage, nullptr);
-    vkFreeMemory(param_vulkan->device, texture.textureImageMemory, nullptr);
+    vkDestroySampler(param_vulkan->device, texture->textureSampler, nullptr);
+    vkDestroyImageView(param_vulkan->device, texture->textureImageView, nullptr);
+    vkDestroyImage(param_vulkan->device, texture->textureImage, nullptr);
+    vkFreeMemory(param_vulkan->device, texture->textureImageMemory, nullptr);
   }
 
   //---------------------------
 }
 
 //Texture creation
-void VK_texture::create_texture_image(string path, VkImage& textureImage, VkDeviceMemory& textureImageMemory){
+void VK_texture::create_texture_image(Struct_texture* texture){
   //---------------------------
 
   int texWidth, texHeight, texChannels;
-  stbi_uc* pixels = stbi_load(path.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+  stbi_uc* pixels = stbi_load(texture->path_texture.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
   VkDeviceSize imageSize = texWidth * texHeight * 4;
   if(!pixels){
     throw std::runtime_error("failed to load texture image!");
@@ -81,25 +79,25 @@ void VK_texture::create_texture_image(string path, VkImage& textureImage, VkDevi
 
   stbi_image_free(pixels);
 
-  this->create_image(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
+  this->create_image(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, texture->textureImage, texture->textureImageMemory);
 
-  vk_buffer->transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-  this->copy_buffer_to_image(stagingBuffer, textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
-  vk_buffer->transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+  vk_buffer->transitionImageLayout(texture->textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+  this->copy_buffer_to_image(stagingBuffer, texture->textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
+  vk_buffer->transitionImageLayout(texture->textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
   vkDestroyBuffer(param_vulkan->device, stagingBuffer, nullptr);
   vkFreeMemory(param_vulkan->device, stagingBufferMemory, nullptr);
 
   //---------------------------
 }
-void VK_texture::create_texture_image_view(VkImage& textureImage, VkImageView& textureImageView){
+void VK_texture::create_texture_image_view(Struct_texture* texture){
   //---------------------------
 
-  textureImageView = create_image_view(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
+  texture->textureImageView = create_image_view(texture->textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
 }
-void VK_texture::create_texture_sampler(VkSampler& textureSampler){
+void VK_texture::create_texture_sampler(Struct_texture* texture){
   //---------------------------
 
   VkPhysicalDeviceProperties properties{};
@@ -120,7 +118,7 @@ void VK_texture::create_texture_sampler(VkSampler& textureSampler){
   samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
   samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 
-  VkResult result = vkCreateSampler(param_vulkan->device, &samplerInfo, nullptr, &textureSampler);
+  VkResult result = vkCreateSampler(param_vulkan->device, &samplerInfo, nullptr, &texture->textureSampler);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create texture sampler!");
   }

@@ -74,7 +74,7 @@ void Engine::init_vulkan(){
   //Instance
   vk_window->init_window();
   vk_instance->create_instance();
-  vk_validation->create_validationLayer();
+  vk_validation->create_validation_layer();
   vk_window->create_window_surface();
   vk_physical_device->init_device();
   vk_device->create_logical_device();
@@ -92,6 +92,7 @@ void Engine::init_vulkan(){
   vk_uniform->create_uniform_buffers();
   vk_descriptor->create_descriptor_pool();
   vk_descriptor->create_descriptor_set();
+  vk_canvas->create_canvas();
 
   //Command
   vk_command->create_command_buffers();
@@ -128,6 +129,7 @@ void Engine::clean_vulkan(){
   vk_swapchain->clean_swapchain();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();
+  vk_canvas->cleanup();
 
   vk_uniform->cleanup();
   vk_data->cleanup();

@@ -25,9 +25,10 @@ public:
 
   //Subfunction
   void create_window_surface();
-  glm::vec2 get_framebuffer_size();
   bool check_for_resizing();
-
+  vec2 get_framebuffer_size();
+  void get_required_extensions();
+  
   inline GLFWwindow* get_window(){return window;}
   inline VkSurfaceKHR get_surface(){return surface;}
 
@@ -39,7 +40,7 @@ private:
   VK_viewport* vk_viewport;
 
   VkSurfaceKHR surface;
-  glm::vec2 window_dim;
+  vec2 window_dim;
 };
 
 #endif

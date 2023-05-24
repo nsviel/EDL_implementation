@@ -47,22 +47,31 @@ void VK_descriptor::cleanup(){
 
 //Initialization function
 void VK_descriptor::create_descriptor_layout(){
+  vector<VkDescriptorSetLayoutBinding> vec_layout;
   //---------------------------
 
   //Uniform buffer object
   VkDescriptorSetLayoutBinding layout_ubo{};
   layout_ubo.binding = 0;
-  layout_ubo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
   layout_ubo.descriptorCount = 1;
+  layout_ubo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
   layout_ubo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
   layout_ubo.pImmutableSamplers = nullptr; // Optional
+  vec_layout.push_back(layout_ubo);
 
-  //Combination and info
-  std::array<VkDescriptorSetLayoutBinding, 1> bindings = {layout_ubo};
+  VkDescriptorSetLayoutBinding layout_texture{};
+  layout_texture.binding = 2;
+  layout_texture.descriptorCount = 1;
+  layout_texture.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+  layout_texture.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+  layout_texture.pImmutableSamplers = nullptr; // Optional
+  vec_layout.push_back(layout_texture);
+
+    //Combination and info
   VkDescriptorSetLayoutCreateInfo layoutInfo{};
   layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-  layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
-  layoutInfo.pBindings = bindings.data();
+  layoutInfo.bindingCount = static_cast<uint32_t>(vec_layout.size());
+  layoutInfo.pBindings = vec_layout.data();
 
   //Descriptor set layout creation
   VkResult result = vkCreateDescriptorSetLayout(param_vulkan->device, &layoutInfo, nullptr, &descriptor_layout);
@@ -73,17 +82,25 @@ void VK_descriptor::create_descriptor_layout(){
   //---------------------------
 }
 void VK_descriptor::create_descriptor_pool(){
+  vector<VkDescriptorPoolSize> vec_pool_size;
   //---------------------------
 
-  //One descriptor per frame
-  std::array<VkDescriptorPoolSize, 1> pool_size{};
-  pool_size[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-  pool_size[0].descriptorCount = static_cast<uint32_t>(param_vulkan->max_frame);
+  //UBO
+  VkDescriptorPoolSize pool_ubo{};
+  pool_ubo.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+  pool_ubo.descriptorCount = static_cast<uint32_t>(param_vulkan->max_frame);
+  vec_pool_size.push_back(pool_ubo);
+
+  //Sampler
+  VkDescriptorPoolSize pool_sampler{};
+  pool_sampler.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+  pool_sampler.descriptorCount = static_cast<uint32_t>(param_vulkan->max_frame);
+  vec_pool_size.push_back(pool_sampler);
 
   VkDescriptorPoolCreateInfo pool_info{};
   pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-  pool_info.poolSizeCount = static_cast<uint32_t>(pool_size.size());
-  pool_info.pPoolSizes = pool_size.data();
+  pool_info.poolSizeCount = static_cast<uint32_t>(vec_pool_size.size());
+  pool_info.pPoolSizes = vec_pool_size.data();
   pool_info.maxSets = static_cast<uint32_t>(param_vulkan->max_frame);
 
   VkResult result = vkCreateDescriptorPool(param_vulkan->device, &pool_info, nullptr, &descriptor_pool);

@@ -58,7 +58,7 @@ struct Object{ //Cloud cloud / part
   VkDeviceMemory mem_uv;
 
   VkDescriptorSet descriptor_set;
-  std::list<Struct_texture> list_texture;
+  std::list<Struct_texture*> list_texture;
 
   //Pose
   glm::vec3 min = glm::vec3(0.0f);

@@ -18,9 +18,7 @@ VK_instance::~VK_instance(){}
 
 //Main function
 void VK_instance::create_instance(){
-  //The instance is the connection between application and Vulkan library
   VK_validation* vk_validation = engineManager->get_vk_validation();
-  bool with_validation_layer = vk_validation->get_with_validation_layer();
   //---------------------------
 
   //Application info
@@ -33,25 +31,12 @@ void VK_instance::create_instance(){
   appInfo.apiVersion = VK_API_VERSION_1_0;
 
   //Instance info
-  auto extensions = get_required_extensions();
   VkInstanceCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
-  createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-  createInfo.ppEnabledExtensionNames = extensions.data();
-
-  vector<const char*> validation_layers = vk_validation->get_validation_layers();
-  if(with_validation_layer){
-    VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
-    vk_validation->populateDebugMessengerCreateInfo(debugCreateInfo);
-
-    createInfo.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
-    createInfo.ppEnabledLayerNames = validation_layers.data();
-    createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
-  }else{
-    createInfo.enabledLayerCount = 0;
-    createInfo.pNext = nullptr;
-  }
+  createInfo.enabledExtensionCount = static_cast<uint32_t>(param_vulkan->extension_instance.size());
+  createInfo.ppEnabledExtensionNames = param_vulkan->extension_instance.data();
+  vk_validation->fill_instance_info(createInfo);
 
   //Create instance
   VkResult result = vkCreateInstance(&createInfo, nullptr, &param_vulkan->instance);
@@ -67,25 +52,4 @@ void VK_instance::cleanup(){
   vkDestroyInstance(param_vulkan->instance, nullptr);
 
   //---------------------------
-}
-
-//Validation layers
-vector<const char*> VK_instance::get_required_extensions(){
-  //Return the required list of extensions based on whether validation layers are enabled or not
-  VK_validation* vk_validation = engineManager->get_vk_validation();
-  bool with_validation_layer = vk_validation->get_with_validation_layer();
-  //---------------------------
-
-  uint32_t glfwExtensionCount = 0;
-  const char** glfwExtensions;
-  glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-  vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
-
-  if(with_validation_layer){
-    extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-  }
-
-  //---------------------------
-  return extensions;
 }

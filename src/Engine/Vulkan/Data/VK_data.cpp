@@ -66,28 +66,35 @@ void VK_data::create_vertex_description(Struct_pipeline* pipeline){
   vector<VkVertexInputAttributeDescription> attribut_description;
   //---------------------------
 
-  VkVertexInputAttributeDescription attribut_1{};
-  attribut_1.binding = 0;
-  attribut_1.location = 0;
-  attribut_1.format = VK_FORMAT_R32G32B32_SFLOAT;
-  attribut_1.offset = 0;
-  attribut_description.push_back(attribut_1);
+  vector<string>& vec_data_name = pipeline->vec_data_name;
+  for(int i=0; i<vec_data_name.size(); i++){
+    VkVertexInputAttributeDescription attribut{};
 
-  VkVertexInputAttributeDescription attribut_2{};
-  attribut_2.binding = 1;
-  attribut_2.location = 1;
-  attribut_2.format = VK_FORMAT_R32G32B32A32_SFLOAT;
-  attribut_2.offset = 0;
-  attribut_description.push_back(attribut_2);
+    if(vec_data_name[i] == "location"){
+      attribut.binding = 0;
+      attribut.location = 0;
+      attribut.format = VK_FORMAT_R32G32B32_SFLOAT;
+      attribut.offset = 0;
+    }
+    else if(vec_data_name[i] == "color"){
+      attribut.binding = 1;
+      attribut.location = 1;
+      attribut.format = VK_FORMAT_R32G32B32A32_SFLOAT;
+      attribut.offset = 0;
+    }
+    else if(vec_data_name[i] == "tex_coord"){
+      attribut.binding = 2;
+      attribut.location = 2;
+      attribut.format = VK_FORMAT_R32G32_SFLOAT;
+      attribut.offset = 0;
+    }
+    else{
+      cout<<"[error] data description"<<endl;
+      break;
+    }
 
-  /*
-  VkVertexInputAttributeDescription attribut_3{};
-  attribut_3.binding = 2;
-  attribut_3.location = 2;
-  attribut_3.format = VK_FORMAT_R32G32_SFLOAT;
-  attribut_3.offset = 0;
-  attribut_description.push_back(attribut_3);
-  */
+    attribut_description.push_back(attribut);
+  }
 
   //---------------------------
   pipeline->attribut_description = attribut_description;
@@ -96,28 +103,32 @@ void VK_data::create_data_description(Struct_pipeline* pipeline){
   vector<VkVertexInputBindingDescription> data_description;
   //---------------------------
 
-  // position buffer binding
-  VkVertexInputBindingDescription desc_xyz{};
-  desc_xyz.binding = 0;
-  desc_xyz.stride = sizeof(glm::vec3);
-  desc_xyz.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  data_description.push_back(desc_xyz);
+  vector<string>& vec_data_name = pipeline->vec_data_name;
+  for(int i=0; i<vec_data_name.size(); i++){
+    VkVertexInputBindingDescription description{};
 
-  // normal buffer binding
-  VkVertexInputBindingDescription desc_rgb{};
-  desc_rgb.binding = 1;
-  desc_rgb.stride = sizeof(glm::vec4);
-  desc_rgb.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  data_description.push_back(desc_rgb);
+    if(vec_data_name[i] == "location"){
+      description.binding = 0;
+      description.stride = sizeof(glm::vec3);
+      description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+    }
+    else if(vec_data_name[i] == "color"){
+      description.binding = 1;
+      description.stride = sizeof(glm::vec4);
+      description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+    }
+    else if(vec_data_name[i] == "tex_coord"){
+      description.binding = 2;
+      description.stride = sizeof(glm::vec2);
+      description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+    }
+    else{
+      cout<<"[error] data description"<<endl;
+      break;
+    }
 
-  // texture coordinate buffer binding
-  /*
-  VkVertexInputBindingDescription desc_uv{};
-  desc_uv.binding = 2;
-  desc_uv.stride = sizeof(glm::vec2);
-  desc_uv.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-  data_description.push_back(desc_uv);
-  */
+    data_description.push_back(description);
+  }
 
   //---------------------------
   pipeline->data_description = data_description;
