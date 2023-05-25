@@ -20,8 +20,6 @@ struct Struct_pipeline{
   VkPipeline pipeline;
   VkPipelineLayout pipeline_layout;
   VkGraphicsPipelineCreateInfo pipeline_info;
-
-  //PIpeline descriptors
   VkDescriptorSetLayout descriptor_layout;
   VkDescriptorSet descriptor_set;
 

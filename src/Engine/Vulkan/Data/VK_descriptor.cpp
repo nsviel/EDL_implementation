@@ -43,7 +43,7 @@ void VK_descriptor::cleanup(){
 }
 
 //Descriptor set
-void VK_descriptor::allocate_descriptor_set(vector<Frame*> vec_frame){
+void VK_descriptor::allocate_descriptor_set(){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
@@ -65,6 +65,7 @@ void VK_descriptor::allocate_descriptor_set(vector<Frame*> vec_frame){
   //Pour toute les frame, specifier les shader data
   //this->update_descriptor_set();
 
+  vector<Frame*> vec_frame = vk_image->get_vec_frame();
   for(int i=0; i<vec_frame.size(); i++){
     Frame* frame = vec_frame[i];
     frame->descriptor_set = vec_descriptor_set[i];

@@ -25,7 +25,7 @@ public:
   void cleanup();
 
   //Descriptor set
-  void allocate_descriptor_set(vector<Frame*> vec_frame);
+  void allocate_descriptor_set();
   void update_descriptor_set();
 
   //Descriptor layout

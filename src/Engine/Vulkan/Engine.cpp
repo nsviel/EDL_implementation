@@ -85,6 +85,7 @@ void Engine::init_vulkan(){
   vk_swapchain->create_swapchain();
   vk_descriptor->create_descriptor_pool();
   vk_descriptor->create_descriptor_layout();
+  vk_descriptor->allocate_descriptor_set();
   vk_image->init_image();
 
   vk_renderpass->init_renderpass();
