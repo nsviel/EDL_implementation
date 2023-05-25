@@ -6,7 +6,7 @@
 
 class Engine;
 class Param_vulkan;
-class VK_physical_device;
+class VK_texture;
 
 
 class VK_depth
@@ -29,7 +29,7 @@ public:
 private:
   Engine* engineManager;
   Param_vulkan* param_vulkan;
-  VK_physical_device* vk_physical_device;
+  VK_texture* vk_texture;
 };
 
 #endif

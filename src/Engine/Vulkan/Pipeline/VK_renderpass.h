@@ -9,6 +9,7 @@ class Param_vulkan;
 class VK_device;
 class VK_swapchain;
 class VK_image;
+class VK_color;
 
 
 class VK_renderpass
@@ -38,6 +39,7 @@ private:
   VK_device* vk_device;
   VK_swapchain* vk_swapchain;
   VK_image* vk_image;
+  VK_color* vk_color;
 
   Struct_renderpass* renderpass;
 };

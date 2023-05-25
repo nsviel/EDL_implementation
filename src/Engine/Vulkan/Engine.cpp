@@ -47,16 +47,16 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_device = new VK_device(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_texture = new VK_texture(this);
+  this->vk_depth = new VK_depth(this);
+  this->vk_color = new VK_color(this);
   this->vk_data = new VK_data(this);
   this->vk_synchronization = new VK_synchronization(this);
+  this->vk_swapchain = new VK_swapchain(this);
   this->vk_image = new VK_image(this);
   this->vk_descriptor = new VK_descriptor(this);
-  this->vk_swapchain = new VK_swapchain(this);
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_shader = new VK_shader(this);
   this->vk_pipeline = new VK_pipeline(this);
-  this->vk_depth = new VK_depth(this);
-  this->vk_color = new VK_color(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
@@ -83,7 +83,7 @@ void Engine::init_vulkan(){
 
   //Pipeline / swap chain
   vk_swapchain->create_swapchain();
-  vk_image->create_image_struct();
+  vk_image->init();
   vk_renderpass->init_renderpass();
   vk_descriptor->create_descriptor_layout();
   vk_pipeline->init_pipeline();
@@ -126,8 +126,7 @@ void Engine::clean_vulkan(){
   //---------------------------
 
   vk_gui->cleanup();
-  vk_image->clean_image_struct();
-  vk_image->clean_frame_struct();
+  vk_image->cleanup();
   vk_swapchain->clean_swapchain();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();

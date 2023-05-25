@@ -20,7 +20,6 @@ VK_swapchain::VK_swapchain(Engine* engineManager){
   this->vk_window = engineManager->get_vk_window();
   this->vk_device = engineManager->get_vk_device();
   this->vk_physical_device = engineManager->get_vk_physical_device();
-  this->vk_image = engineManager->get_vk_image();
 
   //---------------------------
 }
@@ -42,7 +41,7 @@ void VK_swapchain::create_swapchain(){
     throw std::runtime_error("[error] failed to create swap chain!");
   }
 
-  vk_image->create_image_swapchain(swapchain, createInfo.minImageCount);
+  this->swapchain_image(swapchain, createInfo.minImageCount);
 
   //---------------------------
 }
@@ -112,6 +111,7 @@ void VK_swapchain::create_swapchain_presentation(VkSwapchainCreateInfoKHR& creat
 //Swap chain function
 void VK_swapchain::recreate_swapChain(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
+  VK_image* vk_image = engineManager->get_vk_image();
   VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   GLFWwindow* window = vk_window->get_window();
   //---------------------------
@@ -146,6 +146,21 @@ void VK_swapchain::clean_swapchain(){
 }
 
 //Swap chain parameter
+void VK_swapchain::swapchain_image(VkSwapchainKHR swapchain, unsigned int min_image_count){
+  //---------------------------
+
+  //For swapchain image we use vkGetSwapchainImagesKHR instead of VkImageCreateInfo
+  //to get the correct image which are managed by the presentation engine
+
+  //Empty swapchain image
+  vkGetSwapchainImagesKHR(param_vulkan->device, swapchain, &min_image_count, nullptr);
+
+  //Fill swapchain image
+  vec_swapchain_image.resize(min_image_count);
+  vkGetSwapchainImagesKHR(param_vulkan->device, swapchain, &min_image_count, vec_swapchain_image.data());
+
+  //---------------------------
+}
 VkSurfaceFormatKHR VK_swapchain::swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format){
   //---------------------------
 

@@ -194,7 +194,7 @@ void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t w
   VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();
+  VkCommandBuffer command_buffer = vk_command->command_buffer_begin();
 
   VkBufferImageCopy region{};
   region.bufferOffset = 0;
@@ -213,16 +213,9 @@ void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t w
     1
   };
 
-  vkCmdCopyBufferToImage(
-    commandBuffer,
-    buffer,
-    image,
-    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-    1,
-    &region
-  );
+  vkCmdCopyBufferToImage(command_buffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
 
-  vk_command->command_buffer_end(commandBuffer);
+  vk_command->command_buffer_end(command_buffer);
 
   //---------------------------
 }

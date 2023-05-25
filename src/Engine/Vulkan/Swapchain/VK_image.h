@@ -9,6 +9,8 @@ class Param_vulkan;
 class VK_physical_device;
 class VK_texture;
 class VK_synchronization;
+class VK_color;
+class VK_swapchain;
 
 
 class VK_image
@@ -19,19 +21,17 @@ public:
   ~VK_image();
 
 public:
+  //Main function
+  void init();
+  void cleanup();
+
   //Creation function
   void create_image_struct();
-  void create_image_view(Image* image);
-  void create_image_swapchain(VkSwapchainKHR swapchain, unsigned int min_image_count);
+  void create_frame_struct();
 
   //Deletion function
   void clean_frame_struct();
   void clean_image_struct();
-  void clean_image_view(Image* image);
-
-  //Subfunction
-  VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
-  VkFormat find_color_format();
 
   inline vector<Image*> get_vec_image(){return vec_image;}
   inline vector<Frame*> get_vec_frame(){return vec_frame;}
@@ -42,8 +42,9 @@ private:
   VK_physical_device* vk_physical_device;
   VK_texture* vk_texture;
   VK_synchronization* vk_synchronization;
+  VK_color* vk_color;
+  VK_swapchain* vk_swapchain;
 
-  vector<VkImage> vec_image_swapchain;
   vector<Image*> vec_image;
   vector<Frame*> vec_frame;
 };

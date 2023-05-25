@@ -6,6 +6,7 @@
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_image.h"
 #include "../Attachment/VK_depth.h"
+#include "../Attachment/VK_color.h"
 
 //Manage fbo attachment (color / depth)
 
@@ -19,6 +20,7 @@ VK_renderpass::VK_renderpass(Engine* engineManager){
   this->vk_device = engineManager->get_vk_device();
   this->vk_swapchain = engineManager->get_vk_swapchain();
   this->vk_image = engineManager->get_vk_image();
+  this->vk_color = engineManager->get_vk_color();
 
   //---------------------------
 }
@@ -78,7 +80,7 @@ void VK_renderpass::create_color_attachment(Struct_renderpass* renderpass){
 
   //Attachement description
   VkAttachmentDescription color_attachment{};
-  color_attachment.format = vk_image->find_color_format();
+  color_attachment.format = vk_color->find_color_format();
   color_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
   color_attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
   color_attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
