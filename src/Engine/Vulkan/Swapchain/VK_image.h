@@ -22,7 +22,7 @@ public:
 
 public:
   //Main function
-  void init();
+  void init_image();
   void cleanup();
 
   //Creation function

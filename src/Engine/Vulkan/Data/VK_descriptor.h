@@ -2,6 +2,7 @@
 #define VK_DESCRIPTOR_H
 
 #include "../Struct/struct_mvp.h"
+#include "../Struct/struct_image.h"
 #include "../Struct/struct_descriptor.h"
 #include "../../../common.h"
 
@@ -20,14 +21,20 @@ public:
 
 public:
   //Main functions
-  void init_descriptor();
+  void init_descriptor(Frame* frame);
   void cleanup();
 
-  //Subfunctions
-  void create_descriptor_layout();
-  void create_descriptor_pool();
-  void allocate_descriptor_set();
+  //Descriptor set
+  void allocate_descriptor_set(vector<Frame*> vec_frame);
   void update_descriptor_set();
+
+  //Descriptor layout
+  void create_descriptor_layout();
+  VkDescriptorSetLayoutBinding add_descriptor_binding(VkDescriptorType type, VkShaderStageFlagBits stage, int count, int binding);
+
+  //Descriptor pool
+  void create_descriptor_pool();
+  VkDescriptorPoolSize add_descriptor_type(VkDescriptorType type, int count);
 
   inline VkDescriptorSetLayout get_descriptor_layout(){return descriptor_layout;}
 
@@ -39,7 +46,8 @@ private:
 
   VkDescriptorPool descriptor_pool;
   VkDescriptorSetLayout descriptor_layout;
-  vector<VkDescriptorSet> descriptor_set;
+  vector<VkDescriptorSetLayout> vec_descriptor_layout;
+  vector<VkDescriptorSet> vec_descriptor_set;
 };
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef ENGINE_VULKAN_H
 #define ENGINE_VULKAN_H
 
+#include "Struct/typedef.h"
 #include "../../common.h"
 
 class Node_engine;

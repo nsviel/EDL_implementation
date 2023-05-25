@@ -8,6 +8,7 @@
 #include "../Attachment/VK_depth.h"
 #include "../Attachment/VK_color.h"
 #include "../Data/VK_texture.h"
+#include "../Data/VK_descriptor.h"
 #include "../Device/VK_physical_device.h"
 
 
@@ -28,7 +29,7 @@ VK_image::VK_image(Engine* engineManager){
 VK_image::~VK_image(){}
 
 //Main function
-void VK_image::init(){
+void VK_image::init_image(){
   //---------------------------
 
   this->create_image_struct();
@@ -48,7 +49,6 @@ void VK_image::cleanup(){
 //Creation function
 void VK_image::create_image_struct(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
-  VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   vector<VkImage> vec_swapchain_image = vk_swapchain->get_vec_swapchain_image();
   //---------------------------
 
@@ -61,10 +61,11 @@ void VK_image::create_image_struct(){
     vk_depth->create_depth_attachment(image);
     vec_image.push_back(image);
   }
-  
+
   //---------------------------
 }
 void VK_image::create_frame_struct(){
+  VK_descriptor* vk_descriptor = engineManager->get_vk_descriptor();
   //---------------------------
 
   //Draw frames
@@ -73,6 +74,8 @@ void VK_image::create_frame_struct(){
     vk_synchronization->create_sync_objects(frame);
     vec_frame.push_back(frame);
   }
+
+  vk_descriptor->allocate_descriptor_set(vec_frame);
 
   //---------------------------
 }

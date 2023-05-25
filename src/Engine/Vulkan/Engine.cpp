@@ -83,17 +83,17 @@ void Engine::init_vulkan(){
 
   //Pipeline / swap chain
   vk_swapchain->create_swapchain();
-  vk_image->init();
-  vk_renderpass->init_renderpass();
+  vk_descriptor->create_descriptor_pool();
   vk_descriptor->create_descriptor_layout();
+  vk_image->init_image();
+
+  vk_renderpass->init_renderpass();
   vk_pipeline->init_pipeline();
   vk_command->create_command_pool();
   vk_framebuffer->create_framebuffer_obj();
 
   //Shader
   vk_uniform->create_uniform_buffers();
-  vk_descriptor->create_descriptor_pool();
-  vk_descriptor->allocate_descriptor_set();
   vk_canvas->create_canvas();
 
   //Command

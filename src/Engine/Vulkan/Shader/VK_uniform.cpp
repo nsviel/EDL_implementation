@@ -35,7 +35,7 @@ void VK_uniform::create_uniform_buffers(){
   //Create a buffer to hold the UBO data per frame
   for(size_t i=0; i<param_vulkan->max_frame; i++){
     vk_buffer->create_gpu_buffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform_buffer[i]);
-    vk_buffer->bind_buffer_memory(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniform_buffer[i], uniform_buffer_memory[i]);
+    vk_buffer->bind_buffer_memory(memory_cpu_visible_gpu, uniform_buffer[i], uniform_buffer_memory[i]);
     vkMapMemory(param_vulkan->device, uniform_buffer_memory[i], 0, bufferSize, 0, &uniform_buffer_mapped[i]);
   }
 
