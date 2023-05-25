@@ -25,6 +25,14 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
 VK_descriptor::~VK_descriptor(){}
 
 //Main function
+void VK_descriptor::init_descriptor(){
+  //---------------------------
+
+  Struct_descriptor* struct_descriptor = new Struct_descriptor();
+
+
+  //---------------------------
+}
 void VK_descriptor::cleanup(){
   //---------------------------
 
@@ -36,31 +44,31 @@ void VK_descriptor::cleanup(){
 
 //Initialization function
 void VK_descriptor::create_descriptor_layout(){
-  vector<VkDescriptorSetLayoutBinding> vec_layout;
+  vector<VkDescriptorSetLayoutBinding> vec_binding;
   //---------------------------
 
   //Uniform buffer object
-  VkDescriptorSetLayoutBinding layout_ubo{};
-  layout_ubo.binding = 0;
-  layout_ubo.descriptorCount = 1;
-  layout_ubo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-  layout_ubo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-  layout_ubo.pImmutableSamplers = nullptr; // Optional
-  vec_layout.push_back(layout_ubo);
+  VkDescriptorSetLayoutBinding binding_ubo{};
+  binding_ubo.binding = 0;
+  binding_ubo.descriptorCount = 1;
+  binding_ubo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+  binding_ubo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+  binding_ubo.pImmutableSamplers = nullptr; // Optional
+  vec_binding.push_back(binding_ubo);
 
-  VkDescriptorSetLayoutBinding layout_texture{};
-  layout_texture.binding = 2;
-  layout_texture.descriptorCount = 1;
-  layout_texture.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-  layout_texture.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-  layout_texture.pImmutableSamplers = nullptr; // Optional
-  vec_layout.push_back(layout_texture);
+  VkDescriptorSetLayoutBinding binding_texture{};
+  binding_texture.binding = 2;
+  binding_texture.descriptorCount = 1;
+  binding_texture.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+  binding_texture.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+  binding_texture.pImmutableSamplers = nullptr; // Optional
+  vec_binding.push_back(binding_texture);
 
     //Combination and info
   VkDescriptorSetLayoutCreateInfo layoutInfo{};
   layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-  layoutInfo.bindingCount = static_cast<uint32_t>(vec_layout.size());
-  layoutInfo.pBindings = vec_layout.data();
+  layoutInfo.bindingCount = static_cast<uint32_t>(vec_binding.size());
+  layoutInfo.pBindings = vec_binding.data();
 
   //Descriptor set layout creation
   VkResult result = vkCreateDescriptorSetLayout(param_vulkan->device, &layoutInfo, nullptr, &descriptor_layout);

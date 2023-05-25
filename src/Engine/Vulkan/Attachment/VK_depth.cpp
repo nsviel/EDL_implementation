@@ -29,17 +29,17 @@ void VK_depth::create_depth_resource(Image* image){
 
   VkFormat depth_format = find_depth_format();
 
-  vk_texture->create_image(param_vulkan->extent.width, param_vulkan->extent.height, depth_format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, image->depth, image->depth_memory);
-  image->depth_view = vk_texture->create_image_view(image->depth, depth_format, VK_IMAGE_ASPECT_DEPTH_BIT);
+  vk_texture->create_image(param_vulkan->extent.width, param_vulkan->extent.height, depth_format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, image->depth.image, image->depth.mem);
+  image->depth.view = vk_texture->create_image_view(image->depth.image, depth_format, VK_IMAGE_ASPECT_DEPTH_BIT);
 
   //---------------------------
 }
 void VK_depth::clean_depth_resource(Image* image){
   //---------------------------
 
-  vkDestroyImageView(param_vulkan->device, image->depth_view, nullptr);
-  vkDestroyImage(param_vulkan->device, image->depth, nullptr);
-  vkFreeMemory(param_vulkan->device, image->depth_memory, nullptr);
+  vkDestroyImageView(param_vulkan->device, image->depth.view, nullptr);
+  vkDestroyImage(param_vulkan->device, image->depth.image, nullptr);
+  vkFreeMemory(param_vulkan->device, image->depth.mem, nullptr);
 
   //---------------------------
 }

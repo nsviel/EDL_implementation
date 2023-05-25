@@ -5,7 +5,7 @@
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_image.h"
-#include "../Rendering/VK_depth.h"
+#include "../Attachment/VK_depth.h"
 
 //Manage fbo attachment (color / depth)
 

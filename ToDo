@@ -1,11 +1,13 @@
 ToDo
 //-----------------
+-abstraction descriptor set et faire 1 par pipeline
 -post-processing
   -quad "canvas" for render-to-texture
   -faire set de shader
 -debug arcball cam
 -cross compilation windows
 -abstraction fbo / uniform / shader
+-remplacer pushconstant par uniform buffer pour mvp matrices
 //-----------------
 
 

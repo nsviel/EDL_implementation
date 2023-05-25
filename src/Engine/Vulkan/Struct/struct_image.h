@@ -1,21 +1,20 @@
 #ifndef STRUCT_IMAGE_H
 #define STRUCT_IMAGE_H
 
+#include "struct_framebuffer.h"
 #include "../../../common.h"
 
 
 struct Image{
-  //Image
-  VkImage image;
-  VkImageView image_view;
+  //Main object
+  VkFramebuffer fbo;
+  VkRenderPass renderpass;
 
-  //Depth
-  VkImage depth;
-  VkImageView depth_view;
-  VkDeviceMemory depth_memory;
-
-  //Rendering
-  vector<VkFramebuffer> fbo_vec;
+  //Attachment
+  Struct_attachment color;
+  Struct_attachment location;
+  Struct_attachment normal;
+  Struct_attachment depth;
 };
 
 struct Frame{

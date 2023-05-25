@@ -35,8 +35,6 @@ private:
   VK_renderpass* vk_renderpass;
   VK_depth* vk_depth;
   VK_image* vk_image;
-
-  vector<VkFramebuffer> fbo_vec;
 };
 
 #endif

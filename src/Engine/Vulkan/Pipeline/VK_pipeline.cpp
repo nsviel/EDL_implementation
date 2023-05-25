@@ -10,13 +10,6 @@
 #include "../Camera/VK_viewport.h"
 #include "../Shader/VK_shader.h"
 
-//Big object that comprise:
-//- data description
-//- viewport info
-//- dynamic state
-//- shader info
-//- associated render pass
-
 
 //Constructor / Destructor
 VK_pipeline::VK_pipeline(Engine* engineManager){

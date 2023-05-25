@@ -4,7 +4,7 @@
 #include "../Param_vulkan.h"
 #include "../Command/VK_synchronization.h"
 #include "../Rendering/VK_framebuffer.h"
-#include "../Rendering/VK_depth.h"
+#include "../Attachment/VK_depth.h"
 #include "../Data/VK_texture.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
@@ -36,7 +36,7 @@ void VK_image::create_image_struct(){
   //Swapchain images
   for(int i=0; i<vec_image_swapchain.size(); i++){
     Image* image = new Image();
-    image->image = vec_image_swapchain[i];
+    image->color.image = vec_image_swapchain[i];
     this->create_image_view(image);
     vk_depth->create_depth_resource(image);
     vec_image.push_back(image);
@@ -59,7 +59,7 @@ void VK_image::create_image_view(Image* image){
   this->image_format = surfaceFormat.format;
 
   //Image view settings & creation
-  image->image_view = vk_texture->create_image_view(image->image, image_format, VK_IMAGE_ASPECT_COLOR_BIT);
+  image->color.view = vk_texture->create_image_view(image->color.image, image_format, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
 }
@@ -109,7 +109,7 @@ void VK_image::clean_frame_struct(){
 void VK_image::clean_image_view(Image* image){
   //---------------------------
 
-  vkDestroyImageView(param_vulkan->device, image->image_view, nullptr);
+  vkDestroyImageView(param_vulkan->device, image->color.view, nullptr);
 
   //---------------------------
 }

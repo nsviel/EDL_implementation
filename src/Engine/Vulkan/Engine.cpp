@@ -20,7 +20,7 @@
 #include "Instance/VK_validation.h"
 #include "Rendering/VK_framebuffer.h"
 #include "Rendering/VK_canvas.h"
-#include "Rendering/VK_depth.h"
+#include "Attachment/VK_depth.h"
 #include "Swapchain/VK_swapchain.h"
 #include "Swapchain/VK_image.h"
 #include "Camera/VK_viewport.h"

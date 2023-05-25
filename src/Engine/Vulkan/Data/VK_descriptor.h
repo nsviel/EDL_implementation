@@ -2,6 +2,7 @@
 #define VK_DESCRIPTOR_H
 
 #include "../Struct/struct_mvp.h"
+#include "../Struct/struct_descriptor.h"
 #include "../../../common.h"
 
 class Engine;
@@ -19,6 +20,7 @@ public:
 
 public:
   //Main functions
+  void init_descriptor();
   void cleanup();
 
   //Subfunctions

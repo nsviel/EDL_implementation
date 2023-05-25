@@ -4,7 +4,7 @@
 #include "../Engine.h"
 #include "../Param_vulkan.h"
 #include "../Rendering/VK_framebuffer.h"
-#include "../Rendering/VK_depth.h"
+#include "../Attachment/VK_depth.h"
 #include "../Data/VK_texture.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"

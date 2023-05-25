@@ -121,7 +121,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
   renderPassInfo.renderPass = vk_renderpass->get_renderPass();
-  renderPassInfo.framebuffer = vec_image_obj[image_index]->fbo_vec[0];
+  renderPassInfo.framebuffer = vec_image_obj[image_index]->fbo;
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = param_vulkan->extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());

@@ -1,6 +1,6 @@
 #include "VK_framebuffer.h"
-#include "VK_depth.h"
 
+#include "../Attachment/VK_depth.h"
 #include "../Engine.h"
 #include "../Param_vulkan.h"
 #include "../Swapchain/VK_swapchain.h"
@@ -45,7 +45,7 @@ void VK_framebuffer::create_framebuffer(Image* image){
   VkFramebuffer fbo;
 
   //Create frambuffer
-  std::array<VkImageView, 2> attachments = {image->image_view, image->depth_view};
+  std::array<VkImageView, 2> attachments = {image->color.view, image->depth.view};
 
   VkFramebufferCreateInfo framebufferInfo{};
   framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -62,16 +62,14 @@ void VK_framebuffer::create_framebuffer(Image* image){
   }
 
   //---------------------------
-  image->fbo_vec.push_back(fbo);
+  image->fbo = fbo;
 }
 
 //Deletion function
 void VK_framebuffer::clean_framebuffer(Image* image){
   //---------------------------
 
-  for(int j=0; j<image->fbo_vec.size(); j++){
-    vkDestroyFramebuffer(param_vulkan->device, image->fbo_vec[j], nullptr);
-  }
+  vkDestroyFramebuffer(param_vulkan->device, image->fbo, nullptr);
 
   //---------------------------
 }
