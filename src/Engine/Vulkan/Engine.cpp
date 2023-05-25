@@ -5,7 +5,7 @@
 #include "Pipeline/VK_pipeline.h"
 #include "Command/VK_command.h"
 #include "Command/VK_synchronization.h"
-#include "Data/VK_descriptor.h"
+#include "Shader/VK_descriptor.h"
 #include "Shader/VK_uniform.h"
 #include "Shader/VK_shader.h"
 #include "Data/VK_buffer.h"

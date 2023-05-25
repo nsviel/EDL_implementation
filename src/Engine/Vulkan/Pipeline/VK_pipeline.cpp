@@ -3,7 +3,7 @@
 
 #include "../Engine.h"
 #include "../Param_vulkan.h"
-#include "../Data/VK_descriptor.h"
+#include "../Shader/VK_descriptor.h"
 #include "../Data/VK_data.h"
 #include "../Device/VK_device.h"
 #include "../Swapchain/VK_swapchain.h"
@@ -50,7 +50,7 @@ void VK_pipeline::init_pipeline(){
   Struct_pipeline* pipeline_glyph = new Struct_pipeline();
   pipeline_glyph->name = "glyph";
   pipeline_glyph->topology = "line";
-  pipeline_glyph->compile_shader = false;
+  pipeline_glyph->compile_shader = true;
   pipeline_glyph->path_shader_vs = "Base/shader_glyph_vs";
   pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
   pipeline_glyph->vec_data_name.push_back("location");

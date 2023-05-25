@@ -96,20 +96,22 @@ void VK_drawing::draw_queue(){
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
   Frame* frame = vec_frame[frame_current];
 
-  VkSubmitInfo submitInfo{};
-  submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-  VkSemaphore waitSemaphores[] = {frame->semaphore_image_available};
-  VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
-  submitInfo.waitSemaphoreCount = 1;
-  submitInfo.pWaitSemaphores = waitSemaphores;
-  submitInfo.pWaitDstStageMask = waitStages;
-  submitInfo.commandBufferCount = 1;
-  submitInfo.pCommandBuffers = &frame->command_buffer;
-  VkSemaphore signalSemaphores[] = {frame->semaphore_render_finished};
-  submitInfo.signalSemaphoreCount = 1;
-  submitInfo.pSignalSemaphores = signalSemaphores;
+  VkSemaphore semaphore_wait[] = {frame->semaphore_image_available};
+  VkSemaphore semaphore_signal[] = {frame->semaphore_render_finished};
+  VkPipelineStageFlags stage_wait[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
-  VkResult result = vkQueueSubmit(queue_graphics, 1, &submitInfo, frame->fence_inflight);
+  VkSubmitInfo submit_info{};
+  submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  submit_info.waitSemaphoreCount = 1;
+  submit_info.pWaitSemaphores = semaphore_wait;
+  submit_info.pWaitDstStageMask = stage_wait;
+  submit_info.commandBufferCount = 1;
+  submit_info.pCommandBuffers = &frame->command_buffer;
+  submit_info.signalSemaphoreCount = 1;
+  submit_info.pSignalSemaphores = semaphore_signal;
+
+  //Very slow operation, need as low command as possible
+  VkResult result = vkQueueSubmit(queue_graphics, 1, &submit_info, frame->fence_inflight);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to submit draw command buffer!");
   }
@@ -125,11 +127,11 @@ void VK_drawing::draw_presentation(){
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
   Frame* frame = vec_frame[frame_current];
 
-  VkSemaphore signalSemaphores[] = {frame->semaphore_render_finished};
+  VkSemaphore semaphore_signal[] = {frame->semaphore_render_finished};
   VkPresentInfoKHR presentInfo{};
   presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
   presentInfo.waitSemaphoreCount = 1;
-  presentInfo.pWaitSemaphores = signalSemaphores;
+  presentInfo.pWaitSemaphores = semaphore_signal;
 
   VkSwapchainKHR swapChains[] = {swapChain};
   presentInfo.swapchainCount = 1;

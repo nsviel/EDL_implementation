@@ -19,20 +19,13 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
   this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_device = engineManager->get_vk_device();
   this->vk_image = engineManager->get_vk_image();
+  this->vk_texture = engineManager->get_vk_texture();
 
   //---------------------------
 }
 VK_descriptor::~VK_descriptor(){}
 
 //Main function
-void VK_descriptor::init_descriptor(Frame* frame){
-  //---------------------------
-
-
-
-
-  //---------------------------
-}
 void VK_descriptor::cleanup(){
   //---------------------------
 
@@ -43,7 +36,6 @@ void VK_descriptor::cleanup(){
 
 //Descriptor set
 void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipeline){
-  VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
@@ -118,7 +110,7 @@ VkDescriptorSetLayout VK_descriptor::create_layout_basic(){
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
   vec_binding.push_back(add_descriptor_binding(uniform, stage_vs, 1, 0));
-  vec_binding.push_back(add_descriptor_binding(sampler, stage_fs, 1, 2));
+  //vec_binding.push_back(add_descriptor_binding(sampler, stage_fs, 1, 2));
 
   //Combination and info
   VkDescriptorSetLayoutCreateInfo layoutInfo{};

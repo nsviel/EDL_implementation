@@ -3,13 +3,13 @@
 
 #include "../Struct/struct_mvp.h"
 #include "../Struct/struct_image.h"
-#include "../Struct/struct_descriptor.h"
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
 class Engine;
 class Param_vulkan;
 class VK_device;
+class VK_texture;
 class VK_image;
 
 
@@ -22,7 +22,6 @@ public:
 
 public:
   //Main functions
-  void init_descriptor(Frame* frame);
   void cleanup();
 
   //Descriptor set
@@ -43,6 +42,7 @@ private:
   Param_vulkan* param_vulkan;
   VK_device* vk_device;
   VK_image* vk_image;
+  VK_texture* vk_texture;
 
   VkDescriptorPool descriptor_pool;
   VkDescriptorSetLayout descriptor_layout;

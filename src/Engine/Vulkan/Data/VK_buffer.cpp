@@ -1,7 +1,7 @@
 #include "VK_buffer.h"
 #include "VK_texture.h"
-#include "VK_descriptor.h"
 
+#include "../Shader/VK_descriptor.h"
 #include "../Engine.h"
 #include "../Param_vulkan.h"
 #include "../Command/VK_command.h"
