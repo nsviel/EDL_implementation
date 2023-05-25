@@ -4,6 +4,7 @@
 #include "../../common.h"
 
 class Node_gui;
+class Node_engine;
 class Dimension;
 class GUI_option;
 class GUI_filemanager;
@@ -25,6 +26,7 @@ public:
 
 private:
   Node_gui* node_gui;
+  Node_engine* node_engine;
   Dimension* dimManager;
   GUI_option* gui_option;
   GUI_filemanager* gui_filemanager;

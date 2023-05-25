@@ -37,38 +37,39 @@ void VK_descriptor::cleanup(){
   //---------------------------
 
   vkDestroyDescriptorPool(param_vulkan->device, descriptor_pool, nullptr);
-  vkDestroyDescriptorSetLayout(param_vulkan->device, descriptor_layout, nullptr);
 
   //---------------------------
 }
 
 //Descriptor set
-void VK_descriptor::allocate_descriptor_set(){
+void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipeline){
   VK_texture* vk_texture = engineManager->get_vk_texture();
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
-  vector<VkDescriptorSetLayout> layouts(param_vulkan->max_frame, descriptor_layout);
+  vector<VkDescriptorSetLayout> vec_layout;
+  for(int i=0; i<vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = vec_pipeline[i];
+    vec_layout.push_back(pipeline->descriptor_layout);
+  }
+
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
   allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = static_cast<uint32_t>(param_vulkan->max_frame);
-  allocInfo.pSetLayouts = layouts.data();
+  allocInfo.descriptorSetCount = static_cast<uint32_t>(vec_layout.size());
+  allocInfo.pSetLayouts = vec_layout.data();
 
-  vec_descriptor_set.resize(param_vulkan->max_frame);
+  vector<VkDescriptorSet> vec_descriptor_set;
+  vec_descriptor_set.resize(vec_pipeline.size());
   VkResult result = vkAllocateDescriptorSets(param_vulkan->device, &allocInfo, vec_descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
 
-  //Pour toute les frame, specifier les shader data
-  //this->update_descriptor_set();
-
-  vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  for(int i=0; i<vec_frame.size(); i++){
-    Frame* frame = vec_frame[i];
-    frame->descriptor_set = vec_descriptor_set[i];
+  for(int i=0; i<vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = vec_pipeline[i];
+    pipeline->descriptor_set = vec_descriptor_set[i];
   }
 
   //---------------------------
@@ -112,7 +113,7 @@ void VK_descriptor::update_descriptor_set(){
 }
 
 //Descriptor layout
-void VK_descriptor::create_descriptor_layout(){
+VkDescriptorSetLayout VK_descriptor::create_layout_basic(){
   //---------------------------
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
@@ -132,6 +133,29 @@ void VK_descriptor::create_descriptor_layout(){
   }
 
   //---------------------------
+  return descriptor_layout;
+}
+VkDescriptorSetLayout VK_descriptor::create_layout_canvas(){
+  //---------------------------
+
+  vector<VkDescriptorSetLayoutBinding> vec_binding;
+  vec_binding.push_back(add_descriptor_binding(uniform, stage_vs, 1, 0));
+  vec_binding.push_back(add_descriptor_binding(sampler, stage_fs, 1, 2));
+
+  //Combination and info
+  VkDescriptorSetLayoutCreateInfo layoutInfo{};
+  layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+  layoutInfo.bindingCount = static_cast<uint32_t>(vec_binding.size());
+  layoutInfo.pBindings = vec_binding.data();
+
+  //Descriptor set layout creation
+  VkResult result = vkCreateDescriptorSetLayout(param_vulkan->device, &layoutInfo, nullptr, &descriptor_layout);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to create descriptor set layout!");
+  }
+
+  //---------------------------
+  return descriptor_layout;
 }
 VkDescriptorSetLayoutBinding VK_descriptor::add_descriptor_binding(VkDescriptorType type, VkShaderStageFlagBits stage, int count, int binding){
   //---------------------------
@@ -151,16 +175,16 @@ VkDescriptorSetLayoutBinding VK_descriptor::add_descriptor_binding(VkDescriptorT
 void VK_descriptor::create_descriptor_pool(){
   //---------------------------
 
-  //Set descriptor types
+  //Maximum number of descriptor per type
   vector<VkDescriptorPoolSize> vec_pool_size;
-  vec_pool_size.push_back(add_descriptor_type(uniform, param_vulkan->max_frame));
-  vec_pool_size.push_back(add_descriptor_type(sampler, param_vulkan->max_frame));
+  vec_pool_size.push_back(add_descriptor_type(uniform, 3));
+  vec_pool_size.push_back(add_descriptor_type(sampler, 3));
 
   VkDescriptorPoolCreateInfo pool_info{};
   pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
   pool_info.poolSizeCount = static_cast<uint32_t>(vec_pool_size.size());
   pool_info.pPoolSizes = vec_pool_size.data();
-  pool_info.maxSets = static_cast<uint32_t>(param_vulkan->max_frame);
+  pool_info.maxSets = static_cast<uint32_t>(3);
 
   VkResult result = vkCreateDescriptorPool(param_vulkan->device, &pool_info, nullptr, &descriptor_pool);
   if(result != VK_SUCCESS){

@@ -67,10 +67,13 @@ void GUI_option::option_fps(){
   ImGui::SetNextItemWidth(150);
   ImGui::SliderInt("FPS max", &param_engine->max_fps, 10, 1000);
 
-  //Framerate
+  //---------------------------
+}
+
+void GUI_option::display_fps(){
   ImGuiIO io = ImGui::GetIO();
-  ImGui::Text("Display: ");
-  ImGui::SameLine();
+  //---------------------------
+
   ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", 1000.0f / io.Framerate);
   ImGui::SameLine();
   ImGui::Text(" ms/frame [");

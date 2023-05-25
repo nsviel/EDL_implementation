@@ -4,6 +4,7 @@
 #include "../Struct/struct_mvp.h"
 #include "../Struct/struct_image.h"
 #include "../Struct/struct_descriptor.h"
+#include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
 class Engine;
@@ -25,18 +26,17 @@ public:
   void cleanup();
 
   //Descriptor set
-  void allocate_descriptor_set();
+  void allocate_descriptor_set(vector<Struct_pipeline*> vec_pipeline);
   void update_descriptor_set();
 
   //Descriptor layout
-  void create_descriptor_layout();
+  VkDescriptorSetLayout create_layout_basic();
+  VkDescriptorSetLayout create_layout_canvas();
   VkDescriptorSetLayoutBinding add_descriptor_binding(VkDescriptorType type, VkShaderStageFlagBits stage, int count, int binding);
 
   //Descriptor pool
   void create_descriptor_pool();
   VkDescriptorPoolSize add_descriptor_type(VkDescriptorType type, int count);
-
-  inline VkDescriptorSetLayout get_descriptor_layout(){return descriptor_layout;}
 
 private:
   Engine* engineManager;
@@ -46,7 +46,6 @@ private:
 
   VkDescriptorPool descriptor_pool;
   VkDescriptorSetLayout descriptor_layout;
-  vector<VkDescriptorSetLayout> vec_descriptor_layout;
   vector<VkDescriptorSet> vec_descriptor_set;
 };
 

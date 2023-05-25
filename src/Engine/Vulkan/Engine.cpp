@@ -81,13 +81,12 @@ void Engine::init_vulkan(){
   vk_physical_device->init_device();
   vk_device->create_logical_device();
 
-  //Pipeline / swap chain
+  //Swapchain
   vk_swapchain->create_swapchain();
-  vk_descriptor->create_descriptor_pool();
-  vk_descriptor->create_descriptor_layout();
-  vk_descriptor->allocate_descriptor_set();
   vk_image->init_image();
 
+  //Pipeline
+  vk_descriptor->create_descriptor_pool();
   vk_renderpass->init_renderpass();
   vk_pipeline->init_pipeline();
   vk_command->create_command_pool();

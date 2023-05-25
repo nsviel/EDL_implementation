@@ -23,6 +23,8 @@ public:
   void option_font();
   void option_fps();
 
+  void display_fps();
+
 private:
   Node_gui* node_gui;
   Node_engine* node_engine;

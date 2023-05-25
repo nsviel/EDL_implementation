@@ -27,6 +27,7 @@ public:
   void draw_swapchain();
   void draw_command();
   void draw_queue();
+  void draw_presentation();
 
   inline uint32_t get_current_frame(){return frame_current;}
 

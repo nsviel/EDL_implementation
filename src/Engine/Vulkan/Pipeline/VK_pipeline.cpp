@@ -43,6 +43,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_cloud->path_shader_fs = "Base/shader_scene_fs";
   pipeline_cloud->vec_data_name.push_back("location");
   pipeline_cloud->vec_data_name.push_back("color");
+  pipeline_cloud->descriptor_layout = vk_descriptor->create_layout_basic();
   this->create_pipeline_info(pipeline_cloud);
 
   //Pipeline Glyph
@@ -54,6 +55,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
   pipeline_glyph->vec_data_name.push_back("location");
   pipeline_glyph->vec_data_name.push_back("color");
+  pipeline_glyph->descriptor_layout = vk_descriptor->create_layout_basic();
   this->create_pipeline_info(pipeline_glyph);
 
   //Pipeline Canvas
@@ -65,9 +67,11 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
   pipeline_canvas->vec_data_name.push_back("location");
   pipeline_canvas->vec_data_name.push_back("tex_coord");
+  pipeline_canvas->descriptor_layout = vk_descriptor->create_layout_canvas();
   this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();
+  vk_descriptor->allocate_descriptor_set(vec_pipeline);
 
   //---------------------------
 }
@@ -78,6 +82,7 @@ void VK_pipeline::cleanup(){
     Struct_pipeline* pipeline = vec_pipeline[i];
     vkDestroyPipeline(param_vulkan->device, pipeline->pipeline, nullptr);
     vkDestroyPipelineLayout(param_vulkan->device, pipeline->pipeline_layout, nullptr);
+    vkDestroyDescriptorSetLayout(param_vulkan->device, pipeline->descriptor_layout, nullptr);
   }
 
   //---------------------------
@@ -139,11 +144,10 @@ void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   pushconstant_range.size = sizeof(glm::mat4);
 
   //Pipeline layout info -> usefull for shader uniform variables
-  VkDescriptorSetLayout descriptor_layout = vk_descriptor->get_descriptor_layout();
   VkPipelineLayoutCreateInfo pipeline_layout_info{};
   pipeline_layout_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipeline_layout_info.setLayoutCount = 1;
-  pipeline_layout_info.pSetLayouts = &descriptor_layout;
+  pipeline_layout_info.pSetLayouts = &pipeline->descriptor_layout;
   pipeline_layout_info.pushConstantRangeCount = 1;
   pipeline_layout_info.pPushConstantRanges = &pushconstant_range;
 

@@ -38,6 +38,7 @@ void VK_drawing::draw_frame(){
   this->draw_swapchain();
   this->draw_command();
   this->draw_queue();
+  this->draw_presentation();
 
   //---------------------------
 }
@@ -113,6 +114,18 @@ void VK_drawing::draw_queue(){
     throw std::runtime_error("failed to submit draw command buffer!");
   }
 
+
+  //---------------------------
+}
+void VK_drawing::draw_presentation(){
+  VkQueue queue_presentation = vk_device->get_queue_presentation();
+  VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
+  //---------------------------
+
+  vector<Frame*> vec_frame = vk_image->get_vec_frame();
+  Frame* frame = vec_frame[frame_current];
+
+  VkSemaphore signalSemaphores[] = {frame->semaphore_render_finished};
   VkPresentInfoKHR presentInfo{};
   presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
   presentInfo.waitSemaphoreCount = 1;
@@ -124,7 +137,7 @@ void VK_drawing::draw_queue(){
   presentInfo.pImageIndices = &image_index;
   presentInfo.pResults = nullptr; // Optional
 
-  result = vkQueuePresentKHR(queue_presentation, &presentInfo);
+  VkResult result = vkQueuePresentKHR(queue_presentation, &presentInfo);
   if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized){
     vk_swapchain->recreate_swapChain();
   }else if(result != VK_SUCCESS){

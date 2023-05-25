@@ -10,13 +10,14 @@
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Dimension/Dimension.h"
 #include "../../Node.h"
+#include "../../Engine/Param_engine.h"
 
 
 //Constructor / Destructor
 GUI_left_panel::GUI_left_panel(Node_gui* node_gui){
   //---------------------------
 
-  Node_engine* node_engine = node_gui->get_node_engine();
+  this->node_engine = node_gui->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
   this->node_gui = node_gui;
   this->gui_filemanager = node_gui->get_gui_filemanager();
@@ -49,6 +50,14 @@ void GUI_left_panel::draw_left_panel(){
   this->left_panel_dim();
   gui_menubar->design_menubar();
   this->left_panel_content();
+
+
+  ImVec2 windowSize = ImGui::GetWindowSize();
+  float widgetHeight = 20.0f; // Adjust the height of the widget as needed
+  float widgetYPosition = windowSize.y - widgetHeight - ImGui::GetStyle().ItemSpacing.y;
+  ImGui::SetCursorPosY(widgetYPosition);
+
+  gui_option->display_fps();
 
   ImGui::PopStyleVar();
   ImGui::End();

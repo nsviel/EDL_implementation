@@ -167,7 +167,7 @@ void VK_command::command_drawing_scene(VkCommandBuffer command_buffer, uint32_t 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("cloud");
   vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
-  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
+  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
 
   //Bind and draw vertex buffers
   list<Object*> list_data = vk_data->get_list_data();
@@ -196,7 +196,7 @@ void VK_command::command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("glyph");
   vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
-  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
+  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
 
   //Bind and draw vertex buffers
   list<Object*> list_glyph = vk_data->get_list_glyph();
@@ -225,7 +225,7 @@ void VK_command::command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("canvas");
   vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
-  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &frame->descriptor_set, 0, nullptr);
+  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
 
   //Bind and draw vertex buffers
   Object* canvas = vk_canvas->get_canvas();
