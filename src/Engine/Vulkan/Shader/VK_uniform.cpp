@@ -23,38 +23,32 @@ VK_uniform::VK_uniform(Engine* engineManager){
 VK_uniform::~VK_uniform(){}
 
 //Main function
-void VK_uniform::create_uniform_buffers(){
+void VK_uniform::create_uniform_buffers(vector<Struct_pipeline*> vec_pipeline){
   //---------------------------
-
-  //Resize ubo vectors
-  VkDeviceSize bufferSize = sizeof(MVP);
-  uniform_buffer.resize(param_vulkan->max_frame);
-  uniform_buffer_memory.resize(param_vulkan->max_frame);
-  uniform_buffer_mapped.resize(param_vulkan->max_frame);
 
   //Create a buffer to hold the UBO data per frame
-  for(size_t i=0; i<param_vulkan->max_frame; i++){
-    vk_buffer->create_gpu_buffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform_buffer[i]);
-    vk_buffer->bind_buffer_memory(memory_cpu_visible_gpu, uniform_buffer[i], uniform_buffer_memory[i]);
-    vkMapMemory(param_vulkan->device, uniform_buffer_memory[i], 0, bufferSize, 0, &uniform_buffer_mapped[i]);
+  for(size_t i=0; i<vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = vec_pipeline[i];
+
+    vk_buffer->create_gpu_buffer(sizeof(MVP), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, pipeline->uniform.buffer);
+    vk_buffer->bind_buffer_memory(memory_cpu_visible_gpu, pipeline->uniform.buffer, pipeline->uniform.mem);
+    vkMapMemory(param_vulkan->device, pipeline->uniform.mem, 0, sizeof(MVP), 0, &pipeline->uniform.mapped);
   }
 
   //---------------------------
 }
-void VK_uniform::update_uniform_buffer(uint32_t currentImage, MVP& mvp){
+void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, MVP& mvp){
   //---------------------------
 
-  memcpy(uniform_buffer_mapped[currentImage], &mvp, sizeof(mvp));
+  memcpy(pipeline->uniform.mapped, &mvp, sizeof(mvp));
 
   //---------------------------
 }
-void VK_uniform::cleanup(){
+void VK_uniform::clean_uniform(Struct_pipeline* pipeline){
   //---------------------------
 
-  for(size_t i=0; i<param_vulkan->max_frame; i++){
-    vkDestroyBuffer(param_vulkan->device, uniform_buffer[i], nullptr);
-    vkFreeMemory(param_vulkan->device, uniform_buffer_memory[i], nullptr);
-  }
+  vkDestroyBuffer(param_vulkan->device, pipeline->uniform.buffer, nullptr);
+  vkFreeMemory(param_vulkan->device, pipeline->uniform.mem, nullptr);
 
   //---------------------------
 }

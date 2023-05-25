@@ -176,7 +176,7 @@ void VK_command::command_drawing_scene(VkCommandBuffer command_buffer, uint32_t 
 
     if(object->draw_type_name == "point"){
       vk_camera->compute_mvp(object);
-      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(glm::mat4), &object->mvp);
+      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, stage_vs, 0, sizeof(glm::mat4), &object->mvp);
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
@@ -205,7 +205,7 @@ void VK_command::command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t 
 
     if(object->draw_type_name == "line"){
       vk_camera->compute_mvp(object);
-      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(glm::mat4), &object->mvp);
+      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, stage_vs, 0, sizeof(glm::mat4), &object->mvp);
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdSetLineWidth(command_buffer, object->draw_line_width);
@@ -230,7 +230,7 @@ void VK_command::command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t
   //Bind and draw vertex buffers
   Object* canvas = vk_canvas->get_canvas();
   vk_camera->compute_mvp(canvas);
-  vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(glm::mat4), &canvas->mvp);
+  vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, stage_vs, 0, sizeof(glm::mat4), &canvas->mvp);
   VkBuffer vertexBuffers[] = {canvas->vbo_xyz, canvas->vbo_uv};
   VkDeviceSize offsets[] = {0, 0};
   vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);

@@ -9,6 +9,7 @@
 #include "../Swapchain/VK_swapchain.h"
 #include "../Camera/VK_viewport.h"
 #include "../Shader/VK_shader.h"
+#include "../Shader/VK_uniform.h"
 
 
 //Constructor / Destructor
@@ -24,6 +25,7 @@ VK_pipeline::VK_pipeline(Engine* engineManager){
   this->vk_viewport = engineManager->get_vk_viewport();
   this->vk_shader = engineManager->get_vk_shader();
   this->vk_data = engineManager->get_vk_data();
+  this->vk_uniform = engineManager->get_vk_uniform();
 
   //---------------------------
 }
@@ -72,6 +74,7 @@ void VK_pipeline::init_pipeline(){
 
   this->create_pipeline_graphics();
   vk_descriptor->allocate_descriptor_set(vec_pipeline);
+  vk_uniform->create_uniform_buffers(vec_pipeline);
 
   //---------------------------
 }
@@ -83,6 +86,7 @@ void VK_pipeline::cleanup(){
     vkDestroyPipeline(param_vulkan->device, pipeline->pipeline, nullptr);
     vkDestroyPipelineLayout(param_vulkan->device, pipeline->pipeline_layout, nullptr);
     vkDestroyDescriptorSetLayout(param_vulkan->device, pipeline->descriptor_layout, nullptr);
+    vk_uniform->clean_uniform(pipeline);
   }
 
   //---------------------------
@@ -139,7 +143,7 @@ void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
 
   //Push constant for MVP matrix
   VkPushConstantRange pushconstant_range = {};
-  pushconstant_range.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+  pushconstant_range.stageFlags = stage_vs;
   pushconstant_range.offset = 0;
   pushconstant_range.size = sizeof(glm::mat4);
 

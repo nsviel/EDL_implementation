@@ -1,6 +1,8 @@
 #ifndef STRUCT_PIPELINE_H
 #define STRUCT_PIPELINE_H
 
+#include "struct_uniform.h"
+
 #include <string>
 #include <vector>
 #include <vulkan/vulkan.h>
@@ -15,6 +17,7 @@ struct Struct_pipeline{
   bool compile_shader;
   std::string path_shader_vs;
   std::string path_shader_fs;
+  Struct_uniform uniform;
 
   //Pipeline elments
   VkPipeline pipeline;

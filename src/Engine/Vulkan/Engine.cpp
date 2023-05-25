@@ -56,12 +56,12 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_descriptor = new VK_descriptor(this);
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_shader = new VK_shader(this);
+  this->vk_uniform = new VK_uniform(this);
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
   this->vk_command = new VK_command(this);
-  this->vk_uniform = new VK_uniform(this);
   this->vk_drawing = new VK_drawing(this);
   this->vk_gui = new VK_gui(this);
 
@@ -92,8 +92,10 @@ void Engine::init_vulkan(){
   vk_command->create_command_pool();
   vk_framebuffer->create_framebuffer_obj();
 
+  //REMPLACER pushconstant ubo par uniform !!!
+  //FAire la construction des framebuffer par les image en appelle
+
   //Shader
-  vk_uniform->create_uniform_buffers();
   vk_canvas->create_canvas();
 
   //Command
@@ -132,7 +134,6 @@ void Engine::clean_vulkan(){
   vk_renderpass->cleanup();
   vk_canvas->cleanup();
 
-  vk_uniform->cleanup();
   vk_data->cleanup();
   vk_descriptor->cleanup();
 

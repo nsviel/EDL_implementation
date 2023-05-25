@@ -66,7 +66,7 @@ void VK_shader::create_pipeline_shader_info(Struct_pipeline* pipeline){
   //Vertex shader link in pipeline
   VkPipelineShaderStageCreateInfo info_vert{};
   info_vert.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-  info_vert.stage = VK_SHADER_STAGE_VERTEX_BIT;
+  info_vert.stage = stage_vs;
   info_vert.module = shader_couple.first;
   info_vert.pName = "main";
   info_vert.pSpecializationInfo = nullptr;

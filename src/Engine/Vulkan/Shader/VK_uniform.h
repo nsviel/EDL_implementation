@@ -2,6 +2,7 @@
 #define VK_UNIFORM_H
 
 #include "../Struct/struct_mvp.h"
+#include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
 class Engine;
@@ -21,11 +22,11 @@ public:
 
 public:
   //Main functions
-  void create_uniform_buffers();
-  void update_uniform_buffer(uint32_t currentImage, MVP& mvp);
-  void cleanup();
+  void create_uniform_buffers(vector<Struct_pipeline*> vec_pipeline);
+  void update_uniform_buffer(Struct_pipeline* pipeline, MVP& mvp);
+  void clean_uniform(Struct_pipeline* pipeline);
 
-  inline std::vector<VkBuffer> get_uniformBuffers(){return uniform_buffer;};
+  inline vector<VkBuffer> get_uniformBuffers(){return uniform_buffer;};
 
 private:
   Param_vulkan* param_vulkan;
@@ -34,9 +35,9 @@ private:
   VK_swapchain* vk_swapchain;
   VK_camera* vk_camera;
 
-  std::vector<VkBuffer> uniform_buffer;
-  std::vector<VkDeviceMemory> uniform_buffer_memory;
-  std::vector<void*> uniform_buffer_mapped;
+  vector<VkBuffer> uniform_buffer;
+  vector<VkDeviceMemory> uniform_buffer_memory;
+  vector<void*> uniform_buffer_mapped;
 };
 
 #endif

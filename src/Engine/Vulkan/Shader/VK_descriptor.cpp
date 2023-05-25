@@ -110,22 +110,9 @@ VkDescriptorSetLayout VK_descriptor::create_layout_basic(){
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
   vec_binding.push_back(add_descriptor_binding(uniform, stage_vs, 1, 0));
-  //vec_binding.push_back(add_descriptor_binding(sampler, stage_fs, 1, 2));
-
-  //Combination and info
-  VkDescriptorSetLayoutCreateInfo layoutInfo{};
-  layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-  layoutInfo.bindingCount = static_cast<uint32_t>(vec_binding.size());
-  layoutInfo.pBindings = vec_binding.data();
-
-  //Descriptor set layout creation
-  VkResult result = vkCreateDescriptorSetLayout(param_vulkan->device, &layoutInfo, nullptr, &descriptor_layout);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create descriptor set layout!");
-  }
 
   //---------------------------
-  return descriptor_layout;
+  return create_layout(vec_binding);
 }
 VkDescriptorSetLayout VK_descriptor::create_layout_canvas(){
   //---------------------------
@@ -134,6 +121,12 @@ VkDescriptorSetLayout VK_descriptor::create_layout_canvas(){
   vec_binding.push_back(add_descriptor_binding(uniform, stage_vs, 1, 0));
   vec_binding.push_back(add_descriptor_binding(sampler, stage_fs, 1, 2));
 
+  //---------------------------
+  return create_layout(vec_binding);
+}
+VkDescriptorSetLayout VK_descriptor::create_layout(vector<VkDescriptorSetLayoutBinding> vec_binding){
+  //---------------------------
+
   //Combination and info
   VkDescriptorSetLayoutCreateInfo layoutInfo{};
   layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -141,6 +134,7 @@ VkDescriptorSetLayout VK_descriptor::create_layout_canvas(){
   layoutInfo.pBindings = vec_binding.data();
 
   //Descriptor set layout creation
+  VkDescriptorSetLayout descriptor_layout;
   VkResult result = vkCreateDescriptorSetLayout(param_vulkan->device, &layoutInfo, nullptr, &descriptor_layout);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create descriptor set layout!");

@@ -7,7 +7,7 @@
 
 struct Struct_texture{
   std::string path_texture;
-  
+
   VkImage textureImage;
   VkDeviceMemory textureImageMemory;
   VkImageView textureImageView;

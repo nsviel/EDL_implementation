@@ -13,6 +13,7 @@ class VK_descriptor;
 class VK_viewport;
 class VK_shader;
 class VK_data;
+class VK_uniform;
 
 
 class VK_pipeline
@@ -55,6 +56,7 @@ private:
   VK_viewport* vk_viewport;
   VK_shader* vk_shader;
   VK_data* vk_data;
+  VK_uniform* vk_uniform;
 
   vector<Struct_pipeline*> vec_pipeline;
 };
