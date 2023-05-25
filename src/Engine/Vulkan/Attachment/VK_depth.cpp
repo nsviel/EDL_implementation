@@ -2,9 +2,6 @@
 
 #include "../Engine.h"
 #include "../Param_vulkan.h"
-#include "../Swapchain/VK_swapchain.h"
-#include "../Device/VK_device.h"
-#include "../Device/VK_physical_device.h"
 #include "../Data/VK_texture.h"
 
 
@@ -14,10 +11,7 @@ VK_depth::VK_depth(Engine* engineManager){
 
   this->engineManager = engineManager;
   this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
   this->vk_texture = engineManager->get_vk_texture();
-  this->vk_swapchain = engineManager->get_vk_swapchain();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
 
   //---------------------------
 }
