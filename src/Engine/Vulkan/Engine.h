@@ -31,6 +31,7 @@ class VK_physical_device;
 class VK_image;
 class VK_validation;
 class VK_canvas;
+class VK_color;
 
 
 class Engine
@@ -67,6 +68,7 @@ public:
   inline VK_uniform* get_vk_uniform(){return vk_uniform;}
   inline VK_texture* get_vk_texture(){return vk_texture;}
   inline VK_depth* get_vk_depth(){return vk_depth;}
+  inline VK_color* get_vk_color(){return vk_color;}
   inline VK_data* get_vk_data(){return vk_data;}
   inline VK_viewport* get_vk_viewport(){return vk_viewport;}
   inline VK_gui* get_vk_gui(){return vk_gui;}
@@ -109,6 +111,7 @@ private:
   VK_image* vk_image;
   VK_validation* vk_validation;
   VK_canvas* vk_canvas;
+  VK_color* vk_color;
 
   float fps;
 };

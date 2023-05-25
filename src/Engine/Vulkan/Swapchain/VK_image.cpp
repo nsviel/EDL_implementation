@@ -6,9 +6,7 @@
 #include "../Rendering/VK_framebuffer.h"
 #include "../Attachment/VK_depth.h"
 #include "../Data/VK_texture.h"
-#include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
-#include "../Instance/VK_window.h"
 
 
 //Constructor / Destructor
@@ -17,8 +15,6 @@ VK_image::VK_image(Engine* engineManager){
 
   this->engineManager = engineManager;
   this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_window = engineManager->get_vk_window();
-  this->vk_device = engineManager->get_vk_device();
   this->vk_physical_device = engineManager->get_vk_physical_device();
   this->vk_texture = engineManager->get_vk_texture();
   this->vk_synchronization = engineManager->get_vk_synchronization();
@@ -38,7 +34,7 @@ void VK_image::create_image_struct(){
     Image* image = new Image();
     image->color.image = vec_image_swapchain[i];
     this->create_image_view(image);
-    vk_depth->create_depth_resource(image);
+    vk_depth->create_depth_attachment(image);
     vec_image.push_back(image);
   }
 
@@ -54,12 +50,10 @@ void VK_image::create_image_struct(){
 void VK_image::create_image_view(Image* image){
   //---------------------------
 
-  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(param_vulkan->physical_device);
-  VkSurfaceFormatKHR surfaceFormat = retrieve_surface_format(surface_format);
-  this->image_format = surfaceFormat.format;
+  image->color.format = find_color_format();
 
   //Image view settings & creation
-  image->color.view = vk_texture->create_image_view(image->color.image, image_format, VK_IMAGE_ASPECT_COLOR_BIT);
+  image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
 }
@@ -86,7 +80,7 @@ void VK_image::clean_image_struct(){
   for(int i=0; i<vec_image.size(); i++){
     Image* image = vec_image[i];
     this->clean_image_view(image);
-    vk_depth->clean_depth_resource(image);
+    vk_depth->clean_depth_attachment(image);
     vk_framebuffer->clean_framebuffer(image);
     delete image;
   }
@@ -127,4 +121,14 @@ VkSurfaceFormatKHR VK_image::retrieve_surface_format(const std::vector<VkSurface
 
   //---------------------------
   return dev_format[0];
+}
+VkFormat VK_image::find_color_format(){
+  //---------------------------
+
+  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(param_vulkan->physical_device);
+  VkSurfaceFormatKHR surfaceFormat = retrieve_surface_format(surface_format);
+  VkFormat format = surfaceFormat.format;
+
+  //---------------------------
+  return format;
 }

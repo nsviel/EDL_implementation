@@ -24,17 +24,16 @@ VK_depth::VK_depth(Engine* engineManager){
 VK_depth::~VK_depth(){}
 
 //Main function
-void VK_depth::create_depth_resource(Image* image){
+void VK_depth::create_depth_attachment(Image* image){
   //---------------------------
 
-  VkFormat depth_format = find_depth_format();
-
-  vk_texture->create_image(param_vulkan->extent.width, param_vulkan->extent.height, depth_format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, image->depth.image, image->depth.mem);
-  image->depth.view = vk_texture->create_image_view(image->depth.image, depth_format, VK_IMAGE_ASPECT_DEPTH_BIT);
+  image->depth.format = find_depth_format();
+  vk_texture->create_image(param_vulkan->extent.width, param_vulkan->extent.height, image->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, image->depth.image, image->depth.mem);
+  image->depth.view = vk_texture->create_image_view(image->depth.image, image->depth.format, VK_IMAGE_ASPECT_DEPTH_BIT);
 
   //---------------------------
 }
-void VK_depth::clean_depth_resource(Image* image){
+void VK_depth::clean_depth_attachment(Image* image){
   //---------------------------
 
   vkDestroyImageView(param_vulkan->device, image->depth.view, nullptr);

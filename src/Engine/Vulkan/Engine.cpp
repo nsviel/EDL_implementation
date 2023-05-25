@@ -21,6 +21,7 @@
 #include "Rendering/VK_framebuffer.h"
 #include "Rendering/VK_canvas.h"
 #include "Attachment/VK_depth.h"
+#include "Attachment/VK_color.h"
 #include "Swapchain/VK_swapchain.h"
 #include "Swapchain/VK_image.h"
 #include "Camera/VK_viewport.h"
@@ -55,6 +56,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_shader = new VK_shader(this);
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_depth = new VK_depth(this);
+  this->vk_color = new VK_color(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
