@@ -16,6 +16,7 @@ VK_physical_device::VK_physical_device(Engine* engineManager){
   this->vk_instance = engineManager->get_vk_instance();
 
   param_vulkan->extension_device.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+  param_vulkan->extension_device.push_back(VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME);
 
   //---------------------------
 }

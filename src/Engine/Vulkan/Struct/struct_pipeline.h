@@ -21,6 +21,10 @@ struct Struct_pipeline{
   VkPipelineLayout pipeline_layout;
   VkGraphicsPipelineCreateInfo pipeline_info;
 
+  //PIpeline descriptors
+  VkDescriptorSetLayout descriptor_layout;
+  VkDescriptorSet descriptor_set;
+
   //Pipeline info elements
   std::vector<VkPipelineShaderStageCreateInfo> shader_stage;
   std::vector<VkDynamicState> dynamic_state_object;

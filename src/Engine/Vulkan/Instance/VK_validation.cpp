@@ -48,47 +48,6 @@ void VK_validation::create_validation_layer(){
 
   //---------------------------
 }
-void VK_validation::fill_instance_info(VkInstanceCreateInfo& create_info){
-  //---------------------------
-
-  if(with_validation_layer && check_validation_layer_support()){
-    //Debug EXT
-    EXT_debug_info = {};
-    EXT_debug_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    EXT_debug_info.messageSeverity =
-      VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | \
-      VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | \
-      VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    EXT_debug_info.messageType =
-      VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | \
-      VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-    EXT_debug_info.pfnUserCallback = callback_debug;
-
-    //Best practice EXT
-    if(with_best_practice){
-      EXT_enables.push_back(VK_VALIDATION_FEATURE_ENABLE_BEST_PRACTICES_EXT);
-    }
-    if(with_shader_printf){
-      EXT_enables.push_back(VK_VALIDATION_FEATURE_ENABLE_DEBUG_PRINTF_EXT);
-    }
-
-    EXT_feature = {};
-    EXT_feature.sType = VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT;
-    EXT_feature.enabledValidationFeatureCount = static_cast<uint32_t>(EXT_enables.size());
-    EXT_feature.pEnabledValidationFeatures = EXT_enables.data();
-    EXT_feature.pNext =&EXT_debug_info;
-
-    //Fill info
-    create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
-    create_info.ppEnabledLayerNames = validation_layers.data();
-    create_info.pNext = &EXT_feature;
-  }else{
-    create_info.enabledLayerCount = 0;
-    create_info.pNext = nullptr;
-  }
-
-  //---------------------------
-}
 void VK_validation::cleanup(){
   //---------------------------
 
@@ -97,6 +56,58 @@ void VK_validation::cleanup(){
   }
 
   //---------------------------
+}
+
+//Extension
+void* VK_validation::find_validation_extension(){
+  //---------------------------
+
+  if(with_validation_layer && check_validation_layer_support()){
+    void* ptr_debug = extension_debug(nullptr);
+    void* ptr_feature = extension_feature(ptr_debug);
+
+    return ptr_feature;
+  }
+
+  //---------------------------
+  return nullptr;
+}
+void* VK_validation::extension_debug(void* ptr){
+  //---------------------------
+
+  EXT_debug_info = {};
+  EXT_debug_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+  EXT_debug_info.messageSeverity =
+    VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | \
+    VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | \
+    VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+  EXT_debug_info.messageType =
+    VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | \
+    VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+  EXT_debug_info.pfnUserCallback = callback_debug;
+  EXT_debug_info.pNext = ptr;
+
+  //---------------------------
+  return &EXT_debug_info;
+}
+void* VK_validation::extension_feature(void* ptr){
+  //---------------------------
+
+  if(with_best_practice){
+    EXT_enables.push_back(VK_VALIDATION_FEATURE_ENABLE_BEST_PRACTICES_EXT);
+  }
+  if(with_shader_printf){
+    EXT_enables.push_back(VK_VALIDATION_FEATURE_ENABLE_DEBUG_PRINTF_EXT);
+  }
+
+  EXT_feature = {};
+  EXT_feature.sType = VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT;
+  EXT_feature.enabledValidationFeatureCount = static_cast<uint32_t>(EXT_enables.size());
+  EXT_feature.pEnabledValidationFeatures = EXT_enables.data();
+  EXT_feature.pNext = ptr;
+
+  //---------------------------
+  return &EXT_feature;
 }
 
 //Subfunction

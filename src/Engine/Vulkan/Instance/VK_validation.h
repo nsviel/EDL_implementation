@@ -19,13 +19,19 @@ public:
 public:
   //Main functions
   void create_validation_layer();
-  bool check_validation_layer_support();
   void cleanup();
 
+  //Extension
+  void* find_validation_extension();
+  void* extension_debug(void* ptr);
+  void* extension_feature(void* ptr);
+
   //Subfunction
+  bool check_validation_layer_support();
   VkResult create_debug_EXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
   void destroy_debug_EXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
-  void fill_instance_info(VkInstanceCreateInfo& createInfo);
+
+  inline vector<const char*> get_validation_layers(){return validation_layers;};
 
 private:
   Param_vulkan* param_vulkan;
