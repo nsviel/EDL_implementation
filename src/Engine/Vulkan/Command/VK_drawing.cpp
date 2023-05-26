@@ -25,8 +25,6 @@ VK_drawing::VK_drawing(Engine* engineManager){
   this->vk_uniform = engineManager->get_vk_uniform();
   this->vk_image = engineManager->get_vk_image();
 
-  this->frame_current = 0;
-
   //---------------------------
 }
 VK_drawing::~VK_drawing(){}
@@ -48,7 +46,7 @@ void VK_drawing::draw_swapchain(){
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
+  Frame* frame = vec_frame[param_vulkan->swapchain.current_frame];
 
   vk_window->check_for_resizing();
 
@@ -56,7 +54,7 @@ void VK_drawing::draw_swapchain(){
   vkWaitForFences(param_vulkan->device.device, 1, &frame->fence_inflight, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(param_vulkan->device.device, param_vulkan->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &image_index);
+  VkResult result = vkAcquireNextImageKHR(param_vulkan->device.device, param_vulkan->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &param_vulkan->swapchain.current_image);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -78,11 +76,11 @@ void VK_drawing::draw_swapchain(){
 }
 void VK_drawing::draw_command(){
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
+  Frame* frame = vec_frame[param_vulkan->swapchain.current_frame];
   //---------------------------
 
   vkResetCommandBuffer(frame->command_buffer, 0);
-  vk_command->record_command_buffer(frame->command_buffer, image_index, frame_current);
+  vk_command->record_command_buffer(frame->command_buffer);
 
   //---------------------------
 }
@@ -90,7 +88,7 @@ void VK_drawing::draw_queue(){
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
+  Frame* frame = vec_frame[param_vulkan->swapchain.current_frame];
 
   VkSemaphore semaphore_wait[] = {frame->semaphore_image_available};
   VkSemaphore semaphore_signal[] = {frame->semaphore_render_finished};
@@ -119,7 +117,7 @@ void VK_drawing::draw_presentation(){
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
+  Frame* frame = vec_frame[param_vulkan->swapchain.current_frame];
 
   VkSemaphore semaphore_signal[] = {frame->semaphore_render_finished};
   VkPresentInfoKHR presentInfo{};
@@ -130,7 +128,7 @@ void VK_drawing::draw_presentation(){
   VkSwapchainKHR swapChains[] = {param_vulkan->swapchain.swapchain};
   presentInfo.swapchainCount = 1;
   presentInfo.pSwapchains = swapChains;
-  presentInfo.pImageIndices = &image_index;
+  presentInfo.pImageIndices = &param_vulkan->swapchain.current_image;
   presentInfo.pResults = nullptr; // Optional
 
   VkResult result = vkQueuePresentKHR(param_vulkan->device.queue_presentation, &presentInfo);
@@ -140,7 +138,7 @@ void VK_drawing::draw_presentation(){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  frame_current = (frame_current + 1) % param_vulkan->instance.max_frame;
+  param_vulkan->swapchain.current_frame = (param_vulkan->swapchain.current_frame + 1) % param_vulkan->instance.max_frame;
 
   //---------------------------
 }

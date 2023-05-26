@@ -36,7 +36,7 @@ public:
   void cleanup();
 
   //Drawing command
-  void record_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index, uint32_t frame_current);
+  void record_command_buffer(VkCommandBuffer command_buffer);
   VkCommandBuffer command_buffer_begin();
   void command_buffer_end(VkCommandBuffer command_buffer);
 

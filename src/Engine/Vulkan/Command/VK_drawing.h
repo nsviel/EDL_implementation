@@ -29,8 +29,6 @@ public:
   void draw_queue();
   void draw_presentation();
 
-  inline uint32_t get_current_frame(){return frame_current;}
-
 private:
   Engine* engineManager;
   Param_vulkan* param_vulkan;
@@ -41,9 +39,6 @@ private:
   VK_device* vk_device;
   VK_uniform* vk_uniform;
   VK_image* vk_image;
-
-  uint32_t image_index;
-  uint32_t frame_current;
 };
 
 #endif

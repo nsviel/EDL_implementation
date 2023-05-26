@@ -24,9 +24,9 @@ public:
 public:
   //Renderpass command
   void command_viewport(VkCommandBuffer command_buffer);
-  void command_drawing_scene(VkCommandBuffer command_buffer, uint32_t frame_current);
-  void command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t frame_current);
-  void command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t frame_current);
+  void command_drawing_scene(VkCommandBuffer command_buffer);
+  void command_drawing_glyph(VkCommandBuffer command_buffer);
+  void command_drawing_canvas(VkCommandBuffer command_buffer);
 
 private:
   Engine* engineManager;

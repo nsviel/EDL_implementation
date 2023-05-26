@@ -45,11 +45,11 @@ void VK_command_RP::command_viewport(VkCommandBuffer command_buffer){
 
   //---------------------------
 }
-void VK_command_RP::command_drawing_scene(VkCommandBuffer command_buffer, uint32_t frame_current){
+void VK_command_RP::command_drawing_scene(VkCommandBuffer command_buffer){
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
+  Frame* frame = vec_frame[param_vulkan->swapchain.current_frame];
 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("cloud");
@@ -77,11 +77,11 @@ void VK_command_RP::command_drawing_scene(VkCommandBuffer command_buffer, uint32
 
   //---------------------------
 }
-void VK_command_RP::command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t frame_current){
+void VK_command_RP::command_drawing_glyph(VkCommandBuffer command_buffer){
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
+  Frame* frame = vec_frame[param_vulkan->swapchain.current_frame];
 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("glyph");
@@ -106,9 +106,9 @@ void VK_command_RP::command_drawing_glyph(VkCommandBuffer command_buffer, uint32
 
   //---------------------------
 }
-void VK_command_RP::command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t frame_current){
+void VK_command_RP::command_drawing_canvas(VkCommandBuffer command_buffer){
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
+  Frame* frame = vec_frame[param_vulkan->swapchain.current_frame];
   //---------------------------
 
   //Bind pipeline

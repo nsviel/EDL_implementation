@@ -165,11 +165,10 @@ void VK_gui::gui_style(){
 void VK_gui::gui_font(){
   VkCommandPool command_pool = vk_command->get_command_pool();
   VK_drawing* vk_drawing = engineManager->get_vk_drawing();
-  uint32_t current_frame = vk_drawing->get_current_frame();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[current_frame];
+  Frame* frame = vec_frame[param_vulkan->swapchain.current_frame];
 
   VkResult result = vkResetCommandPool(param_vulkan->device.device, command_pool, 0);
   if(result != VK_SUCCESS){

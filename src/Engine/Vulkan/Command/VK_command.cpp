@@ -99,7 +99,7 @@ void VK_command::cleanup(){
 }
 
 //Drawing commands
-void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index, uint32_t frame_current){
+void VK_command::record_command_buffer(VkCommandBuffer command_buffer){
   VK_gui* vk_gui = engineManager->get_vk_gui();
   vector<Image*> vec_image_obj = vk_image->get_vec_image();
   //---------------------------
@@ -124,7 +124,11 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
   renderPassInfo.renderPass = vk_renderpass->get_renderPass();
-  renderPassInfo.framebuffer = vec_image_obj[image_index]->fbo;
+  //renderPassInfo.framebuffer = vec_image_obj[param_vulkan->swapchain.current_image]->fbo;
+
+  Image* image = param_vulkan->swapchain.get_current_image();
+  image = vec_image_obj[param_vulkan->swapchain.current_image];
+  renderPassInfo.framebuffer = image->fbo;
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = param_vulkan->window.extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
@@ -133,9 +137,9 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
   vk_command_RP->command_viewport(command_buffer);
-  vk_command_RP->command_drawing_scene(command_buffer, frame_current);
-  vk_command_RP->command_drawing_glyph(command_buffer, frame_current);
-  vk_command_RP->command_drawing_canvas(command_buffer, frame_current);
+  vk_command_RP->command_drawing_scene(command_buffer);
+  vk_command_RP->command_drawing_glyph(command_buffer);
+  vk_command_RP->command_drawing_canvas(command_buffer);
   vk_gui->command_gui(command_buffer);
 
   //End render pass
