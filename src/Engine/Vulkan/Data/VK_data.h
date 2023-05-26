@@ -24,9 +24,9 @@ public:
   void clean_object(Object* object);
 
   //Pipeline data description
-  void create_pipeline_data(Struct_pipeline* pipeline);
-  void create_vertex_description(Struct_pipeline* pipeline);
   void create_data_description(Struct_pipeline* pipeline);
+  void create_vertex_description(Struct_pipeline* pipeline);
+  void create_attribut_description(Struct_pipeline* pipeline);
   void combine_description(Struct_pipeline* pipeline);
 
   inline void set_list_data(std::list<Object*> value){this->list_data = value;}

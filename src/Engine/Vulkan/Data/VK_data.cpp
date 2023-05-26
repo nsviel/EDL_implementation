@@ -52,17 +52,17 @@ void VK_data::clean_object(Object* object){
 }
 
 //Data description
-void VK_data::create_pipeline_data(Struct_pipeline* pipeline){
+void VK_data::create_data_description(Struct_pipeline* pipeline){
   //---------------------------
 
   this->create_vertex_description(pipeline);
-  this->create_data_description(pipeline);
+  this->create_attribut_description(pipeline);
   this->combine_description(pipeline);
 
   //---------------------------
 }
 
-void VK_data::create_vertex_description(Struct_pipeline* pipeline){
+void VK_data::create_attribut_description(Struct_pipeline* pipeline){
   vector<VkVertexInputAttributeDescription> attribut_description;
   //---------------------------
 
@@ -99,7 +99,7 @@ void VK_data::create_vertex_description(Struct_pipeline* pipeline){
   //---------------------------
   pipeline->attribut_description = attribut_description;
 }
-void VK_data::create_data_description(Struct_pipeline* pipeline){
+void VK_data::create_vertex_description(Struct_pipeline* pipeline){
   vector<VkVertexInputBindingDescription> data_description;
   //---------------------------
 

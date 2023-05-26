@@ -148,7 +148,6 @@ void VK_swapchain::recreate_swapChain(){
   vk_physical_device->compute_extent();
   this->create_swapchain();
   vk_image->create_image_struct();
-  vk_framebuffer->create_framebuffer_obj();
 
   //---------------------------
 }

@@ -52,13 +52,13 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_data = new VK_data(this);
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_swapchain = new VK_swapchain(this);
+  this->vk_renderpass = new VK_renderpass(this);
+  this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_image = new VK_image(this);
   this->vk_descriptor = new VK_descriptor(this);
-  this->vk_renderpass = new VK_renderpass(this);
   this->vk_shader = new VK_shader(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_pipeline = new VK_pipeline(this);
-  this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
   this->vk_command = new VK_command(this);
@@ -83,20 +83,17 @@ void Engine::init_vulkan(){
   vk_command->create_command_pool();
   vk_descriptor->create_descriptor_pool();
 
-  //Swapchain
-  vk_swapchain->create_swapchain();
-  vk_image->init_image();
-
   //Pipeline
+  vk_swapchain->create_swapchain();
   vk_renderpass->init_renderpass();
+  vk_image->init_image();
   vk_pipeline->init_pipeline();
 
 
-  vk_framebuffer->create_framebuffer_obj();
 
   // généraliser les uniform / pishconstant
   //FAire la construction des framebuffer par les image en appelle
-  //configurer les descripteurs en fonction des uniform  et non pas les configurer en parfallèle 
+  //configurer les descripteurs en fonction des uniform  et non pas les configurer en parfallèle
 
   //Specific
   vk_canvas->create_canvas();

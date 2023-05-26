@@ -103,7 +103,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   //Pipeline elements
   vk_uniform->create_uniform_buffers(pipeline);
   vk_shader->create_pipeline_shader(pipeline);
-  vk_data->create_pipeline_data(pipeline);
+  vk_data->create_data_description(pipeline);
   this->create_pipeline_layout(pipeline);
   this->create_topology(pipeline);
   this->create_dynamic_state(pipeline);

@@ -26,8 +26,6 @@ public:
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
   VkFormat find_color_format();
 
-  inline vector<Image*> get_vec_image(){return vec_image;}
-  inline vector<Frame*> get_vec_frame(){return vec_frame;}
 
 private:
   Engine* engineManager;

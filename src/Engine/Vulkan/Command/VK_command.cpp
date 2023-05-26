@@ -101,7 +101,6 @@ void VK_command::cleanup(){
 //Drawing commands
 void VK_command::record_command_buffer(VkCommandBuffer command_buffer){
   VK_gui* vk_gui = engineManager->get_vk_gui();
-  vector<Image*> vec_image_obj = vk_image->get_vec_image();
   //---------------------------
 
   VkCommandBufferBeginInfo beginInfo{};
@@ -124,10 +123,9 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer){
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
   renderPassInfo.renderPass = vk_renderpass->get_renderPass();
-  //renderPassInfo.framebuffer = vec_image_obj[param_vulkan->swapchain.current_image]->fbo;
+  //renderPassInfo.framebuffer = vec_image_obj[param_vulkan->swapchain.current_image_ID]->fbo;
 
   Image* image = param_vulkan->swapchain.get_current_image();
-  image = vec_image_obj[param_vulkan->swapchain.current_image];
   renderPassInfo.framebuffer = image->fbo;
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = param_vulkan->window.extent;

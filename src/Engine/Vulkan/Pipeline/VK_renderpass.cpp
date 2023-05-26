@@ -2,9 +2,6 @@
 
 #include "../Engine.h"
 #include "../Param_vulkan.h"
-#include "../Device/VK_device.h"
-#include "../Swapchain/VK_swapchain.h"
-#include "../Swapchain/VK_image.h"
 #include "../Attachment/VK_depth.h"
 #include "../Attachment/VK_color.h"
 
@@ -17,9 +14,6 @@ VK_renderpass::VK_renderpass(Engine* engineManager){
 
   this->engineManager = engineManager;
   this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
-  this->vk_swapchain = engineManager->get_vk_swapchain();
-  this->vk_image = engineManager->get_vk_image();
   this->vk_color = engineManager->get_vk_color();
 
   //---------------------------

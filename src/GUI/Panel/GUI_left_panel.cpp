@@ -53,9 +53,9 @@ void GUI_left_panel::draw_left_panel(){
 
 
   ImVec2 windowSize = ImGui::GetWindowSize();
-  float widgetHeight = 20.0f; // Adjust the height of the widget as needed
+  float widgetHeight = 15.0f; // Adjust the height of the widget as needed
   float widgetYPosition = windowSize.y - widgetHeight - ImGui::GetStyle().ItemSpacing.y;
-  ImGui::SetCursorPosY(widgetYPosition);
+  ImGui::SetCursorPos(ImVec2(15, widgetYPosition));
 
   gui_option->display_fps();
 
