@@ -53,10 +53,8 @@ void VK_buffer::create_buffer_xyz(Object* object, std::vector<vec3> vertices){
 
   VkBuffer staging_buffer;
   VkDeviceMemory staging_buffer_memory;
-  VkBufferUsageFlags usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-  VkMemoryPropertyFlags properties = memory_cpu_visible_gpu;
-  this->create_gpu_buffer(size, usage, staging_buffer);
-  this->bind_buffer_memory(properties, staging_buffer, staging_buffer_memory);
+  this->create_gpu_buffer(size, BUFFER_USAGE_SRC, staging_buffer);
+  this->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, staging_buffer, staging_buffer_memory);
 
   //Copy the vertex data from the CPU to the GPU
   void* data;
@@ -64,10 +62,8 @@ void VK_buffer::create_buffer_xyz(Object* object, std::vector<vec3> vertices){
   memcpy(data, vertices.data(), (size_t)size);
   vkUnmapMemory(param_vulkan->device, staging_buffer_memory);
 
-  usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-  properties = memory_gpu;
-  this->create_gpu_buffer(size, usage, object->vbo_xyz);
-  this->bind_buffer_memory(properties, object->vbo_xyz, object->mem_xyz);
+  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, object->vbo_xyz);
+  this->bind_buffer_memory(MEMORY_GPU, object->vbo_xyz, object->mem_xyz);
   this->copy_buffer_to_gpu(staging_buffer, object->vbo_xyz, size);
 
   vkDestroyBuffer(param_vulkan->device, staging_buffer, nullptr);
@@ -82,8 +78,8 @@ void VK_buffer::create_buffer_rgb(Object* object, std::vector<vec4> vertices){
 
   VkBuffer staging_buffer;
   VkDeviceMemory staging_buffer_memory;
-  this->create_gpu_buffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, staging_buffer);
-  this->bind_buffer_memory(memory_cpu_visible_gpu, staging_buffer, staging_buffer_memory);
+  this->create_gpu_buffer(size, BUFFER_USAGE_SRC, staging_buffer);
+  this->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, staging_buffer, staging_buffer_memory);
 
   //Filling the vertex buffer
   void* data;
@@ -91,8 +87,8 @@ void VK_buffer::create_buffer_rgb(Object* object, std::vector<vec4> vertices){
   memcpy(data, vertices.data(), (size_t)size);
   vkUnmapMemory(param_vulkan->device, staging_buffer_memory);
 
-  this->create_gpu_buffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, object->vbo_rgb);
-  this->bind_buffer_memory(memory_gpu, object->vbo_rgb, object->mem_rgb);
+  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, object->vbo_rgb);
+  this->bind_buffer_memory(MEMORY_GPU, object->vbo_rgb, object->mem_rgb);
   this->copy_buffer_to_gpu(staging_buffer, object->vbo_rgb, size);
 
   vkDestroyBuffer(param_vulkan->device, staging_buffer, nullptr);
@@ -107,8 +103,8 @@ void VK_buffer::create_buffer_uv(Object* object, std::vector<vec2> vertices){
 
   VkBuffer staging_buffer;
   VkDeviceMemory staging_buffer_memory;
-  this->create_gpu_buffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, staging_buffer);
-  this->bind_buffer_memory(memory_cpu_visible_gpu, staging_buffer, staging_buffer_memory);
+  this->create_gpu_buffer(size, BUFFER_USAGE_SRC, staging_buffer);
+  this->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, staging_buffer, staging_buffer_memory);
 
   //Filling the vertex buffer
   void* data;
@@ -116,8 +112,8 @@ void VK_buffer::create_buffer_uv(Object* object, std::vector<vec2> vertices){
   memcpy(data, vertices.data(), (size_t)size);
   vkUnmapMemory(param_vulkan->device, staging_buffer_memory);
 
-  this->create_gpu_buffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, object->vbo_uv);
-  this->bind_buffer_memory(memory_gpu, object->vbo_uv, object->mem_uv);
+  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, object->vbo_uv);
+  this->bind_buffer_memory(MEMORY_GPU, object->vbo_uv, object->mem_uv);
   this->copy_buffer_to_gpu(staging_buffer, object->vbo_uv, size);
 
   vkDestroyBuffer(param_vulkan->device, staging_buffer, nullptr);

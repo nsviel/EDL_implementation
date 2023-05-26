@@ -70,7 +70,7 @@ void VK_texture::create_texture_image(Struct_texture* texture){
   VkBuffer stagingBuffer;
   VkDeviceMemory stagingBufferMemory;
   vk_buffer->create_gpu_buffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, stagingBuffer);
-  vk_buffer->bind_buffer_memory(memory_cpu_visible_gpu, stagingBuffer, stagingBufferMemory);
+  vk_buffer->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, stagingBuffer, stagingBufferMemory);
 
   void* data;
   vkMapMemory(param_vulkan->device, stagingBufferMemory, 0, imageSize, 0, &data);
@@ -79,7 +79,7 @@ void VK_texture::create_texture_image(Struct_texture* texture){
 
   stbi_image_free(pixels);
 
-  this->create_image(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, memory_gpu, texture->textureImage, texture->textureImageMemory);
+  this->create_image(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, MEMORY_GPU, texture->textureImage, texture->textureImageMemory);
 
   vk_buffer->transitionImageLayout(texture->textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
   this->copy_buffer_to_image(stagingBuffer, texture->textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));

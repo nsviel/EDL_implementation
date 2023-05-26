@@ -74,7 +74,6 @@ void VK_pipeline::init_pipeline(){
 
   this->create_pipeline_graphics();
   vk_descriptor->allocate_descriptor_set(vec_pipeline);
-  vk_uniform->create_uniform_buffers(vec_pipeline);
 
   //---------------------------
 }
@@ -102,6 +101,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
   //Pipeline elements
+  vk_uniform->create_uniform_buffers(pipeline);
   vk_shader->create_pipeline_shader(pipeline);
   vk_data->create_pipeline_data(pipeline);
   this->create_pipeline_layout(pipeline);
@@ -143,7 +143,7 @@ void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
 
   //Push constant for MVP matrix
   VkPushConstantRange pushconstant_range = {};
-  pushconstant_range.stageFlags = stage_vs;
+  pushconstant_range.stageFlags = STAGE_VS;
   pushconstant_range.offset = 0;
   pushconstant_range.size = sizeof(glm::mat4);
 

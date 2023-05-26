@@ -17,7 +17,7 @@ class VK_camera;
 class VK_physical_device;
 class VK_image;
 class VK_canvas;
-
+class VK_uniform;
 
 class VK_command
 {
@@ -61,7 +61,8 @@ private:
   VK_image* vk_image;
   VK_physical_device* vk_physical_device;
   VK_canvas* vk_canvas;
-
+  VK_uniform* vk_uniform;
+  
   VkCommandPool command_pool;
 };
 

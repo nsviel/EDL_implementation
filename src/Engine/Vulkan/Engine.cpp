@@ -93,6 +93,7 @@ void Engine::init_vulkan(){
   vk_framebuffer->create_framebuffer_obj();
 
   //REMPLACER pushconstant ubo par uniform !!!
+  // généraliser les uniform / pishconstant
   //FAire la construction des framebuffer par les image en appelle
 
   //Shader

@@ -22,7 +22,7 @@ void VK_depth::create_depth_attachment(Image* image){
   //---------------------------
 
   image->depth.format = find_depth_format();
-  vk_texture->create_image(param_vulkan->extent.width, param_vulkan->extent.height, image->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, memory_gpu, image->depth.image, image->depth.mem);
+  vk_texture->create_image(param_vulkan->extent.width, param_vulkan->extent.height, image->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->depth.image, image->depth.mem);
   image->depth.view = vk_texture->create_image_view(image->depth.image, image->depth.format, VK_IMAGE_ASPECT_DEPTH_BIT);
 
   //---------------------------

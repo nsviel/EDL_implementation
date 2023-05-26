@@ -1,7 +1,7 @@
 #ifndef VK_CAMERA_H
 #define VK_CAMERA_H
 
-#include "../Struct/struct_mvp.h"
+#include "../Struct/struct_uniform.h"
 #include "../../../common.h"
 
 class Engine;

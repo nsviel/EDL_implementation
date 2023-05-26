@@ -1,7 +1,7 @@
 #ifndef VK_DESCRIPTOR_H
 #define VK_DESCRIPTOR_H
 
-#include "../Struct/struct_mvp.h"
+#include "../Struct/struct_uniform.h"
 #include "../Struct/struct_image.h"
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
@@ -26,7 +26,7 @@ public:
 
   //Descriptor set
   void allocate_descriptor_set(vector<Struct_pipeline*> vec_pipeline);
-  void update_descriptor_set();
+  void configure_descriptor_set(Struct_pipeline* pipeline);
 
   //Descriptor layout
   VkDescriptorSetLayout create_layout_basic();

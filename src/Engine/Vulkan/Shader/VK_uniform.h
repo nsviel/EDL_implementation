@@ -1,7 +1,7 @@
 #ifndef VK_UNIFORM_H
 #define VK_UNIFORM_H
 
-#include "../Struct/struct_mvp.h"
+#include "../Struct/struct_uniform.h"
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
@@ -22,7 +22,7 @@ public:
 
 public:
   //Main functions
-  void create_uniform_buffers(vector<Struct_pipeline*> vec_pipeline);
+  void create_uniform_buffers(Struct_pipeline* pipeline);
   void update_uniform_buffer(Struct_pipeline* pipeline, MVP& mvp);
   void clean_uniform(Struct_pipeline* pipeline);
 

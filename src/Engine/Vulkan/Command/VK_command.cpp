@@ -36,6 +36,7 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_physical_device = engineManager->get_vk_physical_device();
   this->vk_image = engineManager->get_vk_image();
   this->vk_canvas = engineManager->get_vk_canvas();
+  this->vk_uniform = engineManager->get_vk_uniform();
 
   //---------------------------
 }
@@ -166,8 +167,10 @@ void VK_command::command_drawing_scene(VkCommandBuffer command_buffer, uint32_t 
 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("cloud");
-  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
-  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
+  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+
+
+  vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
 
   //Bind and draw vertex buffers
   list<Object*> list_data = vk_data->get_list_data();
@@ -176,7 +179,11 @@ void VK_command::command_drawing_scene(VkCommandBuffer command_buffer, uint32_t 
 
     if(object->draw_type_name == "point"){
       vk_camera->compute_mvp(object);
-      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, stage_vs, 0, sizeof(glm::mat4), &object->mvp);
+      MVP mvp;
+      mvp.mvp = object->mvp;
+      vk_uniform->update_uniform_buffer(pipeline, mvp);
+
+      //vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &object->mvp);
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
@@ -195,8 +202,8 @@ void VK_command::command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t 
 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("glyph");
-  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
-  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
+  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+  vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
 
   //Bind and draw vertex buffers
   list<Object*> list_glyph = vk_data->get_list_glyph();
@@ -205,7 +212,7 @@ void VK_command::command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t 
 
     if(object->draw_type_name == "line"){
       vk_camera->compute_mvp(object);
-      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, stage_vs, 0, sizeof(glm::mat4), &object->mvp);
+      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &object->mvp);
       VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdSetLineWidth(command_buffer, object->draw_line_width);
@@ -224,13 +231,13 @@ void VK_command::command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t
 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("canvas");
-  vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline);
-  vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
+  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+  vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
 
   //Bind and draw vertex buffers
   Object* canvas = vk_canvas->get_canvas();
   vk_camera->compute_mvp(canvas);
-  vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, stage_vs, 0, sizeof(glm::mat4), &canvas->mvp);
+  vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &canvas->mvp);
   VkBuffer vertexBuffers[] = {canvas->vbo_xyz, canvas->vbo_uv};
   VkDeviceSize offsets[] = {0, 0};
   vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);

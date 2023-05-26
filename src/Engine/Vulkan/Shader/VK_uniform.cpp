@@ -23,17 +23,12 @@ VK_uniform::VK_uniform(Engine* engineManager){
 VK_uniform::~VK_uniform(){}
 
 //Main function
-void VK_uniform::create_uniform_buffers(vector<Struct_pipeline*> vec_pipeline){
+void VK_uniform::create_uniform_buffers(Struct_pipeline* pipeline){
   //---------------------------
 
-  //Create a buffer to hold the UBO data per frame
-  for(size_t i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-
-    vk_buffer->create_gpu_buffer(sizeof(MVP), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, pipeline->uniform.buffer);
-    vk_buffer->bind_buffer_memory(memory_cpu_visible_gpu, pipeline->uniform.buffer, pipeline->uniform.mem);
-    vkMapMemory(param_vulkan->device, pipeline->uniform.mem, 0, sizeof(MVP), 0, &pipeline->uniform.mapped);
-  }
+  vk_buffer->create_gpu_buffer(sizeof(MVP), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, pipeline->uniform.buffer);
+  vk_buffer->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, pipeline->uniform.buffer, pipeline->uniform.mem);
+  vkMapMemory(param_vulkan->device, pipeline->uniform.mem, 0, sizeof(MVP), 0, &pipeline->uniform.mapped);
 
   //---------------------------
 }

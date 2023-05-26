@@ -62,44 +62,45 @@ void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipelin
   for(int i=0; i<vec_pipeline.size(); i++){
     Struct_pipeline* pipeline = vec_pipeline[i];
     pipeline->descriptor_set = vec_descriptor_set[i];
+    this->configure_descriptor_set(pipeline);
   }
 
   //---------------------------
 }
-void VK_descriptor::update_descriptor_set(){
+void VK_descriptor::configure_descriptor_set(Struct_pipeline* pipeline){
   VK_uniform* vk_uniform = engineManager->get_vk_uniform();
   vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
-  for(size_t i=0; i<param_vulkan->max_frame; i++){
-    VkDescriptorBufferInfo bufferInfo{};
-    bufferInfo.buffer = uniformBuffers[i];
-    bufferInfo.offset = 0;
-    bufferInfo.range = sizeof(MVP);
+  VkDescriptorBufferInfo bufferInfo{};
+  bufferInfo.buffer = pipeline->uniform.buffer;
+  bufferInfo.offset = 0;
+  bufferInfo.range = sizeof(MVP);
 
-    //MVP matrix to GPU
-    VkWriteDescriptorSet descriptor_write{};
-    descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    descriptor_write.dstSet = vec_descriptor_set[i];
-    descriptor_write.dstBinding = 0;
-    descriptor_write.dstArrayElement = 0;
-    descriptor_write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    descriptor_write.descriptorCount = 1;
-    descriptor_write.pBufferInfo = &bufferInfo;
+  //MVP matrix to GPU
+  VkWriteDescriptorSet descriptor_write{};
+  descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+  descriptor_write.dstSet = pipeline->descriptor_set;
+  descriptor_write.dstBinding = 0;
+  descriptor_write.dstArrayElement = 0;
+  descriptor_write.descriptorType = TYPE_UNIFORM;
+  descriptor_write.descriptorCount = 1;
+  descriptor_write.pBufferInfo = &bufferInfo;
+  descriptor_write.pImageInfo = nullptr; // Optional
+  descriptor_write.pTexelBufferView = nullptr; // Optional
 
-    /*
-    //Texture to GPU
-    descriptor_write[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    descriptor_write[1].dstSet = vec_descriptor_set[i];
-    descriptor_write[1].dstBinding = 1;
-    descriptor_write[1].dstArrayElement = 0;
-    descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    descriptor_write[1].descriptorCount = 1;
-    descriptor_write[1].pImageInfo = &texture.imageInfo;
-    */
+  /*
+  //Texture to GPU
+  descriptor_write[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+  descriptor_write[1].dstSet = vec_descriptor_set[i];
+  descriptor_write[1].dstBinding = 1;
+  descriptor_write[1].dstArrayElement = 0;
+  descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+  descriptor_write[1].descriptorCount = 1;
+  descriptor_write[1].pImageInfo = &texture.imageInfo;
+  */
 
-    vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
-  }
+  vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
 
   //---------------------------
 }
@@ -109,7 +110,7 @@ VkDescriptorSetLayout VK_descriptor::create_layout_basic(){
   //---------------------------
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
-  vec_binding.push_back(add_descriptor_binding(uniform, stage_vs, 1, 0));
+  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 0));
 
   //---------------------------
   return create_layout(vec_binding);
@@ -118,8 +119,8 @@ VkDescriptorSetLayout VK_descriptor::create_layout_canvas(){
   //---------------------------
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
-  vec_binding.push_back(add_descriptor_binding(uniform, stage_vs, 1, 0));
-  vec_binding.push_back(add_descriptor_binding(sampler, stage_fs, 1, 2));
+  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 0));
+  vec_binding.push_back(add_descriptor_binding(TYPE_SAMPLER, STAGE_FS, 1, 2));
 
   //---------------------------
   return create_layout(vec_binding);
@@ -163,8 +164,8 @@ void VK_descriptor::create_descriptor_pool(){
 
   //Maximum number of descriptor per type
   vector<VkDescriptorPoolSize> vec_pool_size;
-  vec_pool_size.push_back(add_descriptor_type(uniform, 3));
-  vec_pool_size.push_back(add_descriptor_type(sampler, 3));
+  vec_pool_size.push_back(add_descriptor_type(TYPE_UNIFORM, 3));
+  vec_pool_size.push_back(add_descriptor_type(TYPE_SAMPLER, 3));
 
   VkDescriptorPoolCreateInfo pool_info{};
   pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
