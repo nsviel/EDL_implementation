@@ -88,8 +88,6 @@ void VK_drawing::draw_command(){
   //---------------------------
 }
 void VK_drawing::draw_queue(){
-  VkQueue queue_graphics = vk_device->get_queue_graphics();
-  VkQueue queue_presentation = vk_device->get_queue_presentation();
   VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
   //---------------------------
 
@@ -111,7 +109,7 @@ void VK_drawing::draw_queue(){
   submit_info.pSignalSemaphores = semaphore_signal;
 
   //Very slow operation, need as low command as possible
-  VkResult result = vkQueueSubmit(queue_graphics, 1, &submit_info, frame->fence_inflight);
+  VkResult result = vkQueueSubmit(param_vulkan->device.queue_graphics, 1, &submit_info, frame->fence_inflight);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to submit draw command buffer!");
   }
@@ -120,7 +118,6 @@ void VK_drawing::draw_queue(){
   //---------------------------
 }
 void VK_drawing::draw_presentation(){
-  VkQueue queue_presentation = vk_device->get_queue_presentation();
   VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
   //---------------------------
 
@@ -139,14 +136,14 @@ void VK_drawing::draw_presentation(){
   presentInfo.pImageIndices = &image_index;
   presentInfo.pResults = nullptr; // Optional
 
-  VkResult result = vkQueuePresentKHR(queue_presentation, &presentInfo);
+  VkResult result = vkQueuePresentKHR(param_vulkan->device.queue_presentation, &presentInfo);
   if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized){
     vk_swapchain->recreate_swapChain();
   }else if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  frame_current = (frame_current + 1) % param_vulkan->max_frame;
+  frame_current = (frame_current + 1) % param_vulkan->instance.max_frame;
 
   //---------------------------
 }

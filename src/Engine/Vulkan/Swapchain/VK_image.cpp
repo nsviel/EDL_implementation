@@ -67,7 +67,7 @@ void VK_image::create_frame_struct(){
   //---------------------------
 
   //Draw frames
-  for(int i=0; i<param_vulkan->max_frame; i++){
+  for(int i=0; i<param_vulkan->instance.max_frame; i++){
     Frame* frame = new Frame();
     vk_synchronization->create_sync_objects(frame);
     vec_frame.push_back(frame);

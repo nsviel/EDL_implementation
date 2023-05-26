@@ -22,7 +22,7 @@ void VK_depth::create_depth_attachment(Image* image){
   //---------------------------
 
   image->depth.format = find_depth_format();
-  vk_texture->create_image(param_vulkan->extent.width, param_vulkan->extent.height, image->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->depth.image, image->depth.mem);
+  vk_texture->create_image(param_vulkan->window.extent.width, param_vulkan->window.extent.height, image->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->depth.image, image->depth.mem);
   image->depth.view = vk_texture->create_image_view(image->depth.image, image->depth.format, VK_IMAGE_ASPECT_DEPTH_BIT);
 
   //---------------------------
@@ -50,7 +50,7 @@ VkFormat VK_depth::find_supported_format(const std::vector<VkFormat>& candidates
 
   for(VkFormat format : candidates){
     VkFormatProperties props;
-    vkGetPhysicalDeviceFormatProperties(param_vulkan->physical_device, format, &props);
+    vkGetPhysicalDeviceFormatProperties(param_vulkan->device.physical_device, format, &props);
 
     if(tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features){
       return format;

@@ -211,7 +211,7 @@ void VK_pipeline::create_viewport(Struct_pipeline* pipeline){
   //---------------------------
 
   //Viewport
-  vk_viewport->update_viewport(param_vulkan->extent);
+  vk_viewport->update_viewport(param_vulkan->window.extent);
   VkViewport viewport = vk_viewport->get_viewport();
   VkRect2D scissor = vk_viewport->get_scissor();
 

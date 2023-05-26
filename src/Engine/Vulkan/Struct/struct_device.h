@@ -9,6 +9,7 @@ struct Struct_device{
   VkDevice device;
   VkQueue queue_graphics;
   VkQueue queue_presentation;
+  vector<const char*> extension;
 };
 
 

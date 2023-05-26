@@ -20,15 +20,9 @@ public:
   void create_logical_device();
   void cleanup();
 
-  inline VkQueue get_queue_graphics(){return queue_graphics;}
-  inline VkQueue get_queue_presentation(){return queue_presentation;}
-
 private:
   Param_vulkan* param_vulkan;
   VK_physical_device* vk_physical_device;
-
-  VkQueue queue_graphics;
-  VkQueue queue_presentation;
 };
 
 #endif

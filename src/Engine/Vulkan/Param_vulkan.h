@@ -1,7 +1,9 @@
 #ifndef PARAM_VULKAN_H
 #define PARAM_VULKAN_H
 
+#include "Struct/struct_instance.h"
 #include "Struct/struct_device.h"
+#include "Struct/struct_window.h"
 
 #include <string>
 #include <vector>
@@ -14,20 +16,9 @@
 struct Param_vulkan{
   //---------------------------
 
-  //General parameters
-  int max_frame = 2;
-  std::string title = "Nephos";
-  glm::vec2 window_dim = glm::vec2(1024, 500);
-  glm::vec2 window_dim_min = glm::vec2(500, 250);
-  std::string path_shader = "../src/Engine/Shader/spir/";
-
-  //Vulkan objects
-  VkExtent2D extent;
-  VkInstance instance;
-  Struct_device* device;
-
-  vector<const char*> extension_instance;
-  vector<const char*> extension_device;
+  Struct_instance instance;
+  Struct_window window;
+  Struct_device device;
 
   //---------------------------
 };

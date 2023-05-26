@@ -12,7 +12,7 @@ VK_instance::VK_instance(Engine* engineManager){
   this->engineManager = engineManager;
   this->param_vulkan = engineManager->get_param_vulkan();
 
-  param_vulkan->extension_instance.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+  param_vulkan->instance.extension.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
 
   //---------------------------
 }
@@ -37,14 +37,14 @@ void VK_instance::create_instance(){
   VkInstanceCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
-  createInfo.enabledExtensionCount = static_cast<uint32_t>(param_vulkan->extension_instance.size());
-  createInfo.ppEnabledExtensionNames = param_vulkan->extension_instance.data();
+  createInfo.enabledExtensionCount = static_cast<uint32_t>(param_vulkan->instance.extension.size());
+  createInfo.ppEnabledExtensionNames = param_vulkan->instance.extension.data();
   createInfo.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
   createInfo.ppEnabledLayerNames = validation_layers.data();
   createInfo.pNext = vk_validation->find_validation_extension();
 
   //Create instance
-  VkResult result = vkCreateInstance(&createInfo, nullptr, &param_vulkan->instance);
+  VkResult result = vkCreateInstance(&createInfo, nullptr, &param_vulkan->instance.instance);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create instance!");
   }
@@ -54,7 +54,7 @@ void VK_instance::create_instance(){
 void VK_instance::cleanup(){
   //---------------------------
 
-  vkDestroyInstance(param_vulkan->instance, nullptr);
+  vkDestroyInstance(param_vulkan->instance.instance, nullptr);
 
   //---------------------------
 }

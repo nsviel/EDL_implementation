@@ -48,7 +48,7 @@ VK_command::~VK_command(){}
 void VK_command::create_command_pool(){
   //---------------------------
 
-  int family_graphics = vk_physical_device->find_queue_family_graphics(param_vulkan->physical_device);
+  int family_graphics = vk_physical_device->find_queue_family_graphics(param_vulkan->device.physical_device);
 
   //Command pool info
   VkCommandPoolCreateInfo poolInfo{};
@@ -69,7 +69,7 @@ void VK_command::create_command_buffers(){
 
   //One command buffer per frame
   vector<VkCommandBuffer> command_buffer_vec;
-  command_buffer_vec.resize(param_vulkan->max_frame);
+  command_buffer_vec.resize(param_vulkan->instance.max_frame);
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};
@@ -127,7 +127,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   renderPassInfo.renderPass = vk_renderpass->get_renderPass();
   renderPassInfo.framebuffer = vec_image_obj[image_index]->fbo;
   renderPassInfo.renderArea.offset = {0, 0};
-  renderPassInfo.renderArea.extent = param_vulkan->extent;
+  renderPassInfo.renderArea.extent = param_vulkan->window.extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
   renderPassInfo.pClearValues = clearValues.data();
 
@@ -174,7 +174,6 @@ VkCommandBuffer VK_command::command_buffer_begin(){
 void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
   VK_command* vk_command = engineManager->get_vk_command();
   VkCommandPool commandPool = vk_command->get_command_pool();
-  VkQueue queue_graphics = vk_device->get_queue_graphics();
   //---------------------------
 
   vkEndCommandBuffer(command_buffer);
@@ -184,8 +183,8 @@ void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
   submitInfo.commandBufferCount = 1;
   submitInfo.pCommandBuffers = &command_buffer;
 
-  vkQueueSubmit(queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
-  vkQueueWaitIdle(queue_graphics);
+  vkQueueSubmit(param_vulkan->device.queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
+  vkQueueWaitIdle(param_vulkan->device.queue_graphics);
 
   vkFreeCommandBuffers(param_vulkan->device.device, commandPool, 1, &command_buffer);
 

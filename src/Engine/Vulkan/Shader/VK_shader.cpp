@@ -42,8 +42,8 @@ void VK_shader::create_pipeline_shader_module(Struct_pipeline* pipeline){
   }
 
   //Load spir format shaders
-  string path_vs = param_vulkan->path_shader + pipeline->path_shader_vs + ".spv";
-  string path_fs = param_vulkan->path_shader + pipeline->path_shader_fs + ".spv";
+  string path_vs = param_vulkan->instance.path_shader + pipeline->path_shader_vs + ".spv";
+  string path_fs = param_vulkan->instance.path_shader + pipeline->path_shader_fs + ".spv";
   auto code_vert = read_file(path_vs);
   auto code_frag = read_file(path_fs);
 

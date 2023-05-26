@@ -26,7 +26,7 @@ void VK_color::create_color_attachment(Image* image){
   //---------------------------
 
   image->color.format = find_color_format();
-  vk_texture->create_image(param_vulkan->extent.width, param_vulkan->extent.height, image->color.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->color.image, image->color.mem);
+  vk_texture->create_image(param_vulkan->window.extent.width, param_vulkan->window.extent.height, image->color.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->color.image, image->color.mem);
   image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
@@ -58,7 +58,7 @@ VkSurfaceFormatKHR VK_color::retrieve_surface_format(const std::vector<VkSurface
 VkFormat VK_color::find_color_format(){
   //---------------------------
 
-  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(param_vulkan->physical_device);
+  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(param_vulkan->device.physical_device);
   VkSurfaceFormatKHR surfaceFormat = retrieve_surface_format(surface_format);
   VkFormat format = surfaceFormat.format;
 

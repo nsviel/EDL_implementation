@@ -72,7 +72,6 @@ void VK_gui::init_gui(){
 void VK_gui::gui_vulkan(){
   GLFWwindow* window = vk_window->get_window();
   VkSurfaceKHR surface = vk_window->get_surface();
-  VkQueue queue_graphics = vk_device->get_queue_graphics();
   VkRenderPass renderPass = vk_renderpass->get_renderPass();
   //---------------------------
 
@@ -110,10 +109,10 @@ void VK_gui::gui_vulkan(){
   // Setup Platform/Renderer bindings
   ImGui_ImplGlfw_InitForVulkan(window, true);
   ImGui_ImplVulkan_InitInfo init_info = {};
-  init_info.Instance = param_vulkan->instance;
-  init_info.PhysicalDevice = param_vulkan->physical_device;
+  init_info.Instance = param_vulkan->instance.instance;
+  init_info.PhysicalDevice = param_vulkan->device.physical_device;
   init_info.Device = param_vulkan->device.device;
-  init_info.Queue = queue_graphics;
+  init_info.Queue = param_vulkan->device.queue_graphics;
   init_info.DescriptorPool = imguiPool;
   init_info.PipelineCache = VK_NULL_HANDLE;
   init_info.MinImageCount = 3;
@@ -165,7 +164,6 @@ void VK_gui::gui_style(){
 }
 void VK_gui::gui_font(){
   VkCommandPool command_pool = vk_command->get_command_pool();
-  VkQueue queue_graphics = vk_device->get_queue_graphics();
   VK_drawing* vk_drawing = engineManager->get_vk_drawing();
   uint32_t current_frame = vk_drawing->get_current_frame();
   //---------------------------
@@ -197,7 +195,7 @@ void VK_gui::gui_font(){
     throw std::runtime_error("gui font error");
   }
 
-  result = vkQueueSubmit(queue_graphics, 1, &end_info, VK_NULL_HANDLE);
+  result = vkQueueSubmit(param_vulkan->device.queue_graphics, 1, &end_info, VK_NULL_HANDLE);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }

@@ -52,8 +52,8 @@ void VK_framebuffer::create_framebuffer(Image* image){
   framebufferInfo.renderPass = renderPass;
   framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
   framebufferInfo.pAttachments = attachments.data();
-  framebufferInfo.width = param_vulkan->extent.width;
-  framebufferInfo.height = param_vulkan->extent.height;
+  framebufferInfo.width = param_vulkan->window.extent.width;
+  framebufferInfo.height = param_vulkan->window.extent.height;
   framebufferInfo.layers = 1;
 
   VkResult result = vkCreateFramebuffer(param_vulkan->device.device, &framebufferInfo, nullptr, &fbo);

@@ -20,7 +20,7 @@ VK_window::VK_window(Engine* engineManager){
   this->vk_instance = engineManager->get_vk_instance();
   this->vk_viewport = engineManager->get_vk_viewport();
 
-  this->window_dim = param_vulkan->window_dim;
+  this->window_dim = param_vulkan->window.dim;
 
   //---------------------------
 }
@@ -33,12 +33,12 @@ void VK_window::init_window(){
   glfwInit();
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-  this->window = glfwCreateWindow(window_dim.x, window_dim.y, param_vulkan->title.c_str(), nullptr, nullptr);
+  this->window = glfwCreateWindow(window_dim.x, window_dim.y, param_vulkan->window.title.c_str(), nullptr, nullptr);
   this->window_dim = get_framebuffer_size();
   this->get_required_extensions();
   dimManager->set_window(window);
 
-  glfwSetWindowSizeLimits(window, param_vulkan->window_dim_min.x, param_vulkan->window_dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
+  glfwSetWindowSizeLimits(window, param_vulkan->window.dim_min.x, param_vulkan->window.dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
   if (!glfwVulkanSupported()){
     printf("GLFW: Vulkan Not Supported\n");
@@ -50,7 +50,7 @@ void VK_window::init_window(){
 void VK_window::clean_surface(){
   //---------------------------
 
-  vkDestroySurfaceKHR(param_vulkan->instance, surface, nullptr);
+  vkDestroySurfaceKHR(param_vulkan->instance.instance, surface, nullptr);
 
   //---------------------------
 }
@@ -67,7 +67,7 @@ void VK_window::clean_window(){
 void VK_window::create_window_surface(){
   //---------------------------
 
-  VkResult result = glfwCreateWindowSurface(param_vulkan->instance, window, nullptr, &surface);
+  VkResult result = glfwCreateWindowSurface(param_vulkan->instance.instance, window, nullptr, &surface);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create window surface!");
   }
@@ -110,7 +110,7 @@ void VK_window::get_required_extensions(){
   vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_extension_nb);
 
   for(int i=0; i<extensions.size(); i++){
-    param_vulkan->extension_instance.push_back(extensions[i]);
+    param_vulkan->instance.extension.push_back(extensions[i]);
   }
 
   //---------------------------

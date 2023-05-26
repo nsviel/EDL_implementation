@@ -101,7 +101,7 @@ void VK_texture::create_texture_sampler(Struct_texture* texture){
   //---------------------------
 
   VkPhysicalDeviceProperties properties{};
-  vkGetPhysicalDeviceProperties(param_vulkan->physical_device, &properties);
+  vkGetPhysicalDeviceProperties(param_vulkan->device.physical_device, &properties);
 
   VkSamplerCreateInfo samplerInfo{};
   samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;

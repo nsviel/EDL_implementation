@@ -22,8 +22,8 @@ void VK_device::create_logical_device(){
   //---------------------------
 
   //Get GPU queue families
-  int family_graphics = vk_physical_device->find_queue_family_graphics(param_vulkan->physical_device);
-  int family_presentation = vk_physical_device->find_queue_family_presentation(param_vulkan->physical_device);
+  int family_graphics = vk_physical_device->find_queue_family_graphics(param_vulkan->device.physical_device);
+  int family_presentation = vk_physical_device->find_queue_family_presentation(param_vulkan->device.physical_device);
   std::set<uint32_t> uniqueQueueFamilies = {(unsigned int)family_graphics, (unsigned int)family_presentation};
 
   //Create queue on device
@@ -49,19 +49,19 @@ void VK_device::create_logical_device(){
   createInfo.pQueueCreateInfos = queueCreateInfos.data();
   createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
   createInfo.pEnabledFeatures = &deviceFeatures;
-  createInfo.enabledExtensionCount = static_cast<uint32_t>(param_vulkan->extension_device.size());
-  createInfo.ppEnabledExtensionNames = param_vulkan->extension_device.data();
+  createInfo.enabledExtensionCount = static_cast<uint32_t>(param_vulkan->device.extension.size());
+  createInfo.ppEnabledExtensionNames = param_vulkan->device.extension.data();
   createInfo.enabledLayerCount = 0;
 
   //Creating the logical device
-  VkResult result = vkCreateDevice(param_vulkan->physical_device, &createInfo, nullptr, &param_vulkan->device.device);
+  VkResult result = vkCreateDevice(param_vulkan->device.physical_device, &createInfo, nullptr, &param_vulkan->device.device);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create logical device!");
   }
 
   //Get queue family handles
-  vkGetDeviceQueue(param_vulkan->device.device, family_graphics, 0, &queue_graphics);
-  vkGetDeviceQueue(param_vulkan->device.device, family_presentation, 0, &queue_presentation);
+  vkGetDeviceQueue(param_vulkan->device.device, family_graphics, 0, &param_vulkan->device.queue_graphics);
+  vkGetDeviceQueue(param_vulkan->device.device, family_presentation, 0, &param_vulkan->device.queue_presentation);
 
   //---------------------------
 }

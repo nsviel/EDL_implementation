@@ -35,7 +35,7 @@ VK_command_RP::~VK_command_RP(){}
 void VK_command_RP::command_viewport(VkCommandBuffer command_buffer){
   //---------------------------
 
-  vk_viewport->update_viewport(param_vulkan->extent);
+  vk_viewport->update_viewport(param_vulkan->window.extent);
 
   VkViewport viewport = vk_viewport->get_viewport();
   VkRect2D scissor = vk_viewport->get_scissor();
