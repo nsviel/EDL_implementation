@@ -1,4 +1,5 @@
 #include "VK_command.h"
+#include "VK_command_RP.h"
 
 #include "../Param_vulkan.h"
 #include "../Engine.h"
@@ -37,6 +38,7 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_image = engineManager->get_vk_image();
   this->vk_canvas = engineManager->get_vk_canvas();
   this->vk_uniform = engineManager->get_vk_uniform();
+  this->vk_command_RP = new VK_command_RP(engineManager);
 
   //---------------------------
 }
@@ -99,6 +101,7 @@ void VK_command::cleanup(){
 
 //Drawing commands
 void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index, uint32_t frame_current){
+  VK_gui* vk_gui = engineManager->get_vk_gui();
   vector<Image*> vec_image_obj = vk_image->get_vec_image();
   //---------------------------
 
@@ -130,11 +133,11 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
 
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-  this->command_viewport(command_buffer);
-  this->command_drawing_scene(command_buffer, frame_current);
-  this->command_drawing_glyph(command_buffer, frame_current);
-  this->command_drawing_canvas(command_buffer, frame_current);
-  this->command_gui(command_buffer);
+  vk_command_RP->command_viewport(command_buffer);
+  vk_command_RP->command_drawing_scene(command_buffer, frame_current);
+  vk_command_RP->command_drawing_glyph(command_buffer, frame_current);
+  vk_command_RP->command_drawing_canvas(command_buffer, frame_current);
+  vk_gui->command_gui(command_buffer);
 
   //End render pass
   vkCmdEndRenderPass(command_buffer);
@@ -145,116 +148,6 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
 
   //---------------------------
 }
-void VK_command::command_viewport(VkCommandBuffer command_buffer){
-  //---------------------------
-
-  vk_viewport->update_viewport(param_vulkan->extent);
-
-  VkViewport viewport = vk_viewport->get_viewport();
-  VkRect2D scissor = vk_viewport->get_scissor();
-
-  vkCmdSetViewport(command_buffer, 0, 1, &viewport);
-  vkCmdSetScissor(command_buffer, 0, 1, &scissor);
-
-  //---------------------------
-}
-void VK_command::command_drawing_scene(VkCommandBuffer command_buffer, uint32_t frame_current){
-  VK_data* vk_data = engineManager->get_vk_data();
-  //---------------------------
-
-  vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
-
-  //Bind pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("cloud");
-  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-
-
-  vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
-
-  //Bind and draw vertex buffers
-  list<Object*> list_data = vk_data->get_list_data();
-  for(int i=0; i<list_data.size(); i++){
-    Object* object = *next(list_data.begin(),i);
-
-    if(object->draw_type_name == "point"){
-      vk_camera->compute_mvp(object);
-      MVP mvp;
-      mvp.mvp = object->mvp;
-      vk_uniform->update_uniform_buffer(pipeline, mvp);
-
-      //vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &object->mvp);
-      VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
-      VkDeviceSize offsets[] = {0, 0};
-      vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
-      vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
-    }
-  }
-
-  //---------------------------
-}
-void VK_command::command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t frame_current){
-  VK_data* vk_data = engineManager->get_vk_data();
-  //---------------------------
-
-  vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
-
-  //Bind pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("glyph");
-  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-  vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
-
-  //Bind and draw vertex buffers
-  list<Object*> list_glyph = vk_data->get_list_glyph();
-  for(int i=0; i<list_glyph.size(); i++){
-    Object* object = *next(list_glyph.begin(),i);
-
-    if(object->draw_type_name == "line"){
-      vk_camera->compute_mvp(object);
-      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &object->mvp);
-      VkBuffer vertexBuffers[] = {object->vbo_xyz, object->vbo_rgb};
-      VkDeviceSize offsets[] = {0, 0};
-      vkCmdSetLineWidth(command_buffer, object->draw_line_width);
-      vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
-      vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
-    }
-  }
-
-  //---------------------------
-}
-void VK_command::command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t frame_current){
-  VK_data* vk_data = engineManager->get_vk_data();
-  vector<Frame*> vec_frame = vk_image->get_vec_frame();
-  Frame* frame = vec_frame[frame_current];
-  //---------------------------
-
-  //Bind pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("canvas");
-  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-  vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
-
-  //Bind and draw vertex buffers
-  Object* canvas = vk_canvas->get_canvas();
-  vk_camera->compute_mvp(canvas);
-  vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &canvas->mvp);
-  VkBuffer vertexBuffers[] = {canvas->vbo_xyz, canvas->vbo_uv};
-  VkDeviceSize offsets[] = {0, 0};
-  vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
-  //vkCmdDraw(command_buffer, canvas->xyz.size(), 1, 0, 0);
-
-  //---------------------------
-}
-void VK_command::command_gui(VkCommandBuffer command_buffer){
-  VK_gui* vk_gui = engineManager->get_vk_gui();
-  //---------------------------
-
-  vk_gui->command_gui(command_buffer);
-
-  //---------------------------
-}
-
-//One time command
 VkCommandBuffer VK_command::command_buffer_begin(){
   VK_command* vk_command = engineManager->get_vk_command();
   VkCommandPool commandPool = vk_command->get_command_pool();

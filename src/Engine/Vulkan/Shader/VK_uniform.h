@@ -23,10 +23,8 @@ public:
 public:
   //Main functions
   void create_uniform_buffers(Struct_pipeline* pipeline);
-  void update_uniform_buffer(Struct_pipeline* pipeline, MVP& mvp);
+  void update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp);
   void clean_uniform(Struct_pipeline* pipeline);
-
-  inline vector<VkBuffer> get_uniformBuffers(){return uniform_buffer;};
 
 private:
   Param_vulkan* param_vulkan;
@@ -34,10 +32,6 @@ private:
   VK_buffer* vk_buffer;
   VK_swapchain* vk_swapchain;
   VK_camera* vk_camera;
-
-  vector<VkBuffer> uniform_buffer;
-  vector<VkDeviceMemory> uniform_buffer_memory;
-  vector<void*> uniform_buffer_mapped;
 };
 
 #endif

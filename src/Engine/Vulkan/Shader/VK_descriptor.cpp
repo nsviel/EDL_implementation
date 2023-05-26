@@ -2,7 +2,6 @@
 
 #include "../Engine.h"
 #include "../Param_vulkan.h"
-#include "../Shader/VK_uniform.h"
 #include "../Data/VK_texture.h"
 #include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
@@ -36,8 +35,6 @@ void VK_descriptor::cleanup(){
 
 //Descriptor set
 void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipeline){
-  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
   vector<VkDescriptorSetLayout> vec_layout;
@@ -68,14 +65,12 @@ void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipelin
   //---------------------------
 }
 void VK_descriptor::configure_descriptor_set(Struct_pipeline* pipeline){
-  VK_uniform* vk_uniform = engineManager->get_vk_uniform();
-  vector<VkBuffer> uniformBuffers = vk_uniform->get_uniformBuffers();
   //---------------------------
 
   VkDescriptorBufferInfo bufferInfo{};
   bufferInfo.buffer = pipeline->uniform.buffer;
   bufferInfo.offset = 0;
-  bufferInfo.range = sizeof(MVP);
+  bufferInfo.range = sizeof(glm::mat4);
 
   //MVP matrix to GPU
   VkWriteDescriptorSet descriptor_write{};

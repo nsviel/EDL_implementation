@@ -18,6 +18,8 @@ class VK_physical_device;
 class VK_image;
 class VK_canvas;
 class VK_uniform;
+class VK_command_RP;
+
 
 class VK_command
 {
@@ -34,13 +36,6 @@ public:
 
   //Drawing command
   void record_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index, uint32_t frame_current);
-  void command_viewport(VkCommandBuffer command_buffer);
-  void command_drawing_scene(VkCommandBuffer command_buffer, uint32_t frame_current);
-  void command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t frame_current);
-  void command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t frame_current);
-  void command_gui(VkCommandBuffer command_buffer);
-
-  //One time command
   VkCommandBuffer command_buffer_begin();
   void command_buffer_end(VkCommandBuffer command_buffer);
 
@@ -62,7 +57,8 @@ private:
   VK_physical_device* vk_physical_device;
   VK_canvas* vk_canvas;
   VK_uniform* vk_uniform;
-  
+  VK_command_RP* vk_command_RP;
+
   VkCommandPool command_pool;
 };
 

@@ -1,6 +1,8 @@
 #ifndef PARAM_VULKAN_H
 #define PARAM_VULKAN_H
 
+#include "Struct/struct_device.h"
+
 #include <string>
 #include <vector>
 #include <list>
@@ -21,9 +23,8 @@ struct Param_vulkan{
 
   //Vulkan objects
   VkExtent2D extent;
-  VkPhysicalDevice physical_device;
-  VkDevice device;
   VkInstance instance;
+  Struct_device* device;
 
   vector<const char*> extension_instance;
   vector<const char*> extension_device;

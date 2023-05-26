@@ -10,9 +10,5 @@ struct Struct_uniform{
   void* mapped;
 };
 
-struct MVP{
-  glm::mat4 mvp;
-};
-
 
 #endif

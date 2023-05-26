@@ -95,6 +95,7 @@ void Engine::init_vulkan(){
   //REMPLACER pushconstant ubo par uniform !!!
   // généraliser les uniform / pishconstant
   //FAire la construction des framebuffer par les image en appelle
+  //Faut il configurer les descripteurs en fonction des uniform  et non pas les configurer en parfallèle ?
 
   //Shader
   vk_canvas->create_canvas();
