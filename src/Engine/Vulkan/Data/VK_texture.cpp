@@ -47,10 +47,10 @@ void VK_texture::cleanup_texture(Object* object){
   for(int i=0; i<object->list_texture.size(); i++){
     Struct_texture* texture = *next(object->list_texture.begin(), i);
 
-    vkDestroySampler(param_vulkan->device, texture->textureSampler, nullptr);
-    vkDestroyImageView(param_vulkan->device, texture->textureImageView, nullptr);
-    vkDestroyImage(param_vulkan->device, texture->textureImage, nullptr);
-    vkFreeMemory(param_vulkan->device, texture->textureImageMemory, nullptr);
+    vkDestroySampler(param_vulkan->device.device, texture->textureSampler, nullptr);
+    vkDestroyImageView(param_vulkan->device.device, texture->textureImageView, nullptr);
+    vkDestroyImage(param_vulkan->device.device, texture->textureImage, nullptr);
+    vkFreeMemory(param_vulkan->device.device, texture->textureImageMemory, nullptr);
   }
 
   //---------------------------
@@ -73,9 +73,9 @@ void VK_texture::create_texture_image(Struct_texture* texture){
   vk_buffer->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, stagingBuffer, stagingBufferMemory);
 
   void* data;
-  vkMapMemory(param_vulkan->device, stagingBufferMemory, 0, imageSize, 0, &data);
+  vkMapMemory(param_vulkan->device.device, stagingBufferMemory, 0, imageSize, 0, &data);
   memcpy(data, pixels, static_cast<size_t>(imageSize));
-  vkUnmapMemory(param_vulkan->device, stagingBufferMemory);
+  vkUnmapMemory(param_vulkan->device.device, stagingBufferMemory);
 
   stbi_image_free(pixels);
 
@@ -85,8 +85,8 @@ void VK_texture::create_texture_image(Struct_texture* texture){
   this->copy_buffer_to_image(stagingBuffer, texture->textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
   vk_buffer->transitionImageLayout(texture->textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
-  vkDestroyBuffer(param_vulkan->device, stagingBuffer, nullptr);
-  vkFreeMemory(param_vulkan->device, stagingBufferMemory, nullptr);
+  vkDestroyBuffer(param_vulkan->device.device, stagingBuffer, nullptr);
+  vkFreeMemory(param_vulkan->device.device, stagingBufferMemory, nullptr);
 
   //---------------------------
 }
@@ -118,7 +118,7 @@ void VK_texture::create_texture_sampler(Struct_texture* texture){
   samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
   samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 
-  VkResult result = vkCreateSampler(param_vulkan->device, &samplerInfo, nullptr, &texture->textureSampler);
+  VkResult result = vkCreateSampler(param_vulkan->device.device, &samplerInfo, nullptr, &texture->textureSampler);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create texture sampler!");
   }
@@ -142,7 +142,7 @@ VkImageView VK_texture::create_image_view(VkImage image, VkFormat format, VkImag
   viewInfo.subresourceRange.layerCount = 1;
 
   VkImageView imageView;
-  VkResult result = vkCreateImageView(param_vulkan->device, &viewInfo, nullptr, &imageView);
+  VkResult result = vkCreateImageView(param_vulkan->device.device, &viewInfo, nullptr, &imageView);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create texture image view!");
   }
@@ -168,25 +168,25 @@ void VK_texture::create_image(uint32_t width, uint32_t height, VkFormat format, 
   imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
   imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-  VkResult result = vkCreateImage(param_vulkan->device, &imageInfo, nullptr, &image);
+  VkResult result = vkCreateImage(param_vulkan->device.device, &imageInfo, nullptr, &image);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create image!");
   }
 
   VkMemoryRequirements memRequirements;
-  vkGetImageMemoryRequirements(param_vulkan->device, image, &memRequirements);
+  vkGetImageMemoryRequirements(param_vulkan->device.device, image, &memRequirements);
 
   VkMemoryAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
   allocInfo.allocationSize = memRequirements.size;
   allocInfo.memoryTypeIndex = vk_buffer->findMemoryType(memRequirements.memoryTypeBits, properties);
 
-  result = vkAllocateMemory(param_vulkan->device, &allocInfo, nullptr, &imageMemory);
+  result = vkAllocateMemory(param_vulkan->device.device, &allocInfo, nullptr, &imageMemory);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate image memory!");
   }
 
-  vkBindImageMemory(param_vulkan->device, image, imageMemory, 0);
+  vkBindImageMemory(param_vulkan->device.device, image, imageMemory, 0);
 
   //---------------------------
 }

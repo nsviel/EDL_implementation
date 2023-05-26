@@ -85,7 +85,7 @@ void VK_image::clean_image_struct(){
   //Vec images
   for(int i=0; i<vec_image.size(); i++){
     Image* image = vec_image[i];
-    vkDestroyImageView(param_vulkan->device, image->color.view, nullptr);
+    vkDestroyImageView(param_vulkan->device.device, image->color.view, nullptr);
     vk_depth->clean_depth_attachment(image);
     vk_framebuffer->clean_framebuffer(image);
     delete image;

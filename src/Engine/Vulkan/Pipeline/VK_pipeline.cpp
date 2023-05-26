@@ -82,9 +82,9 @@ void VK_pipeline::cleanup(){
 
   for(int i=0; i<vec_pipeline.size(); i++){
     Struct_pipeline* pipeline = vec_pipeline[i];
-    vkDestroyPipeline(param_vulkan->device, pipeline->pipeline, nullptr);
-    vkDestroyPipelineLayout(param_vulkan->device, pipeline->pipeline_layout, nullptr);
-    vkDestroyDescriptorSetLayout(param_vulkan->device, pipeline->descriptor_layout, nullptr);
+    vkDestroyPipeline(param_vulkan->device.device, pipeline->pipeline, nullptr);
+    vkDestroyPipelineLayout(param_vulkan->device.device, pipeline->pipeline_layout, nullptr);
+    vkDestroyDescriptorSetLayout(param_vulkan->device.device, pipeline->descriptor_layout, nullptr);
     vk_uniform->clean_uniform(pipeline);
   }
 
@@ -156,7 +156,7 @@ void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   pipeline_layout_info.pPushConstantRanges = &pushconstant_range;
 
   //Pipeline layout creation
-  VkResult result = vkCreatePipelineLayout(param_vulkan->device, &pipeline_layout_info, nullptr, &pipeline->pipeline_layout);
+  VkResult result = vkCreatePipelineLayout(param_vulkan->device.device, &pipeline_layout_info, nullptr, &pipeline->pipeline_layout);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create pipeline layout!");
   }
@@ -173,7 +173,7 @@ void VK_pipeline::create_pipeline_graphics(){
   }
 
   vector<VkPipeline> vec_pipeline_obj(vec_pipeline.size());
-  VkResult result = vkCreateGraphicsPipelines(param_vulkan->device, VK_NULL_HANDLE, vec_pipeline_info.size(), vec_pipeline_info.data(), nullptr, vec_pipeline_obj.data());
+  VkResult result = vkCreateGraphicsPipelines(param_vulkan->device.device, VK_NULL_HANDLE, vec_pipeline_info.size(), vec_pipeline_info.data(), nullptr, vec_pipeline_obj.data());
   if(result != VK_SUCCESS){
       throw std::runtime_error("[error] failed to create graphics pipeline!");
     }
@@ -185,8 +185,8 @@ void VK_pipeline::create_pipeline_graphics(){
     //Destroy shader modules
     for(int i=0; i<pipeline->vec_shader_couple.size(); i++){
       pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->vec_shader_couple[i];
-      vkDestroyShaderModule(param_vulkan->device, shader_couple.first, nullptr);
-      vkDestroyShaderModule(param_vulkan->device, shader_couple.second, nullptr);
+      vkDestroyShaderModule(param_vulkan->device.device, shader_couple.first, nullptr);
+      vkDestroyShaderModule(param_vulkan->device.device, shader_couple.second, nullptr);
     }
   }
 

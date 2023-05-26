@@ -34,9 +34,9 @@ void VK_color::create_color_attachment(Image* image){
 void VK_color::clean_color_attachment(Image* image){
   //---------------------------
 
-  vkDestroyImageView(param_vulkan->device, image->color.view, nullptr);
-  vkDestroyImage(param_vulkan->device, image->color.image, nullptr);
-  vkFreeMemory(param_vulkan->device, image->color.mem, nullptr);
+  vkDestroyImageView(param_vulkan->device.device, image->color.view, nullptr);
+  vkDestroyImage(param_vulkan->device.device, image->color.image, nullptr);
+  vkFreeMemory(param_vulkan->device.device, image->color.mem, nullptr);
 
   //---------------------------
 }

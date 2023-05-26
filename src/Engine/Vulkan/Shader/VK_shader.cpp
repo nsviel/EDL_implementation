@@ -97,7 +97,7 @@ VkShaderModule VK_shader::create_shader_module(const std::vector<char>& code){
 
   //Shader module creation
   VkShaderModule shaderModule;
-  VkResult result = vkCreateShaderModule(param_vulkan->device, &createInfo, nullptr, &shaderModule);
+  VkResult result = vkCreateShaderModule(param_vulkan->device.device, &createInfo, nullptr, &shaderModule);
   if (result != VK_SUCCESS) {
     throw std::runtime_error("[error] failed to create shader module!");
   }

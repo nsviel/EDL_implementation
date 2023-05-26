@@ -28,7 +28,7 @@ void VK_uniform::create_uniform_buffers(Struct_pipeline* pipeline){
 
   vk_buffer->create_gpu_buffer(sizeof(glm::mat4), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, pipeline->uniform.buffer);
   vk_buffer->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, pipeline->uniform.buffer, pipeline->uniform.mem);
-  vkMapMemory(param_vulkan->device, pipeline->uniform.mem, 0, sizeof(glm::mat4), 0, &pipeline->uniform.mapped);
+  vkMapMemory(param_vulkan->device.device, pipeline->uniform.mem, 0, sizeof(glm::mat4), 0, &pipeline->uniform.mapped);
 
   //---------------------------
 }
@@ -42,8 +42,8 @@ void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp
 void VK_uniform::clean_uniform(Struct_pipeline* pipeline){
   //---------------------------
 
-  vkDestroyBuffer(param_vulkan->device, pipeline->uniform.buffer, nullptr);
-  vkFreeMemory(param_vulkan->device, pipeline->uniform.mem, nullptr);
+  vkDestroyBuffer(param_vulkan->device.device, pipeline->uniform.buffer, nullptr);
+  vkFreeMemory(param_vulkan->device.device, pipeline->uniform.mem, nullptr);
 
   //---------------------------
 }

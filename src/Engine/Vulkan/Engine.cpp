@@ -122,7 +122,7 @@ void Engine::main_loop() {
     this->fps_calcul(start_time);
   }
 
-  vkDeviceWaitIdle(param_vulkan->device);
+  vkDeviceWaitIdle(param_vulkan->device.device);
 
   //---------------------------
 }

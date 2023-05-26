@@ -57,7 +57,7 @@ void VK_command::create_command_pool(){
   poolInfo.queueFamilyIndex = family_graphics;
 
   //Command pool creation
-  VkResult result = vkCreateCommandPool(param_vulkan->device, &poolInfo, nullptr, &command_pool);
+  VkResult result = vkCreateCommandPool(param_vulkan->device.device, &poolInfo, nullptr, &command_pool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create command pool!");
   }
@@ -78,7 +78,7 @@ void VK_command::create_command_buffers(){
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
   allocInfo.commandBufferCount = (uint32_t) command_buffer_vec.size();
 
-  VkResult result = vkAllocateCommandBuffers(param_vulkan->device, &allocInfo, command_buffer_vec.data());
+  VkResult result = vkAllocateCommandBuffers(param_vulkan->device.device, &allocInfo, command_buffer_vec.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
@@ -94,7 +94,7 @@ void VK_command::create_command_buffers(){
 void VK_command::cleanup(){
   //---------------------------
 
-  vkDestroyCommandPool(param_vulkan->device, command_pool, nullptr);
+  vkDestroyCommandPool(param_vulkan->device.device, command_pool, nullptr);
 
   //---------------------------
 }
@@ -160,7 +160,7 @@ VkCommandBuffer VK_command::command_buffer_begin(){
   allocInfo.commandBufferCount = 1;
 
   VkCommandBuffer command_buffer;
-  vkAllocateCommandBuffers(param_vulkan->device, &allocInfo, &command_buffer);
+  vkAllocateCommandBuffers(param_vulkan->device.device, &allocInfo, &command_buffer);
 
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -187,7 +187,7 @@ void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
   vkQueueSubmit(queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
   vkQueueWaitIdle(queue_graphics);
 
-  vkFreeCommandBuffers(param_vulkan->device, commandPool, 1, &command_buffer);
+  vkFreeCommandBuffers(param_vulkan->device.device, commandPool, 1, &command_buffer);
 
   //---------------------------
 }

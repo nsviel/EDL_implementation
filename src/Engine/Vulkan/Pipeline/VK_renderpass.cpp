@@ -43,7 +43,7 @@ void VK_renderpass::init_renderpass(){
 void VK_renderpass::cleanup(){
   //---------------------------
 
-  vkDestroyRenderPass(param_vulkan->device, renderpass->renderpass, nullptr);
+  vkDestroyRenderPass(param_vulkan->device.device, renderpass->renderpass, nullptr);
 
   //---------------------------
 }
@@ -143,7 +143,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass creation
-  VkResult result = vkCreateRenderPass(param_vulkan->device, &renderpass->renderpass_info, nullptr, &renderpass->renderpass);
+  VkResult result = vkCreateRenderPass(param_vulkan->device.device, &renderpass->renderpass_info, nullptr, &renderpass->renderpass);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create render pass!");
   }

@@ -30,9 +30,9 @@ void VK_depth::create_depth_attachment(Image* image){
 void VK_depth::clean_depth_attachment(Image* image){
   //---------------------------
 
-  vkDestroyImageView(param_vulkan->device, image->depth.view, nullptr);
-  vkDestroyImage(param_vulkan->device, image->depth.image, nullptr);
-  vkFreeMemory(param_vulkan->device, image->depth.mem, nullptr);
+  vkDestroyImageView(param_vulkan->device.device, image->depth.view, nullptr);
+  vkDestroyImage(param_vulkan->device.device, image->depth.image, nullptr);
+  vkFreeMemory(param_vulkan->device.device, image->depth.mem, nullptr);
 
   //---------------------------
 }

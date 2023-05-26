@@ -56,7 +56,7 @@ void VK_framebuffer::create_framebuffer(Image* image){
   framebufferInfo.height = param_vulkan->extent.height;
   framebufferInfo.layers = 1;
 
-  VkResult result = vkCreateFramebuffer(param_vulkan->device, &framebufferInfo, nullptr, &fbo);
+  VkResult result = vkCreateFramebuffer(param_vulkan->device.device, &framebufferInfo, nullptr, &fbo);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create framebuffer!");
   }
@@ -69,7 +69,7 @@ void VK_framebuffer::create_framebuffer(Image* image){
 void VK_framebuffer::clean_framebuffer(Image* image){
   //---------------------------
 
-  vkDestroyFramebuffer(param_vulkan->device, image->fbo, nullptr);
+  vkDestroyFramebuffer(param_vulkan->device.device, image->fbo, nullptr);
 
   //---------------------------
 }

@@ -36,7 +36,7 @@ void VK_swapchain::create_swapchain(){
   this->create_swapchain_presentation(createInfo);
 
   //Create swap chain
-  VkResult result = vkCreateSwapchainKHR(param_vulkan->device, &createInfo, nullptr, &swapchain);
+  VkResult result = vkCreateSwapchainKHR(param_vulkan->device.device, &createInfo, nullptr, &swapchain);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create swap chain!");
   }
@@ -123,7 +123,7 @@ void VK_swapchain::recreate_swapChain(){
     glfwWaitEvents();
   }
 
-  vkDeviceWaitIdle(param_vulkan->device);
+  vkDeviceWaitIdle(param_vulkan->device.device);
 
   //Clean old values
   vk_image->clean_image_struct();
@@ -140,7 +140,7 @@ void VK_swapchain::recreate_swapChain(){
 void VK_swapchain::clean_swapchain(){
   //---------------------------
 
-  vkDestroySwapchainKHR(param_vulkan->device, swapchain, nullptr);
+  vkDestroySwapchainKHR(param_vulkan->device.device, swapchain, nullptr);
 
   //---------------------------
 }
@@ -153,11 +153,11 @@ void VK_swapchain::swapchain_image(VkSwapchainKHR swapchain, unsigned int min_im
   //to get the correct image which are managed by the presentation engine
 
   //Empty swapchain image
-  vkGetSwapchainImagesKHR(param_vulkan->device, swapchain, &min_image_count, nullptr);
+  vkGetSwapchainImagesKHR(param_vulkan->device.device, swapchain, &min_image_count, nullptr);
 
   //Fill swapchain image
   vec_swapchain_image.resize(min_image_count);
-  vkGetSwapchainImagesKHR(param_vulkan->device, swapchain, &min_image_count, vec_swapchain_image.data());
+  vkGetSwapchainImagesKHR(param_vulkan->device.device, swapchain, &min_image_count, vec_swapchain_image.data());
 
   //---------------------------
 }

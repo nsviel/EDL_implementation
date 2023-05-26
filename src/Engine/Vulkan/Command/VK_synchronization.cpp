@@ -31,9 +31,9 @@ void VK_synchronization::create_sync_objects(Frame* frame){
   fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
   //Semaphore and fence creation
-  VkResult result_sema_1 = vkCreateSemaphore(param_vulkan->device, &semaphoreInfo, nullptr, &frame->semaphore_image_available);
-  VkResult result_sema_2 = vkCreateSemaphore(param_vulkan->device, &semaphoreInfo, nullptr, &frame->semaphore_render_finished);
-  VkResult result_hence = vkCreateFence(param_vulkan->device, &fenceInfo, nullptr, &frame->fence_inflight);
+  VkResult result_sema_1 = vkCreateSemaphore(param_vulkan->device.device, &semaphoreInfo, nullptr, &frame->semaphore_image_available);
+  VkResult result_sema_2 = vkCreateSemaphore(param_vulkan->device.device, &semaphoreInfo, nullptr, &frame->semaphore_render_finished);
+  VkResult result_hence = vkCreateFence(param_vulkan->device.device, &fenceInfo, nullptr, &frame->fence_inflight);
   if(result_sema_1 != VK_SUCCESS || result_sema_2 != VK_SUCCESS || result_hence != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create semaphores!");
   }
@@ -43,9 +43,9 @@ void VK_synchronization::create_sync_objects(Frame* frame){
 void VK_synchronization::clean_sync_obj(Frame* frame){
   //---------------------------
 
-  vkDestroySemaphore(param_vulkan->device, frame->semaphore_render_finished, nullptr);
-  vkDestroySemaphore(param_vulkan->device, frame->semaphore_image_available, nullptr);
-  vkDestroyFence(param_vulkan->device, frame->fence_inflight, nullptr);
+  vkDestroySemaphore(param_vulkan->device.device, frame->semaphore_render_finished, nullptr);
+  vkDestroySemaphore(param_vulkan->device.device, frame->semaphore_image_available, nullptr);
+  vkDestroyFence(param_vulkan->device.device, frame->fence_inflight, nullptr);
 
   //---------------------------
 }

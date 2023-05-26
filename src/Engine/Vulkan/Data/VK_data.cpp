@@ -43,7 +43,7 @@ void VK_data::cleanup(){
 void VK_data::clean_object(Object* object){
   //---------------------------
 
-  vkDeviceWaitIdle(param_vulkan->device);
+  vkDeviceWaitIdle(param_vulkan->device.device);
 
   vk_buffer->cleanup_object(object);
   vk_texture->cleanup_texture(object);

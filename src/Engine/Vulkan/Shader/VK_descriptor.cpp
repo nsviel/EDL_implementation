@@ -28,7 +28,7 @@ VK_descriptor::~VK_descriptor(){}
 void VK_descriptor::cleanup(){
   //---------------------------
 
-  vkDestroyDescriptorPool(param_vulkan->device, descriptor_pool, nullptr);
+  vkDestroyDescriptorPool(param_vulkan->device.device, descriptor_pool, nullptr);
 
   //---------------------------
 }
@@ -51,7 +51,7 @@ void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipelin
 
   vector<VkDescriptorSet> vec_descriptor_set;
   vec_descriptor_set.resize(vec_pipeline.size());
-  VkResult result = vkAllocateDescriptorSets(param_vulkan->device, &allocInfo, vec_descriptor_set.data());
+  VkResult result = vkAllocateDescriptorSets(param_vulkan->device.device, &allocInfo, vec_descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
@@ -95,7 +95,7 @@ void VK_descriptor::configure_descriptor_set(Struct_pipeline* pipeline){
   descriptor_write[1].pImageInfo = &texture.imageInfo;
   */
 
-  vkUpdateDescriptorSets(param_vulkan->device, 1, &descriptor_write, 0, nullptr);
+  vkUpdateDescriptorSets(param_vulkan->device.device, 1, &descriptor_write, 0, nullptr);
 
   //---------------------------
 }
@@ -131,7 +131,7 @@ VkDescriptorSetLayout VK_descriptor::create_layout(vector<VkDescriptorSetLayoutB
 
   //Descriptor set layout creation
   VkDescriptorSetLayout descriptor_layout;
-  VkResult result = vkCreateDescriptorSetLayout(param_vulkan->device, &layoutInfo, nullptr, &descriptor_layout);
+  VkResult result = vkCreateDescriptorSetLayout(param_vulkan->device.device, &layoutInfo, nullptr, &descriptor_layout);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create descriptor set layout!");
   }
@@ -168,7 +168,7 @@ void VK_descriptor::create_descriptor_pool(){
   pool_info.pPoolSizes = vec_pool_size.data();
   pool_info.maxSets = static_cast<uint32_t>(3);
 
-  VkResult result = vkCreateDescriptorPool(param_vulkan->device, &pool_info, nullptr, &descriptor_pool);
+  VkResult result = vkCreateDescriptorPool(param_vulkan->device.device, &pool_info, nullptr, &descriptor_pool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create descriptor pool!");
   }

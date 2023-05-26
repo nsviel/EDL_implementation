@@ -54,21 +54,21 @@ void VK_device::create_logical_device(){
   createInfo.enabledLayerCount = 0;
 
   //Creating the logical device
-  VkResult result = vkCreateDevice(param_vulkan->physical_device, &createInfo, nullptr, &param_vulkan->device);
+  VkResult result = vkCreateDevice(param_vulkan->physical_device, &createInfo, nullptr, &param_vulkan->device.device);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create logical device!");
   }
 
   //Get queue family handles
-  vkGetDeviceQueue(param_vulkan->device, family_graphics, 0, &queue_graphics);
-  vkGetDeviceQueue(param_vulkan->device, family_presentation, 0, &queue_presentation);
+  vkGetDeviceQueue(param_vulkan->device.device, family_graphics, 0, &queue_graphics);
+  vkGetDeviceQueue(param_vulkan->device.device, family_presentation, 0, &queue_presentation);
 
   //---------------------------
 }
 void VK_device::cleanup(){
   //---------------------------
 
-  vkDestroyDevice(param_vulkan->device, nullptr);
+  vkDestroyDevice(param_vulkan->device.device, nullptr);
 
   //---------------------------
 }
