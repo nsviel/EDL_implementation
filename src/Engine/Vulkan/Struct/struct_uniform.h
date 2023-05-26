@@ -5,6 +5,7 @@
 
 
 struct Struct_uniform{
+  std::string name;
   VkBuffer buffer;
   VkDeviceMemory mem;
   void* mapped;

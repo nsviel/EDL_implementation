@@ -1,7 +1,7 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
-#include <vulkan/vulkan.h>
+#include "../../../common.h"
 
 
 //Memory
@@ -28,6 +28,10 @@ typedef VkBufferUsageFlags buffer_usage;
 constexpr buffer_usage BUFFER_USAGE_SRC = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
 constexpr buffer_usage BUFFER_USAGE_DST = VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 constexpr buffer_usage BUFFER_USAGE_DST_VERTEX = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+
+//Specific type
+typedef vector<std::pair<std::string, std::string>> vec_name_type;
+typedef std::pair<std::string, std::string> name_type;
 
 
 #endif

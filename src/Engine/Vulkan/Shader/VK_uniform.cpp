@@ -26,24 +26,44 @@ VK_uniform::~VK_uniform(){}
 void VK_uniform::create_uniform_buffers(Struct_pipeline* pipeline){
   //---------------------------
 
-  vk_buffer->create_gpu_buffer(sizeof(glm::mat4), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, pipeline->uniform.buffer);
-  vk_buffer->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, pipeline->uniform.buffer, pipeline->uniform.mem);
-  vkMapMemory(param_vulkan->device.device, pipeline->uniform.mem, 0, sizeof(glm::mat4), 0, &pipeline->uniform.mapped);
+  for(int i=0; i<pipeline->vec_required_uniform.size(); i++){
+    name_type name_type = pipeline->vec_required_uniform[i];
+    Struct_uniform* uniform = new Struct_uniform();
+    uniform->name = name_type.first;
+
+    std::size_t type_size;
+    if(name_type.second == "mat4"){
+      type_size = sizeof(glm::mat4);
+    }else{
+      cout<<"[error] Uniform type not recognized"<<endl;
+      exit(0);
+    }
+
+    vk_buffer->create_gpu_buffer(type_size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform->buffer);
+    vk_buffer->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, uniform->buffer, uniform->mem);
+    vkMapMemory(param_vulkan->device.device, uniform->mem, 0, type_size, 0, &uniform->mapped);
+
+    pipeline->vec_uniform.push_back(uniform);
+  }
 
   //---------------------------
 }
 void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp){
   //---------------------------
 
-  memcpy(pipeline->uniform.mapped, &mvp, sizeof(mvp));
+  Struct_uniform* uniform = pipeline->vec_uniform[0];
+
+  memcpy(uniform->mapped, &mvp, sizeof(mvp));
 
   //---------------------------
 }
 void VK_uniform::clean_uniform(Struct_pipeline* pipeline){
   //---------------------------
 
-  vkDestroyBuffer(param_vulkan->device.device, pipeline->uniform.buffer, nullptr);
-  vkFreeMemory(param_vulkan->device.device, pipeline->uniform.mem, nullptr);
+  Struct_uniform* uniform = pipeline->vec_uniform[0];
+
+  vkDestroyBuffer(param_vulkan->device.device, uniform->buffer, nullptr);
+  vkFreeMemory(param_vulkan->device.device, uniform->mem, nullptr);
 
   //---------------------------
 }

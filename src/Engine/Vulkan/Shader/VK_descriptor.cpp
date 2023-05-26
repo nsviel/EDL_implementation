@@ -67,8 +67,10 @@ void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipelin
 void VK_descriptor::configure_descriptor_set(Struct_pipeline* pipeline){
   //---------------------------
 
+  Struct_uniform* uniform = pipeline->vec_uniform[0];
+
   VkDescriptorBufferInfo bufferInfo{};
-  bufferInfo.buffer = pipeline->uniform.buffer;
+  bufferInfo.buffer = uniform->buffer;
   bufferInfo.offset = 0;
   bufferInfo.range = sizeof(glm::mat4);
 

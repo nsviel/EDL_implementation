@@ -45,6 +45,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_cloud->path_shader_fs = "Base/shader_scene_fs";
   pipeline_cloud->vec_data_name.push_back("location");
   pipeline_cloud->vec_data_name.push_back("color");
+  pipeline_cloud->vec_required_uniform.push_back(std::make_pair("mvp", "mat4"));
   pipeline_cloud->descriptor_layout = vk_descriptor->create_layout_basic();
   this->create_pipeline_info(pipeline_cloud);
 
@@ -57,6 +58,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
   pipeline_glyph->vec_data_name.push_back("location");
   pipeline_glyph->vec_data_name.push_back("color");
+  pipeline_glyph->vec_required_uniform.push_back(std::make_pair("mvp", "mat4"));
   pipeline_glyph->descriptor_layout = vk_descriptor->create_layout_basic();
   this->create_pipeline_info(pipeline_glyph);
 
@@ -69,7 +71,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
   pipeline_canvas->vec_data_name.push_back("location");
   pipeline_canvas->vec_data_name.push_back("tex_coord");
-  pipeline_canvas->descriptor_layout = vk_descriptor->create_layout_canvas();
+  pipeline_canvas->vec_required_uniform.push_back(std::make_pair("mvp", "mat4"));
+  pipeline_canvas->descriptor_layout = vk_descriptor->create_layout_basic();
   this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();

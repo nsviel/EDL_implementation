@@ -92,8 +92,10 @@ void Engine::init_vulkan(){
 
 
   // généraliser les uniform / pishconstant
-  //FAire la construction des framebuffer par les image en appelle
   //configurer les descripteurs en fonction des uniform  et non pas les configurer en parfallèle
+    //-creation des uniform selon ceux demandé par le pipeline
+    //-creation des descriptor layout en fonction des uniform
+    //-Allocation des descripteur set lorsque tous les pipeline sont terminés
 
   //Specific
   vk_canvas->create_canvas();

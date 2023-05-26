@@ -26,6 +26,10 @@
 #include <array>
 #include <vulkan/vulkan.h>
 #include <thread>
+#include <typeindex>
+#include <any>
+#include <utility>
+#include <functional>
 
 //Namespaces
 using namespace std;
