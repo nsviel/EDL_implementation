@@ -27,14 +27,11 @@ public:
   void create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo);
   void create_swapchain_family(VkSwapchainCreateInfoKHR& createInfo);
   void create_swapchain_presentation(VkSwapchainCreateInfoKHR& createInfo);
+  void create_swapchain_image(VkSwapchainKHR swapchain, unsigned int min_image_count);
 
   //Swap chain parameter
   VkSurfaceFormatKHR swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& availableFormats);
   VkPresentModeKHR swapchain_presentation_mode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-  void swapchain_image(VkSwapchainKHR swapchain, unsigned int min_image_count);
-
-  inline VkSwapchainKHR get_swapChain(){return swapchain;}
-  inline vector<VkImage> get_vec_swapchain_image(){return vec_swapchain_image;}
 
 private:
   Engine* engineManager;
@@ -42,9 +39,6 @@ private:
   VK_window* vk_window;
   VK_device* vk_device;
   VK_physical_device* vk_physical_device;
-
-  vector<VkImage> vec_swapchain_image;
-  VkSwapchainKHR swapchain;
 };
 
 #endif

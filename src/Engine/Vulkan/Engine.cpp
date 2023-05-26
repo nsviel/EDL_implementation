@@ -80,28 +80,26 @@ void Engine::init_vulkan(){
   vk_window->create_window_surface();
   vk_physical_device->init_device();
   vk_device->create_logical_device();
+  vk_command->create_command_pool();
+  vk_descriptor->create_descriptor_pool();
 
   //Swapchain
   vk_swapchain->create_swapchain();
   vk_image->init_image();
 
   //Pipeline
-  vk_descriptor->create_descriptor_pool();
   vk_renderpass->init_renderpass();
   vk_pipeline->init_pipeline();
-  vk_command->create_command_pool();
+
+
   vk_framebuffer->create_framebuffer_obj();
 
-  //REMPLACER pushconstant ubo par uniform !!!
   // généraliser les uniform / pishconstant
   //FAire la construction des framebuffer par les image en appelle
-  //Faut il configurer les descripteurs en fonction des uniform  et non pas les configurer en parfallèle ?
+  //configurer les descripteurs en fonction des uniform  et non pas les configurer en parfallèle 
 
-  //Shader
+  //Specific
   vk_canvas->create_canvas();
-
-  //Command
-  vk_command->create_command_buffers();
   vk_gui->init_gui();
 
   //---------------------------

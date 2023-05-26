@@ -36,12 +36,12 @@ void VK_swapchain::create_swapchain(){
   this->create_swapchain_presentation(createInfo);
 
   //Create swap chain
-  VkResult result = vkCreateSwapchainKHR(param_vulkan->device.device, &createInfo, nullptr, &swapchain);
+  VkResult result = vkCreateSwapchainKHR(param_vulkan->device.device, &createInfo, nullptr, &param_vulkan->swapchain.swapchain);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create swap chain!");
   }
 
-  this->swapchain_image(swapchain, createInfo.minImageCount);
+  this->create_swapchain_image(param_vulkan->swapchain.swapchain, createInfo.minImageCount);
 
   //---------------------------
 }
@@ -107,6 +107,21 @@ void VK_swapchain::create_swapchain_presentation(VkSwapchainCreateInfoKHR& creat
 
   //---------------------------
 }
+void VK_swapchain::create_swapchain_image(VkSwapchainKHR swapchain, unsigned int min_image_count){
+  //---------------------------
+
+  //For swapchain image we use vkGetSwapchainImagesKHR instead of VkImageCreateInfo
+  //to get the correct image which are managed by the presentation engine
+
+  //Empty swapchain image
+  vkGetSwapchainImagesKHR(param_vulkan->device.device, swapchain, &min_image_count, nullptr);
+
+  //Fill swapchain image
+  param_vulkan->swapchain.vec_swapchain_image.resize(min_image_count);
+  vkGetSwapchainImagesKHR(param_vulkan->device.device, swapchain, &min_image_count, param_vulkan->swapchain.vec_swapchain_image.data());
+
+  //---------------------------
+}
 
 //Swap chain function
 void VK_swapchain::recreate_swapChain(){
@@ -140,27 +155,12 @@ void VK_swapchain::recreate_swapChain(){
 void VK_swapchain::clean_swapchain(){
   //---------------------------
 
-  vkDestroySwapchainKHR(param_vulkan->device.device, swapchain, nullptr);
+  vkDestroySwapchainKHR(param_vulkan->device.device, param_vulkan->swapchain.swapchain, nullptr);
 
   //---------------------------
 }
 
 //Swap chain parameter
-void VK_swapchain::swapchain_image(VkSwapchainKHR swapchain, unsigned int min_image_count){
-  //---------------------------
-
-  //For swapchain image we use vkGetSwapchainImagesKHR instead of VkImageCreateInfo
-  //to get the correct image which are managed by the presentation engine
-
-  //Empty swapchain image
-  vkGetSwapchainImagesKHR(param_vulkan->device.device, swapchain, &min_image_count, nullptr);
-
-  //Fill swapchain image
-  vec_swapchain_image.resize(min_image_count);
-  vkGetSwapchainImagesKHR(param_vulkan->device.device, swapchain, &min_image_count, vec_swapchain_image.data());
-
-  //---------------------------
-}
 VkSurfaceFormatKHR VK_swapchain::swapchain_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format){
   //---------------------------
 

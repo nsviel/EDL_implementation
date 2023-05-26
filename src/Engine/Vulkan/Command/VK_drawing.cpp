@@ -45,19 +45,18 @@ void VK_drawing::draw_frame(){
 
 //Subfunction
 void VK_drawing::draw_swapchain(){
-  VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
   Frame* frame = vec_frame[frame_current];
 
-  framebufferResized = vk_window->check_for_resizing();
+  vk_window->check_for_resizing();
 
   //Waiting for the previous frame
   vkWaitForFences(param_vulkan->device.device, 1, &frame->fence_inflight, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(param_vulkan->device.device, swapChain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &image_index);
+  VkResult result = vkAcquireNextImageKHR(param_vulkan->device.device, param_vulkan->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &image_index);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -88,7 +87,6 @@ void VK_drawing::draw_command(){
   //---------------------------
 }
 void VK_drawing::draw_queue(){
-  VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
@@ -118,7 +116,6 @@ void VK_drawing::draw_queue(){
   //---------------------------
 }
 void VK_drawing::draw_presentation(){
-  VkSwapchainKHR swapChain = vk_swapchain->get_swapChain();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
@@ -130,14 +127,14 @@ void VK_drawing::draw_presentation(){
   presentInfo.waitSemaphoreCount = 1;
   presentInfo.pWaitSemaphores = semaphore_signal;
 
-  VkSwapchainKHR swapChains[] = {swapChain};
+  VkSwapchainKHR swapChains[] = {param_vulkan->swapchain.swapchain};
   presentInfo.swapchainCount = 1;
   presentInfo.pSwapchains = swapChains;
   presentInfo.pImageIndices = &image_index;
   presentInfo.pResults = nullptr; // Optional
 
   VkResult result = vkQueuePresentKHR(param_vulkan->device.queue_presentation, &presentInfo);
-  if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized){
+  if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || param_vulkan->window.is_resized){
     vk_swapchain->recreate_swapChain();
   }else if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to present swap chain image!");

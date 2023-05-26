@@ -1,9 +1,10 @@
 #ifndef PARAM_VULKAN_H
 #define PARAM_VULKAN_H
 
+#include "Struct/struct_window.h"
 #include "Struct/struct_instance.h"
 #include "Struct/struct_device.h"
-#include "Struct/struct_window.h"
+#include "Struct/struct_swapchain.h"
 
 #include <string>
 #include <vector>
@@ -16,9 +17,10 @@
 struct Param_vulkan{
   //---------------------------
 
-  Struct_instance instance;
   Struct_window window;
+  Struct_instance instance;
   Struct_device device;
+  Struct_swapchain swapchain;
 
   //---------------------------
 };

@@ -74,7 +74,7 @@ void VK_window::create_window_surface(){
 
   //---------------------------
 }
-bool VK_window::check_for_resizing(){
+void VK_window::check_for_resizing(){
   bool is_resized = false;
   //---------------------------
 
@@ -88,7 +88,7 @@ bool VK_window::check_for_resizing(){
   }
 
   //---------------------------
-  return is_resized;
+  param_vulkan->window.is_resized = is_resized;
 }
 vec2 VK_window::get_framebuffer_size(){
   vec2 dim = vec2(0);

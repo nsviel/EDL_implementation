@@ -1,6 +1,7 @@
 #ifndef VK_COMMAND_H
 #define VK_COMMAND_H
 
+#include "../Struct/struct_image.h"
 #include "../../../common.h"
 
 class Engine;
@@ -31,7 +32,7 @@ public:
 public:
   //Main functions
   void create_command_pool();
-  void create_command_buffers();
+  void create_command_buffer(vector<Frame*> vec_frame);
   void cleanup();
 
   //Drawing command
@@ -45,7 +46,6 @@ private:
   Engine* engineManager;
   Param_vulkan* param_vulkan;
   Param_engine* param_engine;
-
   VK_device* vk_device;
   VK_renderpass* vk_renderpass;
   VK_pipeline* vk_pipeline;

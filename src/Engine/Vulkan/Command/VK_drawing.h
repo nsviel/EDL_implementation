@@ -42,7 +42,6 @@ private:
   VK_uniform* vk_uniform;
   VK_image* vk_image;
 
-  bool framebufferResized;
   uint32_t image_index;
   uint32_t frame_current;
 };

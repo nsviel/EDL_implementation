@@ -64,7 +64,7 @@ void VK_command::create_command_pool(){
 
   //---------------------------
 }
-void VK_command::create_command_buffers(){
+void VK_command::create_command_buffer(vector<Frame*> vec_frame){
   //---------------------------
 
   //One command buffer per frame
@@ -83,7 +83,6 @@ void VK_command::create_command_buffers(){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
 
-  vector<Frame*> vec_frame = vk_image->get_vec_frame();
   for(int i=0; i<vec_frame.size(); i++){
     Frame* frame = vec_frame[i];
     frame->command_buffer = command_buffer_vec[i];
@@ -149,14 +148,12 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer, uint32_t 
   //---------------------------
 }
 VkCommandBuffer VK_command::command_buffer_begin(){
-  VK_command* vk_command = engineManager->get_vk_command();
-  VkCommandPool commandPool = vk_command->get_command_pool();
   //---------------------------
 
   VkCommandBufferAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-  allocInfo.commandPool = commandPool;
+  allocInfo.commandPool = command_pool;
   allocInfo.commandBufferCount = 1;
 
   VkCommandBuffer command_buffer;
@@ -172,8 +169,6 @@ VkCommandBuffer VK_command::command_buffer_begin(){
   return command_buffer;
 }
 void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
-  VK_command* vk_command = engineManager->get_vk_command();
-  VkCommandPool commandPool = vk_command->get_command_pool();
   //---------------------------
 
   vkEndCommandBuffer(command_buffer);
@@ -186,7 +181,7 @@ void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
   vkQueueSubmit(param_vulkan->device.queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
   vkQueueWaitIdle(param_vulkan->device.queue_graphics);
 
-  vkFreeCommandBuffers(param_vulkan->device.device, commandPool, 1, &command_buffer);
+  vkFreeCommandBuffers(param_vulkan->device.device, command_pool, 1, &command_buffer);
 
   //---------------------------
 }

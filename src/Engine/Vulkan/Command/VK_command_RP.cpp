@@ -46,7 +46,6 @@ void VK_command_RP::command_viewport(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_command_RP::command_drawing_scene(VkCommandBuffer command_buffer, uint32_t frame_current){
-  VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
@@ -79,7 +78,6 @@ void VK_command_RP::command_drawing_scene(VkCommandBuffer command_buffer, uint32
   //---------------------------
 }
 void VK_command_RP::command_drawing_glyph(VkCommandBuffer command_buffer, uint32_t frame_current){
-  VK_data* vk_data = engineManager->get_vk_data();
   //---------------------------
 
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
@@ -109,7 +107,6 @@ void VK_command_RP::command_drawing_glyph(VkCommandBuffer command_buffer, uint32
   //---------------------------
 }
 void VK_command_RP::command_drawing_canvas(VkCommandBuffer command_buffer, uint32_t frame_current){
-  VK_data* vk_data = engineManager->get_vk_data();
   vector<Frame*> vec_frame = vk_image->get_vec_frame();
   Frame* frame = vec_frame[frame_current];
   //---------------------------

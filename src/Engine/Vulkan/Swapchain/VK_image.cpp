@@ -3,6 +3,7 @@
 
 #include "../Engine.h"
 #include "../Param_vulkan.h"
+#include "../Command/VK_command.h"
 #include "../Command/VK_synchronization.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Attachment/VK_depth.h"
@@ -48,13 +49,12 @@ void VK_image::cleanup(){
 //Creation function
 void VK_image::create_image_struct(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
-  vector<VkImage> vec_swapchain_image = vk_swapchain->get_vec_swapchain_image();
   //---------------------------
 
   //Swapchain images
-  for(int i=0; i<vec_swapchain_image.size(); i++){
+  for(int i=0; i<param_vulkan->swapchain.vec_swapchain_image.size(); i++){
     Image* image = new Image();
-    image->color.image = vec_swapchain_image[i];
+    image->color.image = param_vulkan->swapchain.vec_swapchain_image[i];
     image->color.format = vk_color->find_color_format();
     image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
     vk_depth->create_depth_attachment(image);
@@ -64,6 +64,7 @@ void VK_image::create_image_struct(){
   //---------------------------
 }
 void VK_image::create_frame_struct(){
+  VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
   //Draw frames
@@ -72,6 +73,8 @@ void VK_image::create_frame_struct(){
     vk_synchronization->create_sync_objects(frame);
     vec_frame.push_back(frame);
   }
+
+  vk_command->create_command_buffer(vec_frame);
 
   //---------------------------
 }
