@@ -3,9 +3,6 @@
 #include "../Engine.h"
 #include "../Param_vulkan.h"
 #include "../Data/VK_buffer.h"
-#include "../Device/VK_device.h"
-#include "../Swapchain/VK_swapchain.h"
-#include "../Camera/VK_camera.h"
 
 
 //Constructor / Destructor
@@ -13,10 +10,7 @@ VK_uniform::VK_uniform(Engine* engineManager){
   //---------------------------
 
   this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
   this->vk_buffer = engineManager->get_vk_buffer();
-  this->vk_swapchain = engineManager->get_vk_swapchain();
-  this->vk_camera = engineManager->get_vk_camera();
 
   //---------------------------
 }
@@ -27,13 +21,21 @@ void VK_uniform::create_uniform_buffers(Struct_pipeline* pipeline){
   //---------------------------
 
   for(int i=0; i<pipeline->vec_required_uniform.size(); i++){
-    name_type_binding name_type_binding = pipeline->vec_required_uniform[i];
-    Struct_uniform* uniform = new Struct_uniform();
-    uniform->name = get<0>(name_type_binding);
-    uniform->binding = get<2>(name_type_binding);
+    name_type_binding info = pipeline->vec_required_uniform[i];
+    Struct_uniform* uniform = create_uniform_buffer(get<0>(info), get<1>(info), get<2>(info));
+    pipeline->vec_uniform.push_back(uniform);
+  }
+
+  //---------------------------
+}
+Struct_uniform* VK_uniform::create_uniform_buffer(string name, string type, int binding){
+  Struct_uniform* uniform = new Struct_uniform();
+  //---------------------------
+
+    uniform->name = name;
+    uniform->binding = binding;
 
     std::size_t type_size;
-    string type = get<1>(name_type_binding);
     if(type == "mat4"){
       type_size = sizeof(glm::mat4);
     }else{
@@ -45,10 +47,8 @@ void VK_uniform::create_uniform_buffers(Struct_pipeline* pipeline){
     vk_buffer->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, uniform->buffer, uniform->mem);
     vkMapMemory(param_vulkan->device.device, uniform->mem, 0, type_size, 0, &uniform->mapped);
 
-    pipeline->vec_uniform.push_back(uniform);
-  }
-
   //---------------------------
+  return uniform;
 }
 void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp){
   //---------------------------

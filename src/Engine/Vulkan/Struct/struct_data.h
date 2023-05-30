@@ -2,6 +2,7 @@
 #define STRUCT_DATA_H
 
 #include "struct_buffer.h"
+#include "struct_uniform.h"
 #include "../../../common.h"
 
 
@@ -19,9 +20,6 @@ struct Struct_data{ //Cloud cloud / part
   Struct_buffer xyz;
   Struct_buffer rgb;
   Struct_buffer uv;
-
-  //Descriptor
-  VkDescriptorSet descriptor_set;
 
   //---------------------------
 };

@@ -19,7 +19,7 @@ GUI_filemanager::~GUI_filemanager(){}
 
 //Main function
 void GUI_filemanager::tree_view(float width){
-  list<Set*>* list_data = dataManager->get_list_obj_scene();
+  list<Set*>* list_data = dataManager->get_list_data_scene();
   //---------------------------
 
   static ImGuiTableFlags flag_tree;

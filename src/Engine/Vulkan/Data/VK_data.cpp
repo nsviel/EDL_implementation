@@ -5,6 +5,8 @@
 #include "../Engine.h"
 #include "../Param_vulkan.h"
 #include "../Device/VK_device.h"
+#include "../Shader/VK_descriptor.h"
+#include "../Shader/VK_uniform.h"
 
 #include "../../GPU/GPU_data.h"
 #include "../../Node_engine.h"
@@ -19,6 +21,8 @@ VK_data::VK_data(Engine* engineManager){
   this->vk_device = engineManager->get_vk_device();
   this->vk_buffer = engineManager->get_vk_buffer();
   this->vk_texture = engineManager->get_vk_texture();
+  this->vk_descriptor = engineManager->get_vk_descriptor();
+  this->vk_uniform = engineManager->get_vk_uniform();
 
   //---------------------------
 }

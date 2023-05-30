@@ -46,18 +46,18 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
   this->vk_buffer = new VK_buffer(this);
+  this->vk_uniform = new VK_uniform(this);
   this->vk_texture = new VK_texture(this);
   this->vk_depth = new VK_depth(this);
   this->vk_color = new VK_color(this);
+  this->vk_descriptor = new VK_descriptor(this);
   this->vk_data = new VK_data(this);
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_swapchain = new VK_swapchain(this);
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_frame = new VK_frame(this);
-  this->vk_descriptor = new VK_descriptor(this);
   this->vk_shader = new VK_shader(this);
-  this->vk_uniform = new VK_uniform(this);
   this->vk_pipeline = new VK_pipeline(this);
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
@@ -82,6 +82,7 @@ void Engine::init_vulkan(){
   vk_device->create_logical_device();
   vk_command->create_command_pool();
   vk_descriptor->create_descriptor_pool();
+  vk_descriptor->init_descriptor_layout();
 
   //Pipeline
   vk_swapchain->create_swapchain();
@@ -90,13 +91,11 @@ void Engine::init_vulkan(){
   vk_pipeline->init_pipeline();
 
 
-
+  // one command buffer per pipeline
+  //Save the commands and redraw only necessary
   // généraliser les uniform / pishconstant
-  //configurer les descripteurs en fonction des uniform  et non pas les configurer en parfallèle
-    //-creation des uniform selon ceux demandé par le pipeline
-    //-creation des descriptor layout en fonction des uniform
-    //-Allocation des descripteur set lorsque tous les pipeline sont terminés
-    //Remove data from gpu memory
+
+
 
   //Specific
   vk_canvas->create_canvas();

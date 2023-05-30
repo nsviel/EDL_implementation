@@ -48,8 +48,7 @@ struct Object{ //Cloud cloud / part
   bool has_texture;
   bool has_timestamp;
 
-  //Vulkan stuff
-  VkDescriptorSet descriptor_set;
+  //Texture
   std::list<Struct_texture*> list_texture;
 
   //Pose

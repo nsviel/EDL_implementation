@@ -2,10 +2,6 @@
 
 #include "../Engine.h"
 #include "../Param_vulkan.h"
-#include "../Data/VK_texture.h"
-#include "../Data/VK_buffer.h"
-#include "../Device/VK_device.h"
-#include "../Swapchain/VK_frame.h"
 
 //A descriptor set contains a descriptor set layout and a descriptor pool
 
@@ -16,10 +12,8 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
 
   this->engineManager = engineManager;
   this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
-  this->vk_frame = engineManager->get_vk_image();
-  this->vk_texture = engineManager->get_vk_texture();
 
+  this->pool_nb_descriptor = 1000;
   this->pool_nb_uniform = 1000;
   this->pool_nb_sampler = 1;
 
@@ -28,9 +22,21 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
 VK_descriptor::~VK_descriptor(){}
 
 //Main function
+void VK_descriptor::init_descriptor_layout(){
+  //---------------------------
+
+  this->descriptor_layout_scene = create_layout_scene();
+  this->descriptor_layout_glyph = create_layout_glyph();
+  this->descriptor_layout_canvas = create_layout_canvas();
+
+  //---------------------------
+}
 void VK_descriptor::cleanup(){
   //---------------------------
 
+  vkDestroyDescriptorSetLayout(param_vulkan->device.device, descriptor_layout_scene, nullptr);
+  vkDestroyDescriptorSetLayout(param_vulkan->device.device, descriptor_layout_glyph, nullptr);
+  vkDestroyDescriptorSetLayout(param_vulkan->device.device, descriptor_layout_canvas, nullptr);
   vkDestroyDescriptorPool(param_vulkan->device.device, descriptor_pool, nullptr);
 
   //---------------------------
@@ -62,12 +68,12 @@ void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipelin
   for(int i=0; i<vec_pipeline.size(); i++){
     Struct_pipeline* pipeline = vec_pipeline[i];
     pipeline->descriptor_set = vec_descriptor_set[i];
-    this->configure_descriptor_set(pipeline);
+    this->update_descriptor_set(pipeline);
   }
 
   //---------------------------
 }
-void VK_descriptor::configure_descriptor_set(Struct_pipeline* pipeline){
+void VK_descriptor::update_descriptor_set(Struct_pipeline* pipeline){
   //---------------------------
 
   Struct_uniform* uniform = pipeline->vec_uniform[0];
@@ -104,6 +110,49 @@ void VK_descriptor::configure_descriptor_set(Struct_pipeline* pipeline){
 
   //---------------------------
 }
+/*void VK_descriptor::allocate_descriptor_set(Struct_data* data){
+  //---------------------------
+
+  VkDescriptorSetAllocateInfo allocInfo{};
+  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+  allocInfo.descriptorPool = descriptor_pool;
+  allocInfo.descriptorSetCount = 1;
+  allocInfo.pSetLayouts = &data->descriptor_layout;
+
+  VkDescriptorSet descriptor_set;
+  VkResult result = vkAllocateDescriptorSets(param_vulkan->device.device, &allocInfo, &descriptor_set);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to allocate descriptor sets!");
+  }
+
+  //---------------------------
+  this->update_descriptor_set(data);
+  data->descriptor_set = descriptor_set;
+}
+void VK_descriptor::update_descriptor_set(Struct_data* data){
+  //---------------------------
+
+  VkDescriptorBufferInfo bufferInfo{};
+  bufferInfo.buffer = data->mvp->buffer;
+  bufferInfo.offset = 0;
+  bufferInfo.range = sizeof(glm::mat4);
+
+  //MVP matrix to GPU
+  VkWriteDescriptorSet descriptor_write{};
+  descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+  descriptor_write.dstSet = data->descriptor_set;
+  descriptor_write.dstBinding = data->mvp->binding;
+  descriptor_write.dstArrayElement = 0;
+  descriptor_write.descriptorType = TYPE_UNIFORM;
+  descriptor_write.descriptorCount = 1;
+  descriptor_write.pBufferInfo = &bufferInfo;
+  descriptor_write.pImageInfo = nullptr; // Optional
+  descriptor_write.pTexelBufferView = nullptr; // Optional
+
+  vkUpdateDescriptorSets(param_vulkan->device.device, 1, &descriptor_write, 0, nullptr);
+
+  //---------------------------
+}*/
 
 //Descriptor layout
 VkDescriptorSetLayout VK_descriptor::create_layout_scene(){
@@ -180,7 +229,7 @@ void VK_descriptor::create_descriptor_pool(){
   pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
   pool_info.poolSizeCount = static_cast<uint32_t>(vec_pool_size.size());
   pool_info.pPoolSizes = vec_pool_size.data();
-  pool_info.maxSets = static_cast<uint32_t>(3);
+  pool_info.maxSets = static_cast<uint32_t>(pool_nb_descriptor);
 
   VkResult result = vkCreateDescriptorPool(param_vulkan->device.device, &pool_info, nullptr, &descriptor_pool);
   if(result != VK_SUCCESS){

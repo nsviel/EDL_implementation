@@ -14,8 +14,8 @@ public:
   ~Database();
 
 public:
-  inline list<Set*>* get_list_obj_scene(){return list_data;}
-  inline list<Set*>* get_list_obj_glyph(){return list_glyph;}
+  inline list<Set*>* get_list_data_scene(){return list_data;}
+  inline list<Set*>* get_list_data_glyph(){return list_glyph;}
 
 private:
   int ID_obj;
