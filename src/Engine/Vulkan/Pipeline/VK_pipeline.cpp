@@ -36,18 +36,18 @@ void VK_pipeline::init_pipeline(){
   //160ms/pipeline
   //---------------------------
 
-  //Pipeline Cloud
-  Struct_pipeline* pipeline_cloud = new Struct_pipeline();
-  pipeline_cloud->name = "cloud";
-  pipeline_cloud->topology = "point";
-  pipeline_cloud->compile_shader = true;
-  pipeline_cloud->path_shader_vs = "Base/shader_scene_vs";
-  pipeline_cloud->path_shader_fs = "Base/shader_scene_fs";
-  pipeline_cloud->vec_data_name.push_back("location");
-  pipeline_cloud->vec_data_name.push_back("color");
-  pipeline_cloud->vec_required_uniform.push_back(std::make_pair("mvp", "mat4"));
-  pipeline_cloud->descriptor_layout = vk_descriptor->create_layout_basic();
-  this->create_pipeline_info(pipeline_cloud);
+  //Pipeline scene
+  Struct_pipeline* pipeline_scene = new Struct_pipeline();
+  pipeline_scene->name = "scene";
+  pipeline_scene->topology = "point";
+  pipeline_scene->compile_shader = true;
+  pipeline_scene->path_shader_vs = "Base/shader_scene_vs";
+  pipeline_scene->path_shader_fs = "Base/shader_scene_fs";
+  pipeline_scene->vec_data_name.push_back("location");
+  pipeline_scene->vec_data_name.push_back("color");
+  pipeline_scene->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 1));
+  pipeline_scene->descriptor_layout = vk_descriptor->create_layout_basic();
+  this->create_pipeline_info(pipeline_scene);
 
   //Pipeline Glyph
   Struct_pipeline* pipeline_glyph = new Struct_pipeline();
@@ -58,7 +58,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
   pipeline_glyph->vec_data_name.push_back("location");
   pipeline_glyph->vec_data_name.push_back("color");
-  pipeline_glyph->vec_required_uniform.push_back(std::make_pair("mvp", "mat4"));
+  pipeline_glyph->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 1));
   pipeline_glyph->descriptor_layout = vk_descriptor->create_layout_basic();
   this->create_pipeline_info(pipeline_glyph);
 
@@ -71,7 +71,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
   pipeline_canvas->vec_data_name.push_back("location");
   pipeline_canvas->vec_data_name.push_back("tex_coord");
-  pipeline_canvas->vec_required_uniform.push_back(std::make_pair("mvp", "mat4"));
+  pipeline_canvas->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 1));
   pipeline_canvas->descriptor_layout = vk_descriptor->create_layout_basic();
   this->create_pipeline_info(pipeline_canvas);
 

@@ -1,7 +1,7 @@
 #ifndef VK_FRAMEBUFFER_H
 #define VK_FRAMEBUFFER_H
 
-#include "../Struct/struct_image.h"
+#include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
 class Engine;
@@ -18,10 +18,10 @@ public:
 
 public:
   //FBO creation
-  void create_framebuffer(Image* image);
+  void create_framebuffer(Frame_swapchain* image);
 
   //Deletion functions
-  void clean_framebuffer(Image* image);
+  void clean_framebuffer(Frame_swapchain* image);
 
 private:
   Param_vulkan* param_vulkan;

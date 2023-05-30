@@ -23,7 +23,7 @@
 #include "Attachment/VK_depth.h"
 #include "Attachment/VK_color.h"
 #include "Swapchain/VK_swapchain.h"
-#include "Swapchain/VK_image.h"
+#include "Swapchain/VK_frame.h"
 #include "Camera/VK_viewport.h"
 #include "Camera/VK_camera.h"
 
@@ -54,7 +54,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_swapchain = new VK_swapchain(this);
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_framebuffer = new VK_framebuffer(this);
-  this->vk_image = new VK_image(this);
+  this->vk_frame = new VK_frame(this);
   this->vk_descriptor = new VK_descriptor(this);
   this->vk_shader = new VK_shader(this);
   this->vk_uniform = new VK_uniform(this);
@@ -86,7 +86,7 @@ void Engine::init_vulkan(){
   //Pipeline
   vk_swapchain->create_swapchain();
   vk_renderpass->init_renderpass();
-  vk_image->init_image();
+  vk_frame->init_image();
   vk_pipeline->init_pipeline();
 
 
@@ -127,7 +127,7 @@ void Engine::clean_vulkan(){
   //---------------------------
 
   vk_gui->cleanup();
-  vk_image->cleanup();
+  vk_frame->cleanup();
   vk_swapchain->clean_swapchain();
   vk_pipeline->cleanup();
   vk_renderpass->cleanup();

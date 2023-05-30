@@ -8,7 +8,7 @@ class Param_vulkan;
 class VK_viewport;
 class VK_pipeline;
 class VK_camera;
-class VK_image;
+class VK_frame;
 class VK_canvas;
 class VK_uniform;
 class VK_data;
@@ -33,7 +33,7 @@ private:
   Param_vulkan* param_vulkan;
   VK_pipeline* vk_pipeline;
   VK_camera* vk_camera;
-  VK_image* vk_image;
+  VK_frame* vk_frame;
   VK_canvas* vk_canvas;
   VK_uniform* vk_uniform;
   VK_data* vk_data;

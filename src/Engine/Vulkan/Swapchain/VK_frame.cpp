@@ -1,4 +1,4 @@
-#include "VK_image.h"
+#include "VK_frame.h"
 #include "VK_swapchain.h"
 
 #include "../Engine.h"
@@ -13,7 +13,7 @@
 
 
 //Constructor / Destructor
-VK_image::VK_image(Engine* engineManager){
+VK_frame::VK_frame(Engine* engineManager){
   //---------------------------
 
   this->engineManager = engineManager;
@@ -27,35 +27,35 @@ VK_image::VK_image(Engine* engineManager){
 
   //---------------------------
 }
-VK_image::~VK_image(){}
+VK_frame::~VK_frame(){}
 
 //Main function
-void VK_image::init_image(){
+void VK_frame::init_image(){
   //---------------------------
 
-  this->create_image_struct();
-  this->create_frame_struct();
+  this->create_frame_swapchain();
+  this->create_frame_inflight();
 
   //---------------------------
 }
-void VK_image::cleanup(){
+void VK_frame::cleanup(){
   //---------------------------
 
-  this->clean_image_struct();
-  this->clean_frame_struct();
+  this->clean_frame_swapchain();
+  this->clean_frame_inflight();
 
   //---------------------------
 }
 
 //Creation function
-void VK_image::create_image_struct(){
+void VK_frame::create_frame_swapchain(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
   //---------------------------
 
   //Swapchain images
-  vector<Image*> vec_image;
+  vector<Frame_swapchain*> vec_image;
   for(int i=0; i<param_vulkan->swapchain.vec_swapchain_image.size(); i++){
-    Image* image = new Image();
+    Frame_swapchain* image = new Frame_swapchain();
     image->color.image = param_vulkan->swapchain.vec_swapchain_image[i];
     image->color.format = vk_color->find_color_format();
     image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
@@ -67,14 +67,14 @@ void VK_image::create_image_struct(){
   //---------------------------
   param_vulkan->swapchain.vec_image = vec_image;
 }
-void VK_image::create_frame_struct(){
+void VK_frame::create_frame_inflight(){
   VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
   //Draw frames
-  vector<Frame*> vec_frame;
+  vector<Frame_inflight*> vec_frame;
   for(int i=0; i<param_vulkan->instance.max_frame; i++){
-    Frame* frame = new Frame();
+    Frame_inflight* frame = new Frame_inflight();
     vk_synchronization->create_sync_objects(frame);
     vec_frame.push_back(frame);
   }
@@ -86,14 +86,14 @@ void VK_image::create_frame_struct(){
 }
 
 //Deletio function
-void VK_image::clean_image_struct(){
+void VK_frame::clean_frame_swapchain(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
   VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   //---------------------------
 
   //Vec images
   for(int i=0; i<param_vulkan->swapchain.vec_image.size(); i++){
-    Image* image = param_vulkan->swapchain.vec_image[i];
+    Frame_swapchain* image = param_vulkan->swapchain.vec_image[i];
     vkDestroyImageView(param_vulkan->device.device, image->color.view, nullptr);
     vk_depth->clean_depth_attachment(image);
     vk_framebuffer->clean_framebuffer(image);
@@ -103,11 +103,11 @@ void VK_image::clean_image_struct(){
 
   //---------------------------
 }
-void VK_image::clean_frame_struct(){
+void VK_frame::clean_frame_inflight(){
   //---------------------------
 
   for(int i=0; i<param_vulkan->swapchain.vec_frame.size(); i++){
-    Frame* frame = param_vulkan->swapchain.vec_frame[i];
+    Frame_inflight* frame = param_vulkan->swapchain.vec_frame[i];
     vk_synchronization->clean_sync_obj(frame);
     delete frame;
   }

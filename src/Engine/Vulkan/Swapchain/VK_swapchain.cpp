@@ -1,5 +1,5 @@
 #include "VK_swapchain.h"
-#include "VK_image.h"
+#include "VK_frame.h"
 
 #include "../Engine.h"
 #include "../Param_vulkan.h"
@@ -126,7 +126,7 @@ void VK_swapchain::create_swapchain_image(VkSwapchainKHR swapchain, unsigned int
 //Swap chain function
 void VK_swapchain::recreate_swapChain(){
   VK_depth* vk_depth = engineManager->get_vk_depth();
-  VK_image* vk_image = engineManager->get_vk_image();
+  VK_frame* vk_frame = engineManager->get_vk_image();
   VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
   GLFWwindow* window = vk_window->get_window();
   //---------------------------
@@ -141,13 +141,13 @@ void VK_swapchain::recreate_swapChain(){
   vkDeviceWaitIdle(param_vulkan->device.device);
 
   //Clean old values
-  vk_image->clean_image_struct();
+  vk_frame->clean_frame_swapchain();
   this->clean_swapchain();
 
   //Recreate values
   vk_physical_device->compute_extent();
   this->create_swapchain();
-  vk_image->create_image_struct();
+  vk_frame->create_frame_swapchain();
 
   //---------------------------
 }

@@ -4,7 +4,7 @@
 #include "../Engine.h"
 #include "../Param_vulkan.h"
 #include "../Swapchain/VK_swapchain.h"
-#include "../Swapchain/VK_image.h"
+#include "../Swapchain/VK_frame.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Device/VK_device.h"
 
@@ -21,7 +21,7 @@ VK_framebuffer::VK_framebuffer(Engine* engineManager){
 VK_framebuffer::~VK_framebuffer(){}
 
 //FBO creation
-void VK_framebuffer::create_framebuffer(Image* image){
+void VK_framebuffer::create_framebuffer(Frame_swapchain* image){
   //---------------------------
 
   //Get FBO required elements
@@ -50,7 +50,7 @@ void VK_framebuffer::create_framebuffer(Image* image){
 }
 
 //Deletion function
-void VK_framebuffer::clean_framebuffer(Image* image){
+void VK_framebuffer::clean_framebuffer(Frame_swapchain* image){
   //---------------------------
 
   vkDestroyFramebuffer(param_vulkan->device.device, image->fbo, nullptr);

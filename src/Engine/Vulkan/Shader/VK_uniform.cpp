@@ -27,12 +27,14 @@ void VK_uniform::create_uniform_buffers(Struct_pipeline* pipeline){
   //---------------------------
 
   for(int i=0; i<pipeline->vec_required_uniform.size(); i++){
-    name_type name_type = pipeline->vec_required_uniform[i];
+    name_type_binding name_type_binding = pipeline->vec_required_uniform[i];
     Struct_uniform* uniform = new Struct_uniform();
-    uniform->name = name_type.first;
+    uniform->name = get<0>(name_type_binding);
+    uniform->binding = get<2>(name_type_binding);
 
     std::size_t type_size;
-    if(name_type.second == "mat4"){
+    string type = get<1>(name_type_binding);
+    if(type == "mat4"){
       type_size = sizeof(glm::mat4);
     }else{
       cout<<"[error] Uniform type not recognized"<<endl;
@@ -52,7 +54,6 @@ void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp
   //---------------------------
 
   Struct_uniform* uniform = pipeline->vec_uniform[0];
-
   memcpy(uniform->mapped, &mvp, sizeof(mvp));
 
   //---------------------------

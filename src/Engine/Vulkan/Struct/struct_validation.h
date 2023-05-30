@@ -1,5 +1,5 @@
-#ifndef STRUCT_CALLBACK_H
-#define STRUCT_CALLBACK_H
+#ifndef STRUCT_VALIDATION_H
+#define STRUCT_VALIDATION_H
 
 #include "../../../common.h"
 

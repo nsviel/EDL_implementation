@@ -5,7 +5,7 @@
 #include "../Data/VK_texture.h"
 #include "../Data/VK_buffer.h"
 #include "../Device/VK_device.h"
-#include "../Swapchain/VK_image.h"
+#include "../Swapchain/VK_frame.h"
 
 //A descriptor set contains a descriptor set layout and a descriptor pool
 
@@ -17,7 +17,7 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
   this->engineManager = engineManager;
   this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_device = engineManager->get_vk_device();
-  this->vk_image = engineManager->get_vk_image();
+  this->vk_frame = engineManager->get_vk_image();
   this->vk_texture = engineManager->get_vk_texture();
 
   //---------------------------
@@ -78,7 +78,7 @@ void VK_descriptor::configure_descriptor_set(Struct_pipeline* pipeline){
   VkWriteDescriptorSet descriptor_write{};
   descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
   descriptor_write.dstSet = pipeline->descriptor_set;
-  descriptor_write.dstBinding = 0;
+  descriptor_write.dstBinding = uniform->binding;
   descriptor_write.dstArrayElement = 0;
   descriptor_write.descriptorType = TYPE_UNIFORM;
   descriptor_write.descriptorCount = 1;
@@ -107,7 +107,7 @@ VkDescriptorSetLayout VK_descriptor::create_layout_basic(){
   //---------------------------
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
-  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 0));
+  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 1));
 
   //---------------------------
   return create_layout(vec_binding);

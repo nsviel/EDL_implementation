@@ -29,7 +29,7 @@ class VK_gui;
 class VK_camera;
 class VK_shader;
 class VK_physical_device;
-class VK_image;
+class VK_frame;
 class VK_validation;
 class VK_canvas;
 class VK_color;
@@ -76,7 +76,7 @@ public:
   inline VK_camera* get_vk_camera(){return vk_camera;}
   inline VK_shader* get_vk_shader(){return vk_shader;}
   inline VK_physical_device* get_vk_physical_device(){return vk_physical_device;}
-  inline VK_image* get_vk_image(){return vk_image;}
+  inline VK_frame* get_vk_image(){return vk_frame;}
   inline VK_validation* get_vk_validation(){return vk_validation;}
   inline VK_drawing* get_vk_drawing(){return vk_drawing;}
   inline VK_canvas* get_vk_canvas(){return vk_canvas;}
@@ -109,7 +109,7 @@ private:
   VK_camera* vk_camera;
   VK_shader* vk_shader;
   VK_physical_device* vk_physical_device;
-  VK_image* vk_image;
+  VK_frame* vk_frame;
   VK_validation* vk_validation;
   VK_canvas* vk_canvas;
   VK_color* vk_color;

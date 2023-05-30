@@ -15,7 +15,7 @@ class VK_instance;
 class VK_device;
 class VK_renderpass;
 class VK_physical_device;
-class VK_image;
+class VK_frame;
 
 
 class VK_gui
@@ -50,7 +50,7 @@ private:
   VK_device* vk_device;
   VK_renderpass* vk_renderpass;
   VK_physical_device* vk_physical_device;
-  VK_image* vk_image;
+  VK_frame* vk_frame;
 
   VkDescriptorPool imguiPool;
   ImDrawData* draw_data;

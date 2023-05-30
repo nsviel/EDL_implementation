@@ -5,7 +5,7 @@
 #include "../Instance/VK_gui.h"
 #include "../Pipeline/VK_pipeline.h"
 #include "../Data/VK_buffer.h"
-#include "../Swapchain/VK_image.h"
+#include "../Swapchain/VK_frame.h"
 #include "../Camera/VK_camera.h"
 #include "../Camera/VK_viewport.h"
 #include "../Shader/VK_uniform.h"
@@ -21,7 +21,7 @@ VK_command_RP::VK_command_RP(Engine* engineManager){
   this->param_vulkan = engineManager->get_param_vulkan();
   this->vk_pipeline = engineManager->get_vk_pipeline();
   this->vk_camera = engineManager->get_vk_camera();
-  this->vk_image = engineManager->get_vk_image();
+  this->vk_frame = engineManager->get_vk_image();
   this->vk_canvas = engineManager->get_vk_canvas();
   this->vk_uniform = engineManager->get_vk_uniform();
   this->vk_data = engineManager->get_vk_data();
@@ -48,10 +48,10 @@ void VK_command_RP::command_viewport(VkCommandBuffer command_buffer){
 void VK_command_RP::command_drawing_scene(VkCommandBuffer command_buffer){
   //---------------------------
 
-  Frame* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
 
   //Bind pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("cloud");
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("scene");
   vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
 
@@ -79,7 +79,7 @@ void VK_command_RP::command_drawing_scene(VkCommandBuffer command_buffer){
 void VK_command_RP::command_drawing_glyph(VkCommandBuffer command_buffer){
   //---------------------------
 
-  Frame* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
 
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("glyph");
@@ -105,7 +105,7 @@ void VK_command_RP::command_drawing_glyph(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_command_RP::command_drawing_canvas(VkCommandBuffer command_buffer){
-  Frame* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
   //---------------------------
 
   //Bind pipeline

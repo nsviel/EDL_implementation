@@ -5,12 +5,7 @@ layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec3 in_color;
 layout(location = 0) out vec3 frag_color;
 
-//layout(push_constant) uniform constants{
-//  mat4 mvp;
-//}push;
-
-
-layout(binding = 0) uniform MVP {
+layout(binding = 1) uniform MVP{
     mat4 mvp;
 } ubo;
 

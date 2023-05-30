@@ -1,7 +1,7 @@
 #ifndef VK_VALIDATION_H
 #define VK_VALIDATION_H
 
-#include "../Struct/struct_callback.h"
+#include "../Struct/struct_validation.h"
 #include "../../../common.h"
 
 class Engine;

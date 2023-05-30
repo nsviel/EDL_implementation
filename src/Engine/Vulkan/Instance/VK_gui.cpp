@@ -9,7 +9,7 @@
 #include "../Pipeline/VK_renderpass.h"
 #include "../Command/VK_command.h"
 #include "../Command/VK_drawing.h"
-#include "../Swapchain/VK_image.h"
+#include "../Swapchain/VK_frame.h"
 
 #include "image/IconsFontAwesome5.h"
 
@@ -26,7 +26,7 @@ VK_gui::VK_gui(Engine* engineManager){
   this->vk_device = engineManager->get_vk_device();
   this->vk_renderpass = engineManager->get_vk_renderpass();
   this->vk_physical_device = engineManager->get_vk_physical_device();
-  this->vk_image = engineManager->get_vk_image();
+  this->vk_frame = engineManager->get_vk_image();
 
   //---------------------------
 }
@@ -142,7 +142,7 @@ void VK_gui::gui_style(){
   //style.WindowPadding = ImVec2(0.0f, 0.0f);
 
   //Colors
-  ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(112, 112, 112, 127)); //Frame background
+  ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(112, 112, 112, 127)); //Frame_inflight background
   ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(200, 200, 200, 127)); //Button color
   ImGui::PushStyleColor(ImGuiCol_Header, IM_COL32(76, 76, 76, 124));
   ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(117, 117, 117, 220));
@@ -167,7 +167,7 @@ void VK_gui::gui_font(){
   VK_drawing* vk_drawing = engineManager->get_vk_drawing();
   //---------------------------
 
-  Frame* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
 
   VkResult result = vkResetCommandPool(param_vulkan->device.device, command_pool, 0);
   if(result != VK_SUCCESS){

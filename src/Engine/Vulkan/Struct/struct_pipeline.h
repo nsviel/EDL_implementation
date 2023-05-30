@@ -19,7 +19,7 @@ struct Struct_pipeline{
   std::string path_shader_vs;
   std::string path_shader_fs;
 
-  vec_name_type vec_required_uniform;
+  vec_name_type_binding vec_required_uniform;
   vector<Struct_uniform*> vec_uniform;
 
   //Pipeline elments

@@ -1,7 +1,7 @@
 #ifndef VK_COMMAND_H
 #define VK_COMMAND_H
 
-#include "../Struct/struct_image.h"
+#include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
 class Engine;
@@ -16,7 +16,7 @@ class VK_window;
 class VK_buffer;
 class VK_camera;
 class VK_physical_device;
-class VK_image;
+class VK_frame;
 class VK_canvas;
 class VK_uniform;
 class VK_command_RP;
@@ -32,7 +32,7 @@ public:
 public:
   //Main functions
   void create_command_pool();
-  void create_command_buffer(vector<Frame*> vec_frame);
+  void create_command_buffer(vector<Frame_inflight*> vec_frame);
   void cleanup();
 
   //Drawing command
@@ -53,7 +53,7 @@ private:
   VK_window* vk_window;
   VK_buffer* vk_buffer;
   VK_camera* vk_camera;
-  VK_image* vk_image;
+  VK_frame* vk_frame;
   VK_physical_device* vk_physical_device;
   VK_canvas* vk_canvas;
   VK_uniform* vk_uniform;

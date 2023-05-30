@@ -1,7 +1,7 @@
 #ifndef VK_DEPTH_H
 #define VK_DEPTH_H
 
-#include "../Struct/struct_image.h"
+#include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
 class Engine;
@@ -18,8 +18,8 @@ public:
 
 public:
   //Main functions
-  void create_depth_attachment(Image* image);
-  void clean_depth_attachment(Image* image);
+  void create_depth_attachment(Frame_swapchain* image);
+  void clean_depth_attachment(Frame_swapchain* image);
 
   //Subfunctions
   bool find_stencil_component(VkFormat format);

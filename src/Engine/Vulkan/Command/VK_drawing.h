@@ -11,7 +11,7 @@ class VK_framebuffer;
 class VK_command;
 class VK_device;
 class VK_uniform;
-class VK_image;
+class VK_frame;
 
 
 class VK_drawing
@@ -38,7 +38,7 @@ private:
   VK_command* vk_command;
   VK_device* vk_device;
   VK_uniform* vk_uniform;
-  VK_image* vk_image;
+  VK_frame* vk_frame;
 };
 
 #endif

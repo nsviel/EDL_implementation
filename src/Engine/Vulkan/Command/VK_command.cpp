@@ -11,7 +11,7 @@
 #include "../Device/VK_physical_device.h"
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
-#include "../Swapchain/VK_image.h"
+#include "../Swapchain/VK_frame.h"
 #include "../Camera/VK_viewport.h"
 #include "../Camera/VK_camera.h"
 #include "../Shader/VK_uniform.h"
@@ -35,7 +35,7 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_buffer = engineManager->get_vk_buffer();
   this->vk_camera = engineManager->get_vk_camera();
   this->vk_physical_device = engineManager->get_vk_physical_device();
-  this->vk_image = engineManager->get_vk_image();
+  this->vk_frame = engineManager->get_vk_image();
   this->vk_canvas = engineManager->get_vk_canvas();
   this->vk_uniform = engineManager->get_vk_uniform();
   this->vk_command_RP = new VK_command_RP(engineManager);
@@ -64,7 +64,7 @@ void VK_command::create_command_pool(){
 
   //---------------------------
 }
-void VK_command::create_command_buffer(vector<Frame*> vec_frame){
+void VK_command::create_command_buffer(vector<Frame_inflight*> vec_frame){
   //---------------------------
 
   //One command buffer per frame
@@ -84,7 +84,7 @@ void VK_command::create_command_buffer(vector<Frame*> vec_frame){
   }
 
   for(int i=0; i<vec_frame.size(); i++){
-    Frame* frame = vec_frame[i];
+    Frame_inflight* frame = vec_frame[i];
     frame->command_buffer = command_buffer_vec[i];
   }
 
@@ -125,7 +125,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer){
   renderPassInfo.renderPass = vk_renderpass->get_renderPass();
   //renderPassInfo.framebuffer = vec_image_obj[param_vulkan->swapchain.current_image_ID]->fbo;
 
-  Image* image = param_vulkan->swapchain.get_current_image();
+  Frame_swapchain* image = param_vulkan->swapchain.get_current_image();
   renderPassInfo.framebuffer = image->fbo;
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = param_vulkan->window.extent;

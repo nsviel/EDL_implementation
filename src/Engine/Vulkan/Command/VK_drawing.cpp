@@ -5,7 +5,7 @@
 #include "../Command/VK_command.h"
 #include "../Shader/VK_uniform.h"
 #include "../Swapchain/VK_swapchain.h"
-#include "../Swapchain/VK_image.h"
+#include "../Swapchain/VK_frame.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Instance/VK_window.h"
 #include "../Device/VK_device.h"
@@ -23,7 +23,7 @@ VK_drawing::VK_drawing(Engine* engineManager){
   this->vk_command = engineManager->get_vk_command();
   this->vk_device = engineManager->get_vk_device();
   this->vk_uniform = engineManager->get_vk_uniform();
-  this->vk_image = engineManager->get_vk_image();
+  this->vk_frame = engineManager->get_vk_image();
 
   //---------------------------
 }
@@ -43,7 +43,7 @@ void VK_drawing::draw_frame(){
 
 //Subfunction
 void VK_drawing::draw_swapchain(){
-  Frame* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
   //---------------------------
 
   vk_window->check_for_resizing();
@@ -73,7 +73,7 @@ void VK_drawing::draw_swapchain(){
   //---------------------------
 }
 void VK_drawing::draw_command(){
-  Frame* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
   //---------------------------
 
   vkResetCommandBuffer(frame->command_buffer, 0);
@@ -82,7 +82,7 @@ void VK_drawing::draw_command(){
   //---------------------------
 }
 void VK_drawing::draw_queue(){
-  Frame* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
   //---------------------------
 
   VkSemaphore semaphore_wait[] = {frame->semaphore_image_available};
@@ -108,7 +108,7 @@ void VK_drawing::draw_queue(){
   //---------------------------
 }
 void VK_drawing::draw_presentation(){
-  Frame* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
   //---------------------------
 
   VkSemaphore semaphore_signal[] = {frame->semaphore_render_finished};

@@ -1,7 +1,7 @@
 #ifndef VK_COLOR_H
 #define VK_COLOR_H
 
-#include "../Struct/struct_image.h"
+#include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
 class Engine;
@@ -19,8 +19,8 @@ public:
 
 public:
   //Main functions
-  void create_color_attachment(Image* image);
-  void clean_color_attachment(Image* image);
+  void create_color_attachment(Frame_swapchain* image);
+  void clean_color_attachment(Frame_swapchain* image);
 
   //Subfunction
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
@@ -34,8 +34,8 @@ private:
   VK_texture* vk_texture;
 
   vector<VkImage> vec_image_swapchain;
-  vector<Image*> vec_image;
-  vector<Frame*> vec_frame;
+  vector<Frame_swapchain*> vec_image;
+  vector<Frame_inflight*> vec_frame;
 };
 
 #endif

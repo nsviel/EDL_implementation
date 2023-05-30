@@ -1,7 +1,7 @@
-#ifndef VK_IMAGE_H
-#define VK_IMAGE_H
+#ifndef VK_FRAME_H
+#define VK_FRAME_H
 
-#include "../Struct/struct_image.h"
+#include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
 class Engine;
@@ -14,12 +14,12 @@ class VK_framebuffer;
 class VK_swapchain;
 
 
-class VK_image
+class VK_frame
 {
 public:
   //Constructor / Destructor
-  VK_image(Engine* engineManager);
-  ~VK_image();
+  VK_frame(Engine* engineManager);
+  ~VK_frame();
 
 public:
   //Main function
@@ -27,12 +27,12 @@ public:
   void cleanup();
 
   //Creation function
-  void create_image_struct();
-  void create_frame_struct();
+  void create_frame_swapchain();
+  void create_frame_inflight();
 
   //Deletion function
-  void clean_frame_struct();
-  void clean_image_struct();
+  void clean_frame_swapchain();
+  void clean_frame_inflight();
 
 private:
   Engine* engineManager;

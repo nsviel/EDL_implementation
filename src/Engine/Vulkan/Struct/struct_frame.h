@@ -1,11 +1,11 @@
 #ifndef STRUCT_IMAGE_H
 #define STRUCT_IMAGE_H
 
-#include "struct_framebuffer.h"
+#include "struct_attachment.h"
 #include "../../../common.h"
 
 
-struct Image{
+struct Frame_swapchain{
   //Main object
   VkFramebuffer fbo;
   VkRenderPass renderpass;
@@ -17,7 +17,7 @@ struct Image{
   Struct_attachment depth;
 };
 
-struct Frame{
+struct Frame_inflight{
   int ID_frame;
   int ID_draw;
 

@@ -6,6 +6,7 @@
 
 struct Struct_uniform{
   std::string name;
+  int binding;
   VkBuffer buffer;
   VkDeviceMemory mem;
   void* mapped;

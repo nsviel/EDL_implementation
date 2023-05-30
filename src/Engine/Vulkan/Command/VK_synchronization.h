@@ -1,7 +1,7 @@
 #ifndef VK_CLASS_H
 #define VK_CLASS_H
 
-#include "../Struct/struct_image.h"
+#include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
 class Engine;
@@ -18,8 +18,8 @@ public:
 
 public:
   //Main functions
-  void create_sync_objects(Frame* frame);
-  void clean_sync_obj(Frame* frame);
+  void create_sync_objects(Frame_inflight* frame);
+  void clean_sync_obj(Frame_inflight* frame);
 
 private:
   Engine* engineManager;

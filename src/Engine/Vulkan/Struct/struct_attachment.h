@@ -1,5 +1,5 @@
-#ifndef STRUCT_FRAMEBUFFER_H
-#define STRUCT_FRAMEBUFFER_H
+#ifndef STRUCT_ATTACHMENT_H
+#define STRUCT_ATTACHMENT_H
 
 #include "../../../common.h"
 

@@ -2,7 +2,7 @@
 #define VK_DESCRIPTOR_H
 
 #include "../Struct/struct_uniform.h"
-#include "../Struct/struct_image.h"
+#include "../Struct/struct_frame.h"
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
@@ -10,7 +10,7 @@ class Engine;
 class Param_vulkan;
 class VK_device;
 class VK_texture;
-class VK_image;
+class VK_frame;
 
 
 class VK_descriptor
@@ -42,12 +42,10 @@ private:
   Engine* engineManager;
   Param_vulkan* param_vulkan;
   VK_device* vk_device;
-  VK_image* vk_image;
+  VK_frame* vk_frame;
   VK_texture* vk_texture;
 
   VkDescriptorPool descriptor_pool;
-  VkDescriptorSetLayout descriptor_layout;
-  vector<VkDescriptorSet> vec_descriptor_set;
 };
 
 #endif
