@@ -49,14 +49,6 @@ struct Object{ //Cloud cloud / part
   bool has_timestamp;
 
   //Vulkan stuff
-  VkBuffer vbo_xyz;
-  VkBuffer vbo_rgb;
-  VkBuffer vbo_uv;
-
-  VkDeviceMemory mem_xyz;
-  VkDeviceMemory mem_rgb;
-  VkDeviceMemory mem_uv;
-
   VkDescriptorSet descriptor_set;
   std::list<Struct_texture*> list_texture;
 

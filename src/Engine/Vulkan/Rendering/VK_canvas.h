@@ -1,10 +1,12 @@
 #ifndef VK_CANVAS_H
 #define VK_CANVAS_H
 
+#include "../Struct/struct_data.h"
 #include "../../../common.h"
 
 class Engine;
 class VK_buffer;
+class VK_data;
 
 
 class VK_canvas
@@ -19,12 +21,13 @@ public:
   void create_canvas();
   void cleanup();
 
-  inline Object* get_canvas(){return canvas;}
+  inline Struct_data* get_canvas(){return canvas;}
 
 private:
   VK_buffer* vk_buffer;
+  VK_data* vk_data;
 
-  Object* canvas;
+  Struct_data* canvas;
 };
 
 #endif

@@ -24,29 +24,66 @@ VK_data::VK_data(Engine* engineManager){
 }
 VK_data::~VK_data(){}
 
-//Main function
+//Insertion function
+void VK_data::insert_scene_object(Object* object){
+  //---------------------------
+
+  Struct_data* data = new Struct_data();
+  data->object = object;
+  this->check_for_attribut(data);
+  vk_buffer->create_buffer(data);
+  this->list_data_scene.push_back(data);
+
+  //---------------------------
+}
+void VK_data::insert_glyph_object(Object* object){
+  //---------------------------
+
+  Struct_data* data = new Struct_data();
+  data->object = object;
+  this->check_for_attribut(data);
+  vk_buffer->create_buffer(data);
+  this->list_data_glyph.push_back(data);
+
+  //---------------------------
+}
+
+//Clean function
 void VK_data::cleanup(){
   //---------------------------
 
-  for(int i=0; i<list_obj_scene.size(); i++){
-    Object* object = *next(list_obj_scene.begin(),i);
-    this->clean_object(object);
+  for(int i=0; i<list_data_scene.size(); i++){
+    Struct_data* data = *next(list_data_scene.begin(),i);
+    this->clean_data(data);
   }
 
-  for(int i=0; i<list_obj_glyph.size(); i++){
-    Object* object = *next(list_obj_glyph.begin(),i);
-    this->clean_object(object);
+  for(int i=0; i<list_data_glyph.size(); i++){
+    Struct_data* data = *next(list_data_glyph.begin(),i);
+    this->clean_data(data);
   }
 
   //---------------------------
 }
-void VK_data::clean_object(Object* object){
+void VK_data::clean_data(Struct_data* data){
   //---------------------------
 
   vkDeviceWaitIdle(param_vulkan->device.device);
 
-  vk_buffer->cleanup_object(object);
-  vk_texture->cleanup_texture(object);
+  vk_buffer->clean_data(data);
+  vk_texture->clean_texture(data->object);
+
+  //---------------------------
+}
+void VK_data::clean_data(int ID){
+  //---------------------------
+
+  for(int i=0; i<list_data_scene.size(); i++){
+    Struct_data* data = *next(list_data_scene.begin(),i);
+    if(data->object->ID == ID){
+      this->clean_data(data);
+      list_data_scene.remove(data);
+    }
+  }
 
   //---------------------------
 }
@@ -61,7 +98,6 @@ void VK_data::create_data_description(Struct_pipeline* pipeline){
 
   //---------------------------
 }
-
 void VK_data::create_attribut_description(Struct_pipeline* pipeline){
   vector<VkVertexInputAttributeDescription> attribut_description;
   //---------------------------
@@ -145,4 +181,16 @@ void VK_data::combine_description(Struct_pipeline* pipeline){
 
   //---------------------------
   pipeline->vertex_input_info = vertex_input_info;
+}
+void VK_data::check_for_attribut(Struct_data* data){
+  //---------------------------
+
+  if(data->object->rgb.size() != 0){
+    data->has_rgb = true;
+  }
+  if(data->object->uv.size() != 0){
+    data->has_uv = true;
+  }
+
+  //---------------------------
 }

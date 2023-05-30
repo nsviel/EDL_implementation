@@ -2,6 +2,7 @@
 
 #include "../Engine.h"
 #include "../Data/VK_buffer.h"
+#include "../Data/VK_data.h"
 
 
 //Constructor / Destructor
@@ -9,6 +10,7 @@ VK_canvas::VK_canvas(Engine* engineManager){
   //---------------------------
 
   this->vk_buffer = engineManager->get_vk_buffer();
+  this->vk_data = engineManager->get_vk_data();
 
   //---------------------------
 }
@@ -16,7 +18,7 @@ VK_canvas::~VK_canvas(){}
 
 //Main function
 void VK_canvas::create_canvas(){
-  this->canvas = new Object();
+  Object* canvas_obj = new Object();
   //---------------------------
 
   //Generic quad coordinates and UV
@@ -36,20 +38,23 @@ void VK_canvas::create_canvas(){
   uv.push_back(vec2(1.0f,  0.0f));
   uv.push_back(vec2(1.0f,  1.0f));
 
-  canvas->name = "canvas";
-  canvas->xyz = xyz;
-  canvas->uv = uv;
-  canvas->draw_type_name = "triangle";
+  canvas_obj->name = "canvas";
+  canvas_obj->xyz = xyz;
+  canvas_obj->uv = uv;
+  canvas_obj->draw_type_name = "triangle";
 
-  vk_buffer->create_buffer_xyz(canvas, canvas->xyz);
-  vk_buffer->create_buffer_uv(canvas, canvas->uv);
+  this->canvas = new Struct_data();
+  this->canvas->object = canvas_obj;
+
+  vk_data->check_for_attribut(canvas);
+  vk_buffer->create_buffer(canvas);
 
   //---------------------------
 }
 void VK_canvas::cleanup(){
   //---------------------------
 
-  vk_buffer->cleanup_object(canvas);
+  vk_buffer->clean_data(canvas);
 
   //---------------------------
 }

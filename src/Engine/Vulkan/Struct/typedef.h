@@ -7,7 +7,7 @@
 //Memory
 typedef VkMemoryPropertyFlags memory_flag;
 constexpr memory_flag MEMORY_GPU = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-constexpr memory_flag MEMORY_CPU_VISIBLE_GPU = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+constexpr memory_flag MEMORY_SHARED_CPU_GPU = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
 
 //Descriptor type
 typedef VkDescriptorType descriptor_type;

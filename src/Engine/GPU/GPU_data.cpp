@@ -20,8 +20,6 @@ GPU_data::GPU_data(Node_engine* node_engine){
   this->vk_command = engineManager->get_vk_command();
   this->vk_data = engineManager->get_vk_data();
 
-  this->is_descriptor_up = false;
-
   //---------------------------
 }
 GPU_data::~GPU_data(){}
@@ -32,8 +30,8 @@ void GPU_data::insert_object_in_engine(Object* object){
 
   //Check if object already in engine
   bool is_in_list = false;
-  for(int i=0; i<list_data.size(); i++){
-    Object* object_list = *next(list_data.begin(),i);
+  for(int i=0; i<list_scene.size(); i++){
+    Object* object_list = *next(list_scene.begin(),i);
     if(object->ID == object_list->ID){
       is_in_list = true;
     }
@@ -41,10 +39,8 @@ void GPU_data::insert_object_in_engine(Object* object){
 
   //If not, insert it
   if(is_in_list == false){
-    this->create_object_buffer(object);
-    list_data.push_back(object);
-    vk_data->set_list_data(list_data);
-    this->is_descriptor_up = true;
+    list_scene.push_back(object);
+    vk_data->insert_scene_object(object);
   }
 
   //---------------------------
@@ -63,10 +59,8 @@ void GPU_data::insert_glyph_in_engine(Object* object){
 
   //If not, insert it
   if(is_in_list == false){
-    this->create_object_buffer(object);
     list_glyph.push_back(object);
-    vk_data->set_list_glyph(list_glyph);
-    this->is_descriptor_up = true;
+    vk_data->insert_glyph_object(object);
   }
 
   //---------------------------
@@ -75,34 +69,12 @@ void GPU_data::remove_object_in_engine(Object* object){
   //---------------------------
 
   bool is_in_list = false;
-  for(int i=0; i<list_data.size(); i++){
-    Object* object_list = *next(list_data.begin(),i);
+  for(int i=0; i<list_scene.size(); i++){
+    Object* object_list = *next(list_scene.begin(),i);
     if(object->ID == object_list->ID){
-      list_data.remove(object_list);
-      vk_data->set_list_data(list_data);
-      vk_data->clean_object(object);
+      list_scene.remove(object_list);
+      vk_data->clean_data(object->ID);
     }
-  }
-
-  //---------------------------
-}
-
-//Subfunctions
-void GPU_data::create_object_buffer(Object* object){
-  //---------------------------
-
-  vk_buffer->create_buffer_xyz(object, object->xyz);
-
-  if(object->rgb.size() != 0){
-    vk_buffer->create_buffer_rgb(object, object->rgb);
-  }
-
-  if(object->uv.size() != 0){
-    vk_buffer->create_buffer_uv(object, object->uv);
-  }
-
-  if(object->path_text != ""){
-    //vk_texture->load_texture(object);
   }
 
   //---------------------------

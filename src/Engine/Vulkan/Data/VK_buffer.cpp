@@ -23,99 +23,121 @@ VK_buffer::VK_buffer(Engine* engineManager){
 VK_buffer::~VK_buffer(){}
 
 //Main function
-void VK_buffer::cleanup_object(Object* object){
+void VK_buffer::create_buffer(Struct_data* data){
+  //---------------------------
+
+  this->create_buffer_xyz(data);
+
+  if(data->has_rgb){
+    this->create_buffer_rgb(data);
+  }
+
+  if(data->has_uv){
+    this->create_buffer_uv(data);
+  }
+
+  if(data->object->path_text != ""){
+    //vk_texture->load_texture(object);
+  }
+
+  //---------------------------
+}
+void VK_buffer::clean_data(Struct_data* data){
   //---------------------------
 
   //Location buffer
-  vkDestroyBuffer(param_vulkan->device.device, object->vbo_xyz, nullptr);
-  vkFreeMemory(param_vulkan->device.device, object->mem_xyz, nullptr);
+  vkDestroyBuffer(param_vulkan->device.device, data->xyz.vbo, nullptr);
+  vkFreeMemory(param_vulkan->device.device, data->xyz.mem, nullptr);
 
   //Location buffer
-  if(object->rgb.size() != 0){
-    vkDestroyBuffer(param_vulkan->device.device, object->vbo_rgb, nullptr);
-    vkFreeMemory(param_vulkan->device.device, object->mem_rgb, nullptr);
+  if(data->has_rgb){
+    vkDestroyBuffer(param_vulkan->device.device, data->rgb.vbo, nullptr);
+    vkFreeMemory(param_vulkan->device.device, data->rgb.mem, nullptr);
   }
 
   //Location buffer
-  if(object->uv.size() != 0){
-    vkDestroyBuffer(param_vulkan->device.device, object->vbo_uv, nullptr);
-    vkFreeMemory(param_vulkan->device.device, object->mem_uv, nullptr);
+  if(data->has_uv){
+    vkDestroyBuffer(param_vulkan->device.device, data->uv.vbo, nullptr);
+    vkFreeMemory(param_vulkan->device.device, data->uv.mem, nullptr);
   }
 
   //---------------------------
 }
 
 //Data buffer functions
-void VK_buffer::create_buffer_xyz(Object* object, std::vector<vec3> vertices){
-  //---------------------------
-
+void VK_buffer::create_buffer_xyz(Struct_data* data){
+  vector<vec3>& vertices = data->object->xyz;
   VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
+  //---------------------------
 
   VkBuffer staging_buffer;
   VkDeviceMemory staging_buffer_memory;
   this->create_gpu_buffer(size, BUFFER_USAGE_SRC, staging_buffer);
-  this->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, staging_buffer, staging_buffer_memory);
+  this->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, staging_buffer, staging_buffer_memory);
 
   //Copy the vertex data from the CPU to the GPU
-  void* data;
-  vkMapMemory(param_vulkan->device.device, staging_buffer_memory, 0, size, 0, &data);
-  memcpy(data, vertices.data(), (size_t)size);
+  void* data_map;
+  vkMapMemory(param_vulkan->device.device, staging_buffer_memory, 0, size, 0, &data_map);
+  memcpy(data_map, vertices.data(), (size_t)size);
   vkUnmapMemory(param_vulkan->device.device, staging_buffer_memory);
 
-  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, object->vbo_xyz);
-  this->bind_buffer_memory(MEMORY_GPU, object->vbo_xyz, object->mem_xyz);
-  this->copy_buffer_to_gpu(staging_buffer, object->vbo_xyz, size);
+  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, data->xyz.vbo);
+  this->bind_buffer_memory(MEMORY_GPU, data->xyz.vbo, data->xyz.mem);
+  this->copy_buffer_to_gpu(staging_buffer, data->xyz.vbo, size);
 
   vkDestroyBuffer(param_vulkan->device.device, staging_buffer, nullptr);
   vkFreeMemory(param_vulkan->device.device, staging_buffer_memory, nullptr);
 
   //---------------------------
 }
-void VK_buffer::create_buffer_rgb(Object* object, std::vector<vec4> vertices){
-  //---------------------------
-
+void VK_buffer::create_buffer_rgb(Struct_data* data){
+  vector<vec4>& vertices = data->object->rgb;
   VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
+  //---------------------------
 
   VkBuffer staging_buffer;
   VkDeviceMemory staging_buffer_memory;
   this->create_gpu_buffer(size, BUFFER_USAGE_SRC, staging_buffer);
-  this->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, staging_buffer, staging_buffer_memory);
+  this->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, staging_buffer, staging_buffer_memory);
 
   //Filling the vertex buffer
-  void* data;
-  vkMapMemory(param_vulkan->device.device, staging_buffer_memory, 0, size, 0, &data);
-  memcpy(data, vertices.data(), (size_t)size);
+  void* data_map;
+  vkMapMemory(param_vulkan->device.device, staging_buffer_memory, 0, size, 0, &data_map);
+  memcpy(data_map, vertices.data(), (size_t)size);
   vkUnmapMemory(param_vulkan->device.device, staging_buffer_memory);
 
-  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, object->vbo_rgb);
-  this->bind_buffer_memory(MEMORY_GPU, object->vbo_rgb, object->mem_rgb);
-  this->copy_buffer_to_gpu(staging_buffer, object->vbo_rgb, size);
+  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, data->rgb.vbo);
+  this->bind_buffer_memory(MEMORY_GPU, data->rgb.vbo, data->rgb.mem);
+  this->copy_buffer_to_gpu(staging_buffer, data->rgb.vbo, size);
 
   vkDestroyBuffer(param_vulkan->device.device, staging_buffer, nullptr);
   vkFreeMemory(param_vulkan->device.device, staging_buffer_memory, nullptr);
 
   //---------------------------
 }
-void VK_buffer::create_buffer_uv(Object* object, std::vector<vec2> vertices){
+void VK_buffer::create_buffer_uv(Struct_data* data){
+  vector<vec2>& vertices = data->object->uv;
+  VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
   //---------------------------
 
-  VkDeviceSize size = sizeof(vertices[0]) * vertices.size();
-
+  //Create empty sized stagging buffer
   VkBuffer staging_buffer;
   VkDeviceMemory staging_buffer_memory;
   this->create_gpu_buffer(size, BUFFER_USAGE_SRC, staging_buffer);
-  this->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, staging_buffer, staging_buffer_memory);
+  this->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, staging_buffer, staging_buffer_memory);
 
-  //Filling the vertex buffer
-  void* data;
-  vkMapMemory(param_vulkan->device.device, staging_buffer_memory, 0, size, 0, &data);
-  memcpy(data, vertices.data(), (size_t)size);
+  //Fill the created sized stagging buffer
+  void* data_map;
+  vkMapMemory(param_vulkan->device.device, staging_buffer_memory, 0, size, 0, &data_map);
+  memcpy(data_map, vertices.data(), (size_t)size);
   vkUnmapMemory(param_vulkan->device.device, staging_buffer_memory);
 
-  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, object->vbo_uv);
-  this->bind_buffer_memory(MEMORY_GPU, object->vbo_uv, object->mem_uv);
-  this->copy_buffer_to_gpu(staging_buffer, object->vbo_uv, size);
+  //Copy from stagged buffer to GPU buffer
+  this->create_gpu_buffer(size, BUFFER_USAGE_DST_VERTEX, data->uv.vbo);
+  this->bind_buffer_memory(MEMORY_GPU, data->uv.vbo, data->uv.mem);
+  this->copy_buffer_to_gpu(staging_buffer, data->uv.vbo, size);
 
+  //Destroy created stagging memory
   vkDestroyBuffer(param_vulkan->device.device, staging_buffer, nullptr);
   vkFreeMemory(param_vulkan->device.device, staging_buffer_memory, nullptr);
 
@@ -169,13 +191,13 @@ void VK_buffer::copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDev
   VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();
+  VkCommandBuffer commandBuffer = vk_command->singletime_command_buffer_begin();
 
   VkBufferCopy copyRegion{};
   copyRegion.size = size;
   vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
 
-  vk_command->command_buffer_end(commandBuffer);
+  vk_command->singletime_command_buffer_end(commandBuffer);
 
   //---------------------------
 }
@@ -201,7 +223,7 @@ void VK_buffer::transitionImageLayout(VkImage image, VkFormat format, VkImageLay
   VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer commandBuffer = vk_command->command_buffer_begin();
+  VkCommandBuffer commandBuffer = vk_command->singletime_command_buffer_begin();
 
   VkImageMemoryBarrier barrier{};
   barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -244,7 +266,7 @@ void VK_buffer::transitionImageLayout(VkImage image, VkFormat format, VkImageLay
     1, &barrier
   );
 
-  vk_command->command_buffer_end(commandBuffer);
+  vk_command->singletime_command_buffer_end(commandBuffer);
 
   //---------------------------
 }

@@ -42,7 +42,7 @@ void VK_uniform::create_uniform_buffers(Struct_pipeline* pipeline){
     }
 
     vk_buffer->create_gpu_buffer(type_size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform->buffer);
-    vk_buffer->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, uniform->buffer, uniform->mem);
+    vk_buffer->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, uniform->buffer, uniform->mem);
     vkMapMemory(param_vulkan->device.device, uniform->mem, 0, type_size, 0, &uniform->mapped);
 
     pipeline->vec_uniform.push_back(uniform);

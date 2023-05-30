@@ -21,7 +21,7 @@ public:
 public:
   //Main functions
   void load_texture(Object* object);
-  void cleanup_texture(Object* object);
+  void clean_texture(Object* object);
 
   //Texture creation
   void create_texture_image(Struct_texture* texture);

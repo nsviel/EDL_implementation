@@ -41,7 +41,7 @@ void VK_texture::load_texture(Object* object){
 
   //---------------------------
 }
-void VK_texture::cleanup_texture(Object* object){
+void VK_texture::clean_texture(Object* object){
   //---------------------------
 
   for(int i=0; i<object->list_texture.size(); i++){
@@ -70,7 +70,7 @@ void VK_texture::create_texture_image(Struct_texture* texture){
   VkBuffer stagingBuffer;
   VkDeviceMemory stagingBufferMemory;
   vk_buffer->create_gpu_buffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, stagingBuffer);
-  vk_buffer->bind_buffer_memory(MEMORY_CPU_VISIBLE_GPU, stagingBuffer, stagingBufferMemory);
+  vk_buffer->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, stagingBuffer, stagingBufferMemory);
 
   void* data;
   vkMapMemory(param_vulkan->device.device, stagingBufferMemory, 0, imageSize, 0, &data);
@@ -194,7 +194,7 @@ void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t w
   VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer command_buffer = vk_command->command_buffer_begin();
+  VkCommandBuffer command_buffer = vk_command->singletime_command_buffer_begin();
 
   VkBufferImageCopy region{};
   region.bufferOffset = 0;
@@ -215,7 +215,7 @@ void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t w
 
   vkCmdCopyBufferToImage(command_buffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
 
-  vk_command->command_buffer_end(command_buffer);
+  vk_command->singletime_command_buffer_end(command_buffer);
 
   //---------------------------
 }

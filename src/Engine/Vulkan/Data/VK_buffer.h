@@ -1,6 +1,7 @@
 #ifndef VK_BUFFER_H
 #define VK_BUFFER_H
 
+#include "../Struct/struct_data.h"
 #include "../../../common.h"
 
 class Engine;
@@ -18,12 +19,13 @@ public:
 
 public:
   //Main functions
-  void cleanup_object(Object* object);
+  void create_buffer(Struct_data* data);
+  void clean_data(Struct_data* data);
 
   //Data buffer functions
-  void create_buffer_uv(Object* object, std::vector<vec2> vertices);
-  void create_buffer_xyz(Object* object, std::vector<vec3> vertices);
-  void create_buffer_rgb(Object* object, std::vector<vec4> vertices);
+  void create_buffer_uv(Struct_data* data);
+  void create_buffer_xyz(Struct_data* data);
+  void create_buffer_rgb(Struct_data* data);
 
   //Buffer functions
   void bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);

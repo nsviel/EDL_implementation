@@ -37,8 +37,8 @@ public:
 
   //Drawing command
   void record_command_buffer(VkCommandBuffer command_buffer);
-  VkCommandBuffer command_buffer_begin();
-  void command_buffer_end(VkCommandBuffer command_buffer);
+  VkCommandBuffer singletime_command_buffer_begin();
+  void singletime_command_buffer_end(VkCommandBuffer command_buffer);
 
   inline VkCommandPool get_command_pool(){return command_pool;}
 

@@ -10,10 +10,18 @@ struct Struct_data{ //Cloud cloud / part
 
   Object* object;
 
+  //Data
+  bool has_xyz = false;
+  bool has_rgb = false;
+  bool has_uv = false;
+
+  //Buffer
+  Struct_buffer xyz;
+  Struct_buffer rgb;
+  Struct_buffer uv;
+
+  //Descriptor
   VkDescriptorSet descriptor_set;
-  Struct_buffer* xyz;
-  Struct_buffer* rgb;
-  Struct_buffer* uv;
 
   //---------------------------
 };

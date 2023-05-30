@@ -2,6 +2,7 @@
 #define VK_DATA_H
 
 #include "../Struct/struct_pipeline.h"
+#include "../Struct/struct_data.h"
 #include "../../../common.h"
 
 class Engine;
@@ -19,20 +20,24 @@ public:
   ~VK_data();
 
 public:
-  //Main functions
+  //Insertion functions
+  void insert_scene_object(Object* object);
+  void insert_glyph_object(Object* object);
+
+  //Clean function
   void cleanup();
-  void clean_object(Object* object);
+  void clean_data(Struct_data* data);
+  void clean_data(int ID);
 
   //Pipeline data description
   void create_data_description(Struct_pipeline* pipeline);
   void create_vertex_description(Struct_pipeline* pipeline);
   void create_attribut_description(Struct_pipeline* pipeline);
   void combine_description(Struct_pipeline* pipeline);
-
-  inline void set_list_data(std::list<Object*> value){this->list_obj_scene = value;}
-  inline void set_list_glyph(std::list<Object*> value){this->list_obj_glyph = value;}
-  inline std::list<Object*> get_list_obj_scene(){return list_obj_scene;}
-  inline std::list<Object*> get_list_obj_glyph(){return list_obj_glyph;}
+  void check_for_attribut(Struct_data* data);
+  
+  inline std::list<Struct_data*> get_list_obj_scene(){return list_data_scene;}
+  inline std::list<Struct_data*> get_list_obj_glyph(){return list_data_glyph;}
 
 private:
   Engine* engineManager;
@@ -41,8 +46,8 @@ private:
   VK_buffer* vk_buffer;
   VK_texture* vk_texture;
 
-  std::list<Object*> list_obj_scene;
-  std::list<Object*> list_obj_glyph;
+  std::list<Struct_data*> list_data_scene;
+  std::list<Struct_data*> list_data_glyph;
 };
 
 #endif

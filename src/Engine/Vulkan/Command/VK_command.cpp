@@ -149,7 +149,7 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer){
 
   //---------------------------
 }
-VkCommandBuffer VK_command::command_buffer_begin(){
+VkCommandBuffer VK_command::singletime_command_buffer_begin(){
   //---------------------------
 
   VkCommandBufferAllocateInfo allocInfo{};
@@ -170,7 +170,7 @@ VkCommandBuffer VK_command::command_buffer_begin(){
   //---------------------------
   return command_buffer;
 }
-void VK_command::command_buffer_end(VkCommandBuffer command_buffer){
+void VK_command::singletime_command_buffer_end(VkCommandBuffer command_buffer){
   //---------------------------
 
   vkEndCommandBuffer(command_buffer);

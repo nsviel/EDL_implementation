@@ -96,6 +96,7 @@ void Engine::init_vulkan(){
     //-creation des uniform selon ceux demandé par le pipeline
     //-creation des descriptor layout en fonction des uniform
     //-Allocation des descripteur set lorsque tous les pipeline sont terminés
+    //Remove data from gpu memory
 
   //Specific
   vk_canvas->create_canvas();

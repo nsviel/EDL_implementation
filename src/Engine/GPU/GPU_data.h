@@ -24,9 +24,6 @@ public:
   void insert_glyph_in_engine(Object* object);
   void remove_object_in_engine(Object* object);
 
-  //Subfunctions
-  void create_object_buffer(Object* object);
-
 private:
   VK_texture* vk_texture;
   VK_buffer* vk_buffer;
@@ -34,7 +31,7 @@ private:
   VK_command* vk_command;
   VK_data* vk_data;
 
-  std::list<Object*> list_data;
+  std::list<Object*> list_scene;
   std::list<Object*> list_glyph;
   bool is_descriptor_up;
 };
