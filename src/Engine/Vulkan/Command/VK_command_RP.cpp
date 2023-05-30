@@ -53,12 +53,10 @@ void VK_command_RP::command_drawing_scene(VkCommandBuffer command_buffer){
   //Bind pipeline
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("scene");
   vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-
-
   vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
 
   //Bind and draw vertex buffers
-  list<Object*> list_data = vk_data->get_list_data();
+  list<Object*> list_data = vk_data->get_list_obj_scene();
   for(int i=0; i<list_data.size(); i++){
     Object* object = *next(list_data.begin(),i);
 
@@ -87,7 +85,7 @@ void VK_command_RP::command_drawing_glyph(VkCommandBuffer command_buffer){
   vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->descriptor_set, 0, nullptr);
 
   //Bind and draw vertex buffers
-  list<Object*> list_glyph = vk_data->get_list_glyph();
+  list<Object*> list_glyph = vk_data->get_list_obj_glyph();
   for(int i=0; i<list_glyph.size(); i++){
     Object* object = *next(list_glyph.begin(),i);
 

@@ -16,13 +16,10 @@ struct Struct_renderpass{
   VkSubpassDescription subpass_description;
   VkSubpassDependency subpass_dependency;
 
-  VkAttachmentDescription depth_attachment;
-  VkAttachmentReference depth_attachment_ref;
-  VkAttachmentDescription color_attachment;
-  VkAttachmentReference color_attachment_ref;
-
+  //Attachment
+  VkAttachmentReference depth_ref;
+  VkAttachmentReference color_ref;
   std::vector<VkAttachmentDescription> vec_attachment_description;
-  std::vector<VkAttachmentReference> vec_attachment_reference;
 };
 
 

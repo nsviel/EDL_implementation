@@ -29,10 +29,10 @@ public:
   void create_attribut_description(Struct_pipeline* pipeline);
   void combine_description(Struct_pipeline* pipeline);
 
-  inline void set_list_data(std::list<Object*> value){this->list_data = value;}
-  inline void set_list_glyph(std::list<Object*> value){this->list_glyph = value;}
-  inline std::list<Object*> get_list_data(){return list_data;}
-  inline std::list<Object*> get_list_glyph(){return list_glyph;}
+  inline void set_list_data(std::list<Object*> value){this->list_obj_scene = value;}
+  inline void set_list_glyph(std::list<Object*> value){this->list_obj_glyph = value;}
+  inline std::list<Object*> get_list_obj_scene(){return list_obj_scene;}
+  inline std::list<Object*> get_list_obj_glyph(){return list_obj_glyph;}
 
 private:
   Engine* engineManager;
@@ -41,8 +41,8 @@ private:
   VK_buffer* vk_buffer;
   VK_texture* vk_texture;
 
-  std::list<Object*> list_data;
-  std::list<Object*> list_glyph;
+  std::list<Object*> list_obj_scene;
+  std::list<Object*> list_obj_glyph;
 };
 
 #endif

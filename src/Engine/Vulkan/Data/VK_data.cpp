@@ -28,13 +28,13 @@ VK_data::~VK_data(){}
 void VK_data::cleanup(){
   //---------------------------
 
-  for(int i=0; i<list_data.size(); i++){
-    Object* object = *next(list_data.begin(),i);
+  for(int i=0; i<list_obj_scene.size(); i++){
+    Object* object = *next(list_obj_scene.begin(),i);
     this->clean_object(object);
   }
 
-  for(int i=0; i<list_glyph.size(); i++){
-    Object* object = *next(list_glyph.begin(),i);
+  for(int i=0; i<list_obj_glyph.size(); i++){
+    Object* object = *next(list_obj_glyph.begin(),i);
     this->clean_object(object);
   }
 

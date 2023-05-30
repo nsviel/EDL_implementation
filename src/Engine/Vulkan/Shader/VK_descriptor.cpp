@@ -20,6 +20,9 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
   this->vk_frame = engineManager->get_vk_image();
   this->vk_texture = engineManager->get_vk_texture();
 
+  this->pool_nb_uniform = 1000;
+  this->pool_nb_sampler = 1;
+
   //---------------------------
 }
 VK_descriptor::~VK_descriptor(){}
@@ -103,11 +106,20 @@ void VK_descriptor::configure_descriptor_set(Struct_pipeline* pipeline){
 }
 
 //Descriptor layout
-VkDescriptorSetLayout VK_descriptor::create_layout_basic(){
+VkDescriptorSetLayout VK_descriptor::create_layout_scene(){
   //---------------------------
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
-  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 1));
+  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 0));
+
+  //---------------------------
+  return create_layout(vec_binding);
+}
+VkDescriptorSetLayout VK_descriptor::create_layout_glyph(){
+  //---------------------------
+
+  vector<VkDescriptorSetLayoutBinding> vec_binding;
+  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 0));
 
   //---------------------------
   return create_layout(vec_binding);
@@ -161,8 +173,8 @@ void VK_descriptor::create_descriptor_pool(){
 
   //Maximum number of descriptor per type
   vector<VkDescriptorPoolSize> vec_pool_size;
-  vec_pool_size.push_back(add_descriptor_type(TYPE_UNIFORM, 3));
-  vec_pool_size.push_back(add_descriptor_type(TYPE_SAMPLER, 3));
+  vec_pool_size.push_back(add_descriptor_type(TYPE_UNIFORM, pool_nb_uniform));
+  vec_pool_size.push_back(add_descriptor_type(TYPE_SAMPLER, pool_nb_sampler));
 
   VkDescriptorPoolCreateInfo pool_info{};
   pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;

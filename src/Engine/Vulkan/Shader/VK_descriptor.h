@@ -29,7 +29,8 @@ public:
   void configure_descriptor_set(Struct_pipeline* pipeline);
 
   //Descriptor layout
-  VkDescriptorSetLayout create_layout_basic();
+  VkDescriptorSetLayout create_layout_scene();
+  VkDescriptorSetLayout create_layout_glyph();
   VkDescriptorSetLayout create_layout_canvas();
   VkDescriptorSetLayout create_layout(vector<VkDescriptorSetLayoutBinding> vec_binding);
   VkDescriptorSetLayoutBinding add_descriptor_binding(VkDescriptorType type, VkShaderStageFlagBits stage, int count, int binding);
@@ -46,6 +47,8 @@ private:
   VK_texture* vk_texture;
 
   VkDescriptorPool descriptor_pool;
+  int pool_nb_uniform;
+  int pool_nb_sampler;
 };
 
 #endif

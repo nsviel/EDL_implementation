@@ -31,7 +31,7 @@ Scene::~Scene(){}
 
 //Scene function
 void Scene::init_set(){
-  list<Set*>* list_data = dataManager->get_list_data();
+  list<Set*>* list_data = dataManager->get_list_obj_scene();
   //---------------------------
 
   this->set_glyph = new Set("Glyph");

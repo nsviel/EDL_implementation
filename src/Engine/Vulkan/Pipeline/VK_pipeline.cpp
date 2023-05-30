@@ -45,8 +45,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_scene->path_shader_fs = "Base/shader_scene_fs";
   pipeline_scene->vec_data_name.push_back("location");
   pipeline_scene->vec_data_name.push_back("color");
-  pipeline_scene->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 1));
-  pipeline_scene->descriptor_layout = vk_descriptor->create_layout_basic();
+  pipeline_scene->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 0));
+  pipeline_scene->descriptor_layout = vk_descriptor->create_layout_scene();
   this->create_pipeline_info(pipeline_scene);
 
   //Pipeline Glyph
@@ -58,8 +58,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
   pipeline_glyph->vec_data_name.push_back("location");
   pipeline_glyph->vec_data_name.push_back("color");
-  pipeline_glyph->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 1));
-  pipeline_glyph->descriptor_layout = vk_descriptor->create_layout_basic();
+  pipeline_glyph->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 0));
+  pipeline_glyph->descriptor_layout = vk_descriptor->create_layout_glyph();
   this->create_pipeline_info(pipeline_glyph);
 
   //Pipeline Canvas
@@ -71,8 +71,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
   pipeline_canvas->vec_data_name.push_back("location");
   pipeline_canvas->vec_data_name.push_back("tex_coord");
-  pipeline_canvas->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 1));
-  pipeline_canvas->descriptor_layout = vk_descriptor->create_layout_basic();
+  pipeline_canvas->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 0));
+  pipeline_canvas->descriptor_layout = vk_descriptor->create_layout_canvas();
   this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();

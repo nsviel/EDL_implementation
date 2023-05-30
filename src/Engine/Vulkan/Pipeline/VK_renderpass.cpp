@@ -61,11 +61,8 @@ void VK_renderpass::create_depth_attachment(Struct_renderpass* renderpass){
   depth_attachment_ref.attachment = 1;
   depth_attachment_ref.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
-  renderpass->depth_attachment = depth_attachment;
-  renderpass->depth_attachment_ref = depth_attachment_ref;
-
+  renderpass->depth_ref = depth_attachment_ref;
   renderpass->vec_attachment_description.push_back(depth_attachment);
-  renderpass->vec_attachment_reference.push_back(depth_attachment_ref);
 
   //---------------------------
 }
@@ -88,11 +85,8 @@ void VK_renderpass::create_color_attachment(Struct_renderpass* renderpass){
   color_attachment_ref.attachment = 0;
   color_attachment_ref.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-  renderpass->color_attachment = color_attachment;
-  renderpass->color_attachment_ref = color_attachment_ref;
-
+  renderpass->color_ref = color_attachment_ref;
   renderpass->vec_attachment_description.push_back(color_attachment);
-  renderpass->vec_attachment_reference.push_back(color_attachment_ref);
 
   //---------------------------
 }
@@ -103,8 +97,8 @@ void VK_renderpass::create_subpass(Struct_renderpass* renderpass){
   VkSubpassDescription subpass_description{};
   subpass_description.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
   subpass_description.colorAttachmentCount = 1;
-  subpass_description.pColorAttachments = &renderpass->color_attachment_ref;
-  subpass_description.pDepthStencilAttachment = &renderpass->depth_attachment_ref;
+  subpass_description.pColorAttachments = &renderpass->color_ref;
+  subpass_description.pDepthStencilAttachment = &renderpass->depth_ref;
 
   VkSubpassDependency subpass_dependency{};
   subpass_dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
