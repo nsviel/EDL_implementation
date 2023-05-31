@@ -1,8 +1,8 @@
 #ifndef VK_RENDERPASS_H
 #define VK_RENDERPASS_H
 
-#include "../Struct/struct_renderpass.h"
-#include "../../../common.h"
+#include "../../Struct/struct_renderpass.h"
+#include "../../../../common.h"
 
 class VK_engine;
 class VK_param;

@@ -4,9 +4,9 @@
 #include "../Vulkan/VK_engine.h"
 #include "../Vulkan/Data/VK_buffer.h"
 #include "../Vulkan/Data/VK_texture.h"
-#include "../Vulkan/Shader/Binding/VK_descriptor.h"
+#include "../Vulkan/Shader/Descriptor/VK_descriptor.h"
 #include "../Vulkan/Data/VK_data.h"
-#include "../Vulkan/Command/VK_command.h"
+#include "../Vulkan/Pipeline/Command/VK_command.h"
 
 
 //Constructor / Destructor

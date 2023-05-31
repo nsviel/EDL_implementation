@@ -1,6 +1,7 @@
 #include "VK_binding.h"
-#include "VK_descriptor.h"
 #include "VK_uniform.h"
+
+#include "../Descriptor/VK_descriptor.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"

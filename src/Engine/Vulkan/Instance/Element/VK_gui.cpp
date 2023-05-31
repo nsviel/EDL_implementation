@@ -7,9 +7,9 @@
 #include "../../VK_param.h"
 #include "../../Instance/Device/VK_device.h"
 #include "../../Instance/Device/VK_physical_device.h"
-#include "../../Pipeline/VK_renderpass.h"
-#include "../../Command/VK_command.h"
-#include "../../Command/VK_drawing.h"
+#include "../../Pipeline/Renderpass/VK_renderpass.h"
+#include "../../Pipeline/Command/VK_command.h"
+#include "../../Pipeline/Command/VK_drawing.h"
 #include "../../Presentation/Swapchain/VK_frame.h"
 
 #include "image/IconsFontAwesome5.h"

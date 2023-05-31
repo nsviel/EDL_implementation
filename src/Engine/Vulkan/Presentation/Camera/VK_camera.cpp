@@ -1,9 +1,9 @@
 #include "VK_camera.h"
 
-#include "../VK_engine.h"
+#include "../../VK_engine.h"
 
-#include "../../Camera/Camera.h"
-#include "../../Node_engine.h"
+#include "../../../Camera/Camera.h"
+#include "../../../Node_engine.h"
 
 
 //Constructor / Destructor

@@ -5,7 +5,7 @@
 #include "../VK_param.h"
 #include "../Instance/Device/VK_device.h"
 #include "../Instance/Device/VK_physical_device.h"
-#include "../Command/VK_command.h"
+#include "../Pipeline/Command/VK_command.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../../../extern/image/stb_image.h"

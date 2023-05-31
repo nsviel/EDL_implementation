@@ -1,11 +1,11 @@
 #include "VK_canvas.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Data/VK_buffer.h"
-#include "../Data/VK_data.h"
-#include "../Data/VK_texture.h"
-#include "../Shader/Binding/VK_binding.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
+#include "../../Data/VK_buffer.h"
+#include "../../Data/VK_data.h"
+#include "../../Data/VK_texture.h"
+#include "../../Shader/Binding/VK_binding.h"
 
 
 //Constructor / Destructor

@@ -1,8 +1,8 @@
 #ifndef VK_FRAMEBUFFER_H
 #define VK_FRAMEBUFFER_H
 
-#include "../Struct/struct_frame.h"
-#include "../../../common.h"
+#include "../../Struct/struct_frame.h"
+#include "../../../../common.h"
 
 class VK_engine;
 class VK_param;

@@ -1,16 +1,16 @@
 #include "VK_cmd.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Instance/Element/VK_gui.h"
-#include "../Pipeline/VK_pipeline.h"
-#include "../Data/VK_buffer.h"
-#include "../Presentation/Swapchain/VK_frame.h"
-#include "../Camera/VK_camera.h"
-#include "../Camera/VK_viewport.h"
-#include "../Shader/Binding/VK_binding.h"
-#include "../Rendering/VK_canvas.h"
-#include "../Data/VK_data.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
+#include "../../Instance/Element/VK_gui.h"
+#include "../../Pipeline/VK_pipeline.h"
+#include "../../Data/VK_buffer.h"
+#include "../../Presentation/Swapchain/VK_frame.h"
+#include "../../Presentation/Camera/VK_camera.h"
+#include "../../Presentation/Camera/VK_viewport.h"
+#include "../../Shader/Binding/VK_binding.h"
+#include "../../Pipeline/Rendering/VK_canvas.h"
+#include "../../Data/VK_data.h"
 
 
 //Constructor / Destructor

@@ -1,10 +1,10 @@
 #include "VK_buffer.h"
 #include "VK_texture.h"
 
-#include "../Shader/Binding/VK_descriptor.h"
+#include "../Shader/Descriptor/VK_descriptor.h"
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Command/VK_command.h"
+#include "../Pipeline/Command/VK_command.h"
 #include "../Instance/Device/VK_device.h"
 #include "../Instance/Device/VK_physical_device.h"
 

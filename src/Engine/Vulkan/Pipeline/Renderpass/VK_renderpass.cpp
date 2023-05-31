@@ -1,9 +1,10 @@
 #include "VK_renderpass.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Framebuffer/Attachment/VK_depth.h"
-#include "../Framebuffer/Attachment/VK_color.h"
+#include "../Attachment/VK_depth.h"
+#include "../Attachment/VK_color.h"
+
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
 
 //Manage fbo attachment (color / depth)
 

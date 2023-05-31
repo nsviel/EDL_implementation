@@ -1,9 +1,9 @@
 #ifndef VK_COMMAND_H
 #define VK_COMMAND_H
 
-#include "../Struct/struct_frame.h"
-#include "../Struct/struct_data.h"
-#include "../../../common.h"
+#include "../../Struct/struct_frame.h"
+#include "../../Struct/struct_data.h"
+#include "../../../../common.h"
 
 class Param_engine;
 class VK_engine;
