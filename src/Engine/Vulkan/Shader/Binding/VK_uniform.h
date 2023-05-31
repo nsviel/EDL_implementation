@@ -19,7 +19,7 @@ public:
 
 public:
   //Main functions
-  void create_uniform_buffers(vec_nameTypeBindingTypeStage vec_required, vector<Struct_uniform*>& vec_uniform);
+  void create_uniform_buffers(Struct_binding& binding);
   Struct_uniform* create_uniform_buffer(string name, string type, int binding);
   void update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp);
   void update_uniform_mat4(string uniform_name, Struct_binding& binding, glm::mat4& value);

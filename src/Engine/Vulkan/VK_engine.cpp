@@ -84,6 +84,7 @@ void VK_engine::init_vulkan(){
   vk_device->create_logical_device();
   vk_command->create_command_pool();
   vk_descriptor->create_descriptor_pool();
+  vk_canvas->create_canvas();
 
   //Pipeline
   vk_swapchain->create_swapchain();
@@ -100,7 +101,6 @@ void VK_engine::init_vulkan(){
 
 
   //Specific
-  vk_canvas->create_canvas();
   vk_gui->init_gui();
 
   //---------------------------

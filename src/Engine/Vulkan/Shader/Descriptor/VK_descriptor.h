@@ -24,11 +24,11 @@ public:
 
   //Descriptor set
   void allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_layout, vector<VkDescriptorSet>& vec_descriptor_set);
-  void allocate_descriptor_set(VkDescriptorSetLayout& layout, VkDescriptorSet& descriptor_set);
+  void allocate_descriptor_set(Struct_binding& binding);
   void update_descriptor_set(Struct_binding& binding);
 
   //Descriptor layout
-  VkDescriptorSetLayout create_layout_from_required(vec_nameTypeBindingTypeStage& vec_required_binding);
+  void create_layout_from_required(Struct_binding& binding);
   VkDescriptorSetLayout create_layout(vector<VkDescriptorSetLayoutBinding> vec_binding);
   VkDescriptorSetLayoutBinding add_descriptor_binding(VkDescriptorType type, VkShaderStageFlagBits stage, int count, int binding);
 

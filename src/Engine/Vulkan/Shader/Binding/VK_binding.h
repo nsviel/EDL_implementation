@@ -10,6 +10,7 @@ class VK_engine;
 class VK_param;
 class VK_descriptor;
 class VK_uniform;
+class VK_sampler;
 
 
 class VK_binding
@@ -33,6 +34,7 @@ private:
   VK_param* vk_param;
   VK_uniform* vk_uniform;
   VK_descriptor* vk_descriptor;
+  VK_sampler* vk_sampler;
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "VK_binding.h"
 #include "VK_uniform.h"
+#include "VK_sampler.h"
 
 #include "../Descriptor/VK_descriptor.h"
 
@@ -14,6 +15,7 @@ VK_binding::VK_binding(VK_engine* vk_engine){
   this->vk_param = vk_engine->get_vk_param();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_uniform = new VK_uniform(vk_engine);
+  this->vk_sampler = new VK_sampler(vk_engine);
 
   //---------------------------
 }
@@ -28,9 +30,10 @@ void VK_binding::fill_binding_from_requirement(Struct_binding& binding){
     exit(0);
   }
 
-  binding.descriptor.layout = vk_descriptor->create_layout_from_required(binding.vec_required_binding);
-  vk_uniform->create_uniform_buffers(binding.vec_required_binding, binding.vec_uniform);
-  vk_descriptor->allocate_descriptor_set(binding.descriptor.layout, binding.descriptor.set);
+  vk_descriptor->create_layout_from_required(binding);
+  vk_uniform->create_uniform_buffers(binding);
+  vk_sampler->create_sampler(binding);
+  vk_descriptor->allocate_descriptor_set(binding);
   vk_descriptor->update_descriptor_set(binding);
 
   //---------------------------
@@ -43,7 +46,8 @@ void VK_binding::fill_pipeline_binding(vector<Struct_pipeline*>& vec_pipeline){
   for(int i=0; i<vec_pipeline.size(); i++){
     Struct_pipeline* pipeline = vec_pipeline[i];
     vec_layout.push_back(pipeline->binding.descriptor.layout);
-    vk_uniform->create_uniform_buffers(pipeline->binding.vec_required_binding, pipeline->binding.vec_uniform);
+    vk_uniform->create_uniform_buffers(pipeline->binding);
+    vk_sampler->create_sampler(pipeline->binding);
   }
 
   //Allocate descriptor

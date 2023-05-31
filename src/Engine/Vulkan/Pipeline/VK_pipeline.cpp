@@ -46,7 +46,6 @@ void VK_pipeline::init_pipeline(){
   pipeline_scene->vec_data_name.push_back("location");
   pipeline_scene->vec_data_name.push_back("color");
   pipeline_scene->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_scene->binding.descriptor.layout = vk_descriptor->create_layout_from_required(pipeline_scene->binding.vec_required_binding);
   this->create_pipeline_info(pipeline_scene);
 
   //Pipeline Glyph
@@ -59,7 +58,6 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->vec_data_name.push_back("location");
   pipeline_glyph->vec_data_name.push_back("color");
   pipeline_glyph->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_glyph->binding.descriptor.layout = vk_descriptor->create_layout_from_required(pipeline_scene->binding.vec_required_binding);
   this->create_pipeline_info(pipeline_glyph);
 
   //Pipeline Canvas
@@ -73,7 +71,6 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->vec_data_name.push_back("tex_coord");
   pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 2, TYPE_SAMPLER, STAGE_FS));
-  pipeline_canvas->binding.descriptor.layout = vk_descriptor->create_layout_from_required(pipeline_scene->binding.vec_required_binding);
   this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();
@@ -104,6 +101,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
   //Pipeline elements
+  vk_descriptor->create_layout_from_required(pipeline->binding);
   vk_shader->create_pipeline_shader(pipeline);
   vk_data->create_data_description(pipeline);
   this->create_pipeline_layout(pipeline);

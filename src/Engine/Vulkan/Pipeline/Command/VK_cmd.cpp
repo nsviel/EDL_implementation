@@ -111,21 +111,24 @@ void VK_cmd::cmd_drawing_canvas(VkCommandBuffer command_buffer){
   //---------------------------
 
   //Object
-  Struct_data* data_canvas = vk_canvas->get_canvas();
+  Struct_data* data = vk_canvas->get_canvas();
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("canvas");
-  Object* canvas = data_canvas->object;
+  Object* canvas = data->object;
 
   //Pipeline
   vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Camera
   vk_camera->compute_mvp(canvas);
+  vk_binding->update_uniform(data);
+  //vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
+
   vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &canvas->mvp);
 
   //Data
   VkDeviceSize offsets[] = {0};
-  vkCmdBindVertexBuffers(command_buffer, 0, 1, &data_canvas->xyz.vbo, offsets);
-  vkCmdBindVertexBuffers(command_buffer, 2, 1, &data_canvas->uv.vbo, offsets);
+  vkCmdBindVertexBuffers(command_buffer, 0, 1, &data->xyz.vbo, offsets);
+  vkCmdBindVertexBuffers(command_buffer, 2, 1, &data->uv.vbo, offsets);
   vkCmdDraw(command_buffer, canvas->xyz.size(), 1, 0, 0);
 
   //---------------------------

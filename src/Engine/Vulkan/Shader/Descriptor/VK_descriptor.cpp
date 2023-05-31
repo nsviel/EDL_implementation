@@ -54,8 +54,11 @@ void VK_descriptor::allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_l
 
   //---------------------------
 }
-void VK_descriptor::allocate_descriptor_set(VkDescriptorSetLayout& layout, VkDescriptorSet& descriptor_set){
+void VK_descriptor::allocate_descriptor_set(Struct_binding& binding){
   //---------------------------
+
+  VkDescriptorSetLayout& layout = binding.descriptor.layout;
+  VkDescriptorSet& descriptor_set = binding.descriptor.set;
 
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -118,28 +121,17 @@ void VK_descriptor::update_descriptor_set(Struct_binding& binding){
     vec_write_set.push_back(write_uniform);
   }
 
-
-
-
-  /*
-  //Texture to GPU
-  descriptor_write[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-  descriptor_write[1].dstSet = vec_descriptor_set[i];
-  descriptor_write[1].dstBinding = 1;
-  descriptor_write[1].dstArrayElement = 0;
-  descriptor_write[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-  descriptor_write[1].descriptorCount = 1;
-  descriptor_write[1].pImageInfo = &texture.imageInfo;
-  */
-
   vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(vec_write_set.size()), vec_write_set.data(), 0, nullptr);
 
   //---------------------------
 }
 
 //Descriptor layout
-VkDescriptorSetLayout VK_descriptor::create_layout_from_required(vec_nameTypeBindingTypeStage& vec_required_binding){
+void VK_descriptor::create_layout_from_required(Struct_binding& binding){
   //---------------------------
+
+  vec_nameTypeBindingTypeStage& vec_required_binding = binding.vec_required_binding;
+  VkDescriptorSetLayout& layout = binding.descriptor.layout;
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
   for(int i=0; i<vec_required_binding.size(); i++){
@@ -152,8 +144,11 @@ VkDescriptorSetLayout VK_descriptor::create_layout_from_required(vec_nameTypeBin
     vec_binding.push_back(layout_binding);
   }
 
+
+  layout = create_layout(vec_binding);
+
   //---------------------------
-  return create_layout(vec_binding);
+
 }
 VkDescriptorSetLayout VK_descriptor::create_layout(vector<VkDescriptorSetLayoutBinding> vec_binding){
   //---------------------------

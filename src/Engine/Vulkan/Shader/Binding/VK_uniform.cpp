@@ -17,8 +17,11 @@ VK_uniform::VK_uniform(VK_engine* vk_engine){
 VK_uniform::~VK_uniform(){}
 
 //Main function
-void VK_uniform::create_uniform_buffers(vec_nameTypeBindingTypeStage vec_required, vector<Struct_uniform*>& vec_uniform){
+void VK_uniform::create_uniform_buffers(Struct_binding& binding){
   //---------------------------
+
+  vec_nameTypeBindingTypeStage& vec_required = binding.vec_required_binding;
+  vector<Struct_uniform*>& vec_uniform = binding.vec_uniform;
 
   for(int i=0; i<vec_required.size(); i++){
     string name = get<0>(vec_required[i]);
