@@ -30,11 +30,22 @@ struct Struct_uniform{
   //---------------------------
 };
 
+struct Struct_pushcst{
+  //---------------------------
+
+  std::string name;
+  int binding;
+  VkShaderStageFlagBits stage;
+
+  //---------------------------
+};
+
 struct Struct_binding{
   //---------------------------
 
   vec_nameTypeBindingTypeStage vec_required_binding;
   vector<Struct_uniform*> vec_uniform;
+  vector<Struct_pushcst*> vec_pushcst;
   Struct_descriptor descriptor;
 
   //---------------------------

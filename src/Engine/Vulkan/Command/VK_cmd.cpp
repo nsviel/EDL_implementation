@@ -54,7 +54,6 @@ void VK_cmd::cmd_drawing_scene(VkCommandBuffer command_buffer){
 
   //Bind pipeline
   vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-  // /vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Bind and draw vertex buffers
   for(int i=0; i<list_data_scene.size(); i++){
@@ -62,10 +61,9 @@ void VK_cmd::cmd_drawing_scene(VkCommandBuffer command_buffer){
     Object* object = data->object;
 
     if(object->draw_type_name == "point"){
-
       vk_camera->compute_mvp(object);
-      vk_uniform->update_uniform_buffer(pipeline, object->mvp);
-      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &object->mvp);
+      vk_uniform->update_uniform_mat4("mvp", data->binding, object->mvp);
+      vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
       VkDeviceSize offsets[] = {0, 0};
@@ -85,7 +83,6 @@ void VK_cmd::cmd_drawing_glyph(VkCommandBuffer command_buffer){
 
   //Bind pipeline
   vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-  //vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Bind and draw vertex buffers
   for(int i=0; i<list_data_glyph.size(); i++){
@@ -94,7 +91,9 @@ void VK_cmd::cmd_drawing_glyph(VkCommandBuffer command_buffer){
 
     if(object->draw_type_name == "line"){
       vk_camera->compute_mvp(object);
-      vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &object->mvp);
+      vk_uniform->update_uniform_mat4("mvp", data->binding, object->mvp);
+      vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
+
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdSetLineWidth(command_buffer, object->draw_line_width);

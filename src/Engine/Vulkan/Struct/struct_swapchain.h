@@ -6,6 +6,7 @@
 
 
 struct Struct_swapchain{
+  //---------------------------
 
   Frame_swapchain* get_current_frame_swapchain(){return vec_frame_swapchain[current_frame_swapchain_ID];}
   Frame_inflight* get_current_frame_inflight(){return vec_frame_inflight[current_frame_inflight_ID];}
@@ -17,6 +18,8 @@ struct Struct_swapchain{
   vector<Frame_inflight*> vec_frame_inflight;
   vector<VkImage> vec_swapchain_image;
   VkSwapchainKHR swapchain;
+
+  //---------------------------
 };
 
 

@@ -46,13 +46,13 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_window = new VK_window(this);
   this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
-  this->vk_binding = new VK_binding(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_texture = new VK_texture(this);
   this->vk_depth = new VK_depth(this);
   this->vk_color = new VK_color(this);
   this->vk_descriptor = new VK_descriptor(this);
+  this->vk_binding = new VK_binding(this);
   this->vk_data = new VK_data(this);
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_swapchain = new VK_swapchain(this);

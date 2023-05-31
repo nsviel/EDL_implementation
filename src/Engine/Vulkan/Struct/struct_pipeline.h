@@ -10,6 +10,8 @@
 
 
 struct Struct_pipeline{
+  //---------------------------
+
   //Info
   std::string name;
   std::string topology;
@@ -42,6 +44,8 @@ struct Struct_pipeline{
   VkPipelineColorBlendStateCreateInfo color_blend_info;
   VkPipelineColorBlendAttachmentState color_blend_attachment;
   VkPipelineDynamicStateCreateInfo dynamic_state;
+
+  //---------------------------
 };
 
 

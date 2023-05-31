@@ -6,6 +6,8 @@
 
 
 struct Frame_swapchain{
+  //---------------------------
+
   //Main object
   VkFramebuffer fbo;
   VkRenderPass renderpass;
@@ -15,9 +17,13 @@ struct Frame_swapchain{
   Struct_attachment location;
   Struct_attachment normal;
   Struct_attachment depth;
+
+  //---------------------------
 };
 
 struct Frame_inflight{
+  //---------------------------
+
   int ID_frame;
   int ID_draw;
 
@@ -27,6 +33,8 @@ struct Frame_inflight{
   VkSemaphore semaphore_render_finished;
   VkSemaphore semaphore_image_available;
   VkFence fence_inflight;
+
+  //---------------------------
 };
 
 

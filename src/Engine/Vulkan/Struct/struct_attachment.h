@@ -5,12 +5,16 @@
 
 
 struct Struct_attachment{
+  //---------------------------
+
   std::string name;
 
   VkImage image;
   VkImageView view;
   VkDeviceMemory mem;
   VkFormat format;
+
+  //---------------------------
 };
 
 

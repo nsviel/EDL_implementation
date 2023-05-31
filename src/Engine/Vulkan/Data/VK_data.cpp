@@ -7,6 +7,7 @@
 #include "../Device/VK_device.h"
 #include "../Shader/VK_descriptor.h"
 #include "../Shader/VK_uniform.h"
+#include "../Shader/VK_binding.h"
 
 #include "../../GPU/GPU_data.h"
 #include "../../Node_engine.h"
@@ -23,6 +24,7 @@ VK_data::VK_data(Engine* engineManager){
   this->vk_texture = engineManager->get_vk_texture();
   this->vk_descriptor = engineManager->get_vk_descriptor();
   this->vk_uniform = engineManager->get_vk_uniform();
+  this->vk_binding = engineManager->get_vk_binding();
 
   //---------------------------
 }
@@ -35,14 +37,10 @@ void VK_data::insert_scene_object(Object* object){
   Struct_data* data = new Struct_data();
   data->object = object;
   data->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  data->binding.descriptor.layout = vk_descriptor->create_layout_from_required(data->binding.vec_required_binding);
+  vk_binding->fill_binding_from_requirement(data->binding);
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
   this->list_data_scene.push_back(data);
-
-  //vk_uniform->create_uniform_buffers(data->binding.vec_required_binding, data->binding.vec_uniform);
-  //vk_descriptor->allocate_descriptor_set(data->binding.descriptor.layout, data->binding.descriptor.set);
-  //vk_descriptor->update_descriptor_set(data->binding);
 
   //---------------------------
 }
@@ -52,7 +50,7 @@ void VK_data::insert_glyph_object(Object* object){
   Struct_data* data = new Struct_data();
   data->object = object;
   data->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  data->binding.descriptor.layout = vk_descriptor->create_layout_from_required(data->binding.vec_required_binding);
+  vk_binding->fill_binding_from_requirement(data->binding);
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
   this->list_data_glyph.push_back(data);
@@ -64,11 +62,13 @@ void VK_data::insert_glyph_object(Object* object){
 void VK_data::cleanup(){
   //---------------------------
 
+  //Data list Scene
   for(int i=0; i<list_data_scene.size(); i++){
     Struct_data* data = *next(list_data_scene.begin(),i);
     this->clean_data(data);
   }
 
+  //Data list Glyph
   for(int i=0; i<list_data_glyph.size(); i++){
     Struct_data* data = *next(list_data_glyph.begin(),i);
     this->clean_data(data);
@@ -84,7 +84,7 @@ void VK_data::clean_data(Struct_data* data){
 
   vk_buffer->clean_data(data);
   vk_texture->clean_texture(data->object);
-  //vk_uniform->clean_uniform(data->binding);
+  vk_uniform->clean_uniform(data->binding);
 
   //---------------------------
 }

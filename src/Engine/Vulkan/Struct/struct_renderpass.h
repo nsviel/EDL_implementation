@@ -7,6 +7,8 @@
 
 
 struct Struct_renderpass{
+  //---------------------------
+
   //Info
   std::string name;
 
@@ -20,6 +22,8 @@ struct Struct_renderpass{
   VkAttachmentReference depth_ref;
   VkAttachmentReference color_ref;
   std::vector<VkAttachmentDescription> vec_attachment_description;
+
+  //---------------------------
 };
 
 

@@ -64,13 +64,26 @@ void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp
 
   //---------------------------
 }
+void VK_uniform::update_uniform_mat4(string uniform_name, Struct_binding& binding, glm::mat4& value){
+  //---------------------------
+
+  for(int i=0; i<binding.vec_uniform.size(); i++){
+    Struct_uniform* uniform = binding.vec_uniform[i];
+    if(uniform->name == uniform_name){
+      memcpy(uniform->mapped, &value, sizeof(value));
+    }
+  }
+
+  //---------------------------
+}
 void VK_uniform::clean_uniform(Struct_binding& binding){
   //---------------------------
 
-  Struct_uniform* uniform = binding.vec_uniform[0];
-
-  vkDestroyBuffer(param_vulkan->device.device, uniform->buffer, nullptr);
-  vkFreeMemory(param_vulkan->device.device, uniform->mem, nullptr);
+  for(int i=0; i<binding.vec_uniform.size(); i++){
+    Struct_uniform* uniform = binding.vec_uniform[i];
+    vkDestroyBuffer(param_vulkan->device.device, uniform->buffer, nullptr);
+    vkFreeMemory(param_vulkan->device.device, uniform->mem, nullptr);
+  }
 
   //---------------------------
 }

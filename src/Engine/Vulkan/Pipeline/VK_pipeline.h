@@ -14,6 +14,7 @@ class VK_viewport;
 class VK_shader;
 class VK_data;
 class VK_uniform;
+class VK_binding;
 
 
 class VK_pipeline
@@ -42,7 +43,6 @@ public:
   void create_color_blending_state(Struct_pipeline* pipeline);
   void create_color_blending(Struct_pipeline* pipeline);
   void create_topology(Struct_pipeline* pipeline);
-  void create_pipeline_binding(vector<Struct_pipeline*>& vec_pipeline);
 
   //Subfunction
   Struct_pipeline* get_pipeline_byName(string name);
@@ -57,6 +57,7 @@ private:
   VK_viewport* vk_viewport;
   VK_shader* vk_shader;
   VK_data* vk_data;
+  VK_binding* vk_binding;
   VK_uniform* vk_uniform;
 
   vector<Struct_pipeline*> vec_pipeline;

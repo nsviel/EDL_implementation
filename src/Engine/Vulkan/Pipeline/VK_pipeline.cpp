@@ -10,6 +10,7 @@
 #include "../Camera/VK_viewport.h"
 #include "../Shader/VK_shader.h"
 #include "../Shader/VK_uniform.h"
+#include "../Shader/VK_binding.h"
 
 
 //Constructor / Destructor
@@ -26,6 +27,7 @@ VK_pipeline::VK_pipeline(Engine* engineManager){
   this->vk_shader = engineManager->get_vk_shader();
   this->vk_data = engineManager->get_vk_data();
   this->vk_uniform = engineManager->get_vk_uniform();
+  this->vk_binding = engineManager->get_vk_binding();
 
   //---------------------------
 }
@@ -77,7 +79,7 @@ void VK_pipeline::init_pipeline(){
   this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();
-  this->create_pipeline_binding(vec_pipeline);
+  vk_binding->fill_pipeline_binding(vec_pipeline);
 
   //---------------------------
 }
@@ -334,27 +336,6 @@ void VK_pipeline::create_topology(Struct_pipeline* pipeline){
 
   //---------------------------
   pipeline->input_assembly = input_assembly;
-}
-void VK_pipeline::create_pipeline_binding(vector<Struct_pipeline*>& vec_pipeline){
-  //---------------------------
-
-  vector<VkDescriptorSetLayout> vec_layout;
-  for(int i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-    vec_layout.push_back(pipeline->binding.descriptor.layout);
-    vk_uniform->create_uniform_buffers(pipeline->binding.vec_required_binding, pipeline->binding.vec_uniform);
-  }
-
-  vector<VkDescriptorSet> vec_descriptor_set;
-  vk_descriptor->allocate_descriptor_set(vec_layout, vec_descriptor_set);
-
-  for(int i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-    pipeline->binding.descriptor.set = vec_descriptor_set[i];
-    vk_descriptor->update_descriptor_set(pipeline->binding);
-  }
-
-  //---------------------------
 }
 
 //Subfunction

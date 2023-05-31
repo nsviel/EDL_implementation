@@ -6,6 +6,8 @@
 
 
 struct Struct_texture{
+  //---------------------------
+
   std::string path_texture;
 
   VkImage textureImage;
@@ -13,6 +15,8 @@ struct Struct_texture{
   VkImageView textureImageView;
   VkSampler textureSampler;
   VkDescriptorImageInfo imageInfo;
+
+  //---------------------------
 };
 
 

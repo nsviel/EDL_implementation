@@ -5,10 +5,14 @@
 
 
 struct Struct_instance{
+  //---------------------------
+
   int max_frame = 2;
   std::string path_shader = "../src/Engine/Shader/spir/";
   VkInstance instance;
   vector<const char*> extension;
+
+  //---------------------------
 };
 
 
