@@ -118,7 +118,9 @@ VkDescriptorSetLayout VK_descriptor::create_layout_from_required(vec_nameTypeBin
     VkShaderStageFlagBits stage = get<4>(vec_required_binding[i]);
     int binding = get<2>(vec_required_binding[i]);
 
-    vec_binding.push_back(add_descriptor_binding(type, stage, 1, binding));
+    VkDescriptorSetLayoutBinding layout_binding = add_descriptor_binding(type, stage, 1, binding);
+
+    vec_binding.push_back(layout_binding);
   }
 
   //---------------------------

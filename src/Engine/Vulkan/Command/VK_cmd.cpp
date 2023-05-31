@@ -48,11 +48,11 @@ void VK_cmd::cmd_viewport(VkCommandBuffer command_buffer){
 void VK_cmd::cmd_drawing_scene(VkCommandBuffer command_buffer){
   //---------------------------
 
-  //Get relative obejct
+  //Object
   list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("scene");
 
-  //Bind pipeline
+  //Pipeline
   vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Bind and draw vertex buffers
@@ -61,10 +61,12 @@ void VK_cmd::cmd_drawing_scene(VkCommandBuffer command_buffer){
     Object* object = data->object;
 
     if(object->draw_type_name == "point"){
+      //Camera
       vk_camera->compute_mvp(object);
       vk_uniform->update_uniform_mat4("mvp", data->binding, object->mvp);
       vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
+      //Data
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
@@ -77,11 +79,11 @@ void VK_cmd::cmd_drawing_scene(VkCommandBuffer command_buffer){
 void VK_cmd::cmd_drawing_glyph(VkCommandBuffer command_buffer){
   //---------------------------
 
-  //Get relative obejct
+  //Object
   list<Struct_data*> list_data_glyph = vk_data->get_list_data_glyph();
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("glyph");
 
-  //Bind pipeline
+  //Pipine
   vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Bind and draw vertex buffers
@@ -90,10 +92,12 @@ void VK_cmd::cmd_drawing_glyph(VkCommandBuffer command_buffer){
     Object* object = data->object;
 
     if(object->draw_type_name == "line"){
+      //Camera
       vk_camera->compute_mvp(object);
       vk_uniform->update_uniform_mat4("mvp", data->binding, object->mvp);
       vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
+      //Data
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdSetLineWidth(command_buffer, object->draw_line_width);
@@ -107,22 +111,23 @@ void VK_cmd::cmd_drawing_glyph(VkCommandBuffer command_buffer){
 void VK_cmd::cmd_drawing_canvas(VkCommandBuffer command_buffer){
   //---------------------------
 
-  //Get relative obejct
+  //Object
   Struct_data* data_canvas = vk_canvas->get_canvas();
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("canvas");
-
-  //Bind pipeline
-  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-  //vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
-
-  //Bind and draw vertex buffers
   Object* canvas = data_canvas->object;
+
+  //Pipeline
+  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+
+  //Camera
   vk_camera->compute_mvp(canvas);
   vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &canvas->mvp);
-  VkBuffer vertexBuffers[] = {data_canvas->xyz.vbo, data_canvas->uv.vbo};
-  VkDeviceSize offsets[] = {0, 0};
-  vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
-  //vkCmdDraw(command_buffer, canvas->xyz.size(), 1, 0, 0);
+
+  //Data
+  VkDeviceSize offsets[] = {0};
+  vkCmdBindVertexBuffers(command_buffer, 0, 1, &data_canvas->xyz.vbo, offsets);
+  vkCmdBindVertexBuffers(command_buffer, 2, 1, &data_canvas->uv.vbo, offsets);
+  vkCmdDraw(command_buffer, canvas->xyz.size(), 1, 0, 0);
 
   //---------------------------
 }

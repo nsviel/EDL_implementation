@@ -24,6 +24,8 @@ public:
   void insert_glyph_in_engine(Object* object);
   void remove_object_in_engine(Object* object);
 
+  inline bool* get_update_scene(){return &update_scene;}
+
 private:
   VK_texture* vk_texture;
   VK_buffer* vk_buffer;
@@ -33,7 +35,7 @@ private:
 
   std::list<Object*> list_scene;
   std::list<Object*> list_glyph;
-  bool is_descriptor_up;
+  bool update_scene;
 };
 
 #endif

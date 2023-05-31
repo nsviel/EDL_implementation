@@ -43,6 +43,8 @@ struct Struct_pushcst{
 struct Struct_binding{
   //---------------------------
 
+  bool need_update = true;
+
   vec_nameTypeBindingTypeStage vec_required_binding;
   vector<Struct_uniform*> vec_uniform;
   vector<Struct_pushcst*> vec_pushcst;

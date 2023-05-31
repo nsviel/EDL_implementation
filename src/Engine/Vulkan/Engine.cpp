@@ -95,7 +95,7 @@ void Engine::init_vulkan(){
   //Essayer de ne relancer les commandes que lorsque cela changé
   // one command buffer per pipeline
   //Save the commands and redraw only necessary
-  // généraliser les uniform / pishconstant
+  //put texture on canvas / put framebuffer on canvas / put canvas front screen
 
 
 

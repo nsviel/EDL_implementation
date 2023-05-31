@@ -70,23 +70,23 @@ void VK_renderpass::create_color_attachment(Struct_renderpass* renderpass){
   //---------------------------
 
   //Attachement description
-  VkAttachmentDescription color_attachment{};
-  color_attachment.format = vk_color->find_color_format();
-  color_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
-  color_attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-  color_attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-  color_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-  color_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-  color_attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-  color_attachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+  VkAttachmentDescription color_description{};
+  color_description.format = vk_color->find_color_format();
+  color_description.samples = VK_SAMPLE_COUNT_1_BIT;
+  color_description.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+  color_description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+  color_description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+  color_description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+  color_description.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+  color_description.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
   //Attachment references
-  VkAttachmentReference color_attachment_ref{};
-  color_attachment_ref.attachment = 0;
-  color_attachment_ref.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+  VkAttachmentReference color_reference{};
+  color_reference.attachment = 0;
+  color_reference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-  renderpass->color_ref = color_attachment_ref;
-  renderpass->vec_attachment_description.push_back(color_attachment);
+  renderpass->color_ref = color_reference;
+  renderpass->vec_attachment_description.push_back(color_description);
 
   //---------------------------
 }
