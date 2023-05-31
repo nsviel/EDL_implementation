@@ -49,6 +49,8 @@ void VK_canvas::create_canvas(){
   vk_data->check_for_attribut(canvas);
   vk_buffer->create_buffer(canvas);
 
+  canvas_obj->path_texture = "../media/statue.jpg"
+
   //---------------------------
 }
 void VK_canvas::cleanup(){
