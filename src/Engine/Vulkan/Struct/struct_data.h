@@ -2,12 +2,21 @@
 #define STRUCT_DATA_H
 
 #include "typedef.h"
-#include "struct_buffer.h"
+#include "struct_data.h"
 #include "struct_binding.h"
 #include "../../../common.h"
 
 
-struct Struct_data{ //Cloud cloud / part
+struct Struct_buffer{
+  //---------------------------
+
+  VkBuffer vbo;
+  VkDeviceMemory mem;
+
+  //---------------------------
+};
+
+struct Struct_data{ 
   //---------------------------
 
   Object* object;

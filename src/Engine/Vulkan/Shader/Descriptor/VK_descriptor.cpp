@@ -76,30 +76,32 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding& binding){
 void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   //---------------------------
 
-  for(int i=0; i<binding.vec_uniform.size(); i++){
 
-  }
 
-  Struct_uniform* uniform = binding.vec_uniform[0];
+
   vector<VkWriteDescriptorSet> vec_write_set;
 
   //Descriptor set write -> uniform
-  VkDescriptorBufferInfo bufferInfo{};
-  bufferInfo.buffer = uniform->buffer;
-  bufferInfo.offset = 0;
-  bufferInfo.range = sizeof(glm::mat4);
+  if(binding.vec_uniform.size() != 0){
+    Struct_uniform* uniform = binding.vec_uniform[0];
 
-  VkWriteDescriptorSet write_uniform{};
-  write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-  write_uniform.dstSet = binding.descriptor.set;
-  write_uniform.dstBinding = uniform->binding;
-  write_uniform.dstArrayElement = 0;
-  write_uniform.descriptorType = TYPE_UNIFORM;
-  write_uniform.descriptorCount = 1;
-  write_uniform.pBufferInfo = &bufferInfo;
-  write_uniform.pImageInfo = nullptr; // Optional
-  write_uniform.pTexelBufferView = nullptr; // Optional
-  vec_write_set.push_back(write_uniform);
+    VkDescriptorBufferInfo bufferInfo{};
+    bufferInfo.buffer = uniform->buffer;
+    bufferInfo.offset = 0;
+    bufferInfo.range = sizeof(glm::mat4);
+
+    VkWriteDescriptorSet write_uniform{};
+    write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    write_uniform.dstSet = binding.descriptor.set;
+    write_uniform.dstBinding = 0;
+    write_uniform.dstArrayElement = 0;
+    write_uniform.descriptorType = TYPE_UNIFORM;
+    write_uniform.descriptorCount = 1;
+    write_uniform.pBufferInfo = &bufferInfo;
+    write_uniform.pImageInfo = nullptr; // Optional
+    write_uniform.pTexelBufferView = nullptr; // Optional
+    vec_write_set.push_back(write_uniform);
+  }
 
   //Descriptor set write -> sampler
   if(binding.list_texture.size() != 0){
@@ -117,8 +119,8 @@ void VK_descriptor::update_descriptor_set(Struct_binding& binding){
     write_sampler.dstArrayElement = 0;
     write_sampler.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     write_sampler.descriptorCount = 1;
-    write_sampler.pImageInfo = &texture->image_info;
-    vec_write_set.push_back(write_uniform);
+    write_sampler.pImageInfo = &imageInfo;
+    vec_write_set.push_back(write_sampler);
   }
 
   vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(vec_write_set.size()), vec_write_set.data(), 0, nullptr);
@@ -142,7 +144,11 @@ void VK_descriptor::create_layout_from_required(Struct_binding& binding){
     VkDescriptorSetLayoutBinding layout_binding = add_descriptor_binding(type, stage, 1, binding);
 
     vec_binding.push_back(layout_binding);
+
+    if(type == TYPE_SAMPLER)sayHello();
   }
+
+  say(vec_binding.size());
 
 
   layout = create_layout(vec_binding);
