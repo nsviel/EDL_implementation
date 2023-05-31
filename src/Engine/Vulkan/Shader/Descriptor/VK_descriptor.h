@@ -29,7 +29,7 @@ public:
 
   //Descriptor layout
   void create_layout_from_required(Struct_binding& binding);
-  VkDescriptorSetLayout create_layout(vector<VkDescriptorSetLayoutBinding> vec_binding);
+  VkDescriptorSetLayout create_layout(vector<VkDescriptorSetLayoutBinding>& vec_binding);
   VkDescriptorSetLayoutBinding add_descriptor_binding(VkDescriptorType type, VkShaderStageFlagBits stage, int count, int binding);
 
   //Descriptor pool

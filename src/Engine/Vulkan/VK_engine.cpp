@@ -93,10 +93,18 @@ void VK_engine::init_vulkan(){
   vk_pipeline->init_pipeline();
 
 
+  //PRIORITY
+  //put framebuffer on canvas / put canvas front screen
+    //-abstraction framebuffer et convert it into a texture
+    //-bind the texture to the quad
+    //-when ok, suppress scene_2 pipeline
+
+  //LATER
   //Essayer de ne relancer les commandes que lorsque cela changé
   // one command buffer per pipeline
   //Save the commands and redraw only necessary
-  //put texture on canvas / put framebuffer on canvas / put canvas front screen
+  //Il faut que le descriptor layout des objects soit celui-ci du pipeline parent
+    //-faire en sorte que ce soit le cas dans l'abosolu et non pas en parrallèle
 
 
 

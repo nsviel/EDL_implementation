@@ -21,9 +21,13 @@ public:
   ~VK_cmd();
 
 public:
+  //Main function
+  void cmd_run(VkCommandBuffer command_buffer);
+
   //Renderpass command
   void cmd_viewport(VkCommandBuffer command_buffer);
   void cmd_drawing_scene(VkCommandBuffer command_buffer);
+  void cmd_drawing_scene_2(VkCommandBuffer command_buffer);
   void cmd_drawing_glyph(VkCommandBuffer command_buffer);
   void cmd_drawing_canvas(VkCommandBuffer command_buffer);
 

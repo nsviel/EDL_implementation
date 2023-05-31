@@ -30,6 +30,20 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
 }
 VK_cmd::~VK_cmd(){}
 
+
+//Main function
+void VK_cmd::cmd_run(VkCommandBuffer command_buffer){
+  //---------------------------
+
+  this->cmd_viewport(command_buffer);
+  this->cmd_drawing_scene(command_buffer);
+  this->cmd_drawing_scene_2(command_buffer);
+  this->cmd_drawing_glyph(command_buffer);
+  this->cmd_drawing_canvas(command_buffer);
+
+  //---------------------------
+}
+
 //Renderpass commands
 void VK_cmd::cmd_viewport(VkCommandBuffer command_buffer){
   //---------------------------
@@ -45,6 +59,37 @@ void VK_cmd::cmd_viewport(VkCommandBuffer command_buffer){
   //---------------------------
 }
 void VK_cmd::cmd_drawing_scene(VkCommandBuffer command_buffer){
+  //---------------------------
+
+  //Object
+  list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("scene_2");
+
+  //Pipeline
+  vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+
+  //Bind and draw vertex buffers
+  for(int i=0; i<list_data_scene.size(); i++){
+    Struct_data* data =  *next(list_data_scene.begin(),i);
+    Object* object = data->object;
+
+    if(object->draw_type_name == "point"){
+      //Camera
+      vk_camera->compute_mvp(object);
+      vk_binding->update_uniform(data);
+      vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
+
+      //Data
+      VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
+      VkDeviceSize offsets[] = {0, 0};
+      vkCmdBindVertexBuffers(command_buffer, 0, 2, vertexBuffers, offsets);
+      vkCmdDraw(command_buffer, object->xyz.size(), 1, 0, 0);
+    }
+  }
+
+  //---------------------------
+}
+void VK_cmd::cmd_drawing_scene_2(VkCommandBuffer command_buffer){
   //---------------------------
 
   //Object
@@ -121,7 +166,7 @@ void VK_cmd::cmd_drawing_canvas(VkCommandBuffer command_buffer){
   //Camera
   vk_camera->compute_mvp(canvas);
   vk_binding->update_uniform(data);
-  //vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
+  vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
   vkCmdPushConstants(command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &canvas->mvp);
 

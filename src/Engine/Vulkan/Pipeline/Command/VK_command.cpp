@@ -127,10 +127,7 @@ void VK_command::record_command_buffer(VkCommandBuffer& command_buffer){
 
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-  vk_cmd->cmd_viewport(command_buffer);
-  vk_cmd->cmd_drawing_scene(command_buffer);
-  vk_cmd->cmd_drawing_glyph(command_buffer);
-  vk_cmd->cmd_drawing_canvas(command_buffer);
+  vk_cmd->cmd_run(command_buffer);
   vk_gui->command_gui(command_buffer);
 
   //End render pass

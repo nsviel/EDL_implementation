@@ -40,14 +40,14 @@ void VK_descriptor::cleanup(){
 void VK_descriptor::allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_layout, vector<VkDescriptorSet>& vec_descriptor_set){
   //---------------------------
 
-  VkDescriptorSetAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-  allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = static_cast<uint32_t>(vec_layout.size());
-  allocInfo.pSetLayouts = vec_layout.data();
+  VkDescriptorSetAllocateInfo allocation_info{};
+  allocation_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+  allocation_info.descriptorPool = descriptor_pool;
+  allocation_info.descriptorSetCount = static_cast<uint32_t>(vec_layout.size());
+  allocation_info.pSetLayouts = vec_layout.data();
 
   vec_descriptor_set.resize(vec_layout.size());
-  VkResult result = vkAllocateDescriptorSets(vk_param->device.device, &allocInfo, vec_descriptor_set.data());
+  VkResult result = vkAllocateDescriptorSets(vk_param->device.device, &allocation_info, vec_descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
@@ -60,13 +60,13 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding& binding){
   VkDescriptorSetLayout& layout = binding.descriptor.layout;
   VkDescriptorSet& descriptor_set = binding.descriptor.set;
 
-  VkDescriptorSetAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-  allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = 1;
-  allocInfo.pSetLayouts = &layout;
+  VkDescriptorSetAllocateInfo allocation_info{};
+  allocation_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+  allocation_info.descriptorPool = descriptor_pool;
+  allocation_info.descriptorSetCount = 1;
+  allocation_info.pSetLayouts = &layout;
 
-  VkResult result = vkAllocateDescriptorSets(vk_param->device.device, &allocInfo, &descriptor_set);
+  VkResult result = vkAllocateDescriptorSets(vk_param->device.device, &allocation_info, &descriptor_set);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
@@ -76,50 +76,49 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding& binding){
 void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   //---------------------------
 
-
-
-
   vector<VkWriteDescriptorSet> vec_write_set;
 
   //Descriptor set write -> uniform
+  VkDescriptorBufferInfo descriptor_info;
+  VkWriteDescriptorSet write_uniform;
   if(binding.vec_uniform.size() != 0){
     Struct_uniform* uniform = binding.vec_uniform[0];
 
-    VkDescriptorBufferInfo bufferInfo{};
-    bufferInfo.buffer = uniform->buffer;
-    bufferInfo.offset = 0;
-    bufferInfo.range = sizeof(glm::mat4);
+    descriptor_info = {};
+    descriptor_info.buffer = uniform->buffer;
+    descriptor_info.offset = 0;
+    descriptor_info.range = sizeof(glm::mat4);
 
-    VkWriteDescriptorSet write_uniform{};
+    write_uniform = {};
     write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     write_uniform.dstSet = binding.descriptor.set;
     write_uniform.dstBinding = 0;
     write_uniform.dstArrayElement = 0;
     write_uniform.descriptorType = TYPE_UNIFORM;
     write_uniform.descriptorCount = 1;
-    write_uniform.pBufferInfo = &bufferInfo;
-    write_uniform.pImageInfo = nullptr; // Optional
-    write_uniform.pTexelBufferView = nullptr; // Optional
+    write_uniform.pBufferInfo = &descriptor_info;
     vec_write_set.push_back(write_uniform);
   }
 
   //Descriptor set write -> sampler
+  VkDescriptorImageInfo image_info;
+  VkWriteDescriptorSet write_sampler;
   if(binding.list_texture.size() != 0){
     Struct_texture* texture = *next(binding.list_texture.begin(), 0);
 
-    VkDescriptorImageInfo imageInfo{};
-    imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    imageInfo.imageView = texture->view;
-    imageInfo.sampler = texture->sampler;
+    image_info = {};
+    image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    image_info.imageView = texture->view;
+    image_info.sampler = texture->sampler;
 
-    VkWriteDescriptorSet write_sampler{};
+    write_sampler = {};
     write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     write_sampler.dstSet = binding.descriptor.set;
     write_sampler.dstBinding = 1;
     write_sampler.dstArrayElement = 0;
-    write_sampler.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    write_sampler.descriptorType = TYPE_SAMPLER;
     write_sampler.descriptorCount = 1;
-    write_sampler.pImageInfo = &imageInfo;
+    write_sampler.pImageInfo = &image_info;
     vec_write_set.push_back(write_sampler);
   }
 
@@ -144,19 +143,14 @@ void VK_descriptor::create_layout_from_required(Struct_binding& binding){
     VkDescriptorSetLayoutBinding layout_binding = add_descriptor_binding(type, stage, 1, binding);
 
     vec_binding.push_back(layout_binding);
-
-    if(type == TYPE_SAMPLER)sayHello();
   }
-
-  say(vec_binding.size());
-
 
   layout = create_layout(vec_binding);
 
   //---------------------------
 
 }
-VkDescriptorSetLayout VK_descriptor::create_layout(vector<VkDescriptorSetLayoutBinding> vec_binding){
+VkDescriptorSetLayout VK_descriptor::create_layout(vector<VkDescriptorSetLayoutBinding>& vec_binding){
   //---------------------------
 
   //Combination and info
