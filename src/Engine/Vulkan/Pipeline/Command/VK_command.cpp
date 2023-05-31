@@ -90,7 +90,7 @@ void VK_command::cleanup(){
 
 //Renderpass record command
 void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
-  Frame_swapchain* image = vk_param->renderpass.get_current_frame_swapchain();
+  Frame_renderpass* image = vk_param->renderpass_scene.get_current_frame();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
@@ -139,7 +139,7 @@ void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
   //---------------------------
 }
 void VK_command::record_renderpass_canva(VkCommandBuffer& command_buffer){
-  Frame_swapchain* image = vk_param->renderpass.get_current_frame_swapchain();
+  Frame_renderpass* image = vk_param->renderpass_scene.get_current_frame();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 

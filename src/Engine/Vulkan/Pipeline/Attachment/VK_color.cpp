@@ -22,7 +22,7 @@ VK_color::VK_color(VK_engine* vk_engine){
 VK_color::~VK_color(){}
 
 //Main function
-void VK_color::create_color_attachment(Frame_swapchain* image){
+void VK_color::create_color_attachment(Frame_renderpass* image){
   //---------------------------
 
   image->color.format = find_color_format();
@@ -31,7 +31,7 @@ void VK_color::create_color_attachment(Frame_swapchain* image){
 
   //---------------------------
 }
-void VK_color::clean_color_attachment(Frame_swapchain* image){
+void VK_color::clean_color_attachment(Frame_renderpass* image){
   //---------------------------
 
   vkDestroyImageView(vk_param->device.device, image->color.view, nullptr);

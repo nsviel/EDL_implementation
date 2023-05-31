@@ -34,7 +34,8 @@ VK_frame::~VK_frame(){}
 void VK_frame::init_image(){
   //---------------------------
 
-  this->create_frame_swapchain(vk_param->renderpass_scene.vec_frame_swapchain);
+  this->create_frame_swapchain(vk_param->renderpass_scene.vec_frame);
+  this->create_frame_swapchain(vk_param->renderpass_canva.vec_frame);
   this->create_frame_inflight();
 
   //---------------------------
@@ -42,19 +43,20 @@ void VK_frame::init_image(){
 void VK_frame::cleanup(){
   //---------------------------
 
-  this->clean_frame_swapchain(vk_param->renderpass_scene.vec_frame_swapchain);
+  this->clean_frame_swapchain(vk_param->renderpass_scene.vec_frame);
+  this->clean_frame_swapchain(vk_param->renderpass_canva.vec_frame);
   this->clean_frame_inflight();
 
   //---------------------------
 }
 
 //Creation function
-void VK_frame::create_frame_swapchain(vector<Frame_swapchain*>& vec_frame){
+void VK_frame::create_frame_swapchain(vector<Frame_renderpass*>& vec_frame){
   //---------------------------
 
   //Swapchain images
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
-    Frame_swapchain* image = new Frame_swapchain();
+    Frame_renderpass* image = new Frame_renderpass();
     image->color.image = vk_param->swapchain.vec_swapchain_image[i];
     image->color.format = vk_color->find_color_format();
     image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
@@ -84,12 +86,12 @@ void VK_frame::create_frame_inflight(){
 }
 
 //Deletio function
-void VK_frame::clean_frame_swapchain(vector<Frame_swapchain*>& vec_frame){
+void VK_frame::clean_frame_swapchain(vector<Frame_renderpass*>& vec_frame){
   //---------------------------
 
   //Vec images
   for(int i=0; i<vec_frame.size(); i++){
-    Frame_swapchain* image = vec_frame[i];
+    Frame_renderpass* image = vec_frame[i];
     vkDestroyImageView(vk_param->device.device, image->color.view, nullptr);
     vk_depth->clean_depth_attachment(image);
     vk_framebuffer->clean_framebuffer(image);

@@ -18,7 +18,7 @@ VK_depth::VK_depth(VK_engine* vk_engine){
 VK_depth::~VK_depth(){}
 
 //Main function
-void VK_depth::create_depth_attachment(Frame_swapchain* image){
+void VK_depth::create_depth_attachment(Frame_renderpass* image){
   //---------------------------
 
   image->depth.format = find_depth_format();
@@ -27,7 +27,7 @@ void VK_depth::create_depth_attachment(Frame_swapchain* image){
 
   //---------------------------
 }
-void VK_depth::clean_depth_attachment(Frame_swapchain* image){
+void VK_depth::clean_depth_attachment(Frame_renderpass* image){
   //---------------------------
 
   vkDestroyImageView(vk_param->device.device, image->depth.view, nullptr);

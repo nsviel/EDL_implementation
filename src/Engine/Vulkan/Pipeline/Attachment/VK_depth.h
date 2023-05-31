@@ -18,8 +18,8 @@ public:
 
 public:
   //Main functions
-  void create_depth_attachment(Frame_swapchain* image);
-  void clean_depth_attachment(Frame_swapchain* image);
+  void create_depth_attachment(Frame_renderpass* image);
+  void clean_depth_attachment(Frame_renderpass* image);
 
   //Subfunctions
   bool find_stencil_component(VkFormat format);

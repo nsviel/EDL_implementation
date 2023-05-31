@@ -5,7 +5,7 @@
 #include "../../../common.h"
 
 
-struct Frame_swapchain{
+struct Frame_renderpass{
   //---------------------------
 
   //Main object

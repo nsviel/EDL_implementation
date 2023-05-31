@@ -8,14 +8,18 @@
 struct Struct_swapchain{
   //---------------------------
 
+  //Function
   Frame_inflight* get_current_frame_inflight(){return vec_frame_inflight[current_frame_inflight_ID];}
 
-  uint32_t current_frame_swapchain_ID = 0;
+  //Swapchain element
+  VkSwapchainKHR swapchain;
+
+  //Swapchain in flight images
+  vector<Frame_inflight*> vec_frame_inflight;
   uint32_t current_frame_inflight_ID = 0;
 
-  vector<Frame_inflight*> vec_frame_inflight;
+  //Intermediaire swapchain image
   vector<VkImage> vec_swapchain_image;
-  VkSwapchainKHR swapchain;
 
   //---------------------------
 };

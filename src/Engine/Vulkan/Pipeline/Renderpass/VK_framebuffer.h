@@ -18,10 +18,10 @@ public:
 
 public:
   //FBO creation
-  void create_framebuffer(Frame_swapchain* image);
+  void create_framebuffer(Frame_renderpass* image);
 
   //Deletion functions
-  void clean_framebuffer(Frame_swapchain* image);
+  void clean_framebuffer(Frame_renderpass* image);
 
 private:
   VK_param* vk_param;

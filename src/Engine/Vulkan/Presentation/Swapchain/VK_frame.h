@@ -28,11 +28,11 @@ public:
   void cleanup();
 
   //Creation function
-  void create_frame_swapchain(vector<Frame_swapchain*>& vec_frame_swapchain);
+  void create_frame_swapchain(vector<Frame_renderpass*>& vec_frame_swapchain);
   void create_frame_inflight();
 
   //Deletion function
-  void clean_frame_swapchain(vector<Frame_swapchain*>& vec_frame);
+  void clean_frame_swapchain(vector<Frame_renderpass*>& vec_frame);
   void clean_frame_inflight();
 
 private:

@@ -8,17 +8,21 @@
 struct Struct_renderpass{
   //---------------------------
 
-  Frame_swapchain* get_current_frame_swapchain(){return vec_frame_render[current_frame_swapchain_ID];}
+  //Function
+  Frame_renderpass* get_current_frame(){return vec_frame[current_frame_ID];}
 
   //Info
   std::string name;
+
+  //Renderpass stock images
+  std::vector<Frame_renderpass*> vec_frame;
+  uint32_t current_frame_ID = 0;
 
   //Render pass elements
   VkRenderPass renderpass;
   VkRenderPassCreateInfo renderpass_info;
   VkSubpassDescription subpass_description;
   VkSubpassDependency subpass_dependency;
-  std::vector<Frame_swapchain*> vec_frame_render;
 
   //Attachment
   VkAttachmentReference depth_ref;

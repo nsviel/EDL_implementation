@@ -42,7 +42,7 @@ void VK_drawing::acquire_next_image(){
   vkWaitForFences(vk_param->device.device, 1, &frame->fence, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &vk_param->swapchain.current_frame_swapchain_ID);
+  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &vk_param->renderpass_scene.current_frame_ID);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -115,7 +115,7 @@ void VK_drawing::submit_presentation(){
   presentation_info.pWaitSemaphores = semaphore_signal;
   presentation_info.swapchainCount = 1;
   presentation_info.pSwapchains = swapChains;
-  presentation_info.pImageIndices = &vk_param->swapchain.current_frame_swapchain_ID;
+  presentation_info.pImageIndices = &vk_param->renderpass_scene.current_frame_ID;
   presentation_info.pResults = nullptr; // Optional
 
   VkResult result = vkQueuePresentKHR(vk_param->device.queue_presentation, &presentation_info);

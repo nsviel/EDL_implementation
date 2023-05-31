@@ -19,8 +19,8 @@ public:
 
 public:
   //Main functions
-  void create_color_attachment(Frame_swapchain* image);
-  void clean_color_attachment(Frame_swapchain* image);
+  void create_color_attachment(Frame_renderpass* image);
+  void clean_color_attachment(Frame_renderpass* image);
 
   //Subfunction
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
@@ -34,7 +34,7 @@ private:
   VK_texture* vk_texture;
 
   vector<VkImage> vec_image_swapchain;
-  vector<Frame_swapchain*> vec_frame_swapchain;
+  vector<Frame_renderpass*> vec_frame_swapchain;
   vector<Frame_inflight*> vec_frame_inflight;
 };
 
