@@ -1,8 +1,9 @@
 #ifndef STRUCT_DATA_H
 #define STRUCT_DATA_H
 
+#include "typedef.h"
 #include "struct_buffer.h"
-#include "struct_uniform.h"
+#include "struct_binding.h"
 #include "../../../common.h"
 
 
@@ -20,6 +21,9 @@ struct Struct_data{ //Cloud cloud / part
   Struct_buffer xyz;
   Struct_buffer rgb;
   Struct_buffer uv;
+
+  //Binding
+  Struct_binding binding;
 
   //---------------------------
 };

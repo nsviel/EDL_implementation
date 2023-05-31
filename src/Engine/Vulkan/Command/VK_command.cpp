@@ -1,5 +1,5 @@
 #include "VK_command.h"
-#include "VK_command_RP.h"
+#include "VK_cmd.h"
 
 #include "../Param_vulkan.h"
 #include "../Engine.h"
@@ -38,7 +38,7 @@ VK_command::VK_command(Engine* engineManager){
   this->vk_frame = engineManager->get_vk_image();
   this->vk_canvas = engineManager->get_vk_canvas();
   this->vk_uniform = engineManager->get_vk_uniform();
-  this->vk_command_RP = new VK_command_RP(engineManager);
+  this->vk_cmd = new VK_cmd(engineManager);
 
   //---------------------------
 }
@@ -64,7 +64,7 @@ void VK_command::create_command_pool(){
 
   //---------------------------
 }
-void VK_command::create_command_buffer(vector<Frame_inflight*> vec_frame){
+void VK_command::create_command_buffer(vector<Frame_inflight*> vec_frame_inflight){
   //---------------------------
 
   //One command buffer per frame
@@ -83,8 +83,8 @@ void VK_command::create_command_buffer(vector<Frame_inflight*> vec_frame){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
 
-  for(int i=0; i<vec_frame.size(); i++){
-    Frame_inflight* frame = vec_frame[i];
+  for(int i=0; i<vec_frame_inflight.size(); i++){
+    Frame_inflight* frame = vec_frame_inflight[i];
     frame->command_buffer = command_buffer_vec[i];
   }
 
@@ -99,12 +99,15 @@ void VK_command::cleanup(){
 }
 
 //Drawing commands
-void VK_command::record_command_buffer(VkCommandBuffer command_buffer){
+void VK_command::record_command_buffer(VkCommandBuffer& command_buffer){
   VK_gui* vk_gui = engineManager->get_vk_gui();
   //---------------------------
 
+
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  beginInfo.flags = 0;
+  beginInfo.pInheritanceInfo = nullptr; // Optional
 
   VkResult result = vkBeginCommandBuffer(command_buffer, &beginInfo);
   if(result != VK_SUCCESS){
@@ -123,9 +126,9 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer){
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
   renderPassInfo.renderPass = vk_renderpass->get_renderPass();
-  //renderPassInfo.framebuffer = vec_image_obj[param_vulkan->swapchain.current_image_ID]->fbo;
+  //renderPassInfo.framebuffer = vec_image_obj[param_vulkan->swapchain.current_frame_swapchain_ID]->fbo;
 
-  Frame_swapchain* image = param_vulkan->swapchain.get_current_image();
+  Frame_swapchain* image = param_vulkan->swapchain.get_current_frame_swapchain();
   renderPassInfo.framebuffer = image->fbo;
   renderPassInfo.renderArea.offset = {0, 0};
   renderPassInfo.renderArea.extent = param_vulkan->window.extent;
@@ -134,10 +137,10 @@ void VK_command::record_command_buffer(VkCommandBuffer command_buffer){
 
   vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-  vk_command_RP->command_viewport(command_buffer);
-  vk_command_RP->command_drawing_scene(command_buffer);
-  vk_command_RP->command_drawing_glyph(command_buffer);
-  vk_command_RP->command_drawing_canvas(command_buffer);
+  vk_cmd->cmd_viewport(command_buffer);
+  vk_cmd->cmd_drawing_scene(command_buffer);
+  vk_cmd->cmd_drawing_glyph(command_buffer);
+  vk_cmd->cmd_drawing_canvas(command_buffer);
   vk_gui->command_gui(command_buffer);
 
   //End render pass

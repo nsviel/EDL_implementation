@@ -53,7 +53,7 @@ void VK_frame::create_frame_swapchain(){
   //---------------------------
 
   //Swapchain images
-  vector<Frame_swapchain*> vec_image;
+  vector<Frame_swapchain*> vec_frame_swapchain;
   for(int i=0; i<param_vulkan->swapchain.vec_swapchain_image.size(); i++){
     Frame_swapchain* image = new Frame_swapchain();
     image->color.image = param_vulkan->swapchain.vec_swapchain_image[i];
@@ -61,28 +61,28 @@ void VK_frame::create_frame_swapchain(){
     image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
     vk_depth->create_depth_attachment(image);
     vk_framebuffer->create_framebuffer(image);
-    vec_image.push_back(image);
+    vec_frame_swapchain.push_back(image);
   }
 
   //---------------------------
-  param_vulkan->swapchain.vec_image = vec_image;
+  param_vulkan->swapchain.vec_frame_swapchain = vec_frame_swapchain;
 }
 void VK_frame::create_frame_inflight(){
   VK_command* vk_command = engineManager->get_vk_command();
   //---------------------------
 
   //Draw frames
-  vector<Frame_inflight*> vec_frame;
+  vector<Frame_inflight*> vec_frame_inflight;
   for(int i=0; i<param_vulkan->instance.max_frame; i++){
     Frame_inflight* frame = new Frame_inflight();
     vk_synchronization->create_sync_objects(frame);
-    vec_frame.push_back(frame);
+    vec_frame_inflight.push_back(frame);
   }
 
-  vk_command->create_command_buffer(vec_frame);
+  vk_command->create_command_buffer(vec_frame_inflight);
 
   //---------------------------
-  param_vulkan->swapchain.vec_frame = vec_frame;
+  param_vulkan->swapchain.vec_frame_inflight = vec_frame_inflight;
 }
 
 //Deletio function
@@ -92,26 +92,26 @@ void VK_frame::clean_frame_swapchain(){
   //---------------------------
 
   //Vec images
-  for(int i=0; i<param_vulkan->swapchain.vec_image.size(); i++){
-    Frame_swapchain* image = param_vulkan->swapchain.vec_image[i];
+  for(int i=0; i<param_vulkan->swapchain.vec_frame_swapchain.size(); i++){
+    Frame_swapchain* image = param_vulkan->swapchain.vec_frame_swapchain[i];
     vkDestroyImageView(param_vulkan->device.device, image->color.view, nullptr);
     vk_depth->clean_depth_attachment(image);
     vk_framebuffer->clean_framebuffer(image);
     delete image;
   }
-  param_vulkan->swapchain.vec_image.clear();
+  param_vulkan->swapchain.vec_frame_swapchain.clear();
 
   //---------------------------
 }
 void VK_frame::clean_frame_inflight(){
   //---------------------------
 
-  for(int i=0; i<param_vulkan->swapchain.vec_frame.size(); i++){
-    Frame_inflight* frame = param_vulkan->swapchain.vec_frame[i];
+  for(int i=0; i<param_vulkan->swapchain.vec_frame_inflight.size(); i++){
+    Frame_inflight* frame = param_vulkan->swapchain.vec_frame_inflight[i];
     vk_synchronization->clean_sync_obj(frame);
     delete frame;
   }
-  param_vulkan->swapchain.vec_frame.clear();
+  param_vulkan->swapchain.vec_frame_inflight.clear();
 
   //---------------------------
 }

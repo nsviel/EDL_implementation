@@ -1,5 +1,5 @@
-#ifndef VK_COMMAND_RP_H
-#define VK_COMMAND_RP_H
+#ifndef VK_CMD_H
+#define VK_CMD_H
 
 #include "../../../common.h"
 
@@ -14,19 +14,19 @@ class VK_uniform;
 class VK_data;
 
 
-class VK_command_RP
+class VK_cmd
 {
 public:
   //Constructor / Destructor
-  VK_command_RP(Engine* engineManager);
-  ~VK_command_RP();
+  VK_cmd(Engine* engineManager);
+  ~VK_cmd();
 
 public:
   //Renderpass command
-  void command_viewport(VkCommandBuffer command_buffer);
-  void command_drawing_scene(VkCommandBuffer command_buffer);
-  void command_drawing_glyph(VkCommandBuffer command_buffer);
-  void command_drawing_canvas(VkCommandBuffer command_buffer);
+  void cmd_viewport(VkCommandBuffer command_buffer);
+  void cmd_drawing_scene(VkCommandBuffer command_buffer);
+  void cmd_drawing_glyph(VkCommandBuffer command_buffer);
+  void cmd_drawing_canvas(VkCommandBuffer command_buffer);
 
 private:
   Engine* engineManager;

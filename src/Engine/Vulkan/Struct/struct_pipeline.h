@@ -2,7 +2,7 @@
 #define STRUCT_PIPELINE_H
 
 #include "typedef.h"
-#include "struct_uniform.h"
+#include "struct_binding.h"
 
 #include <string>
 #include <vector>
@@ -18,16 +18,12 @@ struct Struct_pipeline{
   bool compile_shader;
   std::string path_shader_vs;
   std::string path_shader_fs;
-
-  vec_name_type_binding vec_required_uniform;
-  vector<Struct_uniform*> vec_uniform;
+  Struct_binding binding;
 
   //Pipeline elments
   VkPipeline pipeline;
   VkPipelineLayout pipeline_layout;
   VkGraphicsPipelineCreateInfo pipeline_info;
-  VkDescriptorSetLayout descriptor_layout;
-  VkDescriptorSet descriptor_set;
 
   //Pipeline info elements
   std::vector<VkPipelineShaderStageCreateInfo> shader_stage;

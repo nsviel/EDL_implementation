@@ -33,6 +33,7 @@ class VK_frame;
 class VK_validation;
 class VK_canvas;
 class VK_color;
+class VK_binding;
 
 
 class Engine
@@ -80,6 +81,7 @@ public:
   inline VK_validation* get_vk_validation(){return vk_validation;}
   inline VK_drawing* get_vk_drawing(){return vk_drawing;}
   inline VK_canvas* get_vk_canvas(){return vk_canvas;}
+  inline VK_binding* get_vk_binding(){return vk_binding;}
 
   inline float get_fps(){return fps;}
 
@@ -96,6 +98,7 @@ private:
   VK_pipeline* vk_pipeline;
   VK_framebuffer* vk_framebuffer;
   VK_command* vk_command;
+  VK_binding* vk_binding;
   VK_synchronization* vk_synchronization;
   VK_drawing* vk_drawing;
   VK_buffer* vk_buffer;

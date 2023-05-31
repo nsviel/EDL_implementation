@@ -45,8 +45,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_scene->path_shader_fs = "Base/shader_scene_fs";
   pipeline_scene->vec_data_name.push_back("location");
   pipeline_scene->vec_data_name.push_back("color");
-  pipeline_scene->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 0));
-  pipeline_scene->descriptor_layout = vk_descriptor->create_layout_scene();
+  pipeline_scene->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_scene->binding.descriptor.layout = vk_descriptor->create_layout_from_required(pipeline_scene->binding.vec_required_binding);
   this->create_pipeline_info(pipeline_scene);
 
   //Pipeline Glyph
@@ -58,8 +58,8 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
   pipeline_glyph->vec_data_name.push_back("location");
   pipeline_glyph->vec_data_name.push_back("color");
-  pipeline_glyph->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 0));
-  pipeline_glyph->descriptor_layout = vk_descriptor->create_layout_glyph();
+  pipeline_glyph->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_glyph->binding.descriptor.layout = vk_descriptor->create_layout_from_required(pipeline_scene->binding.vec_required_binding);
   this->create_pipeline_info(pipeline_glyph);
 
   //Pipeline Canvas
@@ -71,12 +71,13 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
   pipeline_canvas->vec_data_name.push_back("location");
   pipeline_canvas->vec_data_name.push_back("tex_coord");
-  pipeline_canvas->vec_required_uniform.push_back(std::make_tuple("mvp", "mat4", 0));
-  pipeline_canvas->descriptor_layout = vk_descriptor->create_layout_canvas();
+  pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 2, TYPE_SAMPLER, STAGE_FS));
+  pipeline_canvas->binding.descriptor.layout = vk_descriptor->create_layout_from_required(pipeline_scene->binding.vec_required_binding);
   this->create_pipeline_info(pipeline_canvas);
 
   this->create_pipeline_graphics();
-  vk_descriptor->allocate_descriptor_set(vec_pipeline);
+  this->create_pipeline_binding(vec_pipeline);
 
   //---------------------------
 }
@@ -87,8 +88,8 @@ void VK_pipeline::cleanup(){
     Struct_pipeline* pipeline = vec_pipeline[i];
     vkDestroyPipeline(param_vulkan->device.device, pipeline->pipeline, nullptr);
     vkDestroyPipelineLayout(param_vulkan->device.device, pipeline->pipeline_layout, nullptr);
-    vkDestroyDescriptorSetLayout(param_vulkan->device.device, pipeline->descriptor_layout, nullptr);
-    vk_uniform->clean_uniform(pipeline);
+    vkDestroyDescriptorSetLayout(param_vulkan->device.device, pipeline->binding.descriptor.layout, nullptr);
+    vk_uniform->clean_uniform(pipeline->binding);
   }
 
   //---------------------------
@@ -104,7 +105,6 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
   //Pipeline elements
-  vk_uniform->create_uniform_buffers(pipeline);
   vk_shader->create_pipeline_shader(pipeline);
   vk_data->create_data_description(pipeline);
   this->create_pipeline_layout(pipeline);
@@ -154,7 +154,7 @@ void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   VkPipelineLayoutCreateInfo pipeline_layout_info{};
   pipeline_layout_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipeline_layout_info.setLayoutCount = 1;
-  pipeline_layout_info.pSetLayouts = &pipeline->descriptor_layout;
+  pipeline_layout_info.pSetLayouts = &pipeline->binding.descriptor.layout;
   pipeline_layout_info.pushConstantRangeCount = 1;
   pipeline_layout_info.pPushConstantRanges = &pushconstant_range;
 
@@ -334,6 +334,27 @@ void VK_pipeline::create_topology(Struct_pipeline* pipeline){
 
   //---------------------------
   pipeline->input_assembly = input_assembly;
+}
+void VK_pipeline::create_pipeline_binding(vector<Struct_pipeline*>& vec_pipeline){
+  //---------------------------
+
+  vector<VkDescriptorSetLayout> vec_layout;
+  for(int i=0; i<vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = vec_pipeline[i];
+    vec_layout.push_back(pipeline->binding.descriptor.layout);
+    vk_uniform->create_uniform_buffers(pipeline->binding.vec_required_binding, pipeline->binding.vec_uniform);
+  }
+
+  vector<VkDescriptorSet> vec_descriptor_set;
+  vk_descriptor->allocate_descriptor_set(vec_layout, vec_descriptor_set);
+
+  for(int i=0; i<vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = vec_pipeline[i];
+    pipeline->binding.descriptor.set = vec_descriptor_set[i];
+    vk_descriptor->update_descriptor_set(pipeline->binding);
+  }
+
+  //---------------------------
 }
 
 //Subfunction

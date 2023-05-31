@@ -29,12 +29,5 @@ constexpr buffer_usage BUFFER_USAGE_SRC = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
 constexpr buffer_usage BUFFER_USAGE_DST = VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 constexpr buffer_usage BUFFER_USAGE_DST_VERTEX = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 
-//Specific type
-typedef std::vector<std::pair<std::string, std::string>> vec_name_type;
-typedef std::pair<std::string, std::string> name_type;
-
-typedef std::vector<std::tuple<std::string, std::string, int>> vec_name_type_binding;
-typedef std::tuple<std::string, std::string, int> name_type_binding;
-
 
 #endif

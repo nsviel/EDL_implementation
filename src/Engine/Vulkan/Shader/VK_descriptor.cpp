@@ -3,7 +3,13 @@
 #include "../Engine.h"
 #include "../Param_vulkan.h"
 
-//A descriptor set contains a descriptor set layout and a descriptor pool
+//Three steps to create an uniform:
+//-create descriptor set layout
+//-allocate descriptor set
+//-create uniform object
+//-update descriptor set
+//-update uniform data
+//-bind descriptor set
 
 
 //Constructor / Destructor
@@ -22,35 +28,17 @@ VK_descriptor::VK_descriptor(Engine* engineManager){
 VK_descriptor::~VK_descriptor(){}
 
 //Main function
-void VK_descriptor::init_descriptor_layout(){
-  //---------------------------
-
-  this->descriptor_layout_scene = create_layout_scene();
-  this->descriptor_layout_glyph = create_layout_glyph();
-  this->descriptor_layout_canvas = create_layout_canvas();
-
-  //---------------------------
-}
 void VK_descriptor::cleanup(){
   //---------------------------
 
-  vkDestroyDescriptorSetLayout(param_vulkan->device.device, descriptor_layout_scene, nullptr);
-  vkDestroyDescriptorSetLayout(param_vulkan->device.device, descriptor_layout_glyph, nullptr);
-  vkDestroyDescriptorSetLayout(param_vulkan->device.device, descriptor_layout_canvas, nullptr);
   vkDestroyDescriptorPool(param_vulkan->device.device, descriptor_pool, nullptr);
 
   //---------------------------
 }
 
 //Descriptor set
-void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipeline){
+void VK_descriptor::allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_layout, vector<VkDescriptorSet>& vec_descriptor_set){
   //---------------------------
-
-  vector<VkDescriptorSetLayout> vec_layout;
-  for(int i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-    vec_layout.push_back(pipeline->descriptor_layout);
-  }
 
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -58,25 +46,34 @@ void VK_descriptor::allocate_descriptor_set(vector<Struct_pipeline*> vec_pipelin
   allocInfo.descriptorSetCount = static_cast<uint32_t>(vec_layout.size());
   allocInfo.pSetLayouts = vec_layout.data();
 
-  vector<VkDescriptorSet> vec_descriptor_set;
-  vec_descriptor_set.resize(vec_pipeline.size());
+  vec_descriptor_set.resize(vec_layout.size());
   VkResult result = vkAllocateDescriptorSets(param_vulkan->device.device, &allocInfo, vec_descriptor_set.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
 
-  for(int i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-    pipeline->descriptor_set = vec_descriptor_set[i];
-    this->update_descriptor_set(pipeline);
+  //---------------------------
+}
+void VK_descriptor::allocate_descriptor_set(VkDescriptorSetLayout& layout, VkDescriptorSet& descriptor_set){
+  //---------------------------
+
+  VkDescriptorSetAllocateInfo allocInfo{};
+  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+  allocInfo.descriptorPool = descriptor_pool;
+  allocInfo.descriptorSetCount = 1;
+  allocInfo.pSetLayouts = &layout;
+
+  VkResult result = vkAllocateDescriptorSets(param_vulkan->device.device, &allocInfo, &descriptor_set);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to allocate descriptor sets!");
   }
 
   //---------------------------
 }
-void VK_descriptor::update_descriptor_set(Struct_pipeline* pipeline){
+void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   //---------------------------
 
-  Struct_uniform* uniform = pipeline->vec_uniform[0];
+  Struct_uniform* uniform = binding.vec_uniform[0];
 
   VkDescriptorBufferInfo bufferInfo{};
   bufferInfo.buffer = uniform->buffer;
@@ -86,7 +83,7 @@ void VK_descriptor::update_descriptor_set(Struct_pipeline* pipeline){
   //MVP matrix to GPU
   VkWriteDescriptorSet descriptor_write{};
   descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-  descriptor_write.dstSet = pipeline->descriptor_set;
+  descriptor_write.dstSet = binding.descriptor.set;
   descriptor_write.dstBinding = uniform->binding;
   descriptor_write.dstArrayElement = 0;
   descriptor_write.descriptorType = TYPE_UNIFORM;
@@ -110,75 +107,19 @@ void VK_descriptor::update_descriptor_set(Struct_pipeline* pipeline){
 
   //---------------------------
 }
-/*void VK_descriptor::allocate_descriptor_set(Struct_data* data){
-  //---------------------------
-
-  VkDescriptorSetAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-  allocInfo.descriptorPool = descriptor_pool;
-  allocInfo.descriptorSetCount = 1;
-  allocInfo.pSetLayouts = &data->descriptor_layout;
-
-  VkDescriptorSet descriptor_set;
-  VkResult result = vkAllocateDescriptorSets(param_vulkan->device.device, &allocInfo, &descriptor_set);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to allocate descriptor sets!");
-  }
-
-  //---------------------------
-  this->update_descriptor_set(data);
-  data->descriptor_set = descriptor_set;
-}
-void VK_descriptor::update_descriptor_set(Struct_data* data){
-  //---------------------------
-
-  VkDescriptorBufferInfo bufferInfo{};
-  bufferInfo.buffer = data->mvp->buffer;
-  bufferInfo.offset = 0;
-  bufferInfo.range = sizeof(glm::mat4);
-
-  //MVP matrix to GPU
-  VkWriteDescriptorSet descriptor_write{};
-  descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-  descriptor_write.dstSet = data->descriptor_set;
-  descriptor_write.dstBinding = data->mvp->binding;
-  descriptor_write.dstArrayElement = 0;
-  descriptor_write.descriptorType = TYPE_UNIFORM;
-  descriptor_write.descriptorCount = 1;
-  descriptor_write.pBufferInfo = &bufferInfo;
-  descriptor_write.pImageInfo = nullptr; // Optional
-  descriptor_write.pTexelBufferView = nullptr; // Optional
-
-  vkUpdateDescriptorSets(param_vulkan->device.device, 1, &descriptor_write, 0, nullptr);
-
-  //---------------------------
-}*/
 
 //Descriptor layout
-VkDescriptorSetLayout VK_descriptor::create_layout_scene(){
+VkDescriptorSetLayout VK_descriptor::create_layout_from_required(vec_nameTypeBindingTypeStage& vec_required_binding){
   //---------------------------
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
-  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 0));
+  for(int i=0; i<vec_required_binding.size(); i++){
+    VkDescriptorType type = get<3>(vec_required_binding[i]);
+    VkShaderStageFlagBits stage = get<4>(vec_required_binding[i]);
+    int binding = get<2>(vec_required_binding[i]);
 
-  //---------------------------
-  return create_layout(vec_binding);
-}
-VkDescriptorSetLayout VK_descriptor::create_layout_glyph(){
-  //---------------------------
-
-  vector<VkDescriptorSetLayoutBinding> vec_binding;
-  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 0));
-
-  //---------------------------
-  return create_layout(vec_binding);
-}
-VkDescriptorSetLayout VK_descriptor::create_layout_canvas(){
-  //---------------------------
-
-  vector<VkDescriptorSetLayoutBinding> vec_binding;
-  vec_binding.push_back(add_descriptor_binding(TYPE_UNIFORM, STAGE_VS, 1, 0));
-  vec_binding.push_back(add_descriptor_binding(TYPE_SAMPLER, STAGE_FS, 1, 2));
+    vec_binding.push_back(add_descriptor_binding(type, stage, 1, binding));
+  }
 
   //---------------------------
   return create_layout(vec_binding);

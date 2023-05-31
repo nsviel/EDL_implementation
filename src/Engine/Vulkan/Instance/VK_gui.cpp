@@ -167,7 +167,7 @@ void VK_gui::gui_font(){
   VK_drawing* vk_drawing = engineManager->get_vk_drawing();
   //---------------------------
 
-  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame();
+  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame_inflight();
 
   VkResult result = vkResetCommandPool(param_vulkan->device.device, command_pool, 0);
   if(result != VK_SUCCESS){

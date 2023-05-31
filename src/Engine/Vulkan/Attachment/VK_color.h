@@ -34,8 +34,8 @@ private:
   VK_texture* vk_texture;
 
   vector<VkImage> vec_image_swapchain;
-  vector<Frame_swapchain*> vec_image;
-  vector<Frame_inflight*> vec_frame;
+  vector<Frame_swapchain*> vec_frame_swapchain;
+  vector<Frame_inflight*> vec_frame_inflight;
 };
 
 #endif

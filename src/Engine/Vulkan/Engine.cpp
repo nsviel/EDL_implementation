@@ -8,6 +8,7 @@
 #include "Shader/VK_descriptor.h"
 #include "Shader/VK_uniform.h"
 #include "Shader/VK_shader.h"
+#include "Shader/VK_binding.h"
 #include "Data/VK_buffer.h"
 #include "Data/VK_texture.h"
 #include "Data/VK_data.h"
@@ -45,6 +46,7 @@ Engine::Engine(Node_engine* node_engine){
   this->vk_window = new VK_window(this);
   this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
+  this->vk_binding = new VK_binding(this);
   this->vk_buffer = new VK_buffer(this);
   this->vk_uniform = new VK_uniform(this);
   this->vk_texture = new VK_texture(this);
@@ -82,7 +84,6 @@ void Engine::init_vulkan(){
   vk_device->create_logical_device();
   vk_command->create_command_pool();
   vk_descriptor->create_descriptor_pool();
-  vk_descriptor->init_descriptor_layout();
 
   //Pipeline
   vk_swapchain->create_swapchain();
@@ -91,6 +92,7 @@ void Engine::init_vulkan(){
   vk_pipeline->init_pipeline();
 
 
+  //Essayer de ne relancer les commandes que lorsque cela changé
   // one command buffer per pipeline
   //Save the commands and redraw only necessary
   // généraliser les uniform / pishconstant

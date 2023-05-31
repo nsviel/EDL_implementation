@@ -17,13 +17,19 @@ VK_uniform::VK_uniform(Engine* engineManager){
 VK_uniform::~VK_uniform(){}
 
 //Main function
-void VK_uniform::create_uniform_buffers(Struct_pipeline* pipeline){
+void VK_uniform::create_uniform_buffers(vec_nameTypeBindingTypeStage vec_required, vector<Struct_uniform*>& vec_uniform){
   //---------------------------
 
-  for(int i=0; i<pipeline->vec_required_uniform.size(); i++){
-    name_type_binding info = pipeline->vec_required_uniform[i];
-    Struct_uniform* uniform = create_uniform_buffer(get<0>(info), get<1>(info), get<2>(info));
-    pipeline->vec_uniform.push_back(uniform);
+  for(int i=0; i<vec_required.size(); i++){
+    string name = get<0>(vec_required[i]);
+    string type = get<1>(vec_required[i]);
+    int binding = get<2>(vec_required[i]);
+    VkDescriptorType ubo_type = get<3>(vec_required[i]);
+
+    if(ubo_type == TYPE_UNIFORM){
+      Struct_uniform* uniform = create_uniform_buffer(name, type, binding);
+      vec_uniform.push_back(uniform);
+    }
   }
 
   //---------------------------
@@ -53,15 +59,15 @@ Struct_uniform* VK_uniform::create_uniform_buffer(string name, string type, int 
 void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp){
   //---------------------------
 
-  Struct_uniform* uniform = pipeline->vec_uniform[0];
+  Struct_uniform* uniform = pipeline->binding.vec_uniform[0];
   memcpy(uniform->mapped, &mvp, sizeof(mvp));
 
   //---------------------------
 }
-void VK_uniform::clean_uniform(Struct_pipeline* pipeline){
+void VK_uniform::clean_uniform(Struct_binding& binding){
   //---------------------------
 
-  Struct_uniform* uniform = pipeline->vec_uniform[0];
+  Struct_uniform* uniform = binding.vec_uniform[0];
 
   vkDestroyBuffer(param_vulkan->device.device, uniform->buffer, nullptr);
   vkFreeMemory(param_vulkan->device.device, uniform->mem, nullptr);

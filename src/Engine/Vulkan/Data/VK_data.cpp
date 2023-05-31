@@ -34,9 +34,15 @@ void VK_data::insert_scene_object(Object* object){
 
   Struct_data* data = new Struct_data();
   data->object = object;
+  data->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  data->binding.descriptor.layout = vk_descriptor->create_layout_from_required(data->binding.vec_required_binding);
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
   this->list_data_scene.push_back(data);
+
+  //vk_uniform->create_uniform_buffers(data->binding.vec_required_binding, data->binding.vec_uniform);
+  //vk_descriptor->allocate_descriptor_set(data->binding.descriptor.layout, data->binding.descriptor.set);
+  //vk_descriptor->update_descriptor_set(data->binding);
 
   //---------------------------
 }
@@ -45,6 +51,8 @@ void VK_data::insert_glyph_object(Object* object){
 
   Struct_data* data = new Struct_data();
   data->object = object;
+  data->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  data->binding.descriptor.layout = vk_descriptor->create_layout_from_required(data->binding.vec_required_binding);
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
   this->list_data_glyph.push_back(data);
@@ -72,9 +80,11 @@ void VK_data::clean_data(Struct_data* data){
   //---------------------------
 
   vkDeviceWaitIdle(param_vulkan->device.device);
+  vkDestroyDescriptorSetLayout(param_vulkan->device.device, data->binding.descriptor.layout, nullptr);
 
   vk_buffer->clean_data(data);
   vk_texture->clean_texture(data->object);
+  //vk_uniform->clean_uniform(data->binding);
 
   //---------------------------
 }

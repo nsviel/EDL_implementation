@@ -1,7 +1,7 @@
 #ifndef VK_UNIFORM_H
 #define VK_UNIFORM_H
 
-#include "../Struct/struct_uniform.h"
+#include "../Struct/struct_binding.h"
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
@@ -19,10 +19,10 @@ public:
 
 public:
   //Main functions
-  void create_uniform_buffers(Struct_pipeline* pipeline);
+  void create_uniform_buffers(vec_nameTypeBindingTypeStage vec_required, vector<Struct_uniform*>& vec_uniform);
   Struct_uniform* create_uniform_buffer(string name, string type, int binding);
   void update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp);
-  void clean_uniform(Struct_pipeline* pipeline);
+  void clean_uniform(Struct_binding& binding);
 
 private:
   Param_vulkan* param_vulkan;

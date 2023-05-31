@@ -19,7 +19,7 @@ class VK_physical_device;
 class VK_frame;
 class VK_canvas;
 class VK_uniform;
-class VK_command_RP;
+class VK_cmd;
 
 
 class VK_command
@@ -32,11 +32,11 @@ public:
 public:
   //Main functions
   void create_command_pool();
-  void create_command_buffer(vector<Frame_inflight*> vec_frame);
+  void create_command_buffer(vector<Frame_inflight*> vec_frame_inflight);
   void cleanup();
 
   //Drawing command
-  void record_command_buffer(VkCommandBuffer command_buffer);
+  void record_command_buffer(VkCommandBuffer& command_buffer);
   VkCommandBuffer singletime_command_buffer_begin();
   void singletime_command_buffer_end(VkCommandBuffer command_buffer);
 
@@ -57,7 +57,7 @@ private:
   VK_physical_device* vk_physical_device;
   VK_canvas* vk_canvas;
   VK_uniform* vk_uniform;
-  VK_command_RP* vk_command_RP;
+  VK_cmd* vk_cmd;
 
   VkCommandPool command_pool;
 };

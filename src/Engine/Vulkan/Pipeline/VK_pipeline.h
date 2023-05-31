@@ -42,6 +42,7 @@ public:
   void create_color_blending_state(Struct_pipeline* pipeline);
   void create_color_blending(Struct_pipeline* pipeline);
   void create_topology(Struct_pipeline* pipeline);
+  void create_pipeline_binding(vector<Struct_pipeline*>& vec_pipeline);
 
   //Subfunction
   Struct_pipeline* get_pipeline_byName(string name);
