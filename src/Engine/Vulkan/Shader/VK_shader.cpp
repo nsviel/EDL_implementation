@@ -2,7 +2,7 @@
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Device/VK_device.h"
+#include "../Instance/Device/VK_device.h"
 
 
 //Constructor / Destructor

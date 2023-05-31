@@ -1,8 +1,8 @@
 #include "VK_device.h"
 #include "VK_physical_device.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
 
 
 //Constructor / Destructor

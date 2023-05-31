@@ -1,12 +1,13 @@
 #include "VK_window.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Instance/VK_instance.h"
-#include "../Camera/VK_viewport.h"
+#include "../VK_instance.h"
 
-#include "../../Node_engine.h"
-#include "../../Dimension/Dimension.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
+#include "../../Camera/VK_viewport.h"
+
+#include "../../../Node_engine.h"
+#include "../../../Dimension/Dimension.h"
 
 
 //Constructor / Destructor

@@ -1,8 +1,6 @@
 #ifndef OBJECT_STRUCT_H
 #define OBJECT_STRUCT_H
 
-#include "struct_texture.h"
-
 #include <string>
 #include <vector>
 #include <list>

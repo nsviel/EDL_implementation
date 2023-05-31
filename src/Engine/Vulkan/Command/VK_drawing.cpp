@@ -3,12 +3,8 @@
 #include "../VK_engine.h"
 #include "../VK_param.h"
 #include "../Command/VK_command.h"
-#include "../Shader/VK_uniform.h"
-#include "../Swapchain/VK_swapchain.h"
-#include "../Swapchain/VK_frame.h"
-#include "../Rendering/VK_framebuffer.h"
-#include "../Instance/VK_window.h"
-#include "../Device/VK_device.h"
+#include "../Presentation/Swapchain/VK_swapchain.h"
+#include "../Instance/Element/VK_window.h"
 
 
 //Constructor / Destructor
@@ -19,11 +15,7 @@ VK_drawing::VK_drawing(VK_engine* vk_engine){
   this->vk_param = vk_engine->get_vk_param();
   this->vk_swapchain = vk_engine->get_vk_swapchain();
   this->vk_window = vk_engine->get_vk_window();
-  this->vk_framebuffer = vk_engine->get_vk_framebuffer();
   this->vk_command = vk_engine->get_vk_command();
-  this->vk_device = vk_engine->get_vk_device();
-  this->vk_uniform = vk_engine->get_vk_uniform();
-  this->vk_frame = vk_engine->get_vk_image();
 
   //---------------------------
 }

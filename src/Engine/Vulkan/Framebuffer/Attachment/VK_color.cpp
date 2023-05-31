@@ -1,11 +1,11 @@
 #include "VK_color.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Rendering/VK_framebuffer.h"
-#include "../Attachment/VK_depth.h"
-#include "../Data/VK_texture.h"
-#include "../Device/VK_physical_device.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
+#include "../../Framebuffer/VK_framebuffer.h"
+#include "../../Framebuffer/Attachment/VK_depth.h"
+#include "../../Data/VK_texture.h"
+#include "../../Instance/Device/VK_physical_device.h"
 
 
 //Constructor / Destructor

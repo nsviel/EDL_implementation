@@ -3,14 +3,13 @@
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Shader/VK_descriptor.h"
+#include "../Shader/Binding/VK_descriptor.h"
 #include "../Data/VK_data.h"
-#include "../Device/VK_device.h"
-#include "../Swapchain/VK_swapchain.h"
+#include "../Instance/Device/VK_device.h"
+#include "../Presentation/Swapchain/VK_swapchain.h"
 #include "../Camera/VK_viewport.h"
 #include "../Shader/VK_shader.h"
-#include "../Shader/VK_uniform.h"
-#include "../Shader/VK_binding.h"
+#include "../Shader/Binding/VK_binding.h"
 
 
 //Constructor / Destructor
@@ -26,7 +25,6 @@ VK_pipeline::VK_pipeline(VK_engine* vk_engine){
   this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_shader = vk_engine->get_vk_shader();
   this->vk_data = vk_engine->get_vk_data();
-  this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_binding = vk_engine->get_vk_binding();
 
   //---------------------------
@@ -90,8 +88,7 @@ void VK_pipeline::cleanup(){
     Struct_pipeline* pipeline = vec_pipeline[i];
     vkDestroyPipeline(vk_param->device.device, pipeline->pipeline, nullptr);
     vkDestroyPipelineLayout(vk_param->device.device, pipeline->pipeline_layout, nullptr);
-    vkDestroyDescriptorSetLayout(vk_param->device.device, pipeline->binding.descriptor.layout, nullptr);
-    vk_uniform->clean_uniform(pipeline->binding);
+    vk_binding->clean_binding(pipeline->binding);
   }
 
   //---------------------------

@@ -7,11 +7,8 @@
 
 class VK_engine;
 class VK_param;
-class VK_device;
 class VK_buffer;
-class VK_descriptor;
 class VK_texture;
-class VK_uniform;
 class VK_binding;
 
 
@@ -45,11 +42,8 @@ public:
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
-  VK_device* vk_device;
   VK_buffer* vk_buffer;
   VK_texture* vk_texture;
-  VK_uniform* vk_uniform;
-  VK_descriptor* vk_descriptor;
   VK_binding* vk_binding;
 
   std::list<Struct_data*> list_data_scene;

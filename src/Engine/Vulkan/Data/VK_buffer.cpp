@@ -1,12 +1,12 @@
 #include "VK_buffer.h"
 #include "VK_texture.h"
 
-#include "../Shader/VK_descriptor.h"
+#include "../Shader/Binding/VK_descriptor.h"
 #include "../VK_engine.h"
 #include "../VK_param.h"
 #include "../Command/VK_command.h"
-#include "../Device/VK_device.h"
-#include "../Device/VK_physical_device.h"
+#include "../Instance/Device/VK_device.h"
+#include "../Instance/Device/VK_physical_device.h"
 
 
 //Constructor / Destructor

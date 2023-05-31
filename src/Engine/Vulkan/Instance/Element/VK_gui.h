@@ -1,11 +1,11 @@
 #ifndef VK_GUI_H
 #define VK_GUI_H
 
-#include "../../../common.h"
+#include "../../../../common.h"
 
-#include "../../../../extern/imgui/imgui.h"
-#include "../../../../extern/imgui/imgui_impl_glfw.h"
-#include "../../../../extern/imgui/imgui_impl_vulkan.h"
+#include "../../../../../extern/imgui/imgui.h"
+#include "../../../../../extern/imgui/imgui_impl_glfw.h"
+#include "../../../../../extern/imgui/imgui_impl_vulkan.h"
 
 class VK_engine;
 class VK_param;

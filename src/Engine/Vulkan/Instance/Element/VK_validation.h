@@ -1,8 +1,8 @@
 #ifndef VK_VALIDATION_H
 #define VK_VALIDATION_H
 
-#include "../Struct/struct_validation.h"
-#include "../../../common.h"
+#include "../../Struct/struct_validation.h"
+#include "../../../../common.h"
 
 class VK_engine;
 class VK_param;

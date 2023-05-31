@@ -2,23 +2,14 @@
 #define VK_COMMAND_H
 
 #include "../Struct/struct_frame.h"
+#include "../Struct/struct_data.h"
 #include "../../../common.h"
 
+class Param_engine;
 class VK_engine;
 class VK_param;
-class Param_engine;
-
-class VK_device;
 class VK_renderpass;
-class VK_pipeline;
-class VK_viewport;
-class VK_window;
-class VK_buffer;
-class VK_camera;
 class VK_physical_device;
-class VK_frame;
-class VK_canvas;
-class VK_uniform;
 class VK_cmd;
 
 
@@ -43,20 +34,11 @@ public:
   inline VkCommandPool get_command_pool(){return command_pool;}
 
 private:
+  Param_engine* param_engine;
   VK_engine* vk_engine;
   VK_param* vk_param;
-  Param_engine* param_engine;
-  VK_device* vk_device;
   VK_renderpass* vk_renderpass;
-  VK_pipeline* vk_pipeline;
-  VK_viewport* vk_viewport;
-  VK_window* vk_window;
-  VK_buffer* vk_buffer;
-  VK_camera* vk_camera;
-  VK_frame* vk_frame;
   VK_physical_device* vk_physical_device;
-  VK_canvas* vk_canvas;
-  VK_uniform* vk_uniform;
   VK_cmd* vk_cmd;
 
   VkCommandPool command_pool;

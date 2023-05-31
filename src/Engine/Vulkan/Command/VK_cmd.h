@@ -8,9 +8,8 @@ class VK_param;
 class VK_viewport;
 class VK_pipeline;
 class VK_camera;
-class VK_frame;
 class VK_canvas;
-class VK_uniform;
+class VK_binding;
 class VK_data;
 
 
@@ -33,9 +32,8 @@ private:
   VK_param* vk_param;
   VK_pipeline* vk_pipeline;
   VK_camera* vk_camera;
-  VK_frame* vk_frame;
   VK_canvas* vk_canvas;
-  VK_uniform* vk_uniform;
+  VK_binding* vk_binding;
   VK_data* vk_data;
   VK_viewport* vk_viewport;
 };

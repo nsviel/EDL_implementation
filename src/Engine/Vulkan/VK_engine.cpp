@@ -5,26 +5,26 @@
 #include "Pipeline/VK_pipeline.h"
 #include "Command/VK_command.h"
 #include "Command/VK_synchronization.h"
-#include "Shader/VK_descriptor.h"
-#include "Shader/VK_uniform.h"
+#include "Shader/Binding/VK_descriptor.h"
+#include "Shader/Binding/VK_uniform.h"
 #include "Shader/VK_shader.h"
-#include "Shader/VK_binding.h"
+#include "Shader/Binding/VK_binding.h"
 #include "Data/VK_buffer.h"
 #include "Data/VK_texture.h"
 #include "Data/VK_data.h"
 #include "Command/VK_drawing.h"
-#include "Device/VK_device.h"
-#include "Device/VK_physical_device.h"
-#include "Instance/VK_window.h"
-#include "Instance/VK_gui.h"
+#include "Instance/Device/VK_device.h"
+#include "Instance/Device/VK_physical_device.h"
+#include "Instance/Element/VK_window.h"
+#include "Instance/Element/VK_gui.h"
 #include "Instance/VK_instance.h"
-#include "Instance/VK_validation.h"
-#include "Rendering/VK_framebuffer.h"
+#include "Instance/Element/VK_validation.h"
+#include "Framebuffer/VK_framebuffer.h"
 #include "Rendering/VK_canvas.h"
-#include "Attachment/VK_depth.h"
-#include "Attachment/VK_color.h"
-#include "Swapchain/VK_swapchain.h"
-#include "Swapchain/VK_frame.h"
+#include "Framebuffer/Attachment/VK_depth.h"
+#include "Framebuffer/Attachment/VK_color.h"
+#include "Presentation/Swapchain/VK_swapchain.h"
+#include "Presentation/Swapchain/VK_frame.h"
 #include "Camera/VK_viewport.h"
 #include "Camera/VK_camera.h"
 
@@ -47,7 +47,6 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
   this->vk_buffer = new VK_buffer(this);
-  this->vk_uniform = new VK_uniform(this);
   this->vk_texture = new VK_texture(this);
   this->vk_depth = new VK_depth(this);
   this->vk_color = new VK_color(this);

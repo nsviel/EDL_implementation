@@ -1,18 +1,22 @@
 #include "VK_canvas.h"
 
 #include "../VK_engine.h"
+#include "../VK_param.h"
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
 #include "../Data/VK_texture.h"
+#include "../Shader/Binding/VK_binding.h"
 
 
 //Constructor / Destructor
 VK_canvas::VK_canvas(VK_engine* vk_engine){
   //---------------------------
 
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_buffer = vk_engine->get_vk_buffer();
   this->vk_data = vk_engine->get_vk_data();
   this->vk_texture = vk_engine->get_vk_texture();
+  this->vk_binding = vk_engine->get_vk_binding();
 
   //---------------------------
 }
@@ -52,6 +56,9 @@ void VK_canvas::create_canvas(){
   vk_buffer->create_buffer(canvas);
 
   vk_texture->load_texture(canvas, "../media/statue.jpg");
+  canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 2, TYPE_SAMPLER, STAGE_FS));
+  vk_binding->fill_binding_from_requirement(canvas->binding);
 
   //---------------------------
 }
@@ -59,6 +66,7 @@ void VK_canvas::cleanup(){
   //---------------------------
 
   vk_buffer->clean_buffer(canvas);
+  vk_binding->clean_binding(canvas->binding);
   vk_texture->clean_texture(canvas);
 
   //---------------------------

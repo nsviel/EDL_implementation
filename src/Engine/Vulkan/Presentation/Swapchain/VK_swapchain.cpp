@@ -1,14 +1,14 @@
 #include "VK_swapchain.h"
 #include "VK_frame.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Rendering/VK_framebuffer.h"
-#include "../Attachment/VK_depth.h"
-#include "../Data/VK_texture.h"
-#include "../Device/VK_device.h"
-#include "../Device/VK_physical_device.h"
-#include "../Instance/VK_window.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
+#include "../../Framebuffer/VK_framebuffer.h"
+#include "../../Framebuffer/Attachment/VK_depth.h"
+#include "../../Data/VK_texture.h"
+#include "../../Instance/Device/VK_device.h"
+#include "../../Instance/Device/VK_physical_device.h"
+#include "../../Instance/Element/VK_window.h"
 
 
 //Constructor / Destructor

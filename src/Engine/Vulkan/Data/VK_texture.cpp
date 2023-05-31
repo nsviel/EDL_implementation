@@ -3,8 +3,8 @@
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Device/VK_device.h"
-#include "../Device/VK_physical_device.h"
+#include "../Instance/Device/VK_device.h"
+#include "../Instance/Device/VK_physical_device.h"
 #include "../Command/VK_command.h"
 
 #define STB_IMAGE_IMPLEMENTATION

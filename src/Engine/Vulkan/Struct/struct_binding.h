@@ -30,6 +30,15 @@ struct Struct_uniform{
   //---------------------------
 };
 
+struct Struct_sampler{
+  //---------------------------
+
+  std::string name;
+  int binding;
+
+  //---------------------------
+};
+
 struct Struct_pushcst{
   //---------------------------
 
@@ -50,8 +59,9 @@ struct Struct_binding{
   Struct_descriptor descriptor;
 
   //Binding elements
-  vector<Struct_uniform*> vec_uniform;
   vector<Struct_pushcst*> vec_pushcst;
+  vector<Struct_uniform*> vec_uniform;
+  vector<Struct_sampler*> vec_sampler;
   list<Struct_texture*> list_texture;
 
   //---------------------------

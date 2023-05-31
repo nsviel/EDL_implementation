@@ -2,8 +2,8 @@
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Attachment/VK_depth.h"
-#include "../Attachment/VK_color.h"
+#include "../Framebuffer/Attachment/VK_depth.h"
+#include "../Framebuffer/Attachment/VK_color.h"
 
 //Manage fbo attachment (color / depth)
 

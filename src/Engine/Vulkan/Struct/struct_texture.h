@@ -8,6 +8,7 @@
 struct Struct_texture{
   //---------------------------
 
+  std::string name;
   std::string path_texture;
 
   VkImage image;

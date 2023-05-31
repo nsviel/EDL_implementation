@@ -3,18 +3,17 @@
 
 #include "../VK_param.h"
 #include "../VK_engine.h"
-#include "../Instance/VK_gui.h"
-#include "../Instance/VK_window.h"
+#include "../Instance/Element/VK_gui.h"
+#include "../Instance/Element/VK_window.h"
 #include "../Pipeline/VK_renderpass.h"
 #include "../Pipeline/VK_pipeline.h"
-#include "../Device/VK_device.h"
-#include "../Device/VK_physical_device.h"
+#include "../Instance/Device/VK_device.h"
+#include "../Instance/Device/VK_physical_device.h"
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
-#include "../Swapchain/VK_frame.h"
+#include "../Presentation/Swapchain/VK_frame.h"
 #include "../Camera/VK_viewport.h"
 #include "../Camera/VK_camera.h"
-#include "../Shader/VK_uniform.h"
 #include "../Rendering/VK_canvas.h"
 
 #include "../../Param_engine.h"
@@ -24,20 +23,11 @@
 VK_command::VK_command(VK_engine* vk_engine){
   //---------------------------
 
-  this->vk_engine = vk_engine;
   this->param_engine = vk_engine->get_param_engine();
+  this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_device = vk_engine->get_vk_device();
   this->vk_renderpass = vk_engine->get_vk_renderpass();
-  this->vk_pipeline = vk_engine->get_vk_pipeline();
-  this->vk_viewport = vk_engine->get_vk_viewport();
-  this->vk_window = vk_engine->get_vk_window();
-  this->vk_buffer = vk_engine->get_vk_buffer();
-  this->vk_camera = vk_engine->get_vk_camera();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
-  this->vk_frame = vk_engine->get_vk_image();
-  this->vk_canvas = vk_engine->get_vk_canvas();
-  this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_cmd = new VK_cmd(vk_engine);
 
   //---------------------------

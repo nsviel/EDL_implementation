@@ -4,10 +4,7 @@
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Device/VK_device.h"
-#include "../Shader/VK_descriptor.h"
-#include "../Shader/VK_uniform.h"
-#include "../Shader/VK_binding.h"
+#include "../Shader/Binding/VK_binding.h"
 
 #include "../../GPU/GPU_data.h"
 #include "../../Node_engine.h"
@@ -19,11 +16,8 @@ VK_data::VK_data(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_device = vk_engine->get_vk_device();
   this->vk_buffer = vk_engine->get_vk_buffer();
   this->vk_texture = vk_engine->get_vk_texture();
-  this->vk_descriptor = vk_engine->get_vk_descriptor();
-  this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_binding = vk_engine->get_vk_binding();
 
   //---------------------------
@@ -80,11 +74,10 @@ void VK_data::clean_data(Struct_data* data){
   //---------------------------
 
   vkDeviceWaitIdle(vk_param->device.device);
-  vkDestroyDescriptorSetLayout(vk_param->device.device, data->binding.descriptor.layout, nullptr);
 
   vk_buffer->clean_buffer(data);
   vk_texture->clean_texture(data);
-  vk_uniform->clean_uniform(data->binding);
+  vk_binding->clean_binding(data->binding);
 
   //---------------------------
 }

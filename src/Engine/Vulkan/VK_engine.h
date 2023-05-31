@@ -67,7 +67,6 @@ public:
   inline VK_pipeline* get_vk_pipeline(){return vk_pipeline;}
   inline VK_buffer* get_vk_buffer(){return vk_buffer;}
   inline VK_descriptor* get_vk_descriptor(){return vk_descriptor;}
-  inline VK_uniform* get_vk_uniform(){return vk_uniform;}
   inline VK_texture* get_vk_texture(){return vk_texture;}
   inline VK_depth* get_vk_depth(){return vk_depth;}
   inline VK_color* get_vk_color(){return vk_color;}
@@ -104,7 +103,6 @@ private:
   VK_drawing* vk_drawing;
   VK_buffer* vk_buffer;
   VK_descriptor* vk_descriptor;
-  VK_uniform* vk_uniform;
   VK_depth* vk_depth;
   VK_texture* vk_texture;
   VK_data* vk_data;

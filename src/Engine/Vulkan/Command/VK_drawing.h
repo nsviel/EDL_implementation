@@ -7,11 +7,7 @@ class VK_engine;
 class VK_param;
 class VK_window;
 class VK_swapchain;
-class VK_framebuffer;
 class VK_command;
-class VK_device;
-class VK_uniform;
-class VK_frame;
 
 
 class VK_drawing
@@ -34,11 +30,7 @@ private:
   VK_param* vk_param;
   VK_window* vk_window;
   VK_swapchain* vk_swapchain;
-  VK_framebuffer* vk_framebuffer;
   VK_command* vk_command;
-  VK_device* vk_device;
-  VK_uniform* vk_uniform;
-  VK_frame* vk_frame;
 };
 
 #endif

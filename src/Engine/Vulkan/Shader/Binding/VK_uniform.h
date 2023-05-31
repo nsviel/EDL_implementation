@@ -1,9 +1,9 @@
 #ifndef VK_UNIFORM_H
 #define VK_UNIFORM_H
 
-#include "../Struct/struct_binding.h"
-#include "../Struct/struct_pipeline.h"
-#include "../../../common.h"
+#include "../../Struct/struct_binding.h"
+#include "../../Struct/struct_pipeline.h"
+#include "../../../../common.h"
 
 class VK_engine;
 class VK_param;

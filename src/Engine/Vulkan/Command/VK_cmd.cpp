@@ -2,13 +2,13 @@
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Instance/VK_gui.h"
+#include "../Instance/Element/VK_gui.h"
 #include "../Pipeline/VK_pipeline.h"
 #include "../Data/VK_buffer.h"
-#include "../Swapchain/VK_frame.h"
+#include "../Presentation/Swapchain/VK_frame.h"
 #include "../Camera/VK_camera.h"
 #include "../Camera/VK_viewport.h"
-#include "../Shader/VK_uniform.h"
+#include "../Shader/Binding/VK_binding.h"
 #include "../Rendering/VK_canvas.h"
 #include "../Data/VK_data.h"
 
@@ -21,9 +21,8 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
   this->vk_param = vk_engine->get_vk_param();
   this->vk_pipeline = vk_engine->get_vk_pipeline();
   this->vk_camera = vk_engine->get_vk_camera();
-  this->vk_frame = vk_engine->get_vk_image();
   this->vk_canvas = vk_engine->get_vk_canvas();
-  this->vk_uniform = vk_engine->get_vk_uniform();
+  this->vk_binding = vk_engine->get_vk_binding();
   this->vk_data = vk_engine->get_vk_data();
   this->vk_viewport = vk_engine->get_vk_viewport();
 
@@ -63,7 +62,7 @@ void VK_cmd::cmd_drawing_scene(VkCommandBuffer command_buffer){
     if(object->draw_type_name == "point"){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_uniform->update_uniform_mat4("mvp", data->binding, object->mvp);
+      vk_binding->update_uniform(data);
       vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
       //Data
@@ -94,7 +93,7 @@ void VK_cmd::cmd_drawing_glyph(VkCommandBuffer command_buffer){
     if(object->draw_type_name == "line"){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_uniform->update_uniform_mat4("mvp", data->binding, object->mvp);
+      vk_binding->update_uniform(data);
       vkCmdBindDescriptorSets(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
       //Data

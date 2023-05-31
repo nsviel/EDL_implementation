@@ -2,8 +2,8 @@
 #include "VK_descriptor.h"
 #include "VK_uniform.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
 
 
 //Constructor / Destructor
@@ -12,7 +12,7 @@ VK_binding::VK_binding(VK_engine* vk_engine){
 
   this->vk_param = vk_engine->get_vk_param();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
-  this->vk_uniform = vk_engine->get_vk_uniform();
+  this->vk_uniform = new VK_uniform(vk_engine);
 
   //---------------------------
 }
@@ -21,6 +21,11 @@ VK_binding::~VK_binding(){}
 //Main function
 void VK_binding::fill_binding_from_requirement(Struct_binding& binding){
   //---------------------------
+
+  if(binding.vec_required_binding.size() == 0){
+    cout<<"[error] no requirement for binding"<<endl;
+    exit(0);
+  }
 
   binding.descriptor.layout = vk_descriptor->create_layout_from_required(binding.vec_required_binding);
   vk_uniform->create_uniform_buffers(binding.vec_required_binding, binding.vec_uniform);
@@ -50,6 +55,22 @@ void VK_binding::fill_pipeline_binding(vector<Struct_pipeline*>& vec_pipeline){
     pipeline->binding.descriptor.set = vec_descriptor_set[i];
     vk_descriptor->update_descriptor_set(pipeline->binding);
   }
+
+  //---------------------------
+}
+void VK_binding::clean_binding(Struct_binding& binding){
+  //---------------------------
+
+  vkDestroyDescriptorSetLayout(vk_param->device.device, binding.descriptor.layout, nullptr);
+  vk_uniform->clean_uniform(binding);
+
+  //---------------------------
+}
+
+void VK_binding::update_uniform(Struct_data* data){
+  //---------------------------
+
+  vk_uniform->update_uniform_mat4("mvp", data->binding, data->object->mvp);
 
   //---------------------------
 }

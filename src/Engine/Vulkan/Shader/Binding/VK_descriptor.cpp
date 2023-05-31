@@ -1,7 +1,7 @@
 #include "VK_descriptor.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
 
 //Three steps to create an uniform:
 //-create descriptor set layout
@@ -78,24 +78,45 @@ void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   }
 
   Struct_uniform* uniform = binding.vec_uniform[0];
+  vector<VkWriteDescriptorSet> vec_write_set;
 
+  //Descriptor set write -> uniform
   VkDescriptorBufferInfo bufferInfo{};
   bufferInfo.buffer = uniform->buffer;
   bufferInfo.offset = 0;
   bufferInfo.range = sizeof(glm::mat4);
 
-  //Descriptor set -> write uniform
-  VkWriteDescriptorSet descriptor_write{};
-  descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-  descriptor_write.dstSet = binding.descriptor.set;
-  descriptor_write.dstBinding = uniform->binding;
-  descriptor_write.dstArrayElement = 0;
-  descriptor_write.descriptorType = TYPE_UNIFORM;
-  descriptor_write.descriptorCount = 1;
-  descriptor_write.pBufferInfo = &bufferInfo;
-  descriptor_write.pImageInfo = nullptr; // Optional
-  descriptor_write.pTexelBufferView = nullptr; // Optional
+  VkWriteDescriptorSet write_uniform{};
+  write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+  write_uniform.dstSet = binding.descriptor.set;
+  write_uniform.dstBinding = uniform->binding;
+  write_uniform.dstArrayElement = 0;
+  write_uniform.descriptorType = TYPE_UNIFORM;
+  write_uniform.descriptorCount = 1;
+  write_uniform.pBufferInfo = &bufferInfo;
+  write_uniform.pImageInfo = nullptr; // Optional
+  write_uniform.pTexelBufferView = nullptr; // Optional
+  vec_write_set.push_back(write_uniform);
 
+  //Descriptor set write -> sampler
+  if(binding.list_texture.size() != 0){
+    Struct_texture* texture = *next(binding.list_texture.begin(), 0);
+
+    VkDescriptorImageInfo imageInfo{};
+    imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    imageInfo.imageView = texture->view;
+    imageInfo.sampler = texture->sampler;
+
+    VkWriteDescriptorSet write_sampler{};
+    write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    write_sampler.dstSet = binding.descriptor.set;
+    write_sampler.dstBinding = 1;
+    write_sampler.dstArrayElement = 0;
+    write_sampler.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    write_sampler.descriptorCount = 1;
+    write_sampler.pImageInfo = &texture->image_info;
+    vec_write_set.push_back(write_uniform);
+  }
 
 
 
@@ -111,7 +132,7 @@ void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   descriptor_write[1].pImageInfo = &texture.imageInfo;
   */
 
-  vkUpdateDescriptorSets(vk_param->device.device, 1, &descriptor_write, 0, nullptr);
+  vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(vec_write_set.size()), vec_write_set.data(), 0, nullptr);
 
   //---------------------------
 }

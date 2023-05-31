@@ -1,8 +1,8 @@
 #include "VK_uniform.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Data/VK_buffer.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
+#include "../../Data/VK_buffer.h"
 
 
 //Constructor / Destructor

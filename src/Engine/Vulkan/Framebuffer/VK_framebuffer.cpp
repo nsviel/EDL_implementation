@@ -1,12 +1,12 @@
 #include "VK_framebuffer.h"
 
-#include "../Attachment/VK_depth.h"
+#include "../Framebuffer/Attachment/VK_depth.h"
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Swapchain/VK_swapchain.h"
-#include "../Swapchain/VK_frame.h"
+#include "../Presentation/Swapchain/VK_swapchain.h"
+#include "../Presentation/Swapchain/VK_frame.h"
 #include "../Pipeline/VK_renderpass.h"
-#include "../Device/VK_device.h"
+#include "../Instance/Device/VK_device.h"
 
 
 //Constructor / Destructor

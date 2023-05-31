@@ -5,6 +5,7 @@
 #include "Struct/struct_instance.h"
 #include "Struct/struct_device.h"
 #include "Struct/struct_swapchain.h"
+#include "Struct/struct_renderpass.h"
 
 #include <string>
 #include <vector>
@@ -21,6 +22,7 @@ struct VK_param{
   Struct_instance instance;
   Struct_device device;
   Struct_swapchain swapchain;
+  Struct_renderpass renderpass;
 
   //---------------------------
 };
