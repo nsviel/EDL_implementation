@@ -25,21 +25,21 @@ VK_drawing::~VK_drawing(){}
 void VK_drawing::draw_frame(){
   //---------------------------
 
-  this->draw_swapchain();
-  this->draw_command();
-  this->draw_queue();
-  this->draw_presentation();
+  this->acquire_next_image();
+  this->record_command();
+  this->submit_command();
+  this->submit_presentation();
 
   //---------------------------
 }
 
 //Subfunction
-void VK_drawing::draw_swapchain(){
+void VK_drawing::acquire_next_image(){
   Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
   //---------------------------
 
   //Waiting for the previous frame
-  vkWaitForFences(vk_param->device.device, 1, &frame->fence_inflight, VK_TRUE, UINT64_MAX);
+  vkWaitForFences(vk_param->device.device, 1, &frame->fence, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
   VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &vk_param->swapchain.current_frame_swapchain_ID);
@@ -51,7 +51,7 @@ void VK_drawing::draw_swapchain(){
   }
 
   //Reset fence
-  vkResetFences(vk_param->device.device, 1, &frame->fence_inflight);
+  vkResetFences(vk_param->device.device, 1, &frame->fence);
 
   //Window resizing
   vk_window->check_for_resizing();
@@ -64,19 +64,20 @@ void VK_drawing::draw_swapchain(){
 
   //---------------------------
 }
-void VK_drawing::draw_command(){
+void VK_drawing::record_command(){
   Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
   //---------------------------
 
+  //Render pass 1: draw scene
+  vkResetCommandBuffer(frame->command_buffer, 0);
+  vk_command->record_renderpass_scene(frame->command_buffer);
 
-    vkResetCommandBuffer(frame->command_buffer, 0);
-    vk_command->record_command_buffer(frame->command_buffer);
-
+  //Render pass 2: display on quad
 
 
   //---------------------------
 }
-void VK_drawing::draw_queue(){
+void VK_drawing::submit_command(){
   Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
   //---------------------------
 
@@ -95,29 +96,29 @@ void VK_drawing::draw_queue(){
   submit_info.pSignalSemaphores = semaphore_signal;
 
   //Very slow operation, need as low command as possible
-  VkResult result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &submit_info, frame->fence_inflight);
+  VkResult result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &submit_info, frame->fence);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to submit draw command buffer!");
   }
 
   //---------------------------
 }
-void VK_drawing::draw_presentation(){
+void VK_drawing::submit_presentation(){
   Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
   //---------------------------
 
   VkSemaphore semaphore_signal[] = {frame->semaphore_render_finished};
   VkSwapchainKHR swapChains[] = {vk_param->swapchain.swapchain};
-  VkPresentInfoKHR presentInfo{};
-  presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-  presentInfo.waitSemaphoreCount = 1;
-  presentInfo.pWaitSemaphores = semaphore_signal;
-  presentInfo.swapchainCount = 1;
-  presentInfo.pSwapchains = swapChains;
-  presentInfo.pImageIndices = &vk_param->swapchain.current_frame_swapchain_ID;
-  presentInfo.pResults = nullptr; // Optional
+  VkPresentInfoKHR presentation_info{};
+  presentation_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+  presentation_info.waitSemaphoreCount = 1;
+  presentation_info.pWaitSemaphores = semaphore_signal;
+  presentation_info.swapchainCount = 1;
+  presentation_info.pSwapchains = swapChains;
+  presentation_info.pImageIndices = &vk_param->swapchain.current_frame_swapchain_ID;
+  presentation_info.pResults = nullptr; // Optional
 
-  VkResult result = vkQueuePresentKHR(vk_param->device.queue_presentation, &presentInfo);
+  VkResult result = vkQueuePresentKHR(vk_param->device.queue_presentation, &presentation_info);
   if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || vk_param->window.is_resized){
     vk_swapchain->recreate_swapChain();
   }else if(result != VK_SUCCESS){

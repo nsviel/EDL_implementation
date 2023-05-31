@@ -20,10 +20,12 @@ public:
 public:
   //Main functions
   void draw_frame();
-  void draw_swapchain();
-  void draw_command();
-  void draw_queue();
-  void draw_presentation();
+
+  //Subfunction
+  void acquire_next_image();
+  void record_command();
+  void submit_command();
+  void submit_presentation();
 
 private:
   VK_engine* vk_engine;

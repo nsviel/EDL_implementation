@@ -25,14 +25,11 @@ struct Frame_inflight{
   //---------------------------
 
   int ID_frame;
-  int ID_draw;
 
-  VkDescriptorSet descriptor_set;
   VkCommandBuffer command_buffer;
-
   VkSemaphore semaphore_render_finished;
   VkSemaphore semaphore_image_available;
-  VkFence fence_inflight;
+  VkFence fence;
 
   //---------------------------
 };

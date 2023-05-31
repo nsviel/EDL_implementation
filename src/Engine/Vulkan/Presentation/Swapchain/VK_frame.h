@@ -12,6 +12,7 @@ class VK_synchronization;
 class VK_color;
 class VK_framebuffer;
 class VK_swapchain;
+class VK_depth;
 
 
 class VK_frame
@@ -27,11 +28,11 @@ public:
   void cleanup();
 
   //Creation function
-  void create_frame_swapchain();
+  void create_frame_swapchain(vector<Frame_swapchain*>& vec_frame_swapchain);
   void create_frame_inflight();
 
   //Deletion function
-  void clean_frame_swapchain();
+  void clean_frame_swapchain(vector<Frame_swapchain*>& vec_frame);
   void clean_frame_inflight();
 
 private:
@@ -43,6 +44,7 @@ private:
   VK_color* vk_color;
   VK_swapchain* vk_swapchain;
   VK_framebuffer* vk_framebuffer;
+  VK_depth* vk_depth;
 };
 
 #endif

@@ -26,24 +26,33 @@ void VK_renderpass::init_renderpass(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
 
-  this->renderpass = new Struct_renderpass();
-  this->create_color_attachment(renderpass);
-  this->create_depth_attachment(renderpass);
-  this->create_subpass(renderpass);
-  this->create_renderpass_info(renderpass);
-  this->create_renderpass(renderpass);
+  this->create_renderpass(&vk_param->renderpass_scene);
+  this->create_renderpass(&vk_param->renderpass_canva);
 
   //---------------------------
 }
 void VK_renderpass::cleanup(){
   //---------------------------
 
-  vkDestroyRenderPass(vk_param->device.device, renderpass->renderpass, nullptr);
+  vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_scene.renderpass, nullptr);
+  vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_canva.renderpass, nullptr);
 
   //---------------------------
 }
 
 //Subfunction
+void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  //---------------------------
+
+  this->create_color_attachment(renderpass);
+  this->create_depth_attachment(renderpass);
+  this->create_subpass(renderpass);
+  this->create_renderpass_info(renderpass);
+  this->create_renderpass_obj(renderpass);
+
+  //---------------------------
+}
 void VK_renderpass::create_depth_attachment(Struct_renderpass* renderpass){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
@@ -128,7 +137,7 @@ void VK_renderpass::create_renderpass_info(Struct_renderpass* renderpass){
   //---------------------------
   renderpass->renderpass_info = renderpass_info;
 }
-void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
+void VK_renderpass::create_renderpass_obj(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass creation

@@ -22,20 +22,17 @@ public:
   void cleanup();
 
   //Subfunction
+  void create_renderpass(Struct_renderpass* renderpass);
   void create_depth_attachment(Struct_renderpass* renderpass);
   void create_color_attachment(Struct_renderpass* renderpass);
   void create_subpass(Struct_renderpass* renderpass);
   void create_renderpass_info(Struct_renderpass* renderpass);
-  void create_renderpass(Struct_renderpass* renderpass);
-
-  inline VkRenderPass get_renderPass(){return renderpass->renderpass;}
+  void create_renderpass_obj(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_color* vk_color;
-
-  Struct_renderpass* renderpass;
 };
 
 #endif

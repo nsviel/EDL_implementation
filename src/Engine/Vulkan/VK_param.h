@@ -22,7 +22,9 @@ struct VK_param{
   Struct_instance instance;
   Struct_device device;
   Struct_swapchain swapchain;
-  Struct_renderpass renderpass;
+
+  Struct_renderpass renderpass_scene;
+  Struct_renderpass renderpass_canva;
 
   //---------------------------
 };

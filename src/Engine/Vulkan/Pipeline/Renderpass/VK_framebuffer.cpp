@@ -26,7 +26,7 @@ void VK_framebuffer::create_framebuffer(Frame_swapchain* image){
   //---------------------------
 
   //Get FBO required elements
-  VkRenderPass renderPass = vk_renderpass->get_renderPass();
+  VkRenderPass renderPass = vk_param->renderpass_scene.renderpass;
   VkFramebuffer fbo;
 
   //Create frambuffer

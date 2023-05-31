@@ -1,9 +1,8 @@
 #ifndef STRUCT_RENDERPASS_H
 #define STRUCT_RENDERPASS_H
 
-#include <string>
-#include <vector>
-#include <vulkan/vulkan.h>
+#include "struct_frame.h"
+#include "../../../common.h"
 
 
 struct Struct_renderpass{
@@ -17,6 +16,7 @@ struct Struct_renderpass{
   VkRenderPassCreateInfo renderpass_info;
   VkSubpassDescription subpass_description;
   VkSubpassDependency subpass_dependency;
+  std::vector<Frame_swapchain*> vec_frame_render;
 
   //Attachment
   VkAttachmentReference depth_ref;

@@ -24,6 +24,7 @@ VK_frame::VK_frame(VK_engine* vk_engine){
   this->vk_color = vk_engine->get_vk_color();
   this->vk_swapchain = vk_engine->get_vk_swapchain();
   this->vk_framebuffer = vk_engine->get_vk_framebuffer();
+  this->vk_depth = vk_engine->get_vk_depth();
 
   //---------------------------
 }
@@ -33,7 +34,7 @@ VK_frame::~VK_frame(){}
 void VK_frame::init_image(){
   //---------------------------
 
-  this->create_frame_swapchain();
+  this->create_frame_swapchain(vk_param->swapchain.vec_frame_swapchain);
   this->create_frame_inflight();
 
   //---------------------------
@@ -41,19 +42,17 @@ void VK_frame::init_image(){
 void VK_frame::cleanup(){
   //---------------------------
 
-  this->clean_frame_swapchain();
+  this->clean_frame_swapchain(vk_param->swapchain.vec_frame_swapchain);
   this->clean_frame_inflight();
 
   //---------------------------
 }
 
 //Creation function
-void VK_frame::create_frame_swapchain(){
-  VK_depth* vk_depth = vk_engine->get_vk_depth();
+void VK_frame::create_frame_swapchain(vector<Frame_swapchain*>& vec_frame){
   //---------------------------
 
   //Swapchain images
-  vector<Frame_swapchain*> vec_frame_swapchain;
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
     Frame_swapchain* image = new Frame_swapchain();
     image->color.image = vk_param->swapchain.vec_swapchain_image[i];
@@ -61,11 +60,10 @@ void VK_frame::create_frame_swapchain(){
     image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
     vk_depth->create_depth_attachment(image);
     vk_framebuffer->create_framebuffer(image);
-    vec_frame_swapchain.push_back(image);
+    vec_frame.push_back(image);
   }
 
   //---------------------------
-  vk_param->swapchain.vec_frame_swapchain = vec_frame_swapchain;
 }
 void VK_frame::create_frame_inflight(){
   VK_command* vk_command = vk_engine->get_vk_command();
@@ -86,20 +84,18 @@ void VK_frame::create_frame_inflight(){
 }
 
 //Deletio function
-void VK_frame::clean_frame_swapchain(){
-  VK_depth* vk_depth = vk_engine->get_vk_depth();
-  VK_framebuffer* vk_framebuffer = vk_engine->get_vk_framebuffer();
+void VK_frame::clean_frame_swapchain(vector<Frame_swapchain*>& vec_frame){
   //---------------------------
 
   //Vec images
-  for(int i=0; i<vk_param->swapchain.vec_frame_swapchain.size(); i++){
-    Frame_swapchain* image = vk_param->swapchain.vec_frame_swapchain[i];
+  for(int i=0; i<vec_frame.size(); i++){
+    Frame_swapchain* image = vec_frame[i];
     vkDestroyImageView(vk_param->device.device, image->color.view, nullptr);
     vk_depth->clean_depth_attachment(image);
     vk_framebuffer->clean_framebuffer(image);
     delete image;
   }
-  vk_param->swapchain.vec_frame_swapchain.clear();
+  vec_frame.clear();
 
   //---------------------------
 }

@@ -88,50 +88,49 @@ void VK_command::cleanup(){
   //---------------------------
 }
 
-//Drawing commands
-void VK_command::record_command_buffer(VkCommandBuffer& command_buffer){
+//Renderpass record command
+void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
+  Frame_swapchain* image = vk_param->swapchain.get_current_frame_swapchain();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
+  //Start command buffer
+  VkCommandBufferBeginInfo begin_info{};
+  begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  begin_info.flags = 0;
 
-  VkCommandBufferBeginInfo beginInfo{};
-  beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-  beginInfo.flags = 0;
-  beginInfo.pInheritanceInfo = nullptr; // Optional
-
-  VkResult result = vkBeginCommandBuffer(command_buffer, &beginInfo);
+  VkResult result = vkBeginCommandBuffer(command_buffer, &begin_info);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to begin recording command buffer!");
   }
 
-  //Starting a render pass
-  std::array<VkClearValue, 2> clearValues{};
-  clearValues[0].color = {{
+  //Start renderpass
+  std::array<VkClearValue, 2> clear_value{};
+  clear_value[0].color = {{
     param_engine->background_color.x,
     param_engine->background_color.y,
     param_engine->background_color.z,
     param_engine->background_color.w}};
-  clearValues[1].depthStencil = {1.0f, 0};
+  clear_value[1].depthStencil = {1.0f, 0};
 
-  VkRenderPassBeginInfo renderPassInfo{};
-  renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-  renderPassInfo.renderPass = vk_renderpass->get_renderPass();
-  //renderPassInfo.framebuffer = vec_image_obj[vk_param->swapchain.current_frame_swapchain_ID]->fbo;
+  VkRenderPassBeginInfo renderpass_info{};
+  renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+  renderpass_info.renderPass = vk_param->renderpass_scene.renderpass;
+  renderpass_info.framebuffer = image->fbo;
+  renderpass_info.renderArea.offset = {0, 0};
+  renderpass_info.renderArea.extent = vk_param->window.extent;
+  renderpass_info.clearValueCount = static_cast<uint32_t>(clear_value.size());
+  renderpass_info.pClearValues = clear_value.data();
 
-  Frame_swapchain* image = vk_param->swapchain.get_current_frame_swapchain();
-  renderPassInfo.framebuffer = image->fbo;
-  renderPassInfo.renderArea.offset = {0, 0};
-  renderPassInfo.renderArea.extent = vk_param->window.extent;
-  renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
-  renderPassInfo.pClearValues = clearValues.data();
-
-  vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+  vkCmdBeginRenderPass(command_buffer, &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
 
   vk_cmd->cmd_run(command_buffer);
   vk_gui->command_gui(command_buffer);
 
-  //End render pass
+  //End renderpass
   vkCmdEndRenderPass(command_buffer);
+
+  //End command buffer
   result = vkEndCommandBuffer(command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to record command buffer!");
@@ -139,6 +138,57 @@ void VK_command::record_command_buffer(VkCommandBuffer& command_buffer){
 
   //---------------------------
 }
+void VK_command::record_renderpass_canva(VkCommandBuffer& command_buffer){
+  Frame_swapchain* image = vk_param->swapchain.get_current_frame_swapchain();
+  VK_gui* vk_gui = vk_engine->get_vk_gui();
+  //---------------------------
+
+  //Start command buffer
+  VkCommandBufferBeginInfo begin_info{};
+  begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  begin_info.flags = 0;
+
+  VkResult result = vkBeginCommandBuffer(command_buffer, &begin_info);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to begin recording command buffer!");
+  }
+
+  //Start renderpass
+  std::array<VkClearValue, 2> clear_value{};
+  clear_value[0].color = {{
+    param_engine->background_color.x,
+    param_engine->background_color.y,
+    param_engine->background_color.z,
+    param_engine->background_color.w}};
+  clear_value[1].depthStencil = {1.0f, 0};
+
+  VkRenderPassBeginInfo renderpass_info{};
+  renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+  renderpass_info.renderPass = vk_param->renderpass_canva.renderpass;
+  renderpass_info.framebuffer = image->fbo;
+  renderpass_info.renderArea.offset = {0, 0};
+  renderpass_info.renderArea.extent = vk_param->window.extent;
+  renderpass_info.clearValueCount = static_cast<uint32_t>(clear_value.size());
+  renderpass_info.pClearValues = clear_value.data();
+
+  vkCmdBeginRenderPass(command_buffer, &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
+
+  vk_cmd->cmd_run(command_buffer);
+  vk_gui->command_gui(command_buffer);
+
+  //End renderpass
+  vkCmdEndRenderPass(command_buffer);
+
+  //End command buffer
+  result = vkEndCommandBuffer(command_buffer);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to record command buffer!");
+  }
+
+  //---------------------------
+}
+
+//Single time command
 VkCommandBuffer VK_command::singletime_command_buffer_begin(){
   //---------------------------
 
@@ -151,11 +201,11 @@ VkCommandBuffer VK_command::singletime_command_buffer_begin(){
   VkCommandBuffer command_buffer;
   vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &command_buffer);
 
-  VkCommandBufferBeginInfo beginInfo{};
-  beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-  beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+  VkCommandBufferBeginInfo begin_info{};
+  begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
-  vkBeginCommandBuffer(command_buffer, &beginInfo);
+  vkBeginCommandBuffer(command_buffer, &begin_info);
 
   //---------------------------
   return command_buffer;

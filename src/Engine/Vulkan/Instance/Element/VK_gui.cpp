@@ -73,7 +73,7 @@ void VK_gui::init_gui(){
 void VK_gui::gui_vulkan(){
   GLFWwindow* window = vk_window->get_window();
   VkSurfaceKHR surface = vk_window->get_surface();
-  VkRenderPass renderPass = vk_renderpass->get_renderPass();
+  VkRenderPass renderPass = vk_param->renderpass_scene.renderpass;
   //---------------------------
 
   // Setup Dear ImGui context

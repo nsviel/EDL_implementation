@@ -140,7 +140,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline_info.pColorBlendState = &pipeline->color_blend_info;
   pipeline_info.pDynamicState = &pipeline->dynamic_state;
   pipeline_info.layout = pipeline->pipeline_layout;
-  pipeline_info.renderPass = vk_renderpass->get_renderPass();
+  pipeline_info.renderPass = vk_param->renderpass_scene.renderpass;
   pipeline_info.subpass = 0;
   pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
   pipeline_info.basePipelineIndex = -1; // Optional

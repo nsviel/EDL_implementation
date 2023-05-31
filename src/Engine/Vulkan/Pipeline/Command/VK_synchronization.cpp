@@ -33,7 +33,7 @@ void VK_synchronization::create_sync_objects(Frame_inflight* frame){
   //Semaphore and fence creation
   VkResult result_sema_1 = vkCreateSemaphore(vk_param->device.device, &semaphoreInfo, nullptr, &frame->semaphore_image_available);
   VkResult result_sema_2 = vkCreateSemaphore(vk_param->device.device, &semaphoreInfo, nullptr, &frame->semaphore_render_finished);
-  VkResult result_hence = vkCreateFence(vk_param->device.device, &fenceInfo, nullptr, &frame->fence_inflight);
+  VkResult result_hence = vkCreateFence(vk_param->device.device, &fenceInfo, nullptr, &frame->fence);
   if(result_sema_1 != VK_SUCCESS || result_sema_2 != VK_SUCCESS || result_hence != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create semaphores!");
   }
@@ -45,7 +45,7 @@ void VK_synchronization::clean_sync_obj(Frame_inflight* frame){
 
   vkDestroySemaphore(vk_param->device.device, frame->semaphore_render_finished, nullptr);
   vkDestroySemaphore(vk_param->device.device, frame->semaphore_image_available, nullptr);
-  vkDestroyFence(vk_param->device.device, frame->fence_inflight, nullptr);
+  vkDestroyFence(vk_param->device.device, frame->fence, nullptr);
 
   //---------------------------
 }

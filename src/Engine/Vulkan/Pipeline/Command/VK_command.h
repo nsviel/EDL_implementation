@@ -26,8 +26,11 @@ public:
   void create_command_buffer(vector<Frame_inflight*> vec_frame_inflight);
   void cleanup();
 
-  //Drawing command
-  void record_command_buffer(VkCommandBuffer& command_buffer);
+  //Renderpass record command
+  void record_renderpass_scene(VkCommandBuffer& command_buffer);
+  void record_renderpass_canva(VkCommandBuffer& command_buffer);
+
+  //Single time command
   VkCommandBuffer singletime_command_buffer_begin();
   void singletime_command_buffer_end(VkCommandBuffer command_buffer);
 
