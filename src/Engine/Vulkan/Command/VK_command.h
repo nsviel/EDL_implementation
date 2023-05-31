@@ -4,7 +4,7 @@
 #include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class Param_engine;
 
@@ -26,7 +26,7 @@ class VK_command
 {
 public:
   //Constructor / Destructor
-  VK_command(Engine* engineManager);
+  VK_command(VK_engine* vk_engine);
   ~VK_command();
 
 public:
@@ -43,7 +43,7 @@ public:
   inline VkCommandPool get_command_pool(){return command_pool;}
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   Param_engine* param_engine;
   VK_device* vk_device;

@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Dimension;
 class Param_vulkan;
 class VK_instance;
@@ -14,7 +14,7 @@ class VK_window
 {
 public:
   //Constructor / Destructor
-  VK_window(Engine* engineManager);
+  VK_window(VK_engine* vk_engine);
   ~VK_window();
 
 public:

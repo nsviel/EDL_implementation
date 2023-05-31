@@ -1,6 +1,6 @@
 #include "VK_cmd.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Instance/VK_gui.h"
 #include "../Pipeline/VK_pipeline.h"
@@ -14,18 +14,18 @@
 
 
 //Constructor / Destructor
-VK_cmd::VK_cmd(Engine* engineManager){
+VK_cmd::VK_cmd(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_pipeline = engineManager->get_vk_pipeline();
-  this->vk_camera = engineManager->get_vk_camera();
-  this->vk_frame = engineManager->get_vk_image();
-  this->vk_canvas = engineManager->get_vk_canvas();
-  this->vk_uniform = engineManager->get_vk_uniform();
-  this->vk_data = engineManager->get_vk_data();
-  this->vk_viewport = engineManager->get_vk_viewport();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_pipeline = vk_engine->get_vk_pipeline();
+  this->vk_camera = vk_engine->get_vk_camera();
+  this->vk_frame = vk_engine->get_vk_image();
+  this->vk_canvas = vk_engine->get_vk_canvas();
+  this->vk_uniform = vk_engine->get_vk_uniform();
+  this->vk_data = vk_engine->get_vk_data();
+  this->vk_viewport = vk_engine->get_vk_viewport();
 
   //---------------------------
 }

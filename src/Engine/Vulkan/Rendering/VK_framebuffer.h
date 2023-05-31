@@ -4,7 +4,7 @@
 #include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_renderpass;
 
@@ -13,7 +13,7 @@ class VK_framebuffer
 {
 public:
   //Constructor / Destructor
-  VK_framebuffer(Engine* engineManager);
+  VK_framebuffer(VK_engine* vk_engine);
   ~VK_framebuffer();
 
 public:

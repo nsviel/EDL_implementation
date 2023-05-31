@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_window;
 class VK_instance;
@@ -13,7 +13,7 @@ class VK_physical_device
 {
 public:
   //Constructor / Destructor
-  VK_physical_device(Engine* node_engine);
+  VK_physical_device(VK_engine* vk_engine);
   ~VK_physical_device();
 
 public:
@@ -35,7 +35,7 @@ public:
   vector<VkPresentModeKHR> find_presentation_mode(VkPhysicalDevice physical_device);
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_window* vk_window;
   VK_instance* vk_instance;

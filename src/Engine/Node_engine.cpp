@@ -1,6 +1,6 @@
 #include "Node_engine.h"
 
-#include "Vulkan/Engine.h"
+#include "Vulkan/VK_engine.h"
 #include "Dimension/Dimension.h"
 #include "Camera/Camera.h"
 #include "Param_engine.h"
@@ -17,7 +17,7 @@ Node_engine::Node_engine(Node* node){
   this->param_engine = new Param_engine();
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
-  this->engineManager = new Engine(this);
+  this->vk_engine = new VK_engine(this);
   this->gpu_data = new GPU_data(this);
 
   //---------------------------
@@ -28,7 +28,7 @@ Node_engine::~Node_engine(){
   delete param_engine;
   delete dimManager;
   delete cameraManager;
-  delete engineManager;
+  delete vk_engine;
   delete gpu_data;
 
   //---------------------------
@@ -38,7 +38,7 @@ Node_engine::~Node_engine(){
 void Node_engine::init(){
   //---------------------------
 
-  engineManager->init_vulkan();
+  vk_engine->init_vulkan();
   dimManager->update();
 
   //---------------------------
@@ -46,7 +46,7 @@ void Node_engine::init(){
 void Node_engine::loop_start(){
   //---------------------------
 
-  engineManager->main_loop();
+  vk_engine->main_loop();
 
   //---------------------------
 }
@@ -61,7 +61,7 @@ void Node_engine::loop(){
 void Node_engine::exit(){
   //---------------------------
 
-  engineManager->clean_vulkan();
+  vk_engine->clean_vulkan();
 
   //---------------------------
 }

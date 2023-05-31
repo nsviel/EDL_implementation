@@ -1,7 +1,7 @@
 #include "VK_texture.h"
 #include "VK_buffer.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
@@ -12,45 +12,45 @@
 
 
 //Constructor / Destructor
-VK_texture::VK_texture(Engine* engineManager){
+VK_texture::VK_texture(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
-  this->vk_buffer = engineManager->get_vk_buffer();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_device = vk_engine->get_vk_device();
+  this->vk_buffer = vk_engine->get_vk_buffer();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
 
   //---------------------------
 }
 VK_texture::~VK_texture(){}
 
 //Main function
-void VK_texture::load_texture(Object* object){
+void VK_texture::load_texture(Struct_data* data, string path){
   //---------------------------
 
   Struct_texture* texture = new Struct_texture();
-  texture->path_texture = object->path_text;
-  texture->imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+  texture->path_texture = path;
+  texture->image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
   this->create_texture_image(texture);
-  this->create_texture_image_view(texture);
+  this->create_texture_view(texture);
   this->create_texture_sampler(texture);
 
-  object->list_texture.push_back(texture);
+  data->binding.list_texture.push_back(texture);
 
   //---------------------------
 }
-void VK_texture::clean_texture(Object* object){
+void VK_texture::clean_texture(Struct_data* data){
   //---------------------------
 
-  for(int i=0; i<object->list_texture.size(); i++){
-    Struct_texture* texture = *next(object->list_texture.begin(), i);
+  for(int i=0; i<data->binding.list_texture.size(); i++){
+    Struct_texture* texture = *next(data->binding.list_texture.begin(), i);
 
-    vkDestroySampler(param_vulkan->device.device, texture->textureSampler, nullptr);
-    vkDestroyImageView(param_vulkan->device.device, texture->textureImageView, nullptr);
-    vkDestroyImage(param_vulkan->device.device, texture->textureImage, nullptr);
-    vkFreeMemory(param_vulkan->device.device, texture->textureImageMemory, nullptr);
+    vkDestroySampler(param_vulkan->device.device, texture->sampler, nullptr);
+    vkDestroyImageView(param_vulkan->device.device, texture->view, nullptr);
+    vkDestroyImage(param_vulkan->device.device, texture->image, nullptr);
+    vkFreeMemory(param_vulkan->device.device, texture->mem, nullptr);
   }
 
   //---------------------------
@@ -60,40 +60,45 @@ void VK_texture::clean_texture(Object* object){
 void VK_texture::create_texture_image(Struct_texture* texture){
   //---------------------------
 
-  int texWidth, texHeight, texChannels;
-  stbi_uc* pixels = stbi_load(texture->path_texture.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-  VkDeviceSize imageSize = texWidth * texHeight * 4;
-  if(!pixels){
+  //Load image
+  int tex_width, tex_height, tex_channel;
+  stbi_uc* tex_data = stbi_load(texture->path_texture.c_str(), &tex_width, &tex_height, &tex_channel, STBI_rgb_alpha);
+  VkDeviceSize tex_size = tex_width * tex_height * 4;
+  if(!tex_data){
     throw std::runtime_error("failed to load texture image!");
   }
 
-  VkBuffer stagingBuffer;
-  VkDeviceMemory stagingBufferMemory;
-  vk_buffer->create_gpu_buffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, stagingBuffer);
-  vk_buffer->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, stagingBuffer, stagingBufferMemory);
+  //Create stagging buffer
+  VkBuffer staging_buffer;
+  VkDeviceMemory staging_mem;
+  vk_buffer->create_gpu_buffer(tex_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, staging_buffer);
+  vk_buffer->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, staging_buffer, staging_mem);
 
+  //Copy data to stagging buffer
   void* data;
-  vkMapMemory(param_vulkan->device.device, stagingBufferMemory, 0, imageSize, 0, &data);
-  memcpy(data, pixels, static_cast<size_t>(imageSize));
-  vkUnmapMemory(param_vulkan->device.device, stagingBufferMemory);
+  vkMapMemory(param_vulkan->device.device, staging_mem, 0, tex_size, 0, &data);
+  memcpy(data, tex_data, static_cast<size_t>(tex_size));
+  vkUnmapMemory(param_vulkan->device.device, staging_mem);
 
-  stbi_image_free(pixels);
+  //Create image
+  this->create_image(tex_width, tex_height, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, MEMORY_GPU, texture->image, texture->mem);
 
-  this->create_image(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, MEMORY_GPU, texture->textureImage, texture->textureImageMemory);
+  //Image transition from undefined layout to read only layout
+  vk_buffer->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+  this->copy_buffer_to_image(staging_buffer, texture->image, static_cast<uint32_t>(tex_width), static_cast<uint32_t>(tex_height));
+  vk_buffer->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
-  vk_buffer->transitionImageLayout(texture->textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-  this->copy_buffer_to_image(stagingBuffer, texture->textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
-  vk_buffer->transitionImageLayout(texture->textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
-  vkDestroyBuffer(param_vulkan->device.device, stagingBuffer, nullptr);
-  vkFreeMemory(param_vulkan->device.device, stagingBufferMemory, nullptr);
+  //Free memory
+  stbi_image_free(tex_data);
+  vkDestroyBuffer(param_vulkan->device.device, staging_buffer, nullptr);
+  vkFreeMemory(param_vulkan->device.device, staging_mem, nullptr);
 
   //---------------------------
 }
-void VK_texture::create_texture_image_view(Struct_texture* texture){
+void VK_texture::create_texture_view(Struct_texture* texture){
   //---------------------------
 
-  texture->textureImageView = create_image_view(texture->textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
+  texture->view = create_image_view(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
 }
@@ -118,7 +123,7 @@ void VK_texture::create_texture_sampler(Struct_texture* texture){
   samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
   samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 
-  VkResult result = vkCreateSampler(param_vulkan->device.device, &samplerInfo, nullptr, &texture->textureSampler);
+  VkResult result = vkCreateSampler(param_vulkan->device.device, &samplerInfo, nullptr, &texture->sampler);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create texture sampler!");
   }
@@ -191,7 +196,7 @@ void VK_texture::create_image(uint32_t width, uint32_t height, VkFormat format, 
   //---------------------------
 }
 void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height){
-  VK_command* vk_command = engineManager->get_vk_command();
+  VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
   VkCommandBuffer command_buffer = vk_command->singletime_command_buffer_begin();

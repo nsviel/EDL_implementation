@@ -1,7 +1,7 @@
 #include "VK_swapchain.h"
 #include "VK_frame.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Attachment/VK_depth.h"
@@ -12,14 +12,14 @@
 
 
 //Constructor / Destructor
-VK_swapchain::VK_swapchain(Engine* engineManager){
+VK_swapchain::VK_swapchain(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_window = engineManager->get_vk_window();
-  this->vk_device = engineManager->get_vk_device();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_window = vk_engine->get_vk_window();
+  this->vk_device = vk_engine->get_vk_device();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
 
   //---------------------------
 }
@@ -125,9 +125,9 @@ void VK_swapchain::create_swapchain_image(VkSwapchainKHR swapchain, unsigned int
 
 //Swap chain function
 void VK_swapchain::recreate_swapChain(){
-  VK_depth* vk_depth = engineManager->get_vk_depth();
-  VK_frame* vk_frame = engineManager->get_vk_image();
-  VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  VK_frame* vk_frame = vk_engine->get_vk_image();
+  VK_framebuffer* vk_framebuffer = vk_engine->get_vk_framebuffer();
   GLFWwindow* window = vk_window->get_window();
   //---------------------------
 

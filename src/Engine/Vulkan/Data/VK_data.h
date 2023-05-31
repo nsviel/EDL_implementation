@@ -5,7 +5,7 @@
 #include "../Struct/struct_data.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_device;
 class VK_buffer;
@@ -19,7 +19,7 @@ class VK_data
 {
 public:
   //Constructor / Destructor
-  VK_data(Engine* engineManager);
+  VK_data(VK_engine* vk_engine);
   ~VK_data();
 
 public:
@@ -43,7 +43,7 @@ public:
   inline std::list<Struct_data*> get_list_data_glyph(){return list_data_glyph;}
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_device* vk_device;
   VK_buffer* vk_buffer;

@@ -7,7 +7,7 @@
 #include "../Struct/struct_data.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 
 
@@ -15,7 +15,7 @@ class VK_descriptor
 {
 public:
   //Constructor / Destructor
-  VK_descriptor(Engine* engineManager);
+  VK_descriptor(VK_engine* vk_engine);
   ~VK_descriptor();
 
 public:
@@ -37,7 +37,7 @@ public:
   VkDescriptorPoolSize add_descriptor_type(VkDescriptorType type, int count);
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
 
   VkDescriptorPool descriptor_pool;

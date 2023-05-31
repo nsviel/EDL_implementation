@@ -1,16 +1,16 @@
 #include "VK_shader.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Device/VK_device.h"
 
 
 //Constructor / Destructor
-VK_shader::VK_shader(Engine* engineManager){
+VK_shader::VK_shader(VK_engine* vk_engine){
   //---------------------------
 
-  this->vk_device = engineManager->get_vk_device();
-  this->param_vulkan = engineManager->get_param_vulkan();
+  this->vk_device = vk_engine->get_vk_device();
+  this->param_vulkan = vk_engine->get_param_vulkan();
 
   //---------------------------
 }

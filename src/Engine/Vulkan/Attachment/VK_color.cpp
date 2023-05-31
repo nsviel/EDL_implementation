@@ -1,6 +1,6 @@
 #include "VK_color.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Attachment/VK_depth.h"
@@ -9,13 +9,13 @@
 
 
 //Constructor / Destructor
-VK_color::VK_color(Engine* engineManager){
+VK_color::VK_color(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
-  this->vk_texture = engineManager->get_vk_texture();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
+  this->vk_texture = vk_engine->get_vk_texture();
 
   //---------------------------
 }

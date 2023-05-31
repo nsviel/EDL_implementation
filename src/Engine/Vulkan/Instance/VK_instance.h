@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 
 
@@ -11,7 +11,7 @@ class VK_instance
 {
 public:
   //Constructor / Destructor
-  VK_instance(Engine* engineManager);
+  VK_instance(VK_engine* vk_engine);
   ~VK_instance();
 
 public:
@@ -20,7 +20,7 @@ public:
   void cleanup();
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
 };
 

@@ -45,10 +45,14 @@ struct Struct_binding{
 
   bool need_update = true;
 
+  //Binding description
   vec_nameTypeBindingTypeStage vec_required_binding;
+  Struct_descriptor descriptor;
+
+  //Binding elements
   vector<Struct_uniform*> vec_uniform;
   vector<Struct_pushcst*> vec_pushcst;
-  Struct_descriptor descriptor;
+  list<Struct_texture*> list_texture;
 
   //---------------------------
 };

@@ -4,7 +4,7 @@
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_device;
 
@@ -13,7 +13,7 @@ class VK_shader
 {
 public:
   //Constructor / Destructor
-  VK_shader(Engine* engineManager);
+  VK_shader(VK_engine* vk_engine);
   ~VK_shader();
 
 public:

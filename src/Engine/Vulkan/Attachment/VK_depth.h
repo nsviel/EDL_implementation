@@ -4,7 +4,7 @@
 #include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_texture;
 
@@ -13,7 +13,7 @@ class VK_depth
 {
 public:
   //Constructor / Destructor
-  VK_depth(Engine* engineManager);
+  VK_depth(VK_engine* vk_engine);
   ~VK_depth();
 
 public:
@@ -27,7 +27,7 @@ public:
   VkFormat find_depth_format();
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_texture* vk_texture;
 };

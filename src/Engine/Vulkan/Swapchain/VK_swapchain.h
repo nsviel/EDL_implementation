@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_window;
 class VK_device;
@@ -14,7 +14,7 @@ class VK_swapchain
 {
 public:
   //Constructor / Destructor
-  VK_swapchain(Engine* engineManager);
+  VK_swapchain(VK_engine* vk_engine);
   ~VK_swapchain();
 
 public:
@@ -34,7 +34,7 @@ public:
   VkPresentModeKHR swapchain_presentation_mode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_window* vk_window;
   VK_device* vk_device;

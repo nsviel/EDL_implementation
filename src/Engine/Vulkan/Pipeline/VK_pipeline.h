@@ -4,7 +4,7 @@
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_device;
 class VK_swapchain;
@@ -21,7 +21,7 @@ class VK_pipeline
 {
 public:
   //Constructor / Destructor
-  VK_pipeline(Engine* engineManager);
+  VK_pipeline(VK_engine* vk_engine);
   ~VK_pipeline();
 
 public:
@@ -48,7 +48,7 @@ public:
   Struct_pipeline* get_pipeline_byName(string name);
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_device* vk_device;
   VK_swapchain* vk_swapchain;

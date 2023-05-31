@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_viewport;
 class VK_pipeline;
@@ -18,7 +18,7 @@ class VK_cmd
 {
 public:
   //Constructor / Destructor
-  VK_cmd(Engine* engineManager);
+  VK_cmd(VK_engine* vk_engine);
   ~VK_cmd();
 
 public:
@@ -29,7 +29,7 @@ public:
   void cmd_drawing_canvas(VkCommandBuffer command_buffer);
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_pipeline* vk_pipeline;
   VK_camera* vk_camera;

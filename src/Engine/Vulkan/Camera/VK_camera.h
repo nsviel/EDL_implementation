@@ -4,7 +4,7 @@
 #include "../Struct/struct_binding.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Camera;
 
 
@@ -12,7 +12,7 @@ class VK_camera
 {
 public:
   //Constructor / Destructor
-  VK_camera(Engine* engineManager);
+  VK_camera(VK_engine* vk_engine);
   ~VK_camera();
 
 public:

@@ -5,7 +5,7 @@
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_buffer;
 
@@ -14,7 +14,7 @@ class VK_uniform
 {
 public:
   //Constructor / Destructor
-  VK_uniform(Engine* engineManager);
+  VK_uniform(VK_engine* vk_engine);
   ~VK_uniform();
 
 public:

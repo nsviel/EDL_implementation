@@ -1,17 +1,17 @@
 #include "VK_synchronization.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Device/VK_device.h"
 
 
 //Constructor / Destructor
-VK_synchronization::VK_synchronization(Engine* engineManager){
+VK_synchronization::VK_synchronization(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_device = vk_engine->get_vk_device();
 
   //---------------------------
 }

@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_window;
 class VK_swapchain;
@@ -18,7 +18,7 @@ class VK_drawing
 {
 public:
   //Constructor / Destructor
-  VK_drawing(Engine* engineManager);
+  VK_drawing(VK_engine* vk_engine);
   ~VK_drawing();
 
 public:
@@ -30,7 +30,7 @@ public:
   void draw_presentation();
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_window* vk_window;
   VK_swapchain* vk_swapchain;

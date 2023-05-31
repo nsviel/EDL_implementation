@@ -48,9 +48,6 @@ struct Object{ //Cloud cloud / part
   bool has_texture;
   bool has_timestamp;
 
-  //Texture
-  std::list<Struct_texture*> list_texture;
-
   //Pose
   glm::vec3 min = glm::vec3(0.0f);
   glm::vec3 max = glm::vec3(0.0f);

@@ -4,7 +4,7 @@
 #include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_physical_device;
 class VK_texture;
@@ -14,7 +14,7 @@ class VK_color
 {
 public:
   //Constructor / Destructor
-  VK_color(Engine* engineManager);
+  VK_color(VK_engine* vk_engine);
   ~VK_color();
 
 public:
@@ -28,7 +28,7 @@ public:
 
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_physical_device* vk_physical_device;
   VK_texture* vk_texture;

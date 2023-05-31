@@ -1,7 +1,7 @@
 #include "VK_framebuffer.h"
 
 #include "../Attachment/VK_depth.h"
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_frame.h"
@@ -10,11 +10,11 @@
 
 
 //Constructor / Destructor
-VK_framebuffer::VK_framebuffer(Engine* engineManager){
+VK_framebuffer::VK_framebuffer(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_renderpass = engineManager->get_vk_renderpass();
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_renderpass = vk_engine->get_vk_renderpass();
 
   //---------------------------
 }

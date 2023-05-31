@@ -10,11 +10,11 @@ struct Struct_texture{
 
   std::string path_texture;
 
-  VkImage textureImage;
-  VkDeviceMemory textureImageMemory;
-  VkImageView textureImageView;
-  VkSampler textureSampler;
-  VkDescriptorImageInfo imageInfo;
+  VkImage image;
+  VkDeviceMemory mem;
+  VkImageView view;
+  VkSampler sampler;
+  VkDescriptorImageInfo image_info;
 
   //---------------------------
 };

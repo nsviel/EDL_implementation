@@ -1,7 +1,7 @@
 #include "GPU_data.h"
 
 #include "../Node_engine.h"
-#include "../Vulkan/Engine.h"
+#include "../Vulkan/VK_engine.h"
 #include "../Vulkan/Data/VK_buffer.h"
 #include "../Vulkan/Data/VK_texture.h"
 #include "../Vulkan/Shader/VK_descriptor.h"
@@ -13,12 +13,12 @@
 GPU_data::GPU_data(Node_engine* node_engine){
   //---------------------------
 
-  Engine* engineManager = node_engine->get_engineManager();
-  this->vk_buffer = engineManager->get_vk_buffer();
-  this->vk_texture = engineManager->get_vk_texture();
-  this->vk_descriptor = engineManager->get_vk_descriptor();
-  this->vk_command = engineManager->get_vk_command();
-  this->vk_data = engineManager->get_vk_data();
+  VK_engine* vk_engine = node_engine->get_vk_engine();
+  this->vk_buffer = vk_engine->get_vk_buffer();
+  this->vk_texture = vk_engine->get_vk_texture();
+  this->vk_descriptor = vk_engine->get_vk_descriptor();
+  this->vk_command = vk_engine->get_vk_command();
+  this->vk_data = vk_engine->get_vk_data();
 
   //---------------------------
 }

@@ -1,16 +1,16 @@
 #include "VK_instance.h"
 #include "VK_validation.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 
 
 //Constructor / Destructor
-VK_instance::VK_instance(Engine* engineManager){
+VK_instance::VK_instance(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
 
   param_vulkan->instance.extension.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
 
@@ -20,7 +20,7 @@ VK_instance::~VK_instance(){}
 
 //Main function
 void VK_instance::create_instance(){
-  VK_validation* vk_validation = engineManager->get_vk_validation();
+  VK_validation* vk_validation = vk_engine->get_vk_validation();
   //---------------------------
 
   //Application info

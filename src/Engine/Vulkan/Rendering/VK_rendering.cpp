@@ -1,10 +1,10 @@
 #include "VK_rendering.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 
 
 //Constructor / Destructor
-VK_rendering::VK_rendering(Engine* engineManager){
+VK_rendering::VK_rendering(VK_engine* vk_engine){
   //---------------------------
 
 

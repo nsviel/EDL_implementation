@@ -4,6 +4,7 @@
 
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Param_engine.h"
+#include "../../Engine/Vulkan/VK_engine.h"
 
 
 //Constructor / Destructor
@@ -12,6 +13,7 @@ GUI_option::GUI_option(Node_gui* node_gui){
 
   this->node_gui = node_gui;
   this->node_engine = node_gui->get_node_engine();
+  this->vk_engine = node_engine->get_vk_engine();
 
   this->width = 150;
 
@@ -70,15 +72,26 @@ void GUI_option::option_fps(){
   //---------------------------
 }
 
-void GUI_option::display_fps(){
+void GUI_option::display_time(){
   ImGuiIO io = ImGui::GetIO();
   //---------------------------
 
-  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", 1000.0f / io.Framerate);
+  float time_init = vk_engine->get_time_init();
+  float time_fps = vk_engine->get_time_fps();
+
+  //Time init
+  ImGui::Text("Time initialization ");
+  ImGui::SameLine();
+  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", time_init);
+  ImGui::SameLine();
+  ImGui::Text(" ms");
+
+  //FPS
+  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", 1000.0f / time_fps);
   ImGui::SameLine();
   ImGui::Text(" ms/frame [");
   ImGui::SameLine();
-  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", io.Framerate);
+  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", time_fps); //io.Framerate
   ImGui::SameLine();
   ImGui::Text(" FPS ]");
 

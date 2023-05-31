@@ -1,16 +1,18 @@
 #include "VK_canvas.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Data/VK_buffer.h"
 #include "../Data/VK_data.h"
+#include "../Data/VK_texture.h"
 
 
 //Constructor / Destructor
-VK_canvas::VK_canvas(Engine* engineManager){
+VK_canvas::VK_canvas(VK_engine* vk_engine){
   //---------------------------
 
-  this->vk_buffer = engineManager->get_vk_buffer();
-  this->vk_data = engineManager->get_vk_data();
+  this->vk_buffer = vk_engine->get_vk_buffer();
+  this->vk_data = vk_engine->get_vk_data();
+  this->vk_texture = vk_engine->get_vk_texture();
 
   //---------------------------
 }
@@ -49,14 +51,15 @@ void VK_canvas::create_canvas(){
   vk_data->check_for_attribut(canvas);
   vk_buffer->create_buffer(canvas);
 
-  canvas_obj->path_texture = "../media/statue.jpg"
+  vk_texture->load_texture(canvas, "../media/statue.jpg");
 
   //---------------------------
 }
 void VK_canvas::cleanup(){
   //---------------------------
 
-  vk_buffer->clean_data(canvas);
+  vk_buffer->clean_buffer(canvas);
+  vk_texture->clean_texture(canvas);
 
   //---------------------------
 }

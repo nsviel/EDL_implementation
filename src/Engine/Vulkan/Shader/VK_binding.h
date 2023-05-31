@@ -5,7 +5,7 @@
 #include "../Struct/struct_pipeline.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_descriptor;
 class VK_uniform;
@@ -15,7 +15,7 @@ class VK_binding
 {
 public:
   //Constructor / Destructor
-  VK_binding(Engine* engineManager);
+  VK_binding(VK_engine* vk_engine);
   ~VK_binding();
 
 public:

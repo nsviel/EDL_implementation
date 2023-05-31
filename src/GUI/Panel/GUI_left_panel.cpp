@@ -53,11 +53,11 @@ void GUI_left_panel::draw_left_panel(){
 
 
   ImVec2 windowSize = ImGui::GetWindowSize();
-  float widgetHeight = 15.0f; // Adjust the height of the widget as needed
+  float widgetHeight = 35.0f; // Adjust the height of the widget as needed
   float widgetYPosition = windowSize.y - widgetHeight - ImGui::GetStyle().ItemSpacing.y;
-  ImGui::SetCursorPos(ImVec2(15, widgetYPosition));
+  ImGui::SetCursorPos(ImVec2(7.5, widgetYPosition));
 
-  gui_option->display_fps();
+  gui_option->display_time();
 
   ImGui::PopStyleVar();
   ImGui::End();

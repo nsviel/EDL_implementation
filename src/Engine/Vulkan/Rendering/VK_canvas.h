@@ -4,16 +4,17 @@
 #include "../Struct/struct_data.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class VK_buffer;
 class VK_data;
+class VK_texture;
 
 
 class VK_canvas
 {
 public:
   //Constructor / Destructor
-  VK_canvas(Engine* engineManager);
+  VK_canvas(VK_engine* vk_engine);
   ~VK_canvas();
 
 public:
@@ -26,6 +27,7 @@ public:
 private:
   VK_buffer* vk_buffer;
   VK_data* vk_data;
+  VK_texture* vk_texture;
 
   Struct_data* canvas;
 };

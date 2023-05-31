@@ -1,7 +1,7 @@
 #include "VK_frame.h"
 #include "VK_swapchain.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Command/VK_command.h"
 #include "../Command/VK_synchronization.h"
@@ -13,17 +13,17 @@
 
 
 //Constructor / Destructor
-VK_frame::VK_frame(Engine* engineManager){
+VK_frame::VK_frame(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
-  this->vk_texture = engineManager->get_vk_texture();
-  this->vk_synchronization = engineManager->get_vk_synchronization();
-  this->vk_color = engineManager->get_vk_color();
-  this->vk_swapchain = engineManager->get_vk_swapchain();
-  this->vk_framebuffer = engineManager->get_vk_framebuffer();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
+  this->vk_texture = vk_engine->get_vk_texture();
+  this->vk_synchronization = vk_engine->get_vk_synchronization();
+  this->vk_color = vk_engine->get_vk_color();
+  this->vk_swapchain = vk_engine->get_vk_swapchain();
+  this->vk_framebuffer = vk_engine->get_vk_framebuffer();
 
   //---------------------------
 }
@@ -49,7 +49,7 @@ void VK_frame::cleanup(){
 
 //Creation function
 void VK_frame::create_frame_swapchain(){
-  VK_depth* vk_depth = engineManager->get_vk_depth();
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
 
   //Swapchain images
@@ -68,7 +68,7 @@ void VK_frame::create_frame_swapchain(){
   param_vulkan->swapchain.vec_frame_swapchain = vec_frame_swapchain;
 }
 void VK_frame::create_frame_inflight(){
-  VK_command* vk_command = engineManager->get_vk_command();
+  VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
   //Draw frames
@@ -87,8 +87,8 @@ void VK_frame::create_frame_inflight(){
 
 //Deletio function
 void VK_frame::clean_frame_swapchain(){
-  VK_depth* vk_depth = engineManager->get_vk_depth();
-  VK_framebuffer* vk_framebuffer = engineManager->get_vk_framebuffer();
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  VK_framebuffer* vk_framebuffer = vk_engine->get_vk_framebuffer();
   //---------------------------
 
   //Vec images

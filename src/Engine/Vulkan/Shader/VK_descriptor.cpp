@@ -1,6 +1,6 @@
 #include "VK_descriptor.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 
 //Three steps to create an uniform:
@@ -13,15 +13,15 @@
 
 
 //Constructor / Destructor
-VK_descriptor::VK_descriptor(Engine* engineManager){
+VK_descriptor::VK_descriptor(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
 
   this->pool_nb_descriptor = 1000;
   this->pool_nb_uniform = 1000;
-  this->pool_nb_sampler = 1;
+  this->pool_nb_sampler = 100;
 
   //---------------------------
 }
@@ -73,6 +73,10 @@ void VK_descriptor::allocate_descriptor_set(VkDescriptorSetLayout& layout, VkDes
 void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   //---------------------------
 
+  for(int i=0; i<binding.vec_uniform.size(); i++){
+
+  }
+
   Struct_uniform* uniform = binding.vec_uniform[0];
 
   VkDescriptorBufferInfo bufferInfo{};
@@ -80,7 +84,7 @@ void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   bufferInfo.offset = 0;
   bufferInfo.range = sizeof(glm::mat4);
 
-  //MVP matrix to GPU
+  //Descriptor set -> write uniform
   VkWriteDescriptorSet descriptor_write{};
   descriptor_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
   descriptor_write.dstSet = binding.descriptor.set;
@@ -91,6 +95,10 @@ void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   descriptor_write.pBufferInfo = &bufferInfo;
   descriptor_write.pImageInfo = nullptr; // Optional
   descriptor_write.pTexelBufferView = nullptr; // Optional
+
+
+
+
 
   /*
   //Texture to GPU

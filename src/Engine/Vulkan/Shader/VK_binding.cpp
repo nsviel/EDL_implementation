@@ -2,17 +2,17 @@
 #include "VK_descriptor.h"
 #include "VK_uniform.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 
 
 //Constructor / Destructor
-VK_binding::VK_binding(Engine* engineManager){
+VK_binding::VK_binding(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_descriptor = engineManager->get_vk_descriptor();
-  this->vk_uniform = engineManager->get_vk_uniform();
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_descriptor = vk_engine->get_vk_descriptor();
+  this->vk_uniform = vk_engine->get_vk_uniform();
 
   //---------------------------
 }

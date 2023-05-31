@@ -4,7 +4,7 @@
 #include "../Struct/struct_validation.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_instance;
 
@@ -13,7 +13,7 @@ class VK_validation
 {
 public:
   //Constructor / Destructor
-  VK_validation(Engine* engineManager);
+  VK_validation(VK_engine* vk_engine);
   ~VK_validation();
 
 public:

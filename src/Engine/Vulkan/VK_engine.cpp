@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "VK_engine.h"
 
 #include "Param_vulkan.h"
 #include "Pipeline/VK_renderpass.h"
@@ -33,7 +33,7 @@
 
 
 //Constructor / Destructor
-Engine::Engine(Node_engine* node_engine){
+VK_engine::VK_engine(Node_engine* node_engine){
   //---------------------------
 
   this->node_engine = node_engine;
@@ -69,10 +69,11 @@ Engine::Engine(Node_engine* node_engine){
 
   //---------------------------
 }
-Engine::~Engine(){}
+VK_engine::~VK_engine(){}
 
 //Main function
-void Engine::init_vulkan(){
+void VK_engine::init_vulkan(){
+  auto start = std::chrono::steady_clock::now();
   //---------------------------
 
   //Instance
@@ -104,8 +105,10 @@ void Engine::init_vulkan(){
   vk_gui->init_gui();
 
   //---------------------------
+  auto end = std::chrono::steady_clock::now();
+  this->time_init = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()/1000.0f;
 }
-void Engine::main_loop() {
+void VK_engine::main_loop() {
   GLFWwindow* window = vk_window->get_window();
   //---------------------------
 
@@ -125,7 +128,7 @@ void Engine::main_loop() {
 
   //---------------------------
 }
-void Engine::clean_vulkan(){
+void VK_engine::clean_vulkan(){
   //---------------------------
 
   vk_gui->cleanup();
@@ -147,7 +150,7 @@ void Engine::clean_vulkan(){
 
   //---------------------------
 }
-void Engine::fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start){
+void VK_engine::fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start){
   //---------------------------
 
   int fps_max = param_engine->max_fps;
@@ -164,7 +167,7 @@ void Engine::fps_control(const std::chrono::time_point<std::chrono::steady_clock
 
   //---------------------------
 }
-void Engine::fps_calcul(std::chrono::steady_clock::time_point& start_time){
+void VK_engine::fps_calcul(std::chrono::steady_clock::time_point& start_time){
   //---------------------------
 
   static int num_frames = 0;
@@ -173,7 +176,7 @@ void Engine::fps_calcul(std::chrono::steady_clock::time_point& start_time){
   if(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count() >= 1000){
     auto end_time = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
-    this->fps = num_frames / (elapsed_time / 1000000.0);
+    this->time_fps = num_frames / (elapsed_time / 1000000.0);
     num_frames = 0;
     start_time = end_time;
   }

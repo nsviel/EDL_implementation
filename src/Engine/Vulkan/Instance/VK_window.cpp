@@ -1,6 +1,6 @@
 #include "VK_window.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Instance/VK_instance.h"
 #include "../Camera/VK_viewport.h"
@@ -10,15 +10,15 @@
 
 
 //Constructor / Destructor
-VK_window::VK_window(Engine* engineManager){
+VK_window::VK_window(VK_engine* vk_engine){
   //---------------------------
 
-  Node_engine* node_engine = engineManager->get_node_engine();
+  Node_engine* node_engine = vk_engine->get_node_engine();
 
-  this->param_vulkan = engineManager->get_param_vulkan();
+  this->param_vulkan = vk_engine->get_param_vulkan();
   this->dimManager = node_engine->get_dimManager();
-  this->vk_instance = engineManager->get_vk_instance();
-  this->vk_viewport = engineManager->get_vk_viewport();
+  this->vk_instance = vk_engine->get_vk_instance();
+  this->vk_viewport = vk_engine->get_vk_viewport();
 
   this->window_dim = param_vulkan->window.dim;
 

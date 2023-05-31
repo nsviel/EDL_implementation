@@ -4,7 +4,7 @@
 #include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_physical_device;
 class VK_texture;
@@ -18,7 +18,7 @@ class VK_frame
 {
 public:
   //Constructor / Destructor
-  VK_frame(Engine* engineManager);
+  VK_frame(VK_engine* vk_engine);
   ~VK_frame();
 
 public:
@@ -35,7 +35,7 @@ public:
   void clean_frame_inflight();
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_physical_device* vk_physical_device;
   VK_texture* vk_texture;

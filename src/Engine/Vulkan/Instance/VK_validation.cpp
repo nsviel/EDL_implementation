@@ -1,16 +1,16 @@
 #include "VK_validation.h"
 #include "VK_instance.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 
 
 //Constructor / Destructor
-VK_validation::VK_validation(Engine* engineManager){
+VK_validation::VK_validation(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_instance = engineManager->get_vk_instance();
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_instance = vk_engine->get_vk_instance();
 
   this->param_vulkan->instance.extension.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
   this->param_vulkan->instance.extension.push_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);

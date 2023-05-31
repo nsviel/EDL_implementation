@@ -1,16 +1,16 @@
 #include "VK_uniform.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Data/VK_buffer.h"
 
 
 //Constructor / Destructor
-VK_uniform::VK_uniform(Engine* engineManager){
+VK_uniform::VK_uniform(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_buffer = engineManager->get_vk_buffer();
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_buffer = vk_engine->get_vk_buffer();
 
   //---------------------------
 }

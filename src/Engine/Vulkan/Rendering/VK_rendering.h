@@ -3,14 +3,14 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 
 
 class VK_rendering
 {
 public:
   //Constructor / Destructor
-  VK_rendering(Engine* engineManager);
+  VK_rendering(VK_engine* vk_engine);
   ~VK_rendering();
 
 public:

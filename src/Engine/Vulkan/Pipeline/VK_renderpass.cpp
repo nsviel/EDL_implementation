@@ -1,6 +1,6 @@
 #include "VK_renderpass.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Attachment/VK_depth.h"
 #include "../Attachment/VK_color.h"
@@ -9,12 +9,12 @@
 
 
 //Constructor / Destructor
-VK_renderpass::VK_renderpass(Engine* engineManager){
+VK_renderpass::VK_renderpass(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_color = engineManager->get_vk_color();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_color = vk_engine->get_vk_color();
 
   //---------------------------
 }
@@ -22,7 +22,7 @@ VK_renderpass::~VK_renderpass(){}
 
 //Main function
 void VK_renderpass::init_renderpass(){
-  VK_depth* vk_depth = engineManager->get_vk_depth();
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
 
   this->renderpass = new Struct_renderpass();
@@ -44,7 +44,7 @@ void VK_renderpass::cleanup(){
 
 //Subfunction
 void VK_renderpass::create_depth_attachment(Struct_renderpass* renderpass){
-  VK_depth* vk_depth = engineManager->get_vk_depth();
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
 
   VkAttachmentDescription depth_attachment{};

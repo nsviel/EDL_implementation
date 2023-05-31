@@ -1,16 +1,16 @@
 #include "VK_viewport.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 
 #include "../../Dimension/Dimension.h"
 #include "../../Node_engine.h"
 
 
 //Constructor / Destructor
-VK_viewport::VK_viewport(Engine* engineManager){
+VK_viewport::VK_viewport(VK_engine* vk_engine){
   //---------------------------
 
-  Node_engine* node_engine = engineManager->get_node_engine();
+  Node_engine* node_engine = vk_engine->get_node_engine();
 
   this->dimManager = node_engine->get_dimManager();
 

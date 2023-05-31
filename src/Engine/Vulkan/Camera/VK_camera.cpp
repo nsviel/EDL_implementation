@@ -1,16 +1,16 @@
 #include "VK_camera.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 
 #include "../../Camera/Camera.h"
 #include "../../Node_engine.h"
 
 
 //Constructor / Destructor
-VK_camera::VK_camera(Engine* engineManager){
+VK_camera::VK_camera(VK_engine* vk_engine){
   //---------------------------
 
-  Node_engine* node_engine = engineManager->get_node_engine();
+  Node_engine* node_engine = vk_engine->get_node_engine();
 
   this->cameraManager = node_engine->get_cameraManager();
 

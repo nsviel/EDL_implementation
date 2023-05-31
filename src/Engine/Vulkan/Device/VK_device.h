@@ -3,7 +3,7 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_physical_device;
 
@@ -12,7 +12,7 @@ class VK_device
 {
 public:
   //Constructor / Destructor
-  VK_device(Engine* node_engine);
+  VK_device(VK_engine* vk_engine);
   ~VK_device();
 
 public:

@@ -4,7 +4,7 @@
 #include "../Struct/struct_renderpass.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_color;
 
@@ -13,7 +13,7 @@ class VK_renderpass
 {
 public:
   //Constructor / Destructor
-  VK_renderpass(Engine* engineManager);
+  VK_renderpass(VK_engine* vk_engine);
   ~VK_renderpass();
 
 public:
@@ -31,7 +31,7 @@ public:
   inline VkRenderPass get_renderPass(){return renderpass->renderpass;}
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_color* vk_color;
 

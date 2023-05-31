@@ -1,16 +1,16 @@
 #include "VK_device.h"
 #include "VK_physical_device.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 
 
 //Constructor / Destructor
-VK_device::VK_device(Engine* engineManager){
+VK_device::VK_device(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
 
   //---------------------------
 }

@@ -1,5 +1,5 @@
-#ifndef ENGINE_VULKAN_H
-#define ENGINE_VULKAN_H
+#ifndef VK_ENGINE_H
+#define VK_ENGINE_H
 
 #include "Struct/typedef.h"
 #include "../../common.h"
@@ -36,12 +36,12 @@ class VK_color;
 class VK_binding;
 
 
-class Engine
+class VK_engine
 {
 public:
   //Constructor / Destructor
-  Engine(Node_engine* node_engine);
-  ~Engine();
+  VK_engine(Node_engine* node_engine);
+  ~VK_engine();
 
 public:
   //Main functions
@@ -83,7 +83,8 @@ public:
   inline VK_canvas* get_vk_canvas(){return vk_canvas;}
   inline VK_binding* get_vk_binding(){return vk_binding;}
 
-  inline float get_fps(){return fps;}
+  inline float get_time_init(){return time_init;}
+  inline float get_time_fps(){return time_fps;}
 
 private:
   Node_engine* node_engine;
@@ -117,7 +118,8 @@ private:
   VK_canvas* vk_canvas;
   VK_color* vk_color;
 
-  float fps;
+  float time_init;
+  float time_fps;
 };
 
 #endif

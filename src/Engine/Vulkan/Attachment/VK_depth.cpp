@@ -1,17 +1,17 @@
 #include "VK_depth.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Data/VK_texture.h"
 
 
 //Constructor / Destructor
-VK_depth::VK_depth(Engine* engineManager){
+VK_depth::VK_depth(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_texture = engineManager->get_vk_texture();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_texture = vk_engine->get_vk_texture();
 
   //---------------------------
 }

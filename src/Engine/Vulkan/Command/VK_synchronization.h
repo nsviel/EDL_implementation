@@ -4,7 +4,7 @@
 #include "../Struct/struct_frame.h"
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Param_vulkan;
 class VK_device;
 
@@ -13,7 +13,7 @@ class VK_synchronization
 {
 public:
   //Constructor / Destructor
-  VK_synchronization(Engine* engineManager);
+  VK_synchronization(VK_engine* vk_engine);
   ~VK_synchronization();
 
 public:
@@ -22,7 +22,7 @@ public:
   void clean_sync_obj(Frame_inflight* frame);
 
 private:
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Param_vulkan* param_vulkan;
   VK_device* vk_device;
 

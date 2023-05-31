@@ -1,19 +1,19 @@
 #include "VK_physical_device.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Instance/VK_window.h"
 #include "../Instance/VK_instance.h"
 
 
 //Constructor / Destructor
-VK_physical_device::VK_physical_device(Engine* engineManager){
+VK_physical_device::VK_physical_device(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_window = engineManager->get_vk_window();
-  this->vk_instance = engineManager->get_vk_instance();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_window = vk_engine->get_vk_window();
+  this->vk_instance = vk_engine->get_vk_instance();
 
   param_vulkan->device.extension.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
   param_vulkan->device.extension.push_back(VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME);

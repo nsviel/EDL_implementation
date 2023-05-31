@@ -2,7 +2,7 @@
 #include "VK_window.h"
 #include "VK_instance.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
@@ -15,18 +15,18 @@
 
 
 //Constructor / Destructor
-VK_gui::VK_gui(Engine* engineManager){
+VK_gui::VK_gui(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_command = engineManager->get_vk_command();
-  this->vk_window = engineManager->get_vk_window();
-  this->vk_instance = engineManager->get_vk_instance();
-  this->vk_device = engineManager->get_vk_device();
-  this->vk_renderpass = engineManager->get_vk_renderpass();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
-  this->vk_frame = engineManager->get_vk_image();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_command = vk_engine->get_vk_command();
+  this->vk_window = vk_engine->get_vk_window();
+  this->vk_instance = vk_engine->get_vk_instance();
+  this->vk_device = vk_engine->get_vk_device();
+  this->vk_renderpass = vk_engine->get_vk_renderpass();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
+  this->vk_frame = vk_engine->get_vk_image();
 
   //---------------------------
 }
@@ -39,7 +39,7 @@ VK_gui::~VK_gui(){
 
 //Main function
 void VK_gui::cleanup(){
-  VK_device* vk_device = engineManager->get_vk_device();
+  VK_device* vk_device = vk_engine->get_vk_device();
   //---------------------------
 
   vkDestroyDescriptorPool(param_vulkan->device.device, imguiPool, nullptr);
@@ -164,7 +164,7 @@ void VK_gui::gui_style(){
 }
 void VK_gui::gui_font(){
   VkCommandPool command_pool = vk_command->get_command_pool();
-  VK_drawing* vk_drawing = engineManager->get_vk_drawing();
+  VK_drawing* vk_drawing = vk_engine->get_vk_drawing();
   //---------------------------
 
   Frame_inflight* frame = param_vulkan->swapchain.get_current_frame_inflight();

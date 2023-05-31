@@ -3,14 +3,14 @@
 
 #include "../../../common.h"
 
-class Engine;
+class VK_engine;
 class Dimension;
 
 
 class VK_viewport
 {
 public:
-  VK_viewport(Engine* engineManager);
+  VK_viewport(VK_engine* vk_engine);
   ~VK_viewport();
 
 public:

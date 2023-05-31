@@ -5,6 +5,7 @@
 
 class Node_gui;
 class Node_engine;
+class VK_engine;
 
 
 class GUI_option
@@ -23,11 +24,12 @@ public:
   void option_font();
   void option_fps();
 
-  void display_fps();
+  void display_time();
 
 private:
   Node_gui* node_gui;
   Node_engine* node_engine;
+  VK_engine* vk_engine;
 
   int width;
 };

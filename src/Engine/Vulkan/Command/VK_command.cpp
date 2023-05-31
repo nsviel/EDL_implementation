@@ -2,7 +2,7 @@
 #include "VK_cmd.h"
 
 #include "../Param_vulkan.h"
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Instance/VK_gui.h"
 #include "../Instance/VK_window.h"
 #include "../Pipeline/VK_renderpass.h"
@@ -21,24 +21,24 @@
 
 
 //Constructor / Destructor
-VK_command::VK_command(Engine* engineManager){
+VK_command::VK_command(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_engine = engineManager->get_param_engine();
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
-  this->vk_renderpass = engineManager->get_vk_renderpass();
-  this->vk_pipeline = engineManager->get_vk_pipeline();
-  this->vk_viewport = engineManager->get_vk_viewport();
-  this->vk_window = engineManager->get_vk_window();
-  this->vk_buffer = engineManager->get_vk_buffer();
-  this->vk_camera = engineManager->get_vk_camera();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
-  this->vk_frame = engineManager->get_vk_image();
-  this->vk_canvas = engineManager->get_vk_canvas();
-  this->vk_uniform = engineManager->get_vk_uniform();
-  this->vk_cmd = new VK_cmd(engineManager);
+  this->vk_engine = vk_engine;
+  this->param_engine = vk_engine->get_param_engine();
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_device = vk_engine->get_vk_device();
+  this->vk_renderpass = vk_engine->get_vk_renderpass();
+  this->vk_pipeline = vk_engine->get_vk_pipeline();
+  this->vk_viewport = vk_engine->get_vk_viewport();
+  this->vk_window = vk_engine->get_vk_window();
+  this->vk_buffer = vk_engine->get_vk_buffer();
+  this->vk_camera = vk_engine->get_vk_camera();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
+  this->vk_frame = vk_engine->get_vk_image();
+  this->vk_canvas = vk_engine->get_vk_canvas();
+  this->vk_uniform = vk_engine->get_vk_uniform();
+  this->vk_cmd = new VK_cmd(vk_engine);
 
   //---------------------------
 }
@@ -100,7 +100,7 @@ void VK_command::cleanup(){
 
 //Drawing commands
 void VK_command::record_command_buffer(VkCommandBuffer& command_buffer){
-  VK_gui* vk_gui = engineManager->get_vk_gui();
+  VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
 

@@ -122,7 +122,7 @@ void GUI_menubar::MenuBar_menu_file(){
       if(!sceneManager->get_is_list_empty()){
         Pose poseManager;
         poseManager.make_centering(collection);
-        //Module* moduleManager = engineManager->get_moduleManager();
+        //Module* moduleManager = vk_engine->get_moduleManager();
         //moduleManager->module_update();
       }
     }

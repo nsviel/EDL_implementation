@@ -1,7 +1,7 @@
 #include "VK_pipeline.h"
 #include "VK_renderpass.h"
 
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Shader/VK_descriptor.h"
 #include "../Data/VK_data.h"
@@ -14,20 +14,20 @@
 
 
 //Constructor / Destructor
-VK_pipeline::VK_pipeline(Engine* engineManager){
+VK_pipeline::VK_pipeline(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
-  this->vk_swapchain = engineManager->get_vk_swapchain();
-  this->vk_renderpass = engineManager->get_vk_renderpass();
-  this->vk_descriptor = engineManager->get_vk_descriptor();
-  this->vk_viewport = engineManager->get_vk_viewport();
-  this->vk_shader = engineManager->get_vk_shader();
-  this->vk_data = engineManager->get_vk_data();
-  this->vk_uniform = engineManager->get_vk_uniform();
-  this->vk_binding = engineManager->get_vk_binding();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_device = vk_engine->get_vk_device();
+  this->vk_swapchain = vk_engine->get_vk_swapchain();
+  this->vk_renderpass = vk_engine->get_vk_renderpass();
+  this->vk_descriptor = vk_engine->get_vk_descriptor();
+  this->vk_viewport = vk_engine->get_vk_viewport();
+  this->vk_shader = vk_engine->get_vk_shader();
+  this->vk_data = vk_engine->get_vk_data();
+  this->vk_uniform = vk_engine->get_vk_uniform();
+  this->vk_binding = vk_engine->get_vk_binding();
 
   //---------------------------
 }

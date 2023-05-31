@@ -2,7 +2,7 @@
 #include "VK_texture.h"
 
 #include "../Shader/VK_descriptor.h"
-#include "../Engine.h"
+#include "../VK_engine.h"
 #include "../Param_vulkan.h"
 #include "../Command/VK_command.h"
 #include "../Device/VK_device.h"
@@ -10,13 +10,13 @@
 
 
 //Constructor / Destructor
-VK_buffer::VK_buffer(Engine* engineManager){
+VK_buffer::VK_buffer(VK_engine* vk_engine){
   //---------------------------
 
-  this->engineManager = engineManager;
-  this->param_vulkan = engineManager->get_param_vulkan();
-  this->vk_device = engineManager->get_vk_device();
-  this->vk_physical_device = engineManager->get_vk_physical_device();
+  this->vk_engine = vk_engine;
+  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_device = vk_engine->get_vk_device();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
 
   //---------------------------
 }
@@ -42,7 +42,7 @@ void VK_buffer::create_buffer(Struct_data* data){
 
   //---------------------------
 }
-void VK_buffer::clean_data(Struct_data* data){
+void VK_buffer::clean_buffer(Struct_data* data){
   //---------------------------
 
   //Location buffer
@@ -188,7 +188,7 @@ void VK_buffer::bind_buffer_memory(VkMemoryPropertyFlags properties, VkBuffer& b
   //---------------------------
 }
 void VK_buffer::copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size){
-  VK_command* vk_command = engineManager->get_vk_command();
+  VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
   VkCommandBuffer commandBuffer = vk_command->singletime_command_buffer_begin();
@@ -219,8 +219,8 @@ uint32_t VK_buffer::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags pr
 
   //---------------------------
 }
-void VK_buffer::transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout){
-  VK_command* vk_command = engineManager->get_vk_command();
+void VK_buffer::transition_layout_image(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout){
+  VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
   VkCommandBuffer commandBuffer = vk_command->singletime_command_buffer_begin();

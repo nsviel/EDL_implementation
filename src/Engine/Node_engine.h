@@ -5,7 +5,7 @@
 
 class Node;
 class Param_engine;
-class Engine;
+class VK_engine;
 class Dimension;
 class Camera;
 class GPU_data;
@@ -27,7 +27,7 @@ public:
 
   inline Node* get_node(){return node;}
 
-  inline Engine* get_engineManager(){return engineManager;}
+  inline VK_engine* get_vk_engine(){return vk_engine;}
   inline Dimension* get_dimManager(){return dimManager;}
   inline Camera* get_cameraManager(){return cameraManager;}
   inline Param_engine* get_param_engine(){return param_engine;}
@@ -37,7 +37,7 @@ private:
   Node* node;
   GPU_data* gpu_data;
   Param_engine* param_engine;
-  Engine* engineManager;
+  VK_engine* vk_engine;
   Dimension* dimManager;
   Camera* cameraManager;
 };
