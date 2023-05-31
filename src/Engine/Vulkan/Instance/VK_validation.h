@@ -5,7 +5,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 class VK_instance;
 
 
@@ -34,7 +34,7 @@ public:
   inline vector<const char*> get_validation_layers(){return validation_layers;};
 
 private:
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   VK_instance* vk_instance;
 
   vector<const char*> validation_layers;

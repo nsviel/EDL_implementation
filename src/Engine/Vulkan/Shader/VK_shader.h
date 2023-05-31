@@ -5,7 +5,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 class VK_device;
 
 
@@ -27,7 +27,7 @@ public:
   std::vector<char> read_file(const std::string& filename);
 
 private:
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   VK_device* vk_device;
 };
 

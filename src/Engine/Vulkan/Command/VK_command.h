@@ -5,7 +5,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 class Param_engine;
 
 class VK_device;
@@ -44,7 +44,7 @@ public:
 
 private:
   VK_engine* vk_engine;
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   Param_engine* param_engine;
   VK_device* vk_device;
   VK_renderpass* vk_renderpass;

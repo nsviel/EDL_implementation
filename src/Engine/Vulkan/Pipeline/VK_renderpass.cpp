@@ -1,7 +1,7 @@
 #include "VK_renderpass.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Attachment/VK_depth.h"
 #include "../Attachment/VK_color.h"
 
@@ -13,7 +13,7 @@ VK_renderpass::VK_renderpass(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_color = vk_engine->get_vk_color();
 
   //---------------------------
@@ -37,7 +37,7 @@ void VK_renderpass::init_renderpass(){
 void VK_renderpass::cleanup(){
   //---------------------------
 
-  vkDestroyRenderPass(param_vulkan->device.device, renderpass->renderpass, nullptr);
+  vkDestroyRenderPass(vk_param->device.device, renderpass->renderpass, nullptr);
 
   //---------------------------
 }
@@ -131,7 +131,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass creation
-  VkResult result = vkCreateRenderPass(param_vulkan->device.device, &renderpass->renderpass_info, nullptr, &renderpass->renderpass);
+  VkResult result = vkCreateRenderPass(vk_param->device.device, &renderpass->renderpass_info, nullptr, &renderpass->renderpass);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create render pass!");
   }

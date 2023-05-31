@@ -1,6 +1,6 @@
 #include "VK_engine.h"
 
-#include "Param_vulkan.h"
+#include "VK_param.h"
 #include "Pipeline/VK_renderpass.h"
 #include "Pipeline/VK_pipeline.h"
 #include "Command/VK_command.h"
@@ -39,7 +39,7 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->node_engine = node_engine;
   this->param_engine = node_engine->get_param_engine();
 
-  this->param_vulkan = new Param_vulkan();
+  this->vk_param = new VK_param();
   this->vk_instance = new VK_instance(this);
   this->vk_validation = new VK_validation(this);
   this->vk_viewport = new VK_viewport(this);
@@ -124,7 +124,7 @@ void VK_engine::main_loop() {
     this->fps_calcul(start_time);
   }
 
-  vkDeviceWaitIdle(param_vulkan->device.device);
+  vkDeviceWaitIdle(vk_param->device.device);
 
   //---------------------------
 }

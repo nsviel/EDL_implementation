@@ -3,14 +3,14 @@
 #include "VK_uniform.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 
 
 //Constructor / Destructor
 VK_binding::VK_binding(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_uniform = vk_engine->get_vk_uniform();
 

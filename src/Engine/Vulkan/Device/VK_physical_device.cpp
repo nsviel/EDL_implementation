@@ -1,7 +1,7 @@
 #include "VK_physical_device.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Instance/VK_window.h"
 #include "../Instance/VK_instance.h"
 
@@ -11,12 +11,12 @@ VK_physical_device::VK_physical_device(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_window = vk_engine->get_vk_window();
   this->vk_instance = vk_engine->get_vk_instance();
 
-  param_vulkan->device.extension.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-  param_vulkan->device.extension.push_back(VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME);
+  vk_param->device.extension.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+  vk_param->device.extension.push_back(VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME);
 
   //---------------------------
 }
@@ -34,25 +34,25 @@ void VK_physical_device::init_device(){
 void VK_physical_device::select_physical_device(){
   //---------------------------
 
-  param_vulkan->device.physical_device = VK_NULL_HANDLE;
+  vk_param->device.physical_device = VK_NULL_HANDLE;
 
   //Find how many GPU are available
   uint32_t nb_device = 0;
-  vkEnumeratePhysicalDevices(param_vulkan->instance.instance, &nb_device, nullptr);
+  vkEnumeratePhysicalDevices(vk_param->instance.instance, &nb_device, nullptr);
   if(nb_device == 0){
     throw std::runtime_error("[error] failed to find GPUs with Vulkan support!");
   }
 
   //List all available GPU and take suitable one
   std::vector<VkPhysicalDevice> devices(nb_device);
-  vkEnumeratePhysicalDevices(param_vulkan->instance.instance, &nb_device, devices.data());
+  vkEnumeratePhysicalDevices(vk_param->instance.instance, &nb_device, devices.data());
   for(const auto& device : devices){
     if(is_device_suitable(device)){
-      param_vulkan->device.physical_device = device;
+      vk_param->device.physical_device = device;
       break;
     }
   }
-  if(param_vulkan->device.physical_device == VK_NULL_HANDLE){
+  if(vk_param->device.physical_device == VK_NULL_HANDLE){
     throw std::runtime_error("[error] failed to find a suitable GPU!");
   }
 
@@ -62,20 +62,20 @@ void VK_physical_device::compute_extent(){
   //Resolution of the swap chain image
   //---------------------------
 
-  VkSurfaceCapabilitiesKHR capabilities = find_surface_capability(param_vulkan->device.physical_device);
+  VkSurfaceCapabilitiesKHR capabilities = find_surface_capability(vk_param->device.physical_device);
 
   if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
-    param_vulkan->window.extent = capabilities.currentExtent;
+    vk_param->window.extent = capabilities.currentExtent;
   }else{
     glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
 
-    param_vulkan->window.extent = {
+    vk_param->window.extent = {
       static_cast<uint32_t>(fbo_dim.x),
       static_cast<uint32_t>(fbo_dim.y)
     };
 
-    param_vulkan->window.extent.width = std::clamp(param_vulkan->window.extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-    param_vulkan->window.extent.height = std::clamp(param_vulkan->window.extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+    vk_param->window.extent.width = std::clamp(vk_param->window.extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+    vk_param->window.extent.height = std::clamp(vk_param->window.extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
   }
 
   //---------------------------
@@ -130,7 +130,7 @@ bool VK_physical_device::check_extension_support(VkPhysicalDevice physical_devic
   vkEnumerateDeviceExtensionProperties(physical_device, nullptr, &nb_extension, vec_extension.data());
 
   //Check if all required extension are in the list
-  std::set<std::string> requiredExtensions(param_vulkan->device.extension.begin(), param_vulkan->device.extension.end());
+  std::set<std::string> requiredExtensions(vk_param->device.extension.begin(), vk_param->device.extension.end());
   for(const auto& extension : vec_extension){
     requiredExtensions.erase(extension.extensionName);
   }

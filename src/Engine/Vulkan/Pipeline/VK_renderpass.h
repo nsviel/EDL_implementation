@@ -5,7 +5,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 class VK_color;
 
 
@@ -32,7 +32,7 @@ public:
 
 private:
   VK_engine* vk_engine;
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   VK_color* vk_color;
 
   Struct_renderpass* renderpass;

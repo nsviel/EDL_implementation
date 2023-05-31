@@ -1,7 +1,7 @@
 #include "VK_command.h"
 #include "VK_cmd.h"
 
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../VK_engine.h"
 #include "../Instance/VK_gui.h"
 #include "../Instance/VK_window.h"
@@ -26,7 +26,7 @@ VK_command::VK_command(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->param_engine = vk_engine->get_param_engine();
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_device = vk_engine->get_vk_device();
   this->vk_renderpass = vk_engine->get_vk_renderpass();
   this->vk_pipeline = vk_engine->get_vk_pipeline();
@@ -48,7 +48,7 @@ VK_command::~VK_command(){}
 void VK_command::create_command_pool(){
   //---------------------------
 
-  int family_graphics = vk_physical_device->find_queue_family_graphics(param_vulkan->device.physical_device);
+  int family_graphics = vk_physical_device->find_queue_family_graphics(vk_param->device.physical_device);
 
   //Command pool info
   VkCommandPoolCreateInfo poolInfo{};
@@ -57,7 +57,7 @@ void VK_command::create_command_pool(){
   poolInfo.queueFamilyIndex = family_graphics;
 
   //Command pool creation
-  VkResult result = vkCreateCommandPool(param_vulkan->device.device, &poolInfo, nullptr, &command_pool);
+  VkResult result = vkCreateCommandPool(vk_param->device.device, &poolInfo, nullptr, &command_pool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create command pool!");
   }
@@ -69,7 +69,7 @@ void VK_command::create_command_buffer(vector<Frame_inflight*> vec_frame_infligh
 
   //One command buffer per frame
   vector<VkCommandBuffer> command_buffer_vec;
-  command_buffer_vec.resize(param_vulkan->instance.max_frame);
+  command_buffer_vec.resize(vk_param->instance.max_frame);
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};
@@ -78,7 +78,7 @@ void VK_command::create_command_buffer(vector<Frame_inflight*> vec_frame_infligh
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
   allocInfo.commandBufferCount = (uint32_t) command_buffer_vec.size();
 
-  VkResult result = vkAllocateCommandBuffers(param_vulkan->device.device, &allocInfo, command_buffer_vec.data());
+  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, command_buffer_vec.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
@@ -93,7 +93,7 @@ void VK_command::create_command_buffer(vector<Frame_inflight*> vec_frame_infligh
 void VK_command::cleanup(){
   //---------------------------
 
-  vkDestroyCommandPool(param_vulkan->device.device, command_pool, nullptr);
+  vkDestroyCommandPool(vk_param->device.device, command_pool, nullptr);
 
   //---------------------------
 }
@@ -126,12 +126,12 @@ void VK_command::record_command_buffer(VkCommandBuffer& command_buffer){
   VkRenderPassBeginInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
   renderPassInfo.renderPass = vk_renderpass->get_renderPass();
-  //renderPassInfo.framebuffer = vec_image_obj[param_vulkan->swapchain.current_frame_swapchain_ID]->fbo;
+  //renderPassInfo.framebuffer = vec_image_obj[vk_param->swapchain.current_frame_swapchain_ID]->fbo;
 
-  Frame_swapchain* image = param_vulkan->swapchain.get_current_frame_swapchain();
+  Frame_swapchain* image = vk_param->swapchain.get_current_frame_swapchain();
   renderPassInfo.framebuffer = image->fbo;
   renderPassInfo.renderArea.offset = {0, 0};
-  renderPassInfo.renderArea.extent = param_vulkan->window.extent;
+  renderPassInfo.renderArea.extent = vk_param->window.extent;
   renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
   renderPassInfo.pClearValues = clearValues.data();
 
@@ -162,7 +162,7 @@ VkCommandBuffer VK_command::singletime_command_buffer_begin(){
   allocInfo.commandBufferCount = 1;
 
   VkCommandBuffer command_buffer;
-  vkAllocateCommandBuffers(param_vulkan->device.device, &allocInfo, &command_buffer);
+  vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &command_buffer);
 
   VkCommandBufferBeginInfo beginInfo{};
   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -183,10 +183,10 @@ void VK_command::singletime_command_buffer_end(VkCommandBuffer command_buffer){
   submitInfo.commandBufferCount = 1;
   submitInfo.pCommandBuffers = &command_buffer;
 
-  vkQueueSubmit(param_vulkan->device.queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
-  vkQueueWaitIdle(param_vulkan->device.queue_graphics);
+  vkQueueSubmit(vk_param->device.queue_graphics, 1, &submitInfo, VK_NULL_HANDLE);
+  vkQueueWaitIdle(vk_param->device.queue_graphics);
 
-  vkFreeCommandBuffers(param_vulkan->device.device, command_pool, 1, &command_buffer);
+  vkFreeCommandBuffers(vk_param->device.device, command_pool, 1, &command_buffer);
 
   //---------------------------
 }

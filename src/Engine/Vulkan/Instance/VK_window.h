@@ -5,7 +5,7 @@
 
 class VK_engine;
 class Dimension;
-class Param_vulkan;
+class VK_param;
 class VK_instance;
 class VK_viewport;
 
@@ -34,7 +34,7 @@ public:
 
 private:
   GLFWwindow* window;
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   Dimension* dimManager;
   VK_instance* vk_instance;
   VK_viewport* vk_viewport;

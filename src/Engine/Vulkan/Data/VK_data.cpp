@@ -3,7 +3,7 @@
 #include "VK_texture.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Device/VK_device.h"
 #include "../Shader/VK_descriptor.h"
 #include "../Shader/VK_uniform.h"
@@ -18,7 +18,7 @@ VK_data::VK_data(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_device = vk_engine->get_vk_device();
   this->vk_buffer = vk_engine->get_vk_buffer();
   this->vk_texture = vk_engine->get_vk_texture();
@@ -79,8 +79,8 @@ void VK_data::cleanup(){
 void VK_data::clean_data(Struct_data* data){
   //---------------------------
 
-  vkDeviceWaitIdle(param_vulkan->device.device);
-  vkDestroyDescriptorSetLayout(param_vulkan->device.device, data->binding.descriptor.layout, nullptr);
+  vkDeviceWaitIdle(vk_param->device.device);
+  vkDestroyDescriptorSetLayout(vk_param->device.device, data->binding.descriptor.layout, nullptr);
 
   vk_buffer->clean_buffer(data);
   vk_texture->clean_texture(data);

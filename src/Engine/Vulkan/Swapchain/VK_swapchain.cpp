@@ -2,7 +2,7 @@
 #include "VK_frame.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Attachment/VK_depth.h"
 #include "../Data/VK_texture.h"
@@ -16,7 +16,7 @@ VK_swapchain::VK_swapchain(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_window = vk_engine->get_vk_window();
   this->vk_device = vk_engine->get_vk_device();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
@@ -36,12 +36,12 @@ void VK_swapchain::create_swapchain(){
   this->create_swapchain_presentation(createInfo);
 
   //Create swap chain
-  VkResult result = vkCreateSwapchainKHR(param_vulkan->device.device, &createInfo, nullptr, &param_vulkan->swapchain.swapchain);
+  VkResult result = vkCreateSwapchainKHR(vk_param->device.device, &createInfo, nullptr, &vk_param->swapchain.swapchain);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create swap chain!");
   }
 
-  this->create_swapchain_image(param_vulkan->swapchain.swapchain, createInfo.minImageCount);
+  this->create_swapchain_image(vk_param->swapchain.swapchain, createInfo.minImageCount);
 
   //---------------------------
 }
@@ -49,8 +49,8 @@ void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo
   VkSurfaceKHR surface = vk_window->get_surface();
   //---------------------------
 
-  VkSurfaceCapabilitiesKHR surface_capability = vk_physical_device->find_surface_capability(param_vulkan->device.physical_device);
-  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(param_vulkan->device.physical_device);
+  VkSurfaceCapabilitiesKHR surface_capability = vk_physical_device->find_surface_capability(vk_param->device.physical_device);
+  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(vk_param->device.physical_device);
   VkSurfaceFormatKHR surfaceFormat = swapchain_surface_format(surface_format);
 
   //Get swap chain image capacity (0 means no maximum)
@@ -64,7 +64,7 @@ void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo
   createInfo.surface = surface;
   createInfo.imageFormat = surfaceFormat.format;
   createInfo.imageColorSpace = surfaceFormat.colorSpace;
-  createInfo.imageExtent = param_vulkan->window.extent;
+  createInfo.imageExtent = vk_param->window.extent;
   createInfo.imageArrayLayers = 1;
   createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; //VK_IMAGE_USAGE_TRANSFER_DST_BIT for post-processing
 
@@ -78,8 +78,8 @@ void VK_swapchain::create_swapchain_family(VkSwapchainCreateInfoKHR& createInfo)
   //---------------------------
 
   //Link with queue families
-  int family_graphics = vk_physical_device->find_queue_family_graphics(param_vulkan->device.physical_device);
-  int family_presentation = vk_physical_device->find_queue_family_presentation(param_vulkan->device.physical_device);
+  int family_graphics = vk_physical_device->find_queue_family_graphics(vk_param->device.physical_device);
+  int family_presentation = vk_physical_device->find_queue_family_presentation(vk_param->device.physical_device);
   uint32_t queueFamilyIndices[] = {(unsigned int)family_graphics, (unsigned int)family_presentation};
 
   if(family_graphics != family_presentation){
@@ -97,7 +97,7 @@ void VK_swapchain::create_swapchain_family(VkSwapchainCreateInfoKHR& createInfo)
 void VK_swapchain::create_swapchain_presentation(VkSwapchainCreateInfoKHR& createInfo){
   //---------------------------
 
-  vector<VkPresentModeKHR> dev_presentation_mode = vk_physical_device->find_presentation_mode(param_vulkan->device.physical_device);
+  vector<VkPresentModeKHR> dev_presentation_mode = vk_physical_device->find_presentation_mode(vk_param->device.physical_device);
   VkPresentModeKHR presentation_mode = swapchain_presentation_mode(dev_presentation_mode);
 
   createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; //Ignore alpha channel
@@ -114,11 +114,11 @@ void VK_swapchain::create_swapchain_image(VkSwapchainKHR swapchain, unsigned int
   //to get the correct image which are managed by the presentation engine
 
   //Empty swapchain image
-  vkGetSwapchainImagesKHR(param_vulkan->device.device, swapchain, &min_image_count, nullptr);
+  vkGetSwapchainImagesKHR(vk_param->device.device, swapchain, &min_image_count, nullptr);
 
   //Fill swapchain image
-  param_vulkan->swapchain.vec_swapchain_image.resize(min_image_count);
-  vkGetSwapchainImagesKHR(param_vulkan->device.device, swapchain, &min_image_count, param_vulkan->swapchain.vec_swapchain_image.data());
+  vk_param->swapchain.vec_swapchain_image.resize(min_image_count);
+  vkGetSwapchainImagesKHR(vk_param->device.device, swapchain, &min_image_count, vk_param->swapchain.vec_swapchain_image.data());
 
   //---------------------------
 }
@@ -138,7 +138,7 @@ void VK_swapchain::recreate_swapChain(){
     glfwWaitEvents();
   }
 
-  vkDeviceWaitIdle(param_vulkan->device.device);
+  vkDeviceWaitIdle(vk_param->device.device);
 
   //Clean old values
   vk_frame->clean_frame_swapchain();
@@ -154,7 +154,7 @@ void VK_swapchain::recreate_swapChain(){
 void VK_swapchain::clean_swapchain(){
   //---------------------------
 
-  vkDestroySwapchainKHR(param_vulkan->device.device, param_vulkan->swapchain.swapchain, nullptr);
+  vkDestroySwapchainKHR(vk_param->device.device, vk_param->swapchain.swapchain, nullptr);
 
   //---------------------------
 }

@@ -8,7 +8,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 
 
 class VK_descriptor
@@ -38,7 +38,7 @@ public:
 
 private:
   VK_engine* vk_engine;
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
 
   VkDescriptorPool descriptor_pool;
   int pool_nb_uniform;

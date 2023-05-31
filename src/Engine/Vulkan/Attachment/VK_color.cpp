@@ -1,7 +1,7 @@
 #include "VK_color.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Rendering/VK_framebuffer.h"
 #include "../Attachment/VK_depth.h"
 #include "../Data/VK_texture.h"
@@ -13,7 +13,7 @@ VK_color::VK_color(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
   this->vk_texture = vk_engine->get_vk_texture();
 
@@ -26,7 +26,7 @@ void VK_color::create_color_attachment(Frame_swapchain* image){
   //---------------------------
 
   image->color.format = find_color_format();
-  vk_texture->create_image(param_vulkan->window.extent.width, param_vulkan->window.extent.height, image->color.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->color.image, image->color.mem);
+  vk_texture->create_image(vk_param->window.extent.width, vk_param->window.extent.height, image->color.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->color.image, image->color.mem);
   image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
@@ -34,9 +34,9 @@ void VK_color::create_color_attachment(Frame_swapchain* image){
 void VK_color::clean_color_attachment(Frame_swapchain* image){
   //---------------------------
 
-  vkDestroyImageView(param_vulkan->device.device, image->color.view, nullptr);
-  vkDestroyImage(param_vulkan->device.device, image->color.image, nullptr);
-  vkFreeMemory(param_vulkan->device.device, image->color.mem, nullptr);
+  vkDestroyImageView(vk_param->device.device, image->color.view, nullptr);
+  vkDestroyImage(vk_param->device.device, image->color.image, nullptr);
+  vkFreeMemory(vk_param->device.device, image->color.mem, nullptr);
 
   //---------------------------
 }
@@ -58,7 +58,7 @@ VkSurfaceFormatKHR VK_color::retrieve_surface_format(const std::vector<VkSurface
 VkFormat VK_color::find_color_format(){
   //---------------------------
 
-  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(param_vulkan->device.physical_device);
+  vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(vk_param->device.physical_device);
   VkSurfaceFormatKHR surfaceFormat = retrieve_surface_format(surface_format);
   VkFormat format = surfaceFormat.format;
 

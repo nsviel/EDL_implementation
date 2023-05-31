@@ -2,18 +2,18 @@
 #include "VK_instance.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 
 
 //Constructor / Destructor
 VK_validation::VK_validation(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_instance = vk_engine->get_vk_instance();
 
-  this->param_vulkan->instance.extension.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-  this->param_vulkan->instance.extension.push_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
+  this->vk_param->instance.extension.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+  this->vk_param->instance.extension.push_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
   this->validation_layers = {"VK_LAYER_KHRONOS_validation"};
   this->with_validation_layer = true;
   this->with_best_practice = false;
@@ -41,7 +41,7 @@ void VK_validation::create_validation_layer(){
     VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
   create_info.pfnUserCallback = callback_debug;
 
-  VkResult result = create_debug_EXT(param_vulkan->instance.instance, &create_info, nullptr, &EXT_debug);
+  VkResult result = create_debug_EXT(vk_param->instance.instance, &create_info, nullptr, &EXT_debug);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to set up debug messenger!");
   }
@@ -52,7 +52,7 @@ void VK_validation::cleanup(){
   //---------------------------
 
   if(with_validation_layer){
-    destroy_debug_EXT(param_vulkan->instance.instance, EXT_debug, nullptr);
+    destroy_debug_EXT(vk_param->instance.instance, EXT_debug, nullptr);
   }
 
   //---------------------------

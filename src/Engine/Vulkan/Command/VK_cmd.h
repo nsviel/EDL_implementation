@@ -4,7 +4,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 class VK_viewport;
 class VK_pipeline;
 class VK_camera;
@@ -30,7 +30,7 @@ public:
 
 private:
   VK_engine* vk_engine;
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   VK_pipeline* vk_pipeline;
   VK_camera* vk_camera;
   VK_frame* vk_frame;

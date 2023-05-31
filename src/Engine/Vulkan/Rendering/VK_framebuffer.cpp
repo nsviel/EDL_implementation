@@ -2,7 +2,7 @@
 
 #include "../Attachment/VK_depth.h"
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Swapchain/VK_swapchain.h"
 #include "../Swapchain/VK_frame.h"
 #include "../Pipeline/VK_renderpass.h"
@@ -13,7 +13,7 @@
 VK_framebuffer::VK_framebuffer(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_renderpass = vk_engine->get_vk_renderpass();
 
   //---------------------------
@@ -36,11 +36,11 @@ void VK_framebuffer::create_framebuffer(Frame_swapchain* image){
   framebufferInfo.renderPass = renderPass;
   framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
   framebufferInfo.pAttachments = attachments.data();
-  framebufferInfo.width = param_vulkan->window.extent.width;
-  framebufferInfo.height = param_vulkan->window.extent.height;
+  framebufferInfo.width = vk_param->window.extent.width;
+  framebufferInfo.height = vk_param->window.extent.height;
   framebufferInfo.layers = 1;
 
-  VkResult result = vkCreateFramebuffer(param_vulkan->device.device, &framebufferInfo, nullptr, &fbo);
+  VkResult result = vkCreateFramebuffer(vk_param->device.device, &framebufferInfo, nullptr, &fbo);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create framebuffer!");
   }
@@ -53,7 +53,7 @@ void VK_framebuffer::create_framebuffer(Frame_swapchain* image){
 void VK_framebuffer::clean_framebuffer(Frame_swapchain* image){
   //---------------------------
 
-  vkDestroyFramebuffer(param_vulkan->device.device, image->fbo, nullptr);
+  vkDestroyFramebuffer(vk_param->device.device, image->fbo, nullptr);
 
   //---------------------------
 }

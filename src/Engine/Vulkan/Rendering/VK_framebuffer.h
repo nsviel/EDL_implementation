@@ -5,7 +5,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 class VK_renderpass;
 
 
@@ -24,7 +24,7 @@ public:
   void clean_framebuffer(Frame_swapchain* image);
 
 private:
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   VK_renderpass* vk_renderpass;
 };
 

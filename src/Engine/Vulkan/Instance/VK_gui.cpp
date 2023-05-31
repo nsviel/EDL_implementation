@@ -3,7 +3,7 @@
 #include "VK_instance.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Device/VK_device.h"
 #include "../Device/VK_physical_device.h"
 #include "../Pipeline/VK_renderpass.h"
@@ -19,7 +19,7 @@ VK_gui::VK_gui(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_command = vk_engine->get_vk_command();
   this->vk_window = vk_engine->get_vk_window();
   this->vk_instance = vk_engine->get_vk_instance();
@@ -42,7 +42,7 @@ void VK_gui::cleanup(){
   VK_device* vk_device = vk_engine->get_vk_device();
   //---------------------------
 
-  vkDestroyDescriptorPool(param_vulkan->device.device, imguiPool, nullptr);
+  vkDestroyDescriptorPool(vk_param->device.device, imguiPool, nullptr);
 
   ImGui_ImplVulkan_Shutdown();
   ImGui_ImplGlfw_Shutdown();
@@ -101,7 +101,7 @@ void VK_gui::gui_vulkan(){
   pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
   pool_info.pPoolSizes = pool_sizes;
 
-  VkResult result = vkCreateDescriptorPool(param_vulkan->device.device, &pool_info, nullptr, &imguiPool);
+  VkResult result = vkCreateDescriptorPool(vk_param->device.device, &pool_info, nullptr, &imguiPool);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create gui");
   }
@@ -109,10 +109,10 @@ void VK_gui::gui_vulkan(){
   // Setup Platform/Renderer bindings
   ImGui_ImplGlfw_InitForVulkan(window, true);
   ImGui_ImplVulkan_InitInfo init_info = {};
-  init_info.Instance = param_vulkan->instance.instance;
-  init_info.PhysicalDevice = param_vulkan->device.physical_device;
-  init_info.Device = param_vulkan->device.device;
-  init_info.Queue = param_vulkan->device.queue_graphics;
+  init_info.Instance = vk_param->instance.instance;
+  init_info.PhysicalDevice = vk_param->device.physical_device;
+  init_info.Device = vk_param->device.device;
+  init_info.Queue = vk_param->device.queue_graphics;
   init_info.DescriptorPool = imguiPool;
   init_info.PipelineCache = VK_NULL_HANDLE;
   init_info.MinImageCount = 3;
@@ -167,9 +167,9 @@ void VK_gui::gui_font(){
   VK_drawing* vk_drawing = vk_engine->get_vk_drawing();
   //---------------------------
 
-  Frame_inflight* frame = param_vulkan->swapchain.get_current_frame_inflight();
+  Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
 
-  VkResult result = vkResetCommandPool(param_vulkan->device.device, command_pool, 0);
+  VkResult result = vkResetCommandPool(vk_param->device.device, command_pool, 0);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }
@@ -193,12 +193,12 @@ void VK_gui::gui_font(){
     throw std::runtime_error("gui font error");
   }
 
-  result = vkQueueSubmit(param_vulkan->device.queue_graphics, 1, &end_info, VK_NULL_HANDLE);
+  result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &end_info, VK_NULL_HANDLE);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }
 
-  result = vkDeviceWaitIdle(param_vulkan->device.device);
+  result = vkDeviceWaitIdle(vk_param->device.device);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }

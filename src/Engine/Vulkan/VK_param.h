@@ -1,5 +1,5 @@
-#ifndef PARAM_VULKAN_H
-#define PARAM_VULKAN_H
+#ifndef VK_PARAM_H
+#define VK_PARAM_H
 
 #include "Struct/struct_window.h"
 #include "Struct/struct_instance.h"
@@ -14,7 +14,7 @@
 #include <iostream>
 
 
-struct Param_vulkan{
+struct VK_param{
   //---------------------------
 
   Struct_window window;

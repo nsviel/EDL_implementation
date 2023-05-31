@@ -6,7 +6,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 class VK_buffer;
 
 
@@ -26,7 +26,7 @@ public:
   void clean_uniform(Struct_binding& binding);
 
 private:
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   VK_buffer* vk_buffer;
 };
 

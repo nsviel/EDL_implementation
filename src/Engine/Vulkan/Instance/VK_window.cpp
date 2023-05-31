@@ -1,7 +1,7 @@
 #include "VK_window.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Instance/VK_instance.h"
 #include "../Camera/VK_viewport.h"
 
@@ -15,12 +15,12 @@ VK_window::VK_window(VK_engine* vk_engine){
 
   Node_engine* node_engine = vk_engine->get_node_engine();
 
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->dimManager = node_engine->get_dimManager();
   this->vk_instance = vk_engine->get_vk_instance();
   this->vk_viewport = vk_engine->get_vk_viewport();
 
-  this->window_dim = param_vulkan->window.dim;
+  this->window_dim = vk_param->window.dim;
 
   //---------------------------
 }
@@ -33,12 +33,12 @@ void VK_window::init_window(){
   glfwInit();
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-  this->window = glfwCreateWindow(window_dim.x, window_dim.y, param_vulkan->window.title.c_str(), nullptr, nullptr);
+  this->window = glfwCreateWindow(window_dim.x, window_dim.y, vk_param->window.title.c_str(), nullptr, nullptr);
   this->window_dim = get_framebuffer_size();
   this->get_required_extensions();
   dimManager->set_window(window);
 
-  glfwSetWindowSizeLimits(window, param_vulkan->window.dim_min.x, param_vulkan->window.dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
+  glfwSetWindowSizeLimits(window, vk_param->window.dim_min.x, vk_param->window.dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
   if (!glfwVulkanSupported()){
     printf("GLFW: Vulkan Not Supported\n");
@@ -50,7 +50,7 @@ void VK_window::init_window(){
 void VK_window::clean_surface(){
   //---------------------------
 
-  vkDestroySurfaceKHR(param_vulkan->instance.instance, surface, nullptr);
+  vkDestroySurfaceKHR(vk_param->instance.instance, surface, nullptr);
 
   //---------------------------
 }
@@ -67,7 +67,7 @@ void VK_window::clean_window(){
 void VK_window::create_window_surface(){
   //---------------------------
 
-  VkResult result = glfwCreateWindowSurface(param_vulkan->instance.instance, window, nullptr, &surface);
+  VkResult result = glfwCreateWindowSurface(vk_param->instance.instance, window, nullptr, &surface);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create window surface!");
   }
@@ -88,7 +88,7 @@ void VK_window::check_for_resizing(){
   }
 
   //---------------------------
-  param_vulkan->window.is_resized = is_resized;
+  vk_param->window.is_resized = is_resized;
 }
 vec2 VK_window::get_framebuffer_size(){
   vec2 dim = vec2(0);
@@ -110,7 +110,7 @@ void VK_window::get_required_extensions(){
   vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_extension_nb);
 
   for(int i=0; i<extensions.size(); i++){
-    param_vulkan->instance.extension.push_back(extensions[i]);
+    vk_param->instance.extension.push_back(extensions[i]);
   }
 
   //---------------------------

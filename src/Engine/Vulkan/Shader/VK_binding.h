@@ -6,7 +6,7 @@
 #include "../../../common.h"
 
 class VK_engine;
-class Param_vulkan;
+class VK_param;
 class VK_descriptor;
 class VK_uniform;
 
@@ -24,7 +24,7 @@ public:
   void fill_pipeline_binding(vector<Struct_pipeline*>& vec_pipeline);
 
 private:
-  Param_vulkan* param_vulkan;
+  VK_param* vk_param;
   VK_uniform* vk_uniform;
   VK_descriptor* vk_descriptor;
 };

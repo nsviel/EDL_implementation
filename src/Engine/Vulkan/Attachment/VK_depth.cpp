@@ -1,7 +1,7 @@
 #include "VK_depth.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Data/VK_texture.h"
 
 
@@ -10,7 +10,7 @@ VK_depth::VK_depth(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_texture = vk_engine->get_vk_texture();
 
   //---------------------------
@@ -22,7 +22,7 @@ void VK_depth::create_depth_attachment(Frame_swapchain* image){
   //---------------------------
 
   image->depth.format = find_depth_format();
-  vk_texture->create_image(param_vulkan->window.extent.width, param_vulkan->window.extent.height, image->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->depth.image, image->depth.mem);
+  vk_texture->create_image(vk_param->window.extent.width, vk_param->window.extent.height, image->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->depth.image, image->depth.mem);
   image->depth.view = vk_texture->create_image_view(image->depth.image, image->depth.format, VK_IMAGE_ASPECT_DEPTH_BIT);
 
   //---------------------------
@@ -30,9 +30,9 @@ void VK_depth::create_depth_attachment(Frame_swapchain* image){
 void VK_depth::clean_depth_attachment(Frame_swapchain* image){
   //---------------------------
 
-  vkDestroyImageView(param_vulkan->device.device, image->depth.view, nullptr);
-  vkDestroyImage(param_vulkan->device.device, image->depth.image, nullptr);
-  vkFreeMemory(param_vulkan->device.device, image->depth.mem, nullptr);
+  vkDestroyImageView(vk_param->device.device, image->depth.view, nullptr);
+  vkDestroyImage(vk_param->device.device, image->depth.image, nullptr);
+  vkFreeMemory(vk_param->device.device, image->depth.mem, nullptr);
 
   //---------------------------
 }
@@ -50,7 +50,7 @@ VkFormat VK_depth::find_supported_format(const std::vector<VkFormat>& candidates
 
   for(VkFormat format : candidates){
     VkFormatProperties props;
-    vkGetPhysicalDeviceFormatProperties(param_vulkan->device.physical_device, format, &props);
+    vkGetPhysicalDeviceFormatProperties(vk_param->device.physical_device, format, &props);
 
     if(tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features){
       return format;

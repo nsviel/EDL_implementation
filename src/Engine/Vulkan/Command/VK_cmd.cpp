@@ -1,7 +1,7 @@
 #include "VK_cmd.h"
 
 #include "../VK_engine.h"
-#include "../Param_vulkan.h"
+#include "../VK_param.h"
 #include "../Instance/VK_gui.h"
 #include "../Pipeline/VK_pipeline.h"
 #include "../Data/VK_buffer.h"
@@ -18,7 +18,7 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
-  this->param_vulkan = vk_engine->get_param_vulkan();
+  this->vk_param = vk_engine->get_vk_param();
   this->vk_pipeline = vk_engine->get_vk_pipeline();
   this->vk_camera = vk_engine->get_vk_camera();
   this->vk_frame = vk_engine->get_vk_image();
@@ -35,7 +35,7 @@ VK_cmd::~VK_cmd(){}
 void VK_cmd::cmd_viewport(VkCommandBuffer command_buffer){
   //---------------------------
 
-  vk_viewport->update_viewport(param_vulkan->window.extent);
+  vk_viewport->update_viewport(vk_param->window.extent);
 
   VkViewport viewport = vk_viewport->get_viewport();
   VkRect2D scissor = vk_viewport->get_scissor();
