@@ -8,6 +8,8 @@
 struct Struct_renderpass{
   //---------------------------
 
+  Frame_swapchain* get_current_frame_swapchain(){return vec_frame_render[current_frame_swapchain_ID];}
+
   //Info
   std::string name;
 

@@ -34,7 +34,7 @@ VK_frame::~VK_frame(){}
 void VK_frame::init_image(){
   //---------------------------
 
-  this->create_frame_swapchain(vk_param->swapchain.vec_frame_swapchain);
+  this->create_frame_swapchain(vk_param->renderpass_scene.vec_frame_swapchain);
   this->create_frame_inflight();
 
   //---------------------------
@@ -42,7 +42,7 @@ void VK_frame::init_image(){
 void VK_frame::cleanup(){
   //---------------------------
 
-  this->clean_frame_swapchain(vk_param->swapchain.vec_frame_swapchain);
+  this->clean_frame_swapchain(vk_param->renderpass_scene.vec_frame_swapchain);
   this->clean_frame_inflight();
 
   //---------------------------
