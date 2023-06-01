@@ -94,6 +94,7 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
+  //Switchr contenance de l'information c'est le renderpass qui contient un ou des pipelines et non le pipeline qui contient un renderpass associé
   //put framebuffer on canvas / put canvas front screen
     //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer
     //-abstraction framebuffer et convert it into a texture
@@ -140,10 +141,9 @@ void VK_engine::clean_vulkan(){
   //---------------------------
 
   vk_gui->cleanup();
-  vk_frame->cleanup();
+  vk_renderpass->clean_renderpass();
   vk_swapchain->clean_swapchain();
   vk_pipeline->cleanup();
-  vk_renderpass->cleanup();
   vk_canvas->cleanup();
 
   vk_data->cleanup();

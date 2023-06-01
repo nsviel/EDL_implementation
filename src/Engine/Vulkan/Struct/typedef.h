@@ -34,10 +34,11 @@ typedef VkAttachmentLoadOp attachment_usage;
 constexpr attachment_usage ATTACHMENT_USAGE_CLEAR = VK_ATTACHMENT_LOAD_OP_CLEAR;
 constexpr attachment_usage ATTACHMENT_USAGE_CONSERVE = VK_ATTACHMENT_LOAD_OP_LOAD;
 
-typedef VkImageLayout attachment_layout_usage;
-constexpr attachment_layout_usage ATTACHMENT_LAYOUT_EMPTY = VK_IMAGE_LAYOUT_UNDEFINED;
-constexpr attachment_layout_usage ATTACHMENT_LAYOUT_COLOR = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-constexpr attachment_layout_usage ATTACHMENT_LAYOUT_PRESENT = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+typedef VkImageLayout image_layout_usage;
+constexpr image_layout_usage IMAGE_LAYOUT_EMPTY = VK_IMAGE_LAYOUT_UNDEFINED;
+constexpr image_layout_usage IMAGE_LAYOUT_COLOR = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+constexpr image_layout_usage IMAGE_LAYOUT_DEPTH = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+constexpr image_layout_usage IMAGE_LAYOUT_PRESENT = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
 
 #endif

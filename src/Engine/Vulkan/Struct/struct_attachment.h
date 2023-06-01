@@ -11,8 +11,10 @@ struct Struct_attachment_usage{
   VkAttachmentLoadOp usage;
 
   //ATTACHMENT_LAYOUT_EMPTY or ATTACHMENT_LAYOUT_PRESENT
-  VkImageLayout layout_initial;
-  VkImageLayout layout_final;
+  VkImageLayout color_layout_initial;
+  VkImageLayout color_layout_final;
+  VkImageLayout depth_layout_initial;
+  VkImageLayout depth_layout_final;
 
   //---------------------------
 };

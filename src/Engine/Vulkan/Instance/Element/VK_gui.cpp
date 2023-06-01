@@ -27,7 +27,7 @@ VK_gui::VK_gui(VK_engine* vk_engine){
   this->vk_device = vk_engine->get_vk_device();
   this->vk_renderpass = vk_engine->get_vk_renderpass();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
-  this->vk_frame = vk_engine->get_vk_image();
+  this->vk_frame = vk_engine->get_vk_frame();
 
   //---------------------------
 }

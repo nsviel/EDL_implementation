@@ -5,6 +5,7 @@
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
+#include "../../Presentation/Swapchain/VK_frame.h"
 
 //Manage fbo attachment (color / depth)
 
@@ -29,32 +30,56 @@ void VK_renderpass::init_renderpass(){
   //Render pass scene
   Struct_renderpass* renderpass_scene = &vk_param->renderpass_scene;
   renderpass_scene->name = "scene";
-  renderpass_scene->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
+  renderpass_scene->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass_scene->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass_scene->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
+  renderpass_scene->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass_scene->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass_scene);
 
   //Render pass glyph
   Struct_renderpass* renderpass_glyph = &vk_param->renderpass_glyph;
   renderpass_glyph->name = "glyph";
-  renderpass_glyph->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
+  renderpass_glyph->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass_glyph->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass_glyph->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
+  renderpass_glyph->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass_glyph->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass_glyph);
 
   //Render pass canva
   Struct_renderpass* renderpass_canvas = &vk_param->renderpass_canvas;
   renderpass_canvas->name = "canvas";
-  renderpass_scene->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
+  renderpass_canvas->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass_canvas->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass_canvas->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
+  renderpass_canvas->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass_canvas->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass_canvas);
 
   //Render pass GUI
   Struct_renderpass* renderpass_gui = &vk_param->renderpass_gui;
   renderpass_gui->name = "gui";
-  renderpass_scene->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
+  renderpass_gui->attachment.usage = ATTACHMENT_USAGE_CONSERVE;
+  renderpass_gui->attachment.color_layout_initial = IMAGE_LAYOUT_PRESENT;
+  renderpass_gui->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
+  renderpass_gui->attachment.depth_layout_initial = IMAGE_LAYOUT_DEPTH;
+  renderpass_gui->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass_gui);
 
   //---------------------------
 }
-void VK_renderpass::cleanup(){
+void VK_renderpass::clean_renderpass(){
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
 
+  //vk_frame->clean_frame_renderpass(&vk_param->renderpass_canvas);
+  //vk_frame->clean_frame_renderpass(&vk_param->renderpass_glyph);
+  //vk_frame->clean_frame_renderpass(&vk_param->renderpass_canvas);
+  //vk_frame->clean_frame_renderpass(&vk_param->renderpass_gui);
+
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_canvas);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_scene.renderpass, nullptr);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_glyph.renderpass, nullptr);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_canvas.renderpass, nullptr);
@@ -66,6 +91,7 @@ void VK_renderpass::cleanup(){
 //Subfunction
 void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
 
   this->create_color_attachment(renderpass);
@@ -73,6 +99,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   this->create_subpass(renderpass);
   this->create_renderpass_info(renderpass);
   this->create_renderpass_obj(renderpass);
+  //vk_frame->create_frame_renderpass(renderpass);
 
   //---------------------------
 }
@@ -80,7 +107,6 @@ void VK_renderpass::create_depth_attachment(Struct_renderpass* renderpass){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
 
-renderpass->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
   VkAttachmentDescription depth_attachment{};
   depth_attachment.format = vk_depth->find_depth_format();
   depth_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -88,8 +114,8 @@ renderpass->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
   depth_attachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
   depth_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
   depth_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-  depth_attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-  depth_attachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+  depth_attachment.initialLayout = renderpass->attachment.depth_layout_initial;
+  depth_attachment.finalLayout = renderpass->attachment.depth_layout_final;
 
   VkAttachmentReference depth_attachment_ref{};
   depth_attachment_ref.attachment = 1;
@@ -107,12 +133,12 @@ void VK_renderpass::create_color_attachment(Struct_renderpass* renderpass){
   VkAttachmentDescription color_description{};
   color_description.format = vk_color->find_color_format();
   color_description.samples = VK_SAMPLE_COUNT_1_BIT;
-  color_description.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+  color_description.loadOp = renderpass->attachment.usage;
   color_description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
   color_description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
   color_description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-  color_description.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-  color_description.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+  color_description.initialLayout = renderpass->attachment.color_layout_initial;
+  color_description.finalLayout = renderpass->attachment.color_layout_final;
 
   //Attachment references
   VkAttachmentReference color_reference{};

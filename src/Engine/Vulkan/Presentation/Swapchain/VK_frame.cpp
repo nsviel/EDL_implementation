@@ -39,14 +39,6 @@ void VK_frame::init_image(){
 
   //---------------------------
 }
-void VK_frame::cleanup(){
-  //---------------------------
-
-  this->clean_frame_swapchain(&vk_param->renderpass_scene);
-  this->clean_frame_swapchain(&vk_param->renderpass_canvas);
-
-  //---------------------------
-}
 
 //Renderpass frame
 void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
@@ -73,7 +65,7 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_frame::clean_frame_swapchain(Struct_renderpass* renderpass){
+void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
   vector<Frame*>& vec_frame = renderpass->vec_frame;
   //---------------------------
 

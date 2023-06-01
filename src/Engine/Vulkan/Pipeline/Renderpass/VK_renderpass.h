@@ -19,7 +19,7 @@ public:
 public:
   //Main functions
   void init_renderpass();
-  void cleanup();
+  void clean_renderpass();
 
   //Subfunction
   void create_renderpass(Struct_renderpass* renderpass);

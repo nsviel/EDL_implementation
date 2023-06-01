@@ -126,7 +126,7 @@ void VK_swapchain::create_swapchain_image(VkSwapchainKHR swapchain, unsigned int
 //Swap chain function
 void VK_swapchain::recreate_swapChain(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
-  VK_frame* vk_frame = vk_engine->get_vk_image();
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
   VK_framebuffer* vk_framebuffer = vk_engine->get_vk_framebuffer();
   GLFWwindow* window = vk_window->get_window();
   //---------------------------
@@ -141,7 +141,7 @@ void VK_swapchain::recreate_swapChain(){
   vkDeviceWaitIdle(vk_param->device.device);
 
   //Clean old values
-  vk_frame->clean_frame_swapchain(&vk_param->renderpass_scene);
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
   this->clean_swapchain();
 
   //Recreate values

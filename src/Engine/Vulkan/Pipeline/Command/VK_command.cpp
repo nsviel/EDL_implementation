@@ -161,12 +161,12 @@ void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
   //---------------------------
 }
 void VK_command::record_renderpass_gui(VkCommandBuffer& command_buffer){
-  Frame* frame = vk_param->renderpass_scene.get_frame_swapchain();
+  Frame* frame = vk_param->renderpass_gui.get_frame_swapchain();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
   this->start_render_pass(command_buffer, frame);
-  vk_gui->command_gui(command_buffer);
+  //vk_gui->command_gui(command_buffer);
   this->stop_render_pass(command_buffer);
 
   //---------------------------

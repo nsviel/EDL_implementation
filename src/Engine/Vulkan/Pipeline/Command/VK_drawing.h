@@ -1,6 +1,7 @@
 #ifndef VK_DRAWING_H
 #define VK_DRAWING_H
 
+#include "../../Struct/struct_frame.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -24,7 +25,7 @@ public:
   //Subfunction
   void acquire_next_image();
   void record_command_buffer();
-  void submit_command();
+  void submit_command(vector<Frame*> vec_frame);
   void submit_presentation();
 
 private:

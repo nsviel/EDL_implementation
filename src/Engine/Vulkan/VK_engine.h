@@ -76,7 +76,7 @@ public:
   inline VK_camera* get_vk_camera(){return vk_camera;}
   inline VK_shader* get_vk_shader(){return vk_shader;}
   inline VK_physical_device* get_vk_physical_device(){return vk_physical_device;}
-  inline VK_frame* get_vk_image(){return vk_frame;}
+  inline VK_frame* get_vk_frame(){return vk_frame;}
   inline VK_validation* get_vk_validation(){return vk_validation;}
   inline VK_drawing* get_vk_drawing(){return vk_drawing;}
   inline VK_canvas* get_vk_canvas(){return vk_canvas;}
