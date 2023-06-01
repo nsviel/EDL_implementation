@@ -54,28 +54,28 @@ void VK_command::create_command_pool(){
 
   //---------------------------
 }
-void VK_command::allocate_command_buffer(vector<Frame_inflight*> vec_frame_inflight){
+void VK_command::allocate_command_buffer(vector<Frame_renderpass*>& vec_frame){
   //---------------------------
 
   //One command buffer per frame
-  vector<VkCommandBuffer> command_buffer_vec;
-  command_buffer_vec.resize(vk_param->instance.max_frame);
+  vector<VkCommandBuffer> vec_command_buffer;
+  vec_command_buffer.resize(vec_frame.size());
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
   allocInfo.commandPool = command_pool;
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-  allocInfo.commandBufferCount = (uint32_t) command_buffer_vec.size();
+  allocInfo.commandBufferCount = (uint32_t) vec_command_buffer.size();
 
-  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, command_buffer_vec.data());
+  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, vec_command_buffer.data());
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
 
-  for(int i=0; i<vec_frame_inflight.size(); i++){
-    Frame_inflight* frame = vec_frame_inflight[i];
-    frame->command_buffer = command_buffer_vec[i];
+  for(int i=0; i<vec_frame.size(); i++){
+    Frame_renderpass* frame = vec_frame[i];
+    frame->command_buffer = vec_command_buffer[i];
   }
 
   //---------------------------
@@ -90,7 +90,7 @@ void VK_command::cleanup(){
 
 //Renderpass record command
 void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
-  Frame_renderpass* image = vk_param->renderpass_scene.get_current_frame();
+  Frame_renderpass* image = vk_param->renderpass_scene.get_frame_swapchain();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
@@ -139,7 +139,7 @@ void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
   //---------------------------
 }
 void VK_command::record_renderpass_canva(VkCommandBuffer& command_buffer){
-  Frame_renderpass* image = vk_param->renderpass_scene.get_current_frame();
+  Frame_renderpass* image = vk_param->renderpass_scene.get_frame_swapchain();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 

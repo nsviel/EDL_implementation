@@ -28,13 +28,9 @@ public:
   void init_image();
   void cleanup();
 
-  //Creation function
+  //Renderpass frame
   void create_frame_renderpass(Struct_renderpass* renderpass);
-  void create_frame_inflight();
-
-  //Deletion function
   void clean_frame_swapchain(Struct_renderpass* renderpass);
-  void clean_frame_inflight();
 
 private:
   VK_engine* vk_engine;

@@ -77,7 +77,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
   pipeline_canvas->vec_data_name.push_back("location");
   pipeline_canvas->vec_data_name.push_back("tex_coord");
-  pipeline_canvas->renderpass = &vk_param->renderpass_canva;
+  pipeline_canvas->renderpass = &vk_param->renderpass_scene;
   pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
   this->create_pipeline_info(pipeline_canvas);

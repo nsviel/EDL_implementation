@@ -11,6 +11,7 @@ struct Frame_renderpass{
   //Main object
   VkFramebuffer fbo;
   VkRenderPass renderpass;
+  VkCommandBuffer command_buffer;
 
   //Attachment
   Struct_attachment color;
@@ -18,15 +19,7 @@ struct Frame_renderpass{
   Struct_attachment normal;
   Struct_attachment depth;
 
-  //---------------------------
-};
-
-struct Frame_inflight{
-  //---------------------------
-
-  int ID_frame;
-
-  VkCommandBuffer command_buffer;
+  //Synchronisation
   VkSemaphore semaphore_render_finished;
   VkSemaphore semaphore_image_available;
   VkFence fence;

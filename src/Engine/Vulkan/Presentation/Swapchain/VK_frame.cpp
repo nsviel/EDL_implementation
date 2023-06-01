@@ -36,7 +36,6 @@ void VK_frame::init_image(){
 
   this->create_frame_renderpass(&vk_param->renderpass_scene);
   this->create_frame_renderpass(&vk_param->renderpass_canva);
-  this->create_frame_inflight();
 
   //---------------------------
 }
@@ -45,12 +44,11 @@ void VK_frame::cleanup(){
 
   this->clean_frame_swapchain(&vk_param->renderpass_scene);
   this->clean_frame_swapchain(&vk_param->renderpass_canva);
-  this->clean_frame_inflight();
 
   //---------------------------
 }
 
-//Creation function
+//Renderpass frame
 void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   vector<Frame_renderpass*>& vec_frame = renderpass->vec_frame;
   //---------------------------
@@ -63,30 +61,16 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
     vk_depth->create_depth_attachment(image);
     vk_framebuffer->create_framebuffer(renderpass, image);
+    vk_synchronization->create_sync_objects(image);
     vec_frame.push_back(image);
   }
 
-  //---------------------------
-}
-void VK_frame::create_frame_inflight(){
   VK_command* vk_command = vk_engine->get_vk_command();
-  //---------------------------
 
-  //Draw frames
-  vector<Frame_inflight*> vec_frame_inflight;
-  for(int i=0; i<vk_param->instance.max_frame; i++){
-    Frame_inflight* frame = new Frame_inflight();
-    vk_synchronization->create_sync_objects(frame);
-    vec_frame_inflight.push_back(frame);
-  }
-
-  vk_command->allocate_command_buffer(vec_frame_inflight);
+  vk_command->allocate_command_buffer(vec_frame);
 
   //---------------------------
-  vk_param->swapchain.vec_frame_inflight = vec_frame_inflight;
 }
-
-//Deletio function
 void VK_frame::clean_frame_swapchain(Struct_renderpass* renderpass){
   vector<Frame_renderpass*>& vec_frame = renderpass->vec_frame;
   //---------------------------
@@ -97,21 +81,10 @@ void VK_frame::clean_frame_swapchain(Struct_renderpass* renderpass){
     vkDestroyImageView(vk_param->device.device, image->color.view, nullptr);
     vk_depth->clean_depth_attachment(image);
     vk_framebuffer->clean_framebuffer(image);
+    vk_synchronization->clean_sync_obj(image);
     delete image;
   }
   vec_frame.clear();
-
-  //---------------------------
-}
-void VK_frame::clean_frame_inflight(){
-  //---------------------------
-
-  for(int i=0; i<vk_param->swapchain.vec_frame_inflight.size(); i++){
-    Frame_inflight* frame = vk_param->swapchain.vec_frame_inflight[i];
-    vk_synchronization->clean_sync_obj(frame);
-    delete frame;
-  }
-  vk_param->swapchain.vec_frame_inflight.clear();
 
   //---------------------------
 }

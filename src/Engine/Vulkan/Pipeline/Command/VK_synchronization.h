@@ -18,8 +18,8 @@ public:
 
 public:
   //Main functions
-  void create_sync_objects(Frame_inflight* frame);
-  void clean_sync_obj(Frame_inflight* frame);
+  void create_sync_objects(Frame_renderpass* frame);
+  void clean_sync_obj(Frame_renderpass* frame);
 
 private:
   VK_engine* vk_engine;

@@ -35,14 +35,14 @@ void VK_drawing::draw_frame(){
 
 //Subfunction
 void VK_drawing::acquire_next_image(){
-  Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
+  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   //Waiting for the previous frame
   vkWaitForFences(vk_param->device.device, 1, &frame->fence, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &vk_param->renderpass_scene.current_frame_ID);
+  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &vk_param->renderpass_scene.frame_sawpchain_ID);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -65,7 +65,7 @@ void VK_drawing::acquire_next_image(){
   //---------------------------
 }
 void VK_drawing::record_command(){
-  Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
+  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   //Render pass 1: draw scene
@@ -78,7 +78,7 @@ void VK_drawing::record_command(){
   //---------------------------
 }
 void VK_drawing::submit_command(){
-  Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
+  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   VkSemaphore semaphore_wait[] = {frame->semaphore_image_available};
@@ -104,7 +104,7 @@ void VK_drawing::submit_command(){
   //---------------------------
 }
 void VK_drawing::submit_presentation(){
-  Frame_inflight* frame = vk_param->swapchain.get_current_frame_inflight();
+  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   VkSemaphore semaphore_signal[] = {frame->semaphore_render_finished};
@@ -115,7 +115,7 @@ void VK_drawing::submit_presentation(){
   presentation_info.pWaitSemaphores = semaphore_signal;
   presentation_info.swapchainCount = 1;
   presentation_info.pSwapchains = swapChains;
-  presentation_info.pImageIndices = &vk_param->renderpass_scene.current_frame_ID;
+  presentation_info.pImageIndices = &vk_param->renderpass_scene.frame_sawpchain_ID;
   presentation_info.pResults = nullptr; // Optional
 
   VkResult result = vkQueuePresentKHR(vk_param->device.queue_presentation, &presentation_info);
@@ -125,7 +125,7 @@ void VK_drawing::submit_presentation(){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  vk_param->swapchain.current_frame_inflight_ID = (vk_param->swapchain.current_frame_inflight_ID + 1) % vk_param->instance.max_frame;
+  vk_param->renderpass_scene.frame_inflight_ID = (vk_param->renderpass_scene.frame_inflight_ID + 1) % vk_param->instance.max_frame;
 
   //---------------------------
 }

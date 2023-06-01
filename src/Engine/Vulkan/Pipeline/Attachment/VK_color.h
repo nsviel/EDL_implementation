@@ -26,16 +26,11 @@ public:
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);
   VkFormat find_color_format();
 
-
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_physical_device* vk_physical_device;
   VK_texture* vk_texture;
-
-  vector<VkImage> vec_image_swapchain;
-  vector<Frame_renderpass*> vec_frame_swapchain;
-  vector<Frame_inflight*> vec_frame_inflight;
 };
 
 #endif
