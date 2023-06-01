@@ -6,9 +6,6 @@
 
 class VK_engine;
 class VK_param;
-class VK_device;
-class VK_swapchain;
-class VK_renderpass;
 class VK_descriptor;
 class VK_viewport;
 class VK_shader;
@@ -49,9 +46,6 @@ public:
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
-  VK_device* vk_device;
-  VK_swapchain* vk_swapchain;
-  VK_renderpass* vk_renderpass;
   VK_descriptor* vk_descriptor;
   VK_viewport* vk_viewport;
   VK_shader* vk_shader;

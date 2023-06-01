@@ -54,7 +54,7 @@ void VK_command::create_command_pool(){
 
   //---------------------------
 }
-void VK_command::create_command_buffer(vector<Frame_inflight*> vec_frame_inflight){
+void VK_command::allocate_command_buffer(vector<Frame_inflight*> vec_frame_inflight){
   //---------------------------
 
   //One command buffer per frame

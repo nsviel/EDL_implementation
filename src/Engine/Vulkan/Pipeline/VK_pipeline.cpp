@@ -1,12 +1,9 @@
 #include "VK_pipeline.h"
-#include "Renderpass/VK_renderpass.h"
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
 #include "../Shader/Descriptor/VK_descriptor.h"
 #include "../Data/VK_data.h"
-#include "../Instance/Device/VK_device.h"
-#include "../Presentation/Swapchain/VK_swapchain.h"
 #include "../Presentation/Camera/VK_viewport.h"
 #include "../Shader/VK_shader.h"
 #include "../Shader/Binding/VK_binding.h"
@@ -18,9 +15,6 @@ VK_pipeline::VK_pipeline(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_device = vk_engine->get_vk_device();
-  this->vk_swapchain = vk_engine->get_vk_swapchain();
-  this->vk_renderpass = vk_engine->get_vk_renderpass();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_shader = vk_engine->get_vk_shader();
@@ -33,7 +27,6 @@ VK_pipeline::~VK_pipeline(){}
 
 //Main function
 void VK_pipeline::init_pipeline(){
-  //160ms/pipeline
   //---------------------------
 
   //Pipeline scene
@@ -144,7 +137,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline_info.pColorBlendState = &pipeline->color_blend_info;
   pipeline_info.pDynamicState = &pipeline->dynamic_state;
   pipeline_info.layout = pipeline->pipeline_layout;
-  pipeline_info.renderPass = vk_param->renderpass_scene.renderpass; pipeline->renderpass.renderpass;
+  pipeline_info.renderPass = pipeline->renderpass->renderpass;
   pipeline_info.subpass = 0;
   pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
   pipeline_info.basePipelineIndex = -1; // Optional

@@ -80,7 +80,7 @@ void VK_frame::create_frame_inflight(){
     vec_frame_inflight.push_back(frame);
   }
 
-  vk_command->create_command_buffer(vec_frame_inflight);
+  vk_command->allocate_command_buffer(vec_frame_inflight);
 
   //---------------------------
   vk_param->swapchain.vec_frame_inflight = vec_frame_inflight;

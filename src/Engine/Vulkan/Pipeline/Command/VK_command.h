@@ -23,7 +23,7 @@ public:
 public:
   //Main functions
   void create_command_pool();
-  void create_command_buffer(vector<Frame_inflight*> vec_frame_inflight);
+  void allocate_command_buffer(vector<Frame_inflight*> vec_frame_inflight);
   void cleanup();
 
   //Renderpass record command
