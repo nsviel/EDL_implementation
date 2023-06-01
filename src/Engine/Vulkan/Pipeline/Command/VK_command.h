@@ -23,7 +23,7 @@ public:
 public:
   //Main functions
   void create_command_pool();
-  void allocate_command_buffer(vector<Frame_renderpass*>& vec_frame);
+  void allocate_command_buffer(vector<Frame*>& vec_frame);
   void cleanup();
 
   //Renderpass record command

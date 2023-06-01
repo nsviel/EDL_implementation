@@ -19,8 +19,8 @@ public:
 
 public:
   //Main functions
-  void create_color_attachment(Frame_renderpass* image);
-  void clean_color_attachment(Frame_renderpass* image);
+  void create_color_attachment(Frame* image);
+  void clean_color_attachment(Frame* image);
 
   //Subfunction
   VkSurfaceFormatKHR retrieve_surface_format(const std::vector<VkSurfaceFormatKHR>& dev_format);

@@ -168,7 +168,7 @@ void VK_gui::gui_font(){
   VK_drawing* vk_drawing = vk_engine->get_vk_drawing();
   //---------------------------
 
-  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
+  Frame* frame = vk_param->renderpass_scene.get_frame_inflight();
 
   VkResult result = vkResetCommandPool(vk_param->device.device, command_pool, 0);
   if(result != VK_SUCCESS){

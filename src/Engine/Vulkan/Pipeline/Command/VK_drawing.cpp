@@ -35,7 +35,7 @@ void VK_drawing::draw_frame(){
 
 //Subfunction
 void VK_drawing::acquire_next_image(){
-  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
+  Frame* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   //Waiting for the previous frame
@@ -65,7 +65,7 @@ void VK_drawing::acquire_next_image(){
   //---------------------------
 }
 void VK_drawing::record_command(){
-  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
+  Frame* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   //Render pass 1: draw scene
@@ -78,7 +78,7 @@ void VK_drawing::record_command(){
   //---------------------------
 }
 void VK_drawing::submit_command(){
-  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
+  Frame* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   VkSemaphore semaphore_wait[] = {frame->semaphore_image_available};
@@ -104,7 +104,7 @@ void VK_drawing::submit_command(){
   //---------------------------
 }
 void VK_drawing::submit_presentation(){
-  Frame_renderpass* frame = vk_param->renderpass_scene.get_frame_inflight();
+  Frame* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   VkSemaphore semaphore_signal[] = {frame->semaphore_render_finished};

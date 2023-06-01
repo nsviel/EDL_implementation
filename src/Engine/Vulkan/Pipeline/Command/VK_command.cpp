@@ -54,7 +54,7 @@ void VK_command::create_command_pool(){
 
   //---------------------------
 }
-void VK_command::allocate_command_buffer(vector<Frame_renderpass*>& vec_frame){
+void VK_command::allocate_command_buffer(vector<Frame*>& vec_frame){
   //---------------------------
 
   //One command buffer per frame
@@ -74,7 +74,7 @@ void VK_command::allocate_command_buffer(vector<Frame_renderpass*>& vec_frame){
   }
 
   for(int i=0; i<vec_frame.size(); i++){
-    Frame_renderpass* frame = vec_frame[i];
+    Frame* frame = vec_frame[i];
     frame->command_buffer = vec_command_buffer[i];
   }
 
@@ -90,7 +90,7 @@ void VK_command::cleanup(){
 
 //Renderpass record command
 void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
-  Frame_renderpass* image = vk_param->renderpass_scene.get_frame_swapchain();
+  Frame* image = vk_param->renderpass_scene.get_frame_swapchain();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
@@ -139,7 +139,7 @@ void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
   //---------------------------
 }
 void VK_command::record_renderpass_canva(VkCommandBuffer& command_buffer){
-  Frame_renderpass* image = vk_param->renderpass_scene.get_frame_swapchain();
+  Frame* image = vk_param->renderpass_scene.get_frame_swapchain();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 

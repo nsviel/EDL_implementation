@@ -22,7 +22,7 @@ VK_framebuffer::VK_framebuffer(VK_engine* vk_engine){
 VK_framebuffer::~VK_framebuffer(){}
 
 //FBO creation
-void VK_framebuffer::create_framebuffer(Struct_renderpass* renderpass, Frame_renderpass* image){
+void VK_framebuffer::create_framebuffer(Struct_renderpass* renderpass, Frame* image){
   //---------------------------
 
   //Create frambuffer
@@ -50,7 +50,7 @@ void VK_framebuffer::create_framebuffer(Struct_renderpass* renderpass, Frame_ren
 }
 
 //Deletion function
-void VK_framebuffer::clean_framebuffer(Frame_renderpass* image){
+void VK_framebuffer::clean_framebuffer(Frame* image){
   //---------------------------
 
   vkDestroyFramebuffer(vk_param->device.device, image->fbo, nullptr);

@@ -19,10 +19,10 @@ public:
 
 public:
   //FBO creation
-  void create_framebuffer(Struct_renderpass* renderpass, Frame_renderpass* image);
+  void create_framebuffer(Struct_renderpass* renderpass, Frame* image);
 
   //Deletion functions
-  void clean_framebuffer(Frame_renderpass* image);
+  void clean_framebuffer(Frame* image);
 
 private:
   VK_param* vk_param;

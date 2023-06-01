@@ -50,34 +50,35 @@ void VK_frame::cleanup(){
 
 //Renderpass frame
 void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
-  vector<Frame_renderpass*>& vec_frame = renderpass->vec_frame;
+  VK_command* vk_command = vk_engine->get_vk_command();
+  vector<Frame*>& vec_frame = renderpass->vec_frame;
   //---------------------------
 
   //Renderpass images
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
-    Frame_renderpass* image = new Frame_renderpass();
+    Frame* image = new Frame();
     image->color.image = vk_param->swapchain.vec_swapchain_image[i];
     image->color.format = vk_color->find_color_format();
     image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
+
     vk_depth->create_depth_attachment(image);
     vk_framebuffer->create_framebuffer(renderpass, image);
     vk_synchronization->create_sync_objects(image);
+    
     vec_frame.push_back(image);
   }
-
-  VK_command* vk_command = vk_engine->get_vk_command();
 
   vk_command->allocate_command_buffer(vec_frame);
 
   //---------------------------
 }
 void VK_frame::clean_frame_swapchain(Struct_renderpass* renderpass){
-  vector<Frame_renderpass*>& vec_frame = renderpass->vec_frame;
+  vector<Frame*>& vec_frame = renderpass->vec_frame;
   //---------------------------
 
   //Vec images
   for(int i=0; i<vec_frame.size(); i++){
-    Frame_renderpass* image = vec_frame[i];
+    Frame* image = vec_frame[i];
     vkDestroyImageView(vk_param->device.device, image->color.view, nullptr);
     vk_depth->clean_depth_attachment(image);
     vk_framebuffer->clean_framebuffer(image);

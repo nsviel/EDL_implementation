@@ -5,7 +5,7 @@
 #include "../../../common.h"
 
 
-struct Frame_renderpass{
+struct Frame{
   //---------------------------
 
   //Main object

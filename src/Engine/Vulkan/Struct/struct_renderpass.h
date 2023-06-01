@@ -9,14 +9,14 @@ struct Struct_renderpass{
   //---------------------------
 
   //Function
-  Frame_renderpass* get_frame_inflight(){return vec_frame[frame_inflight_ID];}
-  Frame_renderpass* get_frame_swapchain(){return vec_frame[frame_sawpchain_ID];}
+  Frame* get_frame_inflight(){return vec_frame[frame_inflight_ID];}
+  Frame* get_frame_swapchain(){return vec_frame[frame_sawpchain_ID];}
 
   //Info
   std::string name;
 
   //Renderpass stock images
-  std::vector<Frame_renderpass*> vec_frame;
+  std::vector<Frame*> vec_frame;
   uint32_t frame_sawpchain_ID = 0;
   uint32_t frame_inflight_ID = 0;
 

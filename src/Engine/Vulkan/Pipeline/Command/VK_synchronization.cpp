@@ -18,7 +18,7 @@ VK_synchronization::VK_synchronization(VK_engine* vk_engine){
 VK_synchronization::~VK_synchronization(){}
 
 //Main function
-void VK_synchronization::create_sync_objects(Frame_renderpass* frame){
+void VK_synchronization::create_sync_objects(Frame* frame){
   //---------------------------
 
   //Semaphore info
@@ -40,7 +40,7 @@ void VK_synchronization::create_sync_objects(Frame_renderpass* frame){
 
   //---------------------------
 }
-void VK_synchronization::clean_sync_obj(Frame_renderpass* frame){
+void VK_synchronization::clean_sync_obj(Frame* frame){
   //---------------------------
 
   vkDestroySemaphore(vk_param->device.device, frame->semaphore_render_finished, nullptr);
