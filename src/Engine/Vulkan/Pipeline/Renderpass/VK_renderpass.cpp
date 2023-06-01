@@ -83,7 +83,7 @@ void VK_renderpass::create_depth_attachment(Struct_renderpass* renderpass){
   VkAttachmentDescription depth_attachment{};
   depth_attachment.format = vk_depth->find_depth_format();
   depth_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
-  depth_attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+  depth_attachment.loadOp = renderpass->attachment.usage;
   depth_attachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
   depth_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
   depth_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -106,7 +106,7 @@ void VK_renderpass::create_color_attachment(Struct_renderpass* renderpass){
   VkAttachmentDescription color_description{};
   color_description.format = vk_color->find_color_format();
   color_description.samples = VK_SAMPLE_COUNT_1_BIT;
-  color_description.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+  color_description.loadOp = renderpass->attachment.usage;
   color_description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
   color_description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
   color_description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
