@@ -2,6 +2,7 @@
 #define VK_FRAMEBUFFER_H
 
 #include "../../Struct/struct_frame.h"
+#include "../../Struct/struct_renderpass.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -18,7 +19,7 @@ public:
 
 public:
   //FBO creation
-  void create_framebuffer(Frame_renderpass* image);
+  void create_framebuffer(Struct_renderpass* renderpass, Frame_renderpass* image);
 
   //Deletion functions
   void clean_framebuffer(Frame_renderpass* image);

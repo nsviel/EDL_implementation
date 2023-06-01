@@ -141,13 +141,13 @@ void VK_swapchain::recreate_swapChain(){
   vkDeviceWaitIdle(vk_param->device.device);
 
   //Clean old values
-  vk_frame->clean_frame_swapchain(vk_param->renderpass_scene.vec_frame);
+  vk_frame->clean_frame_swapchain(&vk_param->renderpass_scene);
   this->clean_swapchain();
 
   //Recreate values
   vk_physical_device->compute_extent();
   this->create_swapchain();
-  vk_frame->create_frame_swapchain(vk_param->renderpass_scene.vec_frame);
+  vk_frame->create_frame_renderpass(&vk_param->renderpass_scene);
 
   //---------------------------
 }

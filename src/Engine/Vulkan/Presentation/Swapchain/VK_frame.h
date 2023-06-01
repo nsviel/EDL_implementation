@@ -2,6 +2,7 @@
 #define VK_FRAME_H
 
 #include "../../Struct/struct_frame.h"
+#include "../../Struct/struct_renderpass.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -28,11 +29,11 @@ public:
   void cleanup();
 
   //Creation function
-  void create_frame_swapchain(vector<Frame_renderpass*>& vec_frame_swapchain);
+  void create_frame_renderpass(Struct_renderpass* renderpass);
   void create_frame_inflight();
 
   //Deletion function
-  void clean_frame_swapchain(vector<Frame_renderpass*>& vec_frame);
+  void clean_frame_swapchain(Struct_renderpass* renderpass);
   void clean_frame_inflight();
 
 private:

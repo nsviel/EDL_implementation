@@ -45,6 +45,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_scene->path_shader_fs = "Base/shader_scene_fs";
   pipeline_scene->vec_data_name.push_back("location");
   pipeline_scene->vec_data_name.push_back("color");
+  pipeline_scene->renderpass = &vk_param->renderpass_scene;
   pipeline_scene->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   this->create_pipeline_info(pipeline_scene);
 
@@ -57,6 +58,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_scene_2->path_shader_fs = "Base/shader_scene_fs";
   pipeline_scene_2->vec_data_name.push_back("location");
   pipeline_scene_2->vec_data_name.push_back("color");
+  pipeline_scene_2->renderpass = &vk_param->renderpass_scene;
   pipeline_scene_2->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   this->create_pipeline_info(pipeline_scene_2);
 
@@ -69,6 +71,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
   pipeline_glyph->vec_data_name.push_back("location");
   pipeline_glyph->vec_data_name.push_back("color");
+  pipeline_glyph->renderpass = &vk_param->renderpass_scene;
   pipeline_glyph->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   this->create_pipeline_info(pipeline_glyph);
 
@@ -81,6 +84,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
   pipeline_canvas->vec_data_name.push_back("location");
   pipeline_canvas->vec_data_name.push_back("tex_coord");
+  pipeline_canvas->renderpass = &vk_param->renderpass_canva;
   pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
   this->create_pipeline_info(pipeline_canvas);
@@ -140,7 +144,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline_info.pColorBlendState = &pipeline->color_blend_info;
   pipeline_info.pDynamicState = &pipeline->dynamic_state;
   pipeline_info.layout = pipeline->pipeline_layout;
-  pipeline_info.renderPass = vk_param->renderpass_scene.renderpass;
+  pipeline_info.renderPass = vk_param->renderpass_scene.renderpass; pipeline->renderpass.renderpass;
   pipeline_info.subpass = 0;
   pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
   pipeline_info.basePipelineIndex = -1; // Optional

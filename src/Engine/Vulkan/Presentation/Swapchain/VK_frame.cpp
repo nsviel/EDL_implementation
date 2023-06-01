@@ -34,8 +34,8 @@ VK_frame::~VK_frame(){}
 void VK_frame::init_image(){
   //---------------------------
 
-  this->create_frame_swapchain(vk_param->renderpass_scene.vec_frame);
-  this->create_frame_swapchain(vk_param->renderpass_canva.vec_frame);
+  this->create_frame_renderpass(&vk_param->renderpass_scene);
+  this->create_frame_renderpass(&vk_param->renderpass_canva);
   this->create_frame_inflight();
 
   //---------------------------
@@ -43,25 +43,26 @@ void VK_frame::init_image(){
 void VK_frame::cleanup(){
   //---------------------------
 
-  this->clean_frame_swapchain(vk_param->renderpass_scene.vec_frame);
-  this->clean_frame_swapchain(vk_param->renderpass_canva.vec_frame);
+  this->clean_frame_swapchain(&vk_param->renderpass_scene);
+  this->clean_frame_swapchain(&vk_param->renderpass_canva);
   this->clean_frame_inflight();
 
   //---------------------------
 }
 
 //Creation function
-void VK_frame::create_frame_swapchain(vector<Frame_renderpass*>& vec_frame){
+void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
+  vector<Frame_renderpass*>& vec_frame = renderpass->vec_frame;
   //---------------------------
 
-  //Swapchain images
+  //Renderpass images
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
     Frame_renderpass* image = new Frame_renderpass();
     image->color.image = vk_param->swapchain.vec_swapchain_image[i];
     image->color.format = vk_color->find_color_format();
     image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
     vk_depth->create_depth_attachment(image);
-    vk_framebuffer->create_framebuffer(image);
+    vk_framebuffer->create_framebuffer(renderpass, image);
     vec_frame.push_back(image);
   }
 
@@ -86,7 +87,8 @@ void VK_frame::create_frame_inflight(){
 }
 
 //Deletio function
-void VK_frame::clean_frame_swapchain(vector<Frame_renderpass*>& vec_frame){
+void VK_frame::clean_frame_swapchain(Struct_renderpass* renderpass){
+  vector<Frame_renderpass*>& vec_frame = renderpass->vec_frame;
   //---------------------------
 
   //Vec images
