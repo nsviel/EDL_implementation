@@ -35,7 +35,7 @@ void VK_frame::init_image(){
   //---------------------------
 
   this->create_frame_renderpass(&vk_param->renderpass_scene);
-  this->create_frame_renderpass(&vk_param->renderpass_canva);
+  this->create_frame_renderpass(&vk_param->renderpass_canvas);
 
   //---------------------------
 }
@@ -43,7 +43,7 @@ void VK_frame::cleanup(){
   //---------------------------
 
   this->clean_frame_swapchain(&vk_param->renderpass_scene);
-  this->clean_frame_swapchain(&vk_param->renderpass_canva);
+  this->clean_frame_swapchain(&vk_param->renderpass_canvas);
 
   //---------------------------
 }
@@ -56,16 +56,17 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
 
   //Renderpass images
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
-    Frame* image = new Frame();
-    image->color.image = vk_param->swapchain.vec_swapchain_image[i];
-    image->color.format = vk_color->find_color_format();
-    image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
+    Frame* frame = new Frame();
+    frame->color.image = vk_param->swapchain.vec_swapchain_image[i];
+    frame->color.format = vk_color->find_color_format();
+    frame->color.view = vk_texture->create_image_view(frame->color.image, frame->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
+    frame->renderpass = renderpass->renderpass;
 
-    vk_depth->create_depth_attachment(image);
-    vk_framebuffer->create_framebuffer(renderpass, image);
-    vk_synchronization->create_sync_objects(image);
-    
-    vec_frame.push_back(image);
+    vk_depth->create_depth_attachment(frame);
+    vk_framebuffer->create_framebuffer(renderpass, frame);
+    vk_synchronization->create_sync_objects(frame);
+
+    vec_frame.push_back(frame);
   }
 
   vk_command->allocate_command_buffer(vec_frame);
@@ -78,12 +79,12 @@ void VK_frame::clean_frame_swapchain(Struct_renderpass* renderpass){
 
   //Vec images
   for(int i=0; i<vec_frame.size(); i++){
-    Frame* image = vec_frame[i];
-    vkDestroyImageView(vk_param->device.device, image->color.view, nullptr);
-    vk_depth->clean_depth_attachment(image);
-    vk_framebuffer->clean_framebuffer(image);
-    vk_synchronization->clean_sync_obj(image);
-    delete image;
+    Frame* frame = vec_frame[i];
+    vkDestroyImageView(vk_param->device.device, frame->color.view, nullptr);
+    vk_depth->clean_depth_attachment(frame);
+    vk_framebuffer->clean_framebuffer(frame);
+    vk_synchronization->clean_sync_obj(frame);
+    delete frame;
   }
   vec_frame.clear();
 

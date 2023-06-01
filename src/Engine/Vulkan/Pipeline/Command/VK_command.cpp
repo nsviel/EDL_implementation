@@ -114,13 +114,10 @@ void VK_command::stop_command_buffer(VkCommandBuffer& command_buffer){
   //---------------------------
 }
 
-//Renderpass record command
-void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
-  Frame* image = vk_param->renderpass_scene.get_frame_swapchain();
-  VK_gui* vk_gui = vk_engine->get_vk_gui();
+//Render pass
+void VK_command::start_render_pass(VkCommandBuffer& command_buffer, Frame* frame){
   //---------------------------
 
-  //Start renderpass
   std::array<VkClearValue, 2> clear_value{};
   clear_value[0].color = {{
     param_engine->background_color.x,
@@ -131,8 +128,8 @@ void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
 
   VkRenderPassBeginInfo renderpass_info{};
   renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-  renderpass_info.renderPass = vk_param->renderpass_scene.renderpass;
-  renderpass_info.framebuffer = image->fbo;
+  renderpass_info.renderPass = frame->renderpass;
+  renderpass_info.framebuffer = frame->fbo;
   renderpass_info.renderArea.offset = {0, 0};
   renderpass_info.renderArea.extent = vk_param->window.extent;
   renderpass_info.clearValueCount = static_cast<uint32_t>(clear_value.size());
@@ -140,44 +137,37 @@ void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
 
   vkCmdBeginRenderPass(command_buffer, &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
 
-  vk_cmd->cmd_run(command_buffer);
-  vk_gui->command_gui(command_buffer);
+  //---------------------------
+}
+void VK_command::stop_render_pass(VkCommandBuffer& command_buffer){
+  //---------------------------
 
-  //End renderpass
   vkCmdEndRenderPass(command_buffer);
 
   //---------------------------
 }
-void VK_command::record_renderpass_canva(VkCommandBuffer& command_buffer){
-  Frame* image = vk_param->renderpass_scene.get_frame_swapchain();
+
+//Renderpass record command
+void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
+  Frame* frame = vk_param->renderpass_scene.get_frame_swapchain();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
-  //Start renderpass
-  std::array<VkClearValue, 2> clear_value{};
-  clear_value[0].color = {{
-    param_engine->background_color.x,
-    param_engine->background_color.y,
-    param_engine->background_color.z,
-    param_engine->background_color.w}};
-  clear_value[1].depthStencil = {1.0f, 0};
-
-  VkRenderPassBeginInfo renderpass_info{};
-  renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-  renderpass_info.renderPass = vk_param->renderpass_canva.renderpass;
-  renderpass_info.framebuffer = image->fbo;
-  renderpass_info.renderArea.offset = {0, 0};
-  renderpass_info.renderArea.extent = vk_param->window.extent;
-  renderpass_info.clearValueCount = static_cast<uint32_t>(clear_value.size());
-  renderpass_info.pClearValues = clear_value.data();
-
-  vkCmdBeginRenderPass(command_buffer, &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
-
-  vk_cmd->cmd_run(command_buffer);
+  this->start_render_pass(command_buffer, frame);
+  vk_cmd->cmd_record_scene(command_buffer);
   vk_gui->command_gui(command_buffer);
+  this->stop_render_pass(command_buffer);
 
-  //End renderpass
-  vkCmdEndRenderPass(command_buffer);
+  //---------------------------
+}
+void VK_command::record_renderpass_gui(VkCommandBuffer& command_buffer){
+  Frame* frame = vk_param->renderpass_scene.get_frame_swapchain();
+  VK_gui* vk_gui = vk_engine->get_vk_gui();
+  //---------------------------
+
+  this->start_render_pass(command_buffer, frame);
+  vk_gui->command_gui(command_buffer);
+  this->stop_render_pass(command_buffer);
 
   //---------------------------
 }

@@ -26,9 +26,29 @@ void VK_renderpass::init_renderpass(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
 
-  this->create_renderpass(&vk_param->renderpass_scene);
-  this->create_renderpass(&vk_param->renderpass_canva);
-  this->create_renderpass(&vk_param->renderpass_gui);
+  //Render pass scene
+  Struct_renderpass* renderpass_scene = &vk_param->renderpass_scene;
+  renderpass_scene->name = "scene";
+  renderpass_scene->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  this->create_renderpass(renderpass_scene);
+
+  //Render pass glyph
+  Struct_renderpass* renderpass_glyph = &vk_param->renderpass_glyph;
+  renderpass_glyph->name = "glyph";
+  renderpass_glyph->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  this->create_renderpass(renderpass_glyph);
+
+  //Render pass canva
+  Struct_renderpass* renderpass_canvas = &vk_param->renderpass_canvas;
+  renderpass_canvas->name = "canvas";
+  renderpass_scene->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  this->create_renderpass(renderpass_canvas);
+
+  //Render pass GUI
+  Struct_renderpass* renderpass_gui = &vk_param->renderpass_gui;
+  renderpass_gui->name = "gui";
+  renderpass_scene->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  this->create_renderpass(renderpass_gui);
 
   //---------------------------
 }
@@ -36,7 +56,8 @@ void VK_renderpass::cleanup(){
   //---------------------------
 
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_scene.renderpass, nullptr);
-  vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_canva.renderpass, nullptr);
+  vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_glyph.renderpass, nullptr);
+  vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_canvas.renderpass, nullptr);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_gui.renderpass, nullptr);
 
   //---------------------------

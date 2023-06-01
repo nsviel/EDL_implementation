@@ -2,6 +2,7 @@
 #define STRUCT_RENDERPASS_H
 
 #include "struct_frame.h"
+#include "struct_attachment.h"
 #include "../../../common.h"
 
 
@@ -29,6 +30,7 @@ struct Struct_renderpass{
   //Attachment
   VkAttachmentReference depth_ref;
   VkAttachmentReference color_ref;
+  Struct_attachment_usage attachment;
   std::vector<VkAttachmentDescription> vec_attachment_description;
 
   //---------------------------

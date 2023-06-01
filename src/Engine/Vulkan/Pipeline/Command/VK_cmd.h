@@ -22,7 +22,7 @@ public:
 
 public:
   //Main function
-  void cmd_run(VkCommandBuffer command_buffer);
+  void cmd_record_scene(VkCommandBuffer command_buffer);
 
   //Renderpass command
   void cmd_viewport(VkCommandBuffer command_buffer);

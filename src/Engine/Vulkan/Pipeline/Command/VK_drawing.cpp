@@ -72,6 +72,7 @@ void VK_drawing::record_command_buffer(){
   vkResetCommandBuffer(frame->command_buffer, 0);
   vk_command->start_command_buffer(frame->command_buffer);
   vk_command->record_renderpass_scene(frame->command_buffer);
+  //vk_command->record_renderpass_gui(frame->command_buffer);
   vk_command->stop_command_buffer(frame->command_buffer);
 
   //---------------------------

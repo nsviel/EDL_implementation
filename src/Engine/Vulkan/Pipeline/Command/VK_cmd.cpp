@@ -32,7 +32,7 @@ VK_cmd::~VK_cmd(){}
 
 
 //Main function
-void VK_cmd::cmd_run(VkCommandBuffer command_buffer){
+void VK_cmd::cmd_record_scene(VkCommandBuffer command_buffer){
   //---------------------------
 
   this->cmd_viewport(command_buffer);
