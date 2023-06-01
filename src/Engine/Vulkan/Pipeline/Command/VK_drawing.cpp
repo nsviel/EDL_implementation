@@ -26,7 +26,7 @@ void VK_drawing::draw_frame(){
   //---------------------------
 
   this->acquire_next_image();
-  this->record_command();
+  this->record_command_buffer();
   this->submit_command();
   this->submit_presentation();
 
@@ -64,16 +64,15 @@ void VK_drawing::acquire_next_image(){
 
   //---------------------------
 }
-void VK_drawing::record_command(){
+void VK_drawing::record_command_buffer(){
   Frame* frame = vk_param->renderpass_scene.get_frame_inflight();
   //---------------------------
 
   //Render pass 1: draw scene
   vkResetCommandBuffer(frame->command_buffer, 0);
+  vk_command->start_command_buffer(frame->command_buffer);
   vk_command->record_renderpass_scene(frame->command_buffer);
-
-  //Render pass 2: display on quad
-
+  vk_command->stop_command_buffer(frame->command_buffer);
 
   //---------------------------
 }

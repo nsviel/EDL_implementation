@@ -88,13 +88,10 @@ void VK_command::cleanup(){
   //---------------------------
 }
 
-//Renderpass record command
-void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
-  Frame* image = vk_param->renderpass_scene.get_frame_swapchain();
-  VK_gui* vk_gui = vk_engine->get_vk_gui();
+//Command buffer
+void VK_command::start_command_buffer(VkCommandBuffer& command_buffer){
   //---------------------------
 
-  //Start command buffer
   VkCommandBufferBeginInfo begin_info{};
   begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
   begin_info.flags = 0;
@@ -103,6 +100,25 @@ void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to begin recording command buffer!");
   }
+
+  //---------------------------
+}
+void VK_command::stop_command_buffer(VkCommandBuffer& command_buffer){
+  //---------------------------
+
+  VkResult result = vkEndCommandBuffer(command_buffer);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to record command buffer!");
+  }
+
+  //---------------------------
+}
+
+//Renderpass record command
+void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
+  Frame* image = vk_param->renderpass_scene.get_frame_swapchain();
+  VK_gui* vk_gui = vk_engine->get_vk_gui();
+  //---------------------------
 
   //Start renderpass
   std::array<VkClearValue, 2> clear_value{};
@@ -130,28 +146,12 @@ void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
   //End renderpass
   vkCmdEndRenderPass(command_buffer);
 
-  //End command buffer
-  result = vkEndCommandBuffer(command_buffer);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to record command buffer!");
-  }
-
   //---------------------------
 }
 void VK_command::record_renderpass_canva(VkCommandBuffer& command_buffer){
   Frame* image = vk_param->renderpass_scene.get_frame_swapchain();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
-
-  //Start command buffer
-  VkCommandBufferBeginInfo begin_info{};
-  begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-  begin_info.flags = 0;
-
-  VkResult result = vkBeginCommandBuffer(command_buffer, &begin_info);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to begin recording command buffer!");
-  }
 
   //Start renderpass
   std::array<VkClearValue, 2> clear_value{};
@@ -178,12 +178,6 @@ void VK_command::record_renderpass_canva(VkCommandBuffer& command_buffer){
 
   //End renderpass
   vkCmdEndRenderPass(command_buffer);
-
-  //End command buffer
-  result = vkEndCommandBuffer(command_buffer);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to record command buffer!");
-  }
 
   //---------------------------
 }

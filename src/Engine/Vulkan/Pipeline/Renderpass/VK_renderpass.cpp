@@ -28,6 +28,7 @@ void VK_renderpass::init_renderpass(){
 
   this->create_renderpass(&vk_param->renderpass_scene);
   this->create_renderpass(&vk_param->renderpass_canva);
+  this->create_renderpass(&vk_param->renderpass_gui);
 
   //---------------------------
 }
@@ -36,6 +37,7 @@ void VK_renderpass::cleanup(){
 
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_scene.renderpass, nullptr);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_canva.renderpass, nullptr);
+  vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_gui.renderpass, nullptr);
 
   //---------------------------
 }

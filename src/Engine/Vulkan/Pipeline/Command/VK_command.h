@@ -26,6 +26,10 @@ public:
   void allocate_command_buffer(vector<Frame*>& vec_frame);
   void cleanup();
 
+  //Command buffer
+  void start_command_buffer(VkCommandBuffer& command_buffer);
+  void stop_command_buffer(VkCommandBuffer& command_buffer);
+
   //Renderpass record command
   void record_renderpass_scene(VkCommandBuffer& command_buffer);
   void record_renderpass_canva(VkCommandBuffer& command_buffer);

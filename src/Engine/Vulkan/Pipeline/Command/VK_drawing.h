@@ -23,7 +23,7 @@ public:
 
   //Subfunction
   void acquire_next_image();
-  void record_command();
+  void record_command_buffer();
   void submit_command();
   void submit_presentation();
 
