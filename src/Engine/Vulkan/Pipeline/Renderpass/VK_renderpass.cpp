@@ -29,25 +29,25 @@ void VK_renderpass::init_renderpass(){
   //Render pass scene
   Struct_renderpass* renderpass_scene = &vk_param->renderpass_scene;
   renderpass_scene->name = "scene";
-  renderpass_scene->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass_scene->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
   this->create_renderpass(renderpass_scene);
 
   //Render pass glyph
   Struct_renderpass* renderpass_glyph = &vk_param->renderpass_glyph;
   renderpass_glyph->name = "glyph";
-  renderpass_glyph->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass_glyph->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
   this->create_renderpass(renderpass_glyph);
 
   //Render pass canva
   Struct_renderpass* renderpass_canvas = &vk_param->renderpass_canvas;
   renderpass_canvas->name = "canvas";
-  renderpass_scene->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass_scene->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
   this->create_renderpass(renderpass_canvas);
 
   //Render pass GUI
   Struct_renderpass* renderpass_gui = &vk_param->renderpass_gui;
   renderpass_gui->name = "gui";
-  renderpass_scene->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass_scene->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
   this->create_renderpass(renderpass_gui);
 
   //---------------------------
@@ -80,6 +80,7 @@ void VK_renderpass::create_depth_attachment(Struct_renderpass* renderpass){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
 
+renderpass->attachment.usage = VK_ATTACHMENT_LOAD_OP_CLEAR;
   VkAttachmentDescription depth_attachment{};
   depth_attachment.format = vk_depth->find_depth_format();
   depth_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -106,7 +107,7 @@ void VK_renderpass::create_color_attachment(Struct_renderpass* renderpass){
   VkAttachmentDescription color_description{};
   color_description.format = vk_color->find_color_format();
   color_description.samples = VK_SAMPLE_COUNT_1_BIT;
-  color_description.loadOp = renderpass->attachment.usage;
+  color_description.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
   color_description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
   color_description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
   color_description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
