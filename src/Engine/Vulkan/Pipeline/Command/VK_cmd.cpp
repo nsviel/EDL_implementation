@@ -55,7 +55,7 @@ void VK_cmd::cmd_record_gui(VkCommandBuffer command_buffer){
   //---------------------------
 
   vk_command->start_render_pass(command_buffer, &vk_param->renderpass_gui);
-  vk_gui->command_gui(command_buffer);
+  //vk_gui->command_gui(command_buffer);
   vk_command->stop_render_pass(command_buffer);
 
   //---------------------------
