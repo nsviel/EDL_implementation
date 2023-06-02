@@ -43,6 +43,8 @@ void VK_drawing::draw_scene(){
   this->record_command_buffer_scene(&vk_param->renderpass_scene);
   vec_command_buffer.push_back(vk_param->renderpass_scene.command_buffer);
 
+  vkCmdSetEvent(e, stageMask = COLOR_ATTACHMENT_OUTPUT_BIT);
+
 
   //---------------------------
 }
