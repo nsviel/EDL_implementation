@@ -27,8 +27,8 @@ VK_drawing::~VK_drawing(){}
 void VK_drawing::draw_frame(){
   //---------------------------
 
-  //this->draw_scene();
-  this->draw_gui();
+  this->draw_scene();
+  //this->draw_gui();
 
   //---------------------------
 }
