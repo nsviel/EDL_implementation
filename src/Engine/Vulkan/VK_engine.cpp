@@ -2,7 +2,7 @@
 
 #include "VK_param.h"
 #include "Pipeline/Renderpass/VK_renderpass.h"
-#include "Pipeline/VK_pipeline.h"
+#include "Pipeline/Pipeline/VK_pipeline.h"
 #include "Pipeline/Command/VK_command.h"
 #include "Pipeline/Command/VK_synchronization.h"
 #include "Shader/Descriptor/VK_descriptor.h"
@@ -80,7 +80,7 @@ void VK_engine::init_vulkan(){
   vk_instance->create_instance();
   vk_validation->create_validation_layer();
   vk_window->create_window_surface();
-  vk_physical_device->init_device();
+  vk_physical_device->init_physical_device();
   vk_device->create_logical_device();
   vk_command->create_command_pool();
   vk_descriptor->create_descriptor_pool();
@@ -89,10 +89,10 @@ void VK_engine::init_vulkan(){
   //Pipeline
   vk_swapchain->create_swapchain();
   vk_renderpass->init_renderpass();
-  vk_frame->init_image();
 
 
   //PRIORITY
+  //Draw GUI apart from the Scene in another command buffer
   //put framebuffer on canvas / put canvas front screen
     //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer
     //-abstraction framebuffer et convert it into a texture
@@ -138,19 +138,17 @@ void VK_engine::main_loop() {
 void VK_engine::clean_vulkan(){
   //---------------------------
 
-  vk_gui->cleanup();
+  vk_gui->clean_gui();
   vk_renderpass->clean_renderpass();
   vk_swapchain->clean_swapchain();
-  vk_canvas->cleanup();
-
-  vk_data->cleanup();
-  vk_descriptor->cleanup();
-
-  vk_command->cleanup();
-  vk_device->cleanup();
+  vk_canvas->clean_canvas();
+  vk_data->clean_data();
+  vk_descriptor->clean_descriptor_pool();
+  vk_command->clean_command_pool();
+  vk_device->clean_logical_device();
   vk_window->clean_surface();
-  vk_validation->cleanup();
-  vk_instance->cleanup();
+  vk_validation->clean_layer();
+  vk_instance->clean_instance();
   vk_window->clean_window();
 
   //---------------------------

@@ -18,7 +18,7 @@ public:
 public:
   //Main functions
   void create_logical_device();
-  void cleanup();
+  void clean_logical_device();
 
 private:
   VK_param* vk_param;

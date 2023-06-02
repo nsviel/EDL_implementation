@@ -65,7 +65,7 @@ void VK_device::create_logical_device(){
 
   //---------------------------
 }
-void VK_device::cleanup(){
+void VK_device::clean_logical_device(){
   //---------------------------
 
   vkDestroyDevice(vk_param->device.device, nullptr);

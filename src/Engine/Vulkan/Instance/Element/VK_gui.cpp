@@ -39,7 +39,7 @@ VK_gui::~VK_gui(){
 }
 
 //Main function
-void VK_gui::cleanup(){
+void VK_gui::clean_gui(){
   VK_device* vk_device = vk_engine->get_vk_device();
   //---------------------------
 

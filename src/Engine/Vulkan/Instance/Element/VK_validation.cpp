@@ -49,7 +49,7 @@ void VK_validation::create_validation_layer(){
 
   //---------------------------
 }
-void VK_validation::cleanup(){
+void VK_validation::clean_layer(){
   //---------------------------
 
   if(with_validation_layer){

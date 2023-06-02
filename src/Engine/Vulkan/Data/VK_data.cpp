@@ -53,24 +53,24 @@ void VK_data::insert_glyph_object(Object* object){
 }
 
 //Clean function
-void VK_data::cleanup(){
+void VK_data::clean_data(){
   //---------------------------
 
   //Data list Scene
   for(int i=0; i<list_data_scene.size(); i++){
     Struct_data* data = *next(list_data_scene.begin(),i);
-    this->clean_data(data);
+    this->clean_data_object(data);
   }
 
   //Data list Glyph
   for(int i=0; i<list_data_glyph.size(); i++){
     Struct_data* data = *next(list_data_glyph.begin(),i);
-    this->clean_data(data);
+    this->clean_data_object(data);
   }
 
   //---------------------------
 }
-void VK_data::clean_data(Struct_data* data){
+void VK_data::clean_data_object(Struct_data* data){
   //---------------------------
 
   vkDeviceWaitIdle(vk_param->device.device);
@@ -87,7 +87,7 @@ void VK_data::clean_data(int ID){
   for(int i=0; i<list_data_scene.size(); i++){
     Struct_data* data = *next(list_data_scene.begin(),i);
     if(data->object->ID == ID){
-      this->clean_data(data);
+      this->clean_data_object(data);
       list_data_scene.remove(data);
     }
   }

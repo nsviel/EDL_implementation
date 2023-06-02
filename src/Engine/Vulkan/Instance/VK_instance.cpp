@@ -51,7 +51,7 @@ void VK_instance::create_instance(){
 
   //---------------------------
 }
-void VK_instance::cleanup(){
+void VK_instance::clean_instance(){
   //---------------------------
 
   vkDestroyInstance(vk_param->instance.instance, nullptr);

@@ -27,7 +27,7 @@ public:
 
 public:
   //Main functions
-  void cleanup();
+  void clean_gui();
   void command_gui(VkCommandBuffer command_buffer);
 
   //Init function

@@ -28,7 +28,7 @@ VK_descriptor::VK_descriptor(VK_engine* vk_engine){
 VK_descriptor::~VK_descriptor(){}
 
 //Main function
-void VK_descriptor::cleanup(){
+void VK_descriptor::clean_descriptor_pool(){
   //---------------------------
 
   vkDestroyDescriptorPool(vk_param->device.device, descriptor_pool, nullptr);

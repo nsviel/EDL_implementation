@@ -22,7 +22,7 @@ public:
 public:
   //Main functions
   void create_canvas();
-  void cleanup();
+  void clean_canvas();
 
   inline Struct_data* get_canvas(){return canvas;}
 

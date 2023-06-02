@@ -24,9 +24,6 @@ public:
   ~VK_frame();
 
 public:
-  //Main function
-  void init_image();
-
   //Renderpass frame
   void create_frame_renderpass(Struct_renderpass* renderpass);
   void clean_frame_renderpass(Struct_renderpass* renderpass);

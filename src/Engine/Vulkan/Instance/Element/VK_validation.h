@@ -19,7 +19,7 @@ public:
 public:
   //Main functions
   void create_validation_layer();
-  void cleanup();
+  void clean_layer();
 
   //Extension
   void* find_validation_extension();

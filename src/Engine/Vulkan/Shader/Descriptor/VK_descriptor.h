@@ -20,7 +20,7 @@ public:
 
 public:
   //Main functions
-  void cleanup();
+  void clean_descriptor_pool();
 
   //Descriptor set
   void allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_layout, vector<VkDescriptorSet>& vec_descriptor_set);

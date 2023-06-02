@@ -6,7 +6,7 @@
 #include "../../Instance/Element/VK_gui.h"
 #include "../../Instance/Element/VK_window.h"
 #include "../../Pipeline/Renderpass/VK_renderpass.h"
-#include "../../Pipeline/VK_pipeline.h"
+#include "../../Pipeline/Pipeline/VK_pipeline.h"
 #include "../../Instance/Device/VK_device.h"
 #include "../../Instance/Device/VK_physical_device.h"
 #include "../../Data/VK_buffer.h"
@@ -80,7 +80,7 @@ void VK_command::allocate_command_buffer(vector<Frame*>& vec_frame){
 
   //---------------------------
 }
-void VK_command::cleanup(){
+void VK_command::clean_command_pool(){
   //---------------------------
 
   vkDestroyCommandPool(vk_param->device.device, command_pool, nullptr);

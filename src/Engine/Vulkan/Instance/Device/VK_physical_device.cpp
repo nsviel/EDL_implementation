@@ -24,7 +24,7 @@ VK_physical_device::VK_physical_device(VK_engine* vk_engine){
 VK_physical_device::~VK_physical_device(){}
 
 //Main functions
-void VK_physical_device::init_device(){
+void VK_physical_device::init_physical_device(){
   //---------------------------
 
   this->select_physical_device();

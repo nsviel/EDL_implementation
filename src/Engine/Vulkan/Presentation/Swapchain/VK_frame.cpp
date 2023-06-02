@@ -30,16 +30,6 @@ VK_frame::VK_frame(VK_engine* vk_engine){
 }
 VK_frame::~VK_frame(){}
 
-//Main function
-void VK_frame::init_image(){
-  //---------------------------
-
-  this->create_frame_renderpass(&vk_param->renderpass_scene);
-  this->create_frame_renderpass(&vk_param->renderpass_canvas);
-
-  //---------------------------
-}
-
 //Renderpass frame
 void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();

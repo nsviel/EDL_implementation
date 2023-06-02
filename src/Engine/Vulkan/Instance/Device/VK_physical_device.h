@@ -18,7 +18,7 @@ public:
 
 public:
   //Main functions
-  void init_device();
+  void init_physical_device();
   void select_physical_device();
   void compute_extent();
 

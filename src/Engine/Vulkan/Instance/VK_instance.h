@@ -17,7 +17,7 @@ public:
 public:
   //Main functions
   void create_instance();
-  void cleanup();
+  void clean_instance();
 
 private:
   VK_engine* vk_engine;

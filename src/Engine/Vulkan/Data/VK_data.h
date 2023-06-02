@@ -25,8 +25,8 @@ public:
   void insert_glyph_object(Object* object);
 
   //Clean function
-  void cleanup();
-  void clean_data(Struct_data* data);
+  void clean_data();
+  void clean_data_object(Struct_data* data);
   void clean_data(int ID);
 
   //Pipeline data description

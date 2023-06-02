@@ -62,7 +62,7 @@ void VK_canvas::create_canvas(){
 
   //---------------------------
 }
-void VK_canvas::cleanup(){
+void VK_canvas::clean_canvas(){
   //---------------------------
 
   vk_buffer->clean_buffer(canvas);

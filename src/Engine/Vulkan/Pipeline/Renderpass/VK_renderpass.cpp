@@ -1,6 +1,6 @@
 #include "VK_renderpass.h"
 
-#include "../VK_pipeline.h"
+#include "../Pipeline/VK_pipeline.h"
 #include "../Attachment/VK_color.h"
 #include "../Attachment/VK_depth.h"
 
@@ -60,7 +60,7 @@ void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
 void VK_renderpass::init_renderpass_scene(){
   //---------------------------
 
-  //Render pass scene
+  //Render pass
   Struct_renderpass* renderpass = &vk_param->renderpass_scene;
   renderpass->name = "scene";
   renderpass->attachment.usage = ATTACHMENT_USAGE_CLEAR;
@@ -70,6 +70,7 @@ void VK_renderpass::init_renderpass_scene(){
   renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
+  //Pipeline
   renderpass->pipeline.name = "scene";
   renderpass->pipeline.topology = "point";
   renderpass->pipeline.compile_shader = true;
@@ -85,6 +86,7 @@ void VK_renderpass::init_renderpass_scene(){
 void VK_renderpass::init_renderpass_glyph(){
   //---------------------------
 
+  //Render pass
   Struct_renderpass* renderpass = &vk_param->renderpass_glyph;
   renderpass->name = "glyph";
   renderpass->attachment.usage = ATTACHMENT_USAGE_CLEAR;
@@ -94,6 +96,7 @@ void VK_renderpass::init_renderpass_glyph(){
   renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
+  //Pipeline
   renderpass->pipeline.name = "glyph";
   renderpass->pipeline.topology = "line";
   renderpass->pipeline.compile_shader = true;
@@ -109,6 +112,7 @@ void VK_renderpass::init_renderpass_glyph(){
 void VK_renderpass::init_renderpass_canvas(){
   //---------------------------
 
+  //Render pass
   Struct_renderpass* renderpass = &vk_param->renderpass_canvas;
   renderpass->name = "canvas";
   renderpass->attachment.usage = ATTACHMENT_USAGE_CLEAR;
@@ -118,6 +122,7 @@ void VK_renderpass::init_renderpass_canvas(){
   renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
+  //Pipeline
   Struct_pipeline* pipeline = new Struct_pipeline();
   renderpass->pipeline.name = "canvas";
   renderpass->pipeline.topology = "triangle";
@@ -135,6 +140,7 @@ void VK_renderpass::init_renderpass_canvas(){
 void VK_renderpass::init_renderpass_gui(){
   //---------------------------
 
+  //Render pass
   Struct_renderpass* renderpass = &vk_param->renderpass_gui;
   renderpass->name = "gui";
   renderpass->attachment.usage = ATTACHMENT_USAGE_CONSERVE;
@@ -144,6 +150,7 @@ void VK_renderpass::init_renderpass_gui(){
   renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
+  //Pipeline
   renderpass->pipeline.name = "scene";
   renderpass->pipeline.topology = "point";
   renderpass->pipeline.compile_shader = true;
@@ -167,6 +174,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   this->create_subpass(renderpass);
   this->create_renderpass_info(renderpass);
   this->create_renderpass_obj(renderpass);
+  vk_frame->create_frame_renderpass(renderpass);
 
   //---------------------------
 }

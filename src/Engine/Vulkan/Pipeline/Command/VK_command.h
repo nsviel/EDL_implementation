@@ -24,7 +24,7 @@ public:
   //Main functions
   void create_command_pool();
   void allocate_command_buffer(vector<Frame*>& vec_frame);
-  void cleanup();
+  void clean_command_pool();
 
   //Command buffer
   void start_command_buffer(VkCommandBuffer& command_buffer);
