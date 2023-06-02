@@ -53,8 +53,6 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     frame_set->vec_frame.push_back(frame);
   }
 
-  vk_command->allocate_command_buffer(frame_set->vec_frame);
-
   //---------------------------
   renderpass->frame_set = frame_set;
 }

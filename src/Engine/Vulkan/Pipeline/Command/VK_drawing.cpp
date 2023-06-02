@@ -27,28 +27,30 @@ VK_drawing::~VK_drawing(){}
 void VK_drawing::draw_frame(){
   //---------------------------
 
+  this->acquire_next_image(&vk_param->renderpass_scene);
   this->draw_scene();
   //this->draw_gui();
+  this->submit_command(&vk_param->renderpass_scene);
+  this->submit_presentation(&vk_param->renderpass_scene);
 
   //---------------------------
 }
 void VK_drawing::draw_scene(){
   //---------------------------
 
-  this->acquire_next_image(&vk_param->renderpass_scene);
+
   this->record_command_buffer_scene(&vk_param->renderpass_scene);
-  this->submit_command(&vk_param->renderpass_scene);
-  this->submit_presentation(&vk_param->renderpass_scene);
+
 
   //---------------------------
 }
 void VK_drawing::draw_gui(){
   //---------------------------
 
-  this->acquire_next_image(&vk_param->renderpass_gui);
+  //this->acquire_next_image(&vk_param->renderpass_gui);
   this->record_command_buffer_gui(&vk_param->renderpass_gui);
-  this->submit_command(&vk_param->renderpass_gui);
-  this->submit_presentation(&vk_param->renderpass_gui);
+  //this->submit_command(&vk_param->renderpass_gui);
+  //this->submit_presentation(&vk_param->renderpass_gui);
 
   //---------------------------
 }
@@ -99,7 +101,7 @@ void VK_drawing::submit_command(Struct_renderpass* renderpass){
     vec_semaphore_wait.push_back(frame->semaphore_image_available);
     vec_semaphore_signal.push_back(frame->semaphore_render_finished);
     vec_stage_wait.push_back(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
-    vec_command_buffer.push_back(frame->command_buffer);
+    vec_command_buffer.push_back(renderpass->command_buffer);
   }
 
   VkSubmitInfo submit_info{};
@@ -142,7 +144,7 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  renderpass->frame_set->frame_inflight_ID = (renderpass->frame_set->frame_inflight_ID + 1) % vk_param->instance.max_frame;
+  renderpass->frame_set->frame_sawpchain_ID = (renderpass->frame_set->frame_sawpchain_ID + 1) % vk_param->instance.max_frame;
 
   //---------------------------
 }
@@ -152,10 +154,11 @@ void VK_drawing::record_command_buffer_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame = renderpass->frame_set->get_frame_inflight();
-  vkResetCommandBuffer(frame->command_buffer, 0);
-  vk_command->start_command_buffer(frame->command_buffer);
-  vk_cmd->cmd_record_scene(frame->command_buffer);
-  vk_command->stop_command_buffer(frame->command_buffer);
+  vkResetCommandBuffer(renderpass->command_buffer, 0);
+  vk_command->start_command_buffer(renderpass->command_buffer);
+  vk_cmd->cmd_record_scene(renderpass->command_buffer);
+  vk_command->stop_command_buffer(renderpass->command_buffer);
+  //vec_command_buffer.push_back(renderpass->frame_set->);
 
   //---------------------------
 }
@@ -163,10 +166,10 @@ void VK_drawing::record_command_buffer_gui(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame = renderpass->frame_set->get_frame_inflight();
-  vkResetCommandBuffer(frame->command_buffer, 0);
-  vk_command->start_command_buffer(frame->command_buffer);
-  vk_cmd->cmd_record_gui(frame->command_buffer);
-  vk_command->stop_command_buffer(frame->command_buffer);
+  vkResetCommandBuffer(renderpass->command_buffer, 0);
+  vk_command->start_command_buffer(renderpass->command_buffer);
+  vk_cmd->cmd_record_gui(renderpass->command_buffer);
+  vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
 }

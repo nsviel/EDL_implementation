@@ -1,5 +1,6 @@
 #include "VK_renderpass.h"
 
+#include "../Command/VK_command.h"
 #include "../Pipeline/VK_pipeline.h"
 #include "../Attachment/VK_color.h"
 #include "../Attachment/VK_depth.h"
@@ -190,6 +191,7 @@ void VK_renderpass::init_renderpass_gui(){
 //Subfunction
 void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   VK_frame* vk_frame = vk_engine->get_vk_frame();
+  VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
   this->create_color_attachment(renderpass);
@@ -198,6 +200,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   this->create_renderpass_info(renderpass);
   this->create_renderpass_obj(renderpass);
   vk_frame->create_frame_renderpass(renderpass);
+  vk_command->allocate_command_buffer(renderpass);
 
   //---------------------------
 }

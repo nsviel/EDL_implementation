@@ -10,7 +10,6 @@ struct Frame{
 
   //Main object
   VkFramebuffer fbo;
-  VkCommandBuffer command_buffer;
 
   //Attachment
   Struct_attachment color;

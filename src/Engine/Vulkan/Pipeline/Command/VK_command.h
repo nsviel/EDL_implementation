@@ -24,7 +24,7 @@ public:
 public:
   //Main functions
   void create_command_pool();
-  void allocate_command_buffer(vector<Frame*>& vec_frame);
+  void allocate_command_buffer(Struct_renderpass* renderpass);
   void clean_command_pool();
 
   //Command buffer

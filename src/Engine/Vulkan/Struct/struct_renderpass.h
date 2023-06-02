@@ -21,6 +21,7 @@ struct Struct_renderpass{
   VkRenderPassCreateInfo renderpass_info;
   VkSubpassDescription subpass_description;
   VkSubpassDependency subpass_dependency;
+  VkCommandBuffer command_buffer;
   Struct_pipeline* pipeline;
 
   //Attachment

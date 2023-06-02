@@ -54,29 +54,23 @@ void VK_command::create_command_pool(){
 
   //---------------------------
 }
-void VK_command::allocate_command_buffer(vector<Frame*>& vec_frame){
+void VK_command::allocate_command_buffer(Struct_renderpass* renderpass){
   //---------------------------
-
-  //One command buffer per frame
-  vector<VkCommandBuffer> vec_command_buffer;
-  vec_command_buffer.resize(vec_frame.size());
 
   //Command buffer allocation
   VkCommandBufferAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
   allocInfo.commandPool = command_pool;
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-  allocInfo.commandBufferCount = (uint32_t) vec_command_buffer.size();
+  allocInfo.commandBufferCount = 1;
 
-  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, vec_command_buffer.data());
+  VkCommandBuffer command_buffer;
+  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
 
-  for(int i=0; i<vec_frame.size(); i++){
-    Frame* frame = vec_frame[i];
-    frame->command_buffer = vec_command_buffer[i];
-  }
+  renderpass->command_buffer = command_buffer;
 
   //---------------------------
 }
