@@ -1,9 +1,9 @@
 #ifndef VK_PIPELINE_H
 #define VK_PIPELINE_H
 
-#include "../Struct/struct_pipeline.h"
-#include "../Struct/struct_renderpass.h"
-#include "../../../common.h"
+#include "../../Struct/struct_pipeline.h"
+#include "../../Struct/struct_renderpass.h"
+#include "../../../../common.h"
 
 class VK_engine;
 class VK_param;
