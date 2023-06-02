@@ -115,8 +115,10 @@ void VK_command::stop_command_buffer(VkCommandBuffer& command_buffer){
 }
 
 //Render pass
-void VK_command::start_render_pass(VkCommandBuffer& command_buffer, Frame* frame){
+void VK_command::start_render_pass(VkCommandBuffer& command_buffer, Struct_renderpass* renderpass){
   //---------------------------
+  Frame* frame = renderpass->get_frame_swapchain();
+
 
   std::array<VkClearValue, 2> clear_value{};
   clear_value[0].color = {{
@@ -128,7 +130,7 @@ void VK_command::start_render_pass(VkCommandBuffer& command_buffer, Frame* frame
 
   VkRenderPassBeginInfo renderpass_info{};
   renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-  renderpass_info.renderPass = frame->renderpass;
+  renderpass_info.renderPass = renderpass->renderpass;
   renderpass_info.framebuffer = frame->fbo;
   renderpass_info.renderArea.offset = {0, 0};
   renderpass_info.renderArea.extent = vk_param->window.extent;

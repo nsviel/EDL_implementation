@@ -10,7 +10,6 @@ struct Frame{
 
   //Main object
   VkFramebuffer fbo;
-  VkRenderPass renderpass;
   VkCommandBuffer command_buffer;
 
   //Attachment

@@ -3,6 +3,7 @@
 
 #include "../../Struct/struct_frame.h"
 #include "../../Struct/struct_data.h"
+#include "../../Struct/struct_renderpass.h"
 #include "../../../../common.h"
 
 class Param_engine;
@@ -31,7 +32,7 @@ public:
   void stop_command_buffer(VkCommandBuffer& command_buffer);
 
   //Render pass
-  void start_render_pass(VkCommandBuffer& command_buffer, Frame* image);
+  void start_render_pass(VkCommandBuffer& command_buffer, Struct_renderpass* renderpass);
   void stop_render_pass(VkCommandBuffer& command_buffer);
 
   //Single time command

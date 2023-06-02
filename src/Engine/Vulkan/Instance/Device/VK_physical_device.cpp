@@ -45,11 +45,11 @@ void VK_physical_device::select_physical_device(){
   }
 
   //List all available GPU and take suitable one
-  std::vector<VkPhysicalDevice> devices(nb_device);
-  vkEnumeratePhysicalDevices(vk_param->instance.instance, &nb_device, devices.data());
-  for(const auto& device : devices){
-    if(is_device_suitable(device)){
-      vk_param->device.physical_device = device;
+  std::vector<VkPhysicalDevice> vec_physical_device(nb_device);
+  vkEnumeratePhysicalDevices(vk_param->instance.instance, &nb_device, vec_physical_device.data());
+  for(const auto& physical_device : vec_physical_device){
+    if(is_device_suitable(physical_device)){
+      vk_param->device.physical_device = physical_device;
       break;
     }
   }
