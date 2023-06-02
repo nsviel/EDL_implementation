@@ -34,10 +34,6 @@ public:
   void start_render_pass(VkCommandBuffer& command_buffer, Frame* image);
   void stop_render_pass(VkCommandBuffer& command_buffer);
 
-  //Renderpass record command
-  void record_renderpass_scene(VkCommandBuffer& command_buffer);
-  void record_renderpass_gui(VkCommandBuffer& command_buffer);
-
   //Single time command
   VkCommandBuffer singletime_command_buffer_begin();
   void singletime_command_buffer_end(VkCommandBuffer command_buffer);

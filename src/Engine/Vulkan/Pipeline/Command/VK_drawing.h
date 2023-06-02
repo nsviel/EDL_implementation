@@ -10,6 +10,7 @@ class VK_param;
 class VK_window;
 class VK_swapchain;
 class VK_command;
+class VK_cmd;
 
 
 class VK_drawing
@@ -22,13 +23,17 @@ public:
 public:
   //Main functions
   void draw_frame();
-  void draw_renderpass(Struct_renderpass* renderpass);
+  void draw_scene();
+  void draw_gui();
 
-  //Subfunction
+  //Drawing function
   void acquire_next_image(Struct_renderpass* renderpass);
-  void record_command_buffer(Struct_renderpass* renderpass);
   void submit_command(Struct_renderpass* renderpass);
   void submit_presentation(Struct_renderpass* renderpass);
+
+  //Command buffer record
+  void record_command_buffer_scene(Struct_renderpass* renderpass);
+  void record_command_buffer_gui(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;
@@ -36,6 +41,7 @@ private:
   VK_window* vk_window;
   VK_swapchain* vk_swapchain;
   VK_command* vk_command;
+  VK_cmd* vk_cmd;
 };
 
 #endif

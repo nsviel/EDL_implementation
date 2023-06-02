@@ -4,6 +4,7 @@
 #include "Pipeline/Renderpass/VK_renderpass.h"
 #include "Pipeline/Pipeline/VK_pipeline.h"
 #include "Pipeline/Command/VK_command.h"
+#include "Pipeline/Command/VK_cmd.h"
 #include "Pipeline/Command/VK_synchronization.h"
 #include "Shader/Descriptor/VK_descriptor.h"
 #include "Shader/Binding/VK_uniform.h"
@@ -62,6 +63,7 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_frame = new VK_frame(this);
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
+  this->vk_cmd = new VK_cmd(this);
   this->vk_command = new VK_command(this);
   this->vk_drawing = new VK_drawing(this);
   this->vk_gui = new VK_gui(this);
@@ -92,6 +94,7 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
+  //Inverser vk_command et vk_cmd calls for each other, c'est vk_cmd qui doit commander vk_command
   //Draw GUI apart from the Scene in another command buffer
   //put framebuffer on canvas / put canvas front screen
     //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer

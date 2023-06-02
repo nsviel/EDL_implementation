@@ -28,7 +28,7 @@ VK_command::VK_command(VK_engine* vk_engine){
   this->vk_param = vk_engine->get_vk_param();
   this->vk_renderpass = vk_engine->get_vk_renderpass();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
-  this->vk_cmd = new VK_cmd(vk_engine);
+  this->vk_cmd = vk_engine->get_vk_cmd();
 
   //---------------------------
 }
@@ -143,31 +143,6 @@ void VK_command::stop_render_pass(VkCommandBuffer& command_buffer){
   //---------------------------
 
   vkCmdEndRenderPass(command_buffer);
-
-  //---------------------------
-}
-
-//Renderpass record command
-void VK_command::record_renderpass_scene(VkCommandBuffer& command_buffer){
-  Frame* frame = vk_param->renderpass_scene.get_frame_swapchain();
-  VK_gui* vk_gui = vk_engine->get_vk_gui();
-  //---------------------------
-
-  this->start_render_pass(command_buffer, frame);
-  vk_cmd->cmd_record_scene(command_buffer);
-  vk_gui->command_gui(command_buffer);
-  this->stop_render_pass(command_buffer);
-
-  //---------------------------
-}
-void VK_command::record_renderpass_gui(VkCommandBuffer& command_buffer){
-  Frame* frame = vk_param->renderpass_gui.get_frame_swapchain();
-  VK_gui* vk_gui = vk_engine->get_vk_gui();
-  //---------------------------
-
-  this->start_render_pass(command_buffer, frame);
-  //vk_gui->command_gui(command_buffer);
-  this->stop_render_pass(command_buffer);
 
   //---------------------------
 }

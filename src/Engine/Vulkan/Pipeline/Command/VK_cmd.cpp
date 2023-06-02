@@ -1,4 +1,5 @@
 #include "VK_cmd.h"
+#include "VK_command.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
@@ -33,13 +34,33 @@ VK_cmd::~VK_cmd(){}
 
 //Main function
 void VK_cmd::cmd_record_scene(VkCommandBuffer command_buffer){
+  VK_command* vk_command = vk_engine->get_vk_command();
+  VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
+  Frame* frame = vk_param->renderpass_scene.get_frame_swapchain();
+
+  vk_command->start_render_pass(command_buffer, frame);
   this->cmd_viewport(command_buffer);
   this->cmd_drawing_scene(command_buffer);
   this->cmd_drawing_scene_2(command_buffer);
   this->cmd_drawing_glyph(command_buffer);
   this->cmd_drawing_canvas(command_buffer);
+  vk_gui->command_gui(command_buffer);
+  vk_command->stop_render_pass(command_buffer);
+
+  //---------------------------
+}
+void VK_cmd::cmd_record_gui(VkCommandBuffer command_buffer){
+  VK_command* vk_command = vk_engine->get_vk_command();
+  VK_gui* vk_gui = vk_engine->get_vk_gui();
+  //---------------------------
+
+  Frame* frame = vk_param->renderpass_gui.get_frame_swapchain();
+
+  vk_command->start_render_pass(command_buffer, frame);
+  //vk_gui->command_gui(command_buffer);
+  vk_command->stop_render_pass(command_buffer);
 
   //---------------------------
 }

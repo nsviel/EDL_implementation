@@ -16,6 +16,7 @@ class VK_renderpass;
 class VK_pipeline;
 class VK_framebuffer;
 class VK_command;
+class VK_cmd;
 class VK_synchronization;
 class VK_drawing;
 class VK_buffer;
@@ -62,6 +63,7 @@ public:
   inline VK_swapchain* get_vk_swapchain(){return vk_swapchain;}
   inline VK_synchronization* get_vk_synchronization(){return vk_synchronization;}
   inline VK_command* get_vk_command(){return vk_command;}
+  inline VK_cmd* get_vk_cmd(){return vk_cmd;}
   inline VK_instance* get_vk_instance(){return vk_instance;}
   inline VK_renderpass* get_vk_renderpass(){return vk_renderpass;}
   inline VK_pipeline* get_vk_pipeline(){return vk_pipeline;}
@@ -98,6 +100,7 @@ private:
   VK_pipeline* vk_pipeline;
   VK_framebuffer* vk_framebuffer;
   VK_command* vk_command;
+  VK_cmd* vk_cmd;
   VK_binding* vk_binding;
   VK_synchronization* vk_synchronization;
   VK_drawing* vk_drawing;
