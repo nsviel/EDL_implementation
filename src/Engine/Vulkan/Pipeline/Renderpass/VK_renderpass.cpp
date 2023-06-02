@@ -51,10 +51,11 @@ void VK_renderpass::clean_renderpass(){
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_canvas.renderpass, nullptr);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_gui.renderpass, nullptr);
 
-  vk_pipeline->clean_pipeline(vk_param->renderpass_scene.pipeline);
-  vk_pipeline->clean_pipeline(vk_param->renderpass_glyph.pipeline);
-  vk_pipeline->clean_pipeline(vk_param->renderpass_canvas.pipeline);
-  vk_pipeline->clean_pipeline(vk_param->renderpass_gui.pipeline);
+  VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
+  vk_pipeline->clean_pipeline(&vk_param->renderpass_scene.pipeline);
+  vk_pipeline->clean_pipeline(&vk_param->renderpass_glyph.pipeline);
+  vk_pipeline->clean_pipeline(&vk_param->renderpass_canvas.pipeline);
+  vk_pipeline->clean_pipeline(&vk_param->renderpass_gui.pipeline);
 
   //---------------------------
 }
