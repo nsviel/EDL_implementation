@@ -33,8 +33,11 @@ VK_frame::~VK_frame(){}
 //Renderpass frame
 void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
-  vector<Frame*>& vec_frame = renderpass->vec_frame;
   //---------------------------
+
+  //Check for existing frame set, if not create it
+  if(renderpass->frame_set != nullptr) return;
+  Frame_set* frame_set = new Frame_set();
 
   //Renderpass images
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
@@ -47,15 +50,16 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     vk_framebuffer->create_framebuffer(renderpass, frame);
     vk_synchronization->create_sync_objects(frame);
 
-    vec_frame.push_back(frame);
+    frame_set->vec_frame.push_back(frame);
   }
 
-  vk_command->allocate_command_buffer(vec_frame);
+  vk_command->allocate_command_buffer(frame_set->vec_frame);
 
   //---------------------------
+  renderpass->frame_set = frame_set;
 }
 void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
-  vector<Frame*>& vec_frame = renderpass->vec_frame;
+  vector<Frame*>& vec_frame = renderpass->frame_set->vec_frame;
   //---------------------------
 
   //Vec images

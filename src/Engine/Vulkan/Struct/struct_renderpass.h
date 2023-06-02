@@ -10,29 +10,23 @@
 struct Struct_renderpass{
   //---------------------------
 
-  //Function
-  Frame* get_frame_inflight(){return vec_frame[frame_inflight_ID];}
-  Frame* get_frame_swapchain(){return vec_frame[frame_sawpchain_ID];}
-
   //Info
   std::string name;
 
-  //Renderpass stock images
-  std::vector<Frame*> vec_frame;
-  uint32_t frame_sawpchain_ID = 0;
-  uint32_t frame_inflight_ID = 0;
+  //Renderpass frame set
+  Frame_set* frame_set;
 
   //Render pass elements
   VkRenderPass renderpass;
   VkRenderPassCreateInfo renderpass_info;
   VkSubpassDescription subpass_description;
   VkSubpassDependency subpass_dependency;
-  Struct_pipeline pipeline;
+  Struct_pipeline* pipeline;
 
   //Attachment
   VkAttachmentReference depth_ref;
   VkAttachmentReference color_ref;
-  Struct_attachment_usage attachment;
+  Struct_attachment_usage* attachment;
   std::vector<VkAttachmentDescription> vec_attachment_description;
 
   //---------------------------

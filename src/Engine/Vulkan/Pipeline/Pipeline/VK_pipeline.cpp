@@ -40,17 +40,17 @@ void VK_pipeline::clean_pipeline(Struct_pipeline* pipeline){
 void VK_pipeline::create_pipeline(Struct_renderpass* renderpass){
   //---------------------------
 
-  this->check_struct_pipeline_input(&renderpass->pipeline);
+  this->check_struct_pipeline_input(renderpass->pipeline);
   this->create_pipeline_info(renderpass);
-  this->create_pipeline_graphics(&renderpass->pipeline);
-  vk_binding->fill_pipeline_binding(&renderpass->pipeline);
+  this->create_pipeline_graphics(renderpass->pipeline);
+  vk_binding->fill_pipeline_binding(renderpass->pipeline);
 
   //---------------------------
 }
 void VK_pipeline::create_pipeline_info(Struct_renderpass* renderpass){
   //---------------------------
 
-  Struct_pipeline* pipeline = &renderpass->pipeline;
+  Struct_pipeline* pipeline = renderpass->pipeline;
 
   //Dynamic
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);

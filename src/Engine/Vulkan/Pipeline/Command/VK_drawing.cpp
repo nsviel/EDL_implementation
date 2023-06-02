@@ -55,14 +55,14 @@ void VK_drawing::draw_gui(){
 
 //Subfunction
 void VK_drawing::acquire_next_image(Struct_renderpass* renderpass){
-  Frame* frame = renderpass->get_frame_inflight();
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
   //Waiting for the previous frame
   vkWaitForFences(vk_param->device.device, 1, &frame->fence, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &renderpass->frame_sawpchain_ID);
+  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &renderpass->frame_set->frame_sawpchain_ID);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -85,7 +85,7 @@ void VK_drawing::acquire_next_image(Struct_renderpass* renderpass){
   //---------------------------
 }
 void VK_drawing::submit_command(Struct_renderpass* renderpass){
-  Frame* frame = renderpass->get_frame_inflight();
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
   vector<Frame*> vec_frame;vec_frame.push_back(frame);
   //---------------------------
 
@@ -121,7 +121,7 @@ void VK_drawing::submit_command(Struct_renderpass* renderpass){
   //---------------------------
 }
 void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
-  Frame* frame = renderpass->get_frame_inflight();
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
   VkSemaphore vec_semaphore_signal[] = {frame->semaphore_render_finished};
@@ -132,7 +132,7 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
   presentation_info.pWaitSemaphores = vec_semaphore_signal;
   presentation_info.swapchainCount = 1;
   presentation_info.pSwapchains = swapChains;
-  presentation_info.pImageIndices = &renderpass->frame_sawpchain_ID;
+  presentation_info.pImageIndices = &renderpass->frame_set->frame_sawpchain_ID;
   presentation_info.pResults = nullptr; // Optional
 
   VkResult result = vkQueuePresentKHR(vk_param->device.queue_presentation, &presentation_info);
@@ -142,7 +142,7 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  renderpass->frame_inflight_ID = (renderpass->frame_inflight_ID + 1) % vk_param->instance.max_frame;
+  renderpass->frame_set->frame_inflight_ID = (renderpass->frame_set->frame_inflight_ID + 1) % vk_param->instance.max_frame;
 
   //---------------------------
 }
@@ -151,7 +151,7 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
 void VK_drawing::record_command_buffer_scene(Struct_renderpass* renderpass){
   //---------------------------
 
-  Frame* frame = renderpass->get_frame_inflight();
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
   vkResetCommandBuffer(frame->command_buffer, 0);
   vk_command->start_command_buffer(frame->command_buffer);
   vk_cmd->cmd_record_scene(frame->command_buffer);
@@ -162,7 +162,7 @@ void VK_drawing::record_command_buffer_scene(Struct_renderpass* renderpass){
 void VK_drawing::record_command_buffer_gui(Struct_renderpass* renderpass){
   //---------------------------
 
-  Frame* frame = renderpass->get_frame_inflight();
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
   vkResetCommandBuffer(frame->command_buffer, 0);
   vk_command->start_command_buffer(frame->command_buffer);
   vk_cmd->cmd_record_gui(frame->command_buffer);

@@ -117,7 +117,7 @@ void VK_command::stop_command_buffer(VkCommandBuffer& command_buffer){
 //Render pass
 void VK_command::start_render_pass(VkCommandBuffer& command_buffer, Struct_renderpass* renderpass){
   //---------------------------
-  Frame* frame = renderpass->get_frame_swapchain();
+  Frame* frame = renderpass->frame_set->get_frame_swapchain();
 
 
   std::array<VkClearValue, 2> clear_value{};
