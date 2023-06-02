@@ -26,9 +26,10 @@ public:
   void cleanup();
 
   //Pipeline creation
+  void create_pipeline(Struct_pipeline* pipeline);
   void create_pipeline_info(Struct_pipeline* pipeline);
   void create_pipeline_layout(Struct_pipeline* pipeline);
-  void create_pipeline_graphics();
+  void create_pipeline_graphics(Struct_pipeline* pipeline);
 
   //Pipeline element
   void create_dynamic_state(Struct_pipeline* pipeline);
@@ -41,6 +42,7 @@ public:
   void create_topology(Struct_pipeline* pipeline);
 
   //Subfunction
+  void check_struct_pipeline_input(Struct_pipeline* pipeline);
   Struct_pipeline* get_pipeline_byName(string name);
 
 private:

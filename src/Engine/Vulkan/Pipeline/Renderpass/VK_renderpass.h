@@ -21,6 +21,12 @@ public:
   void init_renderpass();
   void clean_renderpass();
 
+  //Render pass object
+  void init_renderpass_scene();
+  void init_renderpass_glyph();
+  void init_renderpass_canvas();
+  void init_renderpass_gui();
+
   //Subfunction
   void create_renderpass(Struct_renderpass* renderpass);
   void create_depth_attachment(Struct_renderpass* renderpass);

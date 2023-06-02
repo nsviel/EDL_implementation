@@ -27,45 +27,10 @@ void VK_renderpass::init_renderpass(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
   //---------------------------
 
-  //Render pass scene
-  Struct_renderpass* renderpass_scene = &vk_param->renderpass_scene;
-  renderpass_scene->name = "scene";
-  renderpass_scene->attachment.usage = ATTACHMENT_USAGE_CLEAR;
-  renderpass_scene->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass_scene->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass_scene->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass_scene->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
-  this->create_renderpass(renderpass_scene);
-
-  //Render pass glyph
-  Struct_renderpass* renderpass_glyph = &vk_param->renderpass_glyph;
-  renderpass_glyph->name = "glyph";
-  renderpass_glyph->attachment.usage = ATTACHMENT_USAGE_CLEAR;
-  renderpass_glyph->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass_glyph->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass_glyph->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass_glyph->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
-  this->create_renderpass(renderpass_glyph);
-
-  //Render pass canva
-  Struct_renderpass* renderpass_canvas = &vk_param->renderpass_canvas;
-  renderpass_canvas->name = "canvas";
-  renderpass_canvas->attachment.usage = ATTACHMENT_USAGE_CLEAR;
-  renderpass_canvas->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass_canvas->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass_canvas->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass_canvas->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
-  this->create_renderpass(renderpass_canvas);
-
-  //Render pass GUI
-  Struct_renderpass* renderpass_gui = &vk_param->renderpass_gui;
-  renderpass_gui->name = "gui";
-  renderpass_gui->attachment.usage = ATTACHMENT_USAGE_CONSERVE;
-  renderpass_gui->attachment.color_layout_initial = IMAGE_LAYOUT_PRESENT;
-  renderpass_gui->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass_gui->attachment.depth_layout_initial = IMAGE_LAYOUT_DEPTH;
-  renderpass_gui->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
-  this->create_renderpass(renderpass_gui);
+  this->init_renderpass_scene();
+  this->init_renderpass_glyph();
+  this->init_renderpass_canvas();
+  this->init_renderpass_gui();
 
   //---------------------------
 }
@@ -84,6 +49,69 @@ void VK_renderpass::clean_renderpass(){
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_glyph.renderpass, nullptr);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_canvas.renderpass, nullptr);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_gui.renderpass, nullptr);
+
+  //---------------------------
+}
+
+//Render pass objects
+void VK_renderpass::init_renderpass_scene(){
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  //---------------------------
+
+  //Render pass scene
+  Struct_renderpass* renderpass = &vk_param->renderpass_scene;
+  renderpass->name = "scene";
+  renderpass->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
+  renderpass->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
+  this->create_renderpass(renderpass);
+
+  //---------------------------
+}
+void VK_renderpass::init_renderpass_glyph(){
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  //---------------------------
+
+  Struct_renderpass* renderpass = &vk_param->renderpass_glyph;
+  renderpass->name = "glyph";
+  renderpass->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
+  renderpass->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
+  this->create_renderpass(renderpass);
+
+  //---------------------------
+}
+void VK_renderpass::init_renderpass_canvas(){
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  //---------------------------
+
+  Struct_renderpass* renderpass = &vk_param->renderpass_canvas;
+  renderpass->name = "canvas";
+  renderpass->attachment.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment.color_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
+  renderpass->attachment.depth_layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
+  this->create_renderpass(renderpass);
+
+  //---------------------------
+}
+void VK_renderpass::init_renderpass_gui(){
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  //---------------------------
+
+  Struct_renderpass* renderpass = &vk_param->renderpass_gui;
+  renderpass->name = "gui";
+  renderpass->attachment.usage = ATTACHMENT_USAGE_CONSERVE;
+  renderpass->attachment.color_layout_initial = IMAGE_LAYOUT_PRESENT;
+  renderpass->attachment.color_layout_final = IMAGE_LAYOUT_PRESENT;
+  renderpass->attachment.depth_layout_initial = IMAGE_LAYOUT_DEPTH;
+  renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
+  this->create_renderpass(renderpass);
 
   //---------------------------
 }

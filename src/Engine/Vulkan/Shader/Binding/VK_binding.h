@@ -23,7 +23,7 @@ public:
 public:
   //Main functions
   void fill_binding_from_requirement(Struct_binding& binding);
-  void fill_pipeline_binding(vector<Struct_pipeline*>& vec_pipeline);
+  void fill_pipeline_binding(Struct_pipeline* pipeline);
   void clean_binding(Struct_binding& binding);
 
   void update_uniform(Struct_data* data);

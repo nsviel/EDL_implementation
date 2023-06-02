@@ -40,7 +40,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_scene->vec_data_name.push_back("color");
   pipeline_scene->renderpass = &vk_param->renderpass_scene;
   pipeline_scene->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  this->create_pipeline_info(pipeline_scene);
+  this->create_pipeline(pipeline_scene);
 
   //Pipeline scene to be rendered as a texture
   Struct_pipeline* pipeline_scene_2 = new Struct_pipeline();
@@ -53,7 +53,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_scene_2->vec_data_name.push_back("color");
   pipeline_scene_2->renderpass = &vk_param->renderpass_scene;
   pipeline_scene_2->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  this->create_pipeline_info(pipeline_scene_2);
+  this->create_pipeline(pipeline_scene_2);
 
   //Pipeline Glyph
   Struct_pipeline* pipeline_glyph = new Struct_pipeline();
@@ -66,7 +66,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_glyph->vec_data_name.push_back("color");
   pipeline_glyph->renderpass = &vk_param->renderpass_scene;
   pipeline_glyph->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  this->create_pipeline_info(pipeline_glyph);
+  this->create_pipeline(pipeline_glyph);
 
   //Pipeline Canvas
   Struct_pipeline* pipeline_canvas = new Struct_pipeline();
@@ -80,10 +80,7 @@ void VK_pipeline::init_pipeline(){
   pipeline_canvas->renderpass = &vk_param->renderpass_scene;
   pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
-  this->create_pipeline_info(pipeline_canvas);
-
-  this->create_pipeline_graphics();
-  vk_binding->fill_pipeline_binding(vec_pipeline);
+  this->create_pipeline(pipeline_canvas);
 
   //---------------------------
 }
@@ -101,6 +98,16 @@ void VK_pipeline::cleanup(){
 }
 
 //Pipeline creation
+void VK_pipeline::create_pipeline(Struct_pipeline* pipeline){
+  //---------------------------
+
+  this->check_struct_pipeline_input(pipeline);
+  this->create_pipeline_info(pipeline);
+  this->create_pipeline_graphics(pipeline);
+  vk_binding->fill_pipeline_binding(pipeline);
+
+  //---------------------------
+}
 void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   //---------------------------
 
@@ -172,31 +179,21 @@ void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
 
   //---------------------------
 }
-void VK_pipeline::create_pipeline_graphics(){
+void VK_pipeline::create_pipeline_graphics(Struct_pipeline* pipeline){
   //---------------------------
 
-  vector<VkGraphicsPipelineCreateInfo> vec_pipeline_info;
-  for(int i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-    vec_pipeline_info.push_back(pipeline->pipeline_info);
-  }
-
-  vector<VkPipeline> vec_pipeline_obj(vec_pipeline.size());
-  VkResult result = vkCreateGraphicsPipelines(vk_param->device.device, VK_NULL_HANDLE, vec_pipeline_info.size(), vec_pipeline_info.data(), nullptr, vec_pipeline_obj.data());
+  //Create pipeline graphics
+  VkGraphicsPipelineCreateInfo pipeline_info = pipeline->pipeline_info;
+  VkResult result = vkCreateGraphicsPipelines(vk_param->device.device, VK_NULL_HANDLE, 1, &pipeline_info, nullptr, &pipeline->pipeline);
   if(result != VK_SUCCESS){
       throw std::runtime_error("[error] failed to create graphics pipeline!");
     }
 
-  for(int i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-    pipeline->pipeline = vec_pipeline_obj[i];
-
-    //Destroy shader modules
-    for(int i=0; i<pipeline->vec_shader_couple.size(); i++){
-      pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->vec_shader_couple[i];
-      vkDestroyShaderModule(vk_param->device.device, shader_couple.first, nullptr);
-      vkDestroyShaderModule(vk_param->device.device, shader_couple.second, nullptr);
-    }
+  //Destroy shader modules
+  for(int i=0; i<pipeline->vec_shader_couple.size(); i++){
+    pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->vec_shader_couple[i];
+    vkDestroyShaderModule(vk_param->device.device, shader_couple.first, nullptr);
+    vkDestroyShaderModule(vk_param->device.device, shader_couple.second, nullptr);
   }
 
   //---------------------------
@@ -343,6 +340,18 @@ void VK_pipeline::create_topology(Struct_pipeline* pipeline){
 }
 
 //Subfunction
+void VK_pipeline::check_struct_pipeline_input(Struct_pipeline* pipeline){
+  //---------------------------
+
+  if(pipeline->name == "") cout<<"[error] Pipeline init input -> no name"<<endl;
+  if(pipeline->topology == "") cout<<"[error] Pipeline init input -> no topology"<<endl;
+  if(pipeline->path_shader_vs == "") cout<<"[error] Pipeline init input -> no path_shader_vs"<<endl;
+  if(pipeline->path_shader_fs == "") cout<<"[error] Pipeline init input -> no path_shader_fs"<<endl;
+  if(pipeline->vec_data_name.size() == 0) cout<<"[error] Pipeline init input -> no vec_data_name"<<endl;
+  if(pipeline->binding.vec_required_binding.size() == 0) cout<<"[error] Pipeline init input -> no vec_required_binding"<<endl;
+
+  //---------------------------
+}
 Struct_pipeline* VK_pipeline::get_pipeline_byName(string name){
   //---------------------------
 

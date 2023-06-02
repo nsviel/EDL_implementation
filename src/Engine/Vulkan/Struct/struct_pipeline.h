@@ -11,13 +11,13 @@ struct Struct_pipeline{
   //---------------------------
 
   //Info
-  std::string name;
-  std::string topology;
+  std::string name = "";
+  std::string topology = "";
 
   //Pipeline shader
-  bool compile_shader;
-  std::string path_shader_vs;
-  std::string path_shader_fs;
+  bool compile_shader = false;
+  std::string path_shader_vs = "";
+  std::string path_shader_fs = "";
   Struct_binding binding;
   Struct_renderpass* renderpass;
 
