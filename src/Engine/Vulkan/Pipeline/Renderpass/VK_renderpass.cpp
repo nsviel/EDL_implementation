@@ -158,19 +158,16 @@ void VK_renderpass::init_renderpass_gui(){
 
   //Attachment
   renderpass->attachment = new Struct_attachment_usage();
-  renderpass->attachment->usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->usage = ATTACHMENT_USAGE_CONSERVE;
 
-  /*
+
   renderpass->attachment->color_layout_initial = IMAGE_LAYOUT_PRESENT;
   renderpass->attachment->color_layout_final = IMAGE_LAYOUT_PRESENT;
   renderpass->attachment->depth_layout_initial = IMAGE_LAYOUT_DEPTH;
   renderpass->attachment->depth_layout_final = IMAGE_LAYOUT_DEPTH;
-  */
 
-  renderpass->attachment->color_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass->attachment->color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass->attachment->depth_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass->attachment->depth_layout_final = IMAGE_LAYOUT_DEPTH;
+
+
   this->create_renderpass(renderpass);
 
   //Pipeline

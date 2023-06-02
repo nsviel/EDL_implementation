@@ -8,8 +8,8 @@
 struct Struct_synchro{
   //---------------------------
 
-  VkSemaphore semaphore_render_finished;
-  VkSemaphore semaphore_image_available;
+  VkSemaphore semaphore_rendering;
+  VkSemaphore semaphore_presentation;
   VkFence fence;
 
   //---------------------------

@@ -30,6 +30,7 @@ public:
   void acquire_next_image(Struct_renderpass* renderpass);
   void submit_command(Struct_renderpass* renderpass);
   void submit_presentation(Struct_renderpass* renderpass);
+  void set_next_frame_ID(Struct_renderpass* renderpass);
 
   //Command buffer record
   void record_command_buffer_scene(Struct_renderpass* renderpass);
@@ -42,6 +43,8 @@ private:
   VK_swapchain* vk_swapchain;
   VK_command* vk_command;
   VK_cmd* vk_cmd;
+
+  vector<VkCommandBuffer> vec_command_buffer;
 };
 
 #endif

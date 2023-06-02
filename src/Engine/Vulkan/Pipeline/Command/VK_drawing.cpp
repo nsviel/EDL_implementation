@@ -32,14 +32,16 @@ void VK_drawing::draw_frame(){
   //this->draw_gui();
   this->submit_command(&vk_param->renderpass_scene);
   this->submit_presentation(&vk_param->renderpass_scene);
+  this->set_next_frame_ID(&vk_param->renderpass_scene);
 
   //---------------------------
 }
 void VK_drawing::draw_scene(){
   //---------------------------
 
-
+  vec_command_buffer.clear();
   this->record_command_buffer_scene(&vk_param->renderpass_scene);
+  vec_command_buffer.push_back(vk_param->renderpass_scene.command_buffer);
 
 
   //---------------------------
@@ -51,6 +53,8 @@ void VK_drawing::draw_gui(){
   this->record_command_buffer_gui(&vk_param->renderpass_gui);
   //this->submit_command(&vk_param->renderpass_gui);
   //this->submit_presentation(&vk_param->renderpass_gui);
+
+  vec_command_buffer.push_back(vk_param->renderpass_gui.command_buffer);
 
   //---------------------------
 }
@@ -64,7 +68,7 @@ void VK_drawing::acquire_next_image(Struct_renderpass* renderpass){
   vkWaitForFences(vk_param->device.device, 1, &frame->fence, VK_TRUE, UINT64_MAX);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_image_available, VK_NULL_HANDLE, &renderpass->frame_set->frame_sawpchain_ID);
+  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, vk_param->swapchain.swapchain, UINT64_MAX, frame->semaphore_presentation, VK_NULL_HANDLE, &renderpass->frame_set->frame_sawpchain_ID);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -95,13 +99,13 @@ void VK_drawing::submit_command(Struct_renderpass* renderpass){
   vector<VkSemaphore> vec_semaphore_wait;
   vector<VkSemaphore> vec_semaphore_signal;
   vector<VkPipelineStageFlags> vec_stage_wait;
-  vector<VkCommandBuffer> vec_command_buffer;
+  //vector<VkCommandBuffer> vec_command_buffer;
   for(int i=0; i<vec_frame.size(); i++){
     Frame* frame = vec_frame[i];
-    vec_semaphore_wait.push_back(frame->semaphore_image_available);
-    vec_semaphore_signal.push_back(frame->semaphore_render_finished);
+    vec_semaphore_wait.push_back(frame->semaphore_presentation);
+    vec_semaphore_signal.push_back(frame->semaphore_rendering);
     vec_stage_wait.push_back(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
-    vec_command_buffer.push_back(renderpass->command_buffer);
+    //vec_command_buffer.push_back(renderpass->command_buffer);
   }
 
   VkSubmitInfo submit_info{};
@@ -126,7 +130,7 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
-  VkSemaphore vec_semaphore_signal[] = {frame->semaphore_render_finished};
+  VkSemaphore vec_semaphore_signal[] = {frame->semaphore_rendering};
   VkSwapchainKHR swapChains[] = {vk_param->swapchain.swapchain};
   VkPresentInfoKHR presentation_info{};
   presentation_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -144,7 +148,14 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
 
-  renderpass->frame_set->frame_sawpchain_ID = (renderpass->frame_set->frame_sawpchain_ID + 1) % vk_param->instance.max_frame;
+  //---------------------------
+}
+void VK_drawing::set_next_frame_ID(Struct_renderpass* renderpass){
+  //---------------------------
+
+  int current_ID = renderpass->frame_set->frame_sawpchain_ID;
+  current_ID = (current_ID + 1) % vk_param->instance.max_frame;
+  renderpass->frame_set->frame_sawpchain_ID = current_ID;
 
   //---------------------------
 }
