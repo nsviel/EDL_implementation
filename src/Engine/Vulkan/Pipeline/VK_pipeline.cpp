@@ -37,18 +37,20 @@ void VK_pipeline::clean_pipeline(Struct_pipeline* pipeline){
 }
 
 //Pipeline creation
-void VK_pipeline::create_pipeline(Struct_pipeline* pipeline){
+void VK_pipeline::create_pipeline(Struct_renderpass* renderpass){
   //---------------------------
 
-  this->check_struct_pipeline_input(pipeline);
-  this->create_pipeline_info(pipeline);
-  this->create_pipeline_graphics(pipeline);
-  vk_binding->fill_pipeline_binding(pipeline);
+  this->check_struct_pipeline_input(&renderpass->pipeline);
+  this->create_pipeline_info(renderpass);
+  this->create_pipeline_graphics(&renderpass->pipeline);
+  vk_binding->fill_pipeline_binding(&renderpass->pipeline);
 
   //---------------------------
 }
-void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
+void VK_pipeline::create_pipeline_info(Struct_renderpass* renderpass){
   //---------------------------
+
+  Struct_pipeline* pipeline = &renderpass->pipeline;
 
   //Dynamic
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);
@@ -83,7 +85,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline_info.pColorBlendState = &pipeline->color_blend_info;
   pipeline_info.pDynamicState = &pipeline->dynamic_state;
   pipeline_info.layout = pipeline->pipeline_layout;
-  pipeline_info.renderPass = pipeline->renderpass->renderpass;
+  pipeline_info.renderPass = renderpass->renderpass;
   pipeline_info.subpass = 0;
   pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
   pipeline_info.basePipelineIndex = -1; // Optional

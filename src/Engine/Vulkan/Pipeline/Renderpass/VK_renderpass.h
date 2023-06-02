@@ -8,6 +8,7 @@
 class VK_engine;
 class VK_param;
 class VK_color;
+class VK_pipeline;
 
 
 class VK_renderpass
@@ -21,6 +22,7 @@ public:
   //Main functions
   void init_renderpass();
   void clean_renderpass();
+  void clean_renderpass_object(Struct_renderpass* renderpass);
 
   //Render pass object
   void init_renderpass_scene();
@@ -40,6 +42,7 @@ private:
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_color* vk_color;
+  VK_pipeline* vk_pipeline;
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define VK_PIPELINE_H
 
 #include "../Struct/struct_pipeline.h"
+#include "../Struct/struct_renderpass.h"
 #include "../../../common.h"
 
 class VK_engine;
@@ -25,8 +26,8 @@ public:
   void clean_pipeline(Struct_pipeline* pipeline);
 
   //Pipeline creation
-  void create_pipeline(Struct_pipeline* pipeline);
-  void create_pipeline_info(Struct_pipeline* pipeline);
+  void create_pipeline(Struct_renderpass* renderpass);
+  void create_pipeline_info(Struct_renderpass* renderpass);
   void create_pipeline_layout(Struct_pipeline* pipeline);
   void create_pipeline_graphics(Struct_pipeline* pipeline);
 

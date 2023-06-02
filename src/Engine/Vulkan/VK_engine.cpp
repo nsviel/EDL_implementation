@@ -55,11 +55,11 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_data = new VK_data(this);
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_swapchain = new VK_swapchain(this);
+  this->vk_shader = new VK_shader(this);
+  this->vk_pipeline = new VK_pipeline(this);
   this->vk_renderpass = new VK_renderpass(this);
   this->vk_framebuffer = new VK_framebuffer(this);
   this->vk_frame = new VK_frame(this);
-  this->vk_shader = new VK_shader(this);
-  this->vk_pipeline = new VK_pipeline(this);
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
   this->vk_command = new VK_command(this);
@@ -93,7 +93,6 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
-  //Switchr contenance de l'information c'est le renderpass qui contient un ou des pipelines et non le pipeline qui contient un renderpass associé
   //put framebuffer on canvas / put canvas front screen
     //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer
     //-abstraction framebuffer et convert it into a texture
