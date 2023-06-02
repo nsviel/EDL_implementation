@@ -2,6 +2,7 @@
 #define VK_DRAWING_H
 
 #include "../../Struct/struct_frame.h"
+#include "../../Struct/struct_renderpass.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -21,12 +22,13 @@ public:
 public:
   //Main functions
   void draw_frame();
+  void draw_renderpass(Struct_renderpass* renderpass);
 
   //Subfunction
-  void acquire_next_image();
-  void record_command_buffer();
-  void submit_command(vector<Frame*> vec_frame);
-  void submit_presentation();
+  void acquire_next_image(Struct_renderpass* renderpass);
+  void record_command_buffer(Struct_renderpass* renderpass);
+  void submit_command(Struct_renderpass* renderpass);
+  void submit_presentation(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;
