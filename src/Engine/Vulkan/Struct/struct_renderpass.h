@@ -3,7 +3,7 @@
 
 #include "struct_frame.h"
 #include "struct_attachment.h"
-//#include "struct_pipeline.h"
+#include "struct_pipeline.h"
 #include "../../../common.h"
 
 
@@ -27,7 +27,7 @@ struct Struct_renderpass{
   VkRenderPassCreateInfo renderpass_info;
   VkSubpassDescription subpass_description;
   VkSubpassDependency subpass_dependency;
-  //Struct_pipeline pipeline;
+  Struct_pipeline pipeline;
 
   //Attachment
   VkAttachmentReference depth_ref;

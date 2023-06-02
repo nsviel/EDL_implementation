@@ -51,6 +51,11 @@ void VK_renderpass::clean_renderpass(){
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_canvas.renderpass, nullptr);
   vkDestroyRenderPass(vk_param->device.device, vk_param->renderpass_gui.renderpass, nullptr);
 
+  vk_pipeline->clean_pipeline(vk_param->renderpass_scene.pipeline);
+  vk_pipeline->clean_pipeline(vk_param->renderpass_glyph.pipeline);
+  vk_pipeline->clean_pipeline(vk_param->renderpass_canvas.pipeline);
+  vk_pipeline->clean_pipeline(vk_param->renderpass_gui.pipeline);
+
   //---------------------------
 }
 
@@ -82,6 +87,8 @@ void VK_renderpass::init_renderpass_scene(){
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   vk_pipeline->create_pipeline(pipeline);
 
+  renderpass->pipeline = pipeline;
+
   //---------------------------
 }
 void VK_renderpass::init_renderpass_glyph(){
@@ -109,6 +116,8 @@ void VK_renderpass::init_renderpass_glyph(){
   pipeline->renderpass = renderpass;
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   vk_pipeline->create_pipeline(pipeline);
+
+  renderpass->pipeline = pipeline;
 
   //---------------------------
 }
@@ -139,6 +148,8 @@ void VK_renderpass::init_renderpass_canvas(){
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
   vk_pipeline->create_pipeline(pipeline);
 
+  renderpass->pipeline = pipeline;
+
   //---------------------------
 }
 void VK_renderpass::init_renderpass_gui(){
@@ -154,6 +165,20 @@ void VK_renderpass::init_renderpass_gui(){
   renderpass->attachment.depth_layout_initial = IMAGE_LAYOUT_DEPTH;
   renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
+
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "scene";
+  pipeline->topology = "point";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "Base/shader_scene_vs";
+  pipeline->path_shader_fs = "Base/shader_scene_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("color");
+  pipeline->renderpass = renderpass;
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  vk_pipeline->create_pipeline(pipeline);
+
+  renderpass->pipeline = pipeline;
 
   //---------------------------
 }

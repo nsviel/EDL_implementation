@@ -3,7 +3,7 @@
 
 #include "typedef.h"
 #include "struct_binding.h"
-#include "struct_renderpass.h"
+//#include "struct_renderpass.h"
 #include "../../../common.h"
 
 
@@ -19,7 +19,7 @@ struct Struct_pipeline{
   std::string path_shader_vs = "";
   std::string path_shader_fs = "";
   Struct_binding binding;
-  Struct_renderpass* renderpass;
+  //Struct_renderpass* renderpass;
 
   //Pipeline elments
   VkPipeline pipeline;

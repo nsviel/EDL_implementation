@@ -22,7 +22,7 @@ public:
 
 public:
   //Main functions
-  void clean_pipeline();
+  void clean_pipeline(Struct_pipeline* pipeline);
 
   //Pipeline creation
   void create_pipeline(Struct_pipeline* pipeline);
@@ -42,7 +42,6 @@ public:
 
   //Subfunction
   void check_struct_pipeline_input(Struct_pipeline* pipeline);
-  Struct_pipeline* get_pipeline_byName(string name);
 
 private:
   VK_engine* vk_engine;
@@ -52,8 +51,6 @@ private:
   VK_shader* vk_shader;
   VK_data* vk_data;
   VK_binding* vk_binding;
-
-  vector<Struct_pipeline*> vec_pipeline;
 };
 
 #endif

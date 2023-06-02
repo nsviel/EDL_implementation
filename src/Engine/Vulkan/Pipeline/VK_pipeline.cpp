@@ -26,15 +26,12 @@ VK_pipeline::VK_pipeline(VK_engine* vk_engine){
 VK_pipeline::~VK_pipeline(){}
 
 //Main function
-void VK_pipeline::clean_pipeline(){
+void VK_pipeline::clean_pipeline(Struct_pipeline* pipeline){
   //---------------------------
 
-  for(int i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-    vkDestroyPipeline(vk_param->device.device, pipeline->pipeline, nullptr);
-    vkDestroyPipelineLayout(vk_param->device.device, pipeline->pipeline_layout, nullptr);
-    vk_binding->clean_binding(pipeline->binding);
-  }
+  vkDestroyPipeline(vk_param->device.device, pipeline->pipeline, nullptr);
+  vkDestroyPipelineLayout(vk_param->device.device, pipeline->pipeline_layout, nullptr);
+  vk_binding->clean_binding(pipeline->binding);
 
   //---------------------------
 }
@@ -91,10 +88,8 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline){
   pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
   pipeline_info.basePipelineIndex = -1; // Optional
 
-  pipeline->pipeline_info = pipeline_info;
-  this->vec_pipeline.push_back(pipeline);
-
   //---------------------------
+  pipeline->pipeline_info = pipeline_info;
 }
 void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   //---------------------------
@@ -293,18 +288,4 @@ void VK_pipeline::check_struct_pipeline_input(Struct_pipeline* pipeline){
   if(pipeline->binding.vec_required_binding.size() == 0) cout<<"[error] Pipeline init input -> no vec_required_binding"<<endl;
 
   //---------------------------
-}
-Struct_pipeline* VK_pipeline::get_pipeline_byName(string name){
-  //---------------------------
-
-  for(int i=0; i<vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = vec_pipeline[i];
-    if(name == pipeline->name){
-      return pipeline;
-    }
-  }
-
-  //---------------------------
-  cout<<"[error] pipeline name problem"<<endl;
-  return nullptr;
 }

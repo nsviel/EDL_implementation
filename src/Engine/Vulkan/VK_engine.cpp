@@ -142,7 +142,6 @@ void VK_engine::clean_vulkan(){
   vk_gui->cleanup();
   vk_renderpass->clean_renderpass();
   vk_swapchain->clean_swapchain();
-  vk_pipeline->clean_pipeline();
   vk_canvas->cleanup();
 
   vk_data->cleanup();
