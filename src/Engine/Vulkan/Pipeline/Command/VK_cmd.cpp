@@ -63,7 +63,7 @@ void VK_cmd::cmd_drawing_scene(VkCommandBuffer command_buffer){
 
   //Object
   list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("scene_2");
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName("scene");
 
   //Pipeline
   vkCmdBindPipeline(command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);

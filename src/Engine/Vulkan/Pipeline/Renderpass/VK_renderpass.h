@@ -2,6 +2,7 @@
 #define VK_RENDERPASS_H
 
 #include "../../Struct/struct_renderpass.h"
+#include "../../Struct/struct_pipeline.h"
 #include "../../../../common.h"
 
 class VK_engine;

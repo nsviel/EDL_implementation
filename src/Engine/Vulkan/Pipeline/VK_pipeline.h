@@ -22,8 +22,7 @@ public:
 
 public:
   //Main functions
-  void init_pipeline();
-  void cleanup();
+  void clean_pipeline();
 
   //Pipeline creation
   void create_pipeline(Struct_pipeline* pipeline);

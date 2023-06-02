@@ -26,65 +26,7 @@ VK_pipeline::VK_pipeline(VK_engine* vk_engine){
 VK_pipeline::~VK_pipeline(){}
 
 //Main function
-void VK_pipeline::init_pipeline(){
-  //---------------------------
-
-  //Pipeline scene
-  Struct_pipeline* pipeline_scene = new Struct_pipeline();
-  pipeline_scene->name = "scene";
-  pipeline_scene->topology = "point";
-  pipeline_scene->compile_shader = true;
-  pipeline_scene->path_shader_vs = "Base/shader_scene_vs";
-  pipeline_scene->path_shader_fs = "Base/shader_scene_fs";
-  pipeline_scene->vec_data_name.push_back("location");
-  pipeline_scene->vec_data_name.push_back("color");
-  pipeline_scene->renderpass = &vk_param->renderpass_scene;
-  pipeline_scene->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  this->create_pipeline(pipeline_scene);
-
-  //Pipeline scene to be rendered as a texture
-  Struct_pipeline* pipeline_scene_2 = new Struct_pipeline();
-  pipeline_scene_2->name = "scene_2";
-  pipeline_scene_2->topology = "point";
-  pipeline_scene_2->compile_shader = true;
-  pipeline_scene_2->path_shader_vs = "Base/shader_scene_vs";
-  pipeline_scene_2->path_shader_fs = "Base/shader_scene_fs";
-  pipeline_scene_2->vec_data_name.push_back("location");
-  pipeline_scene_2->vec_data_name.push_back("color");
-  pipeline_scene_2->renderpass = &vk_param->renderpass_scene;
-  pipeline_scene_2->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  this->create_pipeline(pipeline_scene_2);
-
-  //Pipeline Glyph
-  Struct_pipeline* pipeline_glyph = new Struct_pipeline();
-  pipeline_glyph->name = "glyph";
-  pipeline_glyph->topology = "line";
-  pipeline_glyph->compile_shader = true;
-  pipeline_glyph->path_shader_vs = "Base/shader_glyph_vs";
-  pipeline_glyph->path_shader_fs = "Base/shader_glyph_fs";
-  pipeline_glyph->vec_data_name.push_back("location");
-  pipeline_glyph->vec_data_name.push_back("color");
-  pipeline_glyph->renderpass = &vk_param->renderpass_scene;
-  pipeline_glyph->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  this->create_pipeline(pipeline_glyph);
-
-  //Pipeline Canvas
-  Struct_pipeline* pipeline_canvas = new Struct_pipeline();
-  pipeline_canvas->name = "canvas";
-  pipeline_canvas->topology = "triangle";
-  pipeline_canvas->compile_shader = true;
-  pipeline_canvas->path_shader_vs = "Base/shader_canvas_vs";
-  pipeline_canvas->path_shader_fs = "Base/shader_canvas_fs";
-  pipeline_canvas->vec_data_name.push_back("location");
-  pipeline_canvas->vec_data_name.push_back("tex_coord");
-  pipeline_canvas->renderpass = &vk_param->renderpass_scene;
-  pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
-  this->create_pipeline(pipeline_canvas);
-
-  //---------------------------
-}
-void VK_pipeline::cleanup(){
+void VK_pipeline::clean_pipeline(){
   //---------------------------
 
   for(int i=0; i<vec_pipeline.size(); i++){

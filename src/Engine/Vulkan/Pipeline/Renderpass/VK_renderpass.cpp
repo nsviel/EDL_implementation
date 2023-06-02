@@ -1,5 +1,6 @@
 #include "VK_renderpass.h"
 
+#include "../VK_pipeline.h"
 #include "../Attachment/VK_depth.h"
 #include "../Attachment/VK_color.h"
 
@@ -56,6 +57,7 @@ void VK_renderpass::clean_renderpass(){
 //Render pass objects
 void VK_renderpass::init_renderpass_scene(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
+  VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
   //---------------------------
 
   //Render pass scene
@@ -68,10 +70,23 @@ void VK_renderpass::init_renderpass_scene(){
   renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "scene";
+  pipeline->topology = "point";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "Base/shader_scene_vs";
+  pipeline->path_shader_fs = "Base/shader_scene_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("color");
+  pipeline->renderpass = renderpass;
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  vk_pipeline->create_pipeline(pipeline);
+
   //---------------------------
 }
 void VK_renderpass::init_renderpass_glyph(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
+  VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
   //---------------------------
 
   Struct_renderpass* renderpass = &vk_param->renderpass_glyph;
@@ -83,10 +98,23 @@ void VK_renderpass::init_renderpass_glyph(){
   renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "glyph";
+  pipeline->topology = "line";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "Base/shader_glyph_vs";
+  pipeline->path_shader_fs = "Base/shader_glyph_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("color");
+  pipeline->renderpass = renderpass;
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  vk_pipeline->create_pipeline(pipeline);
+
   //---------------------------
 }
 void VK_renderpass::init_renderpass_canvas(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
+  VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
   //---------------------------
 
   Struct_renderpass* renderpass = &vk_param->renderpass_canvas;
@@ -98,10 +126,24 @@ void VK_renderpass::init_renderpass_canvas(){
   renderpass->attachment.depth_layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "canvas";
+  pipeline->topology = "triangle";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "Base/shader_canvas_vs";
+  pipeline->path_shader_fs = "Base/shader_canvas_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("tex_coord");
+  pipeline->renderpass = renderpass;
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
+  vk_pipeline->create_pipeline(pipeline);
+
   //---------------------------
 }
 void VK_renderpass::init_renderpass_gui(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
+  VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
   //---------------------------
 
   Struct_renderpass* renderpass = &vk_param->renderpass_gui;

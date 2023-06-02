@@ -90,7 +90,6 @@ void VK_engine::init_vulkan(){
   vk_swapchain->create_swapchain();
   vk_renderpass->init_renderpass();
   vk_frame->init_image();
-  vk_pipeline->init_pipeline();
 
 
   //PRIORITY
@@ -143,7 +142,7 @@ void VK_engine::clean_vulkan(){
   vk_gui->cleanup();
   vk_renderpass->clean_renderpass();
   vk_swapchain->clean_swapchain();
-  vk_pipeline->cleanup();
+  vk_pipeline->clean_pipeline();
   vk_canvas->cleanup();
 
   vk_data->cleanup();
