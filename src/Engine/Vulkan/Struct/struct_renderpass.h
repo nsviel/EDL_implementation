@@ -7,6 +7,21 @@
 #include "../../../common.h"
 
 
+struct Struct_subpass{
+  //---------------------------
+
+  //Subpass info
+  VkSubpassDescription description;
+  VkSubpassDependency dependency;
+
+  //Attachment
+  Struct_subpass_attachment color;
+  Struct_subpass_attachment depth;
+  std::vector<VkAttachmentDescription> vec_attachment_description;
+
+  //---------------------------
+};
+
 struct Struct_renderpass{
   //---------------------------
 
@@ -18,17 +33,11 @@ struct Struct_renderpass{
 
   //Render pass elements
   VkRenderPass renderpass;
-  VkRenderPassCreateInfo renderpass_info;
-  VkSubpassDescription subpass_description;
-  VkSubpassDependency subpass_dependency;
   VkCommandBuffer command_buffer;
-  Struct_pipeline* pipeline;
 
   //Attachment
-  VkAttachmentReference depth_ref;
-  VkAttachmentReference color_ref;
-  Struct_renderpass_attachment* attachment;
-  std::vector<VkAttachmentDescription> vec_attachment_description;
+  Struct_pipeline* pipeline;
+  Struct_subpass subpass_0;
 
   //---------------------------
 };
