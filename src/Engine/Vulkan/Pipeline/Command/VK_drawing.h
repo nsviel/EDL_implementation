@@ -43,8 +43,6 @@ private:
   VK_swapchain* vk_swapchain;
   VK_command* vk_command;
   VK_cmd* vk_cmd;
-
-  vector<VkCommandBuffer> vec_command_buffer;
 };
 
 #endif

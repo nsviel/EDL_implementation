@@ -29,8 +29,8 @@ void VK_drawing::draw_frame(){
 
   this->acquire_next_image(&vk_param->renderpass_scene);
   this->draw_scene();
-  this->draw_gui();
-  this->submit_command(&vk_param->renderpass_scene);
+  //this->draw_gui();
+
   this->submit_presentation(&vk_param->renderpass_scene);
   this->set_next_frame_ID(&vk_param->renderpass_scene);
 
@@ -39,28 +39,16 @@ void VK_drawing::draw_frame(){
 void VK_drawing::draw_scene(){
   //---------------------------
 
-
-
-  vec_command_buffer.clear();
   this->record_command_buffer_scene(&vk_param->renderpass_scene);
-  vec_command_buffer.push_back(vk_param->renderpass_scene.command_buffer);
-
-
-
-
-
+  this->submit_command(&vk_param->renderpass_scene);
 
   //---------------------------
 }
 void VK_drawing::draw_gui(){
   //---------------------------
 
-  //this->acquire_next_image(&vk_param->renderpass_gui);
   this->record_command_buffer_gui(&vk_param->renderpass_gui);
-  //this->submit_command(&vk_param->renderpass_gui);
-  //this->submit_presentation(&vk_param->renderpass_gui);
-
-  vec_command_buffer.push_back(vk_param->renderpass_gui.command_buffer);
+  this->submit_command(&vk_param->renderpass_gui);
 
   //---------------------------
 }
@@ -96,33 +84,32 @@ void VK_drawing::acquire_next_image(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_drawing::submit_command(Struct_renderpass* renderpass){
-  Frame* frame = renderpass->frame_set->get_frame_inflight();
-  vector<Frame*> vec_frame;vec_frame.push_back(frame);
+void VK_drawing::set_next_frame_ID(Struct_renderpass* renderpass){
   //---------------------------
 
-  //Compile all frame info
-  vector<VkSemaphore> vec_semaphore_wait;
-  vector<VkSemaphore> vec_semaphore_signal;
-  vector<VkPipelineStageFlags> vec_stage_wait;
-  //vector<VkCommandBuffer> vec_command_buffer;
-  for(int i=0; i<vec_frame.size(); i++){
-    Frame* frame = vec_frame[i];
-    vec_semaphore_wait.push_back(frame->semaphore_presentation);
-    vec_semaphore_signal.push_back(frame->semaphore_rendering);
-    vec_stage_wait.push_back(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
-    //vec_command_buffer.push_back(renderpass->command_buffer);
-  }
+  int current_ID = renderpass->frame_set->frame_sawpchain_ID;
+  current_ID = (current_ID + 1) % vk_param->instance.max_frame;
+  renderpass->frame_set->frame_sawpchain_ID = current_ID;
+
+  //---------------------------
+}
+
+//Queue submission
+void VK_drawing::submit_command(Struct_renderpass* renderpass){
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
+  //---------------------------
+
+  VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
   VkSubmitInfo submit_info{};
   submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-  submit_info.waitSemaphoreCount = vec_semaphore_wait.size();
-  submit_info.pWaitSemaphores = vec_semaphore_wait.data();
-  submit_info.pWaitDstStageMask = vec_stage_wait.data();
-  submit_info.commandBufferCount = vec_command_buffer.size();
-  submit_info.pCommandBuffers = vec_command_buffer.data();
-  submit_info.signalSemaphoreCount = vec_semaphore_signal.size();
-  submit_info.pSignalSemaphores = vec_semaphore_signal.data();
+  submit_info.waitSemaphoreCount = 1;
+  submit_info.pWaitSemaphores = &frame->semaphore_presentation;
+  submit_info.pWaitDstStageMask = waitStages;
+  submit_info.signalSemaphoreCount = 1;
+  submit_info.pSignalSemaphores = &frame->semaphore_rendering;
+  submit_info.commandBufferCount = 1;
+  submit_info.pCommandBuffers = &renderpass->command_buffer;
 
   //Very slow operation, need as low command as possible
   VkResult result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &submit_info, frame->fence);
@@ -136,12 +123,12 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
-  VkSemaphore vec_semaphore_signal[] = {frame->semaphore_rendering};
+  VkSemaphore vec_semaphore_rendering[] = {frame->semaphore_rendering};
   VkSwapchainKHR swapChains[] = {vk_param->swapchain.swapchain};
   VkPresentInfoKHR presentation_info{};
   presentation_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
   presentation_info.waitSemaphoreCount = 1;
-  presentation_info.pWaitSemaphores = vec_semaphore_signal;
+  presentation_info.pWaitSemaphores = vec_semaphore_rendering;
   presentation_info.swapchainCount = 1;
   presentation_info.pSwapchains = swapChains;
   presentation_info.pImageIndices = &renderpass->frame_set->frame_sawpchain_ID;
@@ -156,26 +143,16 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_drawing::set_next_frame_ID(Struct_renderpass* renderpass){
-  //---------------------------
-
-  int current_ID = renderpass->frame_set->frame_sawpchain_ID;
-  current_ID = (current_ID + 1) % vk_param->instance.max_frame;
-  renderpass->frame_set->frame_sawpchain_ID = current_ID;
-
-  //---------------------------
-}
 
 //Command buffer record
 void VK_drawing::record_command_buffer_scene(Struct_renderpass* renderpass){
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
-  Frame* frame = renderpass->frame_set->get_frame_inflight();
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer(renderpass->command_buffer);
   vk_cmd->cmd_record_scene(renderpass->command_buffer);
   vk_command->stop_command_buffer(renderpass->command_buffer);
-  //vec_command_buffer.push_back(renderpass->frame_set->);
 
   //---------------------------
 }

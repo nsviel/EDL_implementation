@@ -18,8 +18,16 @@ public:
 
 public:
   //Main functions
-  void create_sync_objects(Frame* frame);
-  void clean_sync_obj(Frame* frame);
+  void init_frame_sync(Frame* frame);
+  void clean_frame_sync(Frame* frame);
+
+  //Synchronization object
+  void create_semaphore(VkSemaphore& semaphore);
+  void create_fence(VkFence& fence);
+
+  //Deletion function
+  void clean_semaphore(VkSemaphore& semaphore);
+  void clean_fence(VkFence& fence);
 
 private:
   VK_engine* vk_engine;

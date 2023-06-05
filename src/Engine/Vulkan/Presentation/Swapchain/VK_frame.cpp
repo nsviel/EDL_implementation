@@ -48,7 +48,7 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
 
     vk_depth->create_depth_attachment(frame);
     vk_framebuffer->create_framebuffer(renderpass, frame);
-    vk_synchronization->create_sync_objects(frame);
+    vk_synchronization->init_frame_sync(frame);
 
     frame_set->vec_frame.push_back(frame);
   }
@@ -66,7 +66,7 @@ void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
     vkDestroyImageView(vk_param->device.device, frame->color.view, nullptr);
     vk_depth->clean_depth_attachment(frame);
     vk_framebuffer->clean_framebuffer(frame);
-    vk_synchronization->clean_sync_obj(frame);
+    vk_synchronization->clean_frame_sync(frame);
     delete frame;
   }
   vec_frame.clear();

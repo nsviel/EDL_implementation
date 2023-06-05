@@ -44,7 +44,7 @@ void VK_cmd::cmd_record_scene(VkCommandBuffer command_buffer){
   //this->cmd_drawing_scene_2(command_buffer);
   this->cmd_drawing_glyph(command_buffer);
   this->cmd_drawing_canvas(command_buffer);
-  //vk_gui->command_gui(command_buffer);
+  vk_gui->command_gui(command_buffer);
   vk_command->stop_render_pass(command_buffer);
 
   //---------------------------

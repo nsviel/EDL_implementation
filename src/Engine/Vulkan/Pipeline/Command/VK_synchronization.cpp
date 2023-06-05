@@ -18,34 +18,66 @@ VK_synchronization::VK_synchronization(VK_engine* vk_engine){
 VK_synchronization::~VK_synchronization(){}
 
 //Main function
-void VK_synchronization::create_sync_objects(Frame* frame){
+void VK_synchronization::init_frame_sync(Frame* frame){
   //---------------------------
 
-  //Semaphore info
+  this->create_semaphore(frame->semaphore_presentation);
+  this->create_semaphore(frame->semaphore_rendering);
+  this->create_fence(frame->fence);
+
+  //---------------------------
+}
+void VK_synchronization::clean_frame_sync(Frame* frame){
+  //---------------------------
+
+  this->clean_semaphore(frame->semaphore_presentation);
+  this->clean_semaphore(frame->semaphore_rendering);
+  this->clean_fence(frame->fence);
+
+  //---------------------------
+}
+
+//Synchronization object
+void VK_synchronization::create_semaphore(VkSemaphore& semaphore){
+  //---------------------------
+
   VkSemaphoreCreateInfo semaphoreInfo{};
   semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-  //Fence info
-  VkFenceCreateInfo fenceInfo{};
-  fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-  fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
-
-  //Semaphore and fence creation
-  VkResult result_sema_1 = vkCreateSemaphore(vk_param->device.device, &semaphoreInfo, nullptr, &frame->semaphore_presentation);
-  VkResult result_sema_2 = vkCreateSemaphore(vk_param->device.device, &semaphoreInfo, nullptr, &frame->semaphore_rendering);
-  VkResult result_hence = vkCreateFence(vk_param->device.device, &fenceInfo, nullptr, &frame->fence);
-  if(result_sema_1 != VK_SUCCESS || result_sema_2 != VK_SUCCESS || result_hence != VK_SUCCESS){
+  VkResult result = vkCreateSemaphore(vk_param->device.device, &semaphoreInfo, nullptr, &semaphore);
+  if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create semaphores!");
   }
 
   //---------------------------
 }
-void VK_synchronization::clean_sync_obj(Frame* frame){
+void VK_synchronization::create_fence(VkFence& fence){
   //---------------------------
 
-  vkDestroySemaphore(vk_param->device.device, frame->semaphore_rendering, nullptr);
-  vkDestroySemaphore(vk_param->device.device, frame->semaphore_presentation, nullptr);
-  vkDestroyFence(vk_param->device.device, frame->fence, nullptr);
+  VkFenceCreateInfo fenceInfo{};
+  fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+  fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+  VkResult result = vkCreateFence(vk_param->device.device, &fenceInfo, nullptr, &fence);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to create fence!");
+  }
+
+  //---------------------------
+}
+
+//Deletetion function
+void VK_synchronization::clean_semaphore(VkSemaphore& semaphore){
+  //---------------------------
+
+  vkDestroySemaphore(vk_param->device.device, semaphore, nullptr);
+
+  //---------------------------
+}
+void VK_synchronization::clean_fence(VkFence& fence){
+  //---------------------------
+
+  vkDestroyFence(vk_param->device.device, fence, nullptr);
 
   //---------------------------
 }
