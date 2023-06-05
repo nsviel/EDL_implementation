@@ -4,7 +4,7 @@
 #include "../../VK_param.h"
 #include "../../Data/VK_buffer.h"
 #include "../../Data/VK_data.h"
-#include "../../Data/VK_texture.h"
+#include "../Image/VK_texture.h"
 #include "../../Shader/Binding/VK_binding.h"
 
 

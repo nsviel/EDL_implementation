@@ -172,8 +172,8 @@ void VK_renderpass::init_renderpass_gui(){
 
   //Pipeline
   renderpass->pipeline = new Struct_pipeline();
-  renderpass->pipeline->name = "scene";
-  renderpass->pipeline->topology = "point";
+  renderpass->pipeline->name = "gui";
+  renderpass->pipeline->topology = "line";
   renderpass->pipeline->compile_shader = true;
   renderpass->pipeline->path_shader_vs = "Base/shader_scene_vs";
   renderpass->pipeline->path_shader_fs = "Base/shader_scene_fs";

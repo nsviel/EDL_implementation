@@ -6,7 +6,6 @@
 class VK_engine;
 class VK_param;
 class VK_window;
-class VK_device;
 class VK_physical_device;
 
 
@@ -37,7 +36,6 @@ private:
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_window* vk_window;
-  VK_device* vk_device;
   VK_physical_device* vk_physical_device;
 };
 

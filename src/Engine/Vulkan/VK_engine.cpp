@@ -6,12 +6,13 @@
 #include "Pipeline/Command/VK_command.h"
 #include "Pipeline/Command/VK_cmd.h"
 #include "Pipeline/Command/VK_synchronization.h"
+#include "Pipeline/Image/VK_texture.h"
+#include "Pipeline/Image/VK_image.h"
 #include "Shader/Descriptor/VK_descriptor.h"
 #include "Shader/Binding/VK_uniform.h"
 #include "Shader/VK_shader.h"
 #include "Shader/Binding/VK_binding.h"
 #include "Data/VK_buffer.h"
-#include "Data/VK_texture.h"
 #include "Data/VK_data.h"
 #include "Pipeline/Command/VK_drawing.h"
 #include "Instance/Device/VK_device.h"
@@ -48,6 +49,7 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
   this->vk_buffer = new VK_buffer(this);
+  this->vk_image = new VK_image(this);
   this->vk_texture = new VK_texture(this);
   this->vk_depth = new VK_depth(this);
   this->vk_color = new VK_color(this);

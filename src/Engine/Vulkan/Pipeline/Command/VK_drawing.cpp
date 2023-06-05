@@ -29,7 +29,7 @@ void VK_drawing::draw_frame(){
 
   this->acquire_next_image(&vk_param->renderpass_scene);
   this->draw_scene();
-  //this->draw_gui();
+  this->draw_gui();
   this->submit_command(&vk_param->renderpass_scene);
   this->submit_presentation(&vk_param->renderpass_scene);
   this->set_next_frame_ID(&vk_param->renderpass_scene);

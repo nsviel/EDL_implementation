@@ -1,15 +1,14 @@
 #ifndef VK_TEXTURE_H
 #define VK_TEXTURE_H
 
-#include "../Struct/struct_texture.h"
-#include "../Struct/struct_data.h"
-#include "../../../common.h"
+#include "../../Struct/struct_texture.h"
+#include "../../Struct/struct_data.h"
+#include "../../../../common.h"
 
 class VK_engine;
 class VK_param;
-class VK_device;
 class VK_buffer;
-class VK_physical_device;
+class VK_image;
 
 
 class VK_texture
@@ -37,9 +36,8 @@ public:
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
-  VK_device* vk_device;
   VK_buffer* vk_buffer;
-  VK_physical_device* vk_physical_device;
+  VK_image* vk_image;
 };
 
 #endif

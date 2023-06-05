@@ -1,14 +1,15 @@
 #include "VK_texture.h"
-#include "VK_buffer.h"
+#include "VK_image.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Instance/Device/VK_device.h"
-#include "../Instance/Device/VK_physical_device.h"
-#include "../Pipeline/Command/VK_command.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
+#include "../../Data/VK_buffer.h"
+#include "../../Instance/Device/VK_device.h"
+#include "../../Instance/Device/VK_physical_device.h"
+#include "../../Pipeline/Command/VK_command.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../../../../extern/image/stb_image.h"
+#include "../../../../../extern/image/stb_image.h"
 
 
 //Constructor / Destructor
@@ -17,9 +18,8 @@ VK_texture::VK_texture(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_device = vk_engine->get_vk_device();
   this->vk_buffer = vk_engine->get_vk_buffer();
-  this->vk_physical_device = vk_engine->get_vk_physical_device();
+  this->vk_image = vk_engine->get_vk_image();
 
   //---------------------------
 }
@@ -84,9 +84,9 @@ void VK_texture::create_texture_image(Struct_texture* texture){
   this->create_image(tex_width, tex_height, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, MEMORY_GPU, texture->image, texture->mem);
 
   //Image transition from undefined layout to read only layout
-  vk_buffer->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+  vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
   this->copy_buffer_to_image(staging_buffer, texture->image, static_cast<uint32_t>(tex_width), static_cast<uint32_t>(tex_height));
-  vk_buffer->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+  vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
   //Free memory
   stbi_image_free(tex_data);

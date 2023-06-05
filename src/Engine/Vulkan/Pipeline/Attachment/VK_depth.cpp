@@ -2,7 +2,7 @@
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
-#include "../../Data/VK_texture.h"
+#include "../Image/VK_texture.h"
 
 
 //Constructor / Destructor

@@ -34,7 +34,6 @@ public:
 
   //Specific functions
   uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
-  void transition_layout_image(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
 
 private:
   VK_engine* vk_engine;

@@ -5,8 +5,7 @@
 #include "../../VK_param.h"
 #include "../../Pipeline/Renderpass/VK_framebuffer.h"
 #include "../../Pipeline/Attachment/VK_depth.h"
-#include "../../Data/VK_texture.h"
-#include "../../Instance/Device/VK_device.h"
+#include "../../Pipeline/Image/VK_texture.h"
 #include "../../Instance/Device/VK_physical_device.h"
 #include "../../Instance/Element/VK_window.h"
 
@@ -18,7 +17,6 @@ VK_swapchain::VK_swapchain(VK_engine* vk_engine){
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_window = vk_engine->get_vk_window();
-  this->vk_device = vk_engine->get_vk_device();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
 
   //---------------------------

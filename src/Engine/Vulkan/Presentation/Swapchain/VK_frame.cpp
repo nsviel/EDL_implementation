@@ -8,7 +8,7 @@
 #include "../../Pipeline/Renderpass/VK_framebuffer.h"
 #include "../../Pipeline/Attachment/VK_depth.h"
 #include "../../Pipeline/Attachment/VK_color.h"
-#include "../../Data/VK_texture.h"
+#include "../../Pipeline/Image/VK_texture.h"
 #include "../../Instance/Device/VK_physical_device.h"
 
 
