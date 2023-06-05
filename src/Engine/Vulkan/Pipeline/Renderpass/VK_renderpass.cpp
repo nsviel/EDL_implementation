@@ -66,12 +66,16 @@ void VK_renderpass::init_renderpass_scene(){
   renderpass->name = "scene";
 
   //Attachment
-  renderpass->attachment = new Struct_attachment_usage();
-  renderpass->attachment->usage = ATTACHMENT_USAGE_CLEAR;
-  renderpass->attachment->color_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass->attachment->color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass->attachment->depth_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass->attachment->depth_layout_final = IMAGE_LAYOUT_DEPTH;
+  renderpass->attachment = new Struct_renderpass_attachment();
+  renderpass->attachment->color.binding = 0;
+  renderpass->attachment->color.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->color.layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment->color.layout_final = IMAGE_LAYOUT_PRESENT;
+
+  renderpass->attachment->depth.binding = 1;
+  renderpass->attachment->depth.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment->depth.layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
   //Pipeline
@@ -96,12 +100,16 @@ void VK_renderpass::init_renderpass_glyph(){
   renderpass->name = "glyph";
 
   //Attachment
-  renderpass->attachment = new Struct_attachment_usage();
-  renderpass->attachment->usage = ATTACHMENT_USAGE_CLEAR;
-  renderpass->attachment->color_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass->attachment->color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass->attachment->depth_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass->attachment->depth_layout_final = IMAGE_LAYOUT_DEPTH;
+  renderpass->attachment = new Struct_renderpass_attachment();
+  renderpass->attachment->color.binding = 0;
+  renderpass->attachment->color.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->color.layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment->color.layout_final = IMAGE_LAYOUT_PRESENT;
+
+  renderpass->attachment->depth.binding = 1;
+  renderpass->attachment->depth.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment->depth.layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
   //Pipeline
@@ -126,12 +134,16 @@ void VK_renderpass::init_renderpass_canvas(){
   renderpass->name = "canvas";
 
   //Attachment
-  renderpass->attachment = new Struct_attachment_usage();
-  renderpass->attachment->usage = ATTACHMENT_USAGE_CLEAR;
-  renderpass->attachment->color_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass->attachment->color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass->attachment->depth_layout_initial = IMAGE_LAYOUT_EMPTY;
-  renderpass->attachment->depth_layout_final = IMAGE_LAYOUT_DEPTH;
+  renderpass->attachment = new Struct_renderpass_attachment();
+  renderpass->attachment->color.binding = 0;
+  renderpass->attachment->color.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->color.layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment->color.layout_final = IMAGE_LAYOUT_PRESENT;
+
+  renderpass->attachment->depth.binding = 1;
+  renderpass->attachment->depth.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
+  renderpass->attachment->depth.layout_final = IMAGE_LAYOUT_DEPTH;
   this->create_renderpass(renderpass);
 
   //Pipeline
@@ -157,14 +169,16 @@ void VK_renderpass::init_renderpass_gui(){
   renderpass->name = "gui";
 
   //Attachment
-  renderpass->attachment = new Struct_attachment_usage();
-  renderpass->attachment->usage = ATTACHMENT_USAGE_CONSERVE;
+  renderpass->attachment = new Struct_renderpass_attachment();
+  renderpass->attachment->color.binding = 0;
+  renderpass->attachment->color.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->color.layout_initial = IMAGE_LAYOUT_PRESENT;
+  renderpass->attachment->color.layout_final = IMAGE_LAYOUT_PRESENT;
 
-
-  renderpass->attachment->color_layout_initial = IMAGE_LAYOUT_PRESENT;
-  renderpass->attachment->color_layout_final = IMAGE_LAYOUT_PRESENT;
-  renderpass->attachment->depth_layout_initial = IMAGE_LAYOUT_DEPTH;
-  renderpass->attachment->depth_layout_final = IMAGE_LAYOUT_DEPTH;
+  renderpass->attachment->depth.binding = 1;
+  renderpass->attachment->depth.usage = ATTACHMENT_USAGE_CLEAR;
+  renderpass->attachment->depth.layout_initial = IMAGE_LAYOUT_DEPTH;
+  renderpass->attachment->depth.layout_final = IMAGE_LAYOUT_DEPTH;
 
 
 
@@ -201,29 +215,6 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_renderpass::create_depth_attachment(Struct_renderpass* renderpass){
-  VK_depth* vk_depth = vk_engine->get_vk_depth();
-  //---------------------------
-
-  VkAttachmentDescription depth_attachment{};
-  depth_attachment.format = vk_depth->find_depth_format();
-  depth_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
-  depth_attachment.loadOp = renderpass->attachment->usage;
-  depth_attachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-  depth_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-  depth_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-  depth_attachment.initialLayout = renderpass->attachment->depth_layout_initial;
-  depth_attachment.finalLayout = renderpass->attachment->depth_layout_final;
-
-  VkAttachmentReference depth_attachment_ref{};
-  depth_attachment_ref.attachment = 1;
-  depth_attachment_ref.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-  renderpass->depth_ref = depth_attachment_ref;
-  renderpass->vec_attachment_description.push_back(depth_attachment);
-
-  //---------------------------
-}
 void VK_renderpass::create_color_attachment(Struct_renderpass* renderpass){
   //---------------------------
 
@@ -231,20 +222,43 @@ void VK_renderpass::create_color_attachment(Struct_renderpass* renderpass){
   VkAttachmentDescription color_description{};
   color_description.format = vk_color->find_color_format();
   color_description.samples = VK_SAMPLE_COUNT_1_BIT;
-  color_description.loadOp = renderpass->attachment->usage;
+  color_description.loadOp = renderpass->attachment->color.usage;
   color_description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
   color_description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
   color_description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-  color_description.initialLayout = renderpass->attachment->color_layout_initial;
-  color_description.finalLayout = renderpass->attachment->color_layout_final;
+  color_description.initialLayout = renderpass->attachment->color.layout_initial;
+  color_description.finalLayout = renderpass->attachment->color.layout_final;
 
   //Attachment references
   VkAttachmentReference color_reference{};
-  color_reference.attachment = 0;
+  color_reference.attachment = renderpass->attachment->color.binding;
   color_reference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
   renderpass->color_ref = color_reference;
   renderpass->vec_attachment_description.push_back(color_description);
+
+  //---------------------------
+}
+void VK_renderpass::create_depth_attachment(Struct_renderpass* renderpass){
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  //---------------------------
+
+  VkAttachmentDescription depth_attachment{};
+  depth_attachment.format = vk_depth->find_depth_format();
+  depth_attachment.samples = VK_SAMPLE_COUNT_1_BIT;
+  depth_attachment.loadOp = renderpass->attachment->depth.usage;
+  depth_attachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+  depth_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+  depth_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+  depth_attachment.initialLayout = renderpass->attachment->depth.layout_initial;
+  depth_attachment.finalLayout = renderpass->attachment->depth.layout_final;
+
+  VkAttachmentReference depth_attachment_ref{};
+  depth_attachment_ref.attachment = renderpass->attachment->depth.binding;
+  depth_attachment_ref.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+  renderpass->depth_ref = depth_attachment_ref;
+  renderpass->vec_attachment_description.push_back(depth_attachment);
 
   //---------------------------
 }

@@ -4,22 +4,31 @@
 #include "../../../common.h"
 
 
-struct Struct_attachment_usage{
+struct Struct_attachment{
   //---------------------------
+
+  int binding;
 
   //ATTACHMENT_USAGE_CLEAR or ATTACHMENT_USAGE_CONSERVE
   VkAttachmentLoadOp usage;
 
   //ATTACHMENT_LAYOUT_EMPTY or ATTACHMENT_LAYOUT_PRESENT
-  VkImageLayout color_layout_initial;
-  VkImageLayout color_layout_final;
-  VkImageLayout depth_layout_initial;
-  VkImageLayout depth_layout_final;
+  VkImageLayout layout_initial;
+  VkImageLayout layout_final;
 
   //---------------------------
 };
 
-struct Struct_attachment{
+struct Struct_renderpass_attachment{
+  //---------------------------
+
+  Struct_attachment color;
+  Struct_attachment depth;
+
+  //---------------------------
+};
+
+struct Struct_frame_attachment{
   //---------------------------
 
   std::string name;

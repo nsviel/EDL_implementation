@@ -107,7 +107,7 @@ void VK_drawing::submit_command(Struct_renderpass* renderpass){
   submit_info.pWaitSemaphores = &frame->semaphore_presentation;
   submit_info.pWaitDstStageMask = waitStages;
   submit_info.signalSemaphoreCount = 1;
-  submit_info.pSignalSemaphores = &frame->semaphore_rendering;
+  submit_info.pSignalSemaphores = &frame->semaphore_drawing;
   submit_info.commandBufferCount = 1;
   submit_info.pCommandBuffers = &renderpass->command_buffer;
 
@@ -123,12 +123,12 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
-  VkSemaphore vec_semaphore_rendering[] = {frame->semaphore_rendering};
+  VkSemaphore vec_semaphore_drawing[] = {frame->semaphore_drawing};
   VkSwapchainKHR swapChains[] = {vk_param->swapchain.swapchain};
   VkPresentInfoKHR presentation_info{};
   presentation_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
   presentation_info.waitSemaphoreCount = 1;
-  presentation_info.pWaitSemaphores = vec_semaphore_rendering;
+  presentation_info.pWaitSemaphores = vec_semaphore_drawing;
   presentation_info.swapchainCount = 1;
   presentation_info.pSwapchains = swapChains;
   presentation_info.pImageIndices = &renderpass->frame_set->frame_sawpchain_ID;

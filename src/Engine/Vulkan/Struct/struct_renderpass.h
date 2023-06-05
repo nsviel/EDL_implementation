@@ -27,7 +27,7 @@ struct Struct_renderpass{
   //Attachment
   VkAttachmentReference depth_ref;
   VkAttachmentReference color_ref;
-  Struct_attachment_usage* attachment;
+  Struct_renderpass_attachment* attachment;
   std::vector<VkAttachmentDescription> vec_attachment_description;
 
   //---------------------------

@@ -12,13 +12,14 @@ struct Frame{
   VkFramebuffer fbo;
 
   //Attachment
-  Struct_attachment color;
-  Struct_attachment location;
-  Struct_attachment normal;
-  Struct_attachment depth;
+  Struct_frame_attachment color;
+  Struct_frame_attachment location;
+  Struct_frame_attachment normal;
+  Struct_frame_attachment depth;
 
   //Synchronisation
-  VkSemaphore semaphore_rendering;
+  VkSemaphore semaphore_scene;
+  VkSemaphore semaphore_drawing;
   VkSemaphore semaphore_presentation;
   VkFence fence;
 
