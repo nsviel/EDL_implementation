@@ -83,24 +83,24 @@ void VK_command::clean_command_pool(){
 }
 
 //Command buffer
-void VK_command::start_command_buffer(VkCommandBuffer& command_buffer){
+void VK_command::start_command_buffer(Struct_renderpass* renderpass){
   //---------------------------
 
   VkCommandBufferBeginInfo begin_info{};
   begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
   begin_info.flags = 0;
 
-  VkResult result = vkBeginCommandBuffer(command_buffer, &begin_info);
+  VkResult result = vkBeginCommandBuffer(renderpass->command_buffer, &begin_info);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to begin recording command buffer!");
   }
 
   //---------------------------
 }
-void VK_command::stop_command_buffer(VkCommandBuffer& command_buffer){
+void VK_command::stop_command_buffer(Struct_renderpass* renderpass){
   //---------------------------
 
-  VkResult result = vkEndCommandBuffer(command_buffer);
+  VkResult result = vkEndCommandBuffer(renderpass->command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to record command buffer!");
   }
@@ -109,7 +109,7 @@ void VK_command::stop_command_buffer(VkCommandBuffer& command_buffer){
 }
 
 //Render pass
-void VK_command::start_render_pass(VkCommandBuffer& command_buffer, Struct_renderpass* renderpass){
+void VK_command::start_render_pass(Struct_renderpass* renderpass){
   //---------------------------
   Frame* frame = renderpass->frame_set->get_frame_swapchain();
 
@@ -131,14 +131,14 @@ void VK_command::start_render_pass(VkCommandBuffer& command_buffer, Struct_rende
   renderpass_info.clearValueCount = static_cast<uint32_t>(clear_value.size());
   renderpass_info.pClearValues = clear_value.data();
 
-  vkCmdBeginRenderPass(command_buffer, &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
+  vkCmdBeginRenderPass(renderpass->command_buffer, &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
 
   //---------------------------
 }
-void VK_command::stop_render_pass(VkCommandBuffer& command_buffer){
+void VK_command::stop_render_pass(Struct_renderpass* renderpass){
   //---------------------------
 
-  vkCmdEndRenderPass(command_buffer);
+  vkCmdEndRenderPass(renderpass->command_buffer);
 
   //---------------------------
 }

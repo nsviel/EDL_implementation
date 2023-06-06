@@ -1,6 +1,7 @@
 #ifndef VK_GUI_H
 #define VK_GUI_H
 
+#include "../../Struct/struct_renderpass.h"
 #include "../../../../common.h"
 
 #include "../../../../../extern/imgui/imgui.h"
@@ -28,7 +29,7 @@ public:
 public:
   //Main functions
   void clean_gui();
-  void command_gui(VkCommandBuffer command_buffer);
+  void command_gui(Struct_renderpass* renderpass);
 
   //Init function
   void init_gui();

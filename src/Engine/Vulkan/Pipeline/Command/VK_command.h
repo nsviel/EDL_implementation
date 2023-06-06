@@ -28,12 +28,12 @@ public:
   void clean_command_pool();
 
   //Command buffer
-  void start_command_buffer(VkCommandBuffer& command_buffer);
-  void stop_command_buffer(VkCommandBuffer& command_buffer);
+  void start_command_buffer(Struct_renderpass* renderpass);
+  void stop_command_buffer(Struct_renderpass* renderpass);
 
   //Render pass
-  void start_render_pass(VkCommandBuffer& command_buffer, Struct_renderpass* renderpass);
-  void stop_render_pass(VkCommandBuffer& command_buffer);
+  void start_render_pass(Struct_renderpass* renderpass);
+  void stop_render_pass(Struct_renderpass* renderpass);
 
   //Single time command
   VkCommandBuffer singletime_command_buffer_begin();

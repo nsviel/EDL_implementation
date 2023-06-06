@@ -24,6 +24,7 @@ public:
   //Main functions
   void draw_frame();
   void draw_scene();
+  void draw_glyph();
   void draw_gui();
 
   //Drawing function
@@ -34,6 +35,7 @@ public:
 
   //Command buffer record
   void record_command_buffer_scene(Struct_renderpass* renderpass);
+  void record_command_buffer_glyph(Struct_renderpass* renderpass);
   void record_command_buffer_gui(Struct_renderpass* renderpass);
 
 private:

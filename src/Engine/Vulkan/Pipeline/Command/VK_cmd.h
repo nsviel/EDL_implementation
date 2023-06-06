@@ -1,6 +1,7 @@
 #ifndef VK_CMD_H
 #define VK_CMD_H
 
+#include "../../Struct/struct_renderpass.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -22,15 +23,16 @@ public:
 
 public:
   //Main function
-  void cmd_record_scene(VkCommandBuffer command_buffer);
-  void cmd_record_gui(VkCommandBuffer command_buffer);
+  void cmd_record_scene(Struct_renderpass* renderpass);
+  void cmd_record_glyph(Struct_renderpass* renderpass);
+  void cmd_record_gui(Struct_renderpass* renderpass);
 
   //Renderpass command
-  void cmd_viewport(VkCommandBuffer command_buffer);
-  void cmd_drawing_scene(VkCommandBuffer command_buffer);
-  void cmd_drawing_scene_2(VkCommandBuffer command_buffer);
-  void cmd_drawing_glyph(VkCommandBuffer command_buffer);
-  void cmd_drawing_canvas(VkCommandBuffer command_buffer);
+  void cmd_viewport(Struct_renderpass* renderpass);
+  void cmd_drawing_scene(Struct_renderpass* renderpass);
+  void cmd_drawing_scene_2(Struct_renderpass* renderpass);
+  void cmd_drawing_glyph(Struct_renderpass* renderpass);
+  void cmd_drawing_canvas(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;

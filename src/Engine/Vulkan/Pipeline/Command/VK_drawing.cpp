@@ -44,6 +44,14 @@ void VK_drawing::draw_scene(){
 
   //---------------------------
 }
+void VK_drawing::draw_glyph(){
+  //---------------------------
+
+  this->record_command_buffer_glyph(&vk_param->renderpass_gui);
+  this->submit_command(&vk_param->renderpass_gui);
+
+  //---------------------------
+}
 void VK_drawing::draw_gui(){
   //---------------------------
 
@@ -146,24 +154,32 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
 
 //Command buffer record
 void VK_drawing::record_command_buffer_scene(Struct_renderpass* renderpass){
-  Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
   vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer(renderpass->command_buffer);
-  vk_cmd->cmd_record_scene(renderpass->command_buffer);
-  vk_command->stop_command_buffer(renderpass->command_buffer);
+  vk_command->start_command_buffer(renderpass);
+  vk_cmd->cmd_record_scene(renderpass);
+  vk_command->stop_command_buffer(renderpass);
+
+  //---------------------------
+}
+void VK_drawing::record_command_buffer_glyph(Struct_renderpass* renderpass){
+  //---------------------------
+
+  vkResetCommandBuffer(renderpass->command_buffer, 0);
+  vk_command->start_command_buffer(renderpass);
+  vk_cmd->cmd_record_glyph(renderpass);
+  vk_command->stop_command_buffer(renderpass);
 
   //---------------------------
 }
 void VK_drawing::record_command_buffer_gui(Struct_renderpass* renderpass){
   //---------------------------
 
-  Frame* frame = renderpass->frame_set->get_frame_inflight();
   vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer(renderpass->command_buffer);
-  vk_cmd->cmd_record_gui(renderpass->command_buffer);
-  vk_command->stop_command_buffer(renderpass->command_buffer);
+  vk_command->start_command_buffer(renderpass);
+  vk_cmd->cmd_record_gui(renderpass);
+  vk_command->stop_command_buffer(renderpass);
 
   //---------------------------
 }

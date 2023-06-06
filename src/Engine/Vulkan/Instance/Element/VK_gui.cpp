@@ -31,12 +31,7 @@ VK_gui::VK_gui(VK_engine* vk_engine){
 
   //---------------------------
 }
-VK_gui::~VK_gui(){
-  //---------------------------
-
-
-  //---------------------------
-}
+VK_gui::~VK_gui(){}
 
 //Main function
 void VK_gui::clean_gui(){
@@ -51,10 +46,10 @@ void VK_gui::clean_gui(){
 
   //---------------------------
 }
-void VK_gui::command_gui(VkCommandBuffer command_buffer){
+void VK_gui::command_gui(Struct_renderpass* renderpass){
   //---------------------------
 
-  ImGui_ImplVulkan_RenderDrawData(draw_data, command_buffer);
+  ImGui_ImplVulkan_RenderDrawData(draw_data, renderpass->command_buffer);
 
   //---------------------------
 }
@@ -140,7 +135,6 @@ void VK_gui::gui_style(){
   style.PopupRounding = 0.0f;
   style.FrameBorderSize = 1.0f;
   style.WindowBorderSize = 0.0f;
-  //style.WindowPadding = ImVec2(0.0f, 0.0f);
 
   //Colors
   ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(112, 112, 112, 127)); //Frame_inflight background
