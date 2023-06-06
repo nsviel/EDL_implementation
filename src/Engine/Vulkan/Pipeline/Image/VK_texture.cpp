@@ -111,7 +111,13 @@ void VK_texture::create_texture_image(Struct_texture* texture){
 void VK_texture::create_texture_view(Struct_texture* texture){
   //---------------------------
 
-  texture->view = create_image_view(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
+  Struct_image* image = new Struct_image();
+  image->image = texture->image;
+  image->format = VK_FORMAT_R8G8B8A8_SRGB;
+  image->aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+
+  this->create_image_view(image);
+  texture->view = image->view;
 
   //---------------------------
 }
@@ -145,28 +151,27 @@ void VK_texture::create_texture_sampler(Struct_texture* texture){
 }
 
 //Generic image creation
-VkImageView VK_texture::create_image_view(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags){
+void VK_texture::create_image_view(Struct_image* image){
   //---------------------------
 
   VkImageViewCreateInfo viewInfo{};
   viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-  viewInfo.image = image;
+  viewInfo.image = image->image;
   viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-  viewInfo.format = format;
-  viewInfo.subresourceRange.aspectMask = aspectFlags;
+  viewInfo.format = image->format;
+  viewInfo.subresourceRange.aspectMask = image->aspect;
   viewInfo.subresourceRange.baseMipLevel = 0;
   viewInfo.subresourceRange.levelCount = 1;
   viewInfo.subresourceRange.baseArrayLayer = 0;
   viewInfo.subresourceRange.layerCount = 1;
 
   VkImageView imageView;
-  VkResult result = vkCreateImageView(vk_param->device.device, &viewInfo, nullptr, &imageView);
+  VkResult result = vkCreateImageView(vk_param->device.device, &viewInfo, nullptr, &image->view);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create texture image view!");
   }
 
   //---------------------------
-  return imageView;
 }
 void VK_texture::create_image(Struct_image* image){
   //---------------------------

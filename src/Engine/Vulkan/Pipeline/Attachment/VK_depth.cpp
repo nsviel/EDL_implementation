@@ -21,23 +21,17 @@ VK_depth::~VK_depth(){}
 void VK_depth::create_depth_attachment(Frame* frame){
   //---------------------------
 
+  //Create frame depth image
   frame->depth.format = find_depth_format();
+  frame->depth.width = vk_param->window.extent.width;
+  frame->depth.height = vk_param->window.extent.height;
+  frame->depth.tiling = VK_IMAGE_TILING_OPTIMAL;
+  frame->depth.usage = IMAGE_USAGE_DEPTH;
+  frame->depth.properties = MEMORY_GPU;
+  frame->depth.aspect = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-  Struct_image* image = new Struct_image();
-  image->width = vk_param->window.extent.width;
-  image->height = vk_param->window.extent.height;
-  image->format = frame->depth.format;
-  image->tiling = VK_IMAGE_TILING_OPTIMAL;
-  image->usage = IMAGE_USAGE_DEPTH;
-  image->properties = MEMORY_GPU;
-  image->image = frame->depth.image;
-  image->mem = frame->depth.mem;
-
-  vk_texture->create_image(image);
-
-  frame->depth.image = image->image;
-  frame->depth.mem = image->mem;
-  frame->depth.view = vk_texture->create_image_view(frame->depth.image, frame->depth.format, VK_IMAGE_ASPECT_DEPTH_BIT);
+  vk_texture->create_image(&frame->depth);
+  vk_texture->create_image_view(&frame->depth);
 
   //---------------------------
 }

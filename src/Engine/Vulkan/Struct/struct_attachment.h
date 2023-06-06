@@ -34,6 +34,7 @@ struct Struct_image{
   uint32_t width;
   uint32_t height;
   VkImageTiling tiling;
+  VkImageAspectFlags aspect;
   VkMemoryPropertyFlags properties;
 
   //---------------------------

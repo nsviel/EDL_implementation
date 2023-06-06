@@ -26,17 +26,17 @@ VK_color::~VK_color(){}
 void VK_color::create_color_attachment(Frame* frame){
   //---------------------------
 
+  //Create frame color image
   frame->color.format = find_color_format();
-
   frame->color.width = vk_param->window.extent.width;
   frame->color.height = vk_param->window.extent.height;
   frame->color.tiling = VK_IMAGE_TILING_OPTIMAL;
   frame->color.usage = IMAGE_USAGE_DEPTH;
   frame->color.properties = MEMORY_GPU;
+  frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 
-  vk_texture->create_image(image);
-
-  frame->color.view = vk_texture->create_image_view(frame->color.image, frame->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
+  vk_texture->create_image(&frame->color);
+  vk_texture->create_image_view(&frame->color);
 
   //---------------------------
 }
