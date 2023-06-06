@@ -23,12 +23,23 @@ VK_color::VK_color(VK_engine* vk_engine){
 VK_color::~VK_color(){}
 
 //Main function
-void VK_color::create_color_attachment(Frame* image){
+void VK_color::create_color_attachment(Frame* frame){
   //---------------------------
 
-  image->color.format = find_color_format();
-  vk_texture->create_image(vk_param->window.extent.width, vk_param->window.extent.height, image->color.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, MEMORY_GPU, image->color.image, image->color.mem);
-  image->color.view = vk_texture->create_image_view(image->color.image, image->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
+  frame->color.format = find_color_format();
+
+  Struct_image* image = new Struct_image();
+  image->width = vk_param->window.extent.width;
+  image->height = vk_param->window.extent.height;
+  image->format = frame->color.format;
+  image->tiling = VK_IMAGE_TILING_OPTIMAL;
+  image->usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+  image->properties = MEMORY_GPU;
+  image->image = frame->color.image;
+  image->mem = frame->color.mem;
+
+  vk_texture->create_image(image);
+  frame->color.view = vk_texture->create_image_view(frame->color.image, frame->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
 }

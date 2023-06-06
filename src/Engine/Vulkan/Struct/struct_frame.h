@@ -12,10 +12,10 @@ struct Frame{
   VkFramebuffer fbo;
 
   //Attachment
-  Struct_frame_attachment color;
-  Struct_frame_attachment location;
-  Struct_frame_attachment normal;
-  Struct_frame_attachment depth;
+  Struct_image color;
+  Struct_image location;
+  Struct_image normal;
+  Struct_image depth;
 
   //Synchronisation
   VkSemaphore semaphore_scene;

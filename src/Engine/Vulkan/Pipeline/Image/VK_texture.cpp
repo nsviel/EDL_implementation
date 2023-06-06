@@ -81,7 +81,17 @@ void VK_texture::create_texture_image(Struct_texture* texture){
   vkUnmapMemory(vk_param->device.device, staging_mem);
 
   //Create image
-  this->create_image(tex_width, tex_height, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, MEMORY_GPU, texture->image, texture->mem);
+  Struct_image* image = new Struct_image();
+  image->width = tex_width;
+  image->height = tex_height;
+  image->format = VK_FORMAT_R8G8B8A8_SRGB;
+  image->tiling = VK_IMAGE_TILING_OPTIMAL;
+  image->usage = IMAGE_USAGE_TRANSFERT;
+  image->properties = MEMORY_GPU;
+  image->image = texture->image;
+  image->mem = texture->mem;
+
+  this->create_image(image);
 
   //Image transition from undefined layout to read only layout
   vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
@@ -155,43 +165,45 @@ VkImageView VK_texture::create_image_view(VkImage image, VkFormat format, VkImag
   //---------------------------
   return imageView;
 }
-void VK_texture::create_image(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory){
+void VK_texture::create_image(Struct_image* image){
   //---------------------------
+
+  //uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory
 
   VkImageCreateInfo imageInfo{};
   imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
   imageInfo.imageType = VK_IMAGE_TYPE_2D;
-  imageInfo.extent.width = width;
-  imageInfo.extent.height = height;
+  imageInfo.extent.width = image->width;
+  imageInfo.extent.height = image->height;
   imageInfo.extent.depth = 1;
   imageInfo.mipLevels = 1;
   imageInfo.arrayLayers = 1;
-  imageInfo.format = format;
-  imageInfo.tiling = tiling;
+  imageInfo.format = image->format;
+  imageInfo.tiling = image->tiling;
   imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-  imageInfo.usage = usage;
+  imageInfo.usage = image->usage;
   imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
   imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-  VkResult result = vkCreateImage(vk_param->device.device, &imageInfo, nullptr, &image);
+  VkResult result = vkCreateImage(vk_param->device.device, &imageInfo, nullptr, &image->image);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create image!");
   }
 
   VkMemoryRequirements memRequirements;
-  vkGetImageMemoryRequirements(vk_param->device.device, image, &memRequirements);
+  vkGetImageMemoryRequirements(vk_param->device.device, image->image, &memRequirements);
 
   VkMemoryAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
   allocInfo.allocationSize = memRequirements.size;
-  allocInfo.memoryTypeIndex = vk_buffer->findMemoryType(memRequirements.memoryTypeBits, properties);
+  allocInfo.memoryTypeIndex = vk_buffer->findMemoryType(memRequirements.memoryTypeBits, image->properties);
 
-  result = vkAllocateMemory(vk_param->device.device, &allocInfo, nullptr, &imageMemory);
+  result = vkAllocateMemory(vk_param->device.device, &allocInfo, nullptr, &image->mem);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate image memory!");
   }
 
-  vkBindImageMemory(vk_param->device.device, image, imageMemory, 0);
+  vkBindImageMemory(vk_param->device.device, image->image, image->mem, 0);
 
   //---------------------------
 }

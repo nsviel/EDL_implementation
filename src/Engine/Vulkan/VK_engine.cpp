@@ -96,6 +96,7 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
+  //is struct_image same as struct_texture ?
   //Faire vector de pipeline per renderpass
   //Scene + glyph dans meme renderpass
   //canvs dans other renderpass

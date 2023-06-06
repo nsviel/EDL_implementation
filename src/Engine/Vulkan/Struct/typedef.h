@@ -34,12 +34,18 @@ typedef VkAttachmentLoadOp attachment_usage;
 constexpr attachment_usage ATTACHMENT_USAGE_CLEAR = VK_ATTACHMENT_LOAD_OP_CLEAR;
 constexpr attachment_usage ATTACHMENT_USAGE_CONSERVE = VK_ATTACHMENT_LOAD_OP_LOAD;
 
+//Image layout
 typedef VkImageLayout image_layout_usage;
 constexpr image_layout_usage IMAGE_LAYOUT_EMPTY = VK_IMAGE_LAYOUT_UNDEFINED;
 constexpr image_layout_usage IMAGE_LAYOUT_COLOR = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 constexpr image_layout_usage IMAGE_LAYOUT_DEPTH = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 constexpr image_layout_usage IMAGE_LAYOUT_SHADER = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 constexpr image_layout_usage IMAGE_LAYOUT_PRESENT = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+//image usage
+typedef VkImageUsageFlags image_usage;
+constexpr image_usage IMAGE_USAGE_DEPTH = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+constexpr image_usage IMAGE_USAGE_TRANSFERT = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
 
 #endif

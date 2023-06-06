@@ -20,15 +20,21 @@ struct Struct_subpass_attachment{
   //---------------------------
 };
 
-struct Struct_frame_attachment{
+struct Struct_image{
   //---------------------------
 
   std::string name;
 
   VkImage image;
   VkImageView view;
+  VkImageUsageFlagBits usage;
   VkDeviceMemory mem;
   VkFormat format;
+
+  uint32_t width;
+  uint32_t height;
+  VkImageTiling tiling;
+  VkMemoryPropertyFlags properties;
 
   //---------------------------
 };

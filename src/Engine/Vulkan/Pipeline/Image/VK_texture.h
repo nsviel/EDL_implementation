@@ -3,6 +3,8 @@
 
 #include "../../Struct/struct_texture.h"
 #include "../../Struct/struct_data.h"
+#include "../../Struct/struct_attachment.h"
+#include "../../Struct/typedef.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -30,7 +32,7 @@ public:
 
   //Generic image creation
   VkImageView create_image_view(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
-  void create_image(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
+  void create_image(Struct_image* image);
   void copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
 
 private:
