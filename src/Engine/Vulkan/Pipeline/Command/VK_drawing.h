@@ -23,7 +23,7 @@ public:
 public:
   //Main functions
   void draw_frame();
-  void draw_scene();
+  void draw_scene(Struct_renderpass* renderpass);
 
   //Drawing function
   void acquire_next_image(Struct_renderpass* renderpass);
@@ -39,6 +39,8 @@ private:
   VK_swapchain* vk_swapchain;
   VK_command* vk_command;
   VK_cmd* vk_cmd;
+
+  vector<Struct_renderpass*> vec_renderpass;
 };
 
 #endif

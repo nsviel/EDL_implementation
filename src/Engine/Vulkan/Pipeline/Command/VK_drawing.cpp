@@ -25,22 +25,18 @@ VK_drawing::~VK_drawing(){}
 
 //Main function
 void VK_drawing::draw_frame(){
+  vec_renderpass.clear();
   //---------------------------
 
   this->acquire_next_image(&vk_param->renderpass_scene);
-  this->draw_scene();
-
-  vector<Struct_renderpass*> vec_renderpass;
-  vec_renderpass.push_back(&vk_param->renderpass_scene);
-
+  this->draw_scene(&vk_param->renderpass_scene);
   this->submit_commands(vec_renderpass);
   this->submit_presentation(&vk_param->renderpass_scene);
   this->set_next_frame_ID(&vk_param->renderpass_scene);
 
   //---------------------------
 }
-void VK_drawing::draw_scene(){
-  Struct_renderpass* renderpass = &vk_param->renderpass_scene;
+void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   vkResetCommandBuffer(renderpass->command_buffer, 0);
@@ -49,6 +45,7 @@ void VK_drawing::draw_scene(){
   vk_command->stop_command_buffer(renderpass);
 
   //---------------------------
+  vec_renderpass.push_back(renderpass);
 }
 
 //Subfunction

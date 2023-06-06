@@ -293,3 +293,18 @@ void VK_pipeline::check_struct_pipeline_input(Struct_pipeline* pipeline){
 
   //---------------------------
 }
+Struct_pipeline* VK_pipeline::get_pipeline_byName(Struct_renderpass* renderpass, string name){
+  //---------------------------
+
+  for(int i=0; i<renderpass->vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
+    if(pipeline->name == name){
+      return pipeline;
+    }
+  }
+
+  cout<<"[error] Pipeline by name error -> not found"<<endl;
+
+  //---------------------------
+  return nullptr;
+}

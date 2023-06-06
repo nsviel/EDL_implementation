@@ -24,13 +24,12 @@ public:
 public:
   //Main function
   void cmd_record_scene(Struct_renderpass* renderpass);
-  void cmd_record_glyph(Struct_renderpass* renderpass);
   void cmd_record_gui(Struct_renderpass* renderpass);
+  void cmd_record_canvas(Struct_renderpass* renderpass);
 
   //Renderpass command
   void cmd_viewport(Struct_renderpass* renderpass);
   void cmd_drawing_scene(Struct_renderpass* renderpass);
-  void cmd_drawing_scene_2(Struct_renderpass* renderpass);
   void cmd_drawing_glyph(Struct_renderpass* renderpass);
   void cmd_drawing_canvas(Struct_renderpass* renderpass);
 

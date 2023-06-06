@@ -43,6 +43,7 @@ public:
 
   //Subfunction
   void check_struct_pipeline_input(Struct_pipeline* pipeline);
+  Struct_pipeline* get_pipeline_byName(Struct_renderpass* renderpass, string name);
 
 private:
   VK_engine* vk_engine;

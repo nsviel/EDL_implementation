@@ -40,23 +40,10 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   vk_command->start_render_pass(renderpass);
   this->cmd_viewport(renderpass);
   this->cmd_drawing_scene(renderpass);
-  //this->cmd_drawing_scene_2(renderpass);
   this->cmd_drawing_glyph(renderpass);
 
   //this->cmd_drawing_canvas(renderpass);
   vk_gui->command_gui(renderpass);
-  vk_command->stop_render_pass(renderpass);
-
-  //---------------------------
-}
-void VK_cmd::cmd_record_glyph(Struct_renderpass* renderpass){
-  VK_command* vk_command = vk_engine->get_vk_command();
-  VK_gui* vk_gui = vk_engine->get_vk_gui();
-  //---------------------------
-
-  vk_command->start_render_pass(renderpass);
-  this->cmd_viewport(renderpass);
-  this->cmd_drawing_glyph(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
@@ -67,8 +54,17 @@ void VK_cmd::cmd_record_gui(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass);
-  this->cmd_drawing_glyph(renderpass);
-  //vk_gui->command_gui(command_buffer);
+  vk_gui->command_gui(renderpass);
+  vk_command->stop_render_pass(renderpass);
+
+  //---------------------------
+}
+void VK_cmd::cmd_record_canvas(Struct_renderpass* renderpass){
+  VK_command* vk_command = vk_engine->get_vk_command();
+  //---------------------------
+
+  vk_command->start_render_pass(renderpass);
+  //this->cmd_drawing_canvas(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
@@ -91,45 +87,12 @@ void VK_cmd::cmd_viewport(Struct_renderpass* renderpass){
 void VK_cmd::cmd_drawing_scene(Struct_renderpass* renderpass){
   //---------------------------
 
-  //Object
-  list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
-  Struct_pipeline* pipeline = renderpass->vec_pipeline[0];
-
   //Pipeline
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_point");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Bind and draw vertex buffers
-  for(int i=0; i<list_data_scene.size(); i++){
-    Struct_data* data =  *next(list_data_scene.begin(),i);
-    Object* object = data->object;
-
-    if(object->draw_type_name == "point"){
-      //Camera
-      vk_camera->compute_mvp(object);
-      vk_binding->update_uniform(data);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
-
-      //Data
-      VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
-      VkDeviceSize offsets[] = {0, 0};
-      vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 2, vertexBuffers, offsets);
-      vkCmdDraw(renderpass->command_buffer, object->xyz.size(), 1, 0, 0);
-    }
-  }
-
-  //---------------------------
-}
-void VK_cmd::cmd_drawing_scene_2(Struct_renderpass* renderpass){
-  //---------------------------
-
-  //Object
   list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
-  Struct_pipeline* pipeline = renderpass->vec_pipeline[0];
-
-  //Pipeline
-  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-
-  //Bind and draw vertex buffers
   for(int i=0; i<list_data_scene.size(); i++){
     Struct_data* data =  *next(list_data_scene.begin(),i);
     Object* object = data->object;
@@ -153,14 +116,12 @@ void VK_cmd::cmd_drawing_scene_2(Struct_renderpass* renderpass){
 void VK_cmd::cmd_drawing_glyph(Struct_renderpass* renderpass){
   //---------------------------
 
-  //Object
-  list<Struct_data*> list_data_glyph = vk_data->get_list_data_glyph();
-  Struct_pipeline* pipeline = renderpass->vec_pipeline[0];
-
   //Pipine
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_line");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Bind and draw vertex buffers
+  list<Struct_data*> list_data_glyph = vk_data->get_list_data_glyph();
   for(int i=0; i<list_data_glyph.size(); i++){
     Struct_data* data =  *next(list_data_glyph.begin(),i);
     Object* object = data->object;
