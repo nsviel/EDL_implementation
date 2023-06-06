@@ -63,6 +63,19 @@ void VK_renderpass::init_renderpass_scene(){
   Struct_renderpass* renderpass = &vk_param->renderpass_scene;
   renderpass->name = "scene";
 
+  //Subpass
+  Struct_subpass* subpass = new Struct_subpass();
+  subpass->color.binding = 0;
+  subpass->color.usage = ATTACHMENT_USAGE_CLEAR;
+  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
+  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
+
+  subpass->depth.binding = 1;
+  subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
+  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
+  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
+  renderpass->vec_subpass.push_back(subpass);
+
   //Pipeline
   Struct_pipeline* pipeline_point = new Struct_pipeline();
   pipeline_point->name = "topology_point";
@@ -86,10 +99,8 @@ void VK_renderpass::init_renderpass_scene(){
   pipeline_line->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   renderpass->vec_pipeline.push_back(pipeline_line);
 
-  vk_subpass->create_subpass_clear_info(renderpass);
-  this->create_renderpass(renderpass);
-
   //---------------------------
+  this->create_renderpass(renderpass);
 }
 void VK_renderpass::init_renderpass_canvas(){
   //---------------------------
@@ -98,6 +109,19 @@ void VK_renderpass::init_renderpass_canvas(){
   Struct_renderpass* renderpass = &vk_param->renderpass_canvas;
   renderpass->name = "canvas";
   renderpass->frame_set = vk_param->renderpass_scene.frame_set;
+
+  //Subpass
+  Struct_subpass* subpass = new Struct_subpass();
+  subpass->color.binding = 0;
+  subpass->color.usage = ATTACHMENT_USAGE_CONSERVE;
+  subpass->color.layout_initial = IMAGE_LAYOUT_COLOR;
+  subpass->color.layout_final = IMAGE_LAYOUT_PRESENT;
+
+  subpass->depth.binding = 1;
+  subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
+  subpass->depth.layout_initial = IMAGE_LAYOUT_DEPTH;
+  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
+  renderpass->vec_subpass.push_back(subpass);
 
   //Pipeline
   Struct_pipeline* pipeline = new Struct_pipeline();
@@ -112,10 +136,8 @@ void VK_renderpass::init_renderpass_canvas(){
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
-  vk_subpass->create_subpass_conserve_info(renderpass);
-  this->create_renderpass(renderpass);
-
   //---------------------------
+  this->create_renderpass(renderpass);
 }
 
 //Subfunction

@@ -38,6 +38,7 @@ typedef VkImageLayout image_layout_usage;
 constexpr image_layout_usage IMAGE_LAYOUT_EMPTY = VK_IMAGE_LAYOUT_UNDEFINED;
 constexpr image_layout_usage IMAGE_LAYOUT_COLOR = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 constexpr image_layout_usage IMAGE_LAYOUT_DEPTH = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+constexpr image_layout_usage IMAGE_LAYOUT_SHADER = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 constexpr image_layout_usage IMAGE_LAYOUT_PRESENT = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
 
