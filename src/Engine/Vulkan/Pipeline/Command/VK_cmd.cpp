@@ -41,8 +41,6 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   this->cmd_viewport(renderpass);
   this->cmd_drawing_scene(renderpass);
   this->cmd_drawing_glyph(renderpass);
-
-  //this->cmd_drawing_canvas(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
 

@@ -40,6 +40,8 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     frame->color.image = vk_param->swapchain.vec_swapchain_image[i];
     frame->color.format = vk_color->find_color_format();
     frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+    frame->color.usage = renderpass->frame_usage;
+    frame->depth.usage = IMAGE_USAGE_DEPTH;
 
     vk_texture->create_image_view(&frame->color);
     vk_depth->create_depth_attachment(frame);

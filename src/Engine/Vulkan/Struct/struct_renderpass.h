@@ -30,6 +30,7 @@ struct Struct_renderpass{
 
   //Renderpass frame set
   Frame_set* frame_set;
+  VkImageUsageFlags frame_usage;
 
   //Render pass elements
   VkRenderPass renderpass;

@@ -28,12 +28,12 @@ void VK_drawing::draw_frame(){
   vec_renderpass.clear();
   //---------------------------
 
-  this->acquire_next_image(&vk_param->renderpass_scene);
+  this->acquire_next_image(&vk_param->renderpass_canvas);
   this->draw_scene(&vk_param->renderpass_scene);
   this->draw_canvas(&vk_param->renderpass_canvas);
   this->submit_commands(vec_renderpass);
-  this->submit_presentation(&vk_param->renderpass_scene);
-  this->set_next_frame_ID(&vk_param->renderpass_scene);
+  this->submit_presentation(&vk_param->renderpass_canvas);
+  this->set_next_frame_ID(&vk_param->renderpass_canvas);
 
   //---------------------------
 }
