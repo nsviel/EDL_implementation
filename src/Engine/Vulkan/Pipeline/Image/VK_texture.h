@@ -1,7 +1,7 @@
 #ifndef VK_TEXTURE_H
 #define VK_TEXTURE_H
 
-#include "../../Struct/struct_texture.h"
+#include "../../Struct/struct_image.h"
 #include "../../Struct/struct_data.h"
 #include "../../Struct/struct_attachment.h"
 #include "../../Struct/typedef.h"
@@ -26,6 +26,7 @@ public:
   void clean_texture(Struct_data* object);
 
   //Texture creation
+  void create_texture(Struct_texture* texture);
   void create_texture_image(Struct_texture* texture);
   void create_texture_view(Struct_texture* texture);
   void create_texture_sampler(Struct_texture* texture);

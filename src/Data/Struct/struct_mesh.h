@@ -2,7 +2,7 @@
 #define MESH_STRUCT_H
 
 #include "struct_object.h"
-#include "../../Engine/Vulkan/Struct/struct_texture.h"
+#include "../../Engine/Vulkan/Struct/struct_image.h"
 #include "../../common.h"
 
 

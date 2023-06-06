@@ -31,12 +31,7 @@ void VK_texture::load_texture(Struct_data* data, string path){
 
   Struct_texture* texture = new Struct_texture();
   texture->path_texture = path;
-  texture->image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-
-  this->create_texture_image(texture);
-  this->create_texture_view(texture);
-  this->create_texture_sampler(texture);
-
+  this->create_texture(texture);
   data->binding.list_texture.push_back(texture);
 
   //---------------------------
@@ -48,15 +43,24 @@ void VK_texture::clean_texture(Struct_data* data){
     Struct_texture* texture = *next(data->binding.list_texture.begin(), i);
 
     vkDestroySampler(vk_param->device.device, texture->sampler, nullptr);
-    vkDestroyImageView(vk_param->device.device, texture->view, nullptr);
-    vkDestroyImage(vk_param->device.device, texture->image, nullptr);
-    vkFreeMemory(vk_param->device.device, texture->mem, nullptr);
+    vkDestroyImageView(vk_param->device.device, texture->image.view, nullptr);
+    vkDestroyImage(vk_param->device.device, texture->image.image, nullptr);
+    vkFreeMemory(vk_param->device.device, texture->image.mem, nullptr);
   }
 
   //---------------------------
 }
 
 //Texture creation
+void VK_texture::create_texture(Struct_texture* texture){
+  //---------------------------
+
+  this->create_texture_image(texture);
+  this->create_texture_view(texture);
+  this->create_texture_sampler(texture);
+
+  //---------------------------
+}
 void VK_texture::create_texture_image(Struct_texture* texture){
   //---------------------------
 
@@ -81,25 +85,18 @@ void VK_texture::create_texture_image(Struct_texture* texture){
   vkUnmapMemory(vk_param->device.device, staging_mem);
 
   //Create image
-  Struct_image* image = new Struct_image();
-  image->width = tex_width;
-  image->height = tex_height;
-  image->format = VK_FORMAT_R8G8B8A8_SRGB;
-  image->tiling = VK_IMAGE_TILING_OPTIMAL;
-  image->usage = IMAGE_USAGE_TRANSFERT;
-  image->properties = MEMORY_GPU;
-  image->image = texture->image;
-  image->mem = texture->mem;
-
-  this->create_image(image);
-
-  texture->image = image->image;
-  texture->mem = image->mem;
+  texture->image.width = tex_width;
+  texture->image.height = tex_height;
+  texture->image.format = VK_FORMAT_R8G8B8A8_SRGB;
+  texture->image.tiling = VK_IMAGE_TILING_OPTIMAL;
+  texture->image.usage = IMAGE_USAGE_TRANSFERT;
+  texture->image.properties = MEMORY_GPU;
+  this->create_image(&texture->image);
 
   //Image transition from undefined layout to read only layout
-  vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-  this->copy_buffer_to_image(staging_buffer, texture->image, static_cast<uint32_t>(tex_width), static_cast<uint32_t>(tex_height));
-  vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+  vk_image->transition_layout_image(texture->image.image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+  this->copy_buffer_to_image(staging_buffer, texture->image.image, static_cast<uint32_t>(tex_width), static_cast<uint32_t>(tex_height));
+  vk_image->transition_layout_image(texture->image.image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
   //Free memory
   stbi_image_free(tex_data);
@@ -111,13 +108,9 @@ void VK_texture::create_texture_image(Struct_texture* texture){
 void VK_texture::create_texture_view(Struct_texture* texture){
   //---------------------------
 
-  Struct_image* image = new Struct_image();
-  image->image = texture->image;
-  image->format = VK_FORMAT_R8G8B8A8_SRGB;
-  image->aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-
-  this->create_image_view(image);
-  texture->view = image->view;
+  texture->image.format = VK_FORMAT_R8G8B8A8_SRGB;
+  texture->image.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+  this->create_image_view(&texture->image);
 
   //---------------------------
 }
