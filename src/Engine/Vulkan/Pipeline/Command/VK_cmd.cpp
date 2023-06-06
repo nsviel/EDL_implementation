@@ -31,7 +31,6 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
 }
 VK_cmd::~VK_cmd(){}
 
-
 //Main function
 void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
@@ -42,7 +41,7 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   this->cmd_viewport(renderpass);
   this->cmd_drawing_scene(renderpass);
   //this->cmd_drawing_scene_2(renderpass);
-  //this->cmd_drawing_glyph(renderpass);
+  this->cmd_drawing_glyph(renderpass);
 
   //this->cmd_drawing_canvas(renderpass);
   vk_gui->command_gui(renderpass);
@@ -56,8 +55,8 @@ void VK_cmd::cmd_record_glyph(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass);
+  this->cmd_viewport(renderpass);
   this->cmd_drawing_glyph(renderpass);
-  //vk_gui->command_gui(command_buffer);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
@@ -94,7 +93,7 @@ void VK_cmd::cmd_drawing_scene(Struct_renderpass* renderpass){
 
   //Object
   list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
-  Struct_pipeline* pipeline = renderpass->pipeline;
+  Struct_pipeline* pipeline = renderpass->vec_pipeline[0];
 
   //Pipeline
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
@@ -125,7 +124,7 @@ void VK_cmd::cmd_drawing_scene_2(Struct_renderpass* renderpass){
 
   //Object
   list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
-  Struct_pipeline* pipeline = renderpass->pipeline;
+  Struct_pipeline* pipeline = renderpass->vec_pipeline[0];
 
   //Pipeline
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
@@ -156,7 +155,7 @@ void VK_cmd::cmd_drawing_glyph(Struct_renderpass* renderpass){
 
   //Object
   list<Struct_data*> list_data_glyph = vk_data->get_list_data_glyph();
-  Struct_pipeline* pipeline = renderpass->pipeline;
+  Struct_pipeline* pipeline = renderpass->vec_pipeline[0];
 
   //Pipine
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
@@ -188,7 +187,7 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
 
   //Object
   Struct_data* data = vk_canvas->get_canvas();
-  Struct_pipeline* pipeline = renderpass->pipeline;
+  Struct_pipeline* pipeline = renderpass->vec_pipeline[0];
   Object* canvas = data->object;
 
   //Pipeline

@@ -26,12 +26,15 @@ VK_pipeline::VK_pipeline(VK_engine* vk_engine){
 VK_pipeline::~VK_pipeline(){}
 
 //Main function
-void VK_pipeline::clean_pipeline(Struct_pipeline* pipeline){
+void VK_pipeline::clean_pipeline(Struct_renderpass* renderpass){
   //---------------------------
 
-  vkDestroyPipeline(vk_param->device.device, pipeline->pipeline, nullptr);
-  vkDestroyPipelineLayout(vk_param->device.device, pipeline->pipeline_layout, nullptr);
-  vk_binding->clean_binding(pipeline->binding);
+  for(int i=0; i<renderpass->vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
+    vkDestroyPipeline(vk_param->device.device, pipeline->pipeline, nullptr);
+    vkDestroyPipelineLayout(vk_param->device.device, pipeline->pipeline_layout, nullptr);
+    vk_binding->clean_binding(pipeline->binding);
+  }
 
   //---------------------------
 }
@@ -40,17 +43,16 @@ void VK_pipeline::clean_pipeline(Struct_pipeline* pipeline){
 void VK_pipeline::create_pipeline(Struct_renderpass* renderpass){
   //---------------------------
 
-  this->check_struct_pipeline_input(renderpass->pipeline);
-  this->create_pipeline_info(renderpass);
-  this->create_pipeline_graphics(renderpass->pipeline);
-  vk_binding->fill_pipeline_binding(renderpass->pipeline);
-
+  for(int i=0; i<renderpass->vec_pipeline.size(); i++){
+    this->check_struct_pipeline_input(renderpass->vec_pipeline[i]);
+    this->create_pipeline_info(renderpass->vec_pipeline[i], renderpass);
+    this->create_pipeline_graphics(renderpass->vec_pipeline[i]);
+    vk_binding->fill_pipeline_binding(renderpass->vec_pipeline[i]);
+  }
   //---------------------------
 }
-void VK_pipeline::create_pipeline_info(Struct_renderpass* renderpass){
+void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline, Struct_renderpass* renderpass){
   //---------------------------
-
-  Struct_pipeline* pipeline = renderpass->pipeline;
 
   //Dynamic
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);

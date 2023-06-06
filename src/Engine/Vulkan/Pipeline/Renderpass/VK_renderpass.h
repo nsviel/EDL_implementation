@@ -9,6 +9,7 @@ class VK_engine;
 class VK_param;
 class VK_color;
 class VK_pipeline;
+class VK_subpass;
 
 
 class VK_renderpass
@@ -26,9 +27,7 @@ public:
 
   //Render pass object
   void init_renderpass_scene();
-  void init_renderpass_glyph();
   void init_renderpass_canvas();
-  void init_renderpass_gui();
 
   //Subfunction
   void create_renderpass(Struct_renderpass* renderpass);
@@ -42,6 +41,7 @@ private:
   VK_param* vk_param;
   VK_color* vk_color;
   VK_pipeline* vk_pipeline;
+  VK_subpass* vk_subpass;
 };
 
 #endif

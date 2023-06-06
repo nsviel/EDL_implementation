@@ -24,9 +24,7 @@ struct VK_param{
   Struct_swapchain swapchain;
 
   Struct_renderpass renderpass_scene;
-  Struct_renderpass renderpass_glyph;
   Struct_renderpass renderpass_canvas;
-  Struct_renderpass renderpass_gui;
 
   //---------------------------
 };

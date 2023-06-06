@@ -36,8 +36,8 @@ struct Struct_renderpass{
   VkCommandBuffer command_buffer;
 
   //Attachment
-  Struct_pipeline* pipeline;
-  Struct_subpass subpass_0;
+  std::vector<Struct_pipeline*> vec_pipeline;
+  std::vector<Struct_subpass*> vec_subpass;
 
   //---------------------------
 };

@@ -29,34 +29,24 @@ void VK_drawing::draw_frame(){
 
   this->acquire_next_image(&vk_param->renderpass_scene);
   this->draw_scene();
-  //this->draw_gui();
 
+  vector<Struct_renderpass*> vec_renderpass;
+  vec_renderpass.push_back(&vk_param->renderpass_scene);
+
+  this->submit_commands(vec_renderpass);
   this->submit_presentation(&vk_param->renderpass_scene);
   this->set_next_frame_ID(&vk_param->renderpass_scene);
 
   //---------------------------
 }
 void VK_drawing::draw_scene(){
+  Struct_renderpass* renderpass = &vk_param->renderpass_scene;
   //---------------------------
 
-  this->record_command_buffer_scene(&vk_param->renderpass_scene);
-  this->submit_command(&vk_param->renderpass_scene);
-
-  //---------------------------
-}
-void VK_drawing::draw_glyph(){
-  //---------------------------
-
-  this->record_command_buffer_glyph(&vk_param->renderpass_gui);
-  this->submit_command(&vk_param->renderpass_gui);
-
-  //---------------------------
-}
-void VK_drawing::draw_gui(){
-  //---------------------------
-
-  this->record_command_buffer_gui(&vk_param->renderpass_gui);
-  this->submit_command(&vk_param->renderpass_gui);
+  vkResetCommandBuffer(renderpass->command_buffer, 0);
+  vk_command->start_command_buffer(renderpass);
+  vk_cmd->cmd_record_scene(renderpass);
+  vk_command->stop_command_buffer(renderpass);
 
   //---------------------------
 }
@@ -127,6 +117,35 @@ void VK_drawing::submit_command(Struct_renderpass* renderpass){
 
   //---------------------------
 }
+void VK_drawing::submit_commands(vector<Struct_renderpass*> vec_renderpass){
+  Frame* frame = vec_renderpass[0]->frame_set->get_frame_inflight();
+  //---------------------------
+
+  VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+
+  vector<VkCommandBuffer> vec_command_buffer;
+  for(int i=0; i<vec_renderpass.size(); i++){
+    vec_command_buffer.push_back(vec_renderpass[i]->command_buffer);
+  }
+
+  VkSubmitInfo submit_info{};
+  submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  submit_info.waitSemaphoreCount = 1;
+  submit_info.pWaitSemaphores = &frame->semaphore_presentation;
+  submit_info.pWaitDstStageMask = waitStages;
+  submit_info.signalSemaphoreCount = 1;
+  submit_info.pSignalSemaphores = &frame->semaphore_drawing;
+  submit_info.commandBufferCount = vec_command_buffer.size();
+  submit_info.pCommandBuffers = vec_command_buffer.data();
+
+  //Very slow operation, need as low command as possible
+  VkResult result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &submit_info, frame->fence);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to submit draw command buffer!");
+  }
+
+  //---------------------------
+}
 void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
@@ -148,38 +167,6 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
   }else if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to present swap chain image!");
   }
-
-  //---------------------------
-}
-
-//Command buffer record
-void VK_drawing::record_command_buffer_scene(Struct_renderpass* renderpass){
-  //---------------------------
-
-  vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer(renderpass);
-  vk_cmd->cmd_record_scene(renderpass);
-  vk_command->stop_command_buffer(renderpass);
-
-  //---------------------------
-}
-void VK_drawing::record_command_buffer_glyph(Struct_renderpass* renderpass){
-  //---------------------------
-
-  vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer(renderpass);
-  vk_cmd->cmd_record_glyph(renderpass);
-  vk_command->stop_command_buffer(renderpass);
-
-  //---------------------------
-}
-void VK_drawing::record_command_buffer_gui(Struct_renderpass* renderpass){
-  //---------------------------
-
-  vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer(renderpass);
-  vk_cmd->cmd_record_gui(renderpass);
-  vk_command->stop_command_buffer(renderpass);
 
   //---------------------------
 }

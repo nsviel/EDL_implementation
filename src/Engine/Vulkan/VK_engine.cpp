@@ -96,8 +96,10 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
-  //Inverser vk_command et vk_cmd calls for each other, c'est vk_cmd qui doit commander vk_command
-  //Draw GUI apart from the Scene in another command buffer
+  //Faire vector de pipeline per renderpass
+  //Scene + glyph dans meme renderpass
+  //canvs dans other renderpass
+  //gui dans other renderpass
   //put framebuffer on canvas / put canvas front screen
     //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer
     //-abstraction framebuffer et convert it into a texture

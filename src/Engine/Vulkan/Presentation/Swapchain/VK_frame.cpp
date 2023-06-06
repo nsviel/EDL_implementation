@@ -35,11 +35,6 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
-  //Check for existing frame set, if not create it
-  if(renderpass->frame_set != nullptr) return;
-  Frame_set* frame_set = new Frame_set();
-
-  //Renderpass images
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
     Frame* frame = new Frame();
     frame->color.image = vk_param->swapchain.vec_swapchain_image[i];
@@ -50,11 +45,10 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     vk_framebuffer->create_framebuffer(renderpass, frame);
     vk_synchronization->init_frame_sync(frame);
 
-    frame_set->vec_frame.push_back(frame);
+    renderpass->frame_set->vec_frame.push_back(frame);
   }
 
   //---------------------------
-  renderpass->frame_set = frame_set;
 }
 void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
   vector<Frame*>& vec_frame = renderpass->frame_set->vec_frame;
