@@ -27,7 +27,7 @@ struct Struct_image{
 
   VkImage image;
   VkImageView view;
-  VkImageUsageFlagBits usage;
+  VkImageUsageFlags usage;
   VkDeviceMemory mem;
   VkFormat format;
 

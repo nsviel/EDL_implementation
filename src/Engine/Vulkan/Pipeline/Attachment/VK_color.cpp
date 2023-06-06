@@ -33,12 +33,15 @@ void VK_color::create_color_attachment(Frame* frame){
   image->height = vk_param->window.extent.height;
   image->format = frame->color.format;
   image->tiling = VK_IMAGE_TILING_OPTIMAL;
-  image->usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+  image->usage = IMAGE_USAGE_DEPTH;
   image->properties = MEMORY_GPU;
   image->image = frame->color.image;
   image->mem = frame->color.mem;
 
   vk_texture->create_image(image);
+
+  frame->color.image = image->image;
+  frame->color.mem = image->mem;
   frame->color.view = vk_texture->create_image_view(frame->color.image, frame->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------

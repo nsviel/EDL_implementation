@@ -28,12 +28,15 @@ void VK_depth::create_depth_attachment(Frame* frame){
   image->height = vk_param->window.extent.height;
   image->format = frame->depth.format;
   image->tiling = VK_IMAGE_TILING_OPTIMAL;
-  image->usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+  image->usage = IMAGE_USAGE_DEPTH;
   image->properties = MEMORY_GPU;
   image->image = frame->depth.image;
   image->mem = frame->depth.mem;
 
   vk_texture->create_image(image);
+
+  frame->depth.image = image->image;
+  frame->depth.mem = image->mem;
   frame->depth.view = vk_texture->create_image_view(frame->depth.image, frame->depth.format, VK_IMAGE_ASPECT_DEPTH_BIT);
 
   //---------------------------

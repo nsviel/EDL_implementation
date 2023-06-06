@@ -93,6 +93,9 @@ void VK_texture::create_texture_image(Struct_texture* texture){
 
   this->create_image(image);
 
+  texture->image = image->image;
+  texture->mem = image->mem;
+
   //Image transition from undefined layout to read only layout
   vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
   this->copy_buffer_to_image(staging_buffer, texture->image, static_cast<uint32_t>(tex_width), static_cast<uint32_t>(tex_height));
