@@ -86,9 +86,8 @@ void VK_renderpass::init_renderpass_scene(){
   pipeline_line->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   renderpass->vec_pipeline.push_back(pipeline_line);
 
-  vk_subpass->create_subpass_info(renderpass);
+  vk_subpass->create_subpass_clear_info(renderpass);
   this->create_renderpass(renderpass);
-  vk_pipeline->create_pipeline(renderpass);
 
   //---------------------------
 }
@@ -98,10 +97,11 @@ void VK_renderpass::init_renderpass_canvas(){
   //Render pass
   Struct_renderpass* renderpass = &vk_param->renderpass_canvas;
   renderpass->name = "canvas";
+  renderpass->frame_set = vk_param->renderpass_scene.frame_set;
 
   //Pipeline
   Struct_pipeline* pipeline = new Struct_pipeline();
-  pipeline->name = "canvas";
+  pipeline->name = "topology_triangle";
   pipeline->topology = "triangle";
   pipeline->compile_shader = true;
   pipeline->path_shader_vs = "Base/shader_canvas_vs";
@@ -112,9 +112,8 @@ void VK_renderpass::init_renderpass_canvas(){
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
-  vk_subpass->create_subpass_info(renderpass);
+  vk_subpass->create_subpass_conserve_info(renderpass);
   this->create_renderpass(renderpass);
-  vk_pipeline->create_pipeline(renderpass);
 
   //---------------------------
 }
@@ -135,6 +134,8 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
     renderpass->frame_set = new Frame_set();
     vk_frame->create_frame_renderpass(renderpass);
   }
+
+  vk_pipeline->create_pipeline(renderpass);
 
   //---------------------------
 }

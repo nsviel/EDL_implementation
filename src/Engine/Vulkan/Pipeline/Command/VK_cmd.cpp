@@ -64,7 +64,8 @@ void VK_cmd::cmd_record_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass);
-  //this->cmd_drawing_canvas(renderpass);
+  this->cmd_viewport(renderpass);
+  this->cmd_drawing_canvas(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
@@ -146,13 +147,13 @@ void VK_cmd::cmd_drawing_glyph(Struct_renderpass* renderpass){
 void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
+  //Pipeline
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_triangle");
+  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+
   //Object
   Struct_data* data = vk_canvas->get_canvas();
-  Struct_pipeline* pipeline = renderpass->vec_pipeline[0];
   Object* canvas = data->object;
-
-  //Pipeline
-  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Camera
   vk_camera->compute_mvp(canvas);

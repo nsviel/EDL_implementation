@@ -17,7 +17,8 @@ public:
 
 public:
   //Main functions
-  void create_subpass_info(Struct_renderpass* renderpass);
+  void create_subpass_clear_info(Struct_renderpass* renderpass);
+  void create_subpass_conserve_info(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;

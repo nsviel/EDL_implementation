@@ -303,7 +303,12 @@ Struct_pipeline* VK_pipeline::get_pipeline_byName(Struct_renderpass* renderpass,
     }
   }
 
+  //Error barrier
   cout<<"[error] Pipeline by name error -> not found"<<endl;
+  for(int i=0; i<renderpass->vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
+    cout<<pipeline->name<<endl;
+  }
 
   //---------------------------
   return nullptr;

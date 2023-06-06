@@ -24,6 +24,7 @@ public:
   //Main functions
   void draw_frame();
   void draw_scene(Struct_renderpass* renderpass);
+  void draw_canvas(Struct_renderpass* renderpass);
 
   //Drawing function
   void acquire_next_image(Struct_renderpass* renderpass);

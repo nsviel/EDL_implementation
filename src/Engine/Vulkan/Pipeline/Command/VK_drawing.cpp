@@ -30,6 +30,7 @@ void VK_drawing::draw_frame(){
 
   this->acquire_next_image(&vk_param->renderpass_scene);
   this->draw_scene(&vk_param->renderpass_scene);
+  this->draw_canvas(&vk_param->renderpass_canvas);
   this->submit_commands(vec_renderpass);
   this->submit_presentation(&vk_param->renderpass_scene);
   this->set_next_frame_ID(&vk_param->renderpass_scene);
@@ -42,6 +43,17 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer(renderpass);
   vk_cmd->cmd_record_scene(renderpass);
+  vk_command->stop_command_buffer(renderpass);
+
+  //---------------------------
+  vec_renderpass.push_back(renderpass);
+}
+void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
+  //---------------------------
+
+  vkResetCommandBuffer(renderpass->command_buffer, 0);
+  vk_command->start_command_buffer(renderpass);
+  vk_cmd->cmd_record_canvas(renderpass);
   vk_command->stop_command_buffer(renderpass);
 
   //---------------------------
