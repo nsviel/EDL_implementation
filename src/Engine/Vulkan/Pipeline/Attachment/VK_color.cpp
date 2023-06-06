@@ -28,20 +28,14 @@ void VK_color::create_color_attachment(Frame* frame){
 
   frame->color.format = find_color_format();
 
-  Struct_image* image = new Struct_image();
-  image->width = vk_param->window.extent.width;
-  image->height = vk_param->window.extent.height;
-  image->format = frame->color.format;
-  image->tiling = VK_IMAGE_TILING_OPTIMAL;
-  image->usage = IMAGE_USAGE_DEPTH;
-  image->properties = MEMORY_GPU;
-  image->image = frame->color.image;
-  image->mem = frame->color.mem;
+  frame->color.width = vk_param->window.extent.width;
+  frame->color.height = vk_param->window.extent.height;
+  frame->color.tiling = VK_IMAGE_TILING_OPTIMAL;
+  frame->color.usage = IMAGE_USAGE_DEPTH;
+  frame->color.properties = MEMORY_GPU;
 
   vk_texture->create_image(image);
 
-  frame->color.image = image->image;
-  frame->color.mem = image->mem;
   frame->color.view = vk_texture->create_image_view(frame->color.image, frame->color.format, VK_IMAGE_ASPECT_COLOR_BIT);
 
   //---------------------------
