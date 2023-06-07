@@ -12,6 +12,7 @@ class VK_window;
 class VK_swapchain;
 class VK_command;
 class VK_cmd;
+class VK_descriptor;
 
 
 class VK_drawing
@@ -43,6 +44,7 @@ private:
   VK_swapchain* vk_swapchain;
   VK_command* vk_command;
   VK_cmd* vk_cmd;
+  VK_descriptor* vk_descriptor;
 
   vector<Struct_renderpass*> vec_renderpass;
 };

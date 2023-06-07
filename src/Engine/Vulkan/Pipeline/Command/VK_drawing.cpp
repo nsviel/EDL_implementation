@@ -21,6 +21,7 @@ VK_drawing::VK_drawing(VK_engine* vk_engine){
   this->vk_window = vk_engine->get_vk_window();
   this->vk_command = vk_engine->get_vk_command();
   this->vk_cmd = vk_engine->get_vk_cmd();
+  this->vk_descriptor = vk_engine->get_vk_descriptor();
 
   //---------------------------
 }
@@ -46,10 +47,8 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
   Struct_pipeline* pipeline_pt = vk_pipeline->get_pipeline_byName(renderpass, "topology_point");
   Struct_pipeline* pipeline_line = vk_pipeline->get_pipeline_byName(renderpass, "topology_line");
-  VK_descriptor* vk_descriptor = vk_engine->get_vk_descriptor();
-  list<Struct_image*> vec_image;
-  vk_descriptor->update_descriptor_set(&pipeline_pt->binding, vec_image);
-  vk_descriptor->update_descriptor_set(&pipeline_line->binding, vec_image);
+  vk_descriptor->update_descriptor_set(renderpass);
+  vk_descriptor->update_descriptor_uniform(&pipeline_line->binding);
 
 
 
@@ -75,12 +74,11 @@ void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_triangle");
   VK_canvas* vk_canvas = vk_engine->get_vk_canvas();
   Struct_data* data = vk_canvas->get_canvas();
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_triangle");
-  VK_descriptor* vk_descriptor = vk_engine->get_vk_descriptor();
-  list<Struct_image*> vec_image;
-  vk_descriptor->update_descriptor_set(&pipeline->binding, data->list_texture);
+  vk_descriptor->update_descriptor_uniform(&pipeline->binding);
+  vk_descriptor->update_descriptor_sampler(&pipeline->binding, data->list_texture);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);

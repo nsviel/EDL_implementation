@@ -75,21 +75,22 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding* binding){
 }
 
 //Descriptor set update
-void VK_descriptor::update_descriptor_set(Struct_binding* binding, list<Struct_image*> list_image){
+void VK_descriptor::update_descriptor_set(Struct_renderpass* renderpass){
   //---------------------------
 
-  binding->vec_descriptor_write.clear();
-  this->write_descriptor_uniform(binding);
-  this->write_descriptor_sampler(binding, list_image);
-
-  vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(binding->vec_descriptor_write.size()), binding->vec_descriptor_write.data(), 0, nullptr);
+  for(int i=0; i<renderpass->vec_pipeline.size(); i++){
+    Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
+    this->update_descriptor_uniform(&pipeline->binding);
+    //this->update_descriptor_sampler(&pipeline->binding);
+  }
 
   //---------------------------
 }
-void VK_descriptor::write_descriptor_uniform(Struct_binding* binding){
-  binding->vec_descriptor_buffer_info.clear();
+void VK_descriptor::update_descriptor_uniform(Struct_binding* binding){
   //---------------------------
 
+  vector<VkWriteDescriptorSet> vec_descriptor_write;
+  vector<VkDescriptorBufferInfo> vec_descriptor_buffer_info;
   for(int i=0; i<binding->vec_uniform.size(); i++){
     Struct_uniform* uniform = binding->vec_uniform[i];
 
@@ -97,7 +98,7 @@ void VK_descriptor::write_descriptor_uniform(Struct_binding* binding){
     descriptor_info.buffer = uniform->buffer;
     descriptor_info.offset = 0;
     descriptor_info.range = sizeof(glm::mat4);
-    binding->vec_descriptor_buffer_info.push_back(descriptor_info);
+    vec_descriptor_buffer_info.push_back(descriptor_info);
 
     VkWriteDescriptorSet write_uniform = {};
     write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -106,16 +107,20 @@ void VK_descriptor::write_descriptor_uniform(Struct_binding* binding){
     write_uniform.dstArrayElement = 0;
     write_uniform.descriptorType = TYPE_UNIFORM;
     write_uniform.descriptorCount = 1;
-    write_uniform.pBufferInfo = &binding->vec_descriptor_buffer_info[i];
-    binding->vec_descriptor_write.push_back(write_uniform);
+    write_uniform.pBufferInfo = &vec_descriptor_buffer_info[i];
+    vec_descriptor_write.push_back(write_uniform);
   }
 
+  if(vec_descriptor_write.size() != 0){
+    vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(vec_descriptor_write.size()), vec_descriptor_write.data(), 0, nullptr);
+  }
   //---------------------------
 }
-void VK_descriptor::write_descriptor_sampler(Struct_binding* binding, list<Struct_image*> list_image){
-  binding->vec_descriptor_image_info.clear();
+void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, list<Struct_image*> list_image){
   //---------------------------
 
+  vector<VkWriteDescriptorSet> vec_descriptor_write;
+  vector<VkDescriptorImageInfo> vec_descriptor_image_info;
   for(int i=0; i<list_image.size(); i++){
     Struct_image* texture = *next(list_image.begin(), i);
 
@@ -123,7 +128,7 @@ void VK_descriptor::write_descriptor_sampler(Struct_binding* binding, list<Struc
     image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
     image_info.imageView = texture->view;
     image_info.sampler = texture->sampler;
-    binding->vec_descriptor_image_info.push_back(image_info);
+    vec_descriptor_image_info.push_back(image_info);
 
     VkWriteDescriptorSet write_sampler = {};
     write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -132,8 +137,12 @@ void VK_descriptor::write_descriptor_sampler(Struct_binding* binding, list<Struc
     write_sampler.dstArrayElement = 0;
     write_sampler.descriptorType = TYPE_SAMPLER;
     write_sampler.descriptorCount = 1;
-    write_sampler.pImageInfo = &binding->vec_descriptor_image_info[i];
-    binding->vec_descriptor_write.push_back(write_sampler);
+    write_sampler.pImageInfo = &vec_descriptor_image_info[i];
+    vec_descriptor_write.push_back(write_sampler);
+  }
+
+  if(vec_descriptor_write.size() != 0){
+    vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(vec_descriptor_write.size()), vec_descriptor_write.data(), 0, nullptr);
   }
 
   //---------------------------

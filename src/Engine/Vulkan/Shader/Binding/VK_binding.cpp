@@ -34,7 +34,7 @@ void VK_binding::fill_binding_from_requirement(Struct_binding* binding, list<Str
   vk_uniform->create_uniform_buffers(binding);
   vk_sampler->create_sampler(binding);
   vk_descriptor->allocate_descriptor_set(binding);
-  vk_descriptor->update_descriptor_set(binding, list_image);
+  //vk_descriptor->update_descriptor_set(binding, list_image);
 
   //---------------------------
 }

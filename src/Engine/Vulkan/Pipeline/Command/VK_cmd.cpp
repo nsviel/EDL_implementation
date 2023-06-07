@@ -99,11 +99,6 @@ void VK_cmd::cmd_drawing_scene(Struct_renderpass* renderpass){
       //Camera
       vk_camera->compute_mvp(object);
       vk_binding->update_uniform(&pipeline->binding, data->object->mvp);
-
-      VK_descriptor* vk_descriptor = vk_engine->get_vk_descriptor();
-      list<Struct_image*> vec_image;
-      vk_descriptor->update_descriptor_set(&pipeline->binding, vec_image);
-
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       //Data
