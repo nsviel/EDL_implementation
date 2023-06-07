@@ -31,7 +31,7 @@ VK_renderpass::~VK_renderpass(){}
 void VK_renderpass::init_renderpass(){
   //---------------------------
 
-  this->init_renderpass_scene(&vk_param->renderpass_scene);
+  //this->init_renderpass_scene(&vk_param->renderpass_scene);
   this->init_renderpass_canvas(&vk_param->renderpass_canvas);
   this->init_renderpass_gui(&vk_param->renderpass_gui);
 
@@ -40,7 +40,7 @@ void VK_renderpass::init_renderpass(){
 void VK_renderpass::clean_renderpass(){
   //---------------------------
 
-  this->clean_renderpass_object(&vk_param->renderpass_scene);
+  //this->clean_renderpass_object(&vk_param->renderpass_scene);
   this->clean_renderpass_object(&vk_param->renderpass_canvas);
   this->clean_renderpass_object(&vk_param->renderpass_gui);
 
@@ -68,7 +68,7 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
 
   //Subpass
   Struct_subpass* subpass = new Struct_subpass();
-
+/*
   subpass->color.binding = 0;
   subpass->color.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
@@ -78,7 +78,7 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
   subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
-
+*/
 
 
   subpass->color.binding = 0;
@@ -118,14 +118,14 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
 
   //---------------------------
   this->create_renderpass(renderpass);
-  this->create_renderpass_frame(renderpass, "sw");
+  this->create_renderpass_frame(renderpass, "rp");
 }
 void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass
   renderpass->name = "canvas";
-  renderpass->frame_set = vk_param->renderpass_scene.frame_set;
+  //renderpass->frame_set = vk_param->renderpass_scene.frame_set;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
 
   //Subpass
@@ -142,7 +142,7 @@ void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
   subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
 
 
-
+/*
   subpass->color.binding = 0;
   subpass->color.usage = ATTACHMENT_USAGE_CONSERVE;
   subpass->color.layout_initial = IMAGE_LAYOUT_COLOR;
@@ -152,7 +152,7 @@ void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
   subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
-
+*/
   renderpass->vec_subpass.push_back(subpass);
 
   //Pipeline

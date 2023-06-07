@@ -29,7 +29,7 @@ void VK_drawing::draw_frame(){
   //---------------------------
 
   this->acquire_next_image(&vk_param->renderpass_canvas);
-  this->draw_scene(&vk_param->renderpass_scene);
+  //this->draw_scene(&vk_param->renderpass_scene);
   this->draw_canvas(&vk_param->renderpass_canvas);
   this->draw_gui(&vk_param->renderpass_gui);
   this->submit_presentation(&vk_param->renderpass_canvas);
@@ -70,7 +70,7 @@ void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
-  command.semaphore_to_wait = frame->semaphore_renderOnTexture;
+  command.semaphore_to_wait = frame->semaphore_presentation;
   command.semaphore_to_run = frame->semaphore_drawOnQuad;
   command.fence = VK_NULL_HANDLE;
   this->submit_command(&command);
