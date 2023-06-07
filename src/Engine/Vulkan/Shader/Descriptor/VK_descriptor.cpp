@@ -78,29 +78,7 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding* binding){
 void VK_descriptor::update_descriptor_set(Struct_binding* binding){
   //---------------------------
 
-  vector<VkWriteDescriptorSet> vec_write_set;
-
-  //Descriptor set write -> uniform
-  VkDescriptorBufferInfo descriptor_info;
-  VkWriteDescriptorSet write_uniform;
-  if(binding->vec_uniform.size() != 0){
-    Struct_uniform* uniform = binding->vec_uniform[0];
-
-    descriptor_info = {};
-    descriptor_info.buffer = uniform->buffer;
-    descriptor_info.offset = 0;
-    descriptor_info.range = sizeof(glm::mat4);
-
-    write_uniform = {};
-    write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    write_uniform.dstSet = binding->descriptor.set;
-    write_uniform.dstBinding = 0;
-    write_uniform.dstArrayElement = 0;
-    write_uniform.descriptorType = TYPE_UNIFORM;
-    write_uniform.descriptorCount = 1;
-    write_uniform.pBufferInfo = &descriptor_info;
-    vec_write_set.push_back(write_uniform);
-  }
+  this->write_uniform(binding);
 
   //Descriptor set write -> sampler
   VkDescriptorImageInfo image_info;
@@ -121,10 +99,10 @@ void VK_descriptor::update_descriptor_set(Struct_binding* binding){
     write_sampler.descriptorType = TYPE_SAMPLER;
     write_sampler.descriptorCount = 1;
     write_sampler.pImageInfo = &image_info;
-    vec_write_set.push_back(write_sampler);
+    binding->vec_write_set.push_back(write_sampler);
   }
 
-  vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(vec_write_set.size()), vec_write_set.data(), 0, nullptr);
+  vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(binding->vec_write_set.size()), binding->vec_write_set.data(), 0, nullptr);
 
   //---------------------------
 }
