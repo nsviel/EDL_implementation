@@ -33,6 +33,7 @@ void VK_renderpass::init_renderpass(){
 
   this->init_renderpass_scene();
   this->init_renderpass_canvas();
+  this->init_renderpass_gui();
 
   //---------------------------
 }
@@ -41,6 +42,7 @@ void VK_renderpass::clean_renderpass(){
 
   this->clean_renderpass_object(&vk_param->renderpass_scene);
   this->clean_renderpass_object(&vk_param->renderpass_canvas);
+  this->clean_renderpass_object(&vk_param->renderpass_gui);
 
   //---------------------------
 }
@@ -142,6 +144,44 @@ void VK_renderpass::init_renderpass_canvas(){
   subpass->color.usage = ATTACHMENT_USAGE_CONSERVE;
   subpass->color.layout_initial = IMAGE_LAYOUT_COLOR;
   subpass->color.layout_final = IMAGE_LAYOUT_PRESENT;
+
+  subpass->depth.binding = 1;
+  subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
+  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
+  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
+  renderpass->vec_subpass.push_back(subpass);
+
+  //Pipeline
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "topology_triangle";
+  pipeline->topology = "triangle";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "Base/shader_canvas_vs";
+  pipeline->path_shader_fs = "Base/shader_canvas_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("tex_coord");
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
+  renderpass->vec_pipeline.push_back(pipeline);
+
+  //---------------------------
+  this->create_renderpass(renderpass);
+}
+void VK_renderpass::init_renderpass_gui(){
+  //---------------------------
+
+  //Render pass
+  Struct_renderpass* renderpass = &vk_param->renderpass_gui;
+  renderpass->name = "canvas";
+  renderpass->frame_set = vk_param->renderpass_scene.frame_set;
+  renderpass->frame_usage = IMAGE_USAGE_DEPTH;
+
+  //Subpass
+  Struct_subpass* subpass = new Struct_subpass();
+  subpass->color.binding = 0;
+  subpass->color.usage = ATTACHMENT_USAGE_CONSERVE;
+  subpass->color.layout_initial = IMAGE_LAYOUT_COLOR;
+  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
 
   subpass->depth.binding = 1;
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;

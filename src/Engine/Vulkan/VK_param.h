@@ -25,6 +25,7 @@ struct VK_param{
 
   Struct_renderpass renderpass_scene;
   Struct_renderpass renderpass_canvas;
+  Struct_renderpass renderpass_gui;
 
   //---------------------------
 };

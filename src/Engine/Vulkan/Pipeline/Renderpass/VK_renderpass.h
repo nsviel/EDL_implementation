@@ -28,6 +28,7 @@ public:
   //Render pass object
   void init_renderpass_scene();
   void init_renderpass_canvas();
+  void init_renderpass_gui();
 
   //Subfunction
   void create_renderpass(Struct_renderpass* renderpass);

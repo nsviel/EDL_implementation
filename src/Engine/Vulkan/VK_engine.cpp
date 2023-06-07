@@ -96,11 +96,6 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
-  //is struct_image same as struct_texture ?
-  //Faire vector de pipeline per renderpass
-  //Scene + glyph dans meme renderpass
-  //canvs dans other renderpass
-  //gui dans other renderpass
   //put framebuffer on canvas / put canvas front screen
     //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer
     //-abstraction framebuffer et convert it into a texture

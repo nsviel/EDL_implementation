@@ -34,14 +34,12 @@ VK_cmd::~VK_cmd(){}
 //Main function
 void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
-  VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
   vk_command->start_render_pass(renderpass);
   this->cmd_viewport(renderpass);
   this->cmd_drawing_scene(renderpass);
   this->cmd_drawing_glyph(renderpass);
-  vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
