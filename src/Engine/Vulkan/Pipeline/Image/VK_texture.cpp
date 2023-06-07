@@ -34,15 +34,15 @@ void VK_texture::load_texture(Struct_data* data, string path){
   texture->format = VK_FORMAT_R8G8B8A8_SRGB;
   texture->aspect = VK_IMAGE_ASPECT_COLOR_BIT;
   this->create_texture(texture);
-  data->binding.list_texture.push_back(texture);
+  data->list_texture.push_back(texture);
 
   //---------------------------
 }
 void VK_texture::clean_texture(Struct_data* data){
   //---------------------------
 
-  for(int i=0; i<data->binding.list_texture.size(); i++){
-    Struct_image* texture = *next(data->binding.list_texture.begin(), i);
+  for(int i=0; i<data->list_texture.size(); i++){
+    Struct_image* texture = *next(data->list_texture.begin(), i);
     vk_image->clean_image(texture);
   }
 

@@ -16,7 +16,7 @@ struct Struct_buffer{
   //---------------------------
 };
 
-struct Struct_data{ 
+struct Struct_data{
   //---------------------------
 
   Object* object;
@@ -33,6 +33,7 @@ struct Struct_data{
 
   //Binding
   Struct_binding binding;
+  list<Struct_image*> list_texture;
 
   //---------------------------
 };

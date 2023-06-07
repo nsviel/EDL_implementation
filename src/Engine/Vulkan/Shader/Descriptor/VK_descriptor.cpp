@@ -75,12 +75,12 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding* binding){
 }
 
 //Descriptor set update
-void VK_descriptor::update_descriptor_set(Struct_binding* binding){
+void VK_descriptor::update_descriptor_set(Struct_binding* binding, list<Struct_image*> list_image){
   //---------------------------
 
   binding->vec_descriptor_write.clear();
   this->write_descriptor_uniform(binding);
-  this->write_descriptor_sampler(binding);
+  this->write_descriptor_sampler(binding, list_image);
 
   vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(binding->vec_descriptor_write.size()), binding->vec_descriptor_write.data(), 0, nullptr);
 
@@ -112,12 +112,12 @@ void VK_descriptor::write_descriptor_uniform(Struct_binding* binding){
 
   //---------------------------
 }
-void VK_descriptor::write_descriptor_sampler(Struct_binding* binding){
+void VK_descriptor::write_descriptor_sampler(Struct_binding* binding, list<Struct_image*> list_image){
   binding->vec_descriptor_image_info.clear();
   //---------------------------
 
-  for(int i=0; i<binding->list_texture.size(); i++){
-    Struct_image* texture = *next(binding->list_texture.begin(), i);
+  for(int i=0; i<list_image.size(); i++){
+    Struct_image* texture = *next(list_image.begin(), i);
 
     VkDescriptorImageInfo image_info = {};
     image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;

@@ -22,11 +22,11 @@ public:
 
 public:
   //Main functions
-  void fill_binding_from_requirement(Struct_binding* binding);
+  void fill_binding_from_requirement(Struct_binding* binding, list<Struct_image*> list_image);
   void fill_pipeline_binding(Struct_pipeline* pipeline);
   void clean_binding(Struct_binding* binding);
 
-  void update_uniform(Struct_data* data);
+  void update_uniform(Struct_binding* binding, mat4 mvp);
 
   inline VK_uniform* get_vk_uniform(){return vk_uniform;}
 

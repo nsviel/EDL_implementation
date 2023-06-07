@@ -22,7 +22,7 @@ VK_binding::VK_binding(VK_engine* vk_engine){
 VK_binding::~VK_binding(){}
 
 //Main function
-void VK_binding::fill_binding_from_requirement(Struct_binding* binding){
+void VK_binding::fill_binding_from_requirement(Struct_binding* binding, list<Struct_image*> list_image){
   //---------------------------
 
   if(binding->vec_required_binding.size() == 0){
@@ -34,7 +34,7 @@ void VK_binding::fill_binding_from_requirement(Struct_binding* binding){
   vk_uniform->create_uniform_buffers(binding);
   vk_sampler->create_sampler(binding);
   vk_descriptor->allocate_descriptor_set(binding);
-  vk_descriptor->update_descriptor_set(binding);
+  vk_descriptor->update_descriptor_set(binding, list_image);
 
   //---------------------------
 }
@@ -45,7 +45,7 @@ void VK_binding::fill_pipeline_binding(Struct_pipeline* pipeline){
   vk_uniform->create_uniform_buffers(binding);
   vk_sampler->create_sampler(binding);
   vk_descriptor->allocate_descriptor_set(binding);
-  vk_descriptor->update_descriptor_set(binding);
+  //vk_descriptor->update_descriptor_set(binding);
 
   //---------------------------
 }
@@ -58,10 +58,10 @@ void VK_binding::clean_binding(Struct_binding* binding){
   //---------------------------
 }
 
-void VK_binding::update_uniform(Struct_data* data){
+void VK_binding::update_uniform(Struct_binding* binding, mat4 mvp){
   //---------------------------
 
-  vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
+  vk_uniform->update_uniform_mat4("mvp", binding, mvp);
 
   //---------------------------
 }

@@ -98,7 +98,7 @@ void VK_cmd::cmd_drawing_scene(Struct_renderpass* renderpass){
     if(object->draw_type_name == "point"){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_binding->update_uniform(data);
+      vk_binding->update_uniform(&data->binding, data->object->mvp);
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
       //Data
@@ -127,7 +127,7 @@ void VK_cmd::cmd_drawing_glyph(Struct_renderpass* renderpass){
     if(object->draw_type_name == "line"){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_binding->update_uniform(data);
+      vk_binding->update_uniform(&data->binding, data->object->mvp);
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
       //Data
@@ -170,8 +170,9 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
 
   //Descriptor
   vk_camera->compute_mvp(canvas);
-  vk_binding->update_uniform(data);
-  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+  vk_binding->update_uniform(&data->binding, data->object->mvp);
+  vk_binding->update_uniform(&pipeline->binding, data->object->mvp);
+  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
   //Data
   VkDeviceSize offsets[] = {0};

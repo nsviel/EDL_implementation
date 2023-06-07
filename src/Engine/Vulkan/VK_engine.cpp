@@ -97,6 +97,9 @@ void VK_engine::init_vulkan(){
 
   //PRIORITY
   //Rework binding struct_bingin and binding owner
+    //Il faut lier les descriptor set et binding en générale aux pipeline
+    //list texture a Struct_data
+    //et update descriptor per mesh
   //put framebuffer on canvas / put canvas front screen
     //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer
     //-abstraction framebuffer et convert it into a texture

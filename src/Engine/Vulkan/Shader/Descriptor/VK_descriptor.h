@@ -27,9 +27,9 @@ public:
   void allocate_descriptor_set(Struct_binding* binding);
 
   //Descriptor set update
-  void update_descriptor_set(Struct_binding* binding);
+  void update_descriptor_set(Struct_binding* binding, list<Struct_image*> list_image);
   void write_descriptor_uniform(Struct_binding* binding);
-  void write_descriptor_sampler(Struct_binding* binding);
+  void write_descriptor_sampler(Struct_binding* binding, list<Struct_image*> list_image);
 
   //Descriptor layout
   void create_layout_from_required(Struct_binding* binding);
