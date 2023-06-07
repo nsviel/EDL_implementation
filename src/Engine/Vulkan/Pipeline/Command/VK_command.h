@@ -35,6 +35,10 @@ public:
   void start_render_pass(Struct_renderpass* renderpass);
   void stop_render_pass(Struct_renderpass* renderpass);
 
+  //Image layout transition
+  void image_layout_transition(VkCommandBuffer command_buffer, Struct_image* image, VkImageLayout oldLayout, VkImageLayout newLayout);
+  void image_layout_transition_single(Struct_image* image, VkImageLayout old_layout, VkImageLayout new_layout);
+  
   //Single time command
   VkCommandBuffer singletime_command_buffer_begin();
   void singletime_command_buffer_end(VkCommandBuffer command_buffer);

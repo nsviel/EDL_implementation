@@ -31,6 +31,8 @@ void VK_texture::load_texture(Struct_data* data, string path){
 
   Struct_image* texture = new Struct_image();
   texture->path = path;
+  texture->format = VK_FORMAT_R8G8B8A8_SRGB;
+  texture->aspect = VK_IMAGE_ASPECT_COLOR_BIT;
   this->create_texture(texture);
   data->binding.list_texture.push_back(texture);
 
@@ -55,13 +57,14 @@ void VK_texture::clean_texture(Struct_data* data){
 void VK_texture::create_texture(Struct_image* texture){
   //---------------------------
 
-  this->create_texture_image(texture);
-  this->create_texture_view(texture);
-  this->create_texture_sampler(texture);
+  this->create_texture_from_file(texture);
+  this->create_image_view(texture);
+  this->create_image_sampler(texture);
 
   //---------------------------
 }
-void VK_texture::create_texture_image(Struct_image* texture){
+void VK_texture::create_texture_from_file(Struct_image* texture){
+  VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
   //Load image
@@ -89,14 +92,14 @@ void VK_texture::create_texture_image(Struct_image* texture){
   texture->height = tex_height;
   texture->format = VK_FORMAT_R8G8B8A8_SRGB;
   texture->tiling = VK_IMAGE_TILING_OPTIMAL;
-  texture->usage = IMAGE_USAGE_TRANSFERT;
+  texture->usage = IMAGE_USAGE_TRANSFERT | IMAGE_USAGE_SAMPLER;
   texture->properties = MEMORY_GPU;
   this->create_image(texture);
 
   //Image transition from undefined layout to read only layout
-  vk_image->transition_layout_image(texture, IMAGE_LAYOUT_EMPTY, IMAGE_LAYOUT_TRANSFER);
+  vk_command->image_layout_transition_single(texture, IMAGE_LAYOUT_EMPTY, IMAGE_LAYOUT_TRANSFER);
   this->copy_buffer_to_image(texture, staging_buffer);
-  vk_image->transition_layout_image(texture, IMAGE_LAYOUT_TRANSFER, IMAGE_LAYOUT_SHADER);
+  vk_command->image_layout_transition_single(texture, IMAGE_LAYOUT_TRANSFER, IMAGE_LAYOUT_SHADER);
 
   //Free memory
   stbi_image_free(tex_data);
@@ -105,71 +108,39 @@ void VK_texture::create_texture_image(Struct_image* texture){
 
   //---------------------------
 }
-void VK_texture::create_texture_view(Struct_image* texture){
+void VK_texture::copy_buffer_to_image(Struct_image* image, VkBuffer buffer){
+  VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
-  texture->format = VK_FORMAT_R8G8B8A8_SRGB;
-  texture->aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-  this->create_image_view(texture);
+  VkCommandBuffer command_buffer = vk_command->singletime_command_buffer_begin();
 
-  //---------------------------
-}
-void VK_texture::create_texture_sampler(Struct_image* texture){
-  //---------------------------
+  VkBufferImageCopy region{};
+  region.bufferOffset = 0;
+  region.bufferRowLength = 0;
+  region.bufferImageHeight = 0;
 
-  VkPhysicalDeviceProperties properties{};
-  vkGetPhysicalDeviceProperties(vk_param->device.physical_device, &properties);
+  region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+  region.imageSubresource.mipLevel = 0;
+  region.imageSubresource.baseArrayLayer = 0;
+  region.imageSubresource.layerCount = 1;
 
-  VkSamplerCreateInfo samplerInfo{};
-  samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-  samplerInfo.magFilter = VK_FILTER_LINEAR;
-  samplerInfo.minFilter = VK_FILTER_LINEAR;
-  samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-  samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-  samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-  samplerInfo.anisotropyEnable = VK_TRUE;
-  samplerInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
-  samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
-  samplerInfo.unnormalizedCoordinates = VK_FALSE;
-  samplerInfo.compareEnable = VK_FALSE;
-  samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
-  samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+  region.imageOffset = {0, 0, 0};
+  region.imageExtent = {
+    image->width,
+    image->height,
+    1
+  };
 
-  VkResult result = vkCreateSampler(vk_param->device.device, &samplerInfo, nullptr, &texture->sampler);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create texture sampler!");
-  }
+  vkCmdCopyBufferToImage(command_buffer, buffer, image->image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
+
+  vk_command->singletime_command_buffer_end(command_buffer);
 
   //---------------------------
 }
 
 //Generic image creation
-void VK_texture::create_image_view(Struct_image* image){
-  //---------------------------
-
-  VkImageViewCreateInfo viewInfo{};
-  viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-  viewInfo.image = image->image;
-  viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-  viewInfo.format = image->format;
-  viewInfo.subresourceRange.aspectMask = image->aspect;
-  viewInfo.subresourceRange.baseMipLevel = 0;
-  viewInfo.subresourceRange.levelCount = 1;
-  viewInfo.subresourceRange.baseArrayLayer = 0;
-  viewInfo.subresourceRange.layerCount = 1;
-
-  VkImageView imageView;
-  VkResult result = vkCreateImageView(vk_param->device.device, &viewInfo, nullptr, &image->view);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create texture image view!");
-  }
-
-  //---------------------------
-}
 void VK_texture::create_image(Struct_image* image){
   //---------------------------
-
-  //uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory
 
   VkImageCreateInfo imageInfo{};
   imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -208,32 +179,53 @@ void VK_texture::create_image(Struct_image* image){
 
   //---------------------------
 }
-void VK_texture::copy_buffer_to_image(Struct_image* image, VkBuffer buffer){
-  VK_command* vk_command = vk_engine->get_vk_command();
+void VK_texture::create_image_view(Struct_image* image){
   //---------------------------
 
-  VkCommandBuffer command_buffer = vk_command->singletime_command_buffer_begin();
+  VkImageViewCreateInfo viewInfo{};
+  viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+  viewInfo.image = image->image;
+  viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+  viewInfo.format = image->format;
+  viewInfo.subresourceRange.aspectMask = image->aspect;
+  viewInfo.subresourceRange.baseMipLevel = 0;
+  viewInfo.subresourceRange.levelCount = 1;
+  viewInfo.subresourceRange.baseArrayLayer = 0;
+  viewInfo.subresourceRange.layerCount = 1;
 
-  VkBufferImageCopy region{};
-  region.bufferOffset = 0;
-  region.bufferRowLength = 0;
-  region.bufferImageHeight = 0;
+  VkImageView imageView;
+  VkResult result = vkCreateImageView(vk_param->device.device, &viewInfo, nullptr, &image->view);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to create texture image view!");
+  }
 
-  region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-  region.imageSubresource.mipLevel = 0;
-  region.imageSubresource.baseArrayLayer = 0;
-  region.imageSubresource.layerCount = 1;
+  //---------------------------
+}
+void VK_texture::create_image_sampler(Struct_image* texture){
+  //---------------------------
 
-  region.imageOffset = {0, 0, 0};
-  region.imageExtent = {
-    image->width,
-    image->height,
-    1
-  };
+  VkPhysicalDeviceProperties properties{};
+  vkGetPhysicalDeviceProperties(vk_param->device.physical_device, &properties);
 
-  vkCmdCopyBufferToImage(command_buffer, buffer, image->image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
+  VkSamplerCreateInfo samplerInfo{};
+  samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+  samplerInfo.magFilter = VK_FILTER_LINEAR;
+  samplerInfo.minFilter = VK_FILTER_LINEAR;
+  samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+  samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+  samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+  samplerInfo.anisotropyEnable = VK_TRUE;
+  samplerInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
+  samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
+  samplerInfo.unnormalizedCoordinates = VK_FALSE;
+  samplerInfo.compareEnable = VK_FALSE;
+  samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+  samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 
-  vk_command->singletime_command_buffer_end(command_buffer);
+  VkResult result = vkCreateSampler(vk_param->device.device, &samplerInfo, nullptr, &texture->sampler);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to create texture sampler!");
+  }
 
   //---------------------------
 }

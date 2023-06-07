@@ -47,7 +47,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   vk_command->stop_command_buffer(renderpass);
 
   //Submit command
-  Frame* frame = renderpass->frame_set->get_frame_inflight();
+  Frame* frame = vk_param->renderpass_canvas.frame_set->get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
   command.semaphore_to_wait = frame->semaphore_presentation;
