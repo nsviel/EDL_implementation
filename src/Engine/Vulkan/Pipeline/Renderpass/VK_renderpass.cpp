@@ -143,7 +143,7 @@ void VK_renderpass::init_renderpass_canvas(){
   subpass->color.binding = 0;
   subpass->color.usage = ATTACHMENT_USAGE_CONSERVE;
   subpass->color.layout_initial = IMAGE_LAYOUT_COLOR;
-  subpass->color.layout_final = IMAGE_LAYOUT_PRESENT;
+  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
 
   subpass->depth.binding = 1;
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
@@ -181,7 +181,7 @@ void VK_renderpass::init_renderpass_gui(){
   subpass->color.binding = 0;
   subpass->color.usage = ATTACHMENT_USAGE_CONSERVE;
   subpass->color.layout_initial = IMAGE_LAYOUT_COLOR;
-  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
+  subpass->color.layout_final = IMAGE_LAYOUT_PRESENT;
 
   subpass->depth.binding = 1;
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;

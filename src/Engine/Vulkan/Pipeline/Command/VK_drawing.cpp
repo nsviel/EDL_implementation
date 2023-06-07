@@ -30,8 +30,8 @@ void VK_drawing::draw_frame(){
 
   this->acquire_next_image(&vk_param->renderpass_canvas);
   this->draw_scene(&vk_param->renderpass_scene);
-  this->draw_gui(&vk_param->renderpass_gui);
   this->draw_canvas(&vk_param->renderpass_canvas);
+  this->draw_gui(&vk_param->renderpass_gui);
   this->submit_commands(vec_renderpass);
   this->submit_presentation(&vk_param->renderpass_canvas);
   this->set_next_frame_ID(&vk_param->renderpass_canvas);
@@ -46,8 +46,28 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   vk_cmd->cmd_record_scene(renderpass);
   vk_command->stop_command_buffer(renderpass);
 
+
+  VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
+  VkSubmitInfo submit_info{};
+  submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  submit_info.waitSemaphoreCount = 1;
+  submit_info.pWaitSemaphores = &frame->semaphore_presentation;
+  submit_info.pWaitDstStageMask = waitStages;
+  submit_info.signalSemaphoreCount = 1;
+  submit_info.pSignalSemaphores = &frame->semaphore_renderOnTexture;
+  submit_info.commandBufferCount = 1;
+  submit_info.pCommandBuffers = &renderpass->command_buffer;
+
+  //Very slow operation, need as low command as possible
+  VkResult result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &submit_info, VK_NULL_HANDLE);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to submit draw command buffer!");
+  }
+
   //---------------------------
-  vec_renderpass.push_back(renderpass);
+  //vec_renderpass.push_back(renderpass);
 }
 void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
   //---------------------------
@@ -57,8 +77,27 @@ void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
   vk_cmd->cmd_record_canvas(renderpass);
   vk_command->stop_command_buffer(renderpass);
 
+  VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+
+  Frame* frame = renderpass->frame_set->get_frame_inflight();
+  VkSubmitInfo submit_info{};
+  submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  submit_info.waitSemaphoreCount = 1;
+  submit_info.pWaitSemaphores = &frame->semaphore_renderOnTexture;
+  submit_info.pWaitDstStageMask = waitStages;
+  submit_info.signalSemaphoreCount = 1;
+  submit_info.pSignalSemaphores = &frame->semaphore_drawOnQuad;
+  submit_info.commandBufferCount = 1;
+  submit_info.pCommandBuffers = &renderpass->command_buffer;
+
+  //Very slow operation, need as low command as possible
+  VkResult result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &submit_info, VK_NULL_HANDLE);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to submit draw command buffer!");
+  }
+
   //---------------------------
-  vec_renderpass.push_back(renderpass);
+  //vec_renderpass.push_back(renderpass);
 }
 void VK_drawing::draw_gui(Struct_renderpass* renderpass){
   //---------------------------
@@ -123,10 +162,10 @@ void VK_drawing::submit_command(Struct_renderpass* renderpass){
   VkSubmitInfo submit_info{};
   submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
   submit_info.waitSemaphoreCount = 1;
-  submit_info.pWaitSemaphores = &frame->semaphore_presentation;
+  submit_info.pWaitSemaphores = &frame->semaphore_drawOnQuad;
   submit_info.pWaitDstStageMask = waitStages;
   submit_info.signalSemaphoreCount = 1;
-  submit_info.pSignalSemaphores = &frame->semaphore_drawing;
+  submit_info.pSignalSemaphores = &frame->semaphore_gui;
   submit_info.commandBufferCount = 1;
   submit_info.pCommandBuffers = &renderpass->command_buffer;
 
@@ -152,10 +191,10 @@ void VK_drawing::submit_commands(vector<Struct_renderpass*> vec_renderpass){
   VkSubmitInfo submit_info{};
   submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
   submit_info.waitSemaphoreCount = 1;
-  submit_info.pWaitSemaphores = &frame->semaphore_presentation;
+  submit_info.pWaitSemaphores = &frame->semaphore_drawOnQuad;
   submit_info.pWaitDstStageMask = waitStages;
   submit_info.signalSemaphoreCount = 1;
-  submit_info.pSignalSemaphores = &frame->semaphore_drawing;
+  submit_info.pSignalSemaphores = &frame->semaphore_gui;
   submit_info.commandBufferCount = vec_command_buffer.size();
   submit_info.pCommandBuffers = vec_command_buffer.data();
 
@@ -171,12 +210,12 @@ void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
-  VkSemaphore vec_semaphore_drawing[] = {frame->semaphore_drawing};
+  VkSemaphore vec_semaphore_drawOnQuad[] = {frame->semaphore_gui};
   VkSwapchainKHR swapChains[] = {vk_param->swapchain.swapchain};
   VkPresentInfoKHR presentation_info{};
   presentation_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
   presentation_info.waitSemaphoreCount = 1;
-  presentation_info.pWaitSemaphores = vec_semaphore_drawing;
+  presentation_info.pWaitSemaphores = vec_semaphore_drawOnQuad;
   presentation_info.swapchainCount = 1;
   presentation_info.pSwapchains = swapChains;
   presentation_info.pImageIndices = &renderpass->frame_set->frame_sawpchain_ID;

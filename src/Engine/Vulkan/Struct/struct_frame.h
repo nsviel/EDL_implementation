@@ -18,9 +18,10 @@ struct Frame{
   Struct_image depth;
 
   //Synchronisation
-  VkSemaphore semaphore_scene;
-  VkSemaphore semaphore_drawing;
+  VkSemaphore semaphore_renderOnTexture;
+  VkSemaphore semaphore_drawOnQuad;
   VkSemaphore semaphore_presentation;
+  VkSemaphore semaphore_gui;
   VkFence fence;
 
   //---------------------------
