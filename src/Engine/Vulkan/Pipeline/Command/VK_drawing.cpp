@@ -76,9 +76,12 @@ void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
   VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_triangle");
   VK_canvas* vk_canvas = vk_engine->get_vk_canvas();
+  Frame *frame_scene = vk_param->renderpass_scene.frame_set->get_frame_inflight();
   Struct_data* data = vk_canvas->get_canvas();
+  list<Struct_image*> vec_image;
+  vec_image.push_back(&frame_scene->color);
   vk_descriptor->update_descriptor_uniform(&pipeline->binding);
-  vk_descriptor->update_descriptor_sampler(&pipeline->binding, data->list_texture);
+  vk_descriptor->update_descriptor_sampler(&pipeline->binding, vec_image);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
