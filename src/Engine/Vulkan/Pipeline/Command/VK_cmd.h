@@ -29,6 +29,7 @@ public:
 
   //Renderpass command
   void cmd_viewport(Struct_renderpass* renderpass);
+  void cmd_scissor(Struct_renderpass* renderpass);
   void cmd_drawing_scene(Struct_renderpass* renderpass);
   void cmd_drawing_glyph(Struct_renderpass* renderpass);
   void cmd_drawing_canvas(Struct_renderpass* renderpass);

@@ -36,5 +36,15 @@ void VK_viewport::update_viewport(VkExtent2D swapchain_extent){
   scissor.offset = {0, 0};
   scissor.extent = swapchain_extent;
 
+  //Viewport
+  vec2 win_dim = dimManager->get_win_dim();
+  viewport_canvas = {};
+  viewport_canvas.x = 0;
+  viewport_canvas.y = 0;
+  viewport_canvas.width  = win_dim.x;
+  viewport_canvas.height = win_dim.y;
+  viewport_canvas.minDepth = 0.0f;
+  viewport_canvas.maxDepth = 1.0f;
+
   //---------------------------
 }

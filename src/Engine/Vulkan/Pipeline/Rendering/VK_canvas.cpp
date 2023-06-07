@@ -29,20 +29,22 @@ void VK_canvas::create_canvas(){
 
   //Generic quad coordinates and UV
   vector<vec3> xyz;
-  xyz.push_back(vec3(-1.0f, 1.0f, 0.0f));
+  xyz.push_back(vec3(1.0f, -1.0f, 0.0f));
   xyz.push_back(vec3(-1.0f, -1.0f, 0.0f));
+  xyz.push_back(vec3(-1.0f, 1.0f, 0.0f));
+
+  xyz.push_back(vec3(1.0f, 1.0f, 0.0f));
   xyz.push_back(vec3(1.0f, -1.0f, 0.0f));
   xyz.push_back(vec3(-1.0f, 1.0f, 0.0f));
-  xyz.push_back(vec3(1.0f, -1.0f, 0.0f));
-  xyz.push_back(vec3(1.0f, 1.0f, 0.0f));
 
   vector<vec2> uv;
-  uv.push_back(vec2(0.0f,  1.0f));
+  uv.push_back(vec2(1.0f,  0.0f));
   uv.push_back(vec2(0.0f,  0.0f));
+  uv.push_back(vec2(0.0f,  1.0f));
+
+  uv.push_back(vec2(1.0f,  1.0f));
   uv.push_back(vec2(1.0f,  0.0f));
   uv.push_back(vec2(0.0f,  1.0f));
-  uv.push_back(vec2(1.0f,  0.0f));
-  uv.push_back(vec2(1.0f,  1.0f));
 
   canvas_obj->name = "canvas";
   canvas_obj->xyz = xyz;

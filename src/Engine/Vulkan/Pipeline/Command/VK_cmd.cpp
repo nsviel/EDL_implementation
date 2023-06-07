@@ -39,6 +39,7 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
 
   vk_command->start_render_pass(renderpass);
   this->cmd_viewport(renderpass);
+  this->cmd_scissor(renderpass);
   this->cmd_drawing_scene(renderpass);
   this->cmd_drawing_glyph(renderpass);
   vk_command->stop_render_pass(renderpass);
@@ -61,7 +62,12 @@ void VK_cmd::cmd_record_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass);
-  this->cmd_viewport(renderpass);
+
+  vk_viewport->update_viewport(vk_param->window.extent);
+  VkViewport viewport = vk_viewport->get_viewport_canvas();
+  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
+
+  this->cmd_scissor(renderpass);
   this->cmd_drawing_canvas(renderpass);
   vk_command->stop_render_pass(renderpass);
 
@@ -73,11 +79,15 @@ void VK_cmd::cmd_viewport(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_viewport->update_viewport(vk_param->window.extent);
-
   VkViewport viewport = vk_viewport->get_viewport();
-  VkRect2D scissor = vk_viewport->get_scissor();
-
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
+
+  //---------------------------
+}
+void VK_cmd::cmd_scissor(Struct_renderpass* renderpass){
+  //---------------------------
+
+  VkRect2D scissor = vk_viewport->get_scissor();
   vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
 
   //---------------------------
@@ -149,35 +159,12 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_triangle");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
-  //Object
-  Struct_data* data = vk_canvas->get_canvas();
-  Object* canvas = data->object;
-
-/*
-  Frame* offscreen = vk_param->renderpass_scene.frame_set->get_frame_inflight();
-  if(data->binding.list_texture.size() <3){
-    data->binding.list_texture.push_back(&offscreen->color);
-  }else{
-    Struct_image* image =  *next(data->binding.list_texture.begin(),2);
-    image = &offscreen->color;
-  }
-  VK_descriptor* vk_descriptor = vk_engine->get_vk_descriptor();
-  vk_descriptor->update_descriptor_set(&data->binding);
-*/
-
-  //Frame* frame = renderpass->frame_set->get_frame_inflight();
-  //Struct_image* texture = *next(data->binding.list_texture.begin(), 0);
-  //texture->image = frame->color;
-
-
-
   //Descriptor
-  vk_camera->compute_mvp(canvas);
-  //vk_binding->update_uniform(&data->binding, data->object->mvp);
-  vk_binding->update_uniform(&pipeline->binding, data->object->mvp);
   vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data
+  Struct_data* data = vk_canvas->get_canvas();
+  Object* canvas = data->object;
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 1, &data->xyz.vbo, offsets);
   vkCmdBindVertexBuffers(renderpass->command_buffer, 2, 1, &data->uv.vbo, offsets);
