@@ -31,7 +31,7 @@ VK_frame::VK_frame(VK_engine* vk_engine){
 VK_frame::~VK_frame(){}
 
 //Renderpass frame
-void VK_frame::create_frame_swapchain(Struct_renderpass* renderpass){
+void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   if(renderpass->frame_set != nullptr) return;
   renderpass->frame_set = new Frame_set();
   //---------------------------
@@ -54,7 +54,7 @@ void VK_frame::create_frame_swapchain(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
+/*void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   if(renderpass->frame_set != nullptr) return;
   renderpass->frame_set = new Frame_set();
   //---------------------------
@@ -73,7 +73,7 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   }
 
   //---------------------------
-}
+}*/
 void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
   vector<Frame*>& vec_frame = renderpass->frame_set->vec_frame;
   //---------------------------

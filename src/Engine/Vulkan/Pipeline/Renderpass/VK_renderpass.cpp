@@ -120,7 +120,7 @@ void VK_renderpass::init_renderpass_scene(){
 
   //---------------------------
   this->create_renderpass(renderpass);
-  vk_frame->create_frame_swapchain(renderpass);
+  vk_frame->create_frame_renderpass(renderpass);
 }
 void VK_renderpass::init_renderpass_canvas(){
   VK_frame* vk_frame = vk_engine->get_vk_frame();
@@ -174,7 +174,7 @@ void VK_renderpass::init_renderpass_canvas(){
 
   //---------------------------
   this->create_renderpass(renderpass);
-  vk_frame->create_frame_swapchain(renderpass);
+  vk_frame->create_frame_renderpass(renderpass);
 }
 void VK_renderpass::init_renderpass_gui(){
   VK_frame* vk_frame = vk_engine->get_vk_frame();
@@ -214,7 +214,7 @@ void VK_renderpass::init_renderpass_gui(){
 
   //---------------------------
   this->create_renderpass(renderpass);
-  vk_frame->create_frame_swapchain(renderpass);
+  vk_frame->create_frame_renderpass(renderpass);
 }
 
 //Subfunction
