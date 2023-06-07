@@ -54,7 +54,7 @@ void VK_descriptor::allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_l
 
   //---------------------------
 }
-void VK_descriptor::allocate_descriptor_set(Struct_binding& binding){
+void VK_descriptor::allocate_descriptor_set(Struct_binding* binding){
   //---------------------------
 
   VkDescriptorSetLayout& layout = binding.descriptor.layout;
@@ -75,7 +75,7 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding& binding){
 }
 
 //Descriptor set update
-void VK_descriptor::update_descriptor_set(Struct_binding& binding){
+void VK_descriptor::update_descriptor_set(Struct_binding* binding){
   //---------------------------
 
   vector<VkWriteDescriptorSet> vec_write_set;
@@ -158,7 +158,7 @@ void VK_descriptor::write_uniform(Struct_binding* binding){
 }
 
 //Descriptor layout
-void VK_descriptor::create_layout_from_required(Struct_binding& binding){
+void VK_descriptor::create_layout_from_required(Struct_binding* binding){
   vec_nameTypeBindingTypeStage& vec_required_binding = binding.vec_required_binding;
   VkDescriptorSetLayout& layout = binding.descriptor.layout;
   //---------------------------
