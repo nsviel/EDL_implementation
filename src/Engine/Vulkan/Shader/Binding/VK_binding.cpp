@@ -39,7 +39,7 @@ void VK_binding::fill_binding_from_requirement(Struct_binding* binding){
   //---------------------------
 }
 void VK_binding::fill_pipeline_binding(Struct_pipeline* pipeline){
-  /*Struct_binding* binding = &pipeline->binding;
+  Struct_binding* binding = &pipeline->binding;
   //---------------------------
 
   vk_uniform->create_uniform_buffers(binding);
@@ -47,7 +47,7 @@ void VK_binding::fill_pipeline_binding(Struct_pipeline* pipeline){
   vk_descriptor->allocate_descriptor_set(binding);
   vk_descriptor->update_descriptor_set(binding);
 
-  //---------------------------*/
+  //---------------------------
 }
 void VK_binding::clean_binding(Struct_binding* binding){
   //---------------------------

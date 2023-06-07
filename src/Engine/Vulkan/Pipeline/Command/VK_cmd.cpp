@@ -10,6 +10,7 @@
 #include "../../Presentation/Camera/VK_camera.h"
 #include "../../Presentation/Camera/VK_viewport.h"
 #include "../../Shader/Binding/VK_binding.h"
+#include "../../Shader/Descriptor/VK_descriptor.h"
 #include "../../Pipeline/Rendering/VK_canvas.h"
 #include "../../Data/VK_data.h"
 
@@ -151,6 +152,18 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   Struct_data* data = vk_canvas->get_canvas();
   Object* canvas = data->object;
 
+/*
+  Frame* offscreen = vk_param->renderpass_scene.frame_set->get_frame_inflight();
+  if(data->binding.list_texture.size() <3){
+    data->binding.list_texture.push_back(&offscreen->color);
+  }else{
+    Struct_image* image =  *next(data->binding.list_texture.begin(),2);
+    image = &offscreen->color;
+  }
+  VK_descriptor* vk_descriptor = vk_engine->get_vk_descriptor();
+  vk_descriptor->update_descriptor_set(&data->binding);
+*/
+
   //Frame* frame = renderpass->frame_set->get_frame_inflight();
   //Struct_image* texture = *next(data->binding.list_texture.begin(), 0);
   //texture->image = frame->color;
@@ -159,8 +172,6 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   vk_camera->compute_mvp(canvas);
   vk_binding->update_uniform(data);
   vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
-
-  vkCmdPushConstants(renderpass->command_buffer, pipeline->pipeline_layout, STAGE_VS, 0, sizeof(glm::mat4), &canvas->mvp);
 
   //Data
   VkDeviceSize offsets[] = {0};
