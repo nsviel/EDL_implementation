@@ -27,7 +27,6 @@ struct Struct_renderpass{
 
   //Info
   std::string name;
-  bool has_own_images = false;
 
   //Renderpass frame set
   Frame_set* frame_set;
