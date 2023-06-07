@@ -6,7 +6,7 @@
 
 class VK_engine;
 class VK_param;
-class VK_texture;
+class VK_image;
 
 
 class VK_depth
@@ -29,7 +29,7 @@ public:
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
-  VK_texture* vk_texture;
+  VK_image* vk_image;
 };
 
 #endif

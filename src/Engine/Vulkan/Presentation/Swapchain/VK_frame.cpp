@@ -8,7 +8,7 @@
 #include "../../Pipeline/Renderpass/VK_framebuffer.h"
 #include "../../Pipeline/Attachment/VK_depth.h"
 #include "../../Pipeline/Attachment/VK_color.h"
-#include "../../Pipeline/Image/VK_texture.h"
+#include "../../Pipeline/Image/VK_image.h"
 #include "../../Instance/Device/VK_physical_device.h"
 
 
@@ -19,7 +19,7 @@ VK_frame::VK_frame(VK_engine* vk_engine){
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
-  this->vk_texture = vk_engine->get_vk_texture();
+  this->vk_image = vk_engine->get_vk_image();
   this->vk_synchronization = vk_engine->get_vk_synchronization();
   this->vk_color = vk_engine->get_vk_color();
   this->vk_swapchain = vk_engine->get_vk_swapchain();
@@ -43,7 +43,7 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     frame->color.usage = renderpass->frame_usage;
     frame->depth.usage = IMAGE_USAGE_DEPTH;
 
-    vk_texture->create_image_view(&frame->color);
+    vk_image->create_image_view(&frame->color);
     vk_depth->create_depth_attachment(frame);
     vk_framebuffer->create_framebuffer(renderpass, frame);
     vk_synchronization->init_frame_sync(frame);

@@ -2,7 +2,7 @@
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
-#include "../Image/VK_texture.h"
+#include "../Image/VK_image.h"
 
 
 //Constructor / Destructor
@@ -11,7 +11,7 @@ VK_depth::VK_depth(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_texture = vk_engine->get_vk_texture();
+  this->vk_image = vk_engine->get_vk_image();
 
   //---------------------------
 }
@@ -30,8 +30,8 @@ void VK_depth::create_depth_attachment(Frame* frame){
   frame->depth.properties = MEMORY_GPU;
   frame->depth.aspect = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-  vk_texture->create_image(&frame->depth);
-  vk_texture->create_image_view(&frame->depth);
+  vk_image->create_image(&frame->depth);
+  vk_image->create_image_view(&frame->depth);
 
   //---------------------------
 }

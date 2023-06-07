@@ -8,7 +8,7 @@
 class VK_engine;
 class VK_param;
 class VK_physical_device;
-class VK_texture;
+class VK_image;
 class VK_synchronization;
 class VK_color;
 class VK_framebuffer;
@@ -32,7 +32,7 @@ private:
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_physical_device* vk_physical_device;
-  VK_texture* vk_texture;
+  VK_image* vk_image;
   VK_synchronization* vk_synchronization;
   VK_color* vk_color;
   VK_swapchain* vk_swapchain;

@@ -2,7 +2,7 @@
 
 #include "../Renderpass/VK_framebuffer.h"
 #include "../Attachment/VK_depth.h"
-#include "../Image/VK_texture.h"
+#include "../Image/VK_image.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
@@ -16,7 +16,7 @@ VK_color::VK_color(VK_engine* vk_engine){
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
-  this->vk_texture = vk_engine->get_vk_texture();
+  this->vk_image = vk_engine->get_vk_image();
 
   //---------------------------
 }
@@ -35,8 +35,8 @@ void VK_color::create_color_attachment(Frame* frame){
   frame->color.properties = MEMORY_GPU;
   frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 
-  vk_texture->create_image(&frame->color);
-  vk_texture->create_image_view(&frame->color);
+  vk_image->create_image(&frame->color);
+  vk_image->create_image_view(&frame->color);
 
   //---------------------------
 }
