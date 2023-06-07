@@ -1,12 +1,11 @@
 #include "VK_color.h"
-
-#include "../Renderpass/VK_framebuffer.h"
-#include "../Image/VK_depth.h"
-#include "../Image/VK_image.h"
+#include "VK_depth.h"
+#include "VK_image.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Instance/Device/VK_physical_device.h"
+#include "../../Pipeline/Renderpass/VK_framebuffer.h"
 
 
 //Constructor / Destructor

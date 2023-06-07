@@ -1,7 +1,7 @@
 #include "VK_data.h"
 #include "VK_buffer.h"
 
-#include "../Pipeline/Image/VK_texture.h"
+#include "../Presentation/Image/VK_texture.h"
 #include "../VK_engine.h"
 #include "../VK_param.h"
 #include "../Rendering/Binding/VK_binding.h"

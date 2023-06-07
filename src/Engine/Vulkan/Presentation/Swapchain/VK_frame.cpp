@@ -6,9 +6,9 @@
 #include "../../Pipeline/Command/VK_command.h"
 #include "../../Pipeline/Command/VK_synchronization.h"
 #include "../../Pipeline/Renderpass/VK_framebuffer.h"
-#include "../../Pipeline/Image/VK_depth.h"
-#include "../../Pipeline/Image/VK_color.h"
-#include "../../Pipeline/Image/VK_image.h"
+#include "../../Presentation/Image/VK_depth.h"
+#include "../../Presentation/Image/VK_color.h"
+#include "../../Presentation/Image/VK_image.h"
 #include "../../Instance/Device/VK_physical_device.h"
 
 

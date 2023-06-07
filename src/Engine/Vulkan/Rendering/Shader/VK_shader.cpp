@@ -105,6 +105,8 @@ VkShaderModule VK_shader::create_shader_module(const std::vector<char>& code){
   //---------------------------
   return shaderModule;
 }
+
+//Subfunction
 std::vector<char> VK_shader::read_file(const std::string& path){
   std::ifstream file(path, std::ios::ate | std::ios::binary);
   //---------------------------

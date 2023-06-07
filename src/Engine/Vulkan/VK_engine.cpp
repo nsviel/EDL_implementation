@@ -6,8 +6,8 @@
 #include "Pipeline/Command/VK_command.h"
 #include "Pipeline/Command/VK_cmd.h"
 #include "Pipeline/Command/VK_synchronization.h"
-#include "Pipeline/Image/VK_texture.h"
-#include "Pipeline/Image/VK_image.h"
+#include "Presentation/Image/VK_texture.h"
+#include "Presentation/Image/VK_image.h"
 #include "Rendering/Descriptor/VK_descriptor.h"
 #include "Rendering/Binding/VK_uniform.h"
 #include "Rendering/Shader/VK_shader.h"
@@ -23,8 +23,8 @@
 #include "Instance/Element/VK_validation.h"
 #include "Pipeline/Renderpass/VK_framebuffer.h"
 #include "Rendering/Render/VK_canvas.h"
-#include "Pipeline/Image/VK_depth.h"
-#include "Pipeline/Image/VK_color.h"
+#include "Presentation/Image/VK_depth.h"
+#include "Presentation/Image/VK_color.h"
 #include "Presentation/Swapchain/VK_swapchain.h"
 #include "Presentation/Swapchain/VK_frame.h"
 #include "Presentation/Camera/VK_viewport.h"
@@ -96,15 +96,8 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
-  //Rework binding struct_bingin and binding owner
-    //Il faut lier les descriptor set et binding en générale aux pipeline
-    //list texture a Struct_data
-    //et update descriptor per mesh
-  //put framebuffer on canvas / put canvas front screen
-    //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer
-    //-abstraction framebuffer et convert it into a texture
-    //-bind the texture to the quad
-    //-when ok, suppress scene_2 pipeline
+  //abstractiser les shader modules
+    //voir comment manager renderpass / pipeline / shader / shader type
 
   //LATER
   //Essayer de ne relancer les commandes que lorsque cela changé

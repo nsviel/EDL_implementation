@@ -1,10 +1,9 @@
 #include "VK_image.h"
 
-#include "../Command/VK_command.h"
-
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Data/VK_buffer.h"
+#include "../../Pipeline/Command/VK_command.h"
 
 
 //Constructor / Destructor

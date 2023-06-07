@@ -3,12 +3,12 @@
 
 #include "../Command/VK_command.h"
 #include "../Pipeline/VK_pipeline.h"
-#include "../Image/VK_color.h"
-#include "../Image/VK_depth.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Presentation/Swapchain/VK_frame.h"
+#include "../../Presentation/Image/VK_color.h"
+#include "../../Presentation/Image/VK_depth.h"
 
 //Manage fbo attachment (color / depth)
 
