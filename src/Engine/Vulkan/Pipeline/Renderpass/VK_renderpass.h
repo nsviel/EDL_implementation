@@ -26,9 +26,9 @@ public:
   void clean_renderpass_object(Struct_renderpass* renderpass);
 
   //Render pass object
-  void init_renderpass_scene();
-  void init_renderpass_canvas();
-  void init_renderpass_gui();
+  void init_renderpass_scene(Struct_renderpass* renderpass);
+  void init_renderpass_canvas(Struct_renderpass* renderpass);
+  void init_renderpass_gui(Struct_renderpass* renderpass);
 
   //Subfunction
   void create_renderpass(Struct_renderpass* renderpass);

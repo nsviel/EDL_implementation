@@ -31,9 +31,9 @@ VK_renderpass::~VK_renderpass(){}
 void VK_renderpass::init_renderpass(){
   //---------------------------
 
-  this->init_renderpass_scene();
-  this->init_renderpass_canvas();
-  this->init_renderpass_gui();
+  this->init_renderpass_scene(&vk_param->renderpass_scene);
+  this->init_renderpass_canvas(&vk_param->renderpass_canvas);
+  this->init_renderpass_gui(&vk_param->renderpass_gui);
 
   //---------------------------
 }
@@ -58,11 +58,10 @@ void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
 }
 
 //Render pass objects
-void VK_renderpass::init_renderpass_scene(){
+void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass
-  Struct_renderpass* renderpass = &vk_param->renderpass_scene;
   renderpass->name = "scene";
   //renderpass->frame_usage = IMAGE_USAGE_ATTACHMENT | IMAGE_USAGE_SAMPLER;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
@@ -121,11 +120,10 @@ void VK_renderpass::init_renderpass_scene(){
   this->create_renderpass(renderpass);
   this->create_renderpass_frame(renderpass, "sw");
 }
-void VK_renderpass::init_renderpass_canvas(){
+void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass
-  Struct_renderpass* renderpass = &vk_param->renderpass_canvas;
   renderpass->name = "canvas";
   renderpass->frame_set = vk_param->renderpass_scene.frame_set;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
@@ -174,11 +172,10 @@ void VK_renderpass::init_renderpass_canvas(){
   this->create_renderpass(renderpass);
   this->create_renderpass_frame(renderpass, "sw");
 }
-void VK_renderpass::init_renderpass_gui(){
+void VK_renderpass::init_renderpass_gui(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass
-  Struct_renderpass* renderpass = &vk_param->renderpass_gui;
   renderpass->name = "canvas";
   renderpass->frame_set = vk_param->renderpass_canvas.frame_set;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
