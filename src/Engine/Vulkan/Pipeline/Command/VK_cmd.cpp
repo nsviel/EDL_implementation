@@ -168,10 +168,10 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   //Struct_image* texture = *next(data->binding.list_texture.begin(), 0);
   //texture->image = frame->color;
 
-  //Camera
+  //Descriptor
   vk_camera->compute_mvp(canvas);
   vk_binding->update_uniform(data);
-  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
+  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data
   VkDeviceSize offsets[] = {0};
