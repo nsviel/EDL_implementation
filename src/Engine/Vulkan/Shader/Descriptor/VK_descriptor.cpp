@@ -57,8 +57,8 @@ void VK_descriptor::allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_l
 void VK_descriptor::allocate_descriptor_set(Struct_binding* binding){
   //---------------------------
 
-  VkDescriptorSetLayout& layout = binding.descriptor.layout;
-  VkDescriptorSet& descriptor_set = binding.descriptor.set;
+  VkDescriptorSetLayout& layout = binding->descriptor.layout;
+  VkDescriptorSet& descriptor_set = binding->descriptor.set;
 
   VkDescriptorSetAllocateInfo allocation_info{};
   allocation_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -83,8 +83,8 @@ void VK_descriptor::update_descriptor_set(Struct_binding* binding){
   //Descriptor set write -> uniform
   VkDescriptorBufferInfo descriptor_info;
   VkWriteDescriptorSet write_uniform;
-  if(binding.vec_uniform.size() != 0){
-    Struct_uniform* uniform = binding.vec_uniform[0];
+  if(binding->vec_uniform.size() != 0){
+    Struct_uniform* uniform = binding->vec_uniform[0];
 
     descriptor_info = {};
     descriptor_info.buffer = uniform->buffer;
@@ -93,7 +93,7 @@ void VK_descriptor::update_descriptor_set(Struct_binding* binding){
 
     write_uniform = {};
     write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    write_uniform.dstSet = binding.descriptor.set;
+    write_uniform.dstSet = binding->descriptor.set;
     write_uniform.dstBinding = 0;
     write_uniform.dstArrayElement = 0;
     write_uniform.descriptorType = TYPE_UNIFORM;
@@ -105,8 +105,8 @@ void VK_descriptor::update_descriptor_set(Struct_binding* binding){
   //Descriptor set write -> sampler
   VkDescriptorImageInfo image_info;
   VkWriteDescriptorSet write_sampler;
-  if(binding.list_texture.size() != 0){
-    Struct_image* texture = *next(binding.list_texture.begin(), 0);
+  if(binding->list_texture.size() != 0){
+    Struct_image* texture = *next(binding->list_texture.begin(), 0);
 
     image_info = {};
     image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -115,7 +115,7 @@ void VK_descriptor::update_descriptor_set(Struct_binding* binding){
 
     write_sampler = {};
     write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    write_sampler.dstSet = binding.descriptor.set;
+    write_sampler.dstSet = binding->descriptor.set;
     write_sampler.dstBinding = 1;
     write_sampler.dstArrayElement = 0;
     write_sampler.descriptorType = TYPE_SAMPLER;
@@ -159,8 +159,8 @@ void VK_descriptor::write_uniform(Struct_binding* binding){
 
 //Descriptor layout
 void VK_descriptor::create_layout_from_required(Struct_binding* binding){
-  vec_nameTypeBindingTypeStage& vec_required_binding = binding.vec_required_binding;
-  VkDescriptorSetLayout& layout = binding.descriptor.layout;
+  vec_nameTypeBindingTypeStage& vec_required_binding = binding->vec_required_binding;
+  VkDescriptorSetLayout& layout = binding->descriptor.layout;
   //---------------------------
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;

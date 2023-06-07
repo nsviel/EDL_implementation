@@ -19,7 +19,7 @@ public:
 
 public:
   //Main functions
-  void create_sampler(Struct_binding& binding);
+  void create_sampler(Struct_binding* binding);
   Struct_sampler* create_sampler_obj(string name, int binding);
 
 private:

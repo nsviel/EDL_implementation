@@ -17,11 +17,11 @@ VK_sampler::VK_sampler(VK_engine* vk_engine){
 VK_sampler::~VK_sampler(){}
 
 //Main function
-void VK_sampler::create_sampler(Struct_binding& binding){
+void VK_sampler::create_sampler(Struct_binding* binding){
   //---------------------------
 
-  vec_nameTypeBindingTypeStage& vec_required = binding.vec_required_binding;
-  vector<Struct_sampler*>& vec_sampler = binding.vec_sampler;
+  vec_nameTypeBindingTypeStage& vec_required = binding->vec_required_binding;
+  vector<Struct_sampler*>& vec_sampler = binding->vec_sampler;
 
   for(int i=0; i<vec_required.size(); i++){
     string name = get<0>(vec_required[i]);

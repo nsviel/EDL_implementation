@@ -138,7 +138,7 @@ struct TIoRange {
 // within the same binding and offset range.
 struct TOffsetRange {
     TOffsetRange(TRange binding, TRange offset)
-        : binding(binding), offset(offset) { }
+        : binding(&binding), offset(offset) { }
     bool overlap(const TOffsetRange& rhs) const
     {
         return binding.overlap(rhs.binding) && offset.overlap(rhs.offset);

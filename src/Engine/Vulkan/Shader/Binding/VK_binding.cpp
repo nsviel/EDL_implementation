@@ -22,10 +22,10 @@ VK_binding::VK_binding(VK_engine* vk_engine){
 VK_binding::~VK_binding(){}
 
 //Main function
-void VK_binding::fill_binding_from_requirement(Struct_binding& binding){
+void VK_binding::fill_binding_from_requirement(Struct_binding* binding){
   //---------------------------
 
-  if(binding.vec_required_binding.size() == 0){
+  if(binding->vec_required_binding.size() == 0){
     cout<<"[error] no requirement for binding"<<endl;
     exit(0);
   }
@@ -41,17 +41,17 @@ void VK_binding::fill_binding_from_requirement(Struct_binding& binding){
 void VK_binding::fill_pipeline_binding(Struct_pipeline* pipeline){
   //---------------------------
 
-  vk_uniform->create_uniform_buffers(pipeline->binding);
-  vk_sampler->create_sampler(pipeline->binding);
-  vk_descriptor->allocate_descriptor_set(pipeline->binding);
-  vk_descriptor->update_descriptor_set(pipeline->binding);
+  vk_uniform->create_uniform_buffers(&pipeline->binding);
+  vk_sampler->create_sampler(&pipeline->binding);
+  vk_descriptor->allocate_descriptor_set(&pipeline->binding);
+  vk_descriptor->update_descriptor_set(&pipeline->binding);
 
   //---------------------------
 }
-void VK_binding::clean_binding(Struct_binding& binding){
+void VK_binding::clean_binding(Struct_binding* binding){
   //---------------------------
 
-  vkDestroyDescriptorSetLayout(vk_param->device.device, binding.descriptor.layout, nullptr);
+  vkDestroyDescriptorSetLayout(vk_param->device.device, binding->descriptor.layout, nullptr);
   vk_uniform->clean_uniform(binding);
 
   //---------------------------
@@ -60,7 +60,7 @@ void VK_binding::clean_binding(Struct_binding& binding){
 void VK_binding::update_uniform(Struct_data* data){
   //---------------------------
 
-  vk_uniform->update_uniform_mat4("mvp", data->binding, data->object->mvp);
+  vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
 
   //---------------------------
 }

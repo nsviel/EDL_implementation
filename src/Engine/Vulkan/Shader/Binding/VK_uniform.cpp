@@ -17,11 +17,11 @@ VK_uniform::VK_uniform(VK_engine* vk_engine){
 VK_uniform::~VK_uniform(){}
 
 //Main function
-void VK_uniform::create_uniform_buffers(Struct_binding& binding){
+void VK_uniform::create_uniform_buffers(Struct_binding* binding){
   //---------------------------
 
-  vec_nameTypeBindingTypeStage& vec_required = binding.vec_required_binding;
-  vector<Struct_uniform*>& vec_uniform = binding.vec_uniform;
+  vec_nameTypeBindingTypeStage& vec_required = binding->vec_required_binding;
+  vector<Struct_uniform*>& vec_uniform = binding->vec_uniform;
 
   for(int i=0; i<vec_required.size(); i++){
     string name = get<0>(vec_required[i]);
@@ -67,12 +67,12 @@ void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp
 
   //---------------------------
 }
-void VK_uniform::update_uniform_mat4(string uniform_name, Struct_binding& binding, glm::mat4& value){
+void VK_uniform::update_uniform_mat4(string uniform_name, Struct_binding* binding, glm::mat4& value){
   bool has_been_found = false;
   //---------------------------
 
-  for(int i=0; i<binding.vec_uniform.size(); i++){
-    Struct_uniform* uniform = binding.vec_uniform[i];
+  for(int i=0; i<binding->vec_uniform.size(); i++){
+    Struct_uniform* uniform = binding->vec_uniform[i];
     if(uniform->name == uniform_name){
       memcpy(uniform->mapped, &value, sizeof(value));
       has_been_found = true;
@@ -86,11 +86,11 @@ void VK_uniform::update_uniform_mat4(string uniform_name, Struct_binding& bindin
 
   //---------------------------
 }
-void VK_uniform::clean_uniform(Struct_binding& binding){
+void VK_uniform::clean_uniform(Struct_binding* binding){
   //---------------------------
 
-  for(int i=0; i<binding.vec_uniform.size(); i++){
-    Struct_uniform* uniform = binding.vec_uniform[i];
+  for(int i=0; i<binding->vec_uniform.size(); i++){
+    Struct_uniform* uniform = binding->vec_uniform[i];
     vkDestroyBuffer(vk_param->device.device, uniform->buffer, nullptr);
     vkFreeMemory(vk_param->device.device, uniform->mem, nullptr);
   }

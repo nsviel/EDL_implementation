@@ -33,7 +33,7 @@ void VK_pipeline::clean_pipeline(Struct_renderpass* renderpass){
     Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
     vkDestroyPipeline(vk_param->device.device, pipeline->pipeline, nullptr);
     vkDestroyPipelineLayout(vk_param->device.device, pipeline->pipeline_layout, nullptr);
-    vk_binding->clean_binding(pipeline->binding);
+    vk_binding->clean_binding(&pipeline->binding);
   }
 
   //---------------------------
@@ -60,7 +60,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline, Struct_renderp
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
   //Pipeline elements
-  vk_descriptor->create_layout_from_required(pipeline->binding);
+  vk_descriptor->create_layout_from_required(&pipeline->binding);
   vk_shader->create_pipeline_shader(pipeline);
   vk_data->create_data_description(pipeline);
   this->create_pipeline_layout(pipeline);
