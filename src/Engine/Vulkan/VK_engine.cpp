@@ -96,6 +96,7 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
+  //Bien gérer les images renderpass / swapchain renderpsss image
   //put framebuffer on canvas / put canvas front screen
     //-il faut une deuxième renderpass avec own commandbuffer et own images to render et own framebuffer
     //-abstraction framebuffer et convert it into a texture

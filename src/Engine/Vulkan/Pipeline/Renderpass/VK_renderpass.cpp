@@ -59,6 +59,7 @@ void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
 
 //Render pass objects
 void VK_renderpass::init_renderpass_scene(){
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
 
   //Render pass
@@ -119,8 +120,10 @@ void VK_renderpass::init_renderpass_scene(){
 
   //---------------------------
   this->create_renderpass(renderpass);
+  vk_frame->create_frame_swapchain(renderpass);
 }
 void VK_renderpass::init_renderpass_canvas(){
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
 
   //Render pass
@@ -171,8 +174,10 @@ void VK_renderpass::init_renderpass_canvas(){
 
   //---------------------------
   this->create_renderpass(renderpass);
+  vk_frame->create_frame_swapchain(renderpass);
 }
 void VK_renderpass::init_renderpass_gui(){
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
 
   //Render pass
@@ -209,11 +214,12 @@ void VK_renderpass::init_renderpass_gui(){
 
   //---------------------------
   this->create_renderpass(renderpass);
+  vk_frame->create_frame_swapchain(renderpass);
 }
 
 //Subfunction
 void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
-  VK_frame* vk_frame = vk_engine->get_vk_frame();
+
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
@@ -222,12 +228,6 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   this->create_subpass(renderpass->vec_subpass[0]);
   this->create_renderpass_obj(renderpass);
   vk_command->allocate_command_buffer(renderpass);
-
-  if(renderpass->frame_set == nullptr){
-    renderpass->frame_set = new Frame_set();
-    vk_frame->create_frame_renderpass(renderpass);
-  }
-
   vk_pipeline->create_pipeline(renderpass);
 
   //---------------------------
