@@ -1,7 +1,7 @@
 #include "VK_buffer.h"
 
 #include "../Presentation/Image/VK_texture.h"
-#include "../Rendering/Descriptor/VK_descriptor.h"
+#include "../Rendering/Binding/VK_descriptor.h"
 #include "../VK_engine.h"
 #include "../VK_param.h"
 #include "../Pipeline/Command/VK_command.h"

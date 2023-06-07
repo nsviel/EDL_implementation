@@ -9,7 +9,7 @@
 #include "../../Presentation/Swapchain/VK_swapchain.h"
 #include "../../Instance/Element/VK_window.h"
 #include "../../Rendering/Render/VK_canvas.h"
-#include "../../Rendering/Descriptor/VK_descriptor.h"
+#include "../../Rendering/Binding/VK_descriptor.h"
 
 
 //Constructor / Destructor

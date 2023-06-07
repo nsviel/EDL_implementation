@@ -1,7 +1,7 @@
 #include "VK_gui.h"
 #include "VK_window.h"
 
-#include "../VK_instance.h"
+#include "../Instance/VK_instance.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
