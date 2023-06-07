@@ -6,8 +6,8 @@
 #include "../../Pipeline/Command/VK_command.h"
 #include "../../Pipeline/Command/VK_synchronization.h"
 #include "../../Pipeline/Renderpass/VK_framebuffer.h"
-#include "../../Pipeline/Attachment/VK_depth.h"
-#include "../../Pipeline/Attachment/VK_color.h"
+#include "../../Pipeline/Image/VK_depth.h"
+#include "../../Pipeline/Image/VK_color.h"
 #include "../../Pipeline/Image/VK_image.h"
 #include "../../Instance/Device/VK_physical_device.h"
 
@@ -31,8 +31,7 @@ VK_frame::VK_frame(VK_engine* vk_engine){
 VK_frame::~VK_frame(){}
 
 //Renderpass frame
-void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
-  VK_command* vk_command = vk_engine->get_vk_command();
+void VK_frame::create_frame_swapchain(Struct_renderpass* renderpass){
   //---------------------------
 
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
@@ -44,6 +43,24 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     frame->depth.usage = IMAGE_USAGE_DEPTH;
 
     vk_image->create_image_view(&frame->color);
+    vk_depth->create_depth_attachment(frame);
+    vk_framebuffer->create_framebuffer(renderpass, frame);
+    vk_synchronization->init_frame_sync(frame);
+
+    renderpass->frame_set->vec_frame.push_back(frame);
+  }
+
+  //---------------------------
+}
+void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
+  //---------------------------
+
+  for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
+    Frame* frame = new Frame();
+    frame->color.usage = renderpass->frame_usage;
+    frame->depth.usage = IMAGE_USAGE_DEPTH;
+
+    vk_color->create_color_attachment(frame);
     vk_depth->create_depth_attachment(frame);
     vk_framebuffer->create_framebuffer(renderpass, frame);
     vk_synchronization->init_frame_sync(frame);

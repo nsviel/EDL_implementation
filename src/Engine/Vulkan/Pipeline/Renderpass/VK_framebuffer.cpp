@@ -1,7 +1,7 @@
 #include "VK_framebuffer.h"
 #include "VK_renderpass.h"
 
-#include "../Attachment/VK_depth.h"
+#include "../Image/VK_depth.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"

@@ -4,7 +4,7 @@
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Pipeline/Renderpass/VK_framebuffer.h"
-#include "../../Pipeline/Attachment/VK_depth.h"
+#include "../../Pipeline/Image/VK_depth.h"
 #include "../../Pipeline/Image/VK_texture.h"
 #include "../../Instance/Device/VK_physical_device.h"
 #include "../../Instance/Element/VK_window.h"
@@ -145,7 +145,7 @@ void VK_swapchain::recreate_swapChain(){
   //Recreate values
   vk_physical_device->compute_extent();
   this->create_swapchain();
-  vk_frame->create_frame_renderpass(&vk_param->renderpass_canvas);
+  vk_frame->create_frame_swapchain(&vk_param->renderpass_canvas);
 
   //---------------------------
 }

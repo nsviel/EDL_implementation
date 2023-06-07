@@ -3,8 +3,8 @@
 
 #include "../Command/VK_command.h"
 #include "../Pipeline/VK_pipeline.h"
-#include "../Attachment/VK_color.h"
-#include "../Attachment/VK_depth.h"
+#include "../Image/VK_color.h"
+#include "../Image/VK_depth.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
@@ -119,6 +119,7 @@ void VK_renderpass::init_renderpass_scene(){
 
   //---------------------------
   this->create_renderpass(renderpass);
+  this->create_renderpass_frame(renderpass, "sw");
 }
 void VK_renderpass::init_renderpass_canvas(){
   //---------------------------
@@ -171,6 +172,7 @@ void VK_renderpass::init_renderpass_canvas(){
 
   //---------------------------
   this->create_renderpass(renderpass);
+  this->create_renderpass_frame(renderpass, "sw");
 }
 void VK_renderpass::init_renderpass_gui(){
   //---------------------------
@@ -209,11 +211,11 @@ void VK_renderpass::init_renderpass_gui(){
 
   //---------------------------
   this->create_renderpass(renderpass);
+  this->create_renderpass_frame(renderpass, "sw");
 }
 
 //Subfunction
 void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
-  VK_frame* vk_frame = vk_engine->get_vk_frame();
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
@@ -222,12 +224,6 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   this->create_subpass(renderpass->vec_subpass[0]);
   this->create_renderpass_obj(renderpass);
   vk_command->allocate_command_buffer(renderpass);
-
-  if(renderpass->frame_set == nullptr){
-    renderpass->frame_set = new Frame_set();
-    vk_frame->create_frame_renderpass(renderpass);
-  }
-
   vk_pipeline->create_pipeline(renderpass);
 
   //---------------------------
@@ -317,6 +313,22 @@ void VK_renderpass::create_renderpass_obj(Struct_renderpass* renderpass){
   VkResult result = vkCreateRenderPass(vk_param->device.device, &renderpass_info, nullptr, &renderpass->renderpass);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create render pass!");
+  }
+
+  //---------------------------
+}
+void VK_renderpass::create_renderpass_frame(Struct_renderpass* renderpass, string sw_or_rp){
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
+  //---------------------------
+
+  if(renderpass->frame_set != nullptr) return;
+
+  if(sw_or_rp == "sw"){
+    renderpass->frame_set = new Frame_set();
+    vk_frame->create_frame_swapchain(renderpass);
+  }else if(sw_or_rp == "rp"){
+    renderpass->frame_set = new Frame_set();
+    vk_frame->create_frame_renderpass(renderpass);
   }
 
   //---------------------------

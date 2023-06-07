@@ -1,7 +1,7 @@
 #include "VK_color.h"
 
 #include "../Renderpass/VK_framebuffer.h"
-#include "../Attachment/VK_depth.h"
+#include "../Image/VK_depth.h"
 #include "../Image/VK_image.h"
 
 #include "../../VK_engine.h"
