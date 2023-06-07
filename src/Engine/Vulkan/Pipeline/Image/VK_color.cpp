@@ -36,16 +36,7 @@ void VK_color::create_color_attachment(Frame* frame){
   frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 
   vk_image->create_image(&frame->color);
-  //vk_image->create_image_view(&frame->color);
-
-  //---------------------------
-}
-void VK_color::clean_color_attachment(Frame* image){
-  //---------------------------
-
-  vkDestroyImageView(vk_param->device.device, image->color.view, nullptr);
-  vkDestroyImage(vk_param->device.device, image->color.image, nullptr);
-  vkFreeMemory(vk_param->device.device, image->color.mem, nullptr);
+  vk_image->create_image_view(&frame->color);
 
   //---------------------------
 }
@@ -60,6 +51,8 @@ VkSurfaceFormatKHR VK_color::retrieve_surface_format(const std::vector<VkSurface
       return format;
     }
   }
+
+  cout<<"[error] Standar RGB is no available"<<endl;
 
   //---------------------------
   return dev_format[0];

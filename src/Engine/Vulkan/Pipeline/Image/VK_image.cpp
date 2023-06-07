@@ -25,6 +25,8 @@ void VK_image::clean_image(Struct_image* image){
   //---------------------------
 
   vkDestroySampler(vk_param->device.device, image->sampler, nullptr);
+
+  if(image->view != nullptr)
   vkDestroyImageView(vk_param->device.device, image->view, nullptr);
   vkDestroyImage(vk_param->device.device, image->image, nullptr);
   vkFreeMemory(vk_param->device.device, image->mem, nullptr);

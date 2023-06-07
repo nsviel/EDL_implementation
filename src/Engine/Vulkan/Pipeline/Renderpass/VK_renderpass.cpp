@@ -64,7 +64,7 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
   //Render pass
   renderpass->name = "scene";
   //renderpass->frame_usage = IMAGE_USAGE_ATTACHMENT | IMAGE_USAGE_SAMPLER;
-  renderpass->frame_usage = IMAGE_USAGE_DEPTH;
+  renderpass->frame_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
   //Subpass
   Struct_subpass* subpass = new Struct_subpass();
