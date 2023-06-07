@@ -58,6 +58,7 @@ void VK_canvas::create_canvas(){
   vk_texture->load_texture(canvas, "../media/statue.jpg");
   canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
+  canvas->binding.vec_required_binding.push_back(std::make_tuple("offscreen", "", 1, TYPE_SAMPLER, STAGE_FS));
   vk_binding->fill_binding_from_requirement(&canvas->binding);
 
   //---------------------------
