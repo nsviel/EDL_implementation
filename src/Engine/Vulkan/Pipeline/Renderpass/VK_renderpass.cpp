@@ -71,7 +71,6 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
 
   //Subpass
   Struct_subpass* subpass = new Struct_subpass();
-/*
   subpass->color.binding = 0;
   subpass->color.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
@@ -81,19 +80,6 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
   subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
-*/
-
-
-  subpass->color.binding = 0;
-  subpass->color.usage = ATTACHMENT_USAGE_CLEAR;
-  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
-
-  subpass->depth.binding = 1;
-  subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
-
   renderpass->vec_subpass.push_back(subpass);
 
   //Pipeline
@@ -169,6 +155,7 @@ void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
   pipeline->vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
+  //pipeline->binding.vec_required_binding.push_back(std::make_tuple("offscreen", "", 2, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

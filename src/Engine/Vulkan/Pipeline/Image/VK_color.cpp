@@ -37,6 +37,7 @@ void VK_color::create_color_attachment(Frame* frame){
 
   vk_image->create_image(&frame->color);
   vk_image->create_image_view(&frame->color);
+  vk_image->create_image_sampler(&frame->color);
 
   //---------------------------
 }
