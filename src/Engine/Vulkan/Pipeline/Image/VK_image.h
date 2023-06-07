@@ -16,7 +16,7 @@ public:
   ~VK_image();
 
 public:
-  void transition_layout_image(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+  void transition_layout_image(Struct_image* image, VkImageLayout oldLayout, VkImageLayout newLayout);
 
 private:
   VK_engine* vk_engine;

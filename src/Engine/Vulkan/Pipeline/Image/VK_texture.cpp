@@ -94,9 +94,9 @@ void VK_texture::create_texture_image(Struct_image* texture){
   this->create_image(texture);
 
   //Image transition from undefined layout to read only layout
-  vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-  this->copy_buffer_to_image(staging_buffer, texture->image, static_cast<uint32_t>(tex_width), static_cast<uint32_t>(tex_height));
-  vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+  vk_image->transition_layout_image(texture, IMAGE_LAYOUT_EMPTY, IMAGE_LAYOUT_TRANSFER);
+  this->copy_buffer_to_image(texture, staging_buffer);
+  vk_image->transition_layout_image(texture, IMAGE_LAYOUT_TRANSFER, IMAGE_LAYOUT_SHADER);
 
   //Free memory
   stbi_image_free(tex_data);
@@ -208,7 +208,7 @@ void VK_texture::create_image(Struct_image* image){
 
   //---------------------------
 }
-void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height){
+void VK_texture::copy_buffer_to_image(Struct_image* image, VkBuffer buffer){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
@@ -226,12 +226,12 @@ void VK_texture::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t w
 
   region.imageOffset = {0, 0, 0};
   region.imageExtent = {
-    width,
-    height,
+    image->width,
+    image->height,
     1
   };
 
-  vkCmdCopyBufferToImage(command_buffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
+  vkCmdCopyBufferToImage(command_buffer, buffer, image->image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
 
   vk_command->singletime_command_buffer_end(command_buffer);
 

@@ -19,7 +19,7 @@ VK_image::VK_image(VK_engine* vk_engine){
 VK_image::~VK_image(){}
 
 //Main function
-void VK_image::transition_layout_image(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout){
+void VK_image::transition_layout_image(Struct_image* image, VkImageLayout oldLayout, VkImageLayout newLayout){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
@@ -31,7 +31,7 @@ void VK_image::transition_layout_image(VkImage image, VkFormat format, VkImageLa
   barrier.newLayout = newLayout;
   barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
   barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-  barrier.image = image;
+  barrier.image = image->image;
   barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
   barrier.subresourceRange.baseMipLevel = 0;
   barrier.subresourceRange.levelCount = 1;

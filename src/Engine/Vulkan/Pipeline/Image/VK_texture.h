@@ -34,7 +34,7 @@ public:
   //Generic image creation
   void create_image_view(Struct_image* image);
   void create_image(Struct_image* image);
-  void copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+  void copy_buffer_to_image(Struct_image* image, VkBuffer buffer);
 
 private:
   VK_engine* vk_engine;
