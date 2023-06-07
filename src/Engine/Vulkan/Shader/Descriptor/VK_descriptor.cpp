@@ -3,7 +3,7 @@
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 
-//Three steps to create an uniform:
+//Step for descriptor sets
 //-create descriptor set layout
 //-allocate descriptor set
 //-create uniform object
@@ -78,58 +78,62 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding* binding){
 void VK_descriptor::update_descriptor_set(Struct_binding* binding){
   //---------------------------
 
-  this->write_uniform(binding);
+  binding->vec_descriptor_write.clear();
+  this->write_descriptor_uniform(binding);
+  this->write_descriptor_sampler(binding);
 
-  //Descriptor set write -> sampler
-  VkDescriptorImageInfo image_info;
-  VkWriteDescriptorSet write_sampler;
-  if(binding->list_texture.size() != 0){
-    Struct_image* texture = *next(binding->list_texture.begin(), 0);
-
-    image_info = {};
-    image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    image_info.imageView = texture->view;
-    image_info.sampler = texture->sampler;
-
-    write_sampler = {};
-    write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    write_sampler.dstSet = binding->descriptor.set;
-    write_sampler.dstBinding = 1;
-    write_sampler.dstArrayElement = 0;
-    write_sampler.descriptorType = TYPE_SAMPLER;
-    write_sampler.descriptorCount = 1;
-    write_sampler.pImageInfo = &image_info;
-    binding->vec_write_set.push_back(write_sampler);
-  }
-
-  vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(binding->vec_write_set.size()), binding->vec_write_set.data(), 0, nullptr);
+  vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(binding->vec_descriptor_write.size()), binding->vec_descriptor_write.data(), 0, nullptr);
 
   //---------------------------
 }
-void VK_descriptor::write_uniform(Struct_binding* binding){
+void VK_descriptor::write_descriptor_uniform(Struct_binding* binding){
+  binding->vec_descriptor_buffer_info.clear();
   //---------------------------
 
-  //Descriptor set write -> uniform
-  VkDescriptorBufferInfo descriptor_info;
-  VkWriteDescriptorSet write_uniform;
-  if(binding->vec_uniform.size() != 0){
-    Struct_uniform* uniform = binding->vec_uniform[0];
+  for(int i=0; i<binding->vec_uniform.size(); i++){
+    Struct_uniform* uniform = binding->vec_uniform[i];
 
-    descriptor_info = {};
+    VkDescriptorBufferInfo descriptor_info = {};
     descriptor_info.buffer = uniform->buffer;
     descriptor_info.offset = 0;
     descriptor_info.range = sizeof(glm::mat4);
+    binding->vec_descriptor_buffer_info.push_back(descriptor_info);
 
-    write_uniform = {};
+    VkWriteDescriptorSet write_uniform = {};
     write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     write_uniform.dstSet = binding->descriptor.set;
     write_uniform.dstBinding = 0;
     write_uniform.dstArrayElement = 0;
     write_uniform.descriptorType = TYPE_UNIFORM;
     write_uniform.descriptorCount = 1;
-    write_uniform.pBufferInfo = &descriptor_info;
+    write_uniform.pBufferInfo = &binding->vec_descriptor_buffer_info[i];
+    binding->vec_descriptor_write.push_back(write_uniform);
+  }
 
-    binding->vec_write_set.push_back(write_uniform);
+  //---------------------------
+}
+void VK_descriptor::write_descriptor_sampler(Struct_binding* binding){
+  binding->vec_descriptor_image_info.clear();
+  //---------------------------
+
+  for(int i=0; i<binding->list_texture.size(); i++){
+    Struct_image* texture = *next(binding->list_texture.begin(), i);
+
+    VkDescriptorImageInfo image_info = {};
+    image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    image_info.imageView = texture->view;
+    image_info.sampler = texture->sampler;
+    binding->vec_descriptor_image_info.push_back(image_info);
+
+    VkWriteDescriptorSet write_sampler = {};
+    write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    write_sampler.dstSet = binding->descriptor.set;
+    write_sampler.dstBinding = 1;
+    write_sampler.dstArrayElement = 0;
+    write_sampler.descriptorType = TYPE_SAMPLER;
+    write_sampler.descriptorCount = 1;
+    write_sampler.pImageInfo = &binding->vec_descriptor_image_info[i];
+    binding->vec_descriptor_write.push_back(write_sampler);
   }
 
   //---------------------------

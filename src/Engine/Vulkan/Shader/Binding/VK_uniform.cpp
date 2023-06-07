@@ -16,7 +16,7 @@ VK_uniform::VK_uniform(VK_engine* vk_engine){
 }
 VK_uniform::~VK_uniform(){}
 
-//Main function
+//Uniform creation
 void VK_uniform::create_uniform_buffers(Struct_binding* binding){
   //---------------------------
 
@@ -59,6 +59,19 @@ Struct_uniform* VK_uniform::create_uniform_buffer(string name, string type, int 
   //---------------------------
   return uniform;
 }
+void VK_uniform::clean_uniform(Struct_binding* binding){
+  //---------------------------
+
+  for(int i=0; i<binding->vec_uniform.size(); i++){
+    Struct_uniform* uniform = binding->vec_uniform[i];
+    vkDestroyBuffer(vk_param->device.device, uniform->buffer, nullptr);
+    vkFreeMemory(vk_param->device.device, uniform->mem, nullptr);
+  }
+
+  //---------------------------
+}
+
+//Uniform update
 void VK_uniform::update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp){
   //---------------------------
 
@@ -82,17 +95,6 @@ void VK_uniform::update_uniform_mat4(string uniform_name, Struct_binding* bindin
 
   if(has_been_found == false){
     cout<<"[error] Uniform name not recognized "<<uniform_name<<endl;
-  }
-
-  //---------------------------
-}
-void VK_uniform::clean_uniform(Struct_binding* binding){
-  //---------------------------
-
-  for(int i=0; i<binding->vec_uniform.size(); i++){
-    Struct_uniform* uniform = binding->vec_uniform[i];
-    vkDestroyBuffer(vk_param->device.device, uniform->buffer, nullptr);
-    vkFreeMemory(vk_param->device.device, uniform->mem, nullptr);
   }
 
   //---------------------------

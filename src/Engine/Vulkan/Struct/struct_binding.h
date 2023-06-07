@@ -56,7 +56,9 @@ struct Struct_binding{
 
   //Binding description
   vec_nameTypeBindingTypeStage vec_required_binding;
-  vector<VkWriteDescriptorSet> vec_write_set;
+  vector<VkWriteDescriptorSet> vec_descriptor_write;
+  vector<VkDescriptorBufferInfo> vec_descriptor_buffer_info;
+  vector<VkDescriptorImageInfo> vec_descriptor_image_info;
   Struct_descriptor descriptor;
 
   //Binding elements
