@@ -4,7 +4,7 @@
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Pipeline/Renderpass/VK_framebuffer.h"
-#include "../../Pipeline/Attachment/VK_depth.h"
+#include "../../Pipeline/Image/VK_depth.h"
 #include "../../Pipeline/Image/VK_texture.h"
 #include "../../Instance/Device/VK_physical_device.h"
 #include "../../Instance/Element/VK_window.h"
@@ -67,8 +67,6 @@ void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo
   createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; //VK_IMAGE_USAGE_TRANSFER_DST_BIT for post-processing
 
   createInfo.preTransform = surface_capability.currentTransform;
-
-
 
   //---------------------------
 }

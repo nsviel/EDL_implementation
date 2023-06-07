@@ -6,8 +6,8 @@
 #include "../../Pipeline/Command/VK_command.h"
 #include "../../Pipeline/Command/VK_synchronization.h"
 #include "../../Pipeline/Renderpass/VK_framebuffer.h"
-#include "../../Pipeline/Attachment/VK_depth.h"
-#include "../../Pipeline/Attachment/VK_color.h"
+#include "../../Pipeline/Image/VK_depth.h"
+#include "../../Pipeline/Image/VK_color.h"
 #include "../../Pipeline/Image/VK_image.h"
 #include "../../Instance/Device/VK_physical_device.h"
 
@@ -34,6 +34,8 @@ VK_frame::~VK_frame(){}
 void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
+
+  //OK LE SOUCIS CEST QUE POURLES FRAME OFFSCREEN IL FAUT INVQUER create_color_attachment et non pas swapchain image
 
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
     Frame* frame = new Frame();

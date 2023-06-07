@@ -3,8 +3,8 @@
 
 #include "../Command/VK_command.h"
 #include "../Pipeline/VK_pipeline.h"
-#include "../Attachment/VK_color.h"
-#include "../Attachment/VK_depth.h"
+#include "../Image/VK_color.h"
+#include "../Image/VK_depth.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
