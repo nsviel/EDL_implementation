@@ -31,7 +31,7 @@ VK_renderpass::~VK_renderpass(){}
 void VK_renderpass::init_renderpass(){
   //---------------------------
 
-  //this->init_renderpass_scene(&vk_param->renderpass_scene);
+  this->init_renderpass_scene(&vk_param->renderpass_scene);
   this->init_renderpass_canvas(&vk_param->renderpass_canvas);
   this->init_renderpass_gui(&vk_param->renderpass_gui);
 
@@ -40,7 +40,7 @@ void VK_renderpass::init_renderpass(){
 void VK_renderpass::clean_renderpass(){
   //---------------------------
 
-  //this->clean_renderpass_object(&vk_param->renderpass_scene);
+  this->clean_renderpass_object(&vk_param->renderpass_scene);
   this->clean_renderpass_object(&vk_param->renderpass_canvas);
   this->clean_renderpass_object(&vk_param->renderpass_gui);
 
@@ -326,6 +326,9 @@ void VK_renderpass::create_renderpass_frame(Struct_renderpass* renderpass, strin
   }else if(sw_or_rp == "rp"){
     renderpass->frame_set = new Frame_set();
     vk_frame->create_frame_renderpass(renderpass);
+  }
+  else{
+    cout<<"[error] problem with renderpass frame creation"<<endl;
   }
 
   //---------------------------

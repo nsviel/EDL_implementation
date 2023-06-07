@@ -21,43 +21,13 @@ VK_image::VK_image(VK_engine* vk_engine){
 VK_image::~VK_image(){}
 
 //Generic image creation
-void VK_image::create_image(Struct_image* image){
+void VK_image::clean_image(Struct_image* image){
   //---------------------------
 
-  VkImageCreateInfo imageInfo{};
-  imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-  imageInfo.imageType = VK_IMAGE_TYPE_2D;
-  imageInfo.extent.width = image->width;
-  imageInfo.extent.height = image->height;
-  imageInfo.extent.depth = 1;
-  imageInfo.mipLevels = 1;
-  imageInfo.arrayLayers = 1;
-  imageInfo.format = image->format;
-  imageInfo.tiling = image->tiling;
-  imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-  imageInfo.usage = image->usage;
-  imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
-  imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-
-  VkResult result = vkCreateImage(vk_param->device.device, &imageInfo, nullptr, &image->image);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to create image!");
-  }
-
-  VkMemoryRequirements memRequirements;
-  vkGetImageMemoryRequirements(vk_param->device.device, image->image, &memRequirements);
-
-  VkMemoryAllocateInfo allocInfo{};
-  allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-  allocInfo.allocationSize = memRequirements.size;
-  allocInfo.memoryTypeIndex = vk_buffer->findMemoryType(memRequirements.memoryTypeBits, image->properties);
-
-  result = vkAllocateMemory(vk_param->device.device, &allocInfo, nullptr, &image->mem);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to allocate image memory!");
-  }
-
-  vkBindImageMemory(vk_param->device.device, image->image, image->mem, 0);
+  vkDestroySampler(vk_param->device.device, image->sampler, nullptr);
+  vkDestroyImageView(vk_param->device.device, image->view, nullptr);
+  vkDestroyImage(vk_param->device.device, image->image, nullptr);
+  vkFreeMemory(vk_param->device.device, image->mem, nullptr);
 
   //---------------------------
 }
@@ -108,6 +78,61 @@ void VK_image::create_image_sampler(Struct_image* texture){
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to create texture sampler!");
   }
+
+  //---------------------------
+}
+
+//Image creation subfunction
+void VK_image::create_image(Struct_image* image){
+  //---------------------------
+
+  this->create_image_obj(image);
+  this->bind_image_to_memory(image);
+
+  //---------------------------
+}
+void VK_image::create_image_obj(Struct_image* image){
+  //---------------------------
+
+  VkImageCreateInfo image_info{};
+  image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+  image_info.imageType = VK_IMAGE_TYPE_2D;
+  image_info.extent.width = image->width;
+  image_info.extent.height = image->height;
+  image_info.extent.depth = 1;
+  image_info.mipLevels = 1;
+  image_info.arrayLayers = 1;
+  image_info.format = image->format;
+  image_info.tiling = image->tiling;
+  image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+  image_info.usage = image->usage;
+  image_info.samples = VK_SAMPLE_COUNT_1_BIT;
+  image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+  VkResult result = vkCreateImage(vk_param->device.device, &image_info, nullptr, &image->image);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to create image!");
+  }
+
+  //---------------------------
+}
+void VK_image::bind_image_to_memory(Struct_image* image){
+  //---------------------------
+
+  VkMemoryRequirements memRequirements;
+  vkGetImageMemoryRequirements(vk_param->device.device, image->image, &memRequirements);
+
+  VkMemoryAllocateInfo allocInfo{};
+  allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+  allocInfo.allocationSize = memRequirements.size;
+  allocInfo.memoryTypeIndex = vk_buffer->findMemoryType(memRequirements.memoryTypeBits, image->properties);
+
+  VkResult result = vkAllocateMemory(vk_param->device.device, &allocInfo, nullptr, &image->mem);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to allocate image memory!");
+  }
+
+  vkBindImageMemory(vk_param->device.device, image->image, image->mem, 0);
 
   //---------------------------
 }

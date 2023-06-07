@@ -29,7 +29,7 @@ public:
   void create_texture(Struct_image* texture);
   void create_texture_from_file(Struct_image* texture);
   void copy_buffer_to_image(Struct_image* image, VkBuffer buffer);
-  
+
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;

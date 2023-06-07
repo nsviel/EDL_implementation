@@ -61,9 +61,9 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     frame->depth.usage = IMAGE_USAGE_DEPTH;
 
     vk_color->create_color_attachment(frame);
-    vk_depth->create_depth_attachment(frame);
-    vk_framebuffer->create_framebuffer(renderpass, frame);
-    vk_synchronization->init_frame_sync(frame);
+    //vk_depth->create_depth_attachment(frame);
+    //vk_framebuffer->create_framebuffer(renderpass, frame);
+    //vk_synchronization->init_frame_sync(frame);
 
     renderpass->frame_set->vec_frame.push_back(frame);
   }

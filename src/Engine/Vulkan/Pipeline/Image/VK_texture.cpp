@@ -43,11 +43,7 @@ void VK_texture::clean_texture(Struct_data* data){
 
   for(int i=0; i<data->binding.list_texture.size(); i++){
     Struct_image* texture = *next(data->binding.list_texture.begin(), i);
-
-    vkDestroySampler(vk_param->device.device, texture->sampler, nullptr);
-    vkDestroyImageView(vk_param->device.device, texture->view, nullptr);
-    vkDestroyImage(vk_param->device.device, texture->image, nullptr);
-    vkFreeMemory(vk_param->device.device, texture->mem, nullptr);
+    vk_image->clean_image(texture);
   }
 
   //---------------------------
