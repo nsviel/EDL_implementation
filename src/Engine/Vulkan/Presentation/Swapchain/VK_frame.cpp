@@ -31,6 +31,43 @@ VK_frame::VK_frame(VK_engine* vk_engine){
 VK_frame::~VK_frame(){}
 
 //Renderpass frame
+void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
+  //---------------------------
+
+  for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
+    Frame* frame = new Frame();
+    frame->color.usage = renderpass->frame_usage;
+    frame->depth.usage = IMAGE_USAGE_DEPTH;
+
+    vk_color->create_color_attachment(frame);
+    vk_depth->create_depth_attachment(frame);
+    vk_framebuffer->create_framebuffer(renderpass, frame);
+    vk_synchronization->init_frame_sync(frame);
+
+    renderpass->frame_set->vec_frame.push_back(frame);
+  }
+
+  //---------------------------
+}
+void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
+  vector<Frame*>& vec_frame = renderpass->frame_set->vec_frame;
+  //---------------------------
+
+  //Vec images
+  for(int i=0; i<vec_frame.size(); i++){
+    Frame* frame = vec_frame[i];
+    vk_image->clean_image(&frame->color);
+    vk_image->clean_image(&frame->depth);
+    vk_framebuffer->clean_framebuffer(frame);
+    vk_synchronization->clean_frame_sync(frame);
+    delete frame;
+  }
+  vec_frame.clear();
+
+  //---------------------------
+}
+
+//Swapchain frame
 void VK_frame::create_frame_swapchain(Struct_renderpass* renderpass){
   //---------------------------
 
@@ -52,39 +89,14 @@ void VK_frame::create_frame_swapchain(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
-  //---------------------------
-
-  for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
-    Frame* frame = new Frame();
-    frame->color.usage = renderpass->frame_usage;
-    frame->depth.usage = IMAGE_USAGE_DEPTH;
-
-    vk_color->create_color_attachment(frame);
-    vk_depth->create_depth_attachment(frame);
-    vk_framebuffer->create_framebuffer(renderpass, frame);
-    vk_synchronization->init_frame_sync(frame);
-
-    renderpass->frame_set->vec_frame.push_back(frame);
-  }
-
-  //---------------------------
-  renderpass->has_own_images = true;
-}
-void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
+void VK_frame::clean_frame_swapchain(Struct_renderpass* renderpass){
   vector<Frame*>& vec_frame = renderpass->frame_set->vec_frame;
   //---------------------------
 
   //Vec images
   for(int i=0; i<vec_frame.size(); i++){
     Frame* frame = vec_frame[i];
-
-    if(renderpass->has_own_images){
-      vk_image->clean_image(&frame->color);
-    }else{
-      vkDestroyImageView(vk_param->device.device, frame->color.view, nullptr);
-    }
-
+    vkDestroyImageView(vk_param->device.device, frame->color.view, nullptr);
     vk_image->clean_image(&frame->depth);
     vk_framebuffer->clean_framebuffer(frame);
     vk_synchronization->clean_frame_sync(frame);

@@ -38,7 +38,12 @@ void VK_renderpass::init_renderpass(){
   //---------------------------
 }
 void VK_renderpass::clean_renderpass(){
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
+
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
+  vk_frame->clean_frame_swapchain(&vk_param->renderpass_canvas);
+  vk_frame->clean_frame_swapchain(&vk_param->renderpass_gui);
 
   this->clean_renderpass_object(&vk_param->renderpass_scene);
   this->clean_renderpass_object(&vk_param->renderpass_canvas);
@@ -47,10 +52,8 @@ void VK_renderpass::clean_renderpass(){
   //---------------------------
 }
 void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
-  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
 
-  vk_frame->clean_frame_renderpass(renderpass);
   vkDestroyRenderPass(vk_param->device.device, renderpass->renderpass, nullptr);
   vk_pipeline->clean_pipeline(renderpass);
 
