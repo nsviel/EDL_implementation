@@ -151,6 +151,10 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   Struct_data* data = vk_canvas->get_canvas();
   Object* canvas = data->object;
 
+  //Frame* frame = renderpass->frame_set->get_frame_inflight();
+  //Struct_image* texture = *next(data->binding.list_texture.begin(), 0);
+  //texture->image = frame->color;
+
   //Camera
   vk_camera->compute_mvp(canvas);
   vk_binding->update_uniform(data);

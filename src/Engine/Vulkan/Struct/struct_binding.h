@@ -62,7 +62,7 @@ struct Struct_binding{
   vector<Struct_pushcst*> vec_pushcst;
   vector<Struct_uniform*> vec_uniform;
   vector<Struct_sampler*> vec_sampler;
-  list<Struct_texture*> list_texture;
+  list<Struct_image*> list_texture;
 
   //---------------------------
 };

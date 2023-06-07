@@ -3,6 +3,7 @@
 
 #include "../../Struct/struct_frame.h"
 #include "../../Struct/struct_renderpass.h"
+#include "../../Struct/struct_command.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -29,6 +30,7 @@ public:
 
   //Drawing function
   void acquire_next_image(Struct_renderpass* renderpass);
+  void submit_command(Struct_submit_command* command);
   void submit_command(Struct_renderpass* renderpass);
   void submit_commands(vector<Struct_renderpass*> vec_renderpass);
   void submit_presentation(Struct_renderpass* renderpass);

@@ -104,11 +104,11 @@ void VK_descriptor::update_descriptor_set(Struct_binding& binding){
   VkDescriptorImageInfo image_info;
   VkWriteDescriptorSet write_sampler;
   if(binding.list_texture.size() != 0){
-    Struct_texture* texture = *next(binding.list_texture.begin(), 0);
+    Struct_image* texture = *next(binding.list_texture.begin(), 0);
 
     image_info = {};
     image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    image_info.imageView = texture->image.view;
+    image_info.imageView = texture->view;
     image_info.sampler = texture->sampler;
 
     write_sampler = {};

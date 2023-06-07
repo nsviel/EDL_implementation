@@ -12,7 +12,7 @@ struct Data_file{
   int nb_element;
   std::string name;
   std::string path_file;
-  std::string path_texture;
+  std::string path;
   std::string draw_type_name;
 
   //Data

@@ -8,31 +8,25 @@
 struct Struct_image{
   //---------------------------
 
+  //General info
   std::string name;
+  std::string path;
 
+  //Dimension
   uint32_t width;
   uint32_t height;
 
+  //Image info
   VkImage image;
   VkImageView view;
   VkImageTiling tiling;
   VkImageUsageFlags usage;
   VkImageAspectFlags aspect;
 
+  //Other info
   VkFormat format;
   VkDeviceMemory mem;
   VkMemoryPropertyFlags properties;
-
-  //---------------------------
-};
-
-struct Struct_texture{
-  //---------------------------
-
-  std::string name;
-  std::string path_texture;
-
-  Struct_image image;
   VkSampler sampler;
 
   //---------------------------

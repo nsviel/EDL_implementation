@@ -9,7 +9,7 @@
 struct Mesh : public Object{
   //---------------------------
 
-  list<Struct_texture*> list_texture;
+  list<Struct_image*> list_texture;
 
   //---------------------------
 };

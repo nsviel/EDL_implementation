@@ -29,8 +29,8 @@ VK_texture::~VK_texture(){}
 void VK_texture::load_texture(Struct_data* data, string path){
   //---------------------------
 
-  Struct_texture* texture = new Struct_texture();
-  texture->path_texture = path;
+  Struct_image* texture = new Struct_image();
+  texture->path = path;
   this->create_texture(texture);
   data->binding.list_texture.push_back(texture);
 
@@ -40,19 +40,19 @@ void VK_texture::clean_texture(Struct_data* data){
   //---------------------------
 
   for(int i=0; i<data->binding.list_texture.size(); i++){
-    Struct_texture* texture = *next(data->binding.list_texture.begin(), i);
+    Struct_image* texture = *next(data->binding.list_texture.begin(), i);
 
     vkDestroySampler(vk_param->device.device, texture->sampler, nullptr);
-    vkDestroyImageView(vk_param->device.device, texture->image.view, nullptr);
-    vkDestroyImage(vk_param->device.device, texture->image.image, nullptr);
-    vkFreeMemory(vk_param->device.device, texture->image.mem, nullptr);
+    vkDestroyImageView(vk_param->device.device, texture->view, nullptr);
+    vkDestroyImage(vk_param->device.device, texture->image, nullptr);
+    vkFreeMemory(vk_param->device.device, texture->mem, nullptr);
   }
 
   //---------------------------
 }
 
 //Texture creation
-void VK_texture::create_texture(Struct_texture* texture){
+void VK_texture::create_texture(Struct_image* texture){
   //---------------------------
 
   this->create_texture_image(texture);
@@ -61,12 +61,12 @@ void VK_texture::create_texture(Struct_texture* texture){
 
   //---------------------------
 }
-void VK_texture::create_texture_image(Struct_texture* texture){
+void VK_texture::create_texture_image(Struct_image* texture){
   //---------------------------
 
   //Load image
   int tex_width, tex_height, tex_channel;
-  stbi_uc* tex_data = stbi_load(texture->path_texture.c_str(), &tex_width, &tex_height, &tex_channel, STBI_rgb_alpha);
+  stbi_uc* tex_data = stbi_load(texture->path.c_str(), &tex_width, &tex_height, &tex_channel, STBI_rgb_alpha);
   VkDeviceSize tex_size = tex_width * tex_height * 4;
   if(!tex_data){
     throw std::runtime_error("failed to load texture image!");
@@ -85,18 +85,18 @@ void VK_texture::create_texture_image(Struct_texture* texture){
   vkUnmapMemory(vk_param->device.device, staging_mem);
 
   //Create image
-  texture->image.width = tex_width;
-  texture->image.height = tex_height;
-  texture->image.format = VK_FORMAT_R8G8B8A8_SRGB;
-  texture->image.tiling = VK_IMAGE_TILING_OPTIMAL;
-  texture->image.usage = IMAGE_USAGE_TRANSFERT;
-  texture->image.properties = MEMORY_GPU;
-  this->create_image(&texture->image);
+  texture->width = tex_width;
+  texture->height = tex_height;
+  texture->format = VK_FORMAT_R8G8B8A8_SRGB;
+  texture->tiling = VK_IMAGE_TILING_OPTIMAL;
+  texture->usage = IMAGE_USAGE_TRANSFERT;
+  texture->properties = MEMORY_GPU;
+  this->create_image(texture);
 
   //Image transition from undefined layout to read only layout
-  vk_image->transition_layout_image(texture->image.image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-  this->copy_buffer_to_image(staging_buffer, texture->image.image, static_cast<uint32_t>(tex_width), static_cast<uint32_t>(tex_height));
-  vk_image->transition_layout_image(texture->image.image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+  vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+  this->copy_buffer_to_image(staging_buffer, texture->image, static_cast<uint32_t>(tex_width), static_cast<uint32_t>(tex_height));
+  vk_image->transition_layout_image(texture->image, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
   //Free memory
   stbi_image_free(tex_data);
@@ -105,16 +105,16 @@ void VK_texture::create_texture_image(Struct_texture* texture){
 
   //---------------------------
 }
-void VK_texture::create_texture_view(Struct_texture* texture){
+void VK_texture::create_texture_view(Struct_image* texture){
   //---------------------------
 
-  texture->image.format = VK_FORMAT_R8G8B8A8_SRGB;
-  texture->image.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-  this->create_image_view(&texture->image);
+  texture->format = VK_FORMAT_R8G8B8A8_SRGB;
+  texture->aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+  this->create_image_view(texture);
 
   //---------------------------
 }
-void VK_texture::create_texture_sampler(Struct_texture* texture){
+void VK_texture::create_texture_sampler(Struct_image* texture){
   //---------------------------
 
   VkPhysicalDeviceProperties properties{};

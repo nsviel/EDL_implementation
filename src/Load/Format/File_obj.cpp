@@ -157,9 +157,9 @@ void File_obj::parse_mtl(string path_obj){
     if(line_type == "map_Kd" || line_type == "map_Bump"){
       string filename_texture;
       line_str >> filename_texture;
-      string path_texture = path + filename_texture;
+      string path = path + filename_texture;
 
-      this->file_texture = path_texture;
+      this->file_texture = path;
     }
   }
 
@@ -175,7 +175,7 @@ void File_obj::fill_data_file(Data_file* data, vector<Vertex>& vertex_vec){
       data->uv.push_back(vertex_vec[i].texcoord);
     }
     data->draw_type_name = "triangle";
-    data->path_texture = file_texture;
+    data->path = file_texture;
   }else{
     for(int i=0; i<vertex_vec.size(); i++){
       data->xyz.push_back(vertex_vec[i].location);

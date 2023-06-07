@@ -26,10 +26,10 @@ public:
   void clean_texture(Struct_data* object);
 
   //Texture creation
-  void create_texture(Struct_texture* texture);
-  void create_texture_image(Struct_texture* texture);
-  void create_texture_view(Struct_texture* texture);
-  void create_texture_sampler(Struct_texture* texture);
+  void create_texture(Struct_image* texture);
+  void create_texture_image(Struct_image* texture);
+  void create_texture_view(Struct_image* texture);
+  void create_texture_sampler(Struct_image* texture);
 
   //Generic image creation
   void create_image_view(Struct_image* image);
