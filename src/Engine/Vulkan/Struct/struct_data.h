@@ -32,7 +32,7 @@ struct Struct_data{
   Struct_buffer uv;
 
   //Binding
-  Struct_binding binding;
+  //Struct_binding binding;
   list<Struct_image*> list_texture;
 
   //---------------------------

@@ -30,9 +30,6 @@ void VK_data::insert_scene_object(Object* object){
 
   Struct_data* data = new Struct_data();
   data->object = object;
-  data->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  list<Struct_image*> vec_image;
-  vk_binding->fill_binding_from_requirement(&data->binding, vec_image);
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
   this->list_data_scene.push_back(data);
@@ -44,9 +41,6 @@ void VK_data::insert_glyph_object(Object* object){
 
   Struct_data* data = new Struct_data();
   data->object = object;
-  data->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  list<Struct_image*> vec_image;
-  vk_binding->fill_binding_from_requirement(&data->binding, vec_image);
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
   this->list_data_glyph.push_back(data);
@@ -79,7 +73,6 @@ void VK_data::clean_data_object(Struct_data* data){
 
   vk_buffer->clean_buffer(data);
   vk_texture->clean_texture(data);
-  vk_binding->clean_binding(&data->binding);
 
   //---------------------------
 }

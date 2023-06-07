@@ -56,9 +56,6 @@ void VK_canvas::create_canvas(){
   vk_buffer->create_buffer(canvas);
 
   vk_texture->load_texture(canvas, "../media/statue.jpg");
-  canvas->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
-  canvas->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
-  vk_binding->fill_binding_from_requirement(&canvas->binding, canvas->list_texture);
 
   //---------------------------
 }
@@ -66,7 +63,6 @@ void VK_canvas::clean_canvas(){
   //---------------------------
 
   vk_buffer->clean_buffer(canvas);
-  vk_binding->clean_binding(&canvas->binding);
   vk_texture->clean_texture(canvas);
 
   //---------------------------

@@ -98,8 +98,13 @@ void VK_cmd::cmd_drawing_scene(Struct_renderpass* renderpass){
     if(object->draw_type_name == "point"){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_binding->update_uniform(&data->binding, data->object->mvp);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
+      vk_binding->update_uniform(&pipeline->binding, data->object->mvp);
+
+      VK_descriptor* vk_descriptor = vk_engine->get_vk_descriptor();
+      list<Struct_image*> vec_image;
+      vk_descriptor->update_descriptor_set(&pipeline->binding, vec_image);
+
+      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       //Data
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
@@ -127,8 +132,9 @@ void VK_cmd::cmd_drawing_glyph(Struct_renderpass* renderpass){
     if(object->draw_type_name == "line"){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_binding->update_uniform(&data->binding, data->object->mvp);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
+      vk_binding->update_uniform(&pipeline->binding, data->object->mvp);
+
+      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       //Data
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
@@ -168,11 +174,13 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   //Struct_image* texture = *next(data->binding.list_texture.begin(), 0);
   //texture->image = frame->color;
 
+
+
   //Descriptor
   vk_camera->compute_mvp(canvas);
-  vk_binding->update_uniform(&data->binding, data->object->mvp);
+  //vk_binding->update_uniform(&data->binding, data->object->mvp);
   vk_binding->update_uniform(&pipeline->binding, data->object->mvp);
-  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
+  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data
   VkDeviceSize offsets[] = {0};
