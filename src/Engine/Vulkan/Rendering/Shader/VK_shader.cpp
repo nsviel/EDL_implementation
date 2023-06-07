@@ -1,8 +1,8 @@
 #include "VK_shader.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Instance/Device/VK_device.h"
+#include "../../VK_engine.h"
+#include "../../VK_param.h"
+#include "../../Instance/Device/VK_device.h"
 
 
 //Constructor / Destructor

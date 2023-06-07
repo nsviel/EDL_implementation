@@ -9,9 +9,9 @@
 #include "../../Presentation/Swapchain/VK_frame.h"
 #include "../../Presentation/Camera/VK_camera.h"
 #include "../../Presentation/Camera/VK_viewport.h"
-#include "../../Shader/Binding/VK_binding.h"
-#include "../../Shader/Descriptor/VK_descriptor.h"
-#include "../../Pipeline/Rendering/VK_canvas.h"
+#include "../../Rendering/Binding/VK_binding.h"
+#include "../../Rendering/Descriptor/VK_descriptor.h"
+#include "../../Rendering/Render/VK_canvas.h"
 #include "../../Data/VK_data.h"
 
 

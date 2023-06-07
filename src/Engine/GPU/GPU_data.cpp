@@ -4,7 +4,7 @@
 #include "../Vulkan/VK_engine.h"
 #include "../Vulkan/Data/VK_buffer.h"
 #include "../Vulkan/Pipeline/Image/VK_texture.h"
-#include "../Vulkan/Shader/Descriptor/VK_descriptor.h"
+#include "../Vulkan/Rendering/Descriptor/VK_descriptor.h"
 #include "../Vulkan/Data/VK_data.h"
 #include "../Vulkan/Pipeline/Command/VK_command.h"
 

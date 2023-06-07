@@ -1,14 +1,15 @@
 #include "VK_drawing.h"
 #include "VK_cmd.h"
 
+#include "../Pipeline/VK_pipeline.h"
+
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Pipeline/Command/VK_command.h"
 #include "../../Presentation/Swapchain/VK_swapchain.h"
 #include "../../Instance/Element/VK_window.h"
-#include "../Rendering/VK_canvas.h"
-#include "../Pipeline/VK_pipeline.h"
-#include "../../Shader/Descriptor/VK_descriptor.h"
+#include "../../Rendering/Render/VK_canvas.h"
+#include "../../Rendering/Descriptor/VK_descriptor.h"
 
 
 //Constructor / Destructor
