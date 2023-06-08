@@ -46,8 +46,8 @@ void VK_renderpass::init_renderpass(){
   //---------------------------
 
   rp_scene->init_renderpass_scene(&vk_param->renderpass_scene);
-  this->init_renderpass_render(&vk_param->renderpass_render);
-  this->init_renderpass_ui(&vk_param->renderpass_ui);
+  rp_render->init_renderpass_render(&vk_param->renderpass_render);
+  rp_ui->init_renderpass_ui(&vk_param->renderpass_ui);
 
   //---------------------------
 }
@@ -72,81 +72,6 @@ void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
   vk_pipeline->clean_pipeline(renderpass);
 
   //---------------------------
-}
-
-//Render pass objects
-void VK_renderpass::init_renderpass_render(Struct_renderpass* renderpass){
-  //---------------------------
-
-  //Render pass
-  renderpass->name = "render";
-  renderpass->frame_usage = IMAGE_USAGE_DEPTH;
-
-  //Subpass
-  Struct_subpass* subpass = new Struct_subpass();
-  subpass->color.binding = 0;
-  subpass->color.usage = ATTACHMENT_USAGE_CLEAR;
-  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
-
-  subpass->depth.binding = 1;
-  subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
-  renderpass->vec_subpass.push_back(subpass);
-
-  //Pipeline
-  Struct_pipeline* pipeline = new Struct_pipeline();
-  pipeline->name = "triangle";
-  pipeline->topology = "triangle";
-  pipeline->compile_shader = true;
-  pipeline->path_shader_vs = "Base/shader_canvas_vs";
-  pipeline->path_shader_fs = "Base/shader_canvas_fs";
-  pipeline->vec_data_name.push_back("location");
-  pipeline->vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", 0, 1, TYPE_SAMPLER, STAGE_FS));
-  renderpass->vec_pipeline.push_back(pipeline);
-
-  //---------------------------
-  this->create_renderpass(renderpass);
-  this->create_renderpass_frame(renderpass, "sw");
-}
-void VK_renderpass::init_renderpass_ui(Struct_renderpass* renderpass){
-  //---------------------------
-
-  //Render pass
-  renderpass->name = "ui";
-  //renderpass->frame_set = vk_param->renderpass_render.frame_set;
-  renderpass->frame_usage = IMAGE_USAGE_DEPTH;
-
-  //Subpass
-  Struct_subpass* subpass = new Struct_subpass();
-  subpass->color.binding = 0;
-  subpass->color.usage = ATTACHMENT_USAGE_CLEAR;
-  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_PRESENT;
-
-  subpass->depth.binding = 1;
-  subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
-  renderpass->vec_subpass.push_back(subpass);
-
-  //Pipeline
-  Struct_pipeline* pipeline = new Struct_pipeline();
-  pipeline->name = "triangle";
-  pipeline->topology = "triangle";
-  pipeline->compile_shader = true;
-  pipeline->path_shader_vs = "Base/shader_canvas_vs";
-  pipeline->path_shader_fs = "Base/shader_canvas_fs";
-  pipeline->vec_data_name.push_back("location");
-  pipeline->vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", 0, 1, TYPE_SAMPLER, STAGE_FS));
-  renderpass->vec_pipeline.push_back(pipeline);
-
-  //---------------------------
-  this->create_renderpass(renderpass);
-  this->create_renderpass_frame(renderpass, "sw");
 }
 
 //Subfunction

@@ -104,6 +104,7 @@ void VK_engine::init_vulkan(){
 
 
   //PRIORITY
+  //Mettre l'initialization des renderpass dans fichier distinct
   //abstractiser les shader modules
     //voir comment manager renderpass / pipeline / shader / shader type
   //1 canvas pour la scene
