@@ -32,7 +32,7 @@ void VK_drawing::draw_frame(){
 
   vk_submit->acquire_next_image(&vk_param->renderpass_ui);
   this->draw_scene(&vk_param->renderpass_scene);
-  this->draw_render(&vk_param->renderpass_render);
+  //this->draw_render(&vk_param->renderpass_render);
   this->draw_ui(&vk_param->renderpass_ui);
   vk_submit->submit_presentation(&vk_param->renderpass_ui);
   vk_submit->set_next_frame_ID(&vk_param->renderpass_ui);

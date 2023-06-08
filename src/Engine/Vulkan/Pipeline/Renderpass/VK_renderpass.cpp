@@ -1,6 +1,9 @@
 #include "VK_renderpass.h"
 #include "VK_subpass.h"
-#include "VK_scene.h"
+
+#include "Init/RP_scene.h"
+#include "Init/RP_render.h"
+#include "Init/RP_ui.h"
 
 #include "../Command/VK_command.h"
 #include "../Pipeline/VK_pipeline.h"
@@ -23,7 +26,10 @@ VK_renderpass::VK_renderpass(VK_engine* vk_engine){
   this->vk_color = vk_engine->get_vk_color();
   this->vk_pipeline = vk_engine->get_vk_pipeline();
   this->vk_subpass = new VK_subpass(vk_engine);
-  this->vk_scene = new VK_scene(vk_engine);
+
+  this->rp_scene = new RP_scene(vk_engine);
+  this->rp_render = new RP_render(vk_engine);
+  this->rp_ui = new RP_ui(vk_engine);
 
   //---------------------------
 }
@@ -39,7 +45,7 @@ VK_renderpass::~VK_renderpass(){
 void VK_renderpass::init_renderpass(){
   //---------------------------
 
-  vk_scene->init_renderpass_scene(&vk_param->renderpass_scene);
+  rp_scene->init_renderpass_scene(&vk_param->renderpass_scene);
   this->init_renderpass_render(&vk_param->renderpass_render);
   this->init_renderpass_ui(&vk_param->renderpass_ui);
 

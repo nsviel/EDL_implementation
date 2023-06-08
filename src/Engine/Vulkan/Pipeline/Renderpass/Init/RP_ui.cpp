@@ -1,15 +1,16 @@
-#include "VK_scene.h"
-#include "VK_renderpass.h"
-#include "VK_subpass.h"
+#include "RP_ui.h"
 
-#include "../Pipeline/VK_pipeline.h"
+#include "../VK_renderpass.h"
+#include "../VK_subpass.h"
 
-#include "../../VK_engine.h"
-#include "../../VK_param.h"
+#include "../../Pipeline/VK_pipeline.h"
+
+#include "../../../VK_engine.h"
+#include "../../../VK_param.h"
 
 
 //Constructor / Destructor
-VK_scene::VK_scene(VK_engine* vk_engine){
+RP_ui::RP_ui(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -19,7 +20,7 @@ VK_scene::VK_scene(VK_engine* vk_engine){
 
   //---------------------------
 }
-VK_scene::~VK_scene(){
+RP_ui::~RP_ui(){
   //---------------------------
 
   delete vk_subpass;
@@ -28,7 +29,7 @@ VK_scene::~VK_scene(){
 }
 
 //Main function
-void VK_scene::init_renderpass_scene(Struct_renderpass* renderpass){
+void RP_ui::init_renderpass_ui(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 
@@ -48,7 +49,7 @@ void VK_scene::init_renderpass_scene(Struct_renderpass* renderpass){
 }
 
 //Subpass
-void VK_scene::create_subpass(Struct_renderpass* renderpass){
+void RP_ui::create_subpass(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_subpass* subpass = new Struct_subpass();
@@ -67,7 +68,7 @@ void VK_scene::create_subpass(Struct_renderpass* renderpass){
 }
 
 //Pipeline
-void VK_scene::create_pipeline_point(Struct_renderpass* renderpass){
+void RP_ui::create_pipeline_point(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
@@ -83,7 +84,7 @@ void VK_scene::create_pipeline_point(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_scene::create_pipeline_line(Struct_renderpass* renderpass){
+void RP_ui::create_pipeline_line(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
@@ -99,7 +100,7 @@ void VK_scene::create_pipeline_line(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_scene::create_pipeline_edl(Struct_renderpass* renderpass){
+void RP_ui::create_pipeline_edl(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();

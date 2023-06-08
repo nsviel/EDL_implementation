@@ -10,7 +10,10 @@ class VK_param;
 class VK_color;
 class VK_pipeline;
 class VK_subpass;
-class VK_scene;
+
+class RP_scene;
+class RP_render;
+class RP_ui;
 
 
 class VK_renderpass
@@ -44,7 +47,10 @@ private:
   VK_color* vk_color;
   VK_pipeline* vk_pipeline;
   VK_subpass* vk_subpass;
-  VK_scene* vk_scene;
+
+  RP_scene* rp_scene;
+  RP_render* rp_render;
+  RP_ui* rp_ui;
 };
 
 #endif

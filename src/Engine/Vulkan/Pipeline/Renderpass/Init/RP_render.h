@@ -1,10 +1,10 @@
-#ifndef VK_SCENE_H
-#define VK_SCENE_H
+#ifndef RP_RENDER_H
+#define RP_RENDER_H
 
-#include "../../Struct/struct_renderpass.h"
-#include "../../Struct/struct_pipeline.h"
-#include "../../Struct/struct_edl.h"
-#include "../../../../common.h"
+#include "../../../Struct/struct_renderpass.h"
+#include "../../../Struct/struct_pipeline.h"
+#include "../../../Struct/struct_edl.h"
+#include "../../../../../common.h"
 
 class VK_engine;
 class VK_param;
@@ -12,16 +12,16 @@ class VK_pipeline;
 class VK_subpass;
 
 
-class VK_scene
+class RP_render
 {
 public:
   //Constructor / Destructor
-  VK_scene(VK_engine* vk_engine);
-  ~VK_scene();
+  RP_render(VK_engine* vk_engine);
+  ~RP_render();
 
 public:
   //Main functions
-  void init_renderpass_scene(Struct_renderpass* renderpass);
+  void init_renderpass_render(Struct_renderpass* renderpass);
 
   //Subpass
   void create_subpass(Struct_renderpass* renderpass);
