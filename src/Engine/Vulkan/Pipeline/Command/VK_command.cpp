@@ -141,7 +141,6 @@ void VK_command::start_render_pass(Struct_renderpass* renderpass){
   //---------------------------
   Frame* frame = renderpass->frame_set->get_frame_swapchain();
 
-
   std::array<VkClearValue, 2> clear_value{};
   clear_value[0].color = {{
     param_engine->background_color.x,

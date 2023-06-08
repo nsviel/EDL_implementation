@@ -17,7 +17,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL callback_debug(VkDebugUtilsMessageSeverity
 struct Struct_instance{
   //---------------------------
 
-  int max_frame = 2;
+  int max_frame_inflight = 2;
   std::string path_shader = "../src/Engine/Shader/spir/";
   VkInstance instance;
   vector<const char*> extension;

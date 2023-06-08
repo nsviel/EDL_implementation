@@ -63,7 +63,7 @@ void VK_submit::set_next_frame_ID(Struct_renderpass* renderpass){
   //---------------------------
 
   int current_ID = renderpass->frame_set->frame_sawpchain_ID;
-  current_ID = (current_ID + 1) % vk_param->instance.max_frame;
+  current_ID = (current_ID + 1) % vk_param->instance.max_frame_inflight;
   renderpass->frame_set->frame_sawpchain_ID = current_ID;
 
   //---------------------------

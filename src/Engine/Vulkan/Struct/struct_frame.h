@@ -8,6 +8,8 @@
 struct Frame{
   //---------------------------
 
+  int ID;
+
   //Main object
   VkFramebuffer fbo;
 

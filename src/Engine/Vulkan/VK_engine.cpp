@@ -104,6 +104,9 @@ void VK_engine::init_vulkan(){
 
 
   //WORK
+  //il faudrait que la swapchain contienne les images swapchina ou un ptr
+  //mettre les swapchain images dans struct_swapchain et libérere renderpass avec frame_set et qui ne doiven garder que des images pour traiter dessus
+  //bien régler les frame dans frame_set des render pass, notament number, call by get_inflight
   //Commencer travaille sur renderpass render et y mettre EDL
 
 
