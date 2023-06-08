@@ -134,7 +134,7 @@ void VK_engine::main_loop() {
     vk_gui->loop_start();
     node_engine->loop();
     vk_gui->loop_end();
-    vk_submit->draw_frame();
+    vk_drawing->draw_frame();
     this->fps_control(start);
     this->fps_calcul(start_time);
   }
