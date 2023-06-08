@@ -30,12 +30,12 @@ VK_drawing::~VK_drawing(){}
 void VK_drawing::draw_frame(){
   //---------------------------
 
-  vk_submit->acquire_next_image(&vk_param->renderpass_canvas);
+  vk_submit->acquire_next_image(&vk_param->renderpass_ui);
   this->draw_scene(&vk_param->renderpass_scene);
-  this->draw_render(&vk_param->renderpass_canvas);
-  this->draw_ui(&vk_param->renderpass_gui);
-  vk_submit->submit_presentation(&vk_param->renderpass_canvas);
-  vk_submit->set_next_frame_ID(&vk_param->renderpass_canvas);
+  this->draw_render(&vk_param->renderpass_render);
+  this->draw_ui(&vk_param->renderpass_ui);
+  vk_submit->submit_presentation(&vk_param->renderpass_ui);
+  vk_submit->set_next_frame_ID(&vk_param->renderpass_ui);
 
   //---------------------------
 }
@@ -55,7 +55,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   vk_command->stop_command_buffer(renderpass);
 
   //Submit command
-  Frame* frame = vk_param->renderpass_canvas.frame_set->get_frame_inflight();
+  Frame* frame = vk_param->renderpass_ui.frame_set->get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
   command.semaphore_to_wait = frame->semaphore_presentation;

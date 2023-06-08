@@ -67,7 +67,7 @@ void VK_gui::init_gui(){
 void VK_gui::gui_vulkan(){
   GLFWwindow* window = vk_window->get_window();
   VkSurfaceKHR surface = vk_window->get_surface();
-  VkRenderPass renderPass = vk_param->renderpass_gui.renderpass;
+  VkRenderPass renderPass = vk_param->renderpass_ui.renderpass;
   //---------------------------
 
   // Setup Dear ImGui context
@@ -160,7 +160,7 @@ void VK_gui::gui_font(){
   VkCommandPool command_pool = vk_command->get_command_pool();
   //---------------------------
 
-  Frame* frame = vk_param->renderpass_gui.frame_set->get_frame_inflight();
+  Frame* frame = vk_param->renderpass_ui.frame_set->get_frame_inflight();
 
   VkResult result = vkResetCommandPool(vk_param->device.device, command_pool, 0);
   if(result != VK_SUCCESS){
@@ -170,18 +170,18 @@ void VK_gui::gui_font(){
   VkCommandBufferBeginInfo begin_info = {};
   begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
   begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-  result = vkBeginCommandBuffer(vk_param->renderpass_gui.command_buffer, &begin_info);
+  result = vkBeginCommandBuffer(vk_param->renderpass_ui.command_buffer, &begin_info);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }
 
-  ImGui_ImplVulkan_CreateFontsTexture(vk_param->renderpass_gui.command_buffer);
+  ImGui_ImplVulkan_CreateFontsTexture(vk_param->renderpass_ui.command_buffer);
 
   VkSubmitInfo end_info = {};
   end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
   end_info.commandBufferCount = 1;
-  end_info.pCommandBuffers = &vk_param->renderpass_gui.command_buffer;
-  result = vkEndCommandBuffer(vk_param->renderpass_gui.command_buffer);
+  end_info.pCommandBuffers = &vk_param->renderpass_ui.command_buffer;
+  result = vkEndCommandBuffer(vk_param->renderpass_ui.command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");
   }

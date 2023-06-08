@@ -40,8 +40,8 @@ void VK_renderpass::init_renderpass(){
   //---------------------------
 
   vk_scene->init_renderpass_scene(&vk_param->renderpass_scene);
-  this->init_renderpass_canvas(&vk_param->renderpass_canvas);
-  this->init_renderpass_gui(&vk_param->renderpass_gui);
+  this->init_renderpass_render(&vk_param->renderpass_render);
+  this->init_renderpass_ui(&vk_param->renderpass_ui);
 
   //---------------------------
 }
@@ -50,12 +50,12 @@ void VK_renderpass::clean_renderpass(){
   //---------------------------
 
   vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
-  vk_frame->clean_frame_swapchain(&vk_param->renderpass_canvas);
-  vk_frame->clean_frame_swapchain(&vk_param->renderpass_gui);
+  vk_frame->clean_frame_swapchain(&vk_param->renderpass_render);
+  vk_frame->clean_frame_swapchain(&vk_param->renderpass_ui);
 
   this->clean_renderpass_object(&vk_param->renderpass_scene);
-  this->clean_renderpass_object(&vk_param->renderpass_canvas);
-  this->clean_renderpass_object(&vk_param->renderpass_gui);
+  this->clean_renderpass_object(&vk_param->renderpass_render);
+  this->clean_renderpass_object(&vk_param->renderpass_ui);
 
   //---------------------------
 }
@@ -69,11 +69,11 @@ void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
 }
 
 //Render pass objects
-void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
+void VK_renderpass::init_renderpass_render(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass
-  renderpass->name = "canvas";
+  renderpass->name = "render";
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
 
   //Subpass
@@ -105,12 +105,12 @@ void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
   this->create_renderpass(renderpass);
   this->create_renderpass_frame(renderpass, "sw");
 }
-void VK_renderpass::init_renderpass_gui(Struct_renderpass* renderpass){
+void VK_renderpass::init_renderpass_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass
-  renderpass->name = "gui";
-  renderpass->frame_set = vk_param->renderpass_canvas.frame_set;
+  renderpass->name = "ui";
+  //renderpass->frame_set = vk_param->renderpass_render.frame_set;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
 
   //Subpass

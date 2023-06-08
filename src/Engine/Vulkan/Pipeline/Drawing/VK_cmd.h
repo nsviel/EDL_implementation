@@ -29,9 +29,9 @@ public:
   //Renderpass command
   void cmd_viewport(Struct_renderpass* renderpass);
   void cmd_scissor(Struct_renderpass* renderpass);
-  void cmd_drawing_scene(Struct_renderpass* renderpass);
-  void cmd_drawing_glyph(Struct_renderpass* renderpass);
-  void cmd_drawing_canvas(Struct_renderpass* renderpass);
+  void cmd_draw_scene(Struct_renderpass* renderpass);
+  void cmd_draw_glyph(Struct_renderpass* renderpass);
+  void cmd_draw_canvas(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;

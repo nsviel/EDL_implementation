@@ -41,8 +41,8 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   vk_command->start_render_pass(renderpass);
   this->cmd_viewport(renderpass);
   this->cmd_scissor(renderpass);
-  this->cmd_drawing_scene(renderpass);
-  this->cmd_drawing_glyph(renderpass);
+  this->cmd_draw_scene(renderpass);
+  this->cmd_draw_glyph(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
@@ -56,7 +56,7 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   VkViewport viewport = vk_viewport->get_viewport_canvas();
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
   this->cmd_scissor(renderpass);
-  this->cmd_drawing_canvas(renderpass);
+  this->cmd_draw_canvas(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
 
@@ -81,7 +81,7 @@ void VK_cmd::cmd_scissor(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_cmd::cmd_drawing_scene(Struct_renderpass* renderpass){
+void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipeline
@@ -110,7 +110,7 @@ void VK_cmd::cmd_drawing_scene(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_cmd::cmd_drawing_glyph(Struct_renderpass* renderpass){
+void VK_cmd::cmd_draw_glyph(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipine
@@ -141,7 +141,7 @@ void VK_cmd::cmd_drawing_glyph(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
+void VK_cmd::cmd_draw_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipeline
