@@ -30,14 +30,6 @@ public:
   void draw_gui(Struct_renderpass* renderpass);
   void draw_canvas(Struct_renderpass* renderpass);
 
-  //Drawing function
-  void acquire_next_image(Struct_renderpass* renderpass);
-  void submit_command(Struct_submit_command* command);
-  void submit_command(Struct_renderpass* renderpass);
-  void submit_commands(vector<Struct_renderpass*> vec_renderpass);
-  void submit_presentation(Struct_renderpass* renderpass);
-  void set_next_frame_ID(Struct_renderpass* renderpass);
-
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
