@@ -28,7 +28,6 @@ public:
   void allocate_descriptor_set(Struct_binding* binding);
 
   //Descriptor set update
-  void update_descriptor_set(Struct_renderpass* renderpass);
   void update_descriptor_uniform(Struct_binding* binding);
   void update_descriptor_sampler(Struct_binding* binding, list<Struct_image*> list_image);
 

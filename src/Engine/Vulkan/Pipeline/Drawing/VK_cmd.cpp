@@ -1,5 +1,6 @@
 #include "VK_cmd.h"
-#include "VK_command.h"
+
+#include "../Command/VK_command.h"
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
@@ -163,7 +164,7 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data
-  Struct_data* data = vk_canvas->get_canvas();
+  Struct_data* data = vk_canvas->get_data_canvas();
   Object* canvas = data->object;
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 1, &data->xyz.vbo, offsets);

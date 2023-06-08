@@ -75,20 +75,10 @@ void VK_descriptor::allocate_descriptor_set(Struct_binding* binding){
 }
 
 //Descriptor set update
-void VK_descriptor::update_descriptor_set(Struct_renderpass* renderpass){
-  //---------------------------
-
-  for(int i=0; i<renderpass->vec_pipeline.size(); i++){
-    Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
-    this->update_descriptor_uniform(&pipeline->binding);
-    //this->update_descriptor_sampler(&pipeline->binding);
-  }
-
-  //---------------------------
-}
 void VK_descriptor::update_descriptor_uniform(Struct_binding* binding){
   //---------------------------
 
+  //Make list of writeable uniform
   vector<VkWriteDescriptorSet> vec_descriptor_write;
   vector<VkDescriptorBufferInfo> vec_descriptor_buffer_info;
   for(int i=0; i<binding->vec_uniform.size(); i++){
@@ -97,7 +87,7 @@ void VK_descriptor::update_descriptor_uniform(Struct_binding* binding){
     VkDescriptorBufferInfo descriptor_info = {};
     descriptor_info.buffer = uniform->buffer;
     descriptor_info.offset = 0;
-    descriptor_info.range = sizeof(glm::mat4);
+    descriptor_info.range = uniform->size;
     vec_descriptor_buffer_info.push_back(descriptor_info);
 
     VkWriteDescriptorSet write_uniform = {};
@@ -111,9 +101,11 @@ void VK_descriptor::update_descriptor_uniform(Struct_binding* binding){
     vec_descriptor_write.push_back(write_uniform);
   }
 
+  //Update descriptor
   if(vec_descriptor_write.size() != 0){
     vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(vec_descriptor_write.size()), vec_descriptor_write.data(), 0, nullptr);
   }
+
   //---------------------------
 }
 void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, list<Struct_image*> list_image){
@@ -156,10 +148,12 @@ void VK_descriptor::create_layout_from_required(Struct_binding* binding){
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
   for(int i=0; i<vec_required_binding.size(); i++){
+    descriptor_required& req_binding = vec_required_binding[i];
+
     //Get descriptor elements
-    VkDescriptorType type = get<3>(vec_required_binding[i]);
-    VkShaderStageFlagBits stage = get<4>(vec_required_binding[i]);
-    int binding = get<2>(vec_required_binding[i]);
+    int binding = get<2>(req_binding);
+    VkDescriptorType type = get<3>(req_binding);
+    VkShaderStageFlagBits stage = get<4>(req_binding);
 
     //Convert it into descriptor binding
     VkDescriptorSetLayoutBinding layout_binding = add_descriptor_binding(type, stage, 1, binding);

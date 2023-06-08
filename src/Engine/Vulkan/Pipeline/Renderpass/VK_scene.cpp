@@ -112,8 +112,8 @@ void VK_scene::create_pipeline_edl(Struct_renderpass* renderpass){
   pipeline_point_edl->vec_data_name.push_back("color");
   pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", 0, 0, TYPE_SAMPLER, STAGE_FS));
   pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_param", sizeof(EDL_param), 2, TYPE_UNIFORM, STAGE_VS));
-  //renderpass->vec_pipeline.push_back(pipeline_point_edl);
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_param", sizeof(EDL_param), 2, TYPE_UNIFORM, STAGE_FS));
+  renderpass->vec_pipeline.push_back(pipeline_point_edl);
 
   //---------------------------
 }

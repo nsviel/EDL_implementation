@@ -6,7 +6,7 @@
 
 //Binding requirement
 typedef std::vector<std::tuple<std::string, std::size_t, int, VkDescriptorType, VkShaderStageFlagBits>> vec_descriptor_required;
-typedef std::tuple<std::string, std::string, int, VkDescriptorType, VkShaderStageFlagBits> descriptor_required;
+typedef std::tuple<std::string, std::size_t, int, VkDescriptorType, VkShaderStageFlagBits> descriptor_required;
 
 //Structures
 struct Struct_descriptor{
@@ -22,6 +22,7 @@ struct Struct_uniform{
   //---------------------------
 
   std::string name;
+  size_t size;
   int binding;
   VkBuffer buffer;
   VkDeviceMemory mem;

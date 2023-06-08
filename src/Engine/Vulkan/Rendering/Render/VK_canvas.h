@@ -24,7 +24,7 @@ public:
   void create_canvas();
   void clean_canvas();
 
-  inline Struct_data* get_canvas(){return canvas;}
+  inline Struct_data* get_data_canvas(){return canvas;}
 
 private:
   VK_param* vk_param;

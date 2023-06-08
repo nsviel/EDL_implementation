@@ -43,6 +43,7 @@ Struct_uniform* VK_uniform::create_uniform_buffer(string name, size_t size, int 
 
     uniform->name = name;
     uniform->binding = binding;
+    uniform->size = size;
 
     vk_buffer->create_gpu_buffer(size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform->buffer);
     vk_buffer->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, uniform->buffer, uniform->mem);

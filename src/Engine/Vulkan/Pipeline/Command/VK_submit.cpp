@@ -1,6 +1,6 @@
-#include "VK_drawing.h"
-#include "VK_cmd.h"
+#include "VK_submit.h"
 
+#include "../Drawing/VK_cmd.h"
 #include "../Pipeline/VK_pipeline.h"
 
 #include "../../VK_engine.h"
@@ -13,7 +13,7 @@
 
 
 //Constructor / Destructor
-VK_drawing::VK_drawing(VK_engine* vk_engine){
+VK_submit::VK_submit(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -26,10 +26,10 @@ VK_drawing::VK_drawing(VK_engine* vk_engine){
 
   //---------------------------
 }
-VK_drawing::~VK_drawing(){}
+VK_submit::~VK_submit(){}
 
 //Main function
-void VK_drawing::draw_frame(){
+void VK_submit::draw_frame(){
   vec_renderpass.clear();
   //---------------------------
 
@@ -42,13 +42,13 @@ void VK_drawing::draw_frame(){
 
   //---------------------------
 }
-void VK_drawing::draw_scene(Struct_renderpass* renderpass){
+void VK_submit::draw_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
-  Struct_pipeline* pipeline_pt = vk_pipeline->get_pipeline_byName(renderpass, "point");
+  Struct_pipeline* pipeline_point = vk_pipeline->get_pipeline_byName(renderpass, "point");
   Struct_pipeline* pipeline_line = vk_pipeline->get_pipeline_byName(renderpass, "line");
-  vk_descriptor->update_descriptor_set(renderpass);
+  vk_descriptor->update_descriptor_uniform(&pipeline_point->binding);
   vk_descriptor->update_descriptor_uniform(&pipeline_line->binding);
 
 
@@ -70,7 +70,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
+void VK_submit::draw_canvas(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
@@ -78,7 +78,7 @@ void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle");
   VK_canvas* vk_canvas = vk_engine->get_vk_canvas();
   Frame *frame_scene = vk_param->renderpass_scene.frame_set->get_frame_inflight();
-  Struct_data* data = vk_canvas->get_canvas();
+  Struct_data* data = vk_canvas->get_data_canvas();
   list<Struct_image*> vec_image;
   vec_image.push_back(&frame_scene->color);
   vk_descriptor->update_descriptor_uniform(&pipeline->binding);
@@ -100,7 +100,7 @@ void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_drawing::draw_gui(Struct_renderpass* renderpass){
+void VK_submit::draw_gui(Struct_renderpass* renderpass){
   //---------------------------
 
   //Record command
@@ -122,7 +122,7 @@ void VK_drawing::draw_gui(Struct_renderpass* renderpass){
 }
 
 //Subfunction
-void VK_drawing::acquire_next_image(Struct_renderpass* renderpass){
+void VK_submit::acquire_next_image(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
@@ -152,7 +152,7 @@ void VK_drawing::acquire_next_image(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_drawing::set_next_frame_ID(Struct_renderpass* renderpass){
+void VK_submit::set_next_frame_ID(Struct_renderpass* renderpass){
   //---------------------------
 
   int current_ID = renderpass->frame_set->frame_sawpchain_ID;
@@ -163,7 +163,7 @@ void VK_drawing::set_next_frame_ID(Struct_renderpass* renderpass){
 }
 
 //Queue submission
-void VK_drawing::submit_command(Struct_submit_command* command){
+void VK_submit::submit_command(Struct_submit_command* command){
   //---------------------------
 
   VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
@@ -186,7 +186,7 @@ void VK_drawing::submit_command(Struct_submit_command* command){
 
   //---------------------------
 }
-void VK_drawing::submit_command(Struct_renderpass* renderpass){
+void VK_submit::submit_command(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 
@@ -210,7 +210,7 @@ void VK_drawing::submit_command(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_drawing::submit_commands(vector<Struct_renderpass*> vec_renderpass){
+void VK_submit::submit_commands(vector<Struct_renderpass*> vec_renderpass){
   Frame* frame = vec_renderpass[0]->frame_set->get_frame_inflight();
   //---------------------------
 
@@ -239,7 +239,7 @@ void VK_drawing::submit_commands(vector<Struct_renderpass*> vec_renderpass){
 
   //---------------------------
 }
-void VK_drawing::submit_presentation(Struct_renderpass* renderpass){
+void VK_submit::submit_presentation(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
 

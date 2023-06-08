@@ -18,7 +18,7 @@ class VK_framebuffer;
 class VK_command;
 class VK_cmd;
 class VK_synchronization;
-class VK_drawing;
+class VK_submit;
 class VK_buffer;
 class VK_descriptor;
 class VK_uniform;
@@ -36,6 +36,7 @@ class VK_canvas;
 class VK_color;
 class VK_binding;
 class VK_image;
+class VK_drawing;
 
 
 class VK_engine
@@ -81,10 +82,11 @@ public:
   inline VK_physical_device* get_vk_physical_device(){return vk_physical_device;}
   inline VK_frame* get_vk_frame(){return vk_frame;}
   inline VK_validation* get_vk_validation(){return vk_validation;}
-  inline VK_drawing* get_vk_drawing(){return vk_drawing;}
+  inline VK_submit* get_vk_submit(){return vk_submit;}
   inline VK_canvas* get_vk_canvas(){return vk_canvas;}
   inline VK_binding* get_vk_binding(){return vk_binding;}
   inline VK_image* get_vk_image(){return vk_image;}
+  inline VK_drawing* get_vk_drawing(){return vk_drawing;}
 
   inline float get_time_init(){return time_init;}
   inline float get_time_fps(){return time_fps;}
@@ -106,7 +108,7 @@ private:
   VK_cmd* vk_cmd;
   VK_binding* vk_binding;
   VK_synchronization* vk_synchronization;
-  VK_drawing* vk_drawing;
+  VK_submit* vk_submit;
   VK_buffer* vk_buffer;
   VK_descriptor* vk_descriptor;
   VK_depth* vk_depth;
@@ -121,6 +123,7 @@ private:
   VK_validation* vk_validation;
   VK_canvas* vk_canvas;
   VK_color* vk_color;
+  VK_drawing* vk_drawing;
 
   float time_init;
   float time_fps;

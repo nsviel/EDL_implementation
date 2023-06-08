@@ -9,7 +9,6 @@
 #include "../../Instance/Device/VK_physical_device.h"
 #include "../../Pipeline/Renderpass/VK_renderpass.h"
 #include "../../Pipeline/Command/VK_command.h"
-#include "../../Pipeline/Command/VK_drawing.h"
 #include "../../Presentation/Swapchain/VK_frame.h"
 
 #include "image/IconsFontAwesome5.h"
@@ -159,7 +158,6 @@ void VK_gui::gui_style(){
 }
 void VK_gui::gui_font(){
   VkCommandPool command_pool = vk_command->get_command_pool();
-  VK_drawing* vk_drawing = vk_engine->get_vk_drawing();
   //---------------------------
 
   Frame* frame = vk_param->renderpass_gui.frame_set->get_frame_inflight();
