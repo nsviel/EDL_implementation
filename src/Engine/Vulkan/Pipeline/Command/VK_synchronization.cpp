@@ -22,9 +22,9 @@ void VK_synchronization::init_frame_sync(Frame* frame){
   //---------------------------
 
   this->create_semaphore(frame->semaphore_presentation);
-  this->create_semaphore(frame->semaphore_drawOnQuad);
-  this->create_semaphore(frame->semaphore_renderOnTexture);
-  this->create_semaphore(frame->semaphore_gui);
+  this->create_semaphore(frame->semaphore_render_ready);
+  this->create_semaphore(frame->semaphore_scene_ready);
+  this->create_semaphore(frame->semaphore_ui_ready);
   this->create_fence(frame->fence);
 
   //---------------------------
@@ -33,9 +33,9 @@ void VK_synchronization::clean_frame_sync(Frame* frame){
   //---------------------------
 
   this->clean_semaphore(frame->semaphore_presentation);
-  this->clean_semaphore(frame->semaphore_drawOnQuad);
-  this->clean_semaphore(frame->semaphore_renderOnTexture);
-  this->clean_semaphore(frame->semaphore_gui);
+  this->clean_semaphore(frame->semaphore_scene_ready);
+  this->clean_semaphore(frame->semaphore_render_ready);
+  this->clean_semaphore(frame->semaphore_ui_ready);
   this->clean_fence(frame->fence);
 
   //---------------------------

@@ -59,7 +59,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
   command.semaphore_to_wait = frame->semaphore_presentation;
-  command.semaphore_to_run = frame->semaphore_renderOnTexture;
+  command.semaphore_to_run = frame->semaphore_scene_ready;
   command.fence = VK_NULL_HANDLE;
   vk_submit->submit_command(&command);
 
@@ -83,8 +83,8 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   //Submit command
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
-  command.semaphore_to_wait = frame->semaphore_renderOnTexture;
-  command.semaphore_to_run = frame->semaphore_drawOnQuad;
+  command.semaphore_to_wait = frame->semaphore_scene_ready;
+  command.semaphore_to_run = frame->semaphore_render_ready;
   command.fence = VK_NULL_HANDLE;
   vk_submit->submit_command(&command);
 */
@@ -108,8 +108,8 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
-  command.semaphore_to_wait = frame->semaphore_renderOnTexture;
-  command.semaphore_to_run = frame->semaphore_gui;
+  command.semaphore_to_wait = frame->semaphore_scene_ready;
+  command.semaphore_to_run = frame->semaphore_ui_ready;
   command.fence = frame->fence;
   vk_submit->submit_command(&command);
 
