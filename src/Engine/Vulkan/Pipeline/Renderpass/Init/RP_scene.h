@@ -29,7 +29,6 @@ public:
   //Pipeline
   void create_pipeline_point(Struct_renderpass* renderpass);
   void create_pipeline_line(Struct_renderpass* renderpass);
-  void create_pipeline_edl(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;

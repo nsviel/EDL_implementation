@@ -68,7 +68,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
 void VK_drawing::draw_render(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
-/*
+
   //Update descriptor
   Frame *frame_scene = vk_param->renderpass_scene.frame_set->get_frame_inflight();
   vk_command->update_uniform(renderpass, "triangle");
@@ -87,7 +87,7 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   command.semaphore_to_run = frame->semaphore_render_ready;
   command.fence = VK_NULL_HANDLE;
   vk_submit->submit_command(&command);
-*/
+
   //---------------------------
 }
 void VK_drawing::draw_ui(Struct_renderpass* renderpass){

@@ -72,8 +72,8 @@ void RP_ui::create_pipeline_triangle(Struct_renderpass* renderpass){
   pipeline->name = "triangle";
   pipeline->topology = "triangle";
   pipeline->compile_shader = true;
-  pipeline->path_shader_vs = "Base/shader_canvas_vs";
-  pipeline->path_shader_fs = "Base/shader_canvas_fs";
+  pipeline->path_shader_vs = "Base/shader_quad_vs";
+  pipeline->path_shader_fs = "Base/shader_quad_fs";
   pipeline->vec_data_name.push_back("location");
   pipeline->vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", 0, 1, TYPE_SAMPLER, STAGE_FS));

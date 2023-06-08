@@ -35,7 +35,7 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
 
   renderpass->name = "render";
   renderpass->frame_set = vk_param->renderpass_scene.frame_set;
-  renderpass->frame_usage = IMAGE_USAGE_DEPTH;
+  renderpass->frame_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
   this->create_subpass(renderpass);
   this->create_pipeline_triangle(renderpass);
@@ -53,7 +53,7 @@ void RP_render::create_subpass(Struct_renderpass* renderpass){
   subpass->color.binding = 0;
   subpass->color.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
+  subpass->color.layout_final = IMAGE_LAYOUT_SHADER;
 
   subpass->depth.binding = 1;
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
@@ -72,11 +72,29 @@ void RP_render::create_pipeline_triangle(Struct_renderpass* renderpass){
   pipeline->name = "triangle";
   pipeline->topology = "triangle";
   pipeline->compile_shader = true;
-  pipeline->path_shader_vs = "Base/shader_canvas_vs";
-  pipeline->path_shader_fs = "Base/shader_canvas_fs";
+  pipeline->path_shader_vs = "Base/shader_quad_vs";
+  pipeline->path_shader_fs = "Base/shader_quad_fs";
   pipeline->vec_data_name.push_back("location");
   pipeline->vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  renderpass->vec_pipeline.push_back(pipeline);
+
+  //---------------------------
+}
+void RP_render::create_pipeline_edl(Struct_renderpass* renderpass){
+  //---------------------------
+
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "triangle_EDL";
+  pipeline->topology = "triangle";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "EDL/shader_edl_vs";
+  pipeline->path_shader_fs = "EDL/shader_edl_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("tex_coord");
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", 0, 0, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("EDL_param", sizeof(EDL_param), 2, TYPE_UNIFORM, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

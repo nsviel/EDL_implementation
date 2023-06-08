@@ -28,7 +28,8 @@ public:
 
   //Pipeline
   void create_pipeline_triangle(Struct_renderpass* renderpass);
-  
+  void create_pipeline_edl(Struct_renderpass* renderpass);
+
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;

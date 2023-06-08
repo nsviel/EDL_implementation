@@ -10,7 +10,6 @@ void main(){
   //---------------------------
 
   out_color = texture(tex_sampler, frag_tex_coord);
-  //out_color = vec4(1,0,0,1);
 
   //---------------------------
 }
