@@ -47,29 +47,17 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_cmd::cmd_record_gui(Struct_renderpass* renderpass){
+void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
   vk_command->start_render_pass(renderpass);
-  vk_gui->command_gui(renderpass);
-  vk_command->stop_render_pass(renderpass);
-
-  //---------------------------
-}
-void VK_cmd::cmd_record_canvas(Struct_renderpass* renderpass){
-  VK_command* vk_command = vk_engine->get_vk_command();
-  //---------------------------
-
-  vk_command->start_render_pass(renderpass);
-
-  vk_viewport->update_viewport(vk_param->window.extent);
   VkViewport viewport = vk_viewport->get_viewport_canvas();
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-
   this->cmd_scissor(renderpass);
   this->cmd_drawing_canvas(renderpass);
+  vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------

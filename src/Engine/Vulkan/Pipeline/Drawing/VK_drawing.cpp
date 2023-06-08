@@ -32,8 +32,8 @@ void VK_drawing::draw_frame(){
 
   vk_submit->acquire_next_image(&vk_param->renderpass_canvas);
   this->draw_scene(&vk_param->renderpass_scene);
-  this->draw_canvas(&vk_param->renderpass_canvas);
-  this->draw_gui(&vk_param->renderpass_gui);
+  this->draw_render(&vk_param->renderpass_canvas);
+  this->draw_ui(&vk_param->renderpass_gui);
   vk_submit->submit_presentation(&vk_param->renderpass_canvas);
   vk_submit->set_next_frame_ID(&vk_param->renderpass_canvas);
 
@@ -44,13 +44,9 @@ void VK_drawing::draw_frame(){
 void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   //---------------------------
 
-  VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
-  Struct_pipeline* pipeline_point = vk_pipeline->get_pipeline_byName(renderpass, "point");
-  Struct_pipeline* pipeline_line = vk_pipeline->get_pipeline_byName(renderpass, "line");
-  vk_descriptor->update_descriptor_uniform(&pipeline_point->binding);
-  vk_descriptor->update_descriptor_uniform(&pipeline_line->binding);
-
-
+  //Update descriptor
+  vk_command->update_uniform(renderpass, "point");
+  vk_command->update_uniform(renderpass, "line");
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
@@ -69,24 +65,19 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
+void VK_drawing::draw_render(Struct_renderpass* renderpass){
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   //---------------------------
-
-  VK_pipeline* vk_pipeline = vk_engine->get_vk_pipeline();
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle");
-  VK_canvas* vk_canvas = vk_engine->get_vk_canvas();
+/*
+  //Update descriptor
   Frame *frame_scene = vk_param->renderpass_scene.frame_set->get_frame_inflight();
-  Struct_data* data = vk_canvas->get_data_canvas();
-  list<Struct_image*> vec_image;
-  vec_image.push_back(&frame_scene->color);
-  vk_descriptor->update_descriptor_uniform(&pipeline->binding);
-  vk_descriptor->update_descriptor_sampler(&pipeline->binding, vec_image);
+  vk_command->update_uniform(renderpass, "triangle");
+  vk_command->update_sampler(renderpass, "triangle", &frame_scene->color);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer(renderpass);
-  vk_cmd->cmd_record_canvas(renderpass);
+  vk_cmd->cmd_record_ui(renderpass);
   vk_command->stop_command_buffer(renderpass);
 
   //Submit command
@@ -96,23 +87,28 @@ void VK_drawing::draw_canvas(Struct_renderpass* renderpass){
   command.semaphore_to_run = frame->semaphore_drawOnQuad;
   command.fence = VK_NULL_HANDLE;
   vk_submit->submit_command(&command);
-
+*/
   //---------------------------
 }
-void VK_drawing::draw_gui(Struct_renderpass* renderpass){
+void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   //---------------------------
+
+  //Update descriptor
+  Frame *frame_scene = vk_param->renderpass_scene.frame_set->get_frame_inflight();
+  vk_command->update_uniform(renderpass, "triangle");
+  vk_command->update_sampler(renderpass, "triangle", &frame_scene->color);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer(renderpass);
-  vk_cmd->cmd_record_gui(renderpass);
+  vk_cmd->cmd_record_ui(renderpass);
   vk_command->stop_command_buffer(renderpass);
 
   //Submit command
   Frame* frame = renderpass->frame_set->get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
-  command.semaphore_to_wait = frame->semaphore_drawOnQuad;
+  command.semaphore_to_wait = frame->semaphore_renderOnTexture;
   command.semaphore_to_run = frame->semaphore_gui;
   command.fence = frame->fence;
   vk_submit->submit_command(&command);

@@ -3,18 +3,24 @@
 
 #include "../../VK_param.h"
 #include "../../VK_engine.h"
+
 #include "../../Instance/Element/VK_gui.h"
 #include "../../Instance/Element/VK_window.h"
-#include "../../Pipeline/Renderpass/VK_renderpass.h"
-#include "../../Pipeline/Pipeline/VK_pipeline.h"
 #include "../../Instance/Device/VK_device.h"
 #include "../../Instance/Device/VK_physical_device.h"
+
+#include "../../Pipeline/Renderpass/VK_renderpass.h"
+#include "../../Pipeline/Pipeline/VK_pipeline.h"
+
 #include "../../Data/VK_buffer.h"
 #include "../../Data/VK_data.h"
+
 #include "../../Presentation/Swapchain/VK_frame.h"
 #include "../../Presentation/Camera/VK_viewport.h"
 #include "../../Presentation/Camera/VK_camera.h"
+
 #include "../../Rendering/Render/VK_canvas.h"
+#include "../../Rendering/Binding/VK_descriptor.h"
 
 #include "../../../Param_engine.h"
 
@@ -29,6 +35,8 @@ VK_command::VK_command(VK_engine* vk_engine){
   this->vk_renderpass = vk_engine->get_vk_renderpass();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
   this->vk_cmd = vk_engine->get_vk_cmd();
+  this->vk_pipeline = vk_engine->get_vk_pipeline();
+  this->vk_descriptor = vk_engine->get_vk_descriptor();
 
   //---------------------------
 }
@@ -78,6 +86,26 @@ void VK_command::clean_command_pool(){
   //---------------------------
 
   vkDestroyCommandPool(vk_param->device.device, command_pool, nullptr);
+
+  //---------------------------
+}
+
+//Descriptor
+void VK_command::update_uniform(Struct_renderpass* renderpass, string pipeline_name){
+  //---------------------------
+
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, pipeline_name);
+  vk_descriptor->update_descriptor_uniform(&pipeline->binding);
+
+  //---------------------------
+}
+void VK_command::update_sampler(Struct_renderpass* renderpass, string pipeline_name, Struct_image* image){
+  //---------------------------
+
+  list<Struct_image*> vec_image;
+  vec_image.push_back(image);
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, pipeline_name);
+  vk_descriptor->update_descriptor_sampler(&pipeline->binding, vec_image);
 
   //---------------------------
 }

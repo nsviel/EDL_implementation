@@ -106,6 +106,9 @@ void VK_engine::init_vulkan(){
   //PRIORITY
   //abstractiser les shader modules
     //voir comment manager renderpass / pipeline / shader / shader type
+  //1 canvas pour la scene
+  //1 canvas pour post processing effect
+  //1 canvas pour canvas + gui
 
   //LATER
   //Essayer de ne relancer les commandes que lorsque cela changé

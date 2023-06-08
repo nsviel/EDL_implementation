@@ -24,8 +24,7 @@ public:
 public:
   //Main function
   void cmd_record_scene(Struct_renderpass* renderpass);
-  void cmd_record_gui(Struct_renderpass* renderpass);
-  void cmd_record_canvas(Struct_renderpass* renderpass);
+  void cmd_record_ui(Struct_renderpass* renderpass);
 
   //Renderpass command
   void cmd_viewport(Struct_renderpass* renderpass);

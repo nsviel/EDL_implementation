@@ -70,50 +70,50 @@ void VK_scene::create_subpass(Struct_renderpass* renderpass){
 void VK_scene::create_pipeline_point(Struct_renderpass* renderpass){
   //---------------------------
 
-  Struct_pipeline* pipeline_point = new Struct_pipeline();
-  pipeline_point->name = "point";
-  pipeline_point->topology = "point";
-  pipeline_point->compile_shader = true;
-  pipeline_point->path_shader_vs = "Base/shader_scene_vs";
-  pipeline_point->path_shader_fs = "Base/shader_scene_fs";
-  pipeline_point->vec_data_name.push_back("location");
-  pipeline_point->vec_data_name.push_back("color");
-  pipeline_point->binding.vec_required_binding.push_back(std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS));
-  renderpass->vec_pipeline.push_back(pipeline_point);
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "point";
+  pipeline->topology = "point";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "Base/shader_scene_vs";
+  pipeline->path_shader_fs = "Base/shader_scene_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("color");
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS));
+  renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------
 }
 void VK_scene::create_pipeline_line(Struct_renderpass* renderpass){
   //---------------------------
 
-  Struct_pipeline* pipeline_line = new Struct_pipeline();
-  pipeline_line->name = "line";
-  pipeline_line->topology = "line";
-  pipeline_line->compile_shader = true;
-  pipeline_line->path_shader_vs = "Base/shader_scene_vs";
-  pipeline_line->path_shader_fs = "Base/shader_scene_fs";
-  pipeline_line->vec_data_name.push_back("location");
-  pipeline_line->vec_data_name.push_back("color");
-  pipeline_line->binding.vec_required_binding.push_back(std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS));
-  renderpass->vec_pipeline.push_back(pipeline_line);
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "line";
+  pipeline->topology = "line";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "Base/shader_scene_vs";
+  pipeline->path_shader_fs = "Base/shader_scene_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("color");
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS));
+  renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------
 }
 void VK_scene::create_pipeline_edl(Struct_renderpass* renderpass){
   //---------------------------
 
-  Struct_pipeline* pipeline_point_edl = new Struct_pipeline();
-  pipeline_point_edl->name = "triangle_EDL";
-  pipeline_point_edl->topology = "triangle";
-  pipeline_point_edl->compile_shader = true;
-  pipeline_point_edl->path_shader_vs = "EDL/shader_edl_vs";
-  pipeline_point_edl->path_shader_fs = "EDL/shader_edl_fs";
-  pipeline_point_edl->vec_data_name.push_back("location");
-  pipeline_point_edl->vec_data_name.push_back("color");
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", 0, 0, TYPE_SAMPLER, STAGE_FS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_param", sizeof(EDL_param), 2, TYPE_UNIFORM, STAGE_FS));
-  renderpass->vec_pipeline.push_back(pipeline_point_edl);
+  Struct_pipeline* pipeline = new Struct_pipeline();
+  pipeline->name = "triangle_EDL";
+  pipeline->topology = "triangle";
+  pipeline->compile_shader = true;
+  pipeline->path_shader_vs = "EDL/shader_edl_vs";
+  pipeline->path_shader_fs = "EDL/shader_edl_fs";
+  pipeline->vec_data_name.push_back("location");
+  pipeline->vec_data_name.push_back("tex_coord");
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", 0, 0, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("EDL_param", sizeof(EDL_param), 2, TYPE_UNIFORM, STAGE_FS));
+  renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------
 }

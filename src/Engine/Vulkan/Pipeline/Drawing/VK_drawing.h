@@ -25,8 +25,8 @@ public:
   //Main functions
   void draw_frame();
   void draw_scene(Struct_renderpass* renderpass);
-  void draw_gui(Struct_renderpass* renderpass);
-  void draw_canvas(Struct_renderpass* renderpass);
+  void draw_render(Struct_renderpass* renderpass);
+  void draw_ui(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;
