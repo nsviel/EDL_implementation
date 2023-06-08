@@ -34,7 +34,7 @@ VK_frame::~VK_frame(){}
 void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
   //---------------------------
 
-  for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
+  for(int i=0; i<vk_param->max_frame; i++){
     Frame* frame = new Frame();
     frame->color.usage = renderpass->frame_usage;
     frame->depth.usage = IMAGE_USAGE_DEPTH;

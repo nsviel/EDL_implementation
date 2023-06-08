@@ -18,6 +18,8 @@
 struct VK_param{
   //---------------------------
 
+  int max_frame;
+
   Struct_window window;
   Struct_instance instance;
   Struct_device device;
