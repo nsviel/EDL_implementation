@@ -66,8 +66,7 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
 
   //Render pass
   renderpass->name = "scene";
-  //renderpass->frame_usage = IMAGE_USAGE_ATTACHMENT | IMAGE_USAGE_SAMPLER;
-  renderpass->frame_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+  renderpass->frame_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
   //Subpass
   Struct_subpass* subpass = new Struct_subpass();
@@ -84,7 +83,7 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
 
   //Pipeline
   Struct_pipeline* pipeline_point = new Struct_pipeline();
-  pipeline_point->name = "topology_point";
+  pipeline_point->name = "point";
   pipeline_point->topology = "point";
   pipeline_point->compile_shader = true;
   pipeline_point->path_shader_vs = "Base/shader_scene_vs";
@@ -95,7 +94,7 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
   renderpass->vec_pipeline.push_back(pipeline_point);
 
   Struct_pipeline* pipeline_line = new Struct_pipeline();
-  pipeline_line->name = "topology_line";
+  pipeline_line->name = "line";
   pipeline_line->topology = "line";
   pipeline_line->compile_shader = true;
   pipeline_line->path_shader_vs = "Base/shader_scene_vs";
@@ -104,6 +103,26 @@ void VK_renderpass::init_renderpass_scene(Struct_renderpass* renderpass){
   pipeline_line->vec_data_name.push_back("color");
   pipeline_line->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   renderpass->vec_pipeline.push_back(pipeline_line);
+
+  Struct_pipeline* pipeline_point_edl = new Struct_pipeline();
+  pipeline_point_edl->name = "triangle_EDL";
+  pipeline_point_edl->topology = "triangle";
+  pipeline_point_edl->compile_shader = true;
+  pipeline_point_edl->path_shader_vs = "EDL/shader_edl_vs";
+  pipeline_point_edl->path_shader_fs = "EDL/shader_edl_fs";
+  pipeline_point_edl->vec_data_name.push_back("location");
+  pipeline_point_edl->vec_data_name.push_back("color");
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", "", 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_color", "", 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("A", "float", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("B", "float", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_STRENGTH", "float", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_DISTANCE", "float", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_RADIUS", "float", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_ON", "bool", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("GL_WIDTH", "int", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("GL_HEIGHT", "int", 0, TYPE_UNIFORM, STAGE_VS));
+  //renderpass->vec_pipeline.push_back(pipeline_point_edl);
 
   //---------------------------
   this->create_renderpass(renderpass);
@@ -114,12 +133,10 @@ void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
 
   //Render pass
   renderpass->name = "canvas";
-  //renderpass->frame_set = vk_param->renderpass_scene.frame_set;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
 
   //Subpass
   Struct_subpass* subpass = new Struct_subpass();
-
   subpass->color.binding = 0;
   subpass->color.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
@@ -129,33 +146,18 @@ void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
   subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
-
-
-/*
-  subpass->color.binding = 0;
-  subpass->color.usage = ATTACHMENT_USAGE_CONSERVE;
-  subpass->color.layout_initial = IMAGE_LAYOUT_COLOR;
-  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
-
-  subpass->depth.binding = 1;
-  subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
-*/
   renderpass->vec_subpass.push_back(subpass);
 
   //Pipeline
   Struct_pipeline* pipeline = new Struct_pipeline();
-  pipeline->name = "topology_triangle";
+  pipeline->name = "triangle";
   pipeline->topology = "triangle";
-  pipeline->compile_shader = true;
+  pipeline->compile_shader = false;
   pipeline->path_shader_vs = "Base/shader_canvas_vs";
   pipeline->path_shader_fs = "Base/shader_canvas_fs";
   pipeline->vec_data_name.push_back("location");
   pipeline->vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
-  //pipeline->binding.vec_required_binding.push_back(std::make_tuple("offscreen", "", 2, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------
@@ -166,7 +168,7 @@ void VK_renderpass::init_renderpass_gui(Struct_renderpass* renderpass){
   //---------------------------
 
   //Render pass
-  renderpass->name = "canvas";
+  renderpass->name = "gui";
   renderpass->frame_set = vk_param->renderpass_canvas.frame_set;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
 
@@ -185,14 +187,13 @@ void VK_renderpass::init_renderpass_gui(Struct_renderpass* renderpass){
 
   //Pipeline
   Struct_pipeline* pipeline = new Struct_pipeline();
-  pipeline->name = "topology_triangle";
+  pipeline->name = "triangle";
   pipeline->topology = "triangle";
-  pipeline->compile_shader = true;
+  pipeline->compile_shader = false;
   pipeline->path_shader_vs = "Base/shader_canvas_vs";
   pipeline->path_shader_fs = "Base/shader_canvas_fs";
   pipeline->vec_data_name.push_back("location");
   pipeline->vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 

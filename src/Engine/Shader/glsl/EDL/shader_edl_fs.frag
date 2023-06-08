@@ -1,20 +1,21 @@
-#version 330 core
+#version 450
 
-layout (location = 0) out vec4 out_color;
+layout(location = 2) in vec2 frag_tex_coord;
+layout(location = 0) out vec4 out_color;
 
-in vec2 vs_tex_coord;
+layout(set = 0, binding = 0) uniform sampler2D tex_color;
+layout(set = 0, binding = 1) uniform sampler2D tex_depth;
 
-uniform sampler2D tex_color;
-uniform sampler2D tex_depth;
-
-uniform float A;
-uniform float B;
-uniform float EDL_STRENGTH;
-uniform float EDL_DISTANCE;
-uniform float EDL_RADIUS;
-uniform bool EDL_ON;
-uniform int GL_WIDTH;
-uniform int GL_HEIGHT;
+layout(set = 0, binding = 2) uniform Params {
+    float A;
+    float B;
+    float EDL_STRENGTH;
+    float EDL_DISTANCE;
+    float EDL_RADIUS;
+    bool EDL_ON;
+    int GL_WIDTH;
+    int GL_HEIGHT;
+};
 
 
 //FUNCTION 1 - Compute normalized depth
@@ -34,7 +35,7 @@ vec2 neighbor_contribution(float depth_norm, vec2 offset) {
   //---------------------------
 
   // get normalized depth at texture offseted coordinate
-  vec2 NN_coord = vs_tex_coord + offset;
+  vec2 NN_coord = frag_tex_coord + offset;
   vec4 depth_NN_rgba = texture(tex_depth, NN_coord);
   float depth_NN_norm = compute_depth_normalized(depth_NN_rgba.r);
 
@@ -49,11 +50,11 @@ vec2 neighbor_contribution(float depth_norm, vec2 offset) {
 void main(){
   //---------------------------
 
-  vec4 tex_color_rgba = texture(tex_color, vs_tex_coord);
+  vec4 tex_color_rgba = texture(tex_color, frag_tex_coord);
 
   if(EDL_ON){
     // Build the Depth
-    vec4 depth_rgba = texture(tex_depth, vs_tex_coord);
+    vec4 depth_rgba = texture(tex_depth, frag_tex_coord);
     float depth_norm = compute_depth_normalized(depth_rgba.r);
 
     //Check neighborhood influence

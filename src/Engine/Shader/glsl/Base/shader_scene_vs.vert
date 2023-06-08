@@ -9,7 +9,7 @@ layout(binding = 0) uniform MVP{
 }ubo;
 
 
-void main() {
+void main(){
   //---------------------------
 
   gl_Position = ubo.mvp * vec4(in_position, 1.0);

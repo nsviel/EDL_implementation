@@ -96,7 +96,7 @@ void VK_cmd::cmd_drawing_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_point");
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "point");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Bind and draw vertex buffers
@@ -125,7 +125,7 @@ void VK_cmd::cmd_drawing_glyph(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipine
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_line");
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "line");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Bind and draw vertex buffers
@@ -156,7 +156,7 @@ void VK_cmd::cmd_drawing_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "topology_triangle");
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Descriptor
