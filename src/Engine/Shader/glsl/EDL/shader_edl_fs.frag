@@ -5,15 +5,15 @@ layout(location = 0) out vec4 out_color;
 
 layout(set = 0, binding = 0) uniform sampler2D tex_color;
 layout(set = 0, binding = 1) uniform sampler2D tex_depth;
-layout(set = 0, binding = 2) uniform Params {
-    float A;
-    float B;
-    float EDL_STRENGTH;
-    float EDL_DISTANCE;
-    float EDL_RADIUS;
-    bool EDL_ON;
-    int GL_WIDTH;
-    int GL_HEIGHT;
+layout(set = 0, binding = 2) uniform Params{
+  float A;
+  float B;
+  float EDL_STRENGTH;
+  float EDL_DISTANCE;
+  float EDL_RADIUS;
+  bool EDL_ON;
+  int TEX_WIDTH;
+  int TEX_HEIGHT;
 };
 
 
@@ -30,7 +30,7 @@ float compute_depth_normalized(float depth){
 }
 
 //FUNCTION 2 - Compute neighbor influence
-vec2 neighbor_contribution(float depth_norm, vec2 offset) {
+vec2 neighbor_contribution(float depth_norm, vec2 offset){
   //---------------------------
 
   // get normalized depth at texture offseted coordinate
@@ -57,7 +57,7 @@ void main(){
     float depth_norm = compute_depth_normalized(depth_rgba.r);
 
     //Check neighborhood influence
-    vec2 texel_size = EDL_RADIUS / vec2(GL_WIDTH, GL_HEIGHT);
+    vec2 texel_size = EDL_RADIUS / vec2(TEX_WIDTH, TEX_HEIGHT);
     vec2 NN_response = vec2(0.0);
     NN_response += neighbor_contribution(depth_norm, vec2(-texel_size.x, 0.0));
     NN_response += neighbor_contribution(depth_norm, vec2(+texel_size.x, 0.0));

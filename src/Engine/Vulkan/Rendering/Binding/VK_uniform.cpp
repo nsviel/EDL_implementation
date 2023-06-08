@@ -25,36 +25,28 @@ void VK_uniform::create_uniform_buffers(Struct_binding* binding){
 
   for(int i=0; i<vec_required.size(); i++){
     string name = get<0>(vec_required[i]);
-    string type = get<1>(vec_required[i]);
+    size_t size = get<1>(vec_required[i]);
     int binding = get<2>(vec_required[i]);
     VkDescriptorType ubo_type = get<3>(vec_required[i]);
 
     if(ubo_type == TYPE_UNIFORM){
-      Struct_uniform* uniform = create_uniform_buffer(name, type, binding);
+      Struct_uniform* uniform = create_uniform_buffer(name, size, binding);
       vec_uniform.push_back(uniform);
     }
   }
 
   //---------------------------
 }
-Struct_uniform* VK_uniform::create_uniform_buffer(string name, string type, int binding){
+Struct_uniform* VK_uniform::create_uniform_buffer(string name, size_t size, int binding){
   Struct_uniform* uniform = new Struct_uniform();
   //---------------------------
 
     uniform->name = name;
     uniform->binding = binding;
 
-    std::size_t type_size;
-    if(type == "mat4"){
-      type_size = sizeof(glm::mat4);
-    }else{
-      cout<<"[error] Uniform type not recognized"<<endl;
-      exit(0);
-    }
-
-    vk_buffer->create_gpu_buffer(type_size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform->buffer);
+    vk_buffer->create_gpu_buffer(size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, uniform->buffer);
     vk_buffer->bind_buffer_memory(MEMORY_SHARED_CPU_GPU, uniform->buffer, uniform->mem);
-    vkMapMemory(vk_param->device.device, uniform->mem, 0, type_size, 0, &uniform->mapped);
+    vkMapMemory(vk_param->device.device, uniform->mem, 0, size, 0, &uniform->mapped);
 
   //---------------------------
   return uniform;

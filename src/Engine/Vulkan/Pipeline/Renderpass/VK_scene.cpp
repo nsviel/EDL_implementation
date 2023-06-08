@@ -78,7 +78,7 @@ void VK_scene::create_pipeline_point(Struct_renderpass* renderpass){
   pipeline_point->path_shader_fs = "Base/shader_scene_fs";
   pipeline_point->vec_data_name.push_back("location");
   pipeline_point->vec_data_name.push_back("color");
-  pipeline_point->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point->binding.vec_required_binding.push_back(std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS));
   renderpass->vec_pipeline.push_back(pipeline_point);
 
   //---------------------------
@@ -94,7 +94,7 @@ void VK_scene::create_pipeline_line(Struct_renderpass* renderpass){
   pipeline_line->path_shader_fs = "Base/shader_scene_fs";
   pipeline_line->vec_data_name.push_back("location");
   pipeline_line->vec_data_name.push_back("color");
-  pipeline_line->binding.vec_required_binding.push_back(std::make_tuple("mvp", "mat4", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_line->binding.vec_required_binding.push_back(std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS));
   renderpass->vec_pipeline.push_back(pipeline_line);
 
   //---------------------------
@@ -110,16 +110,9 @@ void VK_scene::create_pipeline_edl(Struct_renderpass* renderpass){
   pipeline_point_edl->path_shader_fs = "EDL/shader_edl_fs";
   pipeline_point_edl->vec_data_name.push_back("location");
   pipeline_point_edl->vec_data_name.push_back("color");
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", "", 1, TYPE_SAMPLER, STAGE_FS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_color", "", 1, TYPE_SAMPLER, STAGE_FS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("A", "float", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("B", "float", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_STRENGTH", "float", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_DISTANCE", "float", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_RADIUS", "float", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_ON", "bool", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("GL_WIDTH", "int", 0, TYPE_UNIFORM, STAGE_VS));
-  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("GL_HEIGHT", "int", 0, TYPE_UNIFORM, STAGE_VS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", 0, 0, TYPE_SAMPLER, STAGE_FS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline_point_edl->binding.vec_required_binding.push_back(std::make_tuple("EDL_param", sizeof(EDL_param), 2, TYPE_UNIFORM, STAGE_VS));
   //renderpass->vec_pipeline.push_back(pipeline_point_edl);
 
   //---------------------------

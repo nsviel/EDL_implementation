@@ -98,7 +98,7 @@ void VK_renderpass::init_renderpass_canvas(Struct_renderpass* renderpass){
   pipeline->path_shader_fs = "Base/shader_canvas_fs";
   pipeline->vec_data_name.push_back("location");
   pipeline->vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", 0, 1, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------
@@ -135,7 +135,7 @@ void VK_renderpass::init_renderpass_gui(Struct_renderpass* renderpass){
   pipeline->path_shader_fs = "Base/shader_canvas_fs";
   pipeline->vec_data_name.push_back("location");
   pipeline->vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", "", 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("texture", 0, 1, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------
