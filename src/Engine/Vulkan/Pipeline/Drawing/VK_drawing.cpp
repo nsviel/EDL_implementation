@@ -7,8 +7,6 @@
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Pipeline/Command/VK_command.h"
-#include "../../Presentation/Swapchain/VK_swapchain.h"
-#include "../../Instance/Element/VK_window.h"
 #include "../../Rendering/Render/VK_canvas.h"
 #include "../../Rendering/Binding/VK_descriptor.h"
 
@@ -19,8 +17,6 @@ VK_drawing::VK_drawing(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_swapchain = vk_engine->get_vk_swapchain();
-  this->vk_window = vk_engine->get_vk_window();
   this->vk_command = vk_engine->get_vk_command();
   this->vk_cmd = vk_engine->get_vk_cmd();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
@@ -32,7 +28,6 @@ VK_drawing::~VK_drawing(){}
 
 //Main function
 void VK_drawing::draw_frame(){
-  vec_renderpass.clear();
   //---------------------------
 
   vk_submit->acquire_next_image(&vk_param->renderpass_canvas);
