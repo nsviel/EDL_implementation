@@ -10,6 +10,7 @@ class VK_param;
 class VK_color;
 class VK_pipeline;
 class VK_subpass;
+class VK_scene;
 
 
 class VK_renderpass
@@ -26,7 +27,6 @@ public:
   void clean_renderpass_object(Struct_renderpass* renderpass);
 
   //Render pass object
-  void init_renderpass_scene(Struct_renderpass* renderpass);
   void init_renderpass_canvas(Struct_renderpass* renderpass);
   void init_renderpass_gui(Struct_renderpass* renderpass);
 
@@ -44,6 +44,7 @@ private:
   VK_color* vk_color;
   VK_pipeline* vk_pipeline;
   VK_subpass* vk_subpass;
+  VK_scene* vk_scene;
 };
 
 #endif

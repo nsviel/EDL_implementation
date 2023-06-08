@@ -150,7 +150,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, list<Stru
 
 //Descriptor layout
 void VK_descriptor::create_layout_from_required(Struct_binding* binding){
-  vec_nameTypeBindingTypeStage& vec_required_binding = binding->vec_required_binding;
+  vec_descriptor_required& vec_required_binding = binding->vec_required_binding;
   VkDescriptorSetLayout& layout = binding->descriptor.layout;
   //---------------------------
 

@@ -20,7 +20,7 @@ VK_sampler::~VK_sampler(){}
 void VK_sampler::create_sampler(Struct_binding* binding){
   //---------------------------
 
-  vec_nameTypeBindingTypeStage& vec_required = binding->vec_required_binding;
+  vec_descriptor_required& vec_required = binding->vec_required_binding;
   vector<Struct_sampler*>& vec_sampler = binding->vec_sampler;
 
   for(int i=0; i<vec_required.size(); i++){

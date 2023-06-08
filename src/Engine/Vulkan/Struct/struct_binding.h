@@ -5,8 +5,8 @@
 #include "../../../common.h"
 
 //Binding requirement
-typedef std::vector<std::tuple<std::string, std::string, int, VkDescriptorType, VkShaderStageFlagBits>> vec_nameTypeBindingTypeStage;
-typedef std::tuple<std::string, std::string, int, VkDescriptorType, VkShaderStageFlagBits> nameTypeBindingTypeStage;
+typedef std::vector<std::tuple<std::string, std::string, int, VkDescriptorType, VkShaderStageFlagBits>> vec_descriptor_required;
+typedef std::tuple<std::string, std::string, int, VkDescriptorType, VkShaderStageFlagBits> descriptor_required;
 
 //Structures
 struct Struct_descriptor{
@@ -55,10 +55,7 @@ struct Struct_binding{
   bool need_update = true;
 
   //Binding description
-  vec_nameTypeBindingTypeStage vec_required_binding;
-  vector<VkWriteDescriptorSet> vec_descriptor_write;
-  vector<VkDescriptorBufferInfo> vec_descriptor_buffer_info;
-  vector<VkDescriptorImageInfo> vec_descriptor_image_info;
+  vec_descriptor_required vec_required_binding;
   Struct_descriptor descriptor;
 
   //Binding elements

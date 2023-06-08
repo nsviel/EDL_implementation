@@ -20,7 +20,7 @@ VK_uniform::~VK_uniform(){}
 void VK_uniform::create_uniform_buffers(Struct_binding* binding){
   //---------------------------
 
-  vec_nameTypeBindingTypeStage& vec_required = binding->vec_required_binding;
+  vec_descriptor_required& vec_required = binding->vec_required_binding;
   vector<Struct_uniform*>& vec_uniform = binding->vec_uniform;
 
   for(int i=0; i<vec_required.size(); i++){
