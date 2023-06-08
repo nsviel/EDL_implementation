@@ -34,6 +34,7 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
   //---------------------------
 
   renderpass->name = "render";
+  renderpass->frame_set = vk_param->renderpass_scene.frame_set;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
 
   this->create_subpass(renderpass);
@@ -41,7 +42,7 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);
-  vk_renderpass->create_renderpass_frame(renderpass, "sw");
+  vk_renderpass->create_renderpass_frame(renderpass, "rp");
 }
 
 //Subpass

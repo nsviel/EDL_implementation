@@ -103,21 +103,8 @@ void VK_engine::init_vulkan(){
   vk_renderpass->init_renderpass();
 
 
-  //PRIORITY
-  //Mettre l'initialization des renderpass dans fichier distinct
-  //abstractiser les shader modules
-    //voir comment manager renderpass / pipeline / shader / shader type
-  //1 canvas pour la scene
-  //1 canvas pour post processing effect
-  //1 canvas pour canvas + gui
-
-  //LATER
-  //Essayer de ne relancer les commandes que lorsque cela changé
-  // one command buffer per pipeline
-  //Save the commands and redraw only necessary
-  //Il faut que le descriptor layout des objects soit celui-ci du pipeline parent
-    //-faire en sorte que ce soit le cas dans l'abosolu et non pas en parrallèle
-
+  //WORK
+  //Commencer travaille sur renderpass render et y mettre EDL
 
 
   //Specific
