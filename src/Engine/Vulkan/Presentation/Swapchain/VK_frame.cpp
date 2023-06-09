@@ -44,7 +44,6 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     vk_color->create_color_attachment(frame);
     vk_depth->create_depth_attachment(frame);
     vk_framebuffer->create_framebuffer(renderpass, frame);
-    vk_synchronization->init_frame_sync(frame);
 
     renderpass->vec_frame.push_back(frame);
   }
@@ -61,16 +60,12 @@ void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
     vk_image->clean_image(&frame->color);
     vk_image->clean_image(&frame->depth);
     vk_framebuffer->clean_framebuffer(frame);
-    vk_synchronization->clean_frame_sync(frame);
     delete frame;
   }
   vec_frame.clear();
 
   //---------------------------
 }
-
-//Swapchain frame
-
 
 //Swapchain frame
 void VK_frame::create_frame_swapchain(Struct_swapchain* swapchain){
@@ -83,7 +78,6 @@ void VK_frame::create_frame_swapchain(Struct_swapchain* swapchain){
     frame->color.image = swapchain->vec_swapchain_image[i];
     frame->color.format = vk_color->find_color_format();
     frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-    frame->color.usage = IMAGE_USAGE_DEPTH;
     frame->depth.usage = IMAGE_USAGE_DEPTH;
 
     vk_image->create_image_view(&frame->color);

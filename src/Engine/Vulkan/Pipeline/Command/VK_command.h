@@ -24,9 +24,8 @@ public:
   ~VK_command();
 
 public:
-  //Main functions
+  //Command pool
   void create_command_pool();
-  void allocate_command_buffer(Struct_renderpass* renderpass);
   void clean_command_pool();
 
   //Descriptor
@@ -34,12 +33,12 @@ public:
   void update_sampler(Struct_renderpass* renderpass, string pipeline_name, Struct_image* image);
 
   //Command buffer
+  void allocate_command_buffer(Struct_renderpass* renderpass);
   void start_command_buffer(Struct_renderpass* renderpass);
   void stop_command_buffer(Struct_renderpass* renderpass);
 
   //Render pass
   void start_render_pass(Struct_renderpass* renderpass);
-  void start_render_pass_low(Struct_renderpass* renderpass);
   void stop_render_pass(Struct_renderpass* renderpass);
 
   //Image layout transition

@@ -38,7 +38,7 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
-  vk_command->start_render_pass_low(renderpass);
+  vk_command->start_render_pass(renderpass);
   this->cmd_viewport(renderpass);
   this->cmd_scissor(renderpass);
   this->cmd_draw_scene(renderpass);
@@ -52,9 +52,16 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
-  Frame* frae = vk_param->renderpass_ui.get_frame_current();
+  Frame* frae = vk_param->renderpass_ui.get_rendering_frame();
   Frame* frame_sw = vk_param->swapchain.get_frame_current();
-  frae->fbo = frame_sw->fbo;
+  //frae->fbo = frame_sw->fbo;
+
+
+
+  //int current_ID = vk_param->swapchain.frame_current_ID;
+  //current_ID = (current_ID + 1) % vk_param->instance.max_frame_inflight;
+  //vk_param->renderpass_ui.rendering_frame_ID = current_ID;
+
 
   vk_command->start_render_pass(renderpass);
   VkViewport viewport = vk_viewport->get_viewport_canvas();

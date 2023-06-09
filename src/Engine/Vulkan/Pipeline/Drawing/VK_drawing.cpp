@@ -37,6 +37,9 @@ void VK_drawing::draw_frame(){
   vk_submit->submit_presentation(&vk_param->swapchain);
   vk_submit->set_next_frame_ID(&vk_param->swapchain);
 
+  vk_submit->set_next_frame_ID(&vk_param->renderpass_ui);
+  vk_submit->set_next_frame_ID(&vk_param->renderpass_scene);
+
   //---------------------------
 }
 
@@ -61,7 +64,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   command.semaphore_to_wait = frame->semaphore_presentation;
   command.semaphore_to_run = frame->semaphore_scene_ready;
   command.fence = VK_NULL_HANDLE;
-  vk_submit->submit_command(&command);
+  vk_submit->submit_graphics_command(&command);
 
   //---------------------------
 }
@@ -70,7 +73,7 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   //---------------------------
 
   //Update descriptor
-  Frame *frame_scene = vk_param->renderpass_scene.get_frame_current();
+  Frame *frame_scene = vk_param->renderpass_scene.get_rendering_frame();
   vk_command->update_uniform(renderpass, "triangle");
   vk_command->update_sampler(renderpass, "triangle", &frame_scene->color);
 
@@ -86,7 +89,7 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   command.semaphore_to_wait = frame->semaphore_scene_ready;
   command.semaphore_to_run = frame->semaphore_render_ready;
   command.fence = VK_NULL_HANDLE;
-  vk_submit->submit_command(&command);
+  vk_submit->submit_graphics_command(&command);
 
   //---------------------------
 }
@@ -94,7 +97,7 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   //Update descriptor
-  Frame* frame_scene = vk_param->renderpass_scene.get_frame_current();
+  Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
   vk_command->update_uniform(renderpass, "triangle");
   vk_command->update_sampler(renderpass, "triangle", &frame_scene->color);
 
@@ -111,7 +114,7 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   command.semaphore_to_wait = frame->semaphore_scene_ready;
   command.semaphore_to_run = frame->semaphore_ui_ready;
   command.fence = frame->fence;
-  vk_submit->submit_command(&command);
+  vk_submit->submit_graphics_command(&command);
 
   //---------------------------
 }

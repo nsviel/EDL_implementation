@@ -156,11 +156,10 @@ void VK_swapchain::recreate_swapChain(){
   vk_frame->create_frame_renderpass(&vk_param->renderpass_scene);
 
 
-
-    for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
-      Frame* frame = vk_param->swapchain.vec_frame[i];
-      vk_framebuffer->create_framebuffer(&vk_param->renderpass_ui, frame);
-    }
+  for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
+    Frame* frame = vk_param->swapchain.vec_frame[i];
+    vk_framebuffer->create_framebuffer(&vk_param->renderpass_ui, frame);
+  }
 
   //---------------------------
 }

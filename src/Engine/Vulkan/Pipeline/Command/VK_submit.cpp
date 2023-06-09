@@ -30,14 +30,15 @@ VK_submit::~VK_submit(){}
 
 //Main function
 void VK_submit::acquire_next_image(Struct_swapchain* swapchain){
-  Frame* frame = swapchain->get_frame_inflight();
+  Frame* frame_inflight = swapchain->get_frame_inflight();
   //---------------------------
 
-  //Waiting for the previous frame
-  vkWaitForFences(vk_param->device.device, 1, &frame->fence, VK_TRUE, UINT64_MAX);
+  //Wait and reset fence
+  vkWaitForFences(vk_param->device.device, 1, &frame_inflight->fence, VK_TRUE, UINT64_MAX);
+  vkResetFences(vk_param->device.device, 1, &frame_inflight->fence);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, swapchain->swapchain, UINT64_MAX, frame->semaphore_presentation, VK_NULL_HANDLE, &swapchain->frame_current_ID);
+  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, swapchain->swapchain, UINT64_MAX, frame_inflight->semaphore_presentation, VK_NULL_HANDLE, &swapchain->frame_current_ID);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;
@@ -45,8 +46,6 @@ void VK_submit::acquire_next_image(Struct_swapchain* swapchain){
     throw std::runtime_error("[error] failed to acquire swap chain image!");
   }
 
-  //Reset fence
-  vkResetFences(vk_param->device.device, 1, &frame->fence);
 
   //Window resizing
   vk_window->check_for_resizing();
@@ -68,9 +67,18 @@ void VK_submit::set_next_frame_ID(Struct_swapchain* swapchain){
 
   //---------------------------
 }
+void VK_submit::set_next_frame_ID(Struct_renderpass* renderpass){
+  //---------------------------
+
+  int current_ID = renderpass->rendering_frame_ID;
+  current_ID = (current_ID + 1) % vk_param->instance.max_frame_inflight;
+  renderpass->rendering_frame_ID = current_ID;
+
+  //---------------------------
+}
 
 //Queue submission
-void VK_submit::submit_command(Struct_submit_command* command){
+void VK_submit::submit_graphics_command(Struct_submit_command* command){
   //---------------------------
 
   VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
@@ -94,17 +102,15 @@ void VK_submit::submit_command(Struct_submit_command* command){
   //---------------------------
 }
 void VK_submit::submit_presentation(Struct_swapchain* swapchain){
-  Frame* frame = swapchain->get_frame_inflight();
+  Frame* frame_inflight = swapchain->get_frame_inflight();
   //---------------------------
 
-  VkSemaphore vec_semaphore_render_ready[] = {frame->semaphore_ui_ready};
-  VkSwapchainKHR swapChains[] = {swapchain->swapchain};
   VkPresentInfoKHR presentation_info{};
   presentation_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
   presentation_info.waitSemaphoreCount = 1;
-  presentation_info.pWaitSemaphores = vec_semaphore_render_ready;
+  presentation_info.pWaitSemaphores = &frame_inflight->semaphore_ui_ready;
   presentation_info.swapchainCount = 1;
-  presentation_info.pSwapchains = swapChains;
+  presentation_info.pSwapchains = &swapchain->swapchain;
   presentation_info.pImageIndices = &swapchain->frame_current_ID;
   presentation_info.pResults = nullptr; // Optional
 
