@@ -97,8 +97,9 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
 
   //Update descriptor
   Frame* frame_scene = vk_param->renderpass_render.get_rendering_frame();
+  vector<Struct_image*> vec_image(1, frame_scene->color);
   vk_command->update_uniform(renderpass, "triangle");
-  vk_command->update_sampler(renderpass, "triangle", &frame_scene->color);
+  vk_command->update_sampler(renderpass, "triangle", vec_image[0]);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
