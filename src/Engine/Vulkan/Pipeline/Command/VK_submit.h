@@ -4,6 +4,7 @@
 #include "../../Struct/struct_frame.h"
 #include "../../Struct/struct_renderpass.h"
 #include "../../Struct/struct_command.h"
+#include "../../Struct/struct_swapchain.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -32,6 +33,10 @@ public:
   void submit_command(Struct_renderpass* renderpass);
   void submit_commands(vector<Struct_renderpass*> vec_renderpass);
   void submit_presentation(Struct_renderpass* renderpass);
+
+  void acquire_next_image(Struct_swapchain* swapchain);
+  void set_next_frame_ID(Struct_swapchain* swapchain);
+  void submit_presentation(Struct_swapchain* swapchain);
 
 private:
   VK_engine* vk_engine;

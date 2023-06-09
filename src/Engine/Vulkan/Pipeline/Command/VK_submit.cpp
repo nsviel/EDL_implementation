@@ -170,3 +170,67 @@ void VK_submit::submit_presentation(Struct_renderpass* renderpass){
 
   //---------------------------
 }
+
+void VK_submit::acquire_next_image(Struct_swapchain* swapchain){
+  Frame* frame = swapchain->get_frame_inflight();
+  //---------------------------
+
+  //Waiting for the previous frame
+  vkWaitForFences(vk_param->device.device, 1, &frame->fence, VK_TRUE, UINT64_MAX);
+
+  //Acquiring an image from the swap chain
+  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, swapchain->swapchain, UINT64_MAX, frame->semaphore_presentation, VK_NULL_HANDLE, &swapchain->frame_current_ID);
+  if(result == VK_ERROR_OUT_OF_DATE_KHR){
+    vk_swapchain->recreate_swapChain();
+    return;
+  }else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR){
+    throw std::runtime_error("[error] failed to acquire swap chain image!");
+  }
+
+  //Reset fence
+  vkResetFences(vk_param->device.device, 1, &frame->fence);
+
+  //Window resizing
+  vk_window->check_for_resizing();
+  if(result == VK_ERROR_OUT_OF_DATE_KHR){
+    vk_swapchain->recreate_swapChain();
+    return;
+  }else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR){
+    throw std::runtime_error("[error] failed to acquire swap chain image!");
+  }
+
+  //---------------------------
+}
+void VK_submit::set_next_frame_ID(Struct_swapchain* swapchain){
+  //---------------------------
+
+  int current_ID = swapchain->frame_current_ID;
+  current_ID = (current_ID + 1) % vk_param->instance.max_frame_inflight;
+  swapchain->frame_current_ID = current_ID;
+
+  //---------------------------
+}
+void VK_submit::submit_presentation(Struct_swapchain* swapchain){
+  Frame* frame = swapchain->get_frame_current();
+  //---------------------------
+
+  VkSemaphore vec_semaphore_render_ready[] = {frame->semaphore_ui_ready};
+  VkSwapchainKHR swapChains[] = {swapchain->swapchain};
+  VkPresentInfoKHR presentation_info{};
+  presentation_info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+  presentation_info.waitSemaphoreCount = 1;
+  presentation_info.pWaitSemaphores = vec_semaphore_render_ready;
+  presentation_info.swapchainCount = 1;
+  presentation_info.pSwapchains = swapChains;
+  presentation_info.pImageIndices = &swapchain->frame_current_ID;
+  presentation_info.pResults = nullptr; // Optional
+
+  VkResult result = vkQueuePresentKHR(vk_param->device.queue_presentation, &presentation_info);
+  if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || vk_param->window.is_resized){
+    vk_swapchain->recreate_swapChain();
+  }else if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to present swap chain image!");
+  }
+
+  //---------------------------
+}
