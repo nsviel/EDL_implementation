@@ -123,7 +123,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, vector<St
 
       if(sampler->name == image->name){
         VkDescriptorImageInfo image_info = {};
-        image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        image_info.imageLayout = image->layout;
         image_info.imageView = image->view;
         image_info.sampler = image->sampler;
         vec_descriptor_image_info.push_back(image_info);
@@ -135,7 +135,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, vector<St
         write_sampler.dstArrayElement = 0;
         write_sampler.descriptorType = TYPE_SAMPLER;
         write_sampler.descriptorCount = 1;
-        write_sampler.pImageInfo = &vec_descriptor_image_info[i];
+        write_sampler.pImageInfo = &vec_descriptor_image_info[vec_descriptor_image_info.size()-1];
         vec_descriptor_write.push_back(write_sampler);
       }
     }

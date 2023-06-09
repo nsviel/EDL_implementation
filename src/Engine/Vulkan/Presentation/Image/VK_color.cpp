@@ -33,6 +33,7 @@ void VK_color::create_color_attachment(Frame* frame){
   frame->color.usage = frame->color.usage;
   frame->color.properties = MEMORY_GPU;
   frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+  frame->color.layout = IMAGE_LAYOUT_SHADER;
 
   vk_image->create_image(&frame->color);
   vk_image->create_image_view(&frame->color);

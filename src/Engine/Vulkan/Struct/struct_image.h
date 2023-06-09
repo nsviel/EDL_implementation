@@ -22,6 +22,7 @@ struct Struct_image{
   VkImageTiling tiling;
   VkImageUsageFlags usage;
   VkImageAspectFlags aspect;
+  VkImageLayout layout;
 
   //Other info
   VkFormat format;

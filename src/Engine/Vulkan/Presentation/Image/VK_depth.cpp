@@ -29,9 +29,11 @@ void VK_depth::create_depth_attachment(Frame* frame){
   frame->depth.usage = frame->depth.usage;
   frame->depth.properties = MEMORY_GPU;
   frame->depth.aspect = VK_IMAGE_ASPECT_DEPTH_BIT;
+  frame->depth.layout = IMAGE_LAYOUT_SHADER;
 
   vk_image->create_image(&frame->depth);
   vk_image->create_image_view(&frame->depth);
+  vk_image->create_image_sampler(&frame->depth);
 
   //---------------------------
 }
