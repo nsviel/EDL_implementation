@@ -34,7 +34,8 @@ void RP_scene::init_renderpass_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   renderpass->name = "scene";
-  renderpass->frame_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+  renderpass->color_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+  renderpass->depth_usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
   this->create_subpass(renderpass);
   this->create_pipeline_point(renderpass);
@@ -57,7 +58,7 @@ void RP_scene::create_subpass(Struct_renderpass* renderpass){
   subpass->depth.binding = 1;
   subpass->depth.usage = ATTACHMENT_USAGE_CLEAR;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
+  subpass->depth.layout_final = IMAGE_LAYOUT_SHADER;
   renderpass->vec_subpass.push_back(subpass);
 
   //---------------------------
