@@ -93,7 +93,7 @@ void VK_descriptor::update_descriptor_uniform(Struct_binding* binding){
     VkWriteDescriptorSet write_uniform = {};
     write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     write_uniform.dstSet = binding->descriptor.set;
-    write_uniform.dstBinding = 0;
+    write_uniform.dstBinding = uniform->binding;
     write_uniform.dstArrayElement = 0;
     write_uniform.descriptorType = TYPE_UNIFORM;
     write_uniform.descriptorCount = 1;
@@ -119,7 +119,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, vector<St
     Struct_sampler* sampler = binding->vec_sampler[i];
 
     for(int j=0; j<vec_image.size(); j++){
-      Struct_image* image = vec_image[i];
+      Struct_image* image = vec_image[j];
 
       if(sampler->name == image->name){
         VkDescriptorImageInfo image_info = {};

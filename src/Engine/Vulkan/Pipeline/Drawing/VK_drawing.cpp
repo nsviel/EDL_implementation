@@ -72,7 +72,7 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
   vector<Struct_image*> vec_image;
   vec_image.push_back(&frame_scene->color);
-  //vec_image.push_back(&frame_scene->depth);
+  vec_image.push_back(&frame_scene->depth);
   vk_command->update_uniform(renderpass, "triangle");
   vk_command->update_sampler(renderpass, "triangle", vec_image);
 
