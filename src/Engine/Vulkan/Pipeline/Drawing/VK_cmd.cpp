@@ -12,6 +12,7 @@
 #include "../../Presentation/Camera/VK_viewport.h"
 #include "../../Rendering/Binding/VK_binding.h"
 #include "../../Rendering/Binding/VK_descriptor.h"
+#include "../../Rendering/Binding/VK_uniform.h"
 #include "../../Rendering/Render/VK_canvas.h"
 #include "../../Data/VK_data.h"
 
@@ -28,6 +29,7 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
   this->vk_binding = vk_engine->get_vk_binding();
   this->vk_data = vk_engine->get_vk_data();
   this->vk_viewport = vk_engine->get_vk_viewport();
+  this->vk_uniform = vk_engine->get_vk_uniform();
 
   //---------------------------
 }
@@ -44,6 +46,20 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   this->cmd_scissor(renderpass);
   this->cmd_draw_scene(renderpass);
   this->cmd_draw_glyph(renderpass);
+  vk_command->stop_render_pass(renderpass);
+
+  //---------------------------
+}
+void VK_cmd::cmd_record_render(Struct_renderpass* renderpass){
+  VK_command* vk_command = vk_engine->get_vk_command();
+  //---------------------------
+
+  Frame* frame = renderpass->get_rendering_frame();
+  vk_command->start_render_pass(renderpass, frame);
+  VkViewport viewport = vk_viewport->get_viewport_canvas();
+  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
+  this->cmd_scissor(renderpass);
+  this->cmd_draw_edl(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
@@ -99,7 +115,7 @@ void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
     if(object->draw_type_name == "point"){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_binding->update_uniform(&pipeline->binding, data->object->mvp);
+      vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       //Data
@@ -128,8 +144,7 @@ void VK_cmd::cmd_draw_glyph(Struct_renderpass* renderpass){
     if(object->draw_type_name == "line"){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_binding->update_uniform(&pipeline->binding, data->object->mvp);
-
+      vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       //Data
@@ -151,6 +166,28 @@ void VK_cmd::cmd_draw_canvas(Struct_renderpass* renderpass){
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Descriptor
+  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+
+  //Data
+  Struct_data* data = vk_canvas->get_data_canvas();
+  Object* canvas = data->object;
+  VkDeviceSize offsets[] = {0};
+  vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 1, &data->xyz.vbo, offsets);
+  vkCmdBindVertexBuffers(renderpass->command_buffer, 2, 1, &data->uv.vbo, offsets);
+  vkCmdDraw(renderpass->command_buffer, canvas->xyz.size(), 1, 0, 0);
+
+  //---------------------------
+}
+void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
+  //---------------------------
+
+  //Pipeline
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle");
+  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+
+  //Descriptor
+  //vk_binding->update_uniform(&pipeline->binding, true);
+  //vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
   vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data

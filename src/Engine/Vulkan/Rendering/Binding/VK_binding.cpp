@@ -14,7 +14,7 @@ VK_binding::VK_binding(VK_engine* vk_engine){
 
   this->vk_param = vk_engine->get_vk_param();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
-  this->vk_uniform = new VK_uniform(vk_engine);
+  this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_sampler = new VK_sampler(vk_engine);
 
   //---------------------------

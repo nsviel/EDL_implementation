@@ -34,7 +34,6 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
   //---------------------------
 
   renderpass->name = "render";
-  //renderpass->frame_set = vk_param->renderpass_scene.frame_set;
   renderpass->frame_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
   this->create_subpass(renderpass);

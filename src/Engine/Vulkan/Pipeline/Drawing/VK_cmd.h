@@ -12,6 +12,7 @@ class VK_camera;
 class VK_canvas;
 class VK_binding;
 class VK_data;
+class VK_uniform;
 
 
 class VK_cmd
@@ -24,6 +25,7 @@ public:
 public:
   //Main function
   void cmd_record_scene(Struct_renderpass* renderpass);
+  void cmd_record_render(Struct_renderpass* renderpass);
   void cmd_record_ui(Struct_renderpass* renderpass);
 
   //Renderpass command
@@ -32,6 +34,7 @@ public:
   void cmd_draw_scene(Struct_renderpass* renderpass);
   void cmd_draw_glyph(Struct_renderpass* renderpass);
   void cmd_draw_canvas(Struct_renderpass* renderpass);
+  void cmd_draw_edl(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;
@@ -42,6 +45,7 @@ private:
   VK_binding* vk_binding;
   VK_data* vk_data;
   VK_viewport* vk_viewport;
+  VK_uniform* vk_uniform;
 };
 
 #endif

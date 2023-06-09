@@ -56,6 +56,7 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
   this->vk_buffer = new VK_buffer(this);
+  this->vk_uniform = new VK_uniform(this);
   this->vk_image = new VK_image(this);
   this->vk_texture = new VK_texture(this);
   this->vk_depth = new VK_depth(this);
@@ -105,9 +106,7 @@ void VK_engine::init_vulkan(){
 
 
   //WORK
-  //il faudrait que la swapchain contienne les images swapchina ou un ptr
-  //mettre les swapchain images dans struct_swapchain et libérere renderpass avec frame_set et qui ne doiven garder que des images pour traiter dessus
-  //bien régler les frame dans frame_set des render pass, notament number, call by get_inflight
+  //Subpass managment
   //Commencer travaille sur renderpass render et y mettre EDL
 
 

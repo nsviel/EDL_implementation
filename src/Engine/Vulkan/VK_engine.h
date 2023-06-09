@@ -87,6 +87,7 @@ public:
   inline VK_binding* get_vk_binding(){return vk_binding;}
   inline VK_image* get_vk_image(){return vk_image;}
   inline VK_drawing* get_vk_drawing(){return vk_drawing;}
+  inline VK_uniform* get_vk_uniform(){return vk_uniform;}
 
   inline float get_time_init(){return time_init;}
   inline float get_time_fps(){return time_fps;}
@@ -103,6 +104,7 @@ private:
   VK_renderpass* vk_renderpass;
   VK_pipeline* vk_pipeline;
   VK_framebuffer* vk_framebuffer;
+  VK_uniform* vk_uniform;
   VK_image* vk_image;
   VK_command* vk_command;
   VK_cmd* vk_cmd;

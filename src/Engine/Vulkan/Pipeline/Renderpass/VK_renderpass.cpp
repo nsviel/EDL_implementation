@@ -15,8 +15,6 @@
 #include "../../Presentation/Image/VK_color.h"
 #include "../../Presentation/Image/VK_depth.h"
 
-//Manage fbo attachment (color / depth)
-
 
 //Constructor / Destructor
 VK_renderpass::VK_renderpass(VK_engine* vk_engine){
@@ -47,7 +45,7 @@ void VK_renderpass::init_renderpass(){
   //---------------------------
 
   rp_scene->init_renderpass_scene(&vk_param->renderpass_scene);
-  //rp_render->init_renderpass_render(&vk_param->renderpass_render);
+  rp_render->init_renderpass_render(&vk_param->renderpass_render);
   rp_ui->init_renderpass_ui(&vk_param->renderpass_ui);
 
   //---------------------------
@@ -57,11 +55,11 @@ void VK_renderpass::clean_renderpass(){
   //---------------------------
 
   vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
-  //vk_frame->clean_frame_swapchain(&vk_param->renderpass_render);
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_render);
   vk_frame->clean_frame_renderpass(&vk_param->renderpass_ui);
 
   this->clean_renderpass_object(&vk_param->renderpass_scene);
-  //this->clean_renderpass_object(&vk_param->renderpass_render);
+  this->clean_renderpass_object(&vk_param->renderpass_render);
   this->clean_renderpass_object(&vk_param->renderpass_ui);
 
   //---------------------------
