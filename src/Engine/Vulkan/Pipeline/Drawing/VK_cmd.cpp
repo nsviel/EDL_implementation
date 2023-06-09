@@ -54,7 +54,7 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
 
   Frame* frae = vk_param->renderpass_ui.get_rendering_frame();
   Frame* frame_sw = vk_param->swapchain.get_frame_current();
-  //frae->fbo = frame_sw->fbo;
+  frae->fbo = frame_sw->fbo;
 
 
 

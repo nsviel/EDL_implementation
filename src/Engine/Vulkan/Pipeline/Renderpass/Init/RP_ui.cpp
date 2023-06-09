@@ -34,7 +34,7 @@ void RP_ui::init_renderpass_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   renderpass->name = "ui";
-  renderpass->frame_usage = IMAGE_USAGE_DEPTH;
+  renderpass->frame_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
   this->create_subpass(renderpass);
   this->create_pipeline_triangle(renderpass);
