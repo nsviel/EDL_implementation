@@ -30,7 +30,7 @@ public:
 
   //Descriptor
   void update_uniform(Struct_renderpass* renderpass, string pipeline_name);
-  void update_sampler(Struct_renderpass* renderpass, string pipeline_name, Struct_image* image);
+  void update_sampler(Struct_renderpass* renderpass, string pipeline_name, vector<Struct_image*> vec_image);
 
   //Command buffer
   void allocate_command_buffer(Struct_renderpass* renderpass);

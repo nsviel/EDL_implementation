@@ -72,8 +72,9 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
 
   //Update descriptor
   Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
+  vector<Struct_image*> vec_image(1, &frame_scene->color);
   vk_command->update_uniform(renderpass, "triangle");
-  vk_command->update_sampler(renderpass, "triangle", &frame_scene->color);
+  vk_command->update_sampler(renderpass, "triangle", vec_image);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
@@ -96,10 +97,10 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   //Update descriptor
-  Frame* frame_scene = vk_param->renderpass_render.get_rendering_frame();
-  vector<Struct_image*> vec_image(1, frame_scene->color);
+  Frame* frame_final = vk_param->renderpass_render.get_rendering_frame();
+  vector<Struct_image*> vec_image(1, &frame_final->color);
   vk_command->update_uniform(renderpass, "triangle");
-  vk_command->update_sampler(renderpass, "triangle", vec_image[0]);
+  vk_command->update_sampler(renderpass, "triangle", vec_image);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);

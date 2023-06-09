@@ -29,7 +29,7 @@ public:
 
   //Descriptor set update
   void update_descriptor_uniform(Struct_binding* binding);
-  void update_descriptor_sampler(Struct_binding* binding, list<Struct_image*> list_image);
+  void update_descriptor_sampler(Struct_binding* binding, vector<Struct_image*> vec_image);
 
   //Descriptor layout
   void create_layout_from_required(Struct_binding* binding);

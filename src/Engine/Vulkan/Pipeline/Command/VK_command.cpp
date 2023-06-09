@@ -79,11 +79,9 @@ void VK_command::update_uniform(Struct_renderpass* renderpass, string pipeline_n
 
   //---------------------------
 }
-void VK_command::update_sampler(Struct_renderpass* renderpass, string pipeline_name, Struct_image* image){
+void VK_command::update_sampler(Struct_renderpass* renderpass, string pipeline_name, vector<Struct_image*> vec_image){
   //---------------------------
 
-  list<Struct_image*> vec_image;
-  vec_image.push_back(image);
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, pipeline_name);
   vk_descriptor->update_descriptor_sampler(&pipeline->binding, vec_image);
 
