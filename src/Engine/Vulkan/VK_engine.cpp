@@ -101,6 +101,7 @@ void VK_engine::init_vulkan(){
   //Pipeline
   vk_swapchain->create_swapchain();
   vk_renderpass->init_renderpass();
+  vk_frame->create_frame_swapchain(&vk_param->swapchain);
 
 
   //WORK

@@ -56,12 +56,14 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   Frame* frame_sw = vk_param->swapchain.get_frame_current();
   frae->fbo = frame_sw->fbo;
 
+  /*say("----");
+  say(frae->fbo);
+  say(frame_sw->fbo);
 
-
-  //int current_ID = vk_param->swapchain.frame_current_ID;
-  //current_ID = (current_ID + 1) % vk_param->instance.max_frame_inflight;
-  //vk_param->renderpass_ui.rendering_frame_ID = current_ID;
-
+  say(frae->fbo);
+  say(frame_sw->fbo);
+  //frame_sw->fbo = frae->fbo;
+*/
 
   vk_command->start_render_pass(renderpass);
   VkViewport viewport = vk_viewport->get_viewport_canvas();
@@ -70,6 +72,10 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   this->cmd_draw_canvas(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
+
+
+
+
 
   //---------------------------
 }

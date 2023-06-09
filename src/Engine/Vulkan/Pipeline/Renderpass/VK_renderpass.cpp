@@ -54,7 +54,7 @@ void VK_renderpass::init_renderpass(){
   VK_framebuffer*vk_framebuffer = vk_engine->get_vk_framebuffer();
   for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
     Frame* frame = vk_param->swapchain.vec_frame[i];
-    vk_framebuffer->create_framebuffer(&vk_param->renderpass_ui, frame);
+    //vk_framebuffer->create_framebuffer(&vk_param->renderpass_ui, frame);
     //say(frame->fbo);
   }
 
