@@ -94,7 +94,7 @@ void VK_submit::submit_command(Struct_submit_command* command){
   //---------------------------
 }
 void VK_submit::submit_command(Struct_renderpass* renderpass){
-  Frame* frame = renderpass->frame_set->get_frame_inflight();
+  Frame* frame = vk_param->swapchain.get_frame_inflight();
   //---------------------------
 
   VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
@@ -211,7 +211,7 @@ void VK_submit::set_next_frame_ID(Struct_swapchain* swapchain){
   //---------------------------
 }
 void VK_submit::submit_presentation(Struct_swapchain* swapchain){
-  Frame* frame = swapchain->get_frame_current();
+  Frame* frame = swapchain->get_frame_inflight();
   //---------------------------
 
   VkSemaphore vec_semaphore_render_ready[] = {frame->semaphore_ui_ready};

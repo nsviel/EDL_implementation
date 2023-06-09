@@ -143,15 +143,24 @@ void VK_swapchain::recreate_swapChain(){
   vkDeviceWaitIdle(vk_param->device.device);
 
   //Clean old values
-  vk_frame->clean_frame_swapchain(&vk_param->renderpass_ui);
+  //vk_frame->clean_frame_swapchain(&vk_param->renderpass_ui);
+  vk_frame->clean_frame_swapchain(&vk_param->swapchain);
   vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
   this->clean_swapchain();
 
   //Recreate values
   vk_physical_device->compute_extent();
   this->create_swapchain();
-  vk_frame->create_frame_swapchain(&vk_param->renderpass_ui);
+  //vk_frame->create_frame_swapchain(&vk_param->renderpass_ui);
+  vk_frame->create_frame_swapchain(&vk_param->swapchain);
   vk_frame->create_frame_renderpass(&vk_param->renderpass_scene);
+
+
+
+    for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
+      Frame* frame = vk_param->swapchain.vec_frame[i];
+      vk_framebuffer->create_framebuffer(&vk_param->renderpass_ui, frame);
+    }
 
   //---------------------------
 }
