@@ -37,15 +37,8 @@ void VK_drawing::draw_frame(){
   vk_submit->submit_presentation(&vk_param->swapchain);
   vk_submit->set_next_frame_ID(&vk_param->swapchain);
 
-  vk_submit->set_next_frame_ID(&vk_param->renderpass_ui);
-  vk_submit->set_next_frame_ID(&vk_param->renderpass_scene);
-
-  say("----");
-  say(vk_param->swapchain.frame_current_ID);
-  say(vk_param->swapchain.frame_inflight_ID);
-  say(vk_param->renderpass_ui.rendering_frame_ID);
-  say(vk_param->renderpass_scene.rendering_frame_ID);
-
+  //vk_submit->set_next_frame_ID(&vk_param->renderpass_ui);
+  //vk_submit->set_next_frame_ID(&vk_param->renderpass_scene);
 
   //---------------------------
 }
