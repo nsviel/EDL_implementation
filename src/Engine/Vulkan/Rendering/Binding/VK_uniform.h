@@ -3,6 +3,7 @@
 
 #include "../../Struct/struct_binding.h"
 #include "../../Struct/struct_pipeline.h"
+#include "../../Struct/struct_edl.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -21,9 +22,11 @@ public:
   //Main functions
   void create_uniform_buffers(Struct_binding* binding);
   Struct_uniform* create_uniform_buffer(string name, size_t size, int binding);
-  void update_uniform_buffer(Struct_pipeline* pipeline, glm::mat4& mvp);
-  void update_uniform_mat4(string uniform_name, Struct_binding* binding, glm::mat4& value);
   void clean_uniform(Struct_binding* binding);
+
+  //uniform update
+  void update_uniform_mat4(string uniform_name, Struct_binding* binding, glm::mat4& value);
+  void update_uniform_edl(string uniform_name, Struct_binding* binding, EDL_param value);
 
 private:
   VK_param* vk_param;

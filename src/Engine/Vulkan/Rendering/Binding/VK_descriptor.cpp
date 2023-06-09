@@ -114,12 +114,12 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, list<Stru
   vector<VkWriteDescriptorSet> vec_descriptor_write;
   vector<VkDescriptorImageInfo> vec_descriptor_image_info;
   for(int i=0; i<list_image.size(); i++){
-    Struct_image* texture = *next(list_image.begin(), i);
+    Struct_image* image = *next(list_image.begin(), i);
 
     VkDescriptorImageInfo image_info = {};
     image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    image_info.imageView = texture->view;
-    image_info.sampler = texture->sampler;
+    image_info.imageView = image->view;
+    image_info.sampler = image->sampler;
     vec_descriptor_image_info.push_back(image_info);
 
     VkWriteDescriptorSet write_sampler = {};

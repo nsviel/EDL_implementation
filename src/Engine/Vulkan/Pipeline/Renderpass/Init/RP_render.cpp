@@ -38,6 +38,7 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
 
   this->create_subpass(renderpass);
   this->create_pipeline_triangle(renderpass);
+  this->create_pipeline_edl(renderpass);
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);

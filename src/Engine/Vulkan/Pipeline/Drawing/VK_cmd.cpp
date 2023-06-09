@@ -185,9 +185,18 @@ void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
+  EDL_param edl_param;
+  edl_param.A = 1;
+  edl_param.B = 1;
+  edl_param.EDL_STRENGTH = 1;
+  edl_param.EDL_DISTANCE = 1;
+  edl_param.EDL_RADIUS= 1;
+  edl_param.EDL_ON = true;
+  edl_param.TEX_WIDTH = 100;
+  edl_param. TEX_HEIGHT = 100;
+
   //Descriptor
-  //vk_binding->update_uniform(&pipeline->binding, true);
-  //vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
+  //vk_uniform->update_uniform_edl("EDL_param", &pipeline->binding, edl_param);
   vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data

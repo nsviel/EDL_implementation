@@ -68,6 +68,8 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
 void VK_drawing::draw_render(Struct_renderpass* renderpass){
   //---------------------------
 
+  //A AMILIORER !!!!!!!! 
+
   //Update descriptor
   Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
   vk_command->update_uniform(renderpass, "triangle");

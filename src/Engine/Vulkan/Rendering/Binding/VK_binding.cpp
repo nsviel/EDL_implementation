@@ -22,21 +22,6 @@ VK_binding::VK_binding(VK_engine* vk_engine){
 VK_binding::~VK_binding(){}
 
 //Main function
-void VK_binding::fill_binding_from_requirement(Struct_binding* binding, list<Struct_image*> list_image){
-  //---------------------------
-
-  if(binding->vec_required_binding.size() == 0){
-    cout<<"[error] no requirement for binding"<<endl;
-    exit(0);
-  }
-
-  vk_descriptor->create_layout_from_required(binding);
-  vk_uniform->create_uniform_buffers(binding);
-  vk_sampler->create_sampler(binding);
-  vk_descriptor->allocate_descriptor_set(binding);
-
-  //---------------------------
-}
 void VK_binding::fill_pipeline_binding(Struct_pipeline* pipeline){
   Struct_binding* binding = &pipeline->binding;
   //---------------------------
