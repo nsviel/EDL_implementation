@@ -200,7 +200,7 @@ void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
   edl_param. TEX_HEIGHT = 100;
 
   //Descriptor
-  //vk_uniform->update_uniform_edl("EDL_param", &pipeline->binding, edl_param);
+  vk_uniform->update_uniform_edl("EDL_param", &pipeline->binding, edl_param);
   vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data
