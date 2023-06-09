@@ -53,20 +53,7 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   VK_gui* vk_gui = vk_engine->get_vk_gui();
   //---------------------------
 
-  Frame* frae = vk_param->renderpass_ui.get_rendering_frame();
-  Frame* frame_sw = vk_param->swapchain.get_frame_current();
-  frae->fbo = frame_sw->fbo;
-
-  /*say("----");
-  say(frae->fbo);
-  say(frame_sw->fbo);
-
-  say(frae->fbo);
-  say(frame_sw->fbo);
-  //frame_sw->fbo = frae->fbo;
-*/
-
-  Frame* frame = renderpass->get_rendering_frame();
+  Frame* frame = vk_param->swapchain.get_frame_current();
   vk_command->start_render_pass(renderpass, frame);
   VkViewport viewport = vk_viewport->get_viewport_canvas();
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
@@ -74,10 +61,6 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   this->cmd_draw_canvas(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
-
-
-
-
 
   //---------------------------
 }
