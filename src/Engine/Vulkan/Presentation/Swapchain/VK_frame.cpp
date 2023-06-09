@@ -143,6 +143,7 @@ void VK_frame::clean_frame_swapchain(Struct_swapchain* swapchain){
     Frame* frame = vec_frame[i];
     vkDestroyImageView(vk_param->device.device, frame->color.view, nullptr);
     vk_image->clean_image(&frame->depth);
+    vk_framebuffer->clean_framebuffer(frame);
     vk_synchronization->clean_frame_sync(frame);
     delete frame;
   }

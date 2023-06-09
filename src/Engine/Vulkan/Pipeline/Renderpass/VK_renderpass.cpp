@@ -11,6 +11,7 @@
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Presentation/Swapchain/VK_frame.h"
+#include "../../Presentation/Swapchain/VK_framebuffer.h"
 #include "../../Presentation/Image/VK_color.h"
 #include "../../Presentation/Image/VK_depth.h"
 
@@ -48,6 +49,13 @@ void VK_renderpass::init_renderpass(){
   rp_scene->init_renderpass_scene(&vk_param->renderpass_scene);
   //rp_render->init_renderpass_render(&vk_param->renderpass_render);
   rp_ui->init_renderpass_ui(&vk_param->renderpass_ui);
+
+
+  VK_framebuffer*vk_framebuffer = vk_engine->get_vk_framebuffer();
+  for(int i=0; i<vk_param->swapchain.vec_swapchain_image.size(); i++){
+    Frame* frame = vk_param->swapchain.vec_frame[i];
+    vk_framebuffer->create_framebuffer(&vk_param->renderpass_ui, frame);
+  }
 
   //---------------------------
 }
