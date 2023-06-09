@@ -49,6 +49,7 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
+  frame->color.name = "tex_scene";
 }
 void VK_cmd::cmd_record_render(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
@@ -63,6 +64,7 @@ void VK_cmd::cmd_record_render(Struct_renderpass* renderpass){
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
+  frame->color.name = "tex_final";
 }
 void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();

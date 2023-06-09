@@ -111,26 +111,34 @@ void VK_descriptor::update_descriptor_uniform(Struct_binding* binding){
 void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, list<Struct_image*> list_image){
   //---------------------------
 
+  //For each sampler strcut in binding struct search for image with same name in list_image
+  //and then update the corresponding shader sampler
   vector<VkWriteDescriptorSet> vec_descriptor_write;
   vector<VkDescriptorImageInfo> vec_descriptor_image_info;
-  for(int i=0; i<list_image.size(); i++){
-    Struct_image* image = *next(list_image.begin(), i);
+  for(int i=0; i<binding->vec_sampler.size(); i++){
+    Struct_sampler* sampler = binding->vec_sampler[i];
 
-    VkDescriptorImageInfo image_info = {};
-    image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    image_info.imageView = image->view;
-    image_info.sampler = image->sampler;
-    vec_descriptor_image_info.push_back(image_info);
+    for(int j=0; j<list_image.size(); j++){
+      Struct_image* image = *next(list_image.begin(), i);
 
-    VkWriteDescriptorSet write_sampler = {};
-    write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    write_sampler.dstSet = binding->descriptor.set;
-    write_sampler.dstBinding = 1;
-    write_sampler.dstArrayElement = 0;
-    write_sampler.descriptorType = TYPE_SAMPLER;
-    write_sampler.descriptorCount = 1;
-    write_sampler.pImageInfo = &vec_descriptor_image_info[i];
-    vec_descriptor_write.push_back(write_sampler);
+      if(sampler->name == image->name){
+        VkDescriptorImageInfo image_info = {};
+        image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        image_info.imageView = image->view;
+        image_info.sampler = image->sampler;
+        vec_descriptor_image_info.push_back(image_info);
+
+        VkWriteDescriptorSet write_sampler = {};
+        write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        write_sampler.dstSet = binding->descriptor.set;
+        write_sampler.dstBinding = sampler->binding;
+        write_sampler.dstArrayElement = 0;
+        write_sampler.descriptorType = TYPE_SAMPLER;
+        write_sampler.descriptorCount = 1;
+        write_sampler.pImageInfo = &vec_descriptor_image_info[i];
+        vec_descriptor_write.push_back(write_sampler);
+      }
+    }
   }
 
   if(vec_descriptor_write.size() != 0){
