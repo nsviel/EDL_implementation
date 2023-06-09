@@ -32,6 +32,11 @@ struct Struct_renderpass{
   Frame_set* frame_set;
   VkImageUsageFlags frame_usage;
 
+  //Function
+  Frame* get_frame_current(){return vec_frame[frame_current_ID];}
+  uint32_t frame_current_ID = 0;
+  std::vector<Frame*> vec_frame;
+
   //Render pass elements
   VkRenderPass renderpass;
   VkCommandBuffer command_buffer;

@@ -38,7 +38,7 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
-  vk_command->start_render_pass(renderpass);
+  vk_command->start_render_pass_low(renderpass);
   this->cmd_viewport(renderpass);
   this->cmd_scissor(renderpass);
   this->cmd_draw_scene(renderpass);

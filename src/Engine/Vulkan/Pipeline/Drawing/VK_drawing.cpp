@@ -70,7 +70,7 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   //---------------------------
 
   //Update descriptor
-  Frame *frame_scene = vk_param->renderpass_scene.frame_set->get_frame_inflight();
+  Frame *frame_scene = vk_param->renderpass_scene.get_frame_current();
   vk_command->update_uniform(renderpass, "triangle");
   vk_command->update_sampler(renderpass, "triangle", &frame_scene->color);
 
@@ -94,7 +94,7 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   //Update descriptor
-  Frame* frame_scene = vk_param->renderpass_scene.frame_set->get_frame_inflight();
+  Frame* frame_scene = vk_param->renderpass_scene.get_frame_current();
   vk_command->update_uniform(renderpass, "triangle");
   vk_command->update_sampler(renderpass, "triangle", &frame_scene->color);
 

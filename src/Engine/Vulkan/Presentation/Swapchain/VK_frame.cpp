@@ -46,13 +46,13 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     vk_framebuffer->create_framebuffer(renderpass, frame);
     vk_synchronization->init_frame_sync(frame);
 
-    renderpass->frame_set->vec_frame.push_back(frame);
+    renderpass->vec_frame.push_back(frame);
   }
 
   //---------------------------
 }
 void VK_frame::clean_frame_renderpass(Struct_renderpass* renderpass){
-  vector<Frame*>& vec_frame = renderpass->frame_set->vec_frame;
+  vector<Frame*>& vec_frame = renderpass->vec_frame;
   //---------------------------
 
   //Vec images

@@ -162,6 +162,31 @@ void VK_command::start_render_pass(Struct_renderpass* renderpass){
 
   //---------------------------
 }
+void VK_command::start_render_pass_low(Struct_renderpass* renderpass){
+  //---------------------------
+  Frame* frame = renderpass->get_frame_current();
+
+  std::array<VkClearValue, 2> clear_value{};
+  clear_value[0].color = {{
+    param_engine->background_color.x,
+    param_engine->background_color.y,
+    param_engine->background_color.z,
+    param_engine->background_color.w}};
+  clear_value[1].depthStencil = {1.0f, 0};
+
+  VkRenderPassBeginInfo renderpass_info{};
+  renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+  renderpass_info.renderPass = renderpass->renderpass;
+  renderpass_info.framebuffer = frame->fbo;
+  renderpass_info.renderArea.offset = {0, 0};
+  renderpass_info.renderArea.extent = vk_param->window.extent;
+  renderpass_info.clearValueCount = static_cast<uint32_t>(clear_value.size());
+  renderpass_info.pClearValues = clear_value.data();
+
+  vkCmdBeginRenderPass(renderpass->command_buffer, &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
+
+  //---------------------------
+}
 void VK_command::stop_render_pass(Struct_renderpass* renderpass){
   //---------------------------
 
