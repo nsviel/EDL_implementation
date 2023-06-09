@@ -65,7 +65,7 @@ void VK_renderpass::clean_renderpass(){
 
   vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
   //vk_frame->clean_frame_swapchain(&vk_param->renderpass_render);
-  vk_frame->clean_frame_swapchain(&vk_param->renderpass_ui);
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_ui);
 
   this->clean_renderpass_object(&vk_param->renderpass_scene);
   //this->clean_renderpass_object(&vk_param->renderpass_render);
@@ -85,6 +85,7 @@ void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
 //Subfunction
 void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
 
   this->create_color_attachment(renderpass);
@@ -93,6 +94,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   this->create_renderpass_obj(renderpass);
   vk_command->allocate_command_buffer(renderpass);
   vk_pipeline->create_pipeline(renderpass);
+  vk_frame->create_frame_renderpass(renderpass);
 
   //---------------------------
 }
@@ -181,25 +183,6 @@ void VK_renderpass::create_renderpass_obj(Struct_renderpass* renderpass){
   VkResult result = vkCreateRenderPass(vk_param->device.device, &renderpass_info, nullptr, &renderpass->renderpass);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create render pass!");
-  }
-
-  //---------------------------
-}
-void VK_renderpass::create_renderpass_frame(Struct_renderpass* renderpass, string sw_or_rp){
-  VK_frame* vk_frame = vk_engine->get_vk_frame();
-  //---------------------------
-
-  if(renderpass->frame_set != nullptr) return;
-
-  if(sw_or_rp == "sw"){
-    renderpass->frame_set = new Frame_set();
-    vk_frame->create_frame_swapchain(renderpass);
-  }else if(sw_or_rp == "rp"){
-    renderpass->frame_set = new Frame_set();
-    vk_frame->create_frame_renderpass(renderpass);
-  }
-  else{
-    cout<<"[error] problem with renderpass frame creation"<<endl;
   }
 
   //---------------------------

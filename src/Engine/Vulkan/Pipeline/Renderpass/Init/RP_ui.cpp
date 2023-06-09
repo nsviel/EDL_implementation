@@ -34,7 +34,7 @@ void RP_ui::init_renderpass_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   renderpass->name = "ui";
-  renderpass->frame_set = nullptr;
+  //renderpass->frame_set = nullptr;
   renderpass->frame_usage = IMAGE_USAGE_DEPTH;
 
   this->create_subpass(renderpass);
@@ -42,7 +42,6 @@ void RP_ui::init_renderpass_ui(Struct_renderpass* renderpass){
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);
-  vk_renderpass->create_renderpass_frame(renderpass, "sw");
 }
 
 //Subpass

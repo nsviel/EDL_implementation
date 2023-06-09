@@ -25,17 +25,11 @@ public:
 
 public:
   //Main functions
-  void acquire_next_image(Struct_renderpass* renderpass);
-  void set_next_frame_ID(Struct_renderpass* renderpass);
+  void acquire_next_image(Struct_swapchain* swapchain);
+  void set_next_frame_ID(Struct_swapchain* swapchain);
 
   //Queue submission
   void submit_command(Struct_submit_command* command);
-  void submit_command(Struct_renderpass* renderpass);
-  void submit_commands(vector<Struct_renderpass*> vec_renderpass);
-  void submit_presentation(Struct_renderpass* renderpass);
-
-  void acquire_next_image(Struct_swapchain* swapchain);
-  void set_next_frame_ID(Struct_swapchain* swapchain);
   void submit_presentation(Struct_swapchain* swapchain);
 
 private:

@@ -139,7 +139,7 @@ void VK_command::stop_command_buffer(Struct_renderpass* renderpass){
 //Render pass
 void VK_command::start_render_pass(Struct_renderpass* renderpass){
   //---------------------------
-  Frame* frame = renderpass->frame_set->get_frame_swapchain();
+  Frame* frame = renderpass->get_frame_current();
 
   std::array<VkClearValue, 2> clear_value{};
   clear_value[0].color = {{

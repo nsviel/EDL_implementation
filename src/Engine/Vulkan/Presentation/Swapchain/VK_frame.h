@@ -30,9 +30,6 @@ public:
   void clean_frame_renderpass(Struct_renderpass* renderpass);
 
   //Swapchain frame
-  void create_frame_swapchain(Struct_renderpass* renderpass);
-  void clean_frame_swapchain(Struct_renderpass* renderpass);
-
   void create_frame_swapchain(Struct_swapchain* swapchain);
   void clean_frame_swapchain(Struct_swapchain* swapchain);
 

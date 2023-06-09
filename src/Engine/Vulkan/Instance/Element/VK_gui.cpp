@@ -160,8 +160,6 @@ void VK_gui::gui_font(){
   VkCommandPool command_pool = vk_command->get_command_pool();
   //---------------------------
 
-  Frame* frame = vk_param->renderpass_ui.frame_set->get_frame_inflight();
-
   VkResult result = vkResetCommandPool(vk_param->device.device, command_pool, 0);
   if(result != VK_SUCCESS){
     throw std::runtime_error("gui font error");

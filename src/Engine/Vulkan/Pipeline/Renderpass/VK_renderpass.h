@@ -35,7 +35,6 @@ public:
   void create_color_attachment(Struct_renderpass* renderpass);
   void create_subpass(Struct_subpass* subpass);
   void create_renderpass_obj(Struct_renderpass* renderpass);
-  void create_renderpass_frame(Struct_renderpass* renderpass, string sw_or_rp);
 
 private:
   VK_engine* vk_engine;
