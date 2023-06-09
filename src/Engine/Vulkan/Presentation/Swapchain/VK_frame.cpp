@@ -110,3 +110,43 @@ void VK_frame::clean_frame_swapchain(Struct_renderpass* renderpass){
 
   //---------------------------
 }
+
+//Swapchain frame
+void VK_frame::create_frame_swapchain(Struct_swapchain* swapchain){
+  //---------------------------
+
+  for(int i=0; i<swapchain->vec_swapchain_image.size(); i++){
+    Frame* frame = new Frame();
+
+    frame->ID = i;
+    frame->color.image = swapchain->vec_swapchain_image[i];
+    frame->color.format = vk_color->find_color_format();
+    frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+    frame->color.usage = IMAGE_USAGE_DEPTH;
+    frame->depth.usage = IMAGE_USAGE_DEPTH;
+
+    vk_image->create_image_view(&frame->color);
+    vk_depth->create_depth_attachment(frame);
+    vk_synchronization->init_frame_sync(frame);
+
+    swapchain->vec_frame.push_back(frame);
+  }
+
+  //---------------------------
+}
+void VK_frame::clean_frame_swapchain(Struct_swapchain* swapchain){
+  vector<Frame*>& vec_frame = swapchain->vec_frame;
+  //---------------------------
+
+  //Vec images
+  for(int i=0; i<vec_frame.size(); i++){
+    Frame* frame = vec_frame[i];
+    vkDestroyImageView(vk_param->device.device, frame->color.view, nullptr);
+    vk_image->clean_image(&frame->depth);
+    vk_synchronization->clean_frame_sync(frame);
+    delete frame;
+  }
+  vec_frame.clear();
+
+  //---------------------------
+}

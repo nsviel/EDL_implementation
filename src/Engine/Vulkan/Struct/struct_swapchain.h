@@ -11,12 +11,14 @@ struct Struct_swapchain{
   //Swapchain element
   VkSwapchainKHR swapchain;
 
-  //Intermediaire swapchain image
+  //Swapchain image
   vector<VkImage> vec_swapchain_image;
 
-  //Image
-  Frame* get_current_frame(){return vec_frame[current_frame_ID];}
-  uint32_t current_frame_ID = 0;
+  //Swapchain frame
+  Frame* get_frame_current(){return vec_frame[frame_current_ID];}
+  Frame* get_frame_inflight(){return vec_frame[frame_inflight_ID];}
+  uint32_t frame_current_ID = 0;
+  uint32_t frame_inflight_ID = 0;
   std::vector<Frame*> vec_frame;
 
   //---------------------------

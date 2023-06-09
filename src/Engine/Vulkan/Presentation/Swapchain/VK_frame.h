@@ -3,6 +3,7 @@
 
 #include "../../Struct/struct_frame.h"
 #include "../../Struct/struct_renderpass.h"
+#include "../../Struct/struct_swapchain.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -31,6 +32,9 @@ public:
   //Swapchain frame
   void create_frame_swapchain(Struct_renderpass* renderpass);
   void clean_frame_swapchain(Struct_renderpass* renderpass);
+
+  void create_frame_swapchain(Struct_swapchain* swapchain);
+  void clean_frame_swapchain(Struct_swapchain* swapchain);
 
 private:
   VK_engine* vk_engine;

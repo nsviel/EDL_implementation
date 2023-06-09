@@ -118,6 +118,10 @@ void VK_swapchain::create_swapchain_image(VkSwapchainKHR swapchain, unsigned int
   vk_param->swapchain.vec_swapchain_image.resize(min_image_count);
   vkGetSwapchainImagesKHR(vk_param->device.device, swapchain, &min_image_count, vk_param->swapchain.vec_swapchain_image.data());
 
+
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
+  vk_frame->create_frame_swapchain(&vk_param->swapchain);
+
   //---------------------------
 }
 
@@ -155,6 +159,9 @@ void VK_swapchain::clean_swapchain(){
   //---------------------------
 
   vkDestroySwapchainKHR(vk_param->device.device, vk_param->swapchain.swapchain, nullptr);
+
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
+  vk_frame->clean_frame_swapchain(&vk_param->swapchain);
 
   //---------------------------
 }
