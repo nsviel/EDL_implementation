@@ -38,7 +38,7 @@ public:
   void stop_command_buffer(Struct_renderpass* renderpass);
 
   //Render pass
-  void start_render_pass(Struct_renderpass* renderpass);
+  void start_render_pass(Struct_renderpass* renderpass, Frame* frame);
   void stop_render_pass(Struct_renderpass* renderpass);
 
   //Image layout transition

@@ -38,7 +38,8 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
-  vk_command->start_render_pass(renderpass);
+  Frame* frame = renderpass->get_rendering_frame();
+  vk_command->start_render_pass(renderpass, frame);
   this->cmd_viewport(renderpass);
   this->cmd_scissor(renderpass);
   this->cmd_draw_scene(renderpass);
@@ -65,7 +66,8 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   //frame_sw->fbo = frae->fbo;
 */
 
-  vk_command->start_render_pass(renderpass);
+  Frame* frame = renderpass->get_rendering_frame();
+  vk_command->start_render_pass(renderpass, frame);
   VkViewport viewport = vk_viewport->get_viewport_canvas();
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
   this->cmd_scissor(renderpass);
