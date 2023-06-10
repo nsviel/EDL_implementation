@@ -186,7 +186,7 @@ void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle");
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle_EDL");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   EDL_param edl_param;

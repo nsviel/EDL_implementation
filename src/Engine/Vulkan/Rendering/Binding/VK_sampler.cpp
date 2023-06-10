@@ -24,11 +24,12 @@ void VK_sampler::create_sampler(Struct_binding* binding){
   vector<Struct_sampler*>& vec_sampler = binding->vec_sampler;
 
   for(int i=0; i<vec_required.size(); i++){
-    string name = get<0>(vec_required[i]);
-    int binding = get<2>(vec_required[i]);
-    VkDescriptorType ubo_type = get<3>(vec_required[i]);
+    descriptor_required& descriptor = vec_required[i];
+    string name = get<0>(descriptor);
+    int binding = get<2>(descriptor);
+    VkDescriptorType ubo_type = get<3>(descriptor);
 
-    if(ubo_type == TYPE_SAMPLER){
+    if(ubo_type == TYPE_SAMPLER || ubo_type == VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT){
       Struct_sampler* sampler = create_sampler_obj(name, binding);
       vec_sampler.push_back(sampler);
     }

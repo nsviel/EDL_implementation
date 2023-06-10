@@ -106,7 +106,7 @@ void VK_image::create_image_obj(Struct_image* image){
   image_info.format = image->format;
   image_info.tiling = image->tiling;
   image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-  image_info.usage = image->usage;
+  image_info.usage = image->image_usage | VK_IMAGE_USAGE_SAMPLED_BIT;
   image_info.samples = VK_SAMPLE_COUNT_1_BIT;
   image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 

@@ -24,10 +24,11 @@ void VK_uniform::create_uniform_buffers(Struct_binding* binding){
   vector<Struct_uniform*>& vec_uniform = binding->vec_uniform;
 
   for(int i=0; i<vec_required.size(); i++){
-    string name = get<0>(vec_required[i]);
-    size_t size = get<1>(vec_required[i]);
-    int binding = get<2>(vec_required[i]);
-    VkDescriptorType type = get<3>(vec_required[i]);
+    descriptor_required& descriptor = vec_required[i];
+    string name = get<0>(descriptor);
+    size_t size = get<1>(descriptor);
+    int binding = get<2>(descriptor);
+    VkDescriptorType type = get<3>(descriptor);
 
     if(type == TYPE_UNIFORM){
       Struct_uniform* uniform = create_uniform_buffer(name, size, binding);

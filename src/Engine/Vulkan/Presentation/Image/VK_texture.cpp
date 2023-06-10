@@ -88,7 +88,7 @@ void VK_texture::create_texture_from_file(Struct_image* texture){
   texture->height = tex_height;
   texture->format = VK_FORMAT_R8G8B8A8_SRGB;
   texture->tiling = VK_IMAGE_TILING_OPTIMAL;
-  texture->usage = IMAGE_USAGE_TRANSFERT | IMAGE_USAGE_SAMPLER;
+  texture->image_usage = IMAGE_USAGE_TRANSFERT | IMAGE_USAGE_SAMPLER;
   texture->properties = MEMORY_GPU;
   vk_image->create_image(texture);
 

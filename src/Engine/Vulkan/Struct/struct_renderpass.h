@@ -29,8 +29,8 @@ struct Struct_renderpass{
   std::string name;
 
   //Renderpass frame set
-  VkImageUsageFlags color_usage;
-  VkImageUsageFlags depth_usage;
+  VkImageUsageFlags color_image_usage;
+  VkImageUsageFlags depth_image_usage;
   Frame* get_rendering_frame(){return vec_frame[rendering_frame_ID];}
   uint32_t rendering_frame_ID = 0;
   std::vector<Frame*> vec_frame;

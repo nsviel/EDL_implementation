@@ -30,7 +30,6 @@ void VK_color::create_color_attachment(Frame* frame){
   frame->color.width = vk_param->window.extent.width;
   frame->color.height = vk_param->window.extent.height;
   frame->color.tiling = VK_IMAGE_TILING_OPTIMAL;
-  frame->color.usage = frame->color.usage;
   frame->color.properties = MEMORY_GPU;
   frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
   frame->color.layout = IMAGE_LAYOUT_SHADER;

@@ -20,7 +20,7 @@ struct Struct_image{
   VkImage image;
   VkImageView view;
   VkImageTiling tiling;
-  VkImageUsageFlags usage;
+  VkImageUsageFlags image_usage;
   VkImageAspectFlags aspect;
   VkImageLayout layout;
 

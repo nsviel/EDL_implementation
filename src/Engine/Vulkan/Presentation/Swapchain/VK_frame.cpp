@@ -38,8 +38,8 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
     Frame* frame = new Frame();
 
     frame->ID = i;
-    frame->color.usage = renderpass->color_usage;
-    frame->depth.usage = renderpass->depth_usage;
+    frame->color.image_usage = renderpass->color_image_usage;
+    frame->depth.image_usage = renderpass->depth_image_usage;
 
     vk_color->create_color_attachment(frame);
     vk_depth->create_depth_attachment(frame);
@@ -78,7 +78,7 @@ void VK_frame::create_frame_swapchain(Struct_swapchain* swapchain){
     frame->color.image = swapchain->vec_swapchain_image[i];
     frame->color.format = vk_color->find_color_format();
     frame->color.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-    frame->depth.usage = IMAGE_USAGE_DEPTH;
+    frame->depth.image_usage = IMAGE_USAGE_DEPTH;
 
     vk_image->create_image_view(&frame->color);
     vk_depth->create_depth_attachment(frame);
