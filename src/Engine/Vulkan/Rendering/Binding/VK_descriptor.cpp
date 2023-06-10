@@ -133,7 +133,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, vector<St
         write_sampler.dstSet = binding->descriptor.set;
         write_sampler.dstBinding = sampler->binding;
         write_sampler.dstArrayElement = 0;
-        write_sampler.descriptorType = TYPE_SAMPLER;
+        write_sampler.descriptorType = sampler->type;
         write_sampler.descriptorCount = 1;
         write_sampler.pImageInfo = &vec_descriptor_image_info[vec_descriptor_image_info.size()-1];
         vec_descriptor_write.push_back(write_sampler);

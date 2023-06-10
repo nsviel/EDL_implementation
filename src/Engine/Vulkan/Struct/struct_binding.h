@@ -36,6 +36,7 @@ struct Struct_sampler{
 
   std::string name;
   int binding;
+  VkDescriptorType type;
 
   //---------------------------
 };

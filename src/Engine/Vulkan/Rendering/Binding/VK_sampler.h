@@ -20,7 +20,7 @@ public:
 public:
   //Main functions
   void create_sampler(Struct_binding* binding);
-  Struct_sampler* create_sampler_obj(string name, int binding);
+  Struct_sampler* create_sampler_obj(string name, int binding, VkDescriptorType type);
 
 private:
   VK_param* vk_param;
