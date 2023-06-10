@@ -52,13 +52,15 @@ void RP_scene::create_subpass(Struct_renderpass* renderpass){
   Struct_subpass* subpass = new Struct_subpass();
   subpass->color.binding = 0;
   subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
+  subpass->color.store_operation = ATTACHMENT_STOREOP_STORE;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_SHADER;
+  subpass->color.layout_final = IMAGE_LAYOUT_SHADER_READONLY;
 
   subpass->depth.binding = 1;
   subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
+  subpass->color.store_operation = ATTACHMENT_STOREOP_STORE;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+  subpass->depth.layout_final = IMAGE_LAYOUT_SHADER_READONLY;
   renderpass->vec_subpass.push_back(subpass);
 
   //---------------------------

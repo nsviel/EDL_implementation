@@ -9,11 +9,12 @@ struct Struct_subpass_attachment{
 
   int binding;
 
-  //ATTACHMENT_LOADOP_CLEAR or ATTACHMENT_LOADOP_LOAD
+  //Attachment info
   VkAttachmentLoadOp load_operation;
+  VkAttachmentStoreOp store_operation;
   VkAttachmentReference reference;
 
-  //ATTACHMENT_LAYOUT_EMPTY or ATTACHMENT_LAYOUT_PRESENT
+  //Attachment image layout
   VkImageLayout layout_initial;
   VkImageLayout layout_final;
 

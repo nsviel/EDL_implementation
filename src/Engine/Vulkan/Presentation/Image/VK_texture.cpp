@@ -93,9 +93,9 @@ void VK_texture::create_texture_from_file(Struct_image* texture){
   vk_image->create_image(texture);
 
   //Image transition from undefined layout to read only layout
-  vk_command->image_layout_transition_single(texture, IMAGE_LAYOUT_EMPTY, IMAGE_LAYOUT_TRANSFER);
+  vk_command->image_layout_transition_single(texture, IMAGE_LAYOUT_EMPTY, IMAGE_LAYOUT_TRANSFER_DST);
   this->copy_buffer_to_image(texture, staging_buffer);
-  vk_command->image_layout_transition_single(texture, IMAGE_LAYOUT_TRANSFER, IMAGE_LAYOUT_SHADER);
+  vk_command->image_layout_transition_single(texture, IMAGE_LAYOUT_TRANSFER_DST, IMAGE_LAYOUT_SHADER_READONLY);
 
   //Free memory
   stbi_image_free(tex_data);

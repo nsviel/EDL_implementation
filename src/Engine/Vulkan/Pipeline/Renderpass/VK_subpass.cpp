@@ -23,12 +23,12 @@ void VK_subpass::create_subpass_clear_info(Struct_renderpass* renderpass){
   subpass->color.binding = 0;
   subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_COLOR;
+  subpass->color.layout_final = IMAGE_LAYOUT_COLOR_ATTACHMENT;
 
   subpass->depth.binding = 1;
   subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
+  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH_ATTACHMENT;
 
   //---------------------------
   renderpass->vec_subpass.push_back(subpass);
@@ -39,13 +39,13 @@ void VK_subpass::create_subpass_conserve_info(Struct_renderpass* renderpass){
 
   subpass->color.binding = 0;
   subpass->color.load_operation = ATTACHMENT_LOADOP_LOAD;
-  subpass->color.layout_initial = IMAGE_LAYOUT_COLOR;
+  subpass->color.layout_initial = IMAGE_LAYOUT_COLOR_ATTACHMENT;
   subpass->color.layout_final = IMAGE_LAYOUT_PRESENT;
 
   subpass->depth.binding = 1;
   subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_DEPTH;
-  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH;
+  subpass->depth.layout_initial = IMAGE_LAYOUT_DEPTH_ATTACHMENT;
+  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH_ATTACHMENT;
 
   //---------------------------
   renderpass->vec_subpass.push_back(subpass);
