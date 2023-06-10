@@ -9,8 +9,8 @@ struct Struct_subpass_attachment{
 
   int binding;
 
-  //ATTACHMENT_USAGE_CLEAR or ATTACHMENT_USAGE_CONSERVE
-  VkAttachmentLoadOp attachment_usage;
+  //ATTACHMENT_LOADOP_CLEAR or ATTACHMENT_LOADOP_LOAD
+  VkAttachmentLoadOp load_operation;
   VkAttachmentReference reference;
 
   //ATTACHMENT_LAYOUT_EMPTY or ATTACHMENT_LAYOUT_PRESENT

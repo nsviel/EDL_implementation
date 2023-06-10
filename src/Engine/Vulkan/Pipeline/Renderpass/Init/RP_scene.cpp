@@ -35,7 +35,7 @@ void RP_scene::init_renderpass_scene(Struct_renderpass* renderpass){
 
   renderpass->name = "scene";
   renderpass->color_image_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-  renderpass->depth_image_usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+  renderpass->depth_image_usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
   this->create_subpass(renderpass);
   this->create_pipeline_point(renderpass);
@@ -51,14 +51,14 @@ void RP_scene::create_subpass(Struct_renderpass* renderpass){
 
   Struct_subpass* subpass = new Struct_subpass();
   subpass->color.binding = 0;
-  subpass->color.attachment_usage = ATTACHMENT_USAGE_CLEAR;
+  subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
   subpass->color.layout_final = IMAGE_LAYOUT_SHADER;
 
   subpass->depth.binding = 1;
-  subpass->depth.attachment_usage = ATTACHMENT_USAGE_CLEAR;
+  subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL | VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+  subpass->depth.layout_final = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
   renderpass->vec_subpass.push_back(subpass);
 
   //---------------------------

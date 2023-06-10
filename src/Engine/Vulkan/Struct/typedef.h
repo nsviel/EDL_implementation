@@ -30,9 +30,9 @@ constexpr buffer_usage BUFFER_USAGE_DST = VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 constexpr buffer_usage BUFFER_USAGE_DST_VERTEX = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 
 //Attachment usage
-typedef VkAttachmentLoadOp attachment_usage;
-constexpr attachment_usage ATTACHMENT_USAGE_CLEAR = VK_ATTACHMENT_LOAD_OP_CLEAR;
-constexpr attachment_usage ATTACHMENT_USAGE_CONSERVE = VK_ATTACHMENT_LOAD_OP_LOAD;
+typedef VkAttachmentLoadOp load_operation;
+constexpr load_operation ATTACHMENT_LOADOP_CLEAR = VK_ATTACHMENT_LOAD_OP_CLEAR;
+constexpr load_operation ATTACHMENT_LOADOP_LOAD = VK_ATTACHMENT_LOAD_OP_LOAD;
 
 //Image layout
 typedef VkImageLayout image_layout;
