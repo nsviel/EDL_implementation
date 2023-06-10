@@ -35,7 +35,9 @@ void RP_ui::init_renderpass_ui(Struct_renderpass* renderpass){
 
   renderpass->name = "ui";
   renderpass->color_image_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+  renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
   renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
+  renderpass->depth_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
 
   this->create_subpass(renderpass);
   this->create_pipeline_triangle(renderpass);

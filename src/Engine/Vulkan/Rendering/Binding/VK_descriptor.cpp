@@ -111,7 +111,7 @@ void VK_descriptor::update_descriptor_uniform(Struct_binding* binding){
 void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, vector<Struct_image*> vec_image){
   //---------------------------
 
-  //For each sampler strcut in binding struct search for image with same name in vec_image
+  //For each sampler struct in binding struct search for image with same name in vec_image
   //and then update the corresponding shader sampler
   vector<VkWriteDescriptorSet> vec_descriptor_write;
   vector<VkDescriptorImageInfo> vec_descriptor_image_info;
@@ -123,7 +123,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, vector<St
 
       if(sampler->name == image->name){
         VkDescriptorImageInfo image_info = {};
-        image_info.imageLayout = image->layout;
+        image_info.imageLayout = image->sampler_layout;
         image_info.imageView = image->view;
         image_info.sampler = image->sampler;
         vec_descriptor_image_info.push_back(image_info);

@@ -35,7 +35,9 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
 
   renderpass->name = "render";
   renderpass->color_image_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+  renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
   renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
+  renderpass->depth_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
 
   this->create_subpass(renderpass);
   this->create_pipeline_triangle(renderpass);

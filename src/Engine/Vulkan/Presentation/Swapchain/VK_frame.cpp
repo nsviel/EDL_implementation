@@ -39,7 +39,9 @@ void VK_frame::create_frame_renderpass(Struct_renderpass* renderpass){
 
     frame->ID = i;
     frame->color.image_usage = renderpass->color_image_usage;
+    frame->color.sampler_layout = renderpass->color_sampler_layout;
     frame->depth.image_usage = renderpass->depth_image_usage;
+    frame->depth.sampler_layout = renderpass->depth_sampler_layout;
 
     vk_color->create_color_attachment(frame);
     vk_depth->create_depth_attachment(frame);
