@@ -34,7 +34,7 @@ void VK_shader::create_pipeline_shader_module(Struct_pipeline* pipeline){
   if(pipeline->compile_shader){
     string vs = pipeline->path_shader_vs;
     string fs = pipeline->path_shader_fs;
-    string command = "../src/Engine/Shader/compile.sh " + vs + " " + fs;
+    string command = "../src/Engine/Shader/Code/compile.sh " + vs + " " + fs;
     int result = system(command.c_str());
     if(result != 0){
       cout<<"[error] Shader compilation GLSL -> SPIR-V"<<endl;
