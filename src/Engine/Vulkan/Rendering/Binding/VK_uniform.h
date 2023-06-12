@@ -28,7 +28,7 @@ public:
 
   //uniform update
   void update_uniform_mat4(string uniform_name, Struct_binding* binding, glm::mat4& value);
-  void update_uniform_edl(string uniform_name, Struct_binding* binding, EDL_param value);
+  void update_uniform_edl(string uniform_name, Struct_binding* binding, Struct_edl value);
 
 private:
   VK_param* vk_param;

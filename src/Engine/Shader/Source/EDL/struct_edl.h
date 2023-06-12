@@ -2,17 +2,17 @@
 #define STRUCT_EDL_H
 
 
-struct EDL_param{
+struct Struct_edl{
   //---------------------------
 
+  bool activated;
   float A;
   float B;
-  float EDL_STRENGTH;
-  float EDL_DISTANCE;
-  float EDL_RADIUS;
-  bool EDL_ON;
-  int TEX_WIDTH;
-  int TEX_HEIGHT;
+  float strength;
+  float distance;
+  float radius;
+  int width;
+  int height;
 
   //---------------------------
 };

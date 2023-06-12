@@ -85,7 +85,7 @@ void VK_uniform::update_uniform_mat4(string uniform_name, Struct_binding* bindin
 
   //---------------------------
 }
-void VK_uniform::update_uniform_edl(string uniform_name, Struct_binding* binding, EDL_param value){
+void VK_uniform::update_uniform_edl(string uniform_name, Struct_binding* binding, Struct_edl value){
   bool has_been_found = false;
   //---------------------------
 

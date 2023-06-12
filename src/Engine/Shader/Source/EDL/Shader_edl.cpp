@@ -1,42 +1,40 @@
 #include "Shader_edl.h"
 
+#include "../../../Camera/Camera.h"
 #include "../../../Node_engine.h"
 #include "../../../Dimension/Dimension.h"
 
 
-Shader_edl::Shader_edl(Node_engine* node){
+Shader_edl::Shader_edl(Node_engine* node_engine){
   //---------------------------
 
-  this->dimManager = node->get_dimManager();
+  this->cameraManager = node_engine->get_cameraManager();
+  this->dimManager = node_engine->get_dimManager();
 
-  this->with_edl = true;
-  this->edl_strength = 100.0;
-  this->edl_distance = 1.0;
-  this->edl_radius = 1.0;
-  //this->clip_far = configManager->parse_json_f("camera", "clip_far");
-  //this->clip_near = configManager->parse_json_f("camera", "clip_near");
+  this->struct_edl = new Struct_edl();
+  struct_edl->activated = true;
+  struct_edl->strength = 100.0;
+  struct_edl->distance = 1.0;
+  struct_edl->radius = 1.0;
 
   //---------------------------
+  this->update_shader();
 }
 Shader_edl::~Shader_edl(){}
 
-void Shader_edl::setup_shader(){
+void Shader_edl::update_shader(){
+  Cam* camera = cameraManager->get_camera();
   //---------------------------
 
-  // Setup shader parameters
-  auto a = (clip_far + clip_near) / (clip_far - clip_near);
-  auto b = (-2 * clip_far * clip_near) / (clip_far - clip_near);
-  /*shader->setFloat("A", a);
-  shader->setFloat("B", b);
+  // Depth setup
+  float clip_near = camera->clip_near;
+  float clip_far = camera->clip_far;
+  struct_edl->A = (clip_far + clip_near) / (clip_far - clip_near);
+  struct_edl->B = (-2 * clip_far * clip_near) / (clip_far - clip_near);
 
-  shader->setFloat("EDL_STRENGTH", edl_strength);
-  shader->setFloat("EDL_DISTANCE", edl_distance);
-  shader->setFloat("EDL_RADIUS", edl_radius);
-  shader->setInt("EDL_ON", with_edl);
-
-  vec2 gl_dim = dimManager->get_gl_dim();
-  shader->setInt("GL_WIDTH", gl_dim.x);
-  shader->setInt("GL_HEIGHT", gl_dim.y);*/
-
+  //Dimension
+  struct_edl->width = camera->dim.x;
+  struct_edl->height = camera->dim.y;
+say(camera->dim);
   //---------------------------
 }

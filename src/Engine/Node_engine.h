@@ -9,6 +9,7 @@ class VK_engine;
 class Dimension;
 class Camera;
 class GPU_data;
+class Shader_edl;
 
 
 class Node_engine
@@ -40,6 +41,7 @@ private:
   VK_engine* vk_engine;
   Dimension* dimManager;
   Camera* cameraManager;
+  Shader_edl* shader_edl;
 };
 
 #endif
