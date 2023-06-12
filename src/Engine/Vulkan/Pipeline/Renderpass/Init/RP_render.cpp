@@ -41,7 +41,7 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
 
   this->create_subpass(renderpass);
   this->create_pipeline_triangle(renderpass);
-  this->create_pipeline_edl(renderpass);
+  //this->create_pipeline_edl(renderpass);
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);
@@ -62,7 +62,7 @@ void RP_render::create_subpass(Struct_renderpass* renderpass){
   subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->color.store_operation = ATTACHMENT_STOREOP_STORE;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+  subpass->depth.layout_final = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
   renderpass->vec_subpass.push_back(subpass);
 
   //---------------------------
@@ -81,6 +81,7 @@ void RP_render::create_pipeline_triangle(Struct_renderpass* renderpass){
   pipeline->vec_data_name.push_back("location");
   pipeline->vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 1, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------
@@ -97,7 +98,7 @@ void RP_render::create_pipeline_edl(Struct_renderpass* renderpass){
   pipeline->vec_data_name.push_back("location");
   pipeline->vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 1, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, STAGE_FS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("EDL_param", sizeof(EDL_param), 2, TYPE_UNIFORM, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 

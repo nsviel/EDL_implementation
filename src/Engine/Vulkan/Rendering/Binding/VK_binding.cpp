@@ -22,7 +22,7 @@ VK_binding::VK_binding(VK_engine* vk_engine){
 VK_binding::~VK_binding(){}
 
 //Main function
-void VK_binding::fill_pipeline_binding(Struct_pipeline* pipeline){
+void VK_binding::create_pipeline_binding(Struct_pipeline* pipeline){
   Struct_binding* binding = &pipeline->binding;
   //---------------------------
 

@@ -29,7 +29,7 @@ void VK_sampler::create_sampler(Struct_binding* binding){
     int binding = get<2>(descriptor);
     VkDescriptorType type = get<3>(descriptor);
 
-    if(type == TYPE_SAMPLER || type == VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT){
+    if(type == TYPE_SAMPLER || type == VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE){
       Struct_sampler* sampler = create_sampler_obj(name, binding, type);
       vec_sampler.push_back(sampler);
     }

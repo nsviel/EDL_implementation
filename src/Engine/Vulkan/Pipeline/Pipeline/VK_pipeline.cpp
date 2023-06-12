@@ -44,14 +44,13 @@ void VK_pipeline::create_pipeline(Struct_renderpass* renderpass){
   //---------------------------
 
   for(int i=0; i<renderpass->vec_pipeline.size(); i++){
-    this->check_struct_pipeline_input(renderpass->vec_pipeline[i]);
-    this->create_pipeline_info(renderpass->vec_pipeline[i], renderpass);
-    this->create_pipeline_graphics(renderpass->vec_pipeline[i]);
-    vk_binding->fill_pipeline_binding(renderpass->vec_pipeline[i]);
+    this->create_pipeline_graphics(renderpass->vec_pipeline[i], renderpass);
+    vk_binding->create_pipeline_binding(renderpass->vec_pipeline[i]);
   }
+
   //---------------------------
 }
-void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline, Struct_renderpass* renderpass){
+void VK_pipeline::create_pipeline_graphics(Struct_pipeline* pipeline, Struct_renderpass* renderpass){
   //---------------------------
 
   //Dynamic
@@ -60,6 +59,7 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline, Struct_renderp
   pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
   //Pipeline elements
+  this->check_struct_pipeline_input(pipeline);
   vk_descriptor->create_layout_from_required(&pipeline->binding);
   vk_shader->create_pipeline_shader(pipeline);
   vk_data->create_data_description(pipeline);
@@ -92,6 +92,19 @@ void VK_pipeline::create_pipeline_info(Struct_pipeline* pipeline, Struct_renderp
   pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
   pipeline_info.basePipelineIndex = -1; // Optional
 
+  //Create pipeline graphics
+  VkResult result = vkCreateGraphicsPipelines(vk_param->device.device, VK_NULL_HANDLE, 1, &pipeline_info, nullptr, &pipeline->pipeline);
+  if(result != VK_SUCCESS){
+      throw std::runtime_error("[error] failed to create graphics pipeline!");
+    }
+
+  //Destroy shader modules
+  for(int i=0; i<pipeline->vec_shader_couple.size(); i++){
+    pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->vec_shader_couple[i];
+    vkDestroyShaderModule(vk_param->device.device, shader_couple.first, nullptr);
+    vkDestroyShaderModule(vk_param->device.device, shader_couple.second, nullptr);
+  }
+
   //---------------------------
   pipeline->pipeline_info = pipeline_info;
 }
@@ -116,25 +129,6 @@ void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   VkResult result = vkCreatePipelineLayout(vk_param->device.device, &pipeline_layout_info, nullptr, &pipeline->pipeline_layout);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create pipeline layout!");
-  }
-
-  //---------------------------
-}
-void VK_pipeline::create_pipeline_graphics(Struct_pipeline* pipeline){
-  //---------------------------
-
-  //Create pipeline graphics
-  VkGraphicsPipelineCreateInfo pipeline_info = pipeline->pipeline_info;
-  VkResult result = vkCreateGraphicsPipelines(vk_param->device.device, VK_NULL_HANDLE, 1, &pipeline_info, nullptr, &pipeline->pipeline);
-  if(result != VK_SUCCESS){
-      throw std::runtime_error("[error] failed to create graphics pipeline!");
-    }
-
-  //Destroy shader modules
-  for(int i=0; i<pipeline->vec_shader_couple.size(); i++){
-    pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->vec_shader_couple[i];
-    vkDestroyShaderModule(vk_param->device.device, shader_couple.first, nullptr);
-    vkDestroyShaderModule(vk_param->device.device, shader_couple.second, nullptr);
   }
 
   //---------------------------

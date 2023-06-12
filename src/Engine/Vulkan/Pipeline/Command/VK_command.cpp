@@ -70,24 +70,6 @@ void VK_command::clean_command_pool(){
   //---------------------------
 }
 
-//Descriptor
-void VK_command::update_uniform(Struct_renderpass* renderpass, string pipeline_name){
-  //---------------------------
-
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, pipeline_name);
-  vk_descriptor->update_descriptor_uniform(&pipeline->binding);
-
-  //---------------------------
-}
-void VK_command::update_sampler(Struct_renderpass* renderpass, string pipeline_name, vector<Struct_image*> vec_image){
-  //---------------------------
-
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, pipeline_name);
-  vk_descriptor->update_descriptor_sampler(&pipeline->binding, vec_image);
-
-  //---------------------------
-}
-
 //Command buffer
 void VK_command::allocate_command_buffer(Struct_renderpass* renderpass){
   //---------------------------

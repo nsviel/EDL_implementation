@@ -45,8 +45,10 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   //Update descriptor
-  vk_command->update_uniform(renderpass, "point");
-  vk_command->update_uniform(renderpass, "line");
+  Struct_pipeline* pipeline_point = renderpass->get_pipeline_byName("point");
+  Struct_pipeline* pipeline_line = renderpass->get_pipeline_byName("line");
+  vk_descriptor->update_descriptor_uniform(&pipeline_point->binding);
+  vk_descriptor->update_descriptor_uniform(&pipeline_line->binding);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
@@ -70,11 +72,9 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
 
   //Update descriptor
   Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
-  vector<Struct_image*> vec_image;
-  vec_image.push_back(&frame_scene->color);
-  vec_image.push_back(&frame_scene->depth);
-  vk_command->update_uniform(renderpass, "triangle_EDL");
-  vk_command->update_sampler(renderpass, "triangle_EDL", vec_image);
+  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
+  vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->color);
+  //vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->depth);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
@@ -98,9 +98,9 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
 
   //Update descriptor
   Frame* frame_final = vk_param->renderpass_render.get_rendering_frame();
-  vector<Struct_image*> vec_image(1, &frame_final->color);
-  vk_command->update_uniform(renderpass, "triangle");
-  vk_command->update_sampler(renderpass, "triangle", vec_image);
+  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
+  vk_descriptor->update_descriptor_uniform(&pipeline->binding);
+  vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_final->color);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);

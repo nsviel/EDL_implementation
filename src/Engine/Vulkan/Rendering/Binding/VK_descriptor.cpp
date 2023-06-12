@@ -37,36 +37,16 @@ void VK_descriptor::clean_descriptor_pool(){
 }
 
 //Descriptor set allocation
-void VK_descriptor::allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_layout, vector<VkDescriptorSet>& vec_descriptor_set){
-  //---------------------------
-
-  VkDescriptorSetAllocateInfo allocation_info{};
-  allocation_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-  allocation_info.descriptorPool = descriptor_pool;
-  allocation_info.descriptorSetCount = static_cast<uint32_t>(vec_layout.size());
-  allocation_info.pSetLayouts = vec_layout.data();
-
-  vec_descriptor_set.resize(vec_layout.size());
-  VkResult result = vkAllocateDescriptorSets(vk_param->device.device, &allocation_info, vec_descriptor_set.data());
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("failed to allocate descriptor sets!");
-  }
-
-  //---------------------------
-}
 void VK_descriptor::allocate_descriptor_set(Struct_binding* binding){
   //---------------------------
-
-  VkDescriptorSetLayout& layout = binding->descriptor.layout;
-  VkDescriptorSet& descriptor_set = binding->descriptor.set;
 
   VkDescriptorSetAllocateInfo allocation_info{};
   allocation_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
   allocation_info.descriptorPool = descriptor_pool;
   allocation_info.descriptorSetCount = 1;
-  allocation_info.pSetLayouts = &layout;
+  allocation_info.pSetLayouts = &binding->descriptor.layout;
 
-  VkResult result = vkAllocateDescriptorSets(vk_param->device.device, &allocation_info, &descriptor_set);
+  VkResult result = vkAllocateDescriptorSets(vk_param->device.device, &allocation_info, &binding->descriptor.set);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to allocate descriptor sets!");
   }
@@ -121,7 +101,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, vector<St
     for(int j=0; j<vec_image.size(); j++){
       Struct_image* image = vec_image[j];
 
-      if(sampler->name == image->name){
+      if(sampler->name == image->name){say(image->name);
         VkDescriptorImageInfo image_info = {};
         image_info.imageLayout = image->sampler_layout;
         image_info.imageView = image->view;
@@ -144,6 +124,37 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, vector<St
   if(vec_descriptor_write.size() != 0){
     vkUpdateDescriptorSets(vk_param->device.device, static_cast<uint32_t>(vec_descriptor_write.size()), vec_descriptor_write.data(), 0, nullptr);
   }
+
+  //---------------------------
+}
+void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, Struct_image* image){
+  //---------------------------
+
+  Struct_sampler* sampler = nullptr;
+  for(int i=0; i<binding->vec_sampler.size(); i++){
+    if(image->name == binding->vec_sampler[i]->name){
+      sampler = binding->vec_sampler[i];
+    }
+  }
+  if(sampler == nullptr){
+    cout<<"[error] Sampler name not corresponding to image name"<<endl;
+  }
+
+  VkDescriptorImageInfo image_info = {};
+  image_info.imageLayout = image->sampler_layout;
+  image_info.imageView = image->view;
+  image_info.sampler = image->sampler;
+
+  VkWriteDescriptorSet write_sampler = {};
+  write_sampler.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+  write_sampler.dstSet = binding->descriptor.set;
+  write_sampler.dstBinding = sampler->binding;
+  write_sampler.dstArrayElement = 0;
+  write_sampler.descriptorType = sampler->type;
+  write_sampler.descriptorCount = 1;
+  write_sampler.pImageInfo = &image_info;
+
+  vkUpdateDescriptorSets(vk_param->device.device, 1, &write_sampler, 0, nullptr);
 
   //---------------------------
 }
@@ -174,6 +185,19 @@ void VK_descriptor::create_layout_from_required(Struct_binding* binding){
   //---------------------------
 
 }
+VkDescriptorSetLayoutBinding VK_descriptor::add_descriptor_binding(VkDescriptorType type, VkShaderStageFlagBits stage, int count, int binding){
+  //---------------------------
+
+  VkDescriptorSetLayoutBinding layout_binding{};
+  layout_binding.binding = binding;
+  layout_binding.descriptorCount = static_cast<uint32_t>(count);
+  layout_binding.descriptorType = type;
+  layout_binding.stageFlags = stage;
+  layout_binding.pImmutableSamplers = nullptr; // Optional
+
+  //---------------------------
+  return layout_binding;
+}
 VkDescriptorSetLayout VK_descriptor::create_layout(vector<VkDescriptorSetLayoutBinding>& vec_binding){
   //---------------------------
 
@@ -193,19 +217,6 @@ VkDescriptorSetLayout VK_descriptor::create_layout(vector<VkDescriptorSetLayoutB
   //---------------------------
   return descriptor_layout;
 }
-VkDescriptorSetLayoutBinding VK_descriptor::add_descriptor_binding(VkDescriptorType type, VkShaderStageFlagBits stage, int count, int binding){
-  //---------------------------
-
-  VkDescriptorSetLayoutBinding layout_binding{};
-  layout_binding.binding = binding;
-  layout_binding.descriptorCount = static_cast<uint32_t>(count);
-  layout_binding.descriptorType = type;
-  layout_binding.stageFlags = stage;
-  layout_binding.pImmutableSamplers = nullptr; // Optional
-
-  //---------------------------
-  return layout_binding;
-}
 
 //Descriptor pool
 void VK_descriptor::create_descriptor_pool(){
@@ -215,6 +226,7 @@ void VK_descriptor::create_descriptor_pool(){
   vector<VkDescriptorPoolSize> vec_pool_size;
   vec_pool_size.push_back(add_descriptor_type(TYPE_UNIFORM, pool_nb_uniform));
   vec_pool_size.push_back(add_descriptor_type(TYPE_SAMPLER, pool_nb_sampler));
+  vec_pool_size.push_back(add_descriptor_type(VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, pool_nb_sampler));
 
   VkDescriptorPoolCreateInfo pool_info{};
   pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;

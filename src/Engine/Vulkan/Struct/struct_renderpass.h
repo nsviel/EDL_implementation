@@ -25,6 +25,16 @@ struct Struct_subpass{
 struct Struct_renderpass{
   //---------------------------
 
+  Struct_pipeline* get_pipeline_byName(string name){
+    for(int i=0; i<vec_pipeline.size(); i++){
+      if(vec_pipeline[i]->name == name){
+        return vec_pipeline[i];
+      }
+    }
+    cout<<"[error] Pipeline by name error -> not found"<<endl;
+    return nullptr;
+  }
+
   //Info
   std::string name;
 

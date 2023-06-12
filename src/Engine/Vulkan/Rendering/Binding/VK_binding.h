@@ -22,7 +22,7 @@ public:
 
 public:
   //Main functions
-  void fill_pipeline_binding(Struct_pipeline* pipeline);
+  void create_pipeline_binding(Struct_pipeline* pipeline);
   void clean_binding(Struct_binding* binding);
 
   void update_uniform(Struct_binding* binding, mat4 mvp);

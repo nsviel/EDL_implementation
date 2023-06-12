@@ -24,12 +24,12 @@ public:
   void clean_descriptor_pool();
 
   //Descriptor set allocation
-  void allocate_descriptor_set(vector<VkDescriptorSetLayout>& vec_layout, vector<VkDescriptorSet>& vec_descriptor_set);
   void allocate_descriptor_set(Struct_binding* binding);
 
   //Descriptor set update
   void update_descriptor_uniform(Struct_binding* binding);
   void update_descriptor_sampler(Struct_binding* binding, vector<Struct_image*> vec_image);
+  void update_descriptor_sampler(Struct_binding* binding, Struct_image* image);
 
   //Descriptor layout
   void create_layout_from_required(Struct_binding* binding);
