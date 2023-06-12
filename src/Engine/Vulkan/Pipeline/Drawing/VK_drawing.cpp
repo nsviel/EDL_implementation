@@ -72,9 +72,10 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
 
   //Update descriptor
   Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
-  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
+  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle_EDL");
+  vk_descriptor->update_descriptor_uniform(&pipeline->binding);
   vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->color);
-  //vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->depth);
+  vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->depth);
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);

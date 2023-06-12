@@ -62,7 +62,7 @@ void RP_scene::create_subpass(Struct_renderpass* renderpass){
   subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->color.store_operation = ATTACHMENT_STOREOP_STORE;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+  subpass->depth.layout_final = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
   renderpass->vec_subpass.push_back(subpass);
 
   //---------------------------

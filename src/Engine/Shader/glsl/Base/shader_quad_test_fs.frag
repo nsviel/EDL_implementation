@@ -11,7 +11,15 @@ void main(){
   //---------------------------
 
   vec4 color = texture(tex_color, frag_tex_coord);
-  out_color = vec4(color.y-0.5, color.z-0.5, color.x, color.w);
+  vec4 depth = texture(tex_depth, frag_tex_coord);
+
+  float d = depth.x;
+  if(d <= 0.9999){
+  out_color = vec4(1, 1, 1, color.w);
+  }else{
+  out_color = vec4(0);
+  }
+
 
   //---------------------------
 }
