@@ -5,7 +5,7 @@ layout(location = 0) out vec4 out_color;
 
 layout(set = 0, binding = 0) uniform sampler2D tex_color;
 layout(set = 0, binding = 1) uniform sampler2D tex_depth;
-layout(set = 0, binding = 2) uniform Params{
+layout(set = 0, binding = 2) uniform param{
   bool activated;
   float A;
   float B;
@@ -23,7 +23,7 @@ float compute_depth_normalized(float depth){
 
   // depth: Linear depth, in world units
   // depth_norm: normalized depth between [0, 1]
-  float depth_norm = 0.5 * (A * depth + B) / depth + 0.5;
+  float depth_norm = 0.5 * (-A * depth + B) / depth + 0.5;
 
   //---------------------------
   return depth_norm;
@@ -48,17 +48,16 @@ vec2 neighbor_contribution(float depth_norm, vec2 offset){
 //MAIN FUNCTION
 void main(){
   //---------------------------
-
   vec4 color_rgba = texture(tex_color, frag_tex_coord);
   vec4 depth_rgba = texture(tex_depth, frag_tex_coord);
 
-  if(activated){
+  if(activated && depth_rgba.x < 1){
     // Build the Depth
-
     float depth_norm = compute_depth_normalized(depth_rgba.r);
 
     //Check neighborhood influence
-    vec2 texel_size = radius / vec2(width, height);
+    vec2 dim = vec2(width, height);
+    vec2 texel_size = radius / dim;
     vec2 NN_response = vec2(0.0);
     NN_response += neighbor_contribution(depth_norm, vec2(-texel_size.x, 0.0));
     NN_response += neighbor_contribution(depth_norm, vec2(+texel_size.x, 0.0));
@@ -70,8 +69,6 @@ void main(){
     float shade = exp(-depth_response * 15000.0 * strength);
 
     color_rgba.rgb *= shade;
-  }else{
-  color_rgba.rgb = vec3(0,0,height/1000.0);
   }
 
   //---------------------------

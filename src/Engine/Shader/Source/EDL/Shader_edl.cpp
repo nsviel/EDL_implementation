@@ -29,7 +29,7 @@ void Shader_edl::update_shader(){
   // Depth setup
   float clip_near = camera->clip_near;
   float clip_far = camera->clip_far;
-  struct_edl->A = (clip_far + clip_near) / (clip_far - clip_near);
+  struct_edl->A = -(clip_far + clip_near) / (clip_far - clip_near);
   struct_edl->B = (-2 * clip_far * clip_near) / (clip_far - clip_near);
 
   //Dimension
