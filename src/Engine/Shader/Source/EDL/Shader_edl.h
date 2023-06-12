@@ -1,24 +1,19 @@
-/*#ifndef SHADER_EDL_H
+#ifndef SHADER_EDL_H
 #define SHADER_EDL_H
 
-#include "../Base/Shader_src.h"
-
-#include "../../../common.h"
+#include "../../../../common.h"
 
 class Node_engine;
 class Dimension;
-class Configuration;
-class Shader_obj;
 
 
-class Shader_edl : public Shader_src
+class Shader_edl
 {
 public:
   Shader_edl(Node_engine* node);
   ~Shader_edl();
 
-  void setup_shader(Shader_obj* shader);
-  void update_shader();
+  void setup_shader();
 
   inline float* get_edl_strength(){return &edl_strength;}
   inline float* get_edl_distance(){return &edl_distance;}
@@ -28,7 +23,6 @@ public:
   inline bool* get_with_edl(){return &with_edl;}
 
 private:
-  Configuration* configManager;
   Dimension* dimManager;
 
   float edl_strength;
@@ -40,4 +34,3 @@ private:
 };
 
 #endif
-*/
