@@ -23,7 +23,7 @@ Shader_edl::Shader_edl(Node_engine* node_engine){
 Shader_edl::~Shader_edl(){}
 
 void Shader_edl::update_shader(){
-  Cam* camera = cameraManager->get_camera();
+  Struct_camera* camera = cameraManager->get_camera();
   //---------------------------
 
   // Depth setup

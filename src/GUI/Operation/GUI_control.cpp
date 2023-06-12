@@ -42,7 +42,7 @@ void GUI_control::make_control(){
 void GUI_control::control_mouse(){
   Tab* tab_rendering = dimManager->get_tab("rendering");
   ImGuiIO io = ImGui::GetIO();
-  Cam* camera = cameraManager->get_camera();
+  Struct_camera* camera = cameraManager->get_camera();
   //----------------------------
 
   //Right click - Camera movement

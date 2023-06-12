@@ -1,7 +1,7 @@
 #ifndef CAM_ARCBALL_H
 #define CAM_ARCBALL_H
 
-#include "../struct_cam.h"
+#include "../struct_camera.h"
 #include "../../../common.h"
 
 class Node_engine;
@@ -15,10 +15,10 @@ public:
   ~CAM_arcball();
 
 public:
-  mat4 arcball_view_mat(Cam* camera);
-  void arcball_cam_mouse(Cam* camera);
+  mat4 arcball_view_mat(Struct_camera* camera);
+  void arcball_cam_mouse(Struct_camera* camera);
   vec2 arcball_mouse_angle();
-  void arcball_viewport_angle(Cam* camera, vec2 angle);
+  void arcball_viewport_angle(Struct_camera* camera, vec2 angle);
 
 private:
   Dimension* dimManager;

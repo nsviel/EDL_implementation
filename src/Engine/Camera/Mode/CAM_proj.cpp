@@ -15,7 +15,7 @@ CAM_proj::CAM_proj(Node_engine* node_engine){
 CAM_proj::~CAM_proj(){}
 
 //Main function
-mat4 CAM_proj::compute_proj_perspective(Cam* camera){
+mat4 CAM_proj::compute_proj_perspective(Struct_camera* camera){
   Tab* tab_rendering = dimManager->get_tab("rendering");
   //---------------------------
 
@@ -30,7 +30,7 @@ mat4 CAM_proj::compute_proj_perspective(Cam* camera){
   //---------------------------
   return cam_proj;
 }
-mat4 CAM_proj::compute_proj_ortho(Cam* camera){
+mat4 CAM_proj::compute_proj_ortho(Struct_camera* camera){
   //---------------------------
 
   float z_near = camera->clip_near;

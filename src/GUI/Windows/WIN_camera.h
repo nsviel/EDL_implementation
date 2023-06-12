@@ -6,7 +6,7 @@
 
 class Node_gui;
 class Param_gui;
-class Cam;
+class Struct_camera;
 
 
 class WIN_camera : public WIN_base
@@ -26,7 +26,7 @@ public:
 
 private:
   Param_gui* param_gui;
-  Cam* camera;
+  Struct_camera* camera;
 
   int item_width;
 };

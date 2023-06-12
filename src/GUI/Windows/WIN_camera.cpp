@@ -5,7 +5,7 @@
 
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Camera/Camera.h"
-#include "../../Engine/Camera/struct_cam.h"
+#include "../../Engine/Camera/struct_camera.h"
 
 
 //Constructor / Destructor

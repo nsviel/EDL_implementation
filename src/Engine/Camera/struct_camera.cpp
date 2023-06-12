@@ -1,7 +1,7 @@
-#include "struct_cam.h"
+#include "struct_camera.h"
 
 
-Cam::Cam(){
+Struct_camera::Struct_camera(){
   //---------------------------
 
   this->reset();
@@ -9,7 +9,7 @@ Cam::Cam(){
   //---------------------------
 }
 
-void Cam::reset(){
+void Struct_camera::reset(){
   //---------------------------
 
   this->angle_azimuth = M_PI + M_PI/4;

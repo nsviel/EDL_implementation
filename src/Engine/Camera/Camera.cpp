@@ -24,7 +24,7 @@ Camera::Camera(Node_engine* node_engine){
   this->cam_fp = new CAM_first_person(node_engine);
   this->cam_zoom = new CAM_zoom(node_engine);
   this->cam_proj = new CAM_proj(node_engine);
-  this->camera = new Cam();
+  this->camera = new Struct_camera();
 
   //---------------------------
 }

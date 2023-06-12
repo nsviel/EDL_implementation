@@ -16,7 +16,7 @@ CAM_first_person::CAM_first_person(Node_engine* node_engine){
 }
 CAM_first_person::~CAM_first_person(){}
 
-mat4 CAM_first_person::fp_view_mat(Cam* camera){
+mat4 CAM_first_person::fp_view_mat(Struct_camera* camera){
   //---------------------------
 
   float azimuth = camera->angle_azimuth;
@@ -39,7 +39,7 @@ mat4 CAM_first_person::fp_view_mat(Cam* camera){
   //---------------------------
   return cam_view;
 }
-void CAM_first_person::fp_cam_mouse(Cam* camera){
+void CAM_first_person::fp_cam_mouse(Struct_camera* camera){
   Tab* tab_rendering = dimManager->get_tab("rendering");
   //---------------------------
 

@@ -14,7 +14,7 @@ CAM_zoom::CAM_zoom(Node_engine* node_engine){
 }
 CAM_zoom::~CAM_zoom(){}
 
-void CAM_zoom::compute_zoom_optic(Cam* camera, float yoffset){
+void CAM_zoom::compute_zoom_optic(Struct_camera* camera, float yoffset){
   //---------------------------
 
   //Perspective zoom
@@ -28,7 +28,7 @@ void CAM_zoom::compute_zoom_optic(Cam* camera, float yoffset){
 
   //---------------------------
 }
-void CAM_zoom::compute_zoom_position(Cam* camera, float yoffset){
+void CAM_zoom::compute_zoom_position(Struct_camera* camera, float yoffset){
   //---------------------------
 
   //Perspective zoom

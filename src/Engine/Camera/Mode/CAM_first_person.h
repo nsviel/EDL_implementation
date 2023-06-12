@@ -1,7 +1,7 @@
 #ifndef CAM_FPS_H
 #define CAM_FPS_H
 
-#include "../struct_cam.h"
+#include "../struct_camera.h"
 #include "../../../common.h"
 
 class Node_engine;
@@ -15,8 +15,8 @@ public:
   ~CAM_first_person();
 
 public:
-  mat4 fp_view_mat(Cam* camera);
-  void fp_cam_mouse(Cam* camera);
+  mat4 fp_view_mat(Struct_camera* camera);
+  void fp_cam_mouse(Struct_camera* camera);
 
 private:
   Dimension* dimManager;

@@ -1,7 +1,7 @@
 #ifndef CAM_ZOOM_H
 #define CAM_ZOOM_H
 
-#include "../struct_cam.h"
+#include "../struct_camera.h"
 #include "../../../common.h"
 
 class Node_engine;
@@ -15,8 +15,8 @@ public:
   ~CAM_zoom();
 
 public:
-  void compute_zoom_optic(Cam* camera, float value);
-  void compute_zoom_position(Cam* camera, float value);
+  void compute_zoom_optic(Struct_camera* camera, float value);
+  void compute_zoom_position(Struct_camera* camera, float value);
 
 private:
   Dimension* dimManager;
