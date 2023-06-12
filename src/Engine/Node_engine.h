@@ -33,6 +33,7 @@ public:
   inline Camera* get_cameraManager(){return cameraManager;}
   inline Param_engine* get_param_engine(){return param_engine;}
   inline GPU_data* get_gpu_data(){return gpu_data;}
+  inline Shader_edl* get_shader_edl(){return shader_edl;}
 
 private:
   Node* node;

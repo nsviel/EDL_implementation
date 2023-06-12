@@ -18,9 +18,9 @@ Node_engine::Node_engine(Node* node){
   this->param_engine = new Param_engine();
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
+  this->shader_edl = new Shader_edl(this);
   this->vk_engine = new VK_engine(this);
   this->gpu_data = new GPU_data(this);
-  this->shader_edl = new Shader_edl(this);
 
   //---------------------------
 }

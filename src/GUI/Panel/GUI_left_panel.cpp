@@ -3,6 +3,7 @@
 
 #include "../Node_gui.h"
 #include "../Operation/GUI_option.h"
+#include "../Operation/GUI_shader.h"
 #include "../Module/GUI_filemanager.h"
 
 #include "../../Load/Node_load.h"
@@ -23,6 +24,7 @@ GUI_left_panel::GUI_left_panel(Node_gui* node_gui){
   this->gui_filemanager = node_gui->get_gui_filemanager();
   this->gui_option = node_gui->get_gui_option();
   this->gui_menubar = node_gui->get_gui_menubar();
+  this->gui_shader = node_gui->get_gui_shader();
 
   //---------------------------
 }
@@ -50,12 +52,12 @@ void GUI_left_panel::draw_left_panel(){
   this->left_panel_dim();
   gui_menubar->design_menubar();
   this->left_panel_content();
-
+  gui_shader->design_shader();
 
   ImVec2 windowSize = ImGui::GetWindowSize();
   float widgetHeight = 35.0f; // Adjust the height of the widget as needed
   float widgetYPosition = windowSize.y - widgetHeight - ImGui::GetStyle().ItemSpacing.y;
-  ImGui::SetCursorPos(ImVec2(7.5, widgetYPosition));
+  ImGui::SetCursorPos(ImVec2(8, widgetYPosition));
 
   gui_option->display_time();
 
@@ -90,7 +92,7 @@ void GUI_left_panel::left_panel_content(){
     gui_filemanager->tree_view(tab_panel_left->dim.x);
   }
   ImGui::End();
-  ImGui::SetCursorPos(ImVec2(0, 125));
+  ImGui::SetCursorPos(ImVec2(8, 125));
   ImGui::PopStyleVar();
 
   //---------------------------

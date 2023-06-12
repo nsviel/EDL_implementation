@@ -33,8 +33,9 @@ void Shader_edl::update_shader(){
   struct_edl->B = (-2 * clip_far * clip_near) / (clip_far - clip_near);
 
   //Dimension
-  struct_edl->width = camera->dim.x;
-  struct_edl->height = camera->dim.y;
-say(camera->dim);
+  Tab* tab_rendering = dimManager->get_tab("rendering");
+  struct_edl->width = tab_rendering->dim.x;
+  struct_edl->height = tab_rendering->dim.y;
+
   //---------------------------
 }

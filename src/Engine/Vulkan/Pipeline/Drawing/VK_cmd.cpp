@@ -16,11 +16,15 @@
 #include "../../Rendering/Render/VK_canvas.h"
 #include "../../Data/VK_data.h"
 
+#include "../../../Node_engine.h"
+#include "../../../Shader/Source/EDL/Shader_edl.h"
+
 
 //Constructor / Destructor
 VK_cmd::VK_cmd(VK_engine* vk_engine){
   //---------------------------
 
+  Node_engine* node_engine = vk_engine->get_node_engine();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_pipeline = vk_engine->get_vk_pipeline();
@@ -30,6 +34,7 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
   this->vk_data = vk_engine->get_vk_data();
   this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_uniform = vk_engine->get_vk_uniform();
+  this->shader_edl = node_engine->get_shader_edl();
 
   //---------------------------
 }
@@ -189,18 +194,11 @@ void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle_EDL");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
-  Struct_edl edl_param;
-  edl_param.A = 1;
-  edl_param.B = 1;
-  edl_param.strength = 1;
-  edl_param.distance = 1;
-  edl_param.radius= 1;
-  edl_param.activated = true;
-  edl_param.width = 100;
-  edl_param.height = 100;
+  shader_edl->update_shader();
+  Struct_edl* edl_param = shader_edl->get_edl_param();
 
   //Descriptor
-  vk_uniform->update_uniform_edl("Struct_edl", &pipeline->binding, edl_param);
+  vk_uniform->update_uniform_edl("Struct_edl", &pipeline->binding, *edl_param);
   vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data

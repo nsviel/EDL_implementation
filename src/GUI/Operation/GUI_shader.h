@@ -5,6 +5,7 @@
 
 class Node_gui;
 class Dimension;
+class Shader_edl;
 
 
 class GUI_shader
@@ -20,6 +21,7 @@ public:
 
 private:
   Dimension* dimManager;
+  Shader_edl* shader_edl;
 
   int item_width;
 };

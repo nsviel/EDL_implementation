@@ -4,6 +4,7 @@
 #include "../../Struct/struct_renderpass.h"
 #include "../../../../common.h"
 
+class Shader_edl;
 class VK_engine;
 class VK_param;
 class VK_viewport;
@@ -37,6 +38,7 @@ public:
   void cmd_draw_edl(Struct_renderpass* renderpass);
 
 private:
+  Shader_edl* shader_edl;
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_pipeline* vk_pipeline;

@@ -5,6 +5,7 @@
 #include "Panel/GUI_menubar.h"
 #include "Operation/GUI_control.h"
 #include "Operation/GUI_option.h"
+#include "Operation/GUI_shader.h"
 #include "Module/GUI_filemanager.h"
 #include "Module/GUI_windows.h"
 
@@ -21,6 +22,7 @@ Node_gui::Node_gui(Node* node){
   this->node_load = node->get_node_load();
 
   this->param_gui = new Param_gui();
+  this->gui_shader = new GUI_shader(this);
   this->gui_option = new GUI_option(this);
   this->gui_filemanager = new GUI_filemanager(this);
   this->gui_menubar = new GUI_menubar(this);

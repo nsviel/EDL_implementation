@@ -9,6 +9,7 @@ class Dimension;
 class GUI_option;
 class GUI_filemanager;
 class GUI_menubar;
+class GUI_shader;
 
 
 class GUI_left_panel
@@ -31,6 +32,7 @@ private:
   GUI_option* gui_option;
   GUI_filemanager* gui_filemanager;
   GUI_menubar* gui_menubar;
+  GUI_shader* gui_shader;
 };
 
 #endif

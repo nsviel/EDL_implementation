@@ -4,6 +4,7 @@
 
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Dimension/Dimension.h"
+#include "../../Engine/Shader/Source/EDL/Shader_edl.h"
 
 
 //Constructor / Destructor
@@ -12,8 +13,9 @@ GUI_shader::GUI_shader(Node_gui* node_gui){
 
   Node_engine* node_engine = node_gui->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
+  this->shader_edl = node_engine->get_shader_edl();
 
-  this->item_width = 150;
+  this->item_width = 100;
 
   //---------------------------
 }
@@ -21,26 +23,25 @@ GUI_shader::~GUI_shader(){}
 
 //Main function
 void GUI_shader::design_shader(){
-  ImGui::TextColored(ImVec4(0.4f,0.4f,0.4f,1.0f),"EDL");
+  Struct_edl* edl_param = shader_edl->get_edl_param();
   //---------------------------
-/*
+
+  ImGui::TextColored(ImVec4(0.4f,0.4f,0.4f,1.0f),"EDL");
+
   ImGui::SetNextItemWidth(item_width);
-  bool* with_edl = shader_edl->get_with_edl();
-  if(ImGui::Checkbox("Activated", with_edl)){
+  if(ImGui::Checkbox("Activated", &edl_param->activated)){
     shader_edl->update_shader();
   }
 
   ImGui::SetNextItemWidth(item_width);
-  float* edl_radius = shader_edl->get_edl_radius();
-  if(ImGui::SliderFloat("Radius", edl_radius, 1.0f, 3.0f)){
+  if(ImGui::SliderFloat("Radius", &edl_param->radius, 1.0f, 3.0f)){
     shader_edl->update_shader();
   }
 
   ImGui::SetNextItemWidth(item_width);
-  float* edl_strength = shader_edl->get_edl_strength();
-  if(ImGui::SliderFloat("Strength", edl_strength, 1.0f, 1000.0f)){
+  if(ImGui::SliderFloat("Strength", &edl_param->strength, 1.0f, 1000.0f)){
     shader_edl->update_shader();
   }
-*/
+
   //---------------------------
 }
