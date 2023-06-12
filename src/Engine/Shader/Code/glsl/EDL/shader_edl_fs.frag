@@ -6,14 +6,14 @@ layout(location = 0) out vec4 out_color;
 layout(set = 0, binding = 0) uniform sampler2D tex_color;
 layout(set = 0, binding = 1) uniform sampler2D tex_depth;
 layout(set = 0, binding = 2) uniform Params{
+  bool activated;
   float A;
   float B;
-  float EDL_STRENGTH;
-  float EDL_DISTANCE;
-  float EDL_RADIUS;
-  bool EDL_ON;
-  int TEX_WIDTH;
-  int TEX_HEIGHT;
+  float strength;
+  float distance;
+  float radius;
+  int width;
+  int height;
 };
 
 
@@ -49,15 +49,16 @@ vec2 neighbor_contribution(float depth_norm, vec2 offset){
 void main(){
   //---------------------------
 
-  vec4 tex_color_rgba = texture(tex_color, frag_tex_coord);
+  vec4 color_rgba = texture(tex_color, frag_tex_coord);
+  vec4 depth_rgba = texture(tex_depth, frag_tex_coord);
 
-  if(EDL_ON){
+  if(activated){
     // Build the Depth
-    vec4 depth_rgba = texture(tex_depth, frag_tex_coord);
+
     float depth_norm = compute_depth_normalized(depth_rgba.r);
 
     //Check neighborhood influence
-    vec2 texel_size = EDL_RADIUS / vec2(TEX_WIDTH, TEX_HEIGHT);
+    vec2 texel_size = radius / vec2(width, height);
     vec2 NN_response = vec2(0.0);
     NN_response += neighbor_contribution(depth_norm, vec2(-texel_size.x, 0.0));
     NN_response += neighbor_contribution(depth_norm, vec2(+texel_size.x, 0.0));
@@ -66,11 +67,13 @@ void main(){
 
     // Build the Eye Dome Lighting effect
     float depth_response = NN_response.x / NN_response.y;
-    float shade = exp(-depth_response * 1500.0 * EDL_STRENGTH);
+    float shade = exp(-depth_response * 15000.0 * strength);
 
-    tex_color_rgba.rgb *= shade;
+    color_rgba.rgb *= shade;
+  }else{
+  color_rgba.rgb = vec3(0,0,height/1000.0);
   }
 
   //---------------------------
-  out_color = vec4(tex_color_rgba);
+  out_color = vec4(color_rgba);
 }
