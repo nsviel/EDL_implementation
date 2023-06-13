@@ -1,21 +1,20 @@
 #include "Shader_edl.h"
 
-#include "../../../Camera/Camera.h"
 #include "../../../Node_engine.h"
+#include "../../../Param_engine.h"
 #include "../../../Dimension/Dimension.h"
 
 
 Shader_edl::Shader_edl(Node_engine* node_engine){
   //---------------------------
 
-  this->cameraManager = node_engine->get_cameraManager();
+  this->param_engine = node_engine->get_param_engine();
   this->dimManager = node_engine->get_dimManager();
 
   this->struct_edl = new Struct_edl();
   struct_edl->activated = true;
-  struct_edl->strength = 100.0;
-  struct_edl->distance = 1.0;
-  struct_edl->radius = 1.0;
+  struct_edl->strength = 300.0;
+  struct_edl->radius = 1.5;
 
   //---------------------------
   this->update_shader();
@@ -23,7 +22,7 @@ Shader_edl::Shader_edl(Node_engine* node_engine){
 Shader_edl::~Shader_edl(){}
 
 void Shader_edl::update_shader(){
-  Struct_camera* camera = cameraManager->get_camera();
+  Struct_camera* camera = &param_engine->camera;
   //---------------------------
 
   // Depth setup

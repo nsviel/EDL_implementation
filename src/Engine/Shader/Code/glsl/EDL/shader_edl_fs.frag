@@ -11,7 +11,6 @@ layout(set = 0, binding = 2) uniform param{
   float A;
   float B;
   float strength;
-  float distance;
   float radius;
   int width;
   int height;

@@ -3,6 +3,7 @@
 #include "../Node_gui.h"
 
 #include "../../Engine/Node_engine.h"
+#include "../../Engine/Param_engine.h"
 #include "../../Engine/Dimension/Dimension.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../Specific/Function/fct_math.h"
@@ -17,6 +18,7 @@ GUI_control::GUI_control(Node_gui* node_gui){
 
   Node_engine* node_engine = node_gui->get_node_engine();
   Node_data* node_data = node_gui->get_node_data();
+  this->param_engine = node_engine->get_param_engine();
   this->dimManager = node_engine->get_dimManager();
   this->cameraManager = node_engine->get_cameraManager();
   this->controlManager = node_data->get_controlManager();
@@ -42,7 +44,7 @@ void GUI_control::make_control(){
 void GUI_control::control_mouse(){
   Tab* tab_rendering = dimManager->get_tab("rendering");
   ImGuiIO io = ImGui::GetIO();
-  Struct_camera* camera = cameraManager->get_camera();
+  Struct_camera* camera = &param_engine->camera;
   //----------------------------
 
   //Right click - Camera movement

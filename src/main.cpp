@@ -8,6 +8,7 @@ int main() {
   Node node;
   //---------------------------
 
+  std::cout<<"--- \033[1;34mBegin program\033[0m ---"<<std::endl;
   try{
     node.init();
     node.loop();
@@ -16,6 +17,7 @@ int main() {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }
+  std::cout<<"--- \033[1;34mClose program\033[0m ---"<<std::endl;
 
   //---------------------------
   return EXIT_SUCCESS;

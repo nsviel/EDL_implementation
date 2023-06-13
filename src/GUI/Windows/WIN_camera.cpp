@@ -4,7 +4,7 @@
 #include "../Param_gui.h"
 
 #include "../../Engine/Node_engine.h"
-#include "../../Engine/Camera/Camera.h"
+#include "../../Engine/Param_engine.h"
 #include "../../Engine/Camera/struct_camera.h"
 
 
@@ -13,8 +13,8 @@ WIN_camera::WIN_camera(Node_gui* node_gui, bool* show_window, string name) : WIN
   //---------------------------
 
   Node_engine* node_engine = node_gui->get_node_engine();
-  Camera* cameraManager = node_engine->get_cameraManager();
-  this->camera = cameraManager->get_camera();
+  Param_engine* param_engine = node_engine->get_param_engine();
+  this->camera = &param_engine->camera;
 
   //---------------------------
 }

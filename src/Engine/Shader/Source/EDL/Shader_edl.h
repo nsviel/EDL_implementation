@@ -5,8 +5,8 @@
 #include "../../../../common.h"
 
 class Node_engine;
+class Param_engine;
 class Dimension;
-class Camera;
 
 
 class Shader_edl
@@ -20,7 +20,7 @@ public:
   inline Struct_edl* get_edl_param(){return struct_edl;}
 
 private:
-  Camera* cameraManager;
+  Param_engine* param_engine;
   Dimension* dimManager;
 
   Struct_edl* struct_edl;

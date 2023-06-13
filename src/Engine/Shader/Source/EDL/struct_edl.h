@@ -9,7 +9,6 @@ struct Struct_edl{
   float A;
   float B;
   float strength;
-  float distance;
   float radius;
   int width;
   int height;

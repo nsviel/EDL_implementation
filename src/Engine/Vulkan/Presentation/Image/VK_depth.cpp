@@ -46,17 +46,26 @@ void VK_depth::clean_depth_attachment(Frame* image){
 }
 
 //Subfunctions
-bool VK_depth::find_stencil_component(VkFormat format){
+VkFormat VK_depth::find_depth_format(){
   //---------------------------
 
-  return format == VK_FORMAT_D32_SFLOAT_S8_UINT || format == VK_FORMAT_D24_UNORM_S8_UINT;
+  vector<VkFormat> format_candidates;
+  format_candidates.push_back(VK_FORMAT_D32_SFLOAT);
+  format_candidates.push_back(VK_FORMAT_D32_SFLOAT_S8_UINT);
+  format_candidates.push_back(VK_FORMAT_D24_UNORM_S8_UINT);
+
+  VkImageTiling tiling = VK_IMAGE_TILING_OPTIMAL;
+  VkFormatFeatureFlags features = VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT;
+
+  VkFormat format = find_supported_format(format_candidates, tiling, features);
 
   //---------------------------
+  return format;
 }
-VkFormat VK_depth::find_supported_format(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features){
+VkFormat VK_depth::find_supported_format(const std::vector<VkFormat>& format_candidates, VkImageTiling tiling, VkFormatFeatureFlags features){
   //---------------------------
 
-  for(VkFormat format : candidates){
+  for(VkFormat format : format_candidates){
     VkFormatProperties props;
     vkGetPhysicalDeviceFormatProperties(vk_param->device.physical_device, format, &props);
 
@@ -71,14 +80,11 @@ VkFormat VK_depth::find_supported_format(const std::vector<VkFormat>& candidates
 
   //---------------------------
 }
-VkFormat VK_depth::find_depth_format(){
+bool VK_depth::find_stencil_component(VkFormat format){
+  //For depth image transition
   //---------------------------
 
-  return find_supported_format(
-    {VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT},
-    VK_IMAGE_TILING_OPTIMAL,
-    VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
-  );
+  return format == VK_FORMAT_D32_SFLOAT_S8_UINT || format == VK_FORMAT_D24_UNORM_S8_UINT;
 
   //---------------------------
 }
