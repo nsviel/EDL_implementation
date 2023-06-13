@@ -6,9 +6,9 @@
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
-#include "../../Pipeline/Command/VK_command.h"
-#include "../../Rendering/Render/VK_canvas.h"
-#include "../../Rendering/Binding/VK_descriptor.h"
+#include "../../Core/Command/VK_command.h"
+#include "../../Render/Canvas/VK_canvas.h"
+#include "../../Render/Binding/VK_descriptor.h"
 
 
 //Constructor / Destructor

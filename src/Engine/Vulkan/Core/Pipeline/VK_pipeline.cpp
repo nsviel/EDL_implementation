@@ -2,11 +2,11 @@
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
-#include "../../Rendering/Binding/VK_descriptor.h"
+#include "../../Render/Binding/VK_descriptor.h"
 #include "../../Data/VK_data.h"
 #include "../../Presentation/Camera/VK_viewport.h"
-#include "../../Rendering/Shader/VK_shader.h"
-#include "../../Rendering/Binding/VK_binding.h"
+#include "../../Render/Shader/VK_shader.h"
+#include "../../Render/Binding/VK_binding.h"
 
 
 //Constructor / Destructor

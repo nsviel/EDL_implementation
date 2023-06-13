@@ -5,7 +5,7 @@
 #include "../../Data/VK_buffer.h"
 #include "../../Data/VK_data.h"
 #include "../../Presentation/Image/VK_texture.h"
-#include "../../Rendering/Binding/VK_binding.h"
+#include "../../Render/Binding/VK_binding.h"
 
 
 //Constructor / Destructor

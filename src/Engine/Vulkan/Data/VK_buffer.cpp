@@ -1,10 +1,10 @@
 #include "VK_buffer.h"
 
 #include "../Presentation/Image/VK_texture.h"
-#include "../Rendering/Binding/VK_descriptor.h"
+#include "../Render/Binding/VK_descriptor.h"
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Pipeline/Command/VK_command.h"
+#include "../Core/Command/VK_command.h"
 #include "../Instance/Device/VK_device.h"
 #include "../Instance/Device/VK_physical_device.h"
 

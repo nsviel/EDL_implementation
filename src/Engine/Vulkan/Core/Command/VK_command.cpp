@@ -9,8 +9,8 @@
 #include "../../Instance/Device/VK_device.h"
 #include "../../Instance/Device/VK_physical_device.h"
 
-#include "../../Pipeline/Renderpass/VK_renderpass.h"
-#include "../../Pipeline/Pipeline/VK_pipeline.h"
+#include "../../Core/Renderpass/VK_renderpass.h"
+#include "../../Core/Pipeline/VK_pipeline.h"
 
 #include "../../Data/VK_buffer.h"
 #include "../../Data/VK_data.h"
@@ -19,8 +19,8 @@
 #include "../../Presentation/Camera/VK_viewport.h"
 #include "../../Presentation/Camera/VK_camera.h"
 
-#include "../../Rendering/Render/VK_canvas.h"
-#include "../../Rendering/Binding/VK_descriptor.h"
+#include "../../Render/Canvas/VK_canvas.h"
+#include "../../Render/Binding/VK_descriptor.h"
 
 #include "../../../Param_engine.h"
 

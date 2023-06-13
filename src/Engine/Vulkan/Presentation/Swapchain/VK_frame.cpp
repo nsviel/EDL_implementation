@@ -3,8 +3,8 @@
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
-#include "../../Pipeline/Command/VK_command.h"
-#include "../../Pipeline/Command/VK_synchronization.h"
+#include "../../Core/Command/VK_command.h"
+#include "../../Core/Command/VK_synchronization.h"
 #include "../../Presentation/Swapchain/VK_framebuffer.h"
 #include "../../Presentation/Image/VK_depth.h"
 #include "../../Presentation/Image/VK_color.h"
