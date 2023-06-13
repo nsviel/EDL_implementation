@@ -20,8 +20,17 @@ struct VK_param{
 
   int max_frame;
 
-  Struct_window window;
-  Struct_instance instance;
+  Struct_window window = {
+    "Nephos", //title
+    glm::vec2(1024, 500), //dim
+    glm::vec2(500, 250), ///dim_min
+  };
+
+  Struct_instance instance = {
+    2, //max_frame_inflight
+    "../src/Engine/Shader/Code/spir/", //path_shader
+  };
+
   Struct_device device;
   Struct_swapchain swapchain;
 
