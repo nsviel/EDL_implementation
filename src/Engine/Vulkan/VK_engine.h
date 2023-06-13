@@ -91,9 +91,9 @@ public:
 
 private:
   Node_engine* node_engine;
-  VK_param* vk_param;
   Param_engine* param_engine;
 
+  VK_param* vk_param;
   VK_window* vk_window;
   VK_instance* vk_instance;
   VK_device* vk_device;
