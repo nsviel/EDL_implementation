@@ -89,9 +89,6 @@ public:
   inline VK_drawing* get_vk_drawing(){return vk_drawing;}
   inline VK_uniform* get_vk_uniform(){return vk_uniform;}
 
-  inline float get_time_init(){return time_init;}
-  inline float get_time_fps(){return time_fps;}
-
 private:
   Node_engine* node_engine;
   VK_param* vk_param;
@@ -126,9 +123,6 @@ private:
   VK_canvas* vk_canvas;
   VK_color* vk_color;
   VK_drawing* vk_drawing;
-
-  float time_init;
-  float time_fps;
 };
 
 #endif

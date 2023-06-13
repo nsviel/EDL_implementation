@@ -74,7 +74,7 @@ void RP_ui::create_pipeline_triangle(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "triangle";
   pipeline->topology = "triangle";
-  pipeline->compile_shader = true;
+  pipeline->compile_shader = false;
   pipeline->path_shader_vs = "Base/shader_triangle_vs";
   pipeline->path_shader_fs = "Base/shader_triangle_fs";
   pipeline->vec_data_name.push_back("location");

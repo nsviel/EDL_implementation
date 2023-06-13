@@ -6,6 +6,7 @@
 #include "Struct/struct_device.h"
 #include "Struct/struct_swapchain.h"
 #include "Struct/struct_renderpass.h"
+#include "Struct/struct_time.h"
 
 #include <string>
 #include <vector>
@@ -33,6 +34,7 @@ struct VK_param{
 
   Struct_device device;
   Struct_swapchain swapchain;
+  Struct_time time;
 
   Struct_renderpass renderpass_scene;
   Struct_renderpass renderpass_render;

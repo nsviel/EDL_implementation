@@ -115,7 +115,7 @@ void VK_engine::init_vulkan(){
 
   //---------------------------
   auto end = std::chrono::steady_clock::now();
-  this->time_init = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()/1000.0f;
+  vk_param->time.engine_init = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()/1000.0f;
 }
 void VK_engine::main_loop() {
   GLFWwindow* window = vk_window->get_window();
@@ -181,7 +181,7 @@ void VK_engine::fps_calcul(std::chrono::steady_clock::time_point& start_time){
   if(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count() >= 1000){
     auto end_time = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
-    this->time_fps = num_frames / (elapsed_time / 1000000.0);
+    vk_param->time.engine_fps = num_frames / (elapsed_time / 1000000.0);
     num_frames = 0;
     start_time = end_time;
   }

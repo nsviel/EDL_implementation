@@ -75,7 +75,7 @@ void RP_render::create_pipeline_triangle(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "triangle";
   pipeline->topology = "triangle";
-  pipeline->compile_shader = true;
+  pipeline->compile_shader = false;
   pipeline->path_shader_vs = "Misc/shader_quad_test_vs";
   pipeline->path_shader_fs = "Misc/shader_quad_test_fs";
   pipeline->vec_data_name.push_back("location");
@@ -92,7 +92,7 @@ void RP_render::create_pipeline_edl(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "triangle_EDL";
   pipeline->topology = "triangle";
-  pipeline->compile_shader = true;
+  pipeline->compile_shader = false;
   pipeline->path_shader_vs = "EDL/shader_edl_vs";
   pipeline->path_shader_fs = "EDL/shader_edl_fs";
   pipeline->vec_data_name.push_back("location");
