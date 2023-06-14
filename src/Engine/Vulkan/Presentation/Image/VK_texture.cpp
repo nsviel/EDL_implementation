@@ -108,7 +108,7 @@ void VK_texture::copy_buffer_to_image(Struct_image* image, VkBuffer buffer){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer command_buffer = vk_command->singletime_command_buffer_begin();
+  VkCommandBuffer command_buffer = vk_command->singletime_command_begin();
 
   VkBufferImageCopy region{};
   region.bufferOffset = 0;
@@ -129,7 +129,7 @@ void VK_texture::copy_buffer_to_image(Struct_image* image, VkBuffer buffer){
 
   vkCmdCopyBufferToImage(command_buffer, buffer, image->image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
 
-  vk_command->singletime_command_buffer_end(command_buffer);
+  vk_command->singletime_command_end(command_buffer);
 
   //---------------------------
 }

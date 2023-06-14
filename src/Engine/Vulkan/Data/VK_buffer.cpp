@@ -191,13 +191,13 @@ void VK_buffer::copy_buffer_to_gpu(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDev
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
-  VkCommandBuffer command_buffer = vk_command->singletime_command_buffer_begin();
+  VkCommandBuffer command_buffer = vk_command->singletime_command_begin();
 
   VkBufferCopy copyRegion{};
   copyRegion.size = size;
   vkCmdCopyBuffer(command_buffer, srcBuffer, dstBuffer, 1, &copyRegion);
 
-  vk_command->singletime_command_buffer_end(command_buffer);
+  vk_command->singletime_command_end(command_buffer);
 
   //---------------------------
 }

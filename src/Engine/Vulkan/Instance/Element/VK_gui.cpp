@@ -8,7 +8,7 @@
 #include "../../Instance/Device/VK_device.h"
 #include "../../Instance/Device/VK_physical_device.h"
 #include "../../Core/Renderpass/VK_renderpass.h"
-#include "../../Core/Command/VK_command.h"
+#include "../../Core/Command/VK_command_buffer.h"
 #include "../../Presentation/Swapchain/VK_frame.h"
 
 #include "image/IconsFontAwesome5.h"
@@ -20,7 +20,7 @@ VK_gui::VK_gui(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_command = vk_engine->get_vk_command();
+  this->vk_command_buffer = vk_engine->get_vk_command_buffer();
   this->vk_window = vk_engine->get_vk_window();
   this->vk_instance = vk_engine->get_vk_instance();
   this->vk_device = vk_engine->get_vk_device();
@@ -157,7 +157,7 @@ void VK_gui::gui_style(){
   //---------------------------
 }
 void VK_gui::gui_font(){
-  VkCommandPool command_pool = vk_command->get_command_pool();
+  VkCommandPool command_pool = vk_command_buffer->get_command_pool();
   //---------------------------
 
   VkResult result = vkResetCommandPool(vk_param->device.device, command_pool, 0);

@@ -13,6 +13,7 @@ class VK_renderpass;
 class VK_physical_device;
 class VK_cmd;
 class VK_pipeline;
+class VK_command_buffer;
 class VK_descriptor;
 
 
@@ -24,12 +25,7 @@ public:
   ~VK_command();
 
 public:
-  //Command pool
-  void create_command_pool();
-  void clean_command_pool();
-
   //Command buffer
-  void allocate_command_buffer(Struct_renderpass* renderpass);
   void start_command_buffer(Struct_renderpass* renderpass);
   void stop_command_buffer(Struct_renderpass* renderpass);
 
@@ -42,10 +38,8 @@ public:
   void image_layout_transition_single(Struct_image* image, VkImageLayout old_layout, VkImageLayout new_layout);
 
   //Single time command
-  VkCommandBuffer singletime_command_buffer_begin();
-  void singletime_command_buffer_end(VkCommandBuffer command_buffer);
-
-  inline VkCommandPool get_command_pool(){return command_pool;}
+  VkCommandBuffer singletime_command_begin();
+  void singletime_command_end(VkCommandBuffer command_buffer);
 
 private:
   Param_engine* param_engine;
@@ -53,11 +47,10 @@ private:
   VK_param* vk_param;
   VK_renderpass* vk_renderpass;
   VK_physical_device* vk_physical_device;
+  VK_command_buffer* vk_command_buffer;
   VK_cmd* vk_cmd;
   VK_pipeline* vk_pipeline;
   VK_descriptor* vk_descriptor;
-
-  VkCommandPool command_pool;
 };
 
 #endif

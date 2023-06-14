@@ -10,7 +10,7 @@
 
 class VK_engine;
 class VK_param;
-class VK_command;
+class VK_command_buffer;
 class VK_window;
 class VK_instance;
 class VK_device;
@@ -45,7 +45,7 @@ public:
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
-  VK_command* vk_command;
+  VK_command_buffer* vk_command_buffer;
   VK_window* vk_window;
   VK_instance* vk_instance;
   VK_device* vk_device;

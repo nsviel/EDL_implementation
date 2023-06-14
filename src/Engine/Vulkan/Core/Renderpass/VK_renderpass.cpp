@@ -5,7 +5,7 @@
 #include "Init/RP_render.h"
 #include "Init/RP_ui.h"
 
-#include "../Command/VK_command.h"
+#include "../Command/VK_command_buffer.h"
 #include "../Pipeline/VK_pipeline.h"
 
 #include "../../VK_engine.h"
@@ -75,7 +75,7 @@ void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
 
 //Subfunction
 void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
-  VK_command* vk_command = vk_engine->get_vk_command();
+  VK_command_buffer* vk_command_buffer = vk_engine->get_vk_command_buffer();
   VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
 
@@ -83,7 +83,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   this->create_depth_attachment(renderpass);
   this->create_subpass(renderpass->vec_subpass[0]);
   this->create_renderpass_obj(renderpass);
-  vk_command->allocate_command_buffer(renderpass);
+  vk_command_buffer->allocate_command_buffer(renderpass);
   vk_pipeline->create_pipeline(renderpass);
   vk_frame->create_frame_renderpass(renderpass);
 

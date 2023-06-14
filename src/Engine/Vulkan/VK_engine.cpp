@@ -9,7 +9,7 @@
 #include "Core/Command/VK_command.h"
 #include "Core/Command/VK_synchronization.h"
 #include "Core/Command/VK_submit.h"
-#include "Core/Command/VK_submit.h"
+#include "Core/Command/VK_command_buffer.h"
 #include "Core/Drawing/VK_cmd.h"
 #include "Core/Drawing/VK_drawing.h"
 
@@ -74,6 +74,7 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
   this->vk_cmd = new VK_cmd(this);
+  this->vk_command_buffer = new VK_command_buffer(this);
   this->vk_command = new VK_command(this);
   this->vk_submit = new VK_submit(this);
   this->vk_gui = new VK_gui(this);
@@ -95,7 +96,7 @@ void VK_engine::init_vulkan(){
   vk_window->create_window_surface();
   vk_physical_device->init_physical_device();
   vk_device->create_logical_device();
-  vk_command->create_command_pool();
+  vk_command_buffer->create_command_pool();
   vk_descriptor->create_descriptor_pool();
   vk_canvas->create_canvas();
 
@@ -153,7 +154,7 @@ void VK_engine::clean_vulkan(){
   vk_canvas->clean_canvas();
   vk_data->clean_data();
   vk_descriptor->clean_descriptor_pool();
-  vk_command->clean_command_pool();
+  vk_command_buffer->clean_command_pool();
   vk_device->clean_logical_device();
   vk_window->clean_surface();
   vk_validation->clean_layer();

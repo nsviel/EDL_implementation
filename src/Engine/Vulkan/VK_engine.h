@@ -37,6 +37,7 @@ class VK_color;
 class VK_binding;
 class VK_image;
 class VK_drawing;
+class VK_command_buffer;
 
 
 class VK_engine
@@ -88,6 +89,7 @@ public:
   inline VK_image* get_vk_image(){return vk_image;}
   inline VK_drawing* get_vk_drawing(){return vk_drawing;}
   inline VK_uniform* get_vk_uniform(){return vk_uniform;}
+  inline VK_command_buffer* get_vk_command_buffer(){return vk_command_buffer;}
 
 private:
   Node_engine* node_engine;
@@ -96,6 +98,7 @@ private:
   VK_param* vk_param;
   VK_window* vk_window;
   VK_instance* vk_instance;
+  VK_command_buffer* vk_command_buffer;
   VK_device* vk_device;
   VK_swapchain* vk_swapchain;
   VK_renderpass* vk_renderpass;
