@@ -73,26 +73,38 @@ void GUI_option::option_fps(){
 
   //---------------------------
 }
-
-void GUI_option::display_time(){
-  ImGuiIO io = ImGui::GetIO();
+void GUI_option::option_line_width(){
+  Object* object = new Object();
+  ImGuiStyle& style = ImGui::GetStyle();
   //---------------------------
 
-  //Time init
-  ImGui::Text("Time initialization ");
-  ImGui::SameLine();
-  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", vk_param->time.engine_init);
-  ImGui::SameLine();
-  ImGui::Text(" ms");
+  //Point size
+  ImGui::Columns(2);
+  ImGui::AlignTextToFramePadding();
+  ImGui::Text("Line width ");
+  ImGui::NextColumn();
+  ImGui::PushButtonRepeat(true);
+  static int line_width = 1;
+  if(object != nullptr){
+    line_width = object->draw_line_width;
+  }
+  if (ImGui::ArrowButton("##left", ImGuiDir_Left) && object != nullptr){
+    object->draw_line_width--;
 
-  //FPS
-  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", 1000.0f / vk_param->time.engine_fps);
+    if(object->draw_line_width <= 1){
+      object->draw_line_width = 1;
+    }
+  }
+  ImGui::SameLine(0.0f, style.ItemInnerSpacing.x);
+  if (ImGui::ArrowButton("##right", ImGuiDir_Right) && object != nullptr){
+    object->draw_line_width++;
+
+    line_width = object->draw_line_width;
+  }
+  ImGui::PopButtonRepeat();
   ImGui::SameLine();
-  ImGui::Text(" ms/frame [");
-  ImGui::SameLine();
-  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%.1f", vk_param->time.engine_fps); //io.Framerate
-  ImGui::SameLine();
-  ImGui::Text(" FPS ]");
+  ImGui::Text("%d", line_width);
+  ImGui::NextColumn();
 
   //---------------------------
 }

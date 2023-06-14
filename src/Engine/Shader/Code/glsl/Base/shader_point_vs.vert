@@ -7,6 +7,9 @@ layout(location = 0) out vec3 frag_color;
 layout(binding = 0) uniform MVP{
     mat4 mvp;
 }ubo;
+layout(binding = 1) uniform poitn_size{
+    mat4 mvp;
+};
 
 
 void main(){

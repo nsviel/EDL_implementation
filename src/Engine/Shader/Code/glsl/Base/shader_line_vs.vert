@@ -13,8 +13,6 @@ void main(){
   //---------------------------
 
   gl_Position = ubo.mvp * vec4(in_position, 1.0);
-  gl_PointSize = 5.0;
-
   frag_color = in_color;
 
   //---------------------------

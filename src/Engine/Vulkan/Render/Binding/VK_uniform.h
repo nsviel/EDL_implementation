@@ -28,6 +28,7 @@ public:
 
   //uniform update
   void update_uniform_mat4(string uniform_name, Struct_binding* binding, glm::mat4& value);
+  void update_uniform_int(string uniform_name, Struct_binding* binding, int value);
   void update_uniform_edl(string uniform_name, Struct_binding* binding, Struct_edl value);
 
 private:

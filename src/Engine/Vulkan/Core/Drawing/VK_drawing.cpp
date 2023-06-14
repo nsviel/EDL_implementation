@@ -54,8 +54,6 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   vk_descriptor->update_descriptor_uniform(&pipeline_point->binding);
   vk_descriptor->update_descriptor_uniform(&pipeline_line->binding);
 
-  //vk_cmd->cmd_record_scene_object(renderpass);
-
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);

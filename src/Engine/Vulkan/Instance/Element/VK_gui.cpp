@@ -136,19 +136,19 @@ void VK_gui::gui_style(){
   style.WindowBorderSize = 0.0f;
 
   //Colors
-  ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(112, 112, 112, 127)); //Frame_inflight background
-  ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(200, 200, 200, 127)); //Button color
-  ImGui::PushStyleColor(ImGuiCol_Header, IM_COL32(76, 76, 76, 124));
+  ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(150, 150, 150, 255));
+  ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(200, 200, 200, 255)); //Button color
+  ImGui::PushStyleColor(ImGuiCol_Header, IM_COL32(76, 76, 76, 255));
   ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(117, 117, 117, 220));
   ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_MenuBarBg, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_TableBorderStrong, IM_COL32(0, 0, 0, 255));
 
-  ImGui::PushStyleColor(ImGuiCol_TableRowBg, IM_COL32(7, 7, 7, 245));
-  ImGui::PushStyleColor(ImGuiCol_TableRowBgAlt, IM_COL32(0, 0, 0, 170));
+  ImGui::PushStyleColor(ImGuiCol_TableRowBg, IM_COL32(30, 30, 30, 255));
+  ImGui::PushStyleColor(ImGuiCol_TableRowBgAlt, IM_COL32(0, 0, 0, 255));
 
   ImGui::PushStyleColor(ImGuiCol_ResizeGrip, IM_COL32(15, 15, 15, 255));
-  ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(15, 15, 15, 255));
+  ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(44, 44, 44, 255));
   ImGui::PushStyleColor(ImGuiCol_PopupBg, IM_COL32(0, 0, 0, 255));
 
   //IO parameters
