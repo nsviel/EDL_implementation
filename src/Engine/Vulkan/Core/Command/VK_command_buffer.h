@@ -2,6 +2,7 @@
 #define VK_COMMAND_BUFFER_H
 
 #include "../../Struct/struct_renderpass.h"
+#include "../../Struct/struct_data.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -23,7 +24,7 @@ public:
 
   //Command buffer
   void allocate_command_buffer_primary(Struct_renderpass* renderpass);
-  void allocate_command_buffer_secondary(Struct_renderpass* renderpass);
+  void allocate_command_buffer_secondary(Struct_data* data);
 
   inline VkCommandPool get_command_pool(){return command_pool;}
 

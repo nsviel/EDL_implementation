@@ -63,6 +63,7 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_color = new VK_color(this);
   this->vk_descriptor = new VK_descriptor(this);
   this->vk_binding = new VK_binding(this);
+  this->vk_command_buffer = new VK_command_buffer(this);
   this->vk_data = new VK_data(this);
   this->vk_synchronization = new VK_synchronization(this);
   this->vk_swapchain = new VK_swapchain(this);
@@ -74,7 +75,6 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
   this->vk_cmd = new VK_cmd(this);
-  this->vk_command_buffer = new VK_command_buffer(this);
   this->vk_command = new VK_command(this);
   this->vk_submit = new VK_submit(this);
   this->vk_gui = new VK_gui(this);

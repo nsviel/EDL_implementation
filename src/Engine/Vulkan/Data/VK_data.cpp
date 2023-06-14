@@ -1,9 +1,10 @@
 #include "VK_data.h"
 #include "VK_buffer.h"
 
-#include "../Presentation/Image/VK_texture.h"
 #include "../VK_engine.h"
 #include "../VK_param.h"
+#include "../Presentation/Image/VK_texture.h"
+#include "../Core/Command/VK_command_buffer.h"
 #include "../Render/Binding/VK_binding.h"
 
 #include "../../GPU/GPU_data.h"
@@ -19,6 +20,7 @@ VK_data::VK_data(VK_engine* vk_engine){
   this->vk_buffer = vk_engine->get_vk_buffer();
   this->vk_texture = vk_engine->get_vk_texture();
   this->vk_binding = vk_engine->get_vk_binding();
+  this->vk_command_buffer = vk_engine->get_vk_command_buffer();
 
   //---------------------------
 }
@@ -32,6 +34,7 @@ void VK_data::insert_scene_object(Object* object){
   data->object = object;
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
+  vk_command_buffer->allocate_command_buffer_secondary(data);
   this->list_data_scene.push_back(data);
 
   //---------------------------
@@ -43,6 +46,7 @@ void VK_data::insert_glyph_object(Object* object){
   data->object = object;
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
+  vk_command_buffer->allocate_command_buffer_secondary(data);
   this->list_data_glyph.push_back(data);
 
   //---------------------------

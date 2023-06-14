@@ -40,6 +40,38 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
 }
 VK_cmd::~VK_cmd(){}
 
+
+void VK_cmd::cmd_record_scene_object(){
+  VK_command* vk_command = vk_engine->get_vk_command();
+  //---------------------------
+
+
+
+/*
+  //Bind and draw vertex buffers
+  list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
+  for(int i=0; i<list_data_scene.size(); i++){
+    Struct_data* data =  *next(list_data_scene.begin(),i);
+    Object* object = data->object;
+
+    if(object->draw_type_name == "point"){
+      VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
+      VkDeviceSize offsets[] = {0, 0};
+
+      vkResetCommandBuffer(data->command_buffer, 0);
+      vk_command->start_command_buffer_primary(data->command_buffer);
+
+      vkCmdBindVertexBuffers(data->command_buffer, 0, 2, vertexBuffers, offsets);
+      vkCmdDraw(data->command_buffer, object->xyz.size(), 1, 0, 0);
+
+      vk_command->stop_command_buffer(data->command_buffer);
+    }
+  }*/
+
+
+  //---------------------------
+}
+
 //Main function
 void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();

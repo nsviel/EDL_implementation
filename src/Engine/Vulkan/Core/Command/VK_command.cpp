@@ -21,24 +21,53 @@ VK_command::VK_command(VK_engine* vk_engine){
 VK_command::~VK_command(){}
 
 //Command buffer
-void VK_command::start_command_buffer(Struct_renderpass* renderpass){
+void VK_command::start_command_buffer_primary(VkCommandBuffer command_buffer){
   //---------------------------
 
   VkCommandBufferBeginInfo begin_info{};
   begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
   begin_info.flags = 0;
 
-  VkResult result = vkBeginCommandBuffer(renderpass->command_buffer, &begin_info);
+  VkResult result = vkBeginCommandBuffer(command_buffer, &begin_info);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to begin recording command buffer!");
   }
 
   //---------------------------
 }
-void VK_command::stop_command_buffer(Struct_renderpass* renderpass){
+void VK_command::start_command_buffer_secondary(Struct_renderpass* renderpass, VkCommandBuffer command_buffer){
+  Frame* frame = renderpass->get_rendering_frame();
   //---------------------------
 
-  VkResult result = vkEndCommandBuffer(renderpass->command_buffer);
+  // Create a VkCommandBufferInheritanceInfo structure
+  VkCommandBufferInheritanceInfo inheritanceInfo = {};
+  inheritanceInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
+  inheritanceInfo.pNext = nullptr;
+  inheritanceInfo.renderPass = renderpass->renderpass; // The render pass to inherit from
+  inheritanceInfo.subpass = 0;       // The subpass to inherit from
+  inheritanceInfo.framebuffer = frame->fbo; // The framebuffer to inherit from
+  inheritanceInfo.occlusionQueryEnable = VK_FALSE; // Whether to enable occlusion query
+  inheritanceInfo.queryFlags = 0; // Query flags (if any)
+  inheritanceInfo.pipelineStatistics = 0; // Pipeline statistics (if any)
+
+  // Create a VkCommandBufferBeginInfo structure and set the inheritance info
+  VkCommandBufferBeginInfo begin_info = {};
+  begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  begin_info.pNext = nullptr;
+  begin_info.flags = VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT; // Optional flags
+  begin_info.pInheritanceInfo = &inheritanceInfo;
+
+  VkResult result = vkBeginCommandBuffer(command_buffer, &begin_info);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to begin recording command buffer!");
+  }
+
+  //---------------------------
+}
+void VK_command::stop_command_buffer(VkCommandBuffer command_buffer){
+  //---------------------------
+
+  VkResult result = vkEndCommandBuffer(command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to record command buffer!");
   }

@@ -24,6 +24,8 @@ public:
   ~VK_cmd();
 
 public:
+  void cmd_record_scene_object();
+  
   //Main function
   void cmd_record_scene(Struct_renderpass* renderpass);
   void cmd_record_render(Struct_renderpass* renderpass);

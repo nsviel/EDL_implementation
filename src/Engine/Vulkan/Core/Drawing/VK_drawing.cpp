@@ -54,11 +54,16 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   vk_descriptor->update_descriptor_uniform(&pipeline_point->binding);
   vk_descriptor->update_descriptor_uniform(&pipeline_line->binding);
 
+
+  vk_cmd->cmd_record_scene_object();
+
+
+
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer(renderpass);
+  vk_command->start_command_buffer_primary(renderpass->command_buffer);
   vk_cmd->cmd_record_scene(renderpass);
-  vk_command->stop_command_buffer(renderpass);
+  vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //Submit command
   Frame* frame = vk_param->swapchain.get_frame_inflight();
@@ -86,9 +91,9 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer(renderpass);
+  vk_command->start_command_buffer_primary(renderpass->command_buffer);
   vk_cmd->cmd_record_render(renderpass);
-  vk_command->stop_command_buffer(renderpass);
+  vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //Submit command
   Frame* frame = vk_param->swapchain.get_frame_inflight();
@@ -115,9 +120,9 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
 
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer(renderpass);
+  vk_command->start_command_buffer_primary(renderpass->command_buffer);
   vk_cmd->cmd_record_ui(renderpass);
-  vk_command->stop_command_buffer(renderpass);
+  vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //Submit command
   Frame* frame = vk_param->swapchain.get_frame_inflight();

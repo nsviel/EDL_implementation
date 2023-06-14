@@ -10,6 +10,7 @@ class VK_param;
 class VK_buffer;
 class VK_texture;
 class VK_binding;
+class VK_command_buffer;
 
 
 class VK_data
@@ -45,6 +46,7 @@ private:
   VK_buffer* vk_buffer;
   VK_texture* vk_texture;
   VK_binding* vk_binding;
+  VK_command_buffer* vk_command_buffer;
 
   std::list<Struct_data*> list_data_scene;
   std::list<Struct_data*> list_data_glyph;

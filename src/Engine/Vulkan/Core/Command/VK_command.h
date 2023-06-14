@@ -21,8 +21,9 @@ public:
 
 public:
   //Command buffer
-  void start_command_buffer(Struct_renderpass* renderpass);
-  void stop_command_buffer(Struct_renderpass* renderpass);
+  void start_command_buffer_primary(VkCommandBuffer command_buffer);
+  void start_command_buffer_secondary(Struct_renderpass* renderpass, VkCommandBuffer command_buffer);
+  void stop_command_buffer(VkCommandBuffer command_buffer);
 
   //Render pass
   void start_render_pass(Struct_renderpass* renderpass, Frame* frame);

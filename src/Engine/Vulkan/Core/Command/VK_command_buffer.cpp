@@ -57,17 +57,14 @@ void VK_command_buffer::allocate_command_buffer_primary(Struct_renderpass* rende
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
   allocInfo.commandBufferCount = 1;
 
-  VkCommandBuffer command_buffer;
-  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &command_buffer);
+  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &renderpass->command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
 
-  renderpass->command_buffer = command_buffer;
-
   //---------------------------
 }
-void VK_command_buffer::allocate_command_buffer_secondary(Struct_renderpass* renderpass){
+void VK_command_buffer::allocate_command_buffer_secondary(Struct_data* data){
   //---------------------------
 
   //Command buffer allocation
@@ -77,13 +74,10 @@ void VK_command_buffer::allocate_command_buffer_secondary(Struct_renderpass* ren
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
   allocInfo.commandBufferCount = 1;
 
-  VkCommandBuffer command_buffer;
-  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &command_buffer);
+  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &data->command_buffer);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }
-
-  renderpass->command_buffer = command_buffer;
 
   //---------------------------
 }
