@@ -29,6 +29,7 @@ void VK_physical_device::init_physical_device(){
 
   this->select_physical_device();
   this->compute_extent();
+  this->retrieve_device_name();
 
   //---------------------------
 }
@@ -79,6 +80,14 @@ void VK_physical_device::compute_extent(){
     vk_param->window.extent.height = std::clamp(vk_param->window.extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
   }
 
+  //---------------------------
+}
+void VK_physical_device::retrieve_device_name(){
+  //---------------------------
+
+  VkPhysicalDeviceProperties property = find_device_property(vk_param->device.physical_device);
+  vk_param->device.model = property.deviceName;
+  
   //---------------------------
 }
 
@@ -246,4 +255,13 @@ vector<VkPresentModeKHR> VK_physical_device::find_presentation_mode(VkPhysicalDe
 
   //---------------------------
   return presentation_mode;
+}
+VkPhysicalDeviceProperties VK_physical_device::find_device_property(VkPhysicalDevice physical_device){
+  //---------------------------
+
+  VkPhysicalDeviceProperties property{};
+  vkGetPhysicalDeviceProperties(vk_param->device.physical_device, &property);
+
+  //---------------------------
+  return property;
 }

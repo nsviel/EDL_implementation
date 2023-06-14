@@ -4,6 +4,7 @@
 #include "../../VK_param.h"
 #include "../../Data/VK_buffer.h"
 #include "../../Core/Command/VK_command.h"
+#include "../../Instance/Device/VK_physical_device.h"
 
 
 //Constructor / Destructor
@@ -14,6 +15,7 @@ VK_image::VK_image(VK_engine* vk_engine){
   this->vk_param = vk_engine->get_vk_param();
   this->vk_buffer = vk_engine->get_vk_buffer();
   this->vk_command = vk_engine->get_vk_command();
+  this->vk_physical_device = vk_engine->get_vk_physical_device();
 
   //---------------------------
 }
@@ -59,9 +61,7 @@ void VK_image::create_image_view(Struct_image* image){
 void VK_image::create_image_sampler(Struct_image* texture){
   //---------------------------
 
-  VkPhysicalDeviceProperties properties{};
-  vkGetPhysicalDeviceProperties(vk_param->device.physical_device, &properties);
-
+  VkPhysicalDeviceProperties properties = vk_physical_device->find_device_property(vk_param->device.physical_device);
   VkSamplerCreateInfo samplerInfo{};
   samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
   samplerInfo.magFilter = VK_FILTER_LINEAR;

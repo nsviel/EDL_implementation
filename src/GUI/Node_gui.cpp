@@ -7,6 +7,7 @@
 #include "Engine/GUI_option.h"
 #include "Engine/GUI_shader.h"
 #include "Engine/GUI_time.h"
+#include "Engine/GUI_device.h"
 #include "Module/GUI_filemanager.h"
 #include "Module/GUI_windows.h"
 
@@ -21,13 +22,14 @@ Node_gui::Node_gui(Node* node){
   this->node_engine = node->get_node_engine();
   this->node_data = node->get_node_data();
   this->node_load = node->get_node_load();
-
   this->param_gui = new Param_gui();
+
   this->gui_time = new GUI_time(this);
   this->gui_shader = new GUI_shader(this);
   this->gui_option = new GUI_option(this);
   this->gui_filemanager = new GUI_filemanager(this);
   this->gui_menubar = new GUI_menubar(this);
+  this->gui_device = new GUI_device(this);
   this->gui_left_panel = new GUI_left_panel(this);
   this->gui_control = new GUI_control(this);
   this->gui_windows = new GUI_windows(this);

@@ -44,18 +44,18 @@ public:
   }
   float stop_s(timer_time t1){
     auto t2 = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1);
-    return duration.count();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+    return duration.count() / 1000.0f;
   }
   float stop_ms(timer_time t1){
     auto t2 = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-    return duration.count();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
+    return duration.count() / 1000.0f;
   }
   float stop_us(timer_time t1){
     auto t2 = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
-    return duration.count();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1);
+    return duration.count() / 1000.0f;
   }
   float stop_ns(timer_time t1){
     auto t2 = std::chrono::high_resolution_clock::now();

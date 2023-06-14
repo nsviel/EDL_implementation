@@ -7,6 +7,7 @@ class VK_engine;
 class VK_param;
 class VK_command;
 class VK_buffer;
+class VK_physical_device;
 
 
 class VK_image
@@ -29,6 +30,7 @@ public:
   void bind_image_to_memory(Struct_image* image);
 
 private:
+  VK_physical_device* vk_physical_device;
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_command* vk_command;

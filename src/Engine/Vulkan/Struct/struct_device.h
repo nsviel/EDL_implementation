@@ -7,6 +7,7 @@
 struct Struct_device{
   //---------------------------
 
+  std::string model;
   VkPhysicalDevice physical_device;
   VkDevice device;
   VkQueue queue_graphics;

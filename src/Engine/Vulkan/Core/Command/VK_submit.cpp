@@ -38,7 +38,7 @@ void VK_submit::acquire_next_image(Struct_swapchain* swapchain){
   vkResetFences(vk_param->device.device, 1, &frame_inflight->fence);
 
   //Acquiring an image from the swap chain
-  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, swapchain->swapchain, UINT64_MAX, frame_inflight->semaphore_presentation, VK_NULL_HANDLE, &swapchain->frame_current_ID);
+  VkResult result = vkAcquireNextImageKHR(vk_param->device.device, swapchain->swapchain, UINT64_MAX, frame_inflight->semaphore_image_ready, VK_NULL_HANDLE, &swapchain->frame_current_ID);
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;

@@ -17,6 +17,7 @@ class GUI_menubar;
 class GUI_windows;
 class GUI_shader;
 class GUI_time;
+class GUI_device;
 
 
 class Node_gui
@@ -42,6 +43,7 @@ public:
   inline GUI_windows* get_gui_windows(){return gui_windows;}
   inline GUI_shader* get_gui_shader(){return gui_shader;}
   inline GUI_time* get_gui_time(){return gui_time;}
+  inline GUI_device* get_gui_device(){return gui_device;}
 
 private:
   Node_engine* node_engine;
@@ -57,6 +59,7 @@ private:
   GUI_windows* gui_windows;
   GUI_shader*gui_shader;
   GUI_time* gui_time;
+  GUI_device* gui_device;
 };
 
 #endif

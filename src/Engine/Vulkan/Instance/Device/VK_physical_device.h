@@ -21,6 +21,7 @@ public:
   void init_physical_device();
   void select_physical_device();
   void compute_extent();
+  void retrieve_device_name();
 
   //Subfunctions
   bool is_device_suitable(VkPhysicalDevice physical_device);
@@ -33,6 +34,7 @@ public:
   VkSurfaceCapabilitiesKHR find_surface_capability(VkPhysicalDevice physical_device);
   vector<VkSurfaceFormatKHR> find_surface_format(VkPhysicalDevice physical_device);
   vector<VkPresentModeKHR> find_presentation_mode(VkPhysicalDevice physical_device);
+  VkPhysicalDeviceProperties find_device_property(VkPhysicalDevice physical_device);
 
 private:
   VK_engine* vk_engine;

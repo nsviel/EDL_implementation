@@ -4,6 +4,7 @@
 #include "../Node_gui.h"
 #include "../Engine/GUI_time.h"
 #include "../Engine/GUI_shader.h"
+#include "../Engine/GUI_device.h"
 #include "../Module/GUI_filemanager.h"
 
 #include "../../Load/Node_load.h"
@@ -25,6 +26,7 @@ GUI_left_panel::GUI_left_panel(Node_gui* node_gui){
   this->gui_time = node_gui->get_gui_time();
   this->gui_menubar = node_gui->get_gui_menubar();
   this->gui_shader = node_gui->get_gui_shader();
+  this->gui_device = node_gui->get_gui_device();
 
   //---------------------------
 }
@@ -79,6 +81,13 @@ void GUI_left_panel::design_bot(){
   //---------------------------
 
   gui_shader->design_shader();
+
+  ImVec2 windowSize = ImGui::GetWindowSize();
+  float widgetHeight = 150.0f; // Adjust the height of the widget as needed
+  float widgetYPosition = windowSize.y - widgetHeight - ImGui::GetStyle().ItemSpacing.y;
+  ImGui::SetCursorPos(ImVec2(8, widgetYPosition));
+
+  gui_device->design_device();
   gui_time->design_time();
 
   //---------------------------

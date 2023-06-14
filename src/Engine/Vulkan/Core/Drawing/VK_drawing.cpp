@@ -64,7 +64,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   Frame* frame = vk_param->swapchain.get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
-  command.semaphore_to_wait = frame->semaphore_presentation;
+  command.semaphore_to_wait = frame->semaphore_image_ready;
   command.semaphore_to_run = frame->semaphore_scene_ready;
   command.fence = VK_NULL_HANDLE;
   command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;

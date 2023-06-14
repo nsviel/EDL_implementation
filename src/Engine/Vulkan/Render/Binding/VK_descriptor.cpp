@@ -138,6 +138,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, Struct_im
   }
   if(sampler == nullptr){
     cout<<"[error] Sampler name not corresponding to image name"<<endl;
+    return;
   }
 
   VkDescriptorImageInfo image_info = {};

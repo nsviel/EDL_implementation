@@ -44,4 +44,5 @@ void GUI_shader::design_shader(){
   }
 
   //---------------------------
+  ImGui::Separator();
 }

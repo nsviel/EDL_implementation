@@ -107,7 +107,9 @@ void VK_engine::init_vulkan(){
 
   //WORK
   //Subpass managment
-  //Commencer travaille sur renderpass render et y mettre EDL
+  //Optimization
+    //-use dynamic uniform buffer for mvp
+    //-use pre-recorded command buffer
 
 
   //Specific
