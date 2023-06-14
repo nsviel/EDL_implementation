@@ -1,28 +1,8 @@
 #include "VK_command.h"
 #include "VK_command_buffer.h"
 
-#include "../Drawing/VK_cmd.h"
-
 #include "../../VK_param.h"
 #include "../../VK_engine.h"
-
-#include "../../Instance/Element/VK_gui.h"
-#include "../../Instance/Element/VK_window.h"
-#include "../../Instance/Device/VK_device.h"
-#include "../../Instance/Device/VK_physical_device.h"
-
-#include "../../Core/Renderpass/VK_renderpass.h"
-#include "../../Core/Pipeline/VK_pipeline.h"
-
-#include "../../Data/VK_buffer.h"
-#include "../../Data/VK_data.h"
-
-#include "../../Presentation/Swapchain/VK_frame.h"
-#include "../../Presentation/Camera/VK_viewport.h"
-#include "../../Presentation/Camera/VK_camera.h"
-
-#include "../../Render/Canvas/VK_canvas.h"
-#include "../../Render/Binding/VK_descriptor.h"
 
 #include "../../../Param_engine.h"
 
@@ -34,11 +14,6 @@ VK_command::VK_command(VK_engine* vk_engine){
   this->param_engine = vk_engine->get_param_engine();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_renderpass = vk_engine->get_vk_renderpass();
-  this->vk_physical_device = vk_engine->get_vk_physical_device();
-  this->vk_cmd = vk_engine->get_vk_cmd();
-  this->vk_pipeline = vk_engine->get_vk_pipeline();
-  this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_command_buffer = vk_engine->get_vk_command_buffer();
 
   //---------------------------

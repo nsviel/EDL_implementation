@@ -22,7 +22,8 @@ public:
   void clean_command_pool();
 
   //Command buffer
-  void allocate_command_buffer(Struct_renderpass* renderpass);
+  void allocate_command_buffer_primary(Struct_renderpass* renderpass);
+  void allocate_command_buffer_secondary(Struct_renderpass* renderpass);
 
   inline VkCommandPool get_command_pool(){return command_pool;}
 

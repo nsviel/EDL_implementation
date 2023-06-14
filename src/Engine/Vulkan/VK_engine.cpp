@@ -109,8 +109,8 @@ void VK_engine::init_vulkan(){
   //WORK
   //Subpass managment
   //Optimization
-    //-use dynamic uniform buffer for mvp
-    //-use pre-recorded command buffer
+    //-command buffer secondary linked with each object
+    //-use pre-recorded secondary command buffer with updated descriptor
 
     //Create and record individual command buffers: For each object in the scene, create a separate command buffer that contains the rendering commands specific to that object. The command buffer should include the necessary pipeline binding, vertex buffer binding, descriptor set binding, and draw commands.
     //Record initial MVP matrices: During the initial recording of each command buffer, set the initial MVP matrices for each object. These matrices can be set as static data or based on the initial state of the objects in the scene.

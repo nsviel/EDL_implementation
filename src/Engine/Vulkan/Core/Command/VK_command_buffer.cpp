@@ -9,7 +9,7 @@
 //Constructor / Destructor
 VK_command_buffer::VK_command_buffer(VK_engine* vk_engine){
   //---------------------------
-  
+
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
@@ -47,7 +47,7 @@ void VK_command_buffer::clean_command_pool(){
 }
 
 //Command buffer
-void VK_command_buffer::allocate_command_buffer(Struct_renderpass* renderpass){
+void VK_command_buffer::allocate_command_buffer_primary(Struct_renderpass* renderpass){
   //---------------------------
 
   //Command buffer allocation
@@ -55,6 +55,26 @@ void VK_command_buffer::allocate_command_buffer(Struct_renderpass* renderpass){
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
   allocInfo.commandPool = command_pool;
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+  allocInfo.commandBufferCount = 1;
+
+  VkCommandBuffer command_buffer;
+  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &command_buffer);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("[error] failed to allocate command buffers!");
+  }
+
+  renderpass->command_buffer = command_buffer;
+
+  //---------------------------
+}
+void VK_command_buffer::allocate_command_buffer_secondary(Struct_renderpass* renderpass){
+  //---------------------------
+
+  //Command buffer allocation
+  VkCommandBufferAllocateInfo allocInfo{};
+  allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+  allocInfo.commandPool = command_pool;
+  allocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
   allocInfo.commandBufferCount = 1;
 
   VkCommandBuffer command_buffer;

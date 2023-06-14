@@ -83,7 +83,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   this->create_depth_attachment(renderpass);
   this->create_subpass(renderpass->vec_subpass[0]);
   this->create_renderpass_obj(renderpass);
-  vk_command_buffer->allocate_command_buffer(renderpass);
+  vk_command_buffer->allocate_command_buffer_primary(renderpass);
   vk_pipeline->create_pipeline(renderpass);
   vk_frame->create_frame_renderpass(renderpass);
 

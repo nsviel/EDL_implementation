@@ -9,12 +9,7 @@
 class Param_engine;
 class VK_engine;
 class VK_param;
-class VK_renderpass;
-class VK_physical_device;
-class VK_cmd;
-class VK_pipeline;
 class VK_command_buffer;
-class VK_descriptor;
 
 
 class VK_command
@@ -45,12 +40,8 @@ private:
   Param_engine* param_engine;
   VK_engine* vk_engine;
   VK_param* vk_param;
-  VK_renderpass* vk_renderpass;
-  VK_physical_device* vk_physical_device;
   VK_command_buffer* vk_command_buffer;
-  VK_cmd* vk_cmd;
-  VK_pipeline* vk_pipeline;
-  VK_descriptor* vk_descriptor;
 };
+
 
 #endif
