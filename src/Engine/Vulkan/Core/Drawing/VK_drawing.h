@@ -35,6 +35,7 @@ private:
   VK_cmd* vk_cmd;
   VK_descriptor* vk_descriptor;
   VK_submit* vk_submit;
+  Timer timer;
 };
 
 #endif

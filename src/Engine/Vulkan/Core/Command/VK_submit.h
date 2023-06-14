@@ -31,6 +31,7 @@ public:
 
   //Queue submission
   void submit_graphics_command(Struct_submit_command* command);
+  void submit_graphics_commands(Struct_submit_commands* commands);
   void submit_presentation(Struct_swapchain* swapchain);
 
 private:

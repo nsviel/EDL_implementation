@@ -38,7 +38,8 @@ using namespace glm;
 //Function
 #include "Specific/Function/fct_terminal.h"
 #include "Specific/Function/fct_math.h"
-#include "Specific/Function/fct_chrono.h"
+#include "Specific/Function/fct_chrono.h" //For debuging
+#include "Specific/Function/fct_timer.h"  //For time profilling
 
 //Data
 #include "Data/Struct/struct_object.h"

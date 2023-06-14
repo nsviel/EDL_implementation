@@ -9,6 +9,7 @@ struct Struct_time{
 
   float engine_init = 0;
   float engine_fps = 0;
+  float draw_frame = 0;
 
   //---------------------------
 };

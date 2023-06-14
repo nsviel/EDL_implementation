@@ -28,6 +28,7 @@ VK_drawing::~VK_drawing(){}
 
 //Main function
 void VK_drawing::draw_frame(){
+  timer.start();
   //---------------------------
 
   vk_submit->acquire_next_image(&vk_param->swapchain);
@@ -38,6 +39,7 @@ void VK_drawing::draw_frame(){
   vk_submit->set_next_frame_ID(&vk_param->swapchain);
 
   //---------------------------
+  vk_param->time.draw_frame = timer.stop_ms();
 }
 
 //Draw frame parts
@@ -63,6 +65,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   command.semaphore_to_wait = frame->semaphore_presentation;
   command.semaphore_to_run = frame->semaphore_scene_ready;
   command.fence = VK_NULL_HANDLE;
+  command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
@@ -90,6 +93,7 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   command.semaphore_to_wait = frame->semaphore_scene_ready;
   command.semaphore_to_run = frame->semaphore_render_ready;
   command.fence = VK_NULL_HANDLE;
+  command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
@@ -116,6 +120,7 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   command.semaphore_to_wait = frame->semaphore_render_ready;
   command.semaphore_to_run = frame->semaphore_ui_ready;
   command.fence = frame->fence;
+  command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------

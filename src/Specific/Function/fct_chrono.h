@@ -15,13 +15,13 @@ namespace{
   std::chrono::high_resolution_clock::time_point t1;
 
   //Time measurement
-  auto time_start(){
+  auto timer_start(){
     auto start = std::chrono::high_resolution_clock::now();
   }
-  template <typename Type> auto time_stop(Type start){
+  template <typename Type> auto timer_stop(Type start){
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-    std::cout<<"---> "<<duration.count()<<" ms "<<std::endl;
+    return duration.count();
   }
   void tic(){
     t1 = std::chrono::high_resolution_clock::now();

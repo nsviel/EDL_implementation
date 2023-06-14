@@ -81,13 +81,11 @@ void VK_submit::set_next_frame_ID(Struct_renderpass* renderpass){
 void VK_submit::submit_graphics_command(Struct_submit_command* command){
   //---------------------------
 
-  VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
-
   VkSubmitInfo submit_info{};
   submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
   submit_info.waitSemaphoreCount = 1;
   submit_info.pWaitSemaphores = &command->semaphore_to_wait;
-  submit_info.pWaitDstStageMask = waitStages;
+  submit_info.pWaitDstStageMask = &command->wait_stage;
   submit_info.signalSemaphoreCount = 1;
   submit_info.pSignalSemaphores = &command->semaphore_to_run;
   submit_info.commandBufferCount = 1;
@@ -95,6 +93,27 @@ void VK_submit::submit_graphics_command(Struct_submit_command* command){
 
   //Very slow operation, need as low command as possible
   VkResult result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &submit_info, command->fence);
+  if(result != VK_SUCCESS){
+    throw std::runtime_error("failed to submit draw command buffer!");
+  }
+
+  //---------------------------
+}
+void VK_submit::submit_graphics_commands(Struct_submit_commands* commands){
+  //---------------------------
+
+  VkSubmitInfo submit_info{};
+  submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  submit_info.waitSemaphoreCount = commands->vec_semaphore_to_wait.size();
+  submit_info.pWaitSemaphores = commands->vec_semaphore_to_wait.data();
+  submit_info.pWaitDstStageMask = commands->vec_wait_stage.data();
+  submit_info.signalSemaphoreCount = commands->vec_semaphore_to_run.size();
+  submit_info.pSignalSemaphores = commands->vec_semaphore_to_run.data();
+  submit_info.commandBufferCount = commands->vec_command_buffer.size();
+  submit_info.pCommandBuffers = commands->vec_command_buffer.data();
+
+  //Very slow operation, need as low command as possible
+  VkResult result = vkQueueSubmit(vk_param->device.queue_graphics, 1, &submit_info, commands->fence);
   if(result != VK_SUCCESS){
     throw std::runtime_error("failed to submit draw command buffer!");
   }

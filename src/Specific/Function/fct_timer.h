@@ -1,79 +1,73 @@
-/*
-  COPYRIGHT © 2018 Ringo Hoffmann (zekro Development)
-  READ BEFORE USING: https://zekro.de/policy
-  https://gist.github.com/zekroTJA/00317b41aa69f38090071b6c8065272b
-
-	Create asynchronous timers which execute specified functions in set time interval.
-*/
-
-#pragma once
-
-#include <iostream>
-#include <chrono>
-#include <functional>
-#include <thread>
+#ifndef TIMELR_H
+#define TIMELR_H
 
 
 class Timer
 {
 public:
-	Timer(){}
-	Timer(std::function<void(void)> func, const long &interval) {
-		m_func = func;
-		m_interval = interval;
-	}
-	~Timer(){
-		stop();
-	}
+  //Constructor / Destructor
+  Timer(){}
+  ~Timer(){}
 
-	//Main function
-	void start(){
-		//Starting the timer
-		m_running = true;
-		m_thread = std::thread([&]() {
-			while (m_running) {
-				auto delta = std::chrono::steady_clock::now() + std::chrono::milliseconds(m_interval);
-				m_func();
-				std::this_thread::sleep_until(delta);
-			}
-		});
-		m_thread.detach();
-	}
-	void stop(){
-		//Stopping the timer and destroys the thread.
-		m_running = false;
-		m_thread.~thread();
-	}
-	void restart(){
-		//Restarts the timer. Needed if you set a new timer interval for example.
-		stop();
-		start();
-	}
-	
-	//Accesseur
-	long get_interval(){
-		//Returns the current set interval in milliseconds.
-		return m_interval;
-	}
-	bool get_is_running(){
-		//Check if timer is running.
-		return m_running;
-	}
-	Timer *set_func(std::function<void(void)> func){
-		//Set the method of the timer after initializing the timer instance.
-		m_func = func;
-		return this;
-	}
-	Timer *set_interval(const long &interval){
-		//Set a new interval for the timer in milliseconds.
-		//This change will be valid only after restarting the timer.
-		m_interval = interval;
-		return this;
-	}
+public:
+  //Own timestamp
+  void start(){
+    this->t1 = std::chrono::high_resolution_clock::now();
+  }
+  float stop_s(){
+    this->t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1);
+    return duration.count();
+  }
+  float stop_ms(){
+    this->t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+    return duration.count();
+  }
+  float stop_us(){
+    this->t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
+    return duration.count();
+  }
+  float stop_ns(){
+    this->t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1);
+    return duration.count();
+  }
+
+  //User declarative timestamp
+  /*float start_s(){
+    auto t1 = std::chrono::high_resolution_clock::now();
+    return t1.count();
+  }
+  float stop_s(float t1){
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2);
+    float elasped = duration.count() - t1;
+    return elasped;
+  }
+  float stop_ms(float t1){
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2);
+    float elasped = duration.count() - t1;
+    return elasped;
+  }
+  float stop_us(float t1){
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2);
+    float elasped = duration.count() - t1;
+    return elasped;
+  }
+  float stop_ns(float t1){
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2);
+    float elasped = duration.count() - t1;
+    return elasped;
+  }*/
 
 private:
-	long m_interval; // Timer interval in milliseconds
-	bool m_running = false; // Status if timer is running
-	std::function<void(void)> m_func; // Function to be executed fater interval
-	std::thread m_thread; // Thread timer is running into
+  std::chrono::high_resolution_clock::time_point t1;
+  std::chrono::high_resolution_clock::time_point t2;
 };
+
+#endif
