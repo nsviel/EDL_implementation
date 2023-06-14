@@ -15,7 +15,7 @@ struct Param_engine{
   //---------------------------
 
   int max_fps = 120;
-  glm::vec4 background_color = glm::vec4(0.325, 0.325, 0.325, 1);
+  glm::vec4 background_color = glm::vec4(0.4, 0.4, 0.4, 1);
 
   Struct_camera camera;
 
