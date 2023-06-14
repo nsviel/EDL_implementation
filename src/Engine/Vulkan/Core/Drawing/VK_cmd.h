@@ -24,8 +24,6 @@ public:
   ~VK_cmd();
 
 public:
-  void cmd_record_scene_object(Struct_renderpass* renderpass);
-
   //Main function
   void cmd_record_scene(Struct_renderpass* renderpass);
   void cmd_record_render(Struct_renderpass* renderpass);
@@ -38,6 +36,9 @@ public:
   void cmd_draw_glyph(Struct_renderpass* renderpass);
   void cmd_draw_canvas(Struct_renderpass* renderpass);
   void cmd_draw_edl(Struct_renderpass* renderpass);
+
+  //Secondary command buffer
+  void cmd_record_scene_secondcb(Struct_renderpass* renderpass);
 
 private:
   Shader_edl* shader_edl;
