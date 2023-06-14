@@ -26,7 +26,7 @@ public:
   void stop_command_buffer(VkCommandBuffer command_buffer);
 
   //Render pass
-  void start_render_pass(Struct_renderpass* renderpass, Frame* frame);
+  void start_render_pass(Struct_renderpass* renderpass, Frame* frame, bool with_secondary_cb);
   void stop_render_pass(Struct_renderpass* renderpass);
 
   //Image layout transition

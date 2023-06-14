@@ -76,7 +76,7 @@ void VK_command::stop_command_buffer(VkCommandBuffer command_buffer){
 }
 
 //Render pass
-void VK_command::start_render_pass(Struct_renderpass* renderpass, Frame* frame){
+void VK_command::start_render_pass(Struct_renderpass* renderpass, Frame* frame, bool with_secondary_cb){
   //---------------------------
 
   std::array<VkClearValue, 2> clear_value{};
@@ -96,7 +96,14 @@ void VK_command::start_render_pass(Struct_renderpass* renderpass, Frame* frame){
   renderpass_info.clearValueCount = static_cast<uint32_t>(clear_value.size());
   renderpass_info.pClearValues = clear_value.data();
 
-  vkCmdBeginRenderPass(renderpass->command_buffer, &renderpass_info, VK_SUBPASS_CONTENTS_INLINE);
+  VkSubpassContents content;
+  if(with_secondary_cb){
+    content = VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS;
+  }else{
+    content = VK_SUBPASS_CONTENTS_INLINE;
+  }
+
+  vkCmdBeginRenderPass(renderpass->command_buffer, &renderpass_info, content);
 
   //---------------------------
 }

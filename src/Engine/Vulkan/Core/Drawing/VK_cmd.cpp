@@ -41,13 +41,13 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
 VK_cmd::~VK_cmd(){}
 
 
-void VK_cmd::cmd_record_scene_object(){
+void VK_cmd::cmd_record_scene_object(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
 
 
-/*
+
   //Bind and draw vertex buffers
   list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
   for(int i=0; i<list_data_scene.size(); i++){
@@ -59,14 +59,24 @@ void VK_cmd::cmd_record_scene_object(){
       VkDeviceSize offsets[] = {0, 0};
 
       vkResetCommandBuffer(data->command_buffer, 0);
-      vk_command->start_command_buffer_primary(data->command_buffer);
+      vk_command->start_command_buffer_secondary(renderpass, data->command_buffer);
+
+      Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "point");
+      vkCmdBindPipeline(data->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+
+      this->cmd_viewport(data->command_buffer);
+      this->cmd_scissor(data->command_buffer);
+
+      //vk_camera->compute_mvp(object);
+      //vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
+      vkCmdBindDescriptorSets(data->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       vkCmdBindVertexBuffers(data->command_buffer, 0, 2, vertexBuffers, offsets);
       vkCmdDraw(data->command_buffer, object->xyz.size(), 1, 0, 0);
 
       vk_command->stop_command_buffer(data->command_buffer);
     }
-  }*/
+  }
 
 
   //---------------------------
@@ -78,9 +88,9 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame = renderpass->get_rendering_frame();
-  vk_command->start_render_pass(renderpass, frame);
-  this->cmd_viewport(renderpass);
-  this->cmd_scissor(renderpass);
+  vk_command->start_render_pass(renderpass, frame, false);
+  this->cmd_viewport(renderpass->command_buffer);
+  this->cmd_scissor(renderpass->command_buffer);
   this->cmd_draw_scene(renderpass);
   this->cmd_draw_glyph(renderpass);
   vk_command->stop_render_pass(renderpass);
@@ -94,10 +104,10 @@ void VK_cmd::cmd_record_render(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame = renderpass->get_rendering_frame();
-  vk_command->start_render_pass(renderpass, frame);
+  vk_command->start_render_pass(renderpass, frame, false);
   VkViewport viewport = vk_viewport->get_viewport_canvas();
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-  this->cmd_scissor(renderpass);
+  this->cmd_scissor(renderpass->command_buffer);
   this->cmd_draw_edl(renderpass);
   vk_command->stop_render_pass(renderpass);
 
@@ -111,10 +121,10 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame = vk_param->swapchain.get_frame_current();
-  vk_command->start_render_pass(renderpass, frame);
+  vk_command->start_render_pass(renderpass, frame, false);
   VkViewport viewport = vk_viewport->get_viewport_canvas();
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-  this->cmd_scissor(renderpass);
+  this->cmd_scissor(renderpass->command_buffer);
   this->cmd_draw_canvas(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
@@ -123,20 +133,20 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
 }
 
 //Renderpass commands
-void VK_cmd::cmd_viewport(Struct_renderpass* renderpass){
+void VK_cmd::cmd_viewport(VkCommandBuffer command_buffer){
   //---------------------------
 
   vk_viewport->update_viewport(vk_param->window.extent);
   VkViewport viewport = vk_viewport->get_viewport();
-  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
+  vkCmdSetViewport(command_buffer, 0, 1, &viewport);
 
   //---------------------------
 }
-void VK_cmd::cmd_scissor(Struct_renderpass* renderpass){
+void VK_cmd::cmd_scissor(VkCommandBuffer command_buffer){
   //---------------------------
 
   VkRect2D scissor = vk_viewport->get_scissor();
-  vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
+  vkCmdSetScissor(command_buffer, 0, 1, &scissor);
 
   //---------------------------
 }
@@ -164,6 +174,9 @@ void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
       VkDeviceSize offsets[] = {0, 0};
       vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 2, vertexBuffers, offsets);
       vkCmdDraw(renderpass->command_buffer, object->xyz.size(), 1, 0, 0);
+
+      //vkCmdExecuteCommands(renderpass->command_buffer, 1, &data->command_buffer);
+
     }
   }
 

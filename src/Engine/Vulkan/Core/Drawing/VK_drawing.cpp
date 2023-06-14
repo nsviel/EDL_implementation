@@ -55,7 +55,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   vk_descriptor->update_descriptor_uniform(&pipeline_line->binding);
 
 
-  vk_cmd->cmd_record_scene_object();
+  //vk_cmd->cmd_record_scene_object(renderpass);
 
 
 
