@@ -28,7 +28,8 @@ VK_drawing::~VK_drawing(){}
 
 //Main function
 void VK_drawing::draw_frame(){
-  timer.start();
+  Struct_submit_commands commands;
+  timer_time t1 = timer.start_t();
   //---------------------------
 
   vk_submit->acquire_next_image(&vk_param->swapchain);
@@ -39,11 +40,12 @@ void VK_drawing::draw_frame(){
   vk_submit->set_next_frame_ID(&vk_param->swapchain);
 
   //---------------------------
-  vk_param->time.draw_frame = timer.stop_ms();
+  vk_param->time.draw_frame = timer.stop_ms(t1);
 }
 
 //Draw frame parts
 void VK_drawing::draw_scene(Struct_renderpass* renderpass){
+  timer_time t1 = timer.start_t();
   //---------------------------
 
   //Update descriptor
@@ -69,8 +71,10 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
+  vk_param->time.renderpass_scene = timer.stop_ms(t1);
 }
 void VK_drawing::draw_render(Struct_renderpass* renderpass){
+  timer_time t1 = timer.start_t();
   //---------------------------
 
   //Update descriptor
@@ -97,8 +101,10 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
+  vk_param->time.renderpass_render = timer.stop_ms(t1);
 }
 void VK_drawing::draw_ui(Struct_renderpass* renderpass){
+  timer_time t1 = timer.start_t();
   //---------------------------
 
   //Update descriptor
@@ -124,4 +130,5 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
+  vk_param->time.renderpass_ui = timer.stop_ms(t1);
 }

@@ -25,8 +25,8 @@ struct Struct_submit_commands{
 
   std::vector<VkSemaphore> vec_semaphore_to_wait;
   std::vector<VkSemaphore> vec_semaphore_to_run;
-  
-  VkFence fence;
+
+  VkFence fence = VK_NULL_HANDLE;
 
   //---------------------------
 };

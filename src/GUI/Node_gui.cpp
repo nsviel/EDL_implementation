@@ -4,8 +4,9 @@
 #include "Panel/GUI_left_panel.h"
 #include "Panel/GUI_menubar.h"
 #include "Operation/GUI_control.h"
-#include "Operation/GUI_option.h"
-#include "Operation/GUI_shader.h"
+#include "Engine/GUI_option.h"
+#include "Engine/GUI_shader.h"
+#include "Engine/GUI_time.h"
 #include "Module/GUI_filemanager.h"
 #include "Module/GUI_windows.h"
 
@@ -22,6 +23,7 @@ Node_gui::Node_gui(Node* node){
   this->node_load = node->get_node_load();
 
   this->param_gui = new Param_gui();
+  this->gui_time = new GUI_time(this);
   this->gui_shader = new GUI_shader(this);
   this->gui_option = new GUI_option(this);
   this->gui_filemanager = new GUI_filemanager(this);
@@ -40,6 +42,7 @@ Node_gui::~Node_gui(){
   delete gui_control;
   delete gui_option;
   delete gui_filemanager;
+  delete gui_time;
 
   //---------------------------
 }

@@ -6,7 +6,7 @@
 class Node_gui;
 class Node_engine;
 class Dimension;
-class GUI_option;
+class GUI_time;
 class GUI_filemanager;
 class GUI_menubar;
 class GUI_shader;
@@ -22,14 +22,17 @@ public:
 public:
   //Main functions
   void draw_left_panel();
-  void left_panel_dim();
-  void left_panel_content();
+  void design_top();
+  void design_bot();
+
+  //Subfunction
+  void update_dim();
 
 private:
   Node_gui* node_gui;
   Node_engine* node_engine;
   Dimension* dimManager;
-  GUI_option* gui_option;
+  GUI_time* gui_time;
   GUI_filemanager* gui_filemanager;
   GUI_menubar* gui_menubar;
   GUI_shader* gui_shader;

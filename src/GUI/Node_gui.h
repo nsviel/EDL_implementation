@@ -16,6 +16,7 @@ class GUI_filemanager;
 class GUI_menubar;
 class GUI_windows;
 class GUI_shader;
+class GUI_time;
 
 
 class Node_gui
@@ -31,8 +32,8 @@ public:
   inline Node_engine* get_node_engine(){return node_engine;}
   inline Node_data* get_node_data(){return node_data;}
   inline Node_load* get_node_load(){return node_load;}
-
   inline Param_gui* get_param_gui(){return param_gui;}
+
   inline GUI_left_panel* get_gui_left_panel(){return gui_left_panel;}
   inline GUI_control* get_gui_control(){return gui_control;}
   inline GUI_option* get_gui_option(){return gui_option;}
@@ -40,13 +41,14 @@ public:
   inline GUI_menubar* get_gui_menubar(){return gui_menubar;}
   inline GUI_windows* get_gui_windows(){return gui_windows;}
   inline GUI_shader* get_gui_shader(){return gui_shader;}
+  inline GUI_time* get_gui_time(){return gui_time;}
 
 private:
   Node_engine* node_engine;
   Node_data* node_data;
   Node_load* node_load;
-
   Param_gui* param_gui;
+
   GUI_left_panel* gui_left_panel;
   GUI_control* gui_control;
   GUI_option* gui_option;
@@ -54,6 +56,7 @@ private:
   GUI_menubar* gui_menubar;
   GUI_windows* gui_windows;
   GUI_shader*gui_shader;
+  GUI_time* gui_time;
 };
 
 #endif

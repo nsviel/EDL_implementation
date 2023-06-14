@@ -2,8 +2,8 @@
 #include "GUI_menubar.h"
 
 #include "../Node_gui.h"
-#include "../Operation/GUI_option.h"
-#include "../Operation/GUI_shader.h"
+#include "../Engine/GUI_time.h"
+#include "../Engine/GUI_shader.h"
 #include "../Module/GUI_filemanager.h"
 
 #include "../../Load/Node_load.h"
@@ -22,7 +22,7 @@ GUI_left_panel::GUI_left_panel(Node_gui* node_gui){
   this->dimManager = node_engine->get_dimManager();
   this->node_gui = node_gui;
   this->gui_filemanager = node_gui->get_gui_filemanager();
-  this->gui_option = node_gui->get_gui_option();
+  this->gui_time = node_gui->get_gui_time();
   this->gui_menubar = node_gui->get_gui_menubar();
   this->gui_shader = node_gui->get_gui_shader();
 
@@ -36,9 +36,6 @@ GUI_left_panel::~GUI_left_panel(){
 }
 
 //Main function
-
-
-//Loop functions
 void GUI_left_panel::draw_left_panel(){
   Tab* tab_left = dimManager->get_tab("left_panel");
   //---------------------------
@@ -49,36 +46,17 @@ void GUI_left_panel::draw_left_panel(){
   ImGui::SetNextWindowSizeConstraints(ImVec2(tab_left->dim_min.x, tab_left->dim_min.y), ImVec2(tab_left->dim_max.x, tab_left->dim_max.y));
   ImGui::Begin("LeftPanel##botOuter", NULL, window_flags);
 
-  this->left_panel_dim();
+  this->update_dim();
   gui_menubar->design_menubar();
-  this->left_panel_content();
-  gui_shader->design_shader();
-
-  ImVec2 windowSize = ImGui::GetWindowSize();
-  float widgetHeight = 35.0f; // Adjust the height of the widget as needed
-  float widgetYPosition = windowSize.y - widgetHeight - ImGui::GetStyle().ItemSpacing.y;
-  ImGui::SetCursorPos(ImVec2(8, widgetYPosition));
-
-  gui_option->display_time();
+  this->design_top();
+  this->design_bot();
 
   ImGui::PopStyleVar();
   ImGui::End();
 
   //---------------------------
 }
-void GUI_left_panel::left_panel_dim(){
-  Tab* tab_left = dimManager->get_tab("left_panel");
-  //---------------------------
-
-  float dim_x = ImGui::GetWindowSize().x;
-  if(dim_x != tab_left->dim.x){
-    tab_left->dim.x = ImGui::GetWindowSize().x;
-    dimManager->update();
-  }
-
-  //---------------------------
-}
-void GUI_left_panel::left_panel_content(){
+void GUI_left_panel::design_top(){
   Tab* tab_panel_left = dimManager->get_tab("left_panel");
   //---------------------------
 
@@ -94,6 +72,28 @@ void GUI_left_panel::left_panel_content(){
   ImGui::End();
   ImGui::SetCursorPos(ImVec2(8, 125));
   ImGui::PopStyleVar();
+
+  //---------------------------
+}
+void GUI_left_panel::design_bot(){
+  //---------------------------
+
+  gui_shader->design_shader();
+  gui_time->design_time();
+
+  //---------------------------
+}
+
+//Subfunction
+void GUI_left_panel::update_dim(){
+  Tab* tab_left = dimManager->get_tab("left_panel");
+  //---------------------------
+
+  float dim_x = ImGui::GetWindowSize().x;
+  if(dim_x != tab_left->dim.x){
+    tab_left->dim.x = ImGui::GetWindowSize().x;
+    dimManager->update();
+  }
 
   //---------------------------
 }
