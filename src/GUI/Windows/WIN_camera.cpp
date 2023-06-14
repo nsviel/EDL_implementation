@@ -36,7 +36,8 @@ void WIN_camera::cam_parameter(){
 
   //Camera parameters
   ImGui::SliderFloat("FOV (°)", &camera->fov, 100.0f, 1.0f);
-  ImGui::DragFloat("speed", &camera->speed_move, 0.01, 0, 20, "%.2f");
+  ImGui::DragFloat("Speed", &camera->speed_move, 0.01, 0, 20, "%.2f");
+  ImGui::DragFloatRange2("Clip", &camera->clip_near, &camera->clip_far, 0.01f, 0.01f, 1000.0f, "%.2f", "%.2f", ImGuiSliderFlags_AlwaysClamp);
   ImGui::Separator();
 
   //Camera mode
