@@ -111,6 +111,11 @@ void VK_engine::init_vulkan(){
     //-use dynamic uniform buffer for mvp
     //-use pre-recorded command buffer
 
+    //Create and record individual command buffers: For each object in the scene, create a separate command buffer that contains the rendering commands specific to that object. The command buffer should include the necessary pipeline binding, vertex buffer binding, descriptor set binding, and draw commands.
+    //Record initial MVP matrices: During the initial recording of each command buffer, set the initial MVP matrices for each object. These matrices can be set as static data or based on the initial state of the objects in the scene.
+    //Update MVP matrices: Whenever the MVP matrices of the objects need to be updated (e.g., due to object movement or animation), update the corresponding matrices in the CPU memory. You can update the matrices independently for each object.
+    //Bind updated MVP matrices: Before executing the pre-recorded command buffers, bind the updated MVP matrices to the appropriate descriptor sets. This involves updating the descriptor sets with the new data, specifying the updated buffer bindings or dynamic offsets.
+    //Execute the pre-recorded command buffers: Submit the pre-recorded command buffers for execution, and Vulkan will render the objects in the scene using the updated MVP matrices.
 
   //Specific
   vk_gui->init_gui();
