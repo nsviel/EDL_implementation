@@ -18,8 +18,9 @@ public:
   //Subfunction
   virtual void design_window();
 
-private:
   string name;
+
+private:
   int item_width;
   bool* show_window;
 };

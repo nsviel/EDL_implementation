@@ -19,7 +19,8 @@ public:
   void design_window();
 
   //Sub functions
-  void object_parameter();
+  void object_info(Object* object);
+  void object_parameter(Object* object);
   void option_line_width(Object* object);
 
   inline void set_object(Object* object){this->object = object;}

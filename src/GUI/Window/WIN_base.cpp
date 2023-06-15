@@ -18,7 +18,7 @@ void WIN_base::window(){
   //---------------------------
 
   if(*show_window){
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.01, 0.01, 0.01, 1));
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1, 0.1, 0.1, 1));
     ImGui::Begin(name.c_str(), show_window, ImGuiWindowFlags_AlwaysAutoResize);
 
     this->design_window();
