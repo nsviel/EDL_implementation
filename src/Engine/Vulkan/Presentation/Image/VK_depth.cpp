@@ -66,12 +66,23 @@ VkFormat VK_depth::find_supported_format(const std::vector<VkFormat>& format_can
   //---------------------------
 
   for(VkFormat format : format_candidates){
-    VkFormatProperties props;
-    vkGetPhysicalDeviceFormatProperties(vk_param->device.physical_device, format, &props);
+    VkFormatProperties property;
+    vkGetPhysicalDeviceFormatProperties(vk_param->device.physical_device, format, &property);
 
-    if(tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features){
-      return format;
-    }else if(tiling == VK_IMAGE_TILING_OPTIMAL && (props.optimalTilingFeatures & features) == features){
+    //tiling
+    bool tiling_ok;
+    if(tiling == VK_IMAGE_TILING_LINEAR  && (property.linearTilingFeatures & features) == features){
+      tiling_ok = true;
+    }
+    else if(tiling == VK_IMAGE_TILING_OPTIMAL && (property.optimalTilingFeatures & features)){
+      tiling_ok = true;
+    }
+    else{
+      tiling_ok = false;
+      cout<<"[error] Depth format -> tiling not correct"<<endl;
+    }
+
+    if(tiling_ok){
       return format;
     }
   }

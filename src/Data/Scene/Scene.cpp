@@ -23,7 +23,6 @@ Scene::Scene(Node_data* node_data){
   this->gpu_data = node_engine->get_gpu_data();
   this->attributManager = new Attribut();
 
-  param_data->path_initial_object = "/home/aeter/Desktop/Point_cloud/ply/dragon.ply";
   this->ID_obj = 0;
 
   //---------------------------

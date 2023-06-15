@@ -20,6 +20,7 @@ struct VK_param{
   //---------------------------
 
   int max_frame;
+  VkFormat required_image_format = VK_FORMAT_B8G8R8A8_UNORM; //VK_FORMAT_B8G8R8A8_SRGB
 
   Struct_window window = {
     "Nephos", //title

@@ -69,7 +69,10 @@ void VK_descriptor::update_descriptor_uniform(Struct_binding* binding){
     descriptor_info.offset = 0;
     descriptor_info.range = uniform->size;
     vec_descriptor_buffer_info.push_back(descriptor_info);
+  }
 
+  for(int i=0; i<binding->vec_uniform.size(); i++){
+    Struct_uniform* uniform = binding->vec_uniform[i];
     VkWriteDescriptorSet write_uniform = {};
     write_uniform.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     write_uniform.dstSet = binding->descriptor.set;

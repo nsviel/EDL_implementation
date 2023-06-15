@@ -124,8 +124,9 @@ void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
     if(object->draw_type_name == "point"){
       //Camera
       vk_camera->compute_mvp(object);
+      //say(data->object->mvp[0][0]);
       vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
-      //vk_uniform->update_uniform_int("point_size", &pipeline->binding, 1);
+      vk_uniform->update_uniform_int("point_size", &pipeline->binding, 5);
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       //Data
