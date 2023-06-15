@@ -1,7 +1,7 @@
 #ifndef GUI_WINDOWS_H
 #define GUI_WINDOWS_H
 
-#include "../Windows/WIN_base.h"
+#include "WIN_base.h"
 #include "../../common.h"
 
 class Node_gui;

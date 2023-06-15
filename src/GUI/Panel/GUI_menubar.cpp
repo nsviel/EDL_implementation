@@ -2,7 +2,7 @@
 
 #include "../Node_gui.h"
 #include "../Param_gui.h"
-#include "../Engine/GUI_option.h"
+#include "../Control/GUI_option.h"
 
 #include "../../Load/Node_load.h"
 #include "../../Load/Processing/Loader.h"

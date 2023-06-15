@@ -1,9 +1,10 @@
 #include "GUI_windows.h"
 
+#include "WIN_camera.h"
+#include "WIN_data.h"
+
 #include "../Node_gui.h"
 #include "../Param_gui.h"
-
-#include "../Windows/WIN_camera.h"
 
 
 //Constructor / Destructor

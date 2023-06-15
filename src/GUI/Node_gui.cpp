@@ -4,12 +4,12 @@
 #include "Panel/GUI_left_panel.h"
 #include "Panel/GUI_menubar.h"
 #include "Operation/GUI_control.h"
-#include "Engine/GUI_option.h"
+#include "Control/GUI_option.h"
+#include "Control/GUI_time.h"
 #include "Engine/GUI_shader.h"
-#include "Engine/GUI_time.h"
 #include "Engine/GUI_device.h"
 #include "Module/GUI_filemanager.h"
-#include "Module/GUI_windows.h"
+#include "Window/GUI_windows.h"
 
 #include "../Node.h"
 
