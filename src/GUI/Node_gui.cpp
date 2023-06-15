@@ -22,7 +22,7 @@ Node_gui::Node_gui(Node* node){
   this->node_engine = node->get_node_engine();
   this->node_data = node->get_node_data();
   this->node_load = node->get_node_load();
-  
+
   this->gui_param = new GUI_param();
   this->gui_time = new GUI_time(this);
   this->gui_shader = new GUI_shader(this);

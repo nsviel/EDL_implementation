@@ -33,8 +33,8 @@ public:
   inline Node_engine* get_node_engine(){return node_engine;}
   inline Node_data* get_node_data(){return node_data;}
   inline Node_load* get_node_load(){return node_load;}
-  
-  inline GUI_param* get_param_gui(){return gui_param;}
+
+  inline GUI_param* get_gui_param(){return gui_param;}
   inline GUI_left_panel* get_gui_left_panel(){return gui_left_panel;}
   inline GUI_control* get_gui_control(){return gui_control;}
   inline GUI_option* get_gui_option(){return gui_option;}

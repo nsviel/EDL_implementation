@@ -11,7 +11,7 @@
 GUI_windows::GUI_windows(Node_gui* node_gui){
   //---------------------------
 
-  this->gui_param = node_gui->get_param_gui();
+  this->gui_param = node_gui->get_gui_param();
   this->win_camera = new WIN_camera(node_gui, &gui_param->show_camera, "Camera");
   this->win_data = new WIN_data(node_gui, &gui_param->show_data, "Data");
 

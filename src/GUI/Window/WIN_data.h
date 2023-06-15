@@ -6,7 +6,6 @@
 
 class Node_gui;
 class GUI_param;
-class Struct_camera;
 
 
 class WIN_data : public WIN_base
@@ -21,12 +20,14 @@ public:
 
   //Sub functions
   void object_parameter();
-  void option_line_width();
+  void option_line_width(Object* object);
+
+  inline void set_object(Object* object){this->object = object;}
 
 private:
   GUI_param* gui_param;
-  Struct_camera* camera;
 
+  Object* object;
   int item_width;
 };
 

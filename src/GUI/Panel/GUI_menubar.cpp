@@ -16,7 +16,7 @@ GUI_menubar::GUI_menubar(Node_gui* node_gui){
 
   Node_load* Node_load = node_gui->get_node_load();
   this->node_gui = node_gui;
-  this->gui_param = node_gui->get_param_gui();
+  this->gui_param = node_gui->get_gui_param();
   this->gui_option = node_gui->get_gui_option();
   this->loaderManager = Node_load->get_loaderManager();
 

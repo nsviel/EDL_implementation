@@ -13,6 +13,7 @@ struct GUI_param{
 
   bool show_camera;
   bool show_data;
+  Object* object_selected;
 
   //---------------------------
 };

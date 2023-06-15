@@ -1,6 +1,7 @@
 #include "GUI_filemanager.h"
 
 #include "../Node_gui.h"
+#include "../GUI_param.h"
 
 #include "../../Data/Node_data.h"
 #include "../../Data/Scene/Database.h"
@@ -12,6 +13,7 @@ GUI_filemanager::GUI_filemanager(Node_gui* node_gui){
 
   Node_data* node_data = node_gui->get_node_data();
   this->dataManager = node_data->get_dataManager();
+  this->gui_param = node_gui->get_gui_param();
 
   //---------------------------
 }
@@ -108,7 +110,8 @@ int GUI_filemanager::data_node_tree(Set* set){
 
       //If item double-clicked
       if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
-        //gui_param
+        gui_param->object_selected = object;
+        gui_param->show_data = true;
       }
 
     }
