@@ -17,11 +17,8 @@ void main(){
   //---------------------------
 
   gl_Position = ubo_mvp.mvp * vec4(in_position, 1.0);
-  gl_PointSize = 5.0;
+  gl_PointSize = ubo_size.point_size;
   frag_color = in_color;
-
-  //debugPrintfEXT("\nshader-> %d", ubo_size.point_size);
-  debugPrintfEXT("\nshader-> %f", ubo_mvp.mvp[0][0]);
 
   //---------------------------
 }
