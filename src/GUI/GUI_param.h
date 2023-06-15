@@ -1,5 +1,5 @@
-#ifndef PARAM_GUI_H
-#define PARAM_GUI_H
+#ifndef GUI_PARAM_H
+#define GUI_PARAM_H
 
 #include <string>
 #include <vector>
@@ -8,10 +8,11 @@
 #include <iostream>
 
 
-struct Param_gui{
+struct GUI_param{
   //---------------------------
 
   bool show_camera;
+  bool show_data;
 
   //---------------------------
 };

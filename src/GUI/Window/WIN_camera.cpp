@@ -1,7 +1,7 @@
 #include "WIN_camera.h"
 
 #include "../Node_gui.h"
-#include "../Param_gui.h"
+#include "../GUI_param.h"
 
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Param_engine.h"

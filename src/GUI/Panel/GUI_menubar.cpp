@@ -1,7 +1,7 @@
 #include "GUI_menubar.h"
 
 #include "../Node_gui.h"
-#include "../Param_gui.h"
+#include "../GUI_param.h"
 #include "../Control/GUI_option.h"
 
 #include "../../Load/Node_load.h"
@@ -16,7 +16,7 @@ GUI_menubar::GUI_menubar(Node_gui* node_gui){
 
   Node_load* Node_load = node_gui->get_node_load();
   this->node_gui = node_gui;
-  this->param_gui = node_gui->get_param_gui();
+  this->gui_param = node_gui->get_param_gui();
   this->gui_option = node_gui->get_gui_option();
   this->loaderManager = Node_load->get_loaderManager();
 
@@ -63,7 +63,7 @@ void GUI_menubar::menu(){
   }*/
   //Camera
   if(ImGui::MenuItem(ICON_FA_CAMERA, "Camera##111")){
-    param_gui->show_camera = !param_gui->show_camera;
+    gui_param->show_camera = !gui_param->show_camera;
   }
 
   if(show_demo){

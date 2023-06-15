@@ -101,9 +101,14 @@ int GUI_filemanager::data_node_tree(Set* set){
       //Display leaf
       ImGui::TreeNodeEx(object->name.c_str(), flag_leaf);
 
-      //If clicked by mouse
+      //If item clicked
       if(ImGui::IsItemClicked()){
         set->selected_obj = object;
+      }
+
+      //If item double-clicked
+      if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
+        //gui_param
       }
 
     }

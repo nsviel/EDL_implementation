@@ -4,7 +4,7 @@
 #include "../../common.h"
 
 class Node_gui;
-class Param_gui;
+class GUI_param;
 class GUI_option;
 class Loader;
 
@@ -25,7 +25,7 @@ public:
 
 private:
   Node_gui* node_gui;
-  Param_gui* param_gui;
+  GUI_param* gui_param;
   GUI_option* gui_option;
   Loader* loaderManager;
 };

@@ -5,7 +5,7 @@
 #include "../../common.h"
 
 class Node_gui;
-class Param_gui;
+class GUI_param;
 class Struct_camera;
 
 
@@ -21,9 +21,10 @@ public:
 
   //Sub functions
   void object_parameter();
+  void option_line_width();
 
 private:
-  Param_gui* param_gui;
+  GUI_param* gui_param;
   Struct_camera* camera;
 
   int item_width;

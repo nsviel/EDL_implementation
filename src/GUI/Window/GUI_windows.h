@@ -5,8 +5,10 @@
 #include "../../common.h"
 
 class Node_gui;
-class Param_gui;
+class GUI_param;
+
 class WIN_camera;
+class WIN_data;
 
 
 class GUI_windows
@@ -20,7 +22,9 @@ public:
   void draw_windows();
 
 public:
-  Param_gui* param_gui;
+  GUI_param* gui_param;
+
+  WIN_data* win_data;
   WIN_camera* win_camera;
 };
 

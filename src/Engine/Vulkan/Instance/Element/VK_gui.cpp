@@ -143,12 +143,10 @@ void VK_gui::gui_style(){
   ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_MenuBarBg, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_TableBorderStrong, IM_COL32(0, 0, 0, 255));
-
   ImGui::PushStyleColor(ImGuiCol_TableRowBg, IM_COL32(40, 40, 40, 255));
   ImGui::PushStyleColor(ImGuiCol_TableRowBgAlt, IM_COL32(30, 30, 30, 255));
-
   ImGui::PushStyleColor(ImGuiCol_ResizeGrip, IM_COL32(15, 15, 15, 255));
-  ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(60, 60, 60, 255));
+  ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(50, 50, 50, 255));
   ImGui::PushStyleColor(ImGuiCol_PopupBg, IM_COL32(0, 0, 0, 255));
 
   //IO parameters

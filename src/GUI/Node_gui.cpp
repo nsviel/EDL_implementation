@@ -1,5 +1,5 @@
 #include "Node_gui.h"
-#include "Param_gui.h"
+#include "GUI_param.h"
 
 #include "Panel/GUI_left_panel.h"
 #include "Panel/GUI_menubar.h"
@@ -22,8 +22,8 @@ Node_gui::Node_gui(Node* node){
   this->node_engine = node->get_node_engine();
   this->node_data = node->get_node_data();
   this->node_load = node->get_node_load();
-  this->param_gui = new Param_gui();
-
+  
+  this->gui_param = new GUI_param();
   this->gui_time = new GUI_time(this);
   this->gui_shader = new GUI_shader(this);
   this->gui_option = new GUI_option(this);
@@ -39,7 +39,7 @@ Node_gui::Node_gui(Node* node){
 Node_gui::~Node_gui(){
   //---------------------------
 
-  delete param_gui;
+  delete gui_param;
   delete gui_left_panel;
   delete gui_control;
   delete gui_option;

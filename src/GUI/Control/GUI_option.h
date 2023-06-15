@@ -24,7 +24,6 @@ public:
   void option_color();
   void option_font();
   void option_fps();
-  void option_line_width();
 
 private:
   Node_gui* node_gui;
