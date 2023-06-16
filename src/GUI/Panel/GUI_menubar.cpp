@@ -41,8 +41,11 @@ void GUI_menubar::menu(){
   //---------------------------
 
   //if(ImGui::BeginMenu(ICON_FA_CUBE, "File")){
-  if(ImGui::BeginMenu("File")){
-    ImGui::Checkbox("Demo", &show_demo);
+  if(ImGui::BeginMenu("Demo")){
+    ImGui::Checkbox("Interface", &show_demo);
+    if(ImGui::Button("Demo file")){
+      int ret = system("xed ../extern/imgui/imgui_demo.cpp");
+    }
     ImGui::EndMenu();
   }
   //if(ImGui::MenuItem(ICON_FA_FILE, "Load")){

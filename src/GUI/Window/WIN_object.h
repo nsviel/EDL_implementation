@@ -6,7 +6,7 @@
 
 class Node_gui;
 class GUI_param;
-
+class Control;
 
 class WIN_object : public WIN_base
 {
@@ -28,6 +28,7 @@ public:
 
 private:
   GUI_param* gui_param;
+  Control* controlManager;
 
   int item_width;
 };

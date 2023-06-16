@@ -27,6 +27,7 @@ public:
   void selected_object_rotation(vec3 rotation);
   void selected_object_deletion();
   void selected_object_next();
+  void object_deletion(Object* object);
 
 private:
   Node* node;

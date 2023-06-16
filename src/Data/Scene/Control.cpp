@@ -71,6 +71,14 @@ void Control::selected_object_deletion(){
 
   //----------------------------
 }
+void Control::object_deletion(Object* object){
+  //----------------------------
+
+  //this->selected_object_next();
+  sceneManager->delete_object(object);
+
+  //----------------------------
+}
 void Control::selected_object_next(){
   Set* set_object = sceneManager->get_set_object();
   Object* selected = set_object->selected_obj;
