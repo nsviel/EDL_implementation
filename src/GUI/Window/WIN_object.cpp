@@ -49,9 +49,12 @@ void WIN_object::object_parameter(Object* object){
   ImGui::Text("Visibility");
   ImGui::NextColumn();
   ImGui::Checkbox("##4555", &object->is_visible);
-  ImGui::SameLine();
-  if(ImGui::Button(ICON_FA_TRASH "##4567")){
-    controlManager->object_deletion(object);
+  if(object->is_suppressible){
+    ImGui::SameLine();
+    if(ImGui::Button(ICON_FA_TRASH "##4567")){
+      controlManager->object_deletion(object);
+      gui_param->show_object = false;
+    }
   }
   ImGui::NextColumn();
 
@@ -74,13 +77,6 @@ void WIN_object::object_parameter(Object* object){
   if(ImGui::InputText("##format", str_f, IM_ARRAYSIZE(str_f), ImGuiInputTextFlags_EnterReturnsTrue)){
     object->file_format = str_f;
   }
-  ImGui::NextColumn();
-
-  //Number of points
-  ImGui::Text("Nb point");
-  ImGui::NextColumn();
-  string nb_point = thousandSeparator(object->nb_point);
-  ImGui::Text("%s", nb_point.c_str());
   ImGui::NextColumn();
 
   //Uniform collection color
@@ -106,6 +102,13 @@ void WIN_object::object_parameter(Object* object){
 
   //Primitive size
   if(object->draw_type_name == "point"){
+    //Number of points
+    ImGui::Text("Nb point");
+    ImGui::NextColumn();
+    string nb_point = thousandSeparator(object->nb_point);
+    ImGui::Text("%s", nb_point.c_str());
+    ImGui::NextColumn();
+    
     this->size_point(object);
   }
   else if(object->draw_type_name == "line"){
