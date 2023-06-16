@@ -9,6 +9,7 @@ class GUI_param;
 
 class WIN_camera;
 class WIN_object;
+class WIN_set;
 
 
 class GUI_windows
@@ -26,6 +27,7 @@ public:
 
   WIN_object* win_object;
   WIN_camera* win_camera;
+  WIN_set* win_set;
 };
 
 #endif

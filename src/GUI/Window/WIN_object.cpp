@@ -30,7 +30,7 @@ void WIN_object::design_window(){
 void WIN_object::object_info(Object* object){
   //---------------------------
 
-  this->name = object->name;
+  this->name = "Object " + object->name;
 
   //---------------------------
 }

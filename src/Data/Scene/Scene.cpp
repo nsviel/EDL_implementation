@@ -34,10 +34,12 @@ void Scene::init_set(){
   list<Set*>* list_data = dataManager->get_list_data_scene();
   //---------------------------
 
+  //Glyph set
   this->set_glyph = new Set("Glyph");
   list_data->push_back(set_glyph);
 
-  this->set_object = new Set("Object");
+  //Scene set
+  this->set_object = new Set("Scene");
   list_data->push_back(set_object);
 
   //---------------------------
@@ -80,6 +82,7 @@ void Scene::insert_object(Object* object){
   //Insert it into database
   set_object->list_obj.push_back(object);
   set_object->selected_obj = object;
+  set_object->nb_object++;
 
   //---------------------------
 }
@@ -90,6 +93,7 @@ void Scene::insert_glyph(Object* object){
   gpu_data->insert_glyph_in_engine(object);
   set_glyph->list_obj.push_back(object);
   set_glyph->selected_obj = object;
+  set_glyph->nb_object++;
 
   //---------------------------
 }
@@ -102,6 +106,7 @@ void Scene::delete_object(Object* object){
     if(object->ID == object_list->ID){
       set_object->list_obj.remove(object);
       gpu_data->remove_object_in_engine(object);
+      set_object->nb_object--;
     }
   }
 

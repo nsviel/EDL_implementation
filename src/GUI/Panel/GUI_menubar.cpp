@@ -47,7 +47,7 @@ void GUI_menubar::menu(){
   }
   //if(ImGui::MenuItem(ICON_FA_FILE, "Load")){
   if(ImGui::MenuItem("Load")){
-    loaderManager->load_object_zenity();
+    loaderManager->load_by_zenity();
   }
   /*if(ImGui::BeginMenu(ICON_FA_BOOK, "Save")){
     ImGui::EndMenu();

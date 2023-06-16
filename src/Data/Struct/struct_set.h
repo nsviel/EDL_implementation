@@ -14,8 +14,9 @@ struct Set
   void reset();
 
   //Info
-  int nb_obj = 0;
   std::string name;
+  int nb_object = 0;
+  bool is_visible = true;
 
   //Data
   Object* selected_obj = nullptr;

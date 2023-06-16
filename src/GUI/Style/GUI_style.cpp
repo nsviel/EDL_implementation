@@ -48,9 +48,6 @@ void GUI_style::style_window(){
   ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(117, 117, 117, 220));
   ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_MenuBarBg, IM_COL32(0, 0, 0, 255));
-  ImGui::PushStyleColor(ImGuiCol_TableBorderStrong, IM_COL32(0, 0, 0, 255));
-  ImGui::PushStyleColor(ImGuiCol_TableRowBg, IM_COL32(40, 40, 40, 255));
-  ImGui::PushStyleColor(ImGuiCol_TableRowBgAlt, IM_COL32(30, 30, 30, 255));
   ImGui::PushStyleColor(ImGuiCol_ResizeGrip, IM_COL32(15, 15, 15, 255));
   ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(50, 50, 50, 255));
   ImGui::PushStyleColor(ImGuiCol_PopupBg, IM_COL32(0, 0, 0, 255));
@@ -78,6 +75,11 @@ void GUI_style::style_widget(){
   //Slider
   ImGui::PushStyleColor(ImGuiCol_SliderGrab, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, IM_COL32(0, 0, 0, 255));
+
+  //Table
+  ImGui::PushStyleColor(ImGuiCol_TableBorderStrong, IM_COL32(0, 0, 0, 255));
+  ImGui::PushStyleColor(ImGuiCol_TableRowBg, IM_COL32(35, 35, 35, 255));
+  ImGui::PushStyleColor(ImGuiCol_TableRowBgAlt, IM_COL32(25, 25, 25, 255));
 
   //---------------------------
 }

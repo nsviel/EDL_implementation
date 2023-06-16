@@ -19,7 +19,7 @@ public:
   //Main functions
   Object* load_object(string path);
   vector<Object*> load_objects(vector<string> path);
-  void load_object_zenity();
+  void load_by_zenity();
 
   //Subfunctions
   void transfert_data(Object* object, Data_file* data);

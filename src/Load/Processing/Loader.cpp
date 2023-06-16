@@ -62,7 +62,7 @@ vector<Object*> Loader::load_objects(vector<string> path){
   //---------------------------
   return vec_obj;
 }
-void Loader::load_object_zenity(){
+void Loader::load_by_zenity(){
   //---------------------------
 
   //Select files to load
@@ -79,6 +79,7 @@ void Loader::transfert_data(Object* object, Data_file* data){
   //---------------------------
 
   object->name = data->name;
+  object->nb_point = data->xyz.size();
 
   object->xyz = data->xyz;
   object->rgb = data->rgb;

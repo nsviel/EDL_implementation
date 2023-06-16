@@ -20,6 +20,7 @@ public:
 
   //Sub functions
   void set_info(Set* set);
+  void set_parameter(Set* set);
 
 private:
   GUI_param* gui_param;
