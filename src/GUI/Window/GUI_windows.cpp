@@ -1,7 +1,7 @@
 #include "GUI_windows.h"
 
 #include "WIN_camera.h"
-#include "WIN_data.h"
+#include "WIN_object.h"
 
 #include "../Node_gui.h"
 #include "../GUI_param.h"
@@ -13,7 +13,7 @@ GUI_windows::GUI_windows(Node_gui* node_gui){
 
   this->gui_param = node_gui->get_gui_param();
   this->win_camera = new WIN_camera(node_gui, &gui_param->show_camera, "Camera");
-  this->win_data = new WIN_data(node_gui, &gui_param->show_data, "Data");
+  this->win_object = new WIN_object(node_gui, &gui_param->show_object, "Data");
 
   //---------------------------
 }
@@ -24,7 +24,7 @@ void GUI_windows::draw_windows(){
   //---------------------------
 
   win_camera->window();
-  win_data->window();
+  win_object->window();
 
   //---------------------------
 }

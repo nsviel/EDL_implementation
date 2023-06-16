@@ -12,8 +12,11 @@ struct GUI_param{
   //---------------------------
 
   bool show_camera;
-  bool show_data;
+  bool show_object;
+  bool show_set;
+  
   Object* object_selected;
+  Set* set_selected;
 
   //---------------------------
 };

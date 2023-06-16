@@ -8,12 +8,12 @@ class Node_gui;
 class GUI_param;
 
 
-class WIN_data : public WIN_base
+class WIN_object : public WIN_base
 {
 public:
   //Constructor / Destructor
-  WIN_data(Node_gui* node_gui, bool* show_window, string name);
-  ~WIN_data();
+  WIN_object(Node_gui* node_gui, bool* show_window, string name);
+  ~WIN_object();
 
   //Main function
   void design_window();
@@ -26,12 +26,9 @@ public:
   void width_line(Object* object);
   void size_point(Object* object);
 
-  inline void set_object(Object* object){this->object = object;}
-
 private:
   GUI_param* gui_param;
 
-  Object* object;
   int item_width;
 };
 

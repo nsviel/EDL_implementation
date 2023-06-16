@@ -27,7 +27,7 @@ GUI_device::~GUI_device(){}
 void GUI_device::design_device(){
   //---------------------------
 
-  ImGui::TextColored(ImVec4(0.4f,0.4f,0.4f,1.0f),"Profiling");
+  ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f),"Profiling");
 
   //Device model
   ImGui::Text("Device model ");

@@ -33,38 +33,3 @@ void GUI_data::design_data(){
 }
 
 //Subfunctions
-void GUI_data::option_line_width(){
-  Object* object = new Object();
-  ImGuiStyle& style = ImGui::GetStyle();
-  //---------------------------
-
-  //Point size
-  ImGui::Columns(2);
-  ImGui::AlignTextToFramePadding();
-  ImGui::Text("Line width ");
-  ImGui::NextColumn();
-  ImGui::PushButtonRepeat(true);
-  static int line_width = 1;
-  if(object != nullptr){
-    line_width = object->draw_line_width;
-  }
-  if (ImGui::ArrowButton("##left", ImGuiDir_Left) && object != nullptr){
-    object->draw_line_width--;
-
-    if(object->draw_line_width <= 1){
-      object->draw_line_width = 1;
-    }
-  }
-  ImGui::SameLine(0.0f, style.ItemInnerSpacing.x);
-  if (ImGui::ArrowButton("##right", ImGuiDir_Right) && object != nullptr){
-    object->draw_line_width++;
-
-    line_width = object->draw_line_width;
-  }
-  ImGui::PopButtonRepeat();
-  ImGui::SameLine();
-  ImGui::Text("%d", line_width);
-  ImGui::NextColumn();
-
-  //---------------------------
-}

@@ -67,7 +67,7 @@ int GUI_filemanager::data_node_tree(Set* set){
   //Node flag_tree
   ImGuiTreeNodeFlags flag_node;
   flag_node |= ImGuiTreeNodeFlags_OpenOnArrow;
-  flag_node |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
+  //flag_node |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
   if(set->name != "Glyph"){
     flag_node |= ImGuiTreeNodeFlags_DefaultOpen;
   }
@@ -83,6 +83,12 @@ int GUI_filemanager::data_node_tree(Set* set){
 
   //Set nodes
   bool is_node_open = ImGui::TreeNodeEx(set->name.c_str(), flag_node);
+
+  //If item double-clicked
+  if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
+    gui_param->set_selected = set;
+    gui_param->show_set = true;
+  }
 
   //Set elements leaf nodes
   if(is_node_open){
@@ -111,7 +117,7 @@ int GUI_filemanager::data_node_tree(Set* set){
       //If item double-clicked
       if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
         gui_param->object_selected = object;
-        gui_param->show_data = true;
+        gui_param->show_object = true;
       }
 
     }

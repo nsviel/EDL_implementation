@@ -1,11 +1,11 @@
-#include "WIN_data.h"
+#include "WIN_object.h"
 
 #include "../Node_gui.h"
 #include "../GUI_param.h"
 
 
 //Constructor / Destructor
-WIN_data::WIN_data(Node_gui* node_gui, bool* show_window, string name) : WIN_base(show_window, name){
+WIN_object::WIN_object(Node_gui* node_gui, bool* show_window, string name) : WIN_base(show_window, name){
   //---------------------------
 
   this->gui_param = node_gui->get_gui_param();
@@ -14,10 +14,10 @@ WIN_data::WIN_data(Node_gui* node_gui, bool* show_window, string name) : WIN_bas
 
   //---------------------------
 }
-WIN_data::~WIN_data(){}
+WIN_object::~WIN_object(){}
 
 //Main function
-void WIN_data::design_window(){
+void WIN_object::design_window(){
   //---------------------------
 
   this->object_info(gui_param->object_selected);
@@ -27,14 +27,14 @@ void WIN_data::design_window(){
 }
 
 //Subfunction
-void WIN_data::object_info(Object* object){
+void WIN_object::object_info(Object* object){
   //---------------------------
 
   this->name = object->name;
 
   //---------------------------
 }
-void WIN_data::object_parameter(Object* object){
+void WIN_object::object_parameter(Object* object){
   ImGui::Columns(2);
   //---------------------------
 
@@ -107,7 +107,7 @@ void WIN_data::object_parameter(Object* object){
 }
 
 //Primitive size
-void WIN_data::width_line(Object* object){
+void WIN_object::width_line(Object* object){
   ImGuiStyle& style = ImGui::GetStyle();
   //---------------------------
 
@@ -136,7 +136,7 @@ void WIN_data::width_line(Object* object){
 
   //---------------------------
 }
-void WIN_data::size_point(Object* object){
+void WIN_object::size_point(Object* object){
   ImGuiStyle& style = ImGui::GetStyle();
   //---------------------------
 

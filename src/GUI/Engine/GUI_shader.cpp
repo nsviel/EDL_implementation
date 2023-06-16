@@ -26,7 +26,7 @@ void GUI_shader::design_shader(){
   Struct_edl* edl_param = shader_edl->get_edl_param();
   //---------------------------
 
-  ImGui::TextColored(ImVec4(0.4f,0.4f,0.4f,1.0f),"EDL");
+  ImGui::TextColored(ImVec4(0.7f,0.7f,0.7f,1.0f),"EDL");
 
   ImGui::SetNextItemWidth(item_width);
   if(ImGui::Checkbox("Activated", &edl_param->activated)){

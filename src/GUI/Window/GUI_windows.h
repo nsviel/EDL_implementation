@@ -8,7 +8,7 @@ class Node_gui;
 class GUI_param;
 
 class WIN_camera;
-class WIN_data;
+class WIN_object;
 
 
 class GUI_windows
@@ -24,7 +24,7 @@ public:
 public:
   GUI_param* gui_param;
 
-  WIN_data* win_data;
+  WIN_object* win_object;
   WIN_camera* win_camera;
 };
 

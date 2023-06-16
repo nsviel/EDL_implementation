@@ -21,7 +21,7 @@ public:
   void design_data();
 
   //Subfunction
-  void option_line_width();
+
 
 private:
   Node_gui* node_gui;
