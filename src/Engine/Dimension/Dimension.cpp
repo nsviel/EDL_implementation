@@ -20,6 +20,7 @@ void Dimension::init(){
   Tab* tab_panel_left = new Tab("left_panel");
   tab_panel_left->pos = vec2(0, 0);
   tab_panel_left->dim = vec2(200, 00);
+  tab_panel_left->dim_min.x = 200;
   this->list_tab.push_back(tab_panel_left);
 
   //Rendering tab

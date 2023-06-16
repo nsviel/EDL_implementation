@@ -30,12 +30,7 @@ GUI_left_panel::GUI_left_panel(Node_gui* node_gui){
 
   //---------------------------
 }
-GUI_left_panel::~GUI_left_panel(){
-  //---------------------------
-
-
-  //---------------------------
-}
+GUI_left_panel::~GUI_left_panel(){}
 
 //Main function
 void GUI_left_panel::draw_left_panel(){

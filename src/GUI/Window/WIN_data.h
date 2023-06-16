@@ -21,7 +21,10 @@ public:
   //Sub functions
   void object_info(Object* object);
   void object_parameter(Object* object);
-  void option_line_width(Object* object);
+
+  //Primitive size
+  void width_line(Object* object);
+  void size_point(Object* object);
 
   inline void set_object(Object* object){this->object = object;}
 
