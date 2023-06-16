@@ -1,3 +1,4 @@
 build/*
-extern/*
+extern/spir
+extern/spir/*
 doc/todo/*
