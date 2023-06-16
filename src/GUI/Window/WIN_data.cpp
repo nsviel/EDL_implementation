@@ -38,6 +38,12 @@ void WIN_data::object_parameter(Object* object){
   ImGui::Columns(2);
   //---------------------------
 
+  //Visibility
+  ImGui::Text("Visibility");
+  ImGui::NextColumn();
+  ImGui::Checkbox("##4555", &object->is_visible);
+  ImGui::NextColumn();
+
   //Name
   ImGui::SetColumnWidth(-1,75);
   ImGui::Text("Name");
@@ -64,12 +70,6 @@ void WIN_data::object_parameter(Object* object){
   ImGui::NextColumn();
   string nb_point = thousandSeparator(object->nb_point);
   ImGui::Text("%s", nb_point.c_str());
-  ImGui::NextColumn();
-
-  //Visibility
-  ImGui::Text("Visibility");
-  ImGui::NextColumn();
-  ImGui::Checkbox("##4555", &object->is_visible);
   ImGui::NextColumn();
 
   //Uniform collection color

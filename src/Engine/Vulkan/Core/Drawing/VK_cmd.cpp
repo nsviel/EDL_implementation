@@ -121,7 +121,7 @@ void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
     Struct_data* data =  *next(list_data_scene.begin(),i);
     Object* object = data->object;
 
-    if(object->draw_type_name == "point"){
+    if(object->draw_type_name == "point" && object->is_visible){
       //Camera
       vk_camera->compute_mvp(object);
       vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
@@ -153,7 +153,7 @@ void VK_cmd::cmd_draw_glyph(Struct_renderpass* renderpass){
     Struct_data* data =  *next(list_data_glyph.begin(),i);
     Object* object = data->object;
 
-    if(object->draw_type_name == "line"){
+    if(object->draw_type_name == "line" && object->is_visible){
       //Camera
       vk_camera->compute_mvp(object);
       vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);

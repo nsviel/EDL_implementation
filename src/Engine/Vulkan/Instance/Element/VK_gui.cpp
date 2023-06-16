@@ -58,9 +58,8 @@ void VK_gui::init_gui(){
   //---------------------------
 
   this->gui_vulkan();
-  this->gui_font_load();
-  this->gui_font();
-  this->gui_style();
+  this->gui_select_font();
+  this->gui_load_font();
 
   //---------------------------
 }
@@ -118,43 +117,28 @@ void VK_gui::gui_vulkan(){
 
   //---------------------------
 }
-void VK_gui::gui_style(){
-  ImGuiStyle& style = ImGui::GetStyle();
-  ImGuiIO& io = ImGui::GetIO();
+void VK_gui::gui_select_font(){
+  ImGuiIO io = ImGui::GetIO();
+  static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+  ImFontConfig config;
+  config.MergeMode = true;
+  config.GlyphMinAdvanceX = 15.0f; //Monospace icons
   //---------------------------
 
-  //Formatting
-  style.FrameBorderSize = 0.0f;
-  style.WindowRounding = 0.0f;
-  style.TabRounding = 0.0f;
-  style.GrabRounding = 0.0f;
-  style.ScrollbarRounding = 0.0f;
-  style.ChildRounding = 0.0f;
-  style.FrameRounding = 0.0f;
-  style.PopupRounding = 0.0f;
-  style.FrameBorderSize = 1.0f;
-  style.WindowBorderSize = 0.0f;
+  //Load font size 13
+  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", 13.0f);
+  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", 12.5f, &config, icons_ranges);
 
-  //Colors
-  ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(150, 150, 150, 255));
-  ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(200, 200, 200, 255)); //Button color
-  ImGui::PushStyleColor(ImGuiCol_Header, IM_COL32(76, 76, 76, 255));
-  ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(117, 117, 117, 220));
-  ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 255));
-  ImGui::PushStyleColor(ImGuiCol_MenuBarBg, IM_COL32(0, 0, 0, 255));
-  ImGui::PushStyleColor(ImGuiCol_TableBorderStrong, IM_COL32(0, 0, 0, 255));
-  ImGui::PushStyleColor(ImGuiCol_TableRowBg, IM_COL32(40, 40, 40, 255));
-  ImGui::PushStyleColor(ImGuiCol_TableRowBgAlt, IM_COL32(30, 30, 30, 255));
-  ImGui::PushStyleColor(ImGuiCol_ResizeGrip, IM_COL32(15, 15, 15, 255));
-  ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(50, 50, 50, 255));
-  ImGui::PushStyleColor(ImGuiCol_PopupBg, IM_COL32(0, 0, 0, 255));
+  //Load font size 12
+  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", 12.0f);
+  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", 12.5f, &config, icons_ranges);
 
-  //IO parameters
-  io.ConfigWindowsResizeFromEdges = true;
+  //Buid the font database
+  io.Fonts->Build();
 
   //---------------------------
 }
-void VK_gui::gui_font(){
+void VK_gui::gui_load_font(){
   VkCommandPool command_pool = vk_command_buffer->get_command_pool();
   //---------------------------
 
@@ -193,27 +177,6 @@ void VK_gui::gui_font(){
   }
 
   ImGui_ImplVulkan_DestroyFontUploadObjects();
-
-  //---------------------------
-}
-void VK_gui::gui_font_load(){
-  ImGuiIO io = ImGui::GetIO();
-  static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-  ImFontConfig config;
-  config.MergeMode = true;
-  config.GlyphMinAdvanceX = 15.0f; //Monospace icons
-  //---------------------------
-
-  //Load font size 13
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Font/DroidSans.ttf", 13.0f);
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Font/fontawesome-webfont.ttf", 12.5f, &config, icons_ranges);
-
-  //Load font size 12
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Font/DroidSans.ttf", 12.0f);
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Font/fontawesome-webfont.ttf", 12.5f, &config, icons_ranges);
-
-  //Buid the font database
-  io.Fonts->Build();
 
   //---------------------------
 }

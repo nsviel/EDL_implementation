@@ -34,9 +34,8 @@ public:
   //Init function
   void init_gui();
   void gui_vulkan();
-  void gui_style();
-  void gui_font();
-  void gui_font_load();
+  void gui_select_font();
+  void gui_load_font();
 
   //Loop functions
   void loop_start();
