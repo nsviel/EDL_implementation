@@ -1,3 +1,4 @@
 -mean of time values
 -régler effets de bord EDL
 -object rotation time
+-faire renderpass subpass avec interdependances

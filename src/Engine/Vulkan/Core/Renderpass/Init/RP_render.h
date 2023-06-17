@@ -26,7 +26,8 @@ public:
   void init_renderpass_render(Struct_renderpass* renderpass);
 
   //Subpass
-  void create_subpass(Struct_renderpass* renderpass);
+  void create_subpass_edl(Struct_renderpass* renderpass);
+  void create_subpass_occlusion(Struct_renderpass* renderpass);
 
   //Pipeline
   void create_pipeline_triangle(Struct_renderpass* renderpass);

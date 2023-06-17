@@ -6,6 +6,7 @@
 
 class VK_engine;
 class VK_param;
+class VK_color;
 
 
 class VK_subpass
@@ -17,12 +18,17 @@ public:
 
 public:
   //Main functions
-  void create_subpass_clear_info(Struct_renderpass* renderpass);
-  void create_subpass_conserve_info(Struct_renderpass* renderpass);
+  void create_subpass(Struct_renderpass* renderpass);
+
+  //Subfunction
+  void create_depth_attachment(Struct_subpass* subpass);
+  void create_color_attachment(Struct_subpass* subpass);
+  void create_subpass_description(Struct_subpass* subpass);
 
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
+  VK_color* vk_color;
 };
 
 #endif

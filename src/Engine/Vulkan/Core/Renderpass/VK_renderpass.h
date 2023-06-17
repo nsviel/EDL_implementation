@@ -31,9 +31,6 @@ public:
 
   //Subfunction
   void create_renderpass(Struct_renderpass* renderpass);
-  void create_depth_attachment(Struct_renderpass* renderpass);
-  void create_color_attachment(Struct_renderpass* renderpass);
-  void create_subpass(Struct_subpass* subpass);
   void create_renderpass_obj(Struct_renderpass* renderpass);
 
 private:

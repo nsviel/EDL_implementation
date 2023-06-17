@@ -39,7 +39,9 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
   renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
   renderpass->depth_sampler_layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 
-  this->create_subpass(renderpass);
+  this->create_subpass_edl(renderpass);
+  //this->create_subpass_occlusion(renderpass);
+
   this->create_pipeline_triangle(renderpass);
   this->create_pipeline_edl(renderpass);
 
@@ -48,7 +50,26 @@ void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
 }
 
 //Subpass
-void RP_render::create_subpass(Struct_renderpass* renderpass){
+void RP_render::create_subpass_edl(Struct_renderpass* renderpass){
+  //---------------------------
+
+  Struct_subpass* subpass = new Struct_subpass();
+  subpass->color.binding = 0;
+  subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
+  subpass->color.store_operation = ATTACHMENT_STOREOP_NOTHING;
+  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
+  subpass->color.layout_final = IMAGE_LAYOUT_SHADER_READONLY;
+
+  subpass->depth.binding = 1;
+  subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
+  subpass->color.store_operation = ATTACHMENT_STOREOP_STORE;
+  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
+  subpass->depth.layout_final = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+  renderpass->vec_subpass.push_back(subpass);
+
+  //---------------------------
+}
+void RP_render::create_subpass_occlusion(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_subpass* subpass = new Struct_subpass();
