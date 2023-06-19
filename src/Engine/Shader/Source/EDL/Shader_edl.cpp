@@ -13,7 +13,7 @@ Shader_edl::Shader_edl(Node_engine* node_engine){
 
   this->struct_edl = new Struct_edl();
   struct_edl->activated = true;
-  struct_edl->strength = 300.0;
+  struct_edl->strength = 10.0;
   struct_edl->radius = 1.5;
 
   //---------------------------
@@ -26,15 +26,13 @@ void Shader_edl::update_shader(){
   //---------------------------
 
   // Depth setup
-  float clip_near = camera->clip_near;
-  float clip_far = camera->clip_far;
-  struct_edl->A = -(clip_far + clip_near) / (clip_far - clip_near);
-  struct_edl->B = (-2 * clip_far * clip_near) / (clip_far - clip_near);
+  struct_edl->z_near = camera->clip_near;
+  struct_edl->z_far = camera->clip_far;
 
   //Dimension
   Tab* tab_rendering = dimManager->get_tab("rendering");
-  struct_edl->width = tab_rendering->dim.x;
-  struct_edl->height = tab_rendering->dim.y;
+  struct_edl->tex_width = tab_rendering->dim.x;
+  struct_edl->tex_height = tab_rendering->dim.y;
 
   //---------------------------
 }

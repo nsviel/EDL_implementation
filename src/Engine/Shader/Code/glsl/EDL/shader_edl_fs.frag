@@ -1,5 +1,6 @@
 #version 450
 #extension GL_EXT_debug_printf : enable
+//debugPrintfEXT("My float is %f", depth_rgba.x);
 
 layout(location = 2) in vec2 frag_tex_coord;
 layout(location = 0) out vec4 out_color;
@@ -8,44 +9,63 @@ layout(set = 0, binding = 0) uniform sampler2D tex_color;
 layout(set = 0, binding = 1) uniform sampler2D tex_depth;
 layout(set = 0, binding = 2) uniform param{
   bool activated;
-  float A;
-  float B;
+  float z_near;
+  float z_far;
   float strength;
   float radius;
-  int width;
-  int height;
+  int tex_width;
+  int tex_height;
 };
 
-float table_index[index_size] = float[](5.0, 4.0, 3.0, 6.0, -1.0, 2.0, 7.0, 0.0, 1.0);
+vec2 table_index[8] = vec2[](\
+  vec2(1.0, 0.0),\
+  vec2(1.0, 1.0),\
+  vec2(0.0, 1.0),\
+  vec2(-1.0, 1.0),\
+
+  vec2(-1.0, 0.0),\
+  vec2(-1.0, -1.0),\
+  vec2(0.0, -1.0),\
+  vec2(1.0, -1.0)\
+);
 
 
 //FUNCTION 1 - Compute normalized depth
 float compute_depth_normalized(float depth){
   //---------------------------
 
-  // depth: Linear depth, in world units
-  // depth_norm: normalized depth between [0, 1]
-  float depth_norm = 0.5 * (-A * depth + B) / depth + 0.5;
-
+  float depth_norm = (2.0 * z_far * z_near) / ((z_far + z_near) - (2.0 * depth - 1.0) * (z_far - z_near));
+  depth_norm = (depth_norm - z_near) / (z_far - z_near);
+  depth_norm = clamp(1.0 - depth_norm, 0.0, 1.0);
 
   //---------------------------
   return depth_norm;
 }
 
-//FUNCTION 2 - Compute neighbor influence
-vec2 neighbor_contribution(float depth_norm, vec2 offset){
+//FUNCTION 2 - Compute shading
+float compute_shading(float depth_norm){
   //---------------------------
 
-  // get normalized depth at texture offseted coordinate
-  vec2 NN_coord = frag_tex_coord + offset;
-  vec4 depth_NN_rgba = texture(tex_depth, NN_coord);
-  float depth_NN_norm = compute_depth_normalized(depth_NN_rgba.r);
+  vec4 P = vec4(0,0,1,1);
+  vec2 texel_size = radius / vec2(tex_width, tex_height);
 
-  // interpolate the two adjacent depth values
-  float NN_contrib = max(0.0, log2(depth_norm) - log2(depth_NN_norm));
+  //Shading according to all neighbors
+  float sum = 0.0;
+  for(int i=0; i<8; i++){
+    vec2 offset = texel_size * table_index[i];
+    vec2 NN_coord = frag_tex_coord + offset;
+
+    vec4 depth_NN_rgba = texture(tex_depth, NN_coord);
+    float depth_NN_norm = compute_depth_normalized(depth_NN_rgba.r);
+    //float Znp = dot(vec4(offset, depth_NN_norm, 1.0), P);
+    float diff_depth = log2(depth_norm) - log2(depth_NN_norm);
+
+    sum +=  max(0.0, diff_depth);
+  }
+  float shade = exp(-sum * 100.0 * strength);
 
   //---------------------------
-  return vec2(NN_contrib, 1.0);
+  return shade;
 }
 
 //MAIN FUNCTION
@@ -53,29 +73,11 @@ void main(){
   //---------------------------
   vec4 color_rgba = texture(tex_color, frag_tex_coord);
   vec4 depth_rgba = texture(tex_depth, frag_tex_coord);
+  float depth_norm = compute_depth_normalized(depth_rgba.r);
 
-  //debugPrintfEXT("My float is %f", depth_rgba.x);
-
-  if(activated && depth_rgba.r < 0.999){
-    // Build the Depth
-    float depth_norm = compute_depth_normalized(depth_rgba.r);
-
-    //Check neighborhood influence
-    vec2 dim = vec2(width, height);
-    vec2 texel_size = radius / dim;
-    vec2 NN_response = vec2(0.0);
-    NN_response += neighbor_contribution(depth_norm, vec2(-texel_size.x, 0.0));
-    NN_response += neighbor_contribution(depth_norm, vec2(+texel_size.x, 0.0));
-    NN_response += neighbor_contribution(depth_norm, vec2(0.0, -texel_size.y));
-    NN_response += neighbor_contribution(depth_norm, vec2(0.0, +texel_size.y));
-
-    // Build the Eye Dome Lighting effect
-    float depth_response = NN_response.x / NN_response.y;
-    float shade = exp(-depth_response * 15000.0 * strength);
-
+  if(depth_norm < 1 && activated){
+    float shade = compute_shading(depth_norm);
     color_rgba.rgb *= shade;
-  }else{
-    color_rgba.rgb = vec3(1);
   }
 
   //---------------------------

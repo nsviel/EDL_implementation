@@ -34,12 +34,12 @@ void GUI_shader::design_shader(){
   }
 
   ImGui::SetNextItemWidth(item_width);
-  if(ImGui::SliderFloat("Radius", &edl_param->radius, 1.0f, 3.0f)){
+  if(ImGui::SliderFloat("Radius", &edl_param->radius, 1.0f, 5.0f)){
     shader_edl->update_shader();
   }
 
   ImGui::SetNextItemWidth(item_width);
-  if(ImGui::SliderFloat("Strength", &edl_param->strength, 1.0f, 1000.0f)){
+  if(ImGui::SliderFloat("Strength", &edl_param->strength, 1.0f, 100.0f)){
     shader_edl->update_shader();
   }
 

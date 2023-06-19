@@ -1,17 +1,19 @@
 #ifndef STRUCT_EDL_H
 #define STRUCT_EDL_H
 
+#include <glm/glm.hpp>
+
 
 struct Struct_edl{
   //---------------------------
 
   bool activated;
-  float A;
-  float B;
+  float z_near;
+  float z_far;
   float strength;
   float radius;
-  int width;
-  int height;
+  int tex_width;
+  int tex_height;
 
   //---------------------------
 };
