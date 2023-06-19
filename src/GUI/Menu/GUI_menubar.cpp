@@ -1,5 +1,6 @@
 #include "GUI_menubar.h"
 #include "GUI_option.h"
+#include "Initialization/GUI_init.h"
 
 #include "../Node_gui.h"
 #include "../GUI_param.h"
@@ -18,6 +19,7 @@ GUI_menubar::GUI_menubar(Node_gui* node_gui){
   this->node_gui = node_gui;
   this->gui_param = node_gui->get_gui_param();
   this->gui_option = node_gui->get_gui_option();
+  this->gui_init = node_gui->get_gui_init();
   this->loaderManager = Node_load->get_loaderManager();
 
   //---------------------------
@@ -40,34 +42,34 @@ void GUI_menubar::menu(){
   static bool show_demo = false;
   //---------------------------
 
-  //if(ImGui::BeginMenu(ICON_FA_CUBE, "File")){
-  if(ImGui::BeginMenu("Demo")){
-    ImGui::Checkbox("Interface", &show_demo);
-    if(ImGui::Button("Demo file")){
-      int ret = system("xed ../extern/imgui/imgui_demo.cpp");
-    }
-    ImGui::EndMenu();
-  }
-  //if(ImGui::MenuItem(ICON_FA_FILE, "Load")){
   if(ImGui::MenuItem("Load")){
     loaderManager->load_by_zenity();
   }
-  /*if(ImGui::BeginMenu(ICON_FA_BOOK, "Save")){
-    ImGui::EndMenu();
-  }*/
-  //if(ImGui::BeginMenu(ICON_FA_COG, "Option")){
-  if(ImGui::BeginMenu("Option")){
-    gui_option->design_option();
+  if(ImGui::BeginMenu("Init")){
+    gui_init->design_init();
     ImGui::EndMenu();
   }
-  /*if(ImGui::BeginMenu(ICON_FA_COMMENT, "Init")){
-    //ImGui::MenuItem("(demo menu)", NULL, false, false);
+  if(ImGui::BeginMenu(ICON_FA_COG, "Option")){
+    gui_option->design_option();
+    this->menu_demo();
     ImGui::EndMenu();
-  }*/
-  //Camera
+  }
   if(ImGui::MenuItem(ICON_FA_CAMERA, "Camera##111")){
     gui_param->show_camera = !gui_param->show_camera;
   }
+
+  //---------------------------
+}
+
+void GUI_menubar::menu_demo(){
+  static bool show_demo = false;
+  //---------------------------
+
+  if(ImGui::Button("Demo file")){
+    int ret = system("xed ../extern/imgui/imgui_demo.cpp");
+  }
+  ImGui::SameLine();
+  ImGui::Checkbox("Interface", &show_demo);
 
   if(show_demo){
     ImGui::ShowDemoWindow();
@@ -75,7 +77,6 @@ void GUI_menubar::menu(){
 
   //---------------------------
 }
-
 
 /*
 void GUI_menubar::MenuBar_menu(){

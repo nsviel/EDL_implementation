@@ -1,7 +1,7 @@
-#ifndef GLYPH_STRUCT_H
-#define GLYPH_STRUCT_H
+#ifndef STRUCT_TREEFILE_H
+#define STRUCT_TREEFILE_H
 
-#include "../../common.h"
+#include "../../../common.h"
 
 
 struct Struct_treefile{

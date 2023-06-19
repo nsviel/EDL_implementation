@@ -4,6 +4,7 @@
 #include "Panel/GUI_left_panel.h"
 #include "Menu/GUI_menubar.h"
 #include "Menu/GUI_option.h"
+#include "Menu/Initialization/GUI_init.h"
 #include "Control/GUI_control.h"
 #include "Control/GUI_time.h"
 #include "Engine/GUI_shader.h"
@@ -29,6 +30,7 @@ Node_gui::Node_gui(Node* node){
   this->gui_shader = new GUI_shader(this);
   this->gui_option = new GUI_option(this);
   this->gui_filemanager = new GUI_filemanager(this);
+  this->gui_init = new GUI_init(this);
   this->gui_menubar = new GUI_menubar(this);
   this->gui_device = new GUI_device(this);
   this->gui_left_panel = new GUI_left_panel(this);

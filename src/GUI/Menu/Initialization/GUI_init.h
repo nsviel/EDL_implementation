@@ -11,17 +11,22 @@ class Loader;
 class Transformation;
 
 
-class GUI_Initialization
+class GUI_init
 {
 public:
   //Constructor / Destructor
-  GUI_Initialization(Node_gui* node_gui);
-  ~GUI_Initialization();
+  GUI_init(Node_gui* node_gui);
+  ~GUI_init();
 
 public:
   //Main funxtion
-  void init_gui();
-  void update_configuration();
+  void design_init();
+
+
+
+
+
+
 
   //Operation on loaded cloud
   void operation_new_collection(Object* object);
@@ -54,10 +59,8 @@ private:
   vector<string> accepted_format;
   vector<string> path_init_vec;
   vector<string> path_init_file;
-  bool with_remove_cloud;
-  bool with_onthefly;
-  float object_scale;
-  string lidar_model;
+
+  Struct_init init;
 };
 
 #endif

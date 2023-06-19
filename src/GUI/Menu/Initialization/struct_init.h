@@ -1,14 +1,14 @@
-#ifndef GLYPH_STRUCT_H
-#define GLYPH_STRUCT_H
+#ifndef STRUCT_INIT_H
+#define STRUCT_INIT_H
 
-#include "../../common.h"
+#include "../../../common.h"
 
 
 struct Struct_init{
   //---------------------------
 
-  bool with_remove_cloud;
-  float object_scale;
+  bool remove_old = true;
+  float scale = 1;
 
   //---------------------------
 };

@@ -1,4 +1,4 @@
-#include "GUI_Initialization.h"
+#include "GUI_init.h"
 
 #include "../../Node_gui.h"
 
@@ -12,7 +12,7 @@
 
 
 //Constructor / Destructor
-GUI_Initialization::GUI_Initialization(Node_gui* node_gui){
+GUI_init::GUI_init(Node_gui* node_gui){
   //---------------------------
 /*
   Node_engine* node_engine = node_gui->get_node_engine();
@@ -34,62 +34,34 @@ GUI_Initialization::GUI_Initialization(Node_gui* node_gui){
 */
   //---------------------------
 }
-GUI_Initialization::~GUI_Initialization(){}
+GUI_init::~GUI_init(){}
 
 //Main functions
-void GUI_Initialization::init_gui(){
+void GUI_init::design_init(){
   //---------------------------
 
-  //this->operation_option();
+  this->operation_option();
   //this->treeview();
 
   //---------------------------
 }
 
-void GUI_Initialization::operation_option(){
+void GUI_init::operation_option(){
   //---------------------------
 
   //Point cloud scaling
   ImGui::SetNextItemWidth(100);
-  ImGui::DragFloat("Scale##4567", &object_scale, 0.1, 0.1, 100, "%.2f x");
+  ImGui::DragFloat("Scale##4567", &init.scale, 0.1, 0.1, 100, "%.2f x");
   ImGui::SameLine();
 
   //Remove old clouds
-  ImGui::Checkbox("Remove##222", &with_remove_cloud);
-
-  //Lidar model
-  static int lidar_model_id;
-  if(lidar_model == "velodyne_vlp16"){
-    lidar_model_id = 0;
-  }else if(lidar_model == "velodyne_vlp64"){
-    lidar_model_id = 1;
-  }else if(lidar_model == "velodyne_hdl32"){
-    lidar_model_id = 2;
-  }else if(lidar_model == "velodyne_vlp16_reduced"){
-    lidar_model_id = 3;
-  }
-  ImGui::SetNextItemWidth(100);
-  if(ImGui::Combo("Lidar", &lidar_model_id, "vlp_16\0vlp_64\0hdl_32\0vlp_16_reduced\0")){
-    if(lidar_model_id == 0){
-      this->lidar_model = "velodyne_vlp16";
-    }else if(lidar_model_id == 1){
-      this->lidar_model = "velodyne_vlp64";
-    }else if(lidar_model_id == 2){
-      this->lidar_model = "velodyne_hdl32";
-    }else if(lidar_model_id == 3){
-      this->lidar_model = "velodyne_vlp16_reduced";
-    }
-  }
-  ImGui::SameLine();
-
-  //Remove old cloud
-  ImGui::Checkbox("On the fly##222", &with_onthefly);
+  ImGui::Checkbox("Remove##222", &init.remove_old);
 
   //---------------------------
 }
 /*
 //Operation on loaded cloud
-void GUI_Initialization::operation_new_collection(Object* object){
+void GUI_init::operation_new_collection(Object* object){
   //---------------------------
 /*
   if(object != nullptr){
@@ -112,7 +84,7 @@ void GUI_Initialization::operation_new_collection(Object* object){
 
 
 //Specific scene construction
-void GUI_Initialization::construct_node_scene(vector<vector<Struct_treefile*>>& nodes_path_vec){
+void GUI_init::construct_node_scene(vector<vector<Struct_treefile*>>& nodes_path_vec){
   //---------------------------
 
   //Scene folder
@@ -151,7 +123,7 @@ void GUI_Initialization::construct_node_scene(vector<vector<Struct_treefile*>>& 
 
   //---------------------------
 }
-void GUI_Initialization::build_scene_1(){
+void GUI_init::build_scene_1(){
   //---------------------------
 /*
   for (int i=0; i<3; i++){
@@ -170,7 +142,7 @@ void GUI_Initialization::build_scene_1(){
 }
 
 //Tree view
-void GUI_Initialization::treeview(){
+void GUI_init::treeview(){
   //---------------------------
 
   static ImGuiTableFlags flags = ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersOuterH | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_NoBordersInBody;
@@ -192,7 +164,7 @@ void GUI_Initialization::treeview(){
 
   //---------------------------
 }
-void GUI_Initialization::construst_tree(){
+void GUI_init::construst_tree(){
   this->nodes_path_vec.clear();
   //---------------------------
 
@@ -211,7 +183,7 @@ void GUI_Initialization::construst_tree(){
 
   //---------------------------
 }
-void GUI_Initialization::construct_node(string path, vector<Struct_treefile*>& nodes){
+void GUI_init::construct_node(string path, vector<Struct_treefile*>& nodes){
   if(path != ""){
     //---------------------------
 
@@ -229,7 +201,7 @@ void GUI_Initialization::construct_node(string path, vector<Struct_treefile*>& n
     //---------------------------
   }
 }
-void GUI_Initialization::construct_node_root(vector<string>& vec_path, vector<Struct_treefile*>& nodes){
+void GUI_init::construct_node_root(vector<string>& vec_path, vector<Struct_treefile*>& nodes){
   //---------------------------
 
   for(int i=0; i<vec_path.size(); i++){
@@ -251,7 +223,7 @@ void GUI_Initialization::construct_node_root(vector<string>& vec_path, vector<St
 
   //---------------------------
 }
-void GUI_Initialization::node_child_scan(string path, vector<Struct_treefile*>& nodes, Struct_treefile* parent){
+void GUI_init::node_child_scan(string path, vector<Struct_treefile*>& nodes, Struct_treefile* parent){
   vector<string> list_path = list_all_path(path);
   //---------------------------
 
@@ -293,7 +265,7 @@ void GUI_Initialization::node_child_scan(string path, vector<Struct_treefile*>& 
 
   //---------------------------
 }
-void GUI_Initialization::display_node(Struct_treefile* node, vector<Struct_treefile*>& all_nodes){
+void GUI_init::display_node(Struct_treefile* node, vector<Struct_treefile*>& all_nodes){
   if(all_nodes.size() != 0){
     //---------------------------
 
@@ -339,7 +311,7 @@ void GUI_Initialization::display_node(Struct_treefile* node, vector<Struct_treef
     //---------------------------
   }
 }
-void GUI_Initialization::display_node_root(vector<Struct_treefile*>& all_nodes){
+void GUI_init::display_node_root(vector<Struct_treefile*>& all_nodes){
   //---------------------------
 
   for(int i=0; i<all_nodes.size(); i++){
@@ -361,7 +333,7 @@ void GUI_Initialization::display_node_root(vector<Struct_treefile*>& all_nodes){
 
   //---------------------------
 }
-bool GUI_Initialization::check_file_format(string path){
+bool GUI_init::check_file_format(string path){
   string format = get_format_from_path(path);
   //---------------------------
 
@@ -374,7 +346,7 @@ bool GUI_Initialization::check_file_format(string path){
   //---------------------------
   return false;
 }
-void GUI_Initialization::open_selection(Struct_treefile* node){
+void GUI_init::open_selection(Struct_treefile* node){
   //---------------------------
 
   if(with_remove_cloud){

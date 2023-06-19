@@ -4,9 +4,10 @@
 #include "../../common.h"
 
 class Node_gui;
-class GUI_param;
-class GUI_option;
 class Loader;
+class GUI_param;
+class GUI_init;
+class GUI_option;
 
 
 class GUI_menubar
@@ -22,12 +23,15 @@ public:
 
   //Subfunctions
   void menu();
-
+  void menu_demo();
+  
 private:
   Node_gui* node_gui;
+  Loader* loaderManager;
+  GUI_init* gui_init;
   GUI_param* gui_param;
   GUI_option* gui_option;
-  Loader* loaderManager;
+
 };
 
 
