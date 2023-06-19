@@ -58,6 +58,20 @@ float fct_mean(std::vector<float>& vec){
   //---------------------------
   return mean;
 }
+float fct_mean_and_clear(std::vector<float>& vec){
+  int size = vec.size();
+  float sum = 0;
+  //---------------------------
+
+  for(int i=0; i<size; i++){
+    sum += vec[i];
+  }
+  float mean = sum / size;
+  vec.clear();
+
+  //---------------------------
+  return mean;
+}
 float fct_sum(std::vector<float>& vec){
   //Sum of vector elements
   float out = 0;

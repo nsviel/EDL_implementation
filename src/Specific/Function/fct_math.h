@@ -38,6 +38,7 @@ float fct_sign(float value);
 //Minimum / Mean / Maximum
 int fct_min_z_id(std::vector<glm::vec3> vec);
 float fct_mean(std::vector<float>& vec);
+float fct_mean_and_clear(std::vector<float>& vec);
 float fct_max(std::vector<float>& vec);
 float fct_max_vec(std::vector<std::vector<float>>& vec);
 float fct_min(std::vector<float>& vec);

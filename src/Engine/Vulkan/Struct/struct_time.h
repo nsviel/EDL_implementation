@@ -7,12 +7,13 @@
 struct Struct_time{
   //---------------------------
 
-  float engine_init = 0;
-  float engine_fps = 0;
-  float draw_frame = 0;
-  float renderpass_scene = 0;
-  float renderpass_render = 0;
-  float renderpass_ui = 0;
+  float engine_init;
+  
+  vector<float> engine_fps;
+  vector<float> draw_frame;
+  vector<float> renderpass_scene;
+  vector<float> renderpass_render;
+  vector<float> renderpass_ui;
 
   //---------------------------
 };

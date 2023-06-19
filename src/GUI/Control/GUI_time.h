@@ -21,14 +21,16 @@ public:
   void design_time();
 
   //Subfunctions
-  void time_drawig();
-  void time_general();
+  bool time_update();
+  void time_drawig(bool update);
+  void time_general(bool update);
 
 private:
   Node_gui* node_gui;
   Node_engine* node_engine;
   VK_engine* vk_engine;
   VK_param* vk_param;
+  Timer timer;
 
   int width;
 };

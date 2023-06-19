@@ -86,7 +86,7 @@ VK_engine::~VK_engine(){}
 
 //Main function
 void VK_engine::init_vulkan(){
-  auto start = std::chrono::steady_clock::now();
+  timer_time t1 = timer.start_t();
   //---------------------------
 
   //Instance
@@ -105,25 +105,11 @@ void VK_engine::init_vulkan(){
   vk_renderpass->init_renderpass();
   vk_frame->create_frame_swapchain(&vk_param->swapchain);
 
-
-  //WORK
-  //Subpass managment
-  //Optimization
-    //-command buffer secondary linked with each object
-    //-use pre-recorded secondary command buffer with updated descriptor
-
-    //Create and record individual command buffers: For each object in the scene, create a separate command buffer that contains the rendering commands specific to that object. The command buffer should include the necessary pipeline binding, vertex buffer binding, descriptor set binding, and draw commands.
-    //Record initial MVP matrices: During the initial recording of each command buffer, set the initial MVP matrices for each object. These matrices can be set as static data or based on the initial state of the objects in the scene.
-    //Update MVP matrices: Whenever the MVP matrices of the objects need to be updated (e.g., due to object movement or animation), update the corresponding matrices in the CPU memory. You can update the matrices independently for each object.
-    //Bind updated MVP matrices: Before executing the pre-recorded command buffers, bind the updated MVP matrices to the appropriate descriptor sets. This involves updating the descriptor sets with the new data, specifying the updated buffer bindings or dynamic offsets.
-    //Execute the pre-recorded command buffers: Submit the pre-recorded command buffers for execution, and Vulkan will render the objects in the scene using the updated MVP matrices.
-
   //Specific
   vk_gui->init_gui();
 
   //---------------------------
-  auto end = std::chrono::steady_clock::now();
-  vk_param->time.engine_init = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()/1000.0f;
+  vk_param->time.engine_init = timer.stop_us(t1) / 1000;
 }
 void VK_engine::main_loop() {
   GLFWwindow* window = vk_window->get_window();
@@ -186,10 +172,10 @@ void VK_engine::fps_calcul(std::chrono::steady_clock::time_point& start_time){
   static int num_frames = 0;
   num_frames++;
 
-  if(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count() >= 1000){
+  if(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count() >= 500){
     auto end_time = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
-    vk_param->time.engine_fps = num_frames / (elapsed_time / 1000000.0);
+    vk_param->time.engine_fps.push_back(num_frames / (elapsed_time / 1000000.0));
     num_frames = 0;
     start_time = end_time;
   }

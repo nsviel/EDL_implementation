@@ -94,6 +94,7 @@ public:
 private:
   Node_engine* node_engine;
   Param_engine* param_engine;
+  Timer timer;
 
   VK_param* vk_param;
   VK_window* vk_window;

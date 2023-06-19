@@ -1,7 +1,7 @@
 #include "GUI_left_panel.h"
-#include "GUI_menubar.h"
 
 #include "../Node_gui.h"
+#include "../Menu/GUI_menubar.h"
 #include "../Control/GUI_time.h"
 #include "../Engine/GUI_shader.h"
 #include "../Engine/GUI_device.h"
