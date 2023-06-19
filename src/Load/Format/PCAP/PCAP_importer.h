@@ -12,10 +12,10 @@ public:
   ~PCAP_importer();
 
 public:
-  vector<Data_file*> Loader(string pathFile);
+  Data_file* Loader(string pathFile);
 
-  void Loader_vlp16(string pathFile);
-  void Loader_hdl32(string pathFile);
+  void Loader_vlp16(Data_file* data, string pathFile);
+  void Loader_hdl32(Data_file* data, string pathFile);
   int get_file_length(string pathFile);
 
   inline void set_lidar_model(string value){this->LiDAR_model = value;}
@@ -24,7 +24,6 @@ public:
   inline int* get_packet_end(){return &packet_end;}
 
 private:
-  vector<Data_file*> data_vec;
   string LiDAR_model;
   bool packet_range_on;
   int packet_beg;

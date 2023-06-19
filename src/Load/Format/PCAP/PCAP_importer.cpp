@@ -63,8 +63,8 @@ bool count_packets(const PDU &){
 }
 
 //Main function
-vector<Data_file*> PCAP_importer::Loader(string pathFile){
-  data_vec.clear();
+Data_file* PCAP_importer::Loader(string pathFile){
+  Data_file* data = new Data_file();
   file_packets.clear();
   //---------------------------
 
@@ -91,17 +91,17 @@ vector<Data_file*> PCAP_importer::Loader(string pathFile){
 
   //Parse data
   if(LiDAR_model == "vlp16"){
-    this->Loader_vlp16(pathFile);
+    this->Loader_vlp16(data, pathFile);
   }
   else if(LiDAR_model == "hdl32"){
-    this->Loader_hdl32(pathFile);
+    this->Loader_hdl32(data, pathFile);
   }
 
   //---------------------------
-  return data_vec;
+  return data;
 }
 
-void PCAP_importer::Loader_vlp16(string pathFile){
+void PCAP_importer::Loader_vlp16(Data_file* data, string pathFile){
   Capture_frame frameManager;
   Parser_VLP16 udpManager;
   //---------------------------
@@ -128,13 +128,13 @@ void PCAP_importer::Loader_vlp16(string pathFile){
         frame_data->R.push_back(frame->R[j]);
       }
 
-      data_vec.push_back(frame_data);
+      data->vec_data.push_back(frame_data);
     }
   }
 
   //---------------------------
 }
-void PCAP_importer::Loader_hdl32(string pathFile){
+void PCAP_importer::Loader_hdl32(Data_file* data, string pathFile){
   Capture_frame frameManager;
   Parser_HDL32 udpManager;
   //---------------------------
@@ -158,7 +158,7 @@ void PCAP_importer::Loader_hdl32(string pathFile){
         frame_data->R.push_back(frame->R[j]);
       }
 
-      data_vec.push_back(frame_data);
+      data->vec_data.push_back(frame_data);
     }
   }
 

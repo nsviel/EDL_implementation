@@ -6,6 +6,11 @@
 
 class PLY_importer;
 class OBJ_importer;
+class CSV_importer;
+class PCAP_importer;
+class PTS_importer;
+class PTX_importer;
+class XYZ_importer;
 
 
 class Format
@@ -21,6 +26,11 @@ public:
 private:
   PLY_importer* ply_import;
   OBJ_importer* obj_import;
+  CSV_importer* csv_import;
+  PCAP_importer* pcap_import;
+  PTS_importer* pts_import;
+  PTX_importer* ptx_import;
+  XYZ_importer* xyz_import;
 };
 
 #endif

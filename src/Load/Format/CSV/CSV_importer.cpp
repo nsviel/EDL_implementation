@@ -10,8 +10,8 @@ CSV_importer::CSV_importer(){}
 CSV_importer::~CSV_importer(){}
 
 //Main function
-vector<Data_file*> CSV_importer::Loader(string pathFile){
-  vector<Data_file*> cloud;
+Data_file* CSV_importer::Loader(string pathFile){
+  Data_file* data;
   //---------------------------
 
   std::ifstream file(pathFile);
@@ -19,8 +19,8 @@ vector<Data_file*> CSV_importer::Loader(string pathFile){
 
   //At row level
   for(int i=0; i<csvFile.size(); i++){
-    Data_file* data = new Data_file();
-    data->path_file = pathFile;
+    Data_file* data_sub = new Data_file();
+    data_sub->path_file = pathFile;
 
     //At field level
     int cpt_field = -1;
@@ -55,9 +55,9 @@ vector<Data_file*> CSV_importer::Loader(string pathFile){
 
         vec3 point = vec3(x, y, z);
 
-        data->name = "frame_" + to_string(i);
-        data->ts.push_back(ts);
-        data->xyz.push_back(point);
+        data_sub->name = "frame_" + to_string(i);
+        data_sub->ts.push_back(ts);
+        data_sub->xyz.push_back(point);
 
         cpt_field = 0;
         cpt_point++;
@@ -65,9 +65,9 @@ vector<Data_file*> CSV_importer::Loader(string pathFile){
     }
 
     //End of row line
-    cloud.push_back(data);
+    data->vec_data.push_back(data_sub);
   }
 
   //---------------------------
-  return cloud;
+  return data;
 }

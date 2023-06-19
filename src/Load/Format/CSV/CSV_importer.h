@@ -12,7 +12,7 @@ public:
   ~CSV_importer();
 
 public:
-  vector<Data_file*> Loader(string pathFile);
+  Data_file* Loader(string pathFile);
 
 private:
   //Datatypes
