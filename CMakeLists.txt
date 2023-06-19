@@ -60,6 +60,7 @@ set(ALL_LIBS
   #Vulkan::Vulkan
   Eigen3::Eigen #Eigen library
   stdc++fs #STD filesystem experimental
+  tins #packet crafting and sniffing library
   -std=c++17 -O2
   -lglfw
   -ldl

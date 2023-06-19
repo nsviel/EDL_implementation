@@ -20,8 +20,11 @@ struct Data_file{
   std::vector<glm::vec3> Nxyz;
   std::vector<glm::vec4> rgb;
   std::vector<glm::vec2> uv;
+  
   std::vector<float> ts;
   std::vector<float> Is;
+  std::vector<float> R;
+  std::vector<float> A;
 
   //---------------------------
 };

@@ -117,7 +117,7 @@ void Color::color_unicolor(Object_* object, vec4 color){
 }
 void Color::color_intensity(Cloud* cloud){
   vector<vec4>& RGB = cloud->rgb;
-  vector<float>& Is = cloud->I;
+  vector<float>& Is = cloud->Is;
   //---------------------------
 
   if(Is.size() != 0){
@@ -159,7 +159,7 @@ void Color::set_color_new(Set* set, vec4 RGBA){
   for(int i=0; i<collection->list_obj.size(); i++){
     Cloud* cloud = (Cloud*)*next(collection->list_obj.begin(), i);
     vector<vec4>& RGB = cloud->rgb;
-    vector<float>& Is = cloud->I;
+    vector<float>& Is = cloud->Is;
     //---------------------------
 
     for(int i=0; i<RGB.size(); i++){
@@ -187,7 +187,7 @@ void Color::set_color_I(Set* set){
   for(int i=0; i<collection->list_obj.size(); i++){
     Cloud* cloud = (Cloud*)*next(collection->list_obj.begin(), i);
     vector<vec4>& RGB_obj = cloud->rgb;
-    vector<float>& Is = cloud->I;
+    vector<float>& Is = cloud->Is;
     //---------------------------
 
     RGB_obj.clear();
@@ -202,7 +202,7 @@ void Color::set_color_I(Set* set){
 void Color::set_color_enhanced(Set* set){
   for(int i=0; i<collection->list_obj.size(); i++){
     Cloud* cloud = (Cloud*)*next(collection->list_obj.begin(), i);
-    vector<float>& Is = cloud->I;
+    vector<float>& Is = cloud->Is;
     const vector<vec4>& RGB = cloud->rgb;
     //---------------------------
 

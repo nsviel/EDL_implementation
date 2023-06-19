@@ -1,7 +1,7 @@
 #include "Format.h"
 
 #include "../Format/PLY/PLY_importer.h"
-#include "../Format/File_obj.h"
+#include "../Format/OBJ/OBJ_importer.h"
 
 
 //Constructor / Destructor
@@ -9,7 +9,7 @@ Format::Format(){
   //---------------------------
 
   this->ply_import = new PLY_importer();
-  this->obj_import = new File_obj();
+  this->obj_import = new OBJ_importer();
 
   //---------------------------
 }

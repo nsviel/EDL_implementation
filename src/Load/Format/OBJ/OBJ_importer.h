@@ -1,7 +1,7 @@
-#ifndef FILE_OBJ_H
-#define FILE_OBJ_H
+#ifndef OBJ_IMPORTER_H
+#define OBJ_IMPORTER_H
 
-#include "../../common.h"
+#include "../../../common.h"
 
 
 struct Vertex{
@@ -23,12 +23,12 @@ struct Vertex_ref{
 };
 
 
-class File_obj
+class OBJ_importer
 {
 public:
   //Constructor / Destructor
-  File_obj();
-  ~File_obj();
+  OBJ_importer();
+  ~OBJ_importer();
 
 public:
   //Main function

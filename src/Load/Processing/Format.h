@@ -5,7 +5,7 @@
 #include "../../common.h"
 
 class PLY_importer;
-class File_obj;
+class OBJ_importer;
 
 
 class Format
@@ -20,7 +20,7 @@ public:
 
 private:
   PLY_importer* ply_import;
-  File_obj* obj_import;
+  OBJ_importer* obj_import;
 };
 
 #endif

@@ -130,10 +130,10 @@ void Heatmap::mode_height(Cloud* cloud){
   this->heatmap_set(cloud, color_vec);
 }
 void Heatmap::mode_intensity(Cloud* cloud){
-  if(cloud->I.size() != 0){
+  if(cloud->Is.size() != 0){
     //---------------------------
 
-    vector<float>& Is = cloud->I;
+    vector<float>& Is = cloud->Is;
     vector<float> color_vec;
 
     for(int i=0; i<Is.size(); i++){
@@ -229,7 +229,7 @@ void Heatmap::heatmap_set(Cloud* cloud, vector<float>& v_in){
 }
 void Heatmap::heatmap_unset(Cloud* cloud){
   vector<vec4>& RGB = cloud->rgb;
-  vector<float>& Is = cloud->I;
+  vector<float>& Is = cloud->Is;
   //---------------------------
 
   //If intensity, reapply color
