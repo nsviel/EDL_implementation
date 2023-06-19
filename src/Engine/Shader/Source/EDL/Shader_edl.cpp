@@ -13,8 +13,8 @@ Shader_edl::Shader_edl(Node_engine* node_engine){
 
   this->struct_edl = new Struct_edl();
   struct_edl->activated = true;
-  struct_edl->strength = 10.0;
-  struct_edl->radius = 1.5;
+  struct_edl->strength = 15.0;
+  struct_edl->radius = 1.0;
 
   //---------------------------
   this->update_shader();

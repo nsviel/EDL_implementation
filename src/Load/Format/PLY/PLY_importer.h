@@ -39,7 +39,7 @@ private:
   float get_uchar_from_binary(char* block_data, int& offset);
 
 private:
-  Data_file* data_out;
+  Data_file* data;
 
   //Parametrization
   vector<string> property_type;

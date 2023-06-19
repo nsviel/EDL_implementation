@@ -55,7 +55,7 @@ public:
 
 private:
   //Datatypes
-  Data_file* data_out;
+  Data_file* data;
 
   list<PTXCloud*>* list_ptxCloud;
   float x, y, z, I, r, g ,b;

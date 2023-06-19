@@ -20,10 +20,11 @@ PTS_importer::~PTS_importer(){}
 
 //Main load functions
 Data_file* PTS_importer::Loader(string path){
-  Data_file* data_out = new Data_file();
-  data_out->name = "";
-  data_out->path_file = path;
+  Data_file* data = new Data_file();
   //---------------------------
+
+  data->name = get_name_from_path(path);
+  data->path_file = path;
 
   //Initialization
   this->Loader_init();
@@ -47,14 +48,14 @@ Data_file* PTS_importer::Loader(string path){
     }
 
     //Retrieve data
-    this->Loader_data(data_out, FILE_config);
+    this->Loader_data(data, FILE_config);
   }
 
   //---------------------------
-  return data_out;
+  return data;
 }
 Data_file* PTS_importer::Loader(string path, int lmin, int lmax){
-  Data_file* data_out = new Data_file();
+  Data_file* data = new Data_file();
   //---------------------------
 
   //Initialization
@@ -82,15 +83,15 @@ Data_file* PTS_importer::Loader(string path, int lmin, int lmax){
 
       //Retrieve data
       if(endParameters && endHeader){
-        this->Loader_data(data_out, FILE_config);
+        this->Loader_data(data, FILE_config);
       }
     }
     cpt++;
   }
 
   //---------------------------
-  data_out->nb_element = cpt;
-  return data_out;
+  data->nb_element = cpt;
+  return data;
 }
 
 //Sub load functions
@@ -247,7 +248,7 @@ void PTS_importer::Loader_configuration(){
   //---------------------------
   endParameters = true;
 }
-void PTS_importer::Loader_data(Data_file* data_out, int FILE_config){
+void PTS_importer::Loader_data(Data_file* data, int FILE_config){
   std::istringstream iss(line);
   float x,y,z,r,g,b,I,nx,ny,nz;
   //---------------------------
@@ -266,32 +267,32 @@ void PTS_importer::Loader_data(Data_file* data_out, int FILE_config){
   }
 
   //Position data
-  data_out->xyz.push_back(vec3(x, y, z));
+  data->xyz.push_back(vec3(x, y, z));
 
   //Reflectance data
   if(hasIntensity){
     if(IdataFormat == 0){
-      data_out->Is.push_back(I);
+      data->Is.push_back(I);
     }else
     if(IdataFormat == 1){
-      data_out->Is.push_back(I/255);
+      data->Is.push_back(I/255);
     }else
     if(IdataFormat == 2){
-      data_out->Is.push_back((I+2048)/4096);
+      data->Is.push_back((I+2048)/4096);
     }
   }
 
   //Normal data
   if(hasNormal){
-    data_out->Nxyz.push_back(vec3(nx, ny, nz));
+    data->Nxyz.push_back(vec3(nx, ny, nz));
   }
 
   //Color data
   if(hasColor){
-    data_out->rgb.push_back(vec4((r/255), (g/255), (b/255), 1.0f));
+    data->rgb.push_back(vec4((r/255), (g/255), (b/255), 1.0f));
     //if reflectance value is coded in RGB format
     if(hasIntensity == false && r == g && g == b){
-        data_out->Is.push_back(r/255);
+        data->Is.push_back(r/255);
         hasIntensity = true;
     }
   }

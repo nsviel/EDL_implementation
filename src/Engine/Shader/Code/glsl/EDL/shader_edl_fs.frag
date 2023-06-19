@@ -36,7 +36,7 @@ float compute_depth_normalized(float depth){
 
   float depth_norm = (2.0 * z_far * z_near) / ((z_far + z_near) - (2.0 * depth - 1.0) * (z_far - z_near));
   depth_norm = (depth_norm - z_near) / (z_far - z_near);
-  depth_norm = clamp(1.0 - depth_norm, 0.0, 1.0);
+  depth_norm = clamp(depth_norm, 0.0, 1.0);
 
   //---------------------------
   return depth_norm;
@@ -46,8 +46,8 @@ float compute_depth_normalized(float depth){
 float compute_shading(float depth_norm){
   //---------------------------
 
-  vec4 P = vec4(0,0,1,1);
   vec2 texel_size = radius / vec2(tex_width, tex_height);
+  vec2 max_dim = vec2(1.0 / tex_width, 1.0 / tex_height);
 
   //Shading according to all neighbors
   float sum = 0.0;
@@ -55,14 +55,16 @@ float compute_shading(float depth_norm){
     vec2 offset = texel_size * table_index[i];
     vec2 NN_coord = frag_tex_coord + offset;
 
-    vec4 depth_NN_rgba = texture(tex_depth, NN_coord);
-    float depth_NN_norm = compute_depth_normalized(depth_NN_rgba.r);
-    //float Znp = dot(vec4(offset, depth_NN_norm, 1.0), P);
-    float diff_depth = log2(depth_norm) - log2(depth_NN_norm);
+    //If to avoid border effect
+    if(NN_coord.y < 1 && NN_coord.y > 0){
+      vec4 depth_NN_rgba = texture(tex_depth, NN_coord);
+      float depth_NN_norm = compute_depth_normalized(depth_NN_rgba.r);
+      float diff_depth = log2(depth_norm) - log2(depth_NN_norm);
 
-    sum +=  max(0.0, diff_depth);
+      sum +=  max(0.0, diff_depth);
+    }
   }
-  float shade = exp(-sum * 100.0 * strength);
+  float shade = exp(-sum * strength);
 
   //---------------------------
   return shade;

@@ -1,5 +1,8 @@
 #include "PTX_importer.h"
 
+#include "../../../Specific/File/Info.h"
+
+
 //Constructor / Destructor
 PTX_importer::PTX_importer(){
   //---------------------------
@@ -17,15 +20,17 @@ PTX_importer::PTX_importer(){
 PTX_importer::~PTX_importer(){}
 
 //Main functions
-Data_file* PTX_importer::Loader(string pathFile){
+Data_file* PTX_importer::Loader(string path){
   list_ptxCloud = new list<PTXCloud*>;
   PTXCloud* cloud = new PTXCloud;
-  data_out = new Data_file();
-  data_out->path_file = pathFile;
   //---------------------------
 
+  data = new Data_file();
+  data->name = get_name_from_path(path);
+  data->path_file = path;
+
   //Open file
-  std::ifstream infile(pathFile);
+  std::ifstream infile(path);
 
   //Data loop
   PC_line = 0;
@@ -67,8 +72,8 @@ Data_file* PTX_importer::Loader(string pathFile){
   this->Loader_assembling();
 
   //---------------------------
-  data_out->nb_element = data_out->xyz.size();
-  return data_out;
+  data->nb_element = data->xyz.size();
+  return data;
 }
 bool PTX_importer::Exporter(string path){
   //---------------------------
@@ -217,9 +222,9 @@ void PTX_importer::Loader_assembling(){
     PTXCloud* cloud = *next(list_ptxCloud->begin(),i);
 
     for(int j=0; j<cloud->location.size(); j++){
-      data_out->xyz.push_back(cloud->location[j]);
-      data_out->Is.push_back(cloud->intensity[j]);
-      data_out->rgb.push_back(cloud->color[j]);
+      data->xyz.push_back(cloud->location[j]);
+      data->Is.push_back(cloud->intensity[j]);
+      data->rgb.push_back(cloud->color[j]);
     }
   }
   //---------------------------

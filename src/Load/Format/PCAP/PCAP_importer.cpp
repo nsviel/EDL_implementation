@@ -4,6 +4,8 @@
 #include "Parser/Parser_HDL32.h"
 #include "Parser/Capture_frame.h"
 
+#include "../../../Specific/File/Info.h"
+
 #include <tins/tins.h>
 #include <iostream>
 #include <stddef.h>
@@ -63,10 +65,13 @@ bool count_packets(const PDU &){
 }
 
 //Main function
-Data_file* PCAP_importer::Loader(string pathFile){
-  Data_file* data = new Data_file();
+Data_file* PCAP_importer::Loader(string path){
   file_packets.clear();
   //---------------------------
+
+  Data_file* data = new Data_file();
+  data->name = get_name_from_path(path);
+  data->path_file = path;
 
   //Set up parameters
   loop_cpt = 0;
@@ -75,33 +80,33 @@ Data_file* PCAP_importer::Loader(string pathFile){
     loop_end = packet_end;
   }else{
     loop_beg = 0;
-    loop_end = get_file_length(pathFile);
+    loop_end = get_file_length(path);
   }
 
   //Check if vlp16 or hdl32
-  if (pathFile.find("HDL32") != string::npos){
+  if (path.find("HDL32") != string::npos){
     this->LiDAR_model = "hdl32";
   }else{
     this->LiDAR_model = "vlp16";
   }
 
   //Sniff UDP packets
-  FileSniffer sniffer(pathFile);
+  FileSniffer sniffer(path);
   sniffer.sniff_loop(parse_packets);
 
   //Parse data
   if(LiDAR_model == "vlp16"){
-    this->Loader_vlp16(data, pathFile);
+    this->Loader_vlp16(data, path);
   }
   else if(LiDAR_model == "hdl32"){
-    this->Loader_hdl32(data, pathFile);
+    this->Loader_hdl32(data, path);
   }
 
   //---------------------------
   return data;
 }
 
-void PCAP_importer::Loader_vlp16(Data_file* data, string pathFile){
+void PCAP_importer::Loader_vlp16(Data_file* data, string path){
   Capture_frame frameManager;
   Parser_VLP16 udpManager;
   //---------------------------
@@ -117,7 +122,7 @@ void PCAP_importer::Loader_vlp16(Data_file* data, string pathFile){
       Data_file* frame_data = new Data_file();
 
       frame_data->name = "frame_" + to_string(cpt); cpt++;
-      frame_data->path_file = pathFile;
+      frame_data->path_file = path;
       frame_data->nb_element = frame->xyz.size();
 
       for(int j=0; j<frame->xyz.size(); j++){
@@ -134,7 +139,7 @@ void PCAP_importer::Loader_vlp16(Data_file* data, string pathFile){
 
   //---------------------------
 }
-void PCAP_importer::Loader_hdl32(Data_file* data, string pathFile){
+void PCAP_importer::Loader_hdl32(Data_file* data, string path){
   Capture_frame frameManager;
   Parser_HDL32 udpManager;
   //---------------------------
@@ -147,7 +152,7 @@ void PCAP_importer::Loader_hdl32(Data_file* data, string pathFile){
       Data_file* frame = frameManager.get_endedFrame();
       Data_file* frame_data = new Data_file();
 
-      frame_data->path_file = pathFile;
+      frame_data->path_file = path;
       frame_data->nb_element = frame->xyz.size();
 
       for(int j=0; j<frame->xyz.size(); j++){
@@ -164,11 +169,11 @@ void PCAP_importer::Loader_hdl32(Data_file* data, string pathFile){
 
   //---------------------------
 }
-int PCAP_importer::get_file_length(string pathFile){
+int PCAP_importer::get_file_length(string path){
   lenght = 0;
   //---------------------------
 
-  FileSniffer sniffer(pathFile);
+  FileSniffer sniffer(path);
   sniffer.sniff_loop(count_packets);
 
   //---------------------------

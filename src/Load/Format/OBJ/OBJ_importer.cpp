@@ -2,8 +2,6 @@
 
 #include "../../../Specific/File/Info.h"
 
-#include <fstream>
-
 
 //Constructor / Destructor
 OBJ_importer::OBJ_importer(){}
@@ -11,17 +9,18 @@ OBJ_importer::~OBJ_importer(){}
 
 //Main function
 Data_file* OBJ_importer::Loader(string path){
-  Data_file* data = new Data_file();
   //---------------------------
+
+  Data_file* data = new Data_file();
+  data->name = get_name_from_path(path);
+  data->path_file = path;
 
   //Init
   this->init_params();
 
   // Open file and fill path info
   ifstream file(path);
-  data->name = get_name_from_path(path);
-  data->path_file = path;
-
+  
   // Retrieve file data
   vector<Vertex> vertex_vec = get_data_from_file(file);
 

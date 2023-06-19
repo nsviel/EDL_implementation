@@ -1,6 +1,7 @@
 #include "PLY_importer.h"
 
 #include "../../../Specific/Function/fct_math.h"
+#include "../../../Specific/File/Info.h"
 
 
 //Constructor / Destructor
@@ -8,23 +9,22 @@ PLY_importer::PLY_importer(){}
 PLY_importer::~PLY_importer(){}
 
 //Main loader functions
-Data_file* PLY_importer::Loader(string path_file){
-  data_out = new Data_file();
-  string nameFormat = path_file.substr(path_file.find_last_of("/\\") + 1);
-  data_out->name = nameFormat.substr(0, nameFormat.find_last_of("."));
-  data_out->path_file = path_file;
+Data_file* PLY_importer::Loader(string path){
+  data = new Data_file();
+  data->name = get_name_from_path(path);
+  data->path_file = path;
   this->face_number = 0;
   //---------------------------
 
   //Get format type
-  std::ifstream file(path_file);
+  std::ifstream file(path);
   this->Loader_header(file);
 
   //Open data
   if (format == "ascii"){
 
     //Open file
-    std::ifstream file(path_file);
+    std::ifstream file(path);
 
     //Read header
     this->Loader_header(file);
@@ -41,7 +41,7 @@ Data_file* PLY_importer::Loader(string path_file){
   }
   else if (format == "binary_little_endian"){
     //Open file
-    std::ifstream file(path_file, ios::binary);
+    std::ifstream file(path, ios::binary);
 
     //Read header
     this->Loader_header(file);
@@ -58,7 +58,7 @@ Data_file* PLY_importer::Loader(string path_file){
   }
   else if (format == "binary_big_endian"){
     //Open file
-    std::ifstream file(path_file, ios::binary);
+    std::ifstream file(path, ios::binary);
 
     //Read header
     this->Loader_header(file);
@@ -75,7 +75,7 @@ Data_file* PLY_importer::Loader(string path_file){
   }
 
   //---------------------------
-  return data_out;
+  return data;
 }
 
 //Loader data
@@ -207,12 +207,12 @@ void PLY_importer::Loader_ascii(std::ifstream& file){
     }
   }
 
-  data_out->xyz = vertex;
-  data_out->Nxyz = normal;
-  data_out->Is = intensity;
+  data->xyz = vertex;
+  data->Nxyz = normal;
+  data->Is = intensity;
 
   //---------------------------
-  data_out->nb_element = data_out->xyz.size();
+  data->nb_element = data->xyz.size();
 }
 void PLY_importer::Loader_ascii_withface(std::ifstream& file){
   vector<vec3> vertex;
@@ -270,26 +270,26 @@ void PLY_importer::Loader_ascii_withface(std::ifstream& file){
 
     //Retrieve face data
     for(int i=0; i<nb_vertice; i++){
-      data_out->xyz.push_back(vertex[idx[i]]);
+      data->xyz.push_back(vertex[idx[i]]);
       if(get_id_property("nx") != -1){
-        data_out->Nxyz.push_back(normal[idx[i]]);
+        data->Nxyz.push_back(normal[idx[i]]);
       }
       if(get_id_property("intensity") != -1){
-        data_out->Is.push_back(intensity[idx[i]]);
+        data->Is.push_back(intensity[idx[i]]);
       }
     }
 
     //Deduce drawing type
     if(nb_vertice == 3){
-      data_out->draw_type_name = "triangle";
+      data->draw_type_name = "triangle";
     }
     else if(nb_vertice == 4){
-      data_out->draw_type_name = "quad";
+      data->draw_type_name = "quad";
     }
   }
 
   //---------------------------
-  data_out->nb_element = data_out->xyz.size();
+  data->nb_element = data->xyz.size();
 }
 void PLY_importer::Loader_bin_little_endian(std::ifstream& file){
   //---------------------------
@@ -333,12 +333,12 @@ void PLY_importer::Loader_bin_little_endian(std::ifstream& file){
   }
 
   //Resize vectors accordingly
-  data_out->xyz.resize(point_number, vec3(0,0,0));
-  if(is_timestamp) data_out->ts.resize(point_number, 0);
-  if(is_intensity) data_out->Is.resize(point_number, 0);
-  if(is_normal) data_out->Nxyz.resize(point_number, vec3(0,0,0));
-  if(is_color) data_out->rgb.resize(point_number, vec4(0,0,0,0));
-  data_out->nb_element = point_number;
+  data->xyz.resize(point_number, vec3(0,0,0));
+  if(is_timestamp) data->ts.resize(point_number, 0);
+  if(is_intensity) data->Is.resize(point_number, 0);
+  if(is_normal) data->Nxyz.resize(point_number, vec3(0,0,0));
+  if(is_color) data->rgb.resize(point_number, vec4(0,0,0,0));
+  data->nb_element = point_number;
 
   //Insert data in the adequate vector
   //#pragma omp parallel for
@@ -347,13 +347,13 @@ void PLY_importer::Loader_bin_little_endian(std::ifstream& file){
       //Location
       if(property_name[j] == "x"){
         vec3 point = vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
-        data_out->xyz[i] = point;
+        data->xyz[i] = point;
       }
 
       //Normal
       if(property_name[j] == "nx"){
         vec3 normal = vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
-        data_out->Nxyz[i] = normal;
+        data->Nxyz[i] = normal;
       }
 
       //Color
@@ -362,19 +362,19 @@ void PLY_importer::Loader_bin_little_endian(std::ifstream& file){
         float green = block_vec[j+1][i] / 255;
         float blue = block_vec[j+2][i] / 255;
         vec4 rgb = vec4(red, green, blue, 1.0f);
-        data_out->rgb[i] = rgb;
+        data->rgb[i] = rgb;
       }
 
       //Intensity
       if(property_name[j] == "scalar_Scalar_field" || property_name[j] == "intensity"){
         float Is = block_vec[j][i];
-        data_out->Is[i] = Is;
+        data->Is[i] = Is;
       }
 
       //Timestamp
       if(property_name[j] == "timestamp"){
         float ts = block_vec[j][i];
-        data_out->ts[i] = ts;
+        data->ts[i] = ts;
       }
     }
   }
@@ -451,20 +451,20 @@ void PLY_importer::Loader_bin_little_endian_withface(std::ifstream& file){
 
     //Location
     for(int j=0; j<idx.size(); j++){
-      data_out->xyz.push_back(vertex[idx[j]]);
+      data->xyz.push_back(vertex[idx[j]]);
     }
   }
 
   //Deduce drawing type
   if(nb_vertice == 3){
-    data_out->draw_type_name = "triangle";
+    data->draw_type_name = "triangle";
   }
   else if(nb_vertice == 4){
-    data_out->draw_type_name = "quad";
+    data->draw_type_name = "quad";
   }
 
   //---------------------------
-  data_out->nb_element = data_out->xyz.size();
+  data->nb_element = data->xyz.size();
 }
 void PLY_importer::Loader_bin_big_endian(std::ifstream& file){
   //---------------------------
@@ -486,10 +486,10 @@ void PLY_importer::Loader_bin_big_endian(std::ifstream& file){
   }
 
   //Resize vectors accordingly
-  data_out->xyz.resize(point_number, vec3(0,0,0));
-  if(is_timestamp) data_out->ts.resize(point_number, 0);
-  if(is_intensity) data_out->Is.resize(point_number, 0);
-  data_out->nb_element = point_number;
+  data->xyz.resize(point_number, vec3(0,0,0));
+  if(is_timestamp) data->ts.resize(point_number, 0);
+  if(is_intensity) data->Is.resize(point_number, 0);
+  data->nb_element = point_number;
 
   //Insert data in the adequate vector
   #pragma omp parallel for
@@ -498,19 +498,19 @@ void PLY_importer::Loader_bin_big_endian(std::ifstream& file){
       //Location
       if(property_name[j] == "x"){
         vec3 point = vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
-        data_out->xyz[i] = point;
+        data->xyz[i] = point;
       }
 
       //Intensity
       if(property_name[j] == "scalar_Scalar_field" || property_name[j] == "intensity"){
         float Is = block_vec[j][i];
-        data_out->Is[i] = Is;
+        data->Is[i] = Is;
       }
 
       //Timestamp
       if(property_name[j] == "timestamp"){
         float ts = block_vec[j][i];
-        data_out->ts[i] = ts;
+        data->ts[i] = ts;
       }
     }
   }
@@ -587,20 +587,20 @@ void PLY_importer::Loader_bin_big_endian_withface(std::ifstream& file){
 
     //Location
     for(int j=0; j<idx.size(); j++){
-      data_out->xyz.push_back(vertex[idx[j]]);
+      data->xyz.push_back(vertex[idx[j]]);
     }
   }
 
   //Deduce drawing type
   if(nb_vertice == 3){
-    data_out->draw_type_name = "triangle";
+    data->draw_type_name = "triangle";
   }
   else if(nb_vertice == 4){
-    data_out->draw_type_name = "quad";
+    data->draw_type_name = "quad";
   }
 
   //---------------------------
-  data_out->nb_element = data_out->xyz.size();
+  data->nb_element = data->xyz.size();
 }
 
 //Loader subfunctions
@@ -636,25 +636,25 @@ void PLY_importer::reorder_by_timestamp(){
   vector<float> Is;
   //---------------------------
 
-  if(data_out->ts.size() != 0){
+  if(data->ts.size() != 0){
     //Check for non void and reorder by index
-    for (auto i: fct_sortByIndexes(data_out->ts)){
-      if(data_out->xyz[i] != vec3(0, 0, 0)){
+    for (auto i: fct_sortByIndexes(data->ts)){
+      if(data->xyz[i] != vec3(0, 0, 0)){
         //Location adn timestamp
-        ts.push_back(data_out->ts[i]);
-        pos.push_back(data_out->xyz[i]);
+        ts.push_back(data->ts[i]);
+        pos.push_back(data->xyz[i]);
 
         //Intensity
-        if(data_out->Is.size() != 0){
-          Is.push_back(data_out->Is[i]);
+        if(data->Is.size() != 0){
+          Is.push_back(data->Is[i]);
         }
       }
     }
 
     //Set new vectors
-    data_out->xyz = pos;
-    data_out->ts = ts;
-    data_out->Is = Is;
+    data->xyz = pos;
+    data->ts = ts;
+    data->Is = Is;
   }
 
   //---------------------------
