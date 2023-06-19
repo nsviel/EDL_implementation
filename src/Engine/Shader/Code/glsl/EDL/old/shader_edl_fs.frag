@@ -23,7 +23,9 @@ float compute_depth_normalized(float depth){
 
   // depth: Linear depth, in world units
   // depth_norm: normalized depth between [0, 1]
-  float depth_norm = 0.5 * (-A * depth + B) / depth + 0.5;
+  //float depth_norm = 0.5 * (-A * depth + B) / depth + 0.5;
+  float depth_norm = - (2.0 * depth - 1.0);
+  depth_norm = clamp(1.0 - depth_norm, 0.0, 1.0);
 
 
   //---------------------------
@@ -54,7 +56,7 @@ void main(){
 
   //debugPrintfEXT("My float is %f", depth_rgba.x);
 
-  if(activated && depth_rgba.r < 0.999){
+  if(activated){
     // Build the Depth
     float depth_norm = compute_depth_normalized(depth_rgba.r);
 
@@ -72,8 +74,6 @@ void main(){
     float shade = exp(-depth_response * 15000.0 * strength);
 
     color_rgba.rgb *= shade;
-  }else{
-    color_rgba.rgb = vec3(1);
   }
 
   //---------------------------
