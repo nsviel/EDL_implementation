@@ -16,6 +16,8 @@ layout(set = 0, binding = 2) uniform param{
   int height;
 };
 
+float table_index[index_size] = float[](5.0, 4.0, 3.0, 6.0, -1.0, 2.0, 7.0, 0.0, 1.0);
+
 
 //FUNCTION 1 - Compute normalized depth
 float compute_depth_normalized(float depth){
