@@ -10,6 +10,10 @@ struct Struct_init{
   bool remove_old = true;
   float scale = 1;
 
+  vector<string> accepted_format;
+  vector<string> vec_path_folder;
+  vector<string> vec_path_file;
+
   //---------------------------
 };
 

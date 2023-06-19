@@ -7,6 +7,7 @@
 #include "../../../Data/Scene/Scene.h"
 #include "../../../Load/Node_load.h"
 #include "../../../Load/Processing/Loader.h"
+#include "../../../Operation/Transformation/Transformation.h"
 #include "../../../Specific/File/Directory.h"
 #include "../../../Specific/File/Info.h"
 
@@ -14,25 +15,15 @@
 //Constructor / Destructor
 GUI_init::GUI_init(Node_gui* node_gui){
   //---------------------------
-/*
-  Node_engine* node_engine = node_gui->get_node_engine();
-  Node_load* node_load = node_engine->get_node_load();
-  Node_interface* node_interface = node_engine->get_node_interface();
-  Node_scene* node_scene = node_engine->get_node_scene();
 
-  this->sceneManager = node_scene->get_sceneManager();
+  Node_load* node_load = node_gui->get_node_load();
+
   this->loaderManager = node_load->get_loaderManager();
-  this->pathManager = node_load->get_patherManager();
-  this->configManager = node_engine->get_configManager();
-  this->captureManager = node_interface->get_captureManager();
   this->transformManager = new Transformation();
 
-  path_init_file.push_back("../media/engine/fastScene/buddha.pts");
-  path_init_file.push_back("../media/engine/fastScene/cube.obj");
-  path_init_file.push_back("../media/engine/fastScene/sphere.obj");
-  path_init_file.push_back("/home/aeter/Desktop/Point_cloud/obj/planet/planet.obj");
-*/
   //---------------------------
+  this->init_init();
+  this->construst_tree();
 }
 GUI_init::~GUI_init(){}
 
@@ -41,11 +32,38 @@ void GUI_init::design_init(){
   //---------------------------
 
   this->operation_option();
-  //this->treeview();
+  this->treeview();
+
+  //---------------------------
+}
+void GUI_init::init_init(){
+  //---------------------------
+
+  this->init.remove_old = true;
+  this->init.scale = 1;
+
+  //Open accepted formats
+  this->init.accepted_format.push_back("pts");
+  this->init.accepted_format.push_back("obj");
+  this->init.accepted_format.push_back("ply");
+  this->init.accepted_format.push_back("xyz");
+  this->init.accepted_format.push_back("cbor");
+  this->init.accepted_format.push_back("pcap");
+  this->init.accepted_format.push_back("ptx");
+  this->init.accepted_format.push_back("csv");
+  this->init.accepted_format.push_back("las");
+  this->init.accepted_format.push_back("laz");
+
+  //Custom folder tree
+  this->init.vec_path_folder.push_back("../media");
+
+  //Custom file leaf
+  //this->init.vec_path_file.push_back("../media/dragon.ply");
 
   //---------------------------
 }
 
+//Operation on loaded cloud
 void GUI_init::operation_option(){
   //---------------------------
 
@@ -59,37 +77,22 @@ void GUI_init::operation_option(){
 
   //---------------------------
 }
-/*
-//Operation on loaded cloud
-void GUI_init::operation_new_collection(Object* object){
+void GUI_init::operation_new_object(Object* object){
+  if(object == nullptr) return;
   //---------------------------
-/*
-  if(object != nullptr){
-    //Set lidar model
-    object->lidar_model = lidar_model;
 
-    //Set scaling
-    if(object_scale != 1){
-      for(int i=0; i<object->list_obj.size(); i++){
-        Object_* object = object->get_obj(i);
-        sceneManager->update_MinMax(object);
-        transformManager->make_scaling(object, object_scale);
-        sceneManager->update_buffer_location(object);
-      }
-    }
-  }
+  //transformManager->make_scaling(object, init.scale);
 
   //---------------------------
 }
 
-
-//Specific scene construction
-void GUI_init::construct_node_scene(vector<vector<Struct_treefile*>>& nodes_path_vec){
+//Custom scene
+void GUI_init::build_custom_scene(vector<vector<Tree_node*>>& nodes_path_vec){
   //---------------------------
 
   //Scene folder
-  vector<Struct_treefile*> root_scene;
-  Struct_treefile* node = new Struct_treefile();
+  /*vector<Tree_node*> root_scene;
+  Tree_node* node = new Tree_node();
   node->name = "scene";
   node->type = "Folder";
   node->end_folder = true;
@@ -98,45 +101,23 @@ void GUI_init::construct_node_scene(vector<vector<Struct_treefile*>>& nodes_path
   node->already_open = true;
   root_scene.push_back(node);
 
-  //Scene 1
-  node = new Struct_treefile();
+  //Scene 1 -> example of custom scene integration in tree
+  /*node = new Tree_node();
   node->name = "Rocks";
   node->leaf_nb = 0;
   node->type = "scene_1";
-  root_scene.push_back(node);
+  root_scene.push_back(node);*/
 
-  //Scene 2
-  node = new Struct_treefile();
-  node->name = "Bunny";
-  node->leaf_nb = 0;
-  node->type = "scene_2";
-  root_scene.push_back(node);
-
-  //Scene 3
-  node = new Struct_treefile();
-  node->name = "Dragon";
-  node->leaf_nb = 0;
-  node->type = "scene_3";
-  root_scene.push_back(node);
-
-  nodes_path_vec.push_back(root_scene);
+//  nodes_path_vec.push_back(root_scene);
 
   //---------------------------
 }
 void GUI_init::build_scene_1(){
   //---------------------------
-/*
-  for (int i=0; i<3; i++){
-    Object* rock = loaderManager->load_collection("/home/aeter/Desktop/Point_cloud/obj/rock/rock.obj");
-    transformManager->make_translation(rock, vec3(2-4*i, 0, 0));
-    sceneManager->update_collection_location(rock);
-  }
 
-  for (int i=0; i<3; i++){
-    Object* rock = loaderManager->load_collection("/home/aeter/Desktop/Point_cloud/obj/rock/rock.obj");
-    transformManager->make_translation(rock, vec3(2-4*i, -4, 0));
-    sceneManager->update_collection_location(rock);
-  }
+  //Object* rock = loaderManager->load_collection("/home/aeter/Desktop/Point_cloud/obj/rock/rock.obj");
+  //transformManager->make_translation(rock, vec3(2-4*i, 0, 0));
+  //sceneManager->update_collection_location(rock);
 
   //---------------------------
 }
@@ -169,26 +150,26 @@ void GUI_init::construst_tree(){
   //---------------------------
 
   //Construct init path nodes for specific cloud locations
-  this->construct_node_root(path_init_file, nodes_root);
+  this->construct_node_root(init.vec_path_file, nodes_root);
 
   //Set a node for specific scene construction
-  this->construct_node_scene(nodes_path_vec);
+  this->build_custom_scene(nodes_path_vec);
 
   //Construct predefined init path nodes
-  for(int i=0; i<path_init_vec.size(); i++){
-    vector<Struct_treefile*> nodes_path;
-    this->construct_node(path_init_vec[i], nodes_path);
+  for(int i=0; i<init.vec_path_folder.size(); i++){
+    vector<Tree_node*> nodes_path;
+    this->construct_node(init.vec_path_folder[i], nodes_path);
     this->nodes_path_vec.push_back(nodes_path);
   }
 
   //---------------------------
 }
-void GUI_init::construct_node(string path, vector<Struct_treefile*>& nodes){
+void GUI_init::construct_node(string path, vector<Tree_node*>& nodes){
   if(path != ""){
     //---------------------------
 
     //Save root
-    Struct_treefile* node = new Struct_treefile();
+    Tree_node* node = new Tree_node();
     node->name = get_filename_from_path(path);
     node->type = get_type_from_path(path);
     node->path = path;
@@ -201,12 +182,12 @@ void GUI_init::construct_node(string path, vector<Struct_treefile*>& nodes){
     //---------------------------
   }
 }
-void GUI_init::construct_node_root(vector<string>& vec_path, vector<Struct_treefile*>& nodes){
+void GUI_init::construct_node_root(vector<string>& vec_path, vector<Tree_node*>& nodes){
   //---------------------------
 
   for(int i=0; i<vec_path.size(); i++){
     if(vec_path[i] != ""){
-      Struct_treefile* node = new Struct_treefile();
+      Tree_node* node = new Tree_node();
 
       node->name = get_filename_from_path(vec_path[i]);
       node->type = get_type_from_path(vec_path[i]);
@@ -223,7 +204,7 @@ void GUI_init::construct_node_root(vector<string>& vec_path, vector<Struct_treef
 
   //---------------------------
 }
-void GUI_init::node_child_scan(string path, vector<Struct_treefile*>& nodes, Struct_treefile* parent){
+void GUI_init::node_child_scan(string path, vector<Tree_node*>& nodes, Tree_node* parent){
   vector<string> list_path = list_all_path(path);
   //---------------------------
 
@@ -236,7 +217,7 @@ void GUI_init::node_child_scan(string path, vector<Struct_treefile*>& nodes, Str
   for(int i=0; i<list_path.size(); i++){
     string path_file = list_path[i];
 
-    Struct_treefile* node = new Struct_treefile();
+    Tree_node* node = new Tree_node();
     node->name = get_filename_from_path(path_file);
     node->type = get_type_from_path(path_file);
     node->path = path_file;
@@ -265,7 +246,7 @@ void GUI_init::node_child_scan(string path, vector<Struct_treefile*>& nodes, Str
 
   //---------------------------
 }
-void GUI_init::display_node(Struct_treefile* node, vector<Struct_treefile*>& all_nodes){
+void GUI_init::display_node(Tree_node* node, vector<Tree_node*>& all_nodes){
   if(all_nodes.size() != 0){
     //---------------------------
 
@@ -311,11 +292,11 @@ void GUI_init::display_node(Struct_treefile* node, vector<Struct_treefile*>& all
     //---------------------------
   }
 }
-void GUI_init::display_node_root(vector<Struct_treefile*>& all_nodes){
+void GUI_init::display_node_root(vector<Tree_node*>& all_nodes){
   //---------------------------
 
   for(int i=0; i<all_nodes.size(); i++){
-    Struct_treefile* node = all_nodes[i];
+    Tree_node* node = all_nodes[i];
 
     ImGui::TableNextRow();
     ImGui::TableNextColumn();
@@ -337,8 +318,8 @@ bool GUI_init::check_file_format(string path){
   string format = get_format_from_path(path);
   //---------------------------
 
-  for(int i=0; i<accepted_format.size(); i++){
-    if(format == accepted_format[i]){
+  for(int i=0; i<init.accepted_format.size(); i++){
+    if(format == init.accepted_format[i]){
       return true;
     }
   }
@@ -346,19 +327,18 @@ bool GUI_init::check_file_format(string path){
   //---------------------------
   return false;
 }
-void GUI_init::open_selection(Struct_treefile* node){
+void GUI_init::open_selection(Tree_node* node){
   //---------------------------
 
-  if(with_remove_cloud){
-    captureManager->stop_capture();
-    sceneManager->remove_collection_all();
+  if(init.remove_old){
+    //sceneManager->remove_collection_all();
   }
 
   if(node->type == "File"){
-    Object* object = loaderManager->load_collection(node->path);
-    this->operation_new_collection(object);
+    Object* object = loaderManager->load_object(node->path);
+    this->operation_new_object(object);
   }
-  else if(node->type == "Folder" && node->end_folder){
+  /*else if(node->type == "Folder" && node->end_folder){
     if(pathManager->check_folder_format(node->path, "ply")){
       Object* object;
 
@@ -370,16 +350,10 @@ void GUI_init::open_selection(Struct_treefile* node){
 
       this->operation_new_collection(object);
     }
-  }
+  }*/
   else if(node->type == "scene_1"){
     this->build_scene_1();
   }
-  else if(node->type == "scene_2"){
-    this->build_scene_2();
-  }
-  else if(node->type == "scene_3"){
-    this->build_scene_3();
-  }
 
   //---------------------------
-}*/
+}

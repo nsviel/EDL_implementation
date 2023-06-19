@@ -4,7 +4,7 @@
 #include "../../../common.h"
 
 
-struct Struct_treefile{
+struct Tree_node{
   //---------------------------
 
   string name;
