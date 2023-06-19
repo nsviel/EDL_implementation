@@ -57,8 +57,6 @@ void VK_canvas::create_canvas(){
   vk_data->check_for_attribut(canvas);
   vk_buffer->create_buffer(canvas);
 
-  vk_texture->load_texture(canvas, "../media/statue.jpg");
-
   //---------------------------
 }
 void VK_canvas::clean_canvas(){

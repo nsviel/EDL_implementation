@@ -1,6 +1,6 @@
 #version 450
 #extension GL_EXT_debug_printf : enable
-//debugPrintfEXT("My float is %f", depth_rgba.x);
+//debugPrintfEXT("\n--> %f", shade);
 
 layout(location = 2) in vec2 frag_tex_coord;
 layout(location = 0) out vec4 out_color;

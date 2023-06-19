@@ -13,8 +13,7 @@ struct Param_data{
   //---------------------------
 
   bool with_glyph_grid = true;
-  //std::string path_initial_object = "../media/fused.ply";
-  std::string path_initial_object = "/home/aeter/Desktop/Point_cloud/ply/dragon.ply";
+  std::string path_initial_object = "../media/dragon.ply";
   //std::string path_initial_object = "/home/aeter/Desktop/Point_cloud/ply/indoor_scan.ply";
 
   //---------------------------
