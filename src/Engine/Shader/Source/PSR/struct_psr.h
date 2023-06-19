@@ -1,8 +1,8 @@
-#ifndef STRUCT_EDL_H
-#define STRUCT_EDL_H
+#ifndef STRUCT_PSR_H
+#define STRUCT_PSR_H
 
 
-struct Struct_edl{
+struct Struct_psr{
   //---------------------------
 
   bool activated;

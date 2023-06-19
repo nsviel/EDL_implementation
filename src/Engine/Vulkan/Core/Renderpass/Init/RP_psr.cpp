@@ -1,4 +1,4 @@
-#include "RP_pyramid.h"
+#include "RP_psr.h"
 
 #include "../VK_renderpass.h"
 #include "../VK_subpass.h"
@@ -10,7 +10,7 @@
 
 
 //Constructor / Destructor
-RP_pyramid::RP_pyramid(VK_engine* vk_engine){
+RP_psr::RP_psr(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -20,7 +20,7 @@ RP_pyramid::RP_pyramid(VK_engine* vk_engine){
 
   //---------------------------
 }
-RP_pyramid::~RP_pyramid(){
+RP_psr::~RP_psr(){
   //---------------------------
 
   delete vk_subpass;
@@ -29,12 +29,12 @@ RP_pyramid::~RP_pyramid(){
 }
 
 //Main function
-void RP_pyramid::init_renderpass_render(Struct_renderpass* renderpass){
+void RP_psr::init_renderpass_render(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 
   //Renderpass
-  renderpass->name = "render";
+  renderpass->name = "psr";
   renderpass->color_image_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
   renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
   renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
@@ -52,7 +52,7 @@ void RP_pyramid::init_renderpass_render(Struct_renderpass* renderpass){
 }
 
 //Subpass
-void RP_pyramid::create_subpass_pyramid(Struct_renderpass* renderpass){
+void RP_psr::create_subpass_pyramid(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_subpass* subpass = new Struct_subpass();
@@ -73,7 +73,7 @@ void RP_pyramid::create_subpass_pyramid(Struct_renderpass* renderpass){
 }
 
 //Pipeline
-void RP_pyramid::create_pipeline_triangle(Struct_renderpass* renderpass){
+void RP_psr::create_pipeline_triangle(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
@@ -90,11 +90,11 @@ void RP_pyramid::create_pipeline_triangle(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void RP_pyramid::create_pipeline_pyramid(Struct_renderpass* renderpass){
+void RP_psr::create_pipeline_pyramid(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
-  pipeline->name = "triangle_EDL";
+  pipeline->name = "triangle_PSR";
   pipeline->topology = "triangle";
   pipeline->compile_shader = true;
   pipeline->path_shader_vs = "EDL/shader_edl_vs";
@@ -103,7 +103,7 @@ void RP_pyramid::create_pipeline_pyramid(Struct_renderpass* renderpass){
   pipeline->vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("Struct_edl", sizeof(Struct_edl), 2, TYPE_UNIFORM, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("Struct_psr", sizeof(Struct_psr), 2, TYPE_UNIFORM, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

@@ -1,10 +1,10 @@
-#ifndef RP_RENDER_H
-#define RP_RENDER_H
+#ifndef RP_PSR_H
+#define RP_PSR_H
 
 #include "../../../Struct/struct_renderpass.h"
 #include "../../../Struct/struct_pipeline.h"
 
-#include "../../../../Shader/Source/EDL/struct_edl.h"
+#include "../../../../Shader/Source/PSR/struct_psr.h"
 
 #include "../../../../../common.h"
 
@@ -14,12 +14,12 @@ class VK_pipeline;
 class VK_subpass;
 
 
-class RP_pyramid
+class RP_psr
 {
 public:
   //Constructor / Destructor
-  RP_pyramid(VK_engine* vk_engine);
-  ~RP_pyramid();
+  RP_psr(VK_engine* vk_engine);
+  ~RP_psr();
 
 public:
   //Main functions
