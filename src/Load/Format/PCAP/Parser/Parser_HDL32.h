@@ -1,33 +1,29 @@
-#ifndef UDP_PARSER_VLP16_H
-#define UDP_PARSER_VLP16_H
+#ifndef UDP_PARSER_HDL32_H
+#define UDP_PARSER_HDL32_H
 
 // Server side implementation of UDP client-server model
 
-#include "../../../common.h"
+#include "../../../../common.h"
 
 
-class Parser_VLP16
+class Parser_HDL32
 {
 public:
   //Constructor / Destructor
-  Parser_VLP16();
-  ~Parser_VLP16();
+  Parser_HDL32();
+  ~Parser_HDL32();
 
 public:
   //Main functions
   Data_file* parse_packet(vector<int> packet);
 
   //Subfunctions
-  bool parse_header(vector<int>& packet_dec);
   void parse_vector(vector<int> packet);
   void parse_blocks();
   void parse_azimuth();
   void parse_coordinates();
   void parse_timestamp();
-
-  //Final processing function
-  void reorder_by_azimuth(Data_file* cloud);
-  void supress_empty_data();
+  void final_check(Data_file* cloud);
 
   //Subsubfunctions
   vector<float> calc_timing_offsets();

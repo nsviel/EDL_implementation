@@ -6,65 +6,50 @@
 *  if data size equal 1206, this is a laser fire data, else about 512, it is a position packet or GPS packet
 */
 
-#include "Parser_VLP16.h"
+#include "Parser_HDL32.h"
 
-#include "../../../Specific/Function/fct_math.h"
-
-#include <chrono>
+#include "../../../../Specific/Function/fct_math.h"
 
 
 //Constructor / Destructor
-Parser_VLP16::Parser_VLP16(){
+Parser_HDL32::Parser_HDL32(){
   //---------------------------
 
-  this->nb_laser = 16;
+  this->nb_laser = 32;
   this->nb_sequences = 24;
   this->supress_emptyElements = false;
 
   //---------------------------
 }
-Parser_VLP16::~Parser_VLP16(){}
+Parser_HDL32::~Parser_HDL32(){}
 
 //Main function
-Data_file* Parser_VLP16::parse_packet(vector<int> packet_dec){
-  Data_file* data_udp = new Data_file();
+Data_file* Parser_HDL32::parse_packet(vector<int> packet){
+  Data_file* cloud = new Data_file();
   //---------------------------
 
-  if(parse_header(packet_dec)){
-    this->parse_vector(packet_dec);
-    this->parse_blocks();
-    this->parse_azimuth();
-    this->parse_coordinates();
-    this->parse_timestamp();
-    this->reorder_by_azimuth(data_udp);
+  //Packet timestamp
+  packet_ts_us = packet[1203]*256*256*256 + packet[1202]*256*256 + packet[1201]*256 + packet[1200];
+
+  //Chekc if data is laser or position information
+  if(packet.size() != 1206){
+    return cloud;
   }
 
+  //Parse packet data
+  this->parse_vector(packet);
+  this->parse_blocks();
+  this->parse_azimuth();
+  this->parse_coordinates();
+  this->parse_timestamp();
+  this->final_check(cloud);
+
   //---------------------------
-  return data_udp;
+  return cloud;
 }
 
 //Subfunctions
-bool Parser_VLP16::parse_header(vector<int>& packet_dec){
-  //---------------------------
-
-  //Check if data is laser or position information
-  if(packet_dec.size() == 1248){
-    vector<int> new_packet(1206);
-    copy(packet_dec.begin() + 42, packet_dec.end(), new_packet.begin());
-    packet_dec = new_packet;
-  }
-  //Check if data is laser or position information
-  if(packet_dec.size() != 1206){
-    return false;
-  }
-
-  //Packet timestamp
-  this->packet_ts_us = packet_dec[1203]*256*256*256 + packet_dec[1202]*256*256 + packet_dec[1201]*256 + packet_dec[1200];
-
-  //---------------------------
-  return true;
-}
-void Parser_VLP16::parse_vector(vector<int> packet){
+void Parser_HDL32::parse_vector(vector<int> packet){
   blocks.clear();
   //---------------------------
 
@@ -84,7 +69,7 @@ void Parser_VLP16::parse_vector(vector<int> packet){
 
   //---------------------------
 }
-void Parser_VLP16::parse_blocks(){
+void Parser_HDL32::parse_blocks(){
   packet_A.clear();
   packet_R.clear();
   packet_I.clear();
@@ -99,9 +84,7 @@ void Parser_VLP16::parse_blocks(){
 
     // 0xffee is upper block
     if(block_flag != 65518){
-      string log = "Capture - Problem block flag "+to_string(block_flag)+" instead of "+to_string(65518);
-      //console.AddLog("error", log);
-      return;
+      cout << "Problem of block flag" << endl;
     }
 
     //Get block azimuth
@@ -126,7 +109,7 @@ void Parser_VLP16::parse_blocks(){
 
   //---------------------------
 }
-void Parser_VLP16::parse_azimuth(){
+void Parser_HDL32::parse_azimuth(){
   //---------------------------
 
   //Get the actual azimuth for each data point
@@ -148,14 +131,7 @@ void Parser_VLP16::parse_azimuth(){
     while(k < 32){
       float azimuth_accurate;
 
-      // Determine if you’re in the first or second firing sequence of the data block
-      if(k < 16){
-        azimuth_accurate = packet_A[i] + (azimuth_gap * k * 2.304) / 55.296;
-      }
-      else{
-        azimuth_accurate = packet_A[i] + (azimuth_gap * ((k - 16) + 55.296) * 2.304) / (2 * 55.296);
-      }
-
+      azimuth_accurate = packet_A[i] + (azimuth_gap * k * 1.152) / 46.08;
       if(azimuth_accurate >= 360){
         azimuth_accurate = azimuth_accurate - 360;
       }
@@ -169,13 +145,13 @@ void Parser_VLP16::parse_azimuth(){
   //---------------------------
   packet_A = azimuth_points;
 }
-void Parser_VLP16::parse_coordinates(){
+void Parser_HDL32::parse_coordinates(){
   packet_xyz.clear();
   //---------------------------
 
   // now calculate the cartesian coordinate of each point
-  float laser_angles[16] = { -15, 1, -13, 3, -11, 5, -9, 7, -7, 9, -5, 11, -3, 13, -1, 15 };
-  float laser_height[16] = { 11.2, -0.7, 9.7, -2.2, 8.1, -3.7, 6.6, -5.1, 5.1, -6.6, 3.7, -8.1, 2.2, -9.7, 0.7, -11.2 }; // in mm
+  float laser_angles[32] = { -30.67, -9.33, -29.33, -8.00, -28.00, -6.67, -26.67, -5.33, -25.33, -4.00, -24.00, -2.67, -22.67, -1.33, -21.33, 0.00, -20.00, 1.33, -18.67, 2.67, -17.33, 4.00, -16.00, 5.33, -14.67, 6.67, -13.33, 8.00, -12.00, 9.33, -10.67, 10.67 };
+  //float laser_height[32] = { 11.2, -0.7, 9.7, -2.2, 8.1, -3.7, 6.6, -5.1, 5.1, -6.6, 3.7, -8.1, 2.2, -9.7, 0.7, -11.2 }; // in mm
   float FACTOR_CM2M = 0.01;  // factor distance centimeter value to meter
   float FACTOR_MM2CM = 0.2;  // factor distance value to cm, each velodyne distance unit is 2 mm
 
@@ -193,11 +169,9 @@ void Parser_VLP16::parse_coordinates(){
 
   //Convert elevation from degree to radian
   vector<float> elevation;
-  for(int i=0; i<2; i++){
-    for(int j=0; j<16; j++){
-      float value = laser_angles[j] * M_PI / 180;
-      elevation.push_back(value);
-    }
+  for(int i=0; i<32; i++){
+    float value = laser_angles[i] * M_PI / 180;
+    elevation.push_back(value);
   }
 
   //Carthesian coodinates
@@ -219,13 +193,13 @@ void Parser_VLP16::parse_coordinates(){
   }
 
   // Laser height correction
-  for(int i=0; i<packet_xyz.size()/16; i++){
+  /*for(int i=0; i<packet_xyz.size()/16; i++){
     packet_xyz[i*16] - laser_height[i] * FACTOR_MM2CM * FACTOR_CM2M;
-  }
+  }*/
 
   //---------------------------
 }
-void Parser_VLP16::parse_timestamp(){
+void Parser_HDL32::parse_timestamp(){
   packet_t.clear();
   //---------------------------
 
@@ -233,26 +207,38 @@ void Parser_VLP16::parse_timestamp(){
   float packet_ts_s = packet_ts_us / 1000000; //(us to s)
   float packet_ts_min = packet_ts_s / 60;  // (s to min)
 
-  //Check for positive timestamp
-  if(packet_ts_s < 0){
-    //cout<<"[error] UDP capture - negative timestamp"<<endl;
-  }
-
-  // calculating relative timestamp [microsec] of each firing
+  // calculating timestamp [microsec] of each firing
   vector<float> timing_offsets = calc_timing_offsets();
   for(int i=0; i<timing_offsets.size(); i++){
-    float ts = packet_ts_s + timing_offsets[i] / 1000000;
-    packet_t.push_back(ts);
+    packet_t.push_back(packet_ts_s + timing_offsets[i] / 1000000);
   }
 
   //---------------------------
 }
-
-//final processing functions
-void Parser_VLP16::reorder_by_azimuth(Data_file* cloud){
+void Parser_HDL32::final_check(Data_file* cloud){
   //---------------------------
 
-  //Reorder points in function of their azimuth
+  //Supress points when no distance are measured
+  if(supress_emptyElements){
+    vector<int> idx;
+    for(int i=0; i<packet_R.size(); i++){
+      if(packet_R[i] == 0){
+        idx.push_back(i);
+      }
+    }
+
+    this->make_supressElements(packet_I, idx);
+    this->make_supressElements(packet_A, idx);
+    this->make_supressElements(packet_R, idx);
+    this->make_supressElements(packet_t, idx);
+    this->make_supressElements(packet_xyz, idx);
+
+    if(packet_xyz.size() == 0){
+      cout << "No data in the packet" << endl;
+    }
+  }
+
+  //Reorder points in function of their timestamp
   vector<vec3> xyz_b;
   vector<float> R_b;
   vector<float> I_b;
@@ -289,56 +275,32 @@ void Parser_VLP16::reorder_by_azimuth(Data_file* cloud){
 
   //---------------------------
 }
-void Parser_VLP16::supress_empty_data(){
-  //Supress points when no distance are measured
-  //---------------------------
-
-  if(supress_emptyElements){
-    vector<int> idx;
-    for(int i=0; i<packet_R.size(); i++){
-      if(packet_R[i] == 0){
-        idx.push_back(i);
-      }
-    }
-
-    this->make_supressElements(packet_I, idx);
-    this->make_supressElements(packet_A, idx);
-    this->make_supressElements(packet_R, idx);
-    this->make_supressElements(packet_t, idx);
-    this->make_supressElements(packet_xyz, idx);
-
-    if(packet_xyz.size() == 0){
-      cout << "No data in the packet" << endl;
-    }
-  }
-
-  //---------------------------
-}
 
 //Subsubfunctions
-vector<float> Parser_VLP16::calc_timing_offsets(){
+vector<float> Parser_HDL32::calc_timing_offsets(){
     vector<float> timing_offsets;
     //-----------------------
 
     //constants
-    float full_firing_cycle = 55.296;  // μs
-    float single_firing = 2.304;  // μs
+    float full_firing_cycle = 46.08;  // μs
+    float single_firing = 1.152;  // μs
 
     //compute timing offsets
     for(int i=0; i<12; i++){
       for(int j=0; j<32; j++){
 
-        float dataBlockIndex = (i * 2) + int((j / 16));
-        float dataPointIndex = j % 16;
+        float dataBlockIndex = i;
+        float dataPointIndex = j;
 
-        timing_offsets.push_back( (full_firing_cycle * dataBlockIndex) + (single_firing * dataPointIndex) );
+        float offset = (full_firing_cycle * dataBlockIndex) + (single_firing * dataPointIndex);
+        timing_offsets.push_back(offset);
       }
     }
 
     //-----------------------
     return timing_offsets;
 }
-void Parser_VLP16::make_supressElements(vector<vec3>& vec, vector<int> idx){
+void Parser_HDL32::make_supressElements(vector<vec3>& vec, vector<int> idx){
   if(idx.size() == 0)return;
   //---------------------------
 
@@ -363,7 +325,7 @@ void Parser_VLP16::make_supressElements(vector<vec3>& vec, vector<int> idx){
   //---------------------------
   vec = vec_b;
 }
-void Parser_VLP16::make_supressElements(vector<float>& vec, vector<int> idx){
+void Parser_HDL32::make_supressElements(vector<float>& vec, vector<int> idx){
   if(idx.size() == 0)return;
   //---------------------------
 

@@ -1,7 +1,7 @@
 #ifndef CAPTURE_FRAME_H
 #define CAPTURE_FRAME_H
 
-#include "../../../common.h"
+#include "../../../../common.h"
 
 
 class Capture_frame
