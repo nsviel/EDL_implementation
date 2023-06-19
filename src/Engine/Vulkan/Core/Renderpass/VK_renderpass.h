@@ -12,7 +12,7 @@ class VK_pipeline;
 class VK_subpass;
 
 class RP_scene;
-class RP_render;
+class RP_edl;
 class RP_ui;
 
 
@@ -41,7 +41,7 @@ private:
   VK_subpass* vk_subpass;
 
   RP_scene* rp_scene;
-  RP_render* rp_render;
+  RP_edl* rp_edl;
   RP_ui* rp_ui;
 };
 

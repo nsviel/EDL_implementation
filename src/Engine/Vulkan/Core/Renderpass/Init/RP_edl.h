@@ -1,5 +1,5 @@
-#ifndef RP_RENDER_H
-#define RP_RENDER_H
+#ifndef RP_EDL_H
+#define RP_EDL_H
 
 #include "../../../Struct/struct_renderpass.h"
 #include "../../../Struct/struct_pipeline.h"
@@ -14,12 +14,12 @@ class VK_pipeline;
 class VK_subpass;
 
 
-class RP_render
+class RP_edl
 {
 public:
   //Constructor / Destructor
-  RP_render(VK_engine* vk_engine);
-  ~RP_render();
+  RP_edl(VK_engine* vk_engine);
+  ~RP_edl();
 
 public:
   //Main functions
@@ -27,10 +27,8 @@ public:
 
   //Subpass
   void create_subpass_edl(Struct_renderpass* renderpass);
-  void create_subpass_occlusion(Struct_renderpass* renderpass);
 
   //Pipeline
-  void create_pipeline_triangle(Struct_renderpass* renderpass);
   void create_pipeline_edl(Struct_renderpass* renderpass);
 
 private:

@@ -2,7 +2,7 @@
 #include "VK_subpass.h"
 
 #include "Init/RP_scene.h"
-#include "Init/RP_render.h"
+#include "Init/RP_edl.h"
 #include "Init/RP_ui.h"
 
 #include "../Command/VK_command_buffer.h"
@@ -27,7 +27,7 @@ VK_renderpass::VK_renderpass(VK_engine* vk_engine){
   this->vk_subpass = new VK_subpass(vk_engine);
 
   this->rp_scene = new RP_scene(vk_engine);
-  this->rp_render = new RP_render(vk_engine);
+  this->rp_edl = new RP_edl(vk_engine);
   this->rp_ui = new RP_ui(vk_engine);
 
   //---------------------------
@@ -45,7 +45,7 @@ void VK_renderpass::init_renderpass(){
   //---------------------------
 
   rp_scene->init_renderpass_scene(&vk_param->renderpass_scene);
-  rp_render->init_renderpass_render(&vk_param->renderpass_render);
+  rp_edl->init_renderpass_render(&vk_param->renderpass_render);
   rp_ui->init_renderpass_ui(&vk_param->renderpass_ui);
 
   //---------------------------
@@ -90,6 +90,8 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
 void VK_renderpass::create_renderpass_obj(Struct_renderpass* renderpass){
   //---------------------------
 
+  Struct_subpass* subpass_ref = renderpass->vec_subpass[0];
+
   vector<VkSubpassDescription> vec_description;
   vector<VkSubpassDependency> vec_dependency;
   for(int i=0; i<renderpass->vec_subpass.size(); i++){
@@ -98,11 +100,10 @@ void VK_renderpass::create_renderpass_obj(Struct_renderpass* renderpass){
     vec_dependency.push_back(subpass->dependency);
   }
 
-  Struct_subpass* subpass = renderpass->vec_subpass[0];
   VkRenderPassCreateInfo renderpass_info{};
   renderpass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-  renderpass_info.attachmentCount = static_cast<uint32_t>(subpass->vec_attachment_description.size());
-  renderpass_info.pAttachments = subpass->vec_attachment_description.data();
+  renderpass_info.attachmentCount = static_cast<uint32_t>(subpass_ref->vec_attachment_description.size());
+  renderpass_info.pAttachments = subpass_ref->vec_attachment_description.data();
   renderpass_info.subpassCount = vec_description.size();
   renderpass_info.pSubpasses = vec_description.data();
   renderpass_info.dependencyCount = vec_dependency.size();

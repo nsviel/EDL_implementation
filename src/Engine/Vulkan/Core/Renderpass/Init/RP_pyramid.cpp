@@ -1,4 +1,4 @@
-#include "RP_render.h"
+#include "RP_pyramid.h"
 
 #include "../VK_renderpass.h"
 #include "../VK_subpass.h"
@@ -10,7 +10,7 @@
 
 
 //Constructor / Destructor
-RP_render::RP_render(VK_engine* vk_engine){
+RP_pyramid::RP_pyramid(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -20,7 +20,7 @@ RP_render::RP_render(VK_engine* vk_engine){
 
   //---------------------------
 }
-RP_render::~RP_render(){
+RP_pyramid::~RP_pyramid(){
   //---------------------------
 
   delete vk_subpass;
@@ -29,47 +29,30 @@ RP_render::~RP_render(){
 }
 
 //Main function
-void RP_render::init_renderpass_render(Struct_renderpass* renderpass){
+void RP_pyramid::init_renderpass_render(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 
+  //Renderpass
   renderpass->name = "render";
   renderpass->color_image_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
   renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
   renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
   renderpass->depth_sampler_layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 
-  this->create_subpass_edl(renderpass);
-  //this->create_subpass_occlusion(renderpass);
+  //Subpass
+  this->create_subpass_pyramid(renderpass);
 
+  //pipeline
   this->create_pipeline_triangle(renderpass);
-  this->create_pipeline_edl(renderpass);
+  this->create_pipeline_pyramid(renderpass);
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);
 }
 
 //Subpass
-void RP_render::create_subpass_edl(Struct_renderpass* renderpass){
-  //---------------------------
-
-  Struct_subpass* subpass = new Struct_subpass();
-  subpass->color.binding = 0;
-  subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->color.store_operation = ATTACHMENT_STOREOP_NOTHING;
-  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_SHADER_READONLY;
-
-  subpass->depth.binding = 1;
-  subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->color.store_operation = ATTACHMENT_STOREOP_STORE;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-  renderpass->vec_subpass.push_back(subpass);
-
-  //---------------------------
-}
-void RP_render::create_subpass_occlusion(Struct_renderpass* renderpass){
+void RP_pyramid::create_subpass_pyramid(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_subpass* subpass = new Struct_subpass();
@@ -90,7 +73,7 @@ void RP_render::create_subpass_occlusion(Struct_renderpass* renderpass){
 }
 
 //Pipeline
-void RP_render::create_pipeline_triangle(Struct_renderpass* renderpass){
+void RP_pyramid::create_pipeline_triangle(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
@@ -107,7 +90,7 @@ void RP_render::create_pipeline_triangle(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void RP_render::create_pipeline_edl(Struct_renderpass* renderpass){
+void RP_pyramid::create_pipeline_pyramid(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
