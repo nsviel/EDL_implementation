@@ -1,4 +1,3 @@
--mean of time values
 -EDL light by mouse
 -faire renderpass subpass avec interdependances
   -1 subpass par effet de post-processing

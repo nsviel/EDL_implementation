@@ -1,14 +1,14 @@
 #include "GUI_Initialization.h"
 
-#include "../Node_gui.h"
+#include "../../Node_gui.h"
 
-#include "../../Engine/Node_engine.h"
-#include "../../Data/Node_data.h"
-#include "../../Data/Scene/Scene.h"
-#include "../../Load/Node_load.h"
-#include "../../Load/Processing/Loader.h"
-#include "../../Specific/File/Directory.h"
-#include "../../Specific/File/Info.h"
+#include "../../../Engine/Node_engine.h"
+#include "../../../Data/Node_data.h"
+#include "../../../Data/Scene/Scene.h"
+#include "../../../Load/Node_load.h"
+#include "../../../Load/Processing/Loader.h"
+#include "../../../Specific/File/Directory.h"
+#include "../../../Specific/File/Info.h"
 
 
 //Constructor / Destructor
@@ -45,28 +45,7 @@ void GUI_Initialization::init_gui(){
 
   //---------------------------
 }
-/*
-//Operation on loaded cloud
-void GUI_Initialization::operation_new_collection(Object* object){
-  //---------------------------
-/*
-  if(object != nullptr){
-    //Set lidar model
-    object->lidar_model = lidar_model;
 
-    //Set scaling
-    if(object_scale != 1){
-      for(int i=0; i<object->list_obj.size(); i++){
-        Object_* object = object->get_obj(i);
-        sceneManager->update_MinMax(object);
-        transformManager->make_scaling(object, object_scale);
-        sceneManager->update_buffer_location(object);
-      }
-    }
-  }
-
-  //---------------------------
-}
 void GUI_Initialization::operation_option(){
   //---------------------------
 
@@ -108,14 +87,37 @@ void GUI_Initialization::operation_option(){
 
   //---------------------------
 }
+/*
+//Operation on loaded cloud
+void GUI_Initialization::operation_new_collection(Object* object){
+  //---------------------------
+/*
+  if(object != nullptr){
+    //Set lidar model
+    object->lidar_model = lidar_model;
+
+    //Set scaling
+    if(object_scale != 1){
+      for(int i=0; i<object->list_obj.size(); i++){
+        Object_* object = object->get_obj(i);
+        sceneManager->update_MinMax(object);
+        transformManager->make_scaling(object, object_scale);
+        sceneManager->update_buffer_location(object);
+      }
+    }
+  }
+
+  //---------------------------
+}
+
 
 //Specific scene construction
-void GUI_Initialization::construct_node_scene(vector<vector<tree_file*>>& nodes_path_vec){
+void GUI_Initialization::construct_node_scene(vector<vector<Struct_treefile*>>& nodes_path_vec){
   //---------------------------
 
   //Scene folder
-  vector<tree_file*> root_scene;
-  tree_file* node = new tree_file();
+  vector<Struct_treefile*> root_scene;
+  Struct_treefile* node = new Struct_treefile();
   node->name = "scene";
   node->type = "Folder";
   node->end_folder = true;
@@ -125,21 +127,21 @@ void GUI_Initialization::construct_node_scene(vector<vector<tree_file*>>& nodes_
   root_scene.push_back(node);
 
   //Scene 1
-  node = new tree_file();
+  node = new Struct_treefile();
   node->name = "Rocks";
   node->leaf_nb = 0;
   node->type = "scene_1";
   root_scene.push_back(node);
 
   //Scene 2
-  node = new tree_file();
+  node = new Struct_treefile();
   node->name = "Bunny";
   node->leaf_nb = 0;
   node->type = "scene_2";
   root_scene.push_back(node);
 
   //Scene 3
-  node = new tree_file();
+  node = new Struct_treefile();
   node->name = "Dragon";
   node->leaf_nb = 0;
   node->type = "scene_3";
@@ -202,19 +204,19 @@ void GUI_Initialization::construst_tree(){
 
   //Construct predefined init path nodes
   for(int i=0; i<path_init_vec.size(); i++){
-    vector<tree_file*> nodes_path;
+    vector<Struct_treefile*> nodes_path;
     this->construct_node(path_init_vec[i], nodes_path);
     this->nodes_path_vec.push_back(nodes_path);
   }
 
   //---------------------------
 }
-void GUI_Initialization::construct_node(string path, vector<tree_file*>& nodes){
+void GUI_Initialization::construct_node(string path, vector<Struct_treefile*>& nodes){
   if(path != ""){
     //---------------------------
 
     //Save root
-    tree_file* node = new tree_file();
+    Struct_treefile* node = new Struct_treefile();
     node->name = get_filename_from_path(path);
     node->type = get_type_from_path(path);
     node->path = path;
@@ -227,12 +229,12 @@ void GUI_Initialization::construct_node(string path, vector<tree_file*>& nodes){
     //---------------------------
   }
 }
-void GUI_Initialization::construct_node_root(vector<string>& vec_path, vector<tree_file*>& nodes){
+void GUI_Initialization::construct_node_root(vector<string>& vec_path, vector<Struct_treefile*>& nodes){
   //---------------------------
 
   for(int i=0; i<vec_path.size(); i++){
     if(vec_path[i] != ""){
-      tree_file* node = new tree_file();
+      Struct_treefile* node = new Struct_treefile();
 
       node->name = get_filename_from_path(vec_path[i]);
       node->type = get_type_from_path(vec_path[i]);
@@ -249,7 +251,7 @@ void GUI_Initialization::construct_node_root(vector<string>& vec_path, vector<tr
 
   //---------------------------
 }
-void GUI_Initialization::node_child_scan(string path, vector<tree_file*>& nodes, tree_file* parent){
+void GUI_Initialization::node_child_scan(string path, vector<Struct_treefile*>& nodes, Struct_treefile* parent){
   vector<string> list_path = list_all_path(path);
   //---------------------------
 
@@ -262,7 +264,7 @@ void GUI_Initialization::node_child_scan(string path, vector<tree_file*>& nodes,
   for(int i=0; i<list_path.size(); i++){
     string path_file = list_path[i];
 
-    tree_file* node = new tree_file();
+    Struct_treefile* node = new Struct_treefile();
     node->name = get_filename_from_path(path_file);
     node->type = get_type_from_path(path_file);
     node->path = path_file;
@@ -291,7 +293,7 @@ void GUI_Initialization::node_child_scan(string path, vector<tree_file*>& nodes,
 
   //---------------------------
 }
-void GUI_Initialization::display_node(tree_file* node, vector<tree_file*>& all_nodes){
+void GUI_Initialization::display_node(Struct_treefile* node, vector<Struct_treefile*>& all_nodes){
   if(all_nodes.size() != 0){
     //---------------------------
 
@@ -337,11 +339,11 @@ void GUI_Initialization::display_node(tree_file* node, vector<tree_file*>& all_n
     //---------------------------
   }
 }
-void GUI_Initialization::display_node_root(vector<tree_file*>& all_nodes){
+void GUI_Initialization::display_node_root(vector<Struct_treefile*>& all_nodes){
   //---------------------------
 
   for(int i=0; i<all_nodes.size(); i++){
-    tree_file* node = all_nodes[i];
+    Struct_treefile* node = all_nodes[i];
 
     ImGui::TableNextRow();
     ImGui::TableNextColumn();
@@ -372,7 +374,7 @@ bool GUI_Initialization::check_file_format(string path){
   //---------------------------
   return false;
 }
-void GUI_Initialization::open_selection(tree_file* node){
+void GUI_Initialization::open_selection(Struct_treefile* node){
   //---------------------------
 
   if(with_remove_cloud){

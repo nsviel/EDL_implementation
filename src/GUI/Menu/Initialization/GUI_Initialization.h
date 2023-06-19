@@ -1,23 +1,14 @@
 #ifndef GUI_INITIALIZATION_H
 #define GUI_INITIALIZATION_H
 
-#include "../../common.h"
+#include "struct_treefile.h"
+#include "struct_init.h"
+#include "../../../common.h"
 
 class Node_gui;
 class Scene;
 class Loader;
 class Transformation;
-
-struct tree_file{
-  string          name;
-  string          type;
-  string          path;
-  float           size = -1;
-  bool            already_open = false;
-  bool            end_folder;
-  int             leaf_idx;
-  int             leaf_nb;
-};
 
 
 class GUI_Initialization
@@ -44,22 +35,22 @@ public:
   //Treenode construction
   void treeview();
   void construst_tree();
-  void construct_node_scene(vector<vector<tree_file*>>& nodes_path_vec);
-  void construct_node(string path, vector<tree_file*>& nodes);
-  void construct_node_root(vector<string>& vec_path, vector<tree_file*>& nodes);
-  void display_node(tree_file* node, vector<tree_file*>& all_nodes);
-  void display_node_root(vector<tree_file*>& all_nodes);
-  void node_child_scan(string path, vector<tree_file*>& nodes, tree_file* parent);
+  void construct_node_scene(vector<vector<Struct_treefile*>>& nodes_path_vec);
+  void construct_node(string path, vector<Struct_treefile*>& nodes);
+  void construct_node_root(vector<string>& vec_path, vector<Struct_treefile*>& nodes);
+  void display_node(Struct_treefile* node, vector<Struct_treefile*>& all_nodes);
+  void display_node_root(vector<Struct_treefile*>& all_nodes);
+  void node_child_scan(string path, vector<Struct_treefile*>& nodes, Struct_treefile* parent);
   bool check_file_format(string path);
-  void open_selection(tree_file* node);
+  void open_selection(Struct_treefile* node);
 
 private:
   Scene* sceneManager;
   Loader* loaderManager;
   Transformation* transformManager;
 
-  vector<tree_file*> nodes_root;
-  vector<vector<tree_file*>> nodes_path_vec;
+  vector<Struct_treefile*> nodes_root;
+  vector<vector<Struct_treefile*>> nodes_path_vec;
   vector<string> accepted_format;
   vector<string> path_init_vec;
   vector<string> path_init_file;

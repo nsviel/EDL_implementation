@@ -1,8 +1,8 @@
 #include "GUI_menubar.h"
+#include "GUI_option.h"
 
 #include "../Node_gui.h"
 #include "../GUI_param.h"
-#include "../Control/GUI_option.h"
 
 #include "../../Load/Node_load.h"
 #include "../../Load/Processing/Loader.h"
