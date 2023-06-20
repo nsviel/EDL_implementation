@@ -1,6 +1,1 @@
 -faire renderpass PSR subpass avec interdependances
--flicker edl grid
--faire un mode de création automatique des pushconstant aligné avec uniform et sampler
--1 descriptor set per mesh qui est updater à chaque draw command
-  -1 descriptor set per pipeline et per object data
-  -généraliser la création et l'utilisation des descriptor set

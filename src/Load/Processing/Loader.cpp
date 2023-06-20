@@ -34,6 +34,11 @@ Loader::~Loader(){
 Object* Loader::load_object(string path){
   //---------------------------
 
+  if(is_file_exist(path) == false){
+    cout<<"[error] File doesn't exists at "<<path<<endl;
+    return nullptr;
+  }
+
   //Create new object
   Object* object = new Object();
   object->path_file = path;

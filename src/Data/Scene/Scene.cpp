@@ -53,8 +53,6 @@ void Scene::init_scene(){
   //Load init object
   vector<string> vec_path;
   vec_path.push_back(param_data->path_initial_object);
-  //vec_path.push_back("../media/bunny.ply");
-  //vec_path.push_back("/home/aeter/Desktop/Point_cloud/ply/hippo1.ply");
   vector<Object*> vec_obj = loaderManager->load_objects(vec_path);
 
   //---------------------------

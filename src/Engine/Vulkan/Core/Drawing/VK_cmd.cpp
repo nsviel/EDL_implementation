@@ -126,18 +126,10 @@ void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
     if(object->draw_type_name == "point" && object->is_visible){
       //Camera
       vk_camera->compute_mvp(object);
-
-
       vk_descriptor->update_descriptor_uniform(&data->binding);
       vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
       vk_uniform->update_uniform_int("point_size", &data->binding, data->object->draw_point_size);
-
-
-
-      vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
-      vk_uniform->update_uniform_int("point_size", &pipeline->binding, data->object->draw_point_size);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
-      //vkCmdPushConstants(renderpass->command_buffer, pipeline->layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(mat4), &data->object->mvp);
+      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
       //Data
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
@@ -165,8 +157,9 @@ void VK_cmd::cmd_draw_glyph(Struct_renderpass* renderpass){
     if(object->draw_type_name == "line" && object->is_visible){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+      vk_descriptor->update_descriptor_uniform(&data->binding);
+      vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
+      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
       //Data
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};

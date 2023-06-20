@@ -57,7 +57,7 @@ void GUI_init::init_init(){
   this->init.accepted_format.push_back("laz");
 
   //Custom folder tree
-  this->init.vec_path_folder.push_back("../media");
+  this->init.vec_path_folder.push_back("../media/point_cloud");
 
   //Custom file leaf
   //this->init.vec_path_file.push_back("../media/dragon.ply");

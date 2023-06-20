@@ -9,6 +9,7 @@ Transformation::~Transformation(){}
 
 // Translation
 void Transformation::make_translation(Object* object, vec3 trans){
+  if(object == nullptr) return;
   //---------------------------
 
   glm::mat4 translation = get_translation_mat(trans);
@@ -19,23 +20,10 @@ void Transformation::make_translation(Object* object, vec3 trans){
 
   //---------------------------
 }
-void Transformation::make_translation(vector<vec3>& XYZ, vec3 trans){
-  //Translation matrice creation
-  glm::mat4 translation(1.0);
-  //---------------------------
-
-  translation[0][3] = trans.x;
-  translation[1][3] = trans.y;
-  translation[2][3] = trans.z;
-
-  //Apply
-  //this->make_Transformation_atomic(XYZ, vec3(0, 0, 0), translation);
-
-  //---------------------------
-}
 
 //Rotation
 void Transformation::make_rotation(Object* object, vec3 COM, vec3 radian){
+  if(object == nullptr) return;
   //---------------------------
 
   mat4 rotation = get_rotation_mat(radian);
@@ -50,10 +38,10 @@ void Transformation::make_rotation(Object* object, vec3 COM, vec3 radian){
 
 //Scaling
 void Transformation::make_scaling(Object* object, float scale){
-  //Translation matrice creation
-  glm::mat4 scaling(1.0);
+  if(object == nullptr) return;
   //---------------------------
 
+  glm::mat4 scaling(1.0);
   scaling[0][0] = scale;
   scaling[1][1] = scale;
   scaling[2][2] = scale;

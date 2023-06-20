@@ -113,18 +113,18 @@ void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   //---------------------------
 
   //Push constant for MVP matrix
-  VkPushConstantRange pushconstant_range = {};
+  /*VkPushConstantRange pushconstant_range = {};
   pushconstant_range.stageFlags = STAGE_VS;
   pushconstant_range.offset = 0;
-  pushconstant_range.size = sizeof(glm::mat4);
+  pushconstant_range.size = sizeof(glm::mat4);*/
 
   //Pipeline layout info -> usefull for shader uniform variables
   VkPipelineLayoutCreateInfo pipeline_layout_info{};
   pipeline_layout_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipeline_layout_info.setLayoutCount = 1;
   pipeline_layout_info.pSetLayouts = &pipeline->binding.descriptor.layout;
-  pipeline_layout_info.pushConstantRangeCount = 1;
-  pipeline_layout_info.pPushConstantRanges = &pushconstant_range;
+  //pipeline_layout_info.pushConstantRangeCount = 1;
+  //pipeline_layout_info.pPushConstantRanges = &pushconstant_range;
 
   //Pipeline layout creation
   VkResult result = vkCreatePipelineLayout(vk_param->device.device, &pipeline_layout_info, nullptr, &pipeline->layout);
