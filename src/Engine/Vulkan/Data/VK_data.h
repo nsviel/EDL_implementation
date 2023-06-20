@@ -11,6 +11,7 @@ class VK_buffer;
 class VK_texture;
 class VK_binding;
 class VK_command_buffer;
+class VK_descriptor;
 
 
 class VK_data
@@ -26,9 +27,9 @@ public:
   void insert_glyph_object(Object* object);
 
   //Clean function
-  void clean_data();
-  void clean_data_object(Struct_data* data);
-  void clean_data(int ID);
+  void clean_data(Struct_data* data);
+  void clean_data_all();
+  void clean_data_scene(int ID);
 
   //Pipeline data description
   void create_data_description(Struct_pipeline* pipeline);
@@ -47,6 +48,7 @@ private:
   VK_texture* vk_texture;
   VK_binding* vk_binding;
   VK_command_buffer* vk_command_buffer;
+  VK_descriptor* vk_descriptor;
 
   std::list<Struct_data*> list_data_scene;
   std::list<Struct_data*> list_data_glyph;

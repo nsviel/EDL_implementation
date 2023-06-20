@@ -33,6 +33,8 @@ struct Struct_data{
 
   //Binding
   list<Struct_image*> list_texture;
+  VkCommandBuffer command_buffer_secondary;
+  Struct_binding binding;
 
   //---------------------------
 };

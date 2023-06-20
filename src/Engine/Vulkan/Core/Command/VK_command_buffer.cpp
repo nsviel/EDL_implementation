@@ -74,7 +74,7 @@ void VK_command_buffer::allocate_command_buffer_secondary(Struct_data* data){
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
   allocInfo.commandBufferCount = 1;
 
-  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &data->command_buffer);
+  VkResult result = vkAllocateCommandBuffers(vk_param->device.device, &allocInfo, &data->command_buffer_secondary);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to allocate command buffers!");
   }

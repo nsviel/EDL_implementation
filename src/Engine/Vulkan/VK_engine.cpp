@@ -138,7 +138,7 @@ void VK_engine::clean_vulkan(){
   vk_renderpass->clean_renderpass();
   vk_swapchain->clean_swapchain();
   vk_canvas->clean_canvas();
-  vk_data->clean_data();
+  vk_data->clean_data_all();
   vk_descriptor->clean_descriptor_pool();
   vk_command_buffer->clean_command_pool();
   vk_device->clean_logical_device();

@@ -73,7 +73,7 @@ void GPU_data::remove_object_in_engine(Object* object){
     Object* object_list = *next(list_scene.begin(),i);
     if(object->ID == object_list->ID){
       list_scene.remove(object_list);
-      vk_data->clean_data(object->ID);
+      vk_data->clean_data_scene(object->ID);
     }
   }
 

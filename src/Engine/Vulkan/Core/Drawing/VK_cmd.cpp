@@ -229,23 +229,23 @@ void VK_cmd::cmd_record_scene_secondcb(Struct_renderpass* renderpass){
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
       VkDeviceSize offsets[] = {0, 0};
 
-      vkResetCommandBuffer(data->command_buffer, 0);
-      vk_command->start_command_buffer_secondary(renderpass, data->command_buffer);
+      vkResetCommandBuffer(data->command_buffer_secondary, 0);
+      vk_command->start_command_buffer_secondary(renderpass, data->command_buffer_secondary);
 
       Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "point");
-      vkCmdBindPipeline(data->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+      vkCmdBindPipeline(data->command_buffer_secondary, PIPELINE_GRAPHICS, pipeline->pipeline);
 
-      this->cmd_viewport(data->command_buffer);
-      this->cmd_scissor(data->command_buffer);
+      this->cmd_viewport(data->command_buffer_secondary);
+      this->cmd_scissor(data->command_buffer_secondary);
 
       //vk_camera->compute_mvp(object);
       //vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
-      vkCmdBindDescriptorSets(data->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+      vkCmdBindDescriptorSets(data->command_buffer_secondary, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
-      vkCmdBindVertexBuffers(data->command_buffer, 0, 2, vertexBuffers, offsets);
-      vkCmdDraw(data->command_buffer, object->xyz.size(), 1, 0, 0);
+      vkCmdBindVertexBuffers(data->command_buffer_secondary, 0, 2, vertexBuffers, offsets);
+      vkCmdDraw(data->command_buffer_secondary, object->xyz.size(), 1, 0, 0);
 
-      vk_command->stop_command_buffer(data->command_buffer);
+      vk_command->stop_command_buffer(data->command_buffer_secondary);
     }
   }
 

@@ -166,7 +166,6 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, Struct_im
 //Descriptor layout
 void VK_descriptor::create_layout_from_required(Struct_binding* binding){
   vec_descriptor_required& vec_required_binding = binding->vec_required_binding;
-  VkDescriptorSetLayout& layout = binding->descriptor.layout;
   //---------------------------
 
   vector<VkDescriptorSetLayoutBinding> vec_binding;
@@ -184,7 +183,7 @@ void VK_descriptor::create_layout_from_required(Struct_binding* binding){
   }
 
   //Create descriptor layout from requirements
-  layout = create_layout(vec_binding);
+  binding->descriptor.layout = create_layout(vec_binding);
 
   //---------------------------
 
