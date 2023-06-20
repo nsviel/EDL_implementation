@@ -83,8 +83,8 @@ void RP_psr::create_pipeline_triangle(Struct_renderpass* renderpass){
   pipeline->compile_shader = false;
   pipeline->path_shader_vs = "Misc/shader_quad_test_vs";
   pipeline->path_shader_fs = "Misc/shader_quad_test_fs";
-  pipeline->vec_data_name.push_back("location");
-  pipeline->vec_data_name.push_back("tex_coord");
+  pipeline->info.vec_data_name.push_back("location");
+  pipeline->info.vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
@@ -100,8 +100,8 @@ void RP_psr::create_pipeline_pyramid(Struct_renderpass* renderpass){
   pipeline->compile_shader = true;
   pipeline->path_shader_vs = "EDL/shader_edl_vs";
   pipeline->path_shader_fs = "EDL/shader_edl_fs";
-  pipeline->vec_data_name.push_back("location");
-  pipeline->vec_data_name.push_back("tex_coord");
+  pipeline->info.vec_data_name.push_back("location");
+  pipeline->info.vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("Struct_psr", sizeof(Struct_psr), 2, TYPE_UNIFORM, STAGE_FS));

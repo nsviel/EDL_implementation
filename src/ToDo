@@ -1,4 +1,4 @@
 -faire renderpass PSR subpass avec interdependances
--finir menu init
--EDL light by mouse
 -flicker edl grid
+-faire un mode de création automatique des pushconstant aligné avec uniform et sampler
+-1 descriptor set per mesh

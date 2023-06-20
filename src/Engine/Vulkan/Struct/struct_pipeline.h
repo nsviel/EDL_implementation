@@ -6,23 +6,10 @@
 #include "../../../common.h"
 
 
-struct Struct_pipeline{
+struct Struct_pipeline_info{
   //---------------------------
 
-  //Info
-  std::string name = "";
-  std::string topology = "";
-
-  //Pipeline shader
-  bool compile_shader = false;
-  std::string path_shader_vs = "";
-  std::string path_shader_fs = "";
-  Struct_binding binding;
-
-  //Pipeline elments
-  VkPipeline pipeline;
-  VkPipelineLayout pipeline_layout;
-  VkGraphicsPipelineCreateInfo pipeline_info;
+  VkGraphicsPipelineCreateInfo info;
 
   //Pipeline info elements
   std::vector<VkPipelineShaderStageCreateInfo> shader_stage;
@@ -41,6 +28,27 @@ struct Struct_pipeline{
   VkPipelineColorBlendStateCreateInfo color_blend_info;
   VkPipelineColorBlendAttachmentState color_blend_attachment;
   VkPipelineDynamicStateCreateInfo dynamic_state;
+
+  //---------------------------
+};
+
+struct Struct_pipeline{
+  //---------------------------
+
+  //Info
+  std::string name = "";
+  std::string topology = "";
+
+  //Pipeline shader
+  bool compile_shader = false;
+  std::string path_shader_vs = "";
+  std::string path_shader_fs = "";
+  Struct_binding binding;
+
+  //Pipeline elments
+  VkPipeline pipeline;
+  VkPipelineLayout layout;
+  Struct_pipeline_info info;
 
   //---------------------------
 };

@@ -78,8 +78,8 @@ void RP_scene::create_pipeline_point(Struct_renderpass* renderpass){
   pipeline->compile_shader = true;
   pipeline->path_shader_vs = "Base/shader_point_vs";
   pipeline->path_shader_fs = "Base/shader_point_fs";
-  pipeline->vec_data_name.push_back("location");
-  pipeline->vec_data_name.push_back("color");
+  pipeline->info.vec_data_name.push_back("location");
+  pipeline->info.vec_data_name.push_back("color");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("point_size", sizeof(int), 1, TYPE_UNIFORM, STAGE_VS));
   renderpass->vec_pipeline.push_back(pipeline);
@@ -95,8 +95,8 @@ void RP_scene::create_pipeline_line(Struct_renderpass* renderpass){
   pipeline->compile_shader = true;
   pipeline->path_shader_vs = "Base/shader_line_vs";
   pipeline->path_shader_fs = "Base/shader_line_fs";
-  pipeline->vec_data_name.push_back("location");
-  pipeline->vec_data_name.push_back("color");
+  pipeline->info.vec_data_name.push_back("location");
+  pipeline->info.vec_data_name.push_back("color");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS));
   renderpass->vec_pipeline.push_back(pipeline);
 

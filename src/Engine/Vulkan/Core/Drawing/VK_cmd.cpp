@@ -126,15 +126,14 @@ void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
       vk_camera->compute_mvp(object);
       vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
       vk_uniform->update_uniform_int("point_size", &pipeline->binding, data->object->draw_point_size);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+      //vkCmdPushConstants(renderpass->command_buffer, pipeline->layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(mat4), &data->object->mvp);
 
       //Data
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
       VkDeviceSize offsets[] = {0, 0};
       vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 2, vertexBuffers, offsets);
       vkCmdDraw(renderpass->command_buffer, object->xyz.size(), 1, 0, 0);
-
-      //vkCmdExecuteCommands(renderpass->command_buffer, 1, &data->command_buffer);
     }
   }
 
@@ -157,7 +156,7 @@ void VK_cmd::cmd_draw_glyph(Struct_renderpass* renderpass){
       //Camera
       vk_camera->compute_mvp(object);
       vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       //Data
       VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
@@ -178,7 +177,7 @@ void VK_cmd::cmd_draw_canvas(Struct_renderpass* renderpass){
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Descriptor
-  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data
   Struct_data* data = vk_canvas->get_data_canvas();
@@ -202,7 +201,7 @@ void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
 
   //Descriptor
   vk_uniform->update_uniform_edl("Struct_edl", &pipeline->binding, *edl_param);
-  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
   //Data
   Struct_data* data = vk_canvas->get_data_canvas();
@@ -241,7 +240,7 @@ void VK_cmd::cmd_record_scene_secondcb(Struct_renderpass* renderpass){
 
       //vk_camera->compute_mvp(object);
       //vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
-      vkCmdBindDescriptorSets(data->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline_layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+      vkCmdBindDescriptorSets(data->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
       vkCmdBindVertexBuffers(data->command_buffer, 0, 2, vertexBuffers, offsets);
       vkCmdDraw(data->command_buffer, object->xyz.size(), 1, 0, 0);

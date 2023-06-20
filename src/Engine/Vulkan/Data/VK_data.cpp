@@ -108,7 +108,7 @@ void VK_data::create_attribut_description(Struct_pipeline* pipeline){
   vector<VkVertexInputAttributeDescription> attribut_description;
   //---------------------------
 
-  vector<string>& vec_data_name = pipeline->vec_data_name;
+  vector<string>& vec_data_name = pipeline->info.vec_data_name;
   for(int i=0; i<vec_data_name.size(); i++){
     VkVertexInputAttributeDescription attribut{};
 
@@ -139,13 +139,13 @@ void VK_data::create_attribut_description(Struct_pipeline* pipeline){
   }
 
   //---------------------------
-  pipeline->attribut_description = attribut_description;
+  pipeline->info.attribut_description = attribut_description;
 }
 void VK_data::create_vertex_description(Struct_pipeline* pipeline){
   vector<VkVertexInputBindingDescription> data_description;
   //---------------------------
 
-  vector<string>& vec_data_name = pipeline->vec_data_name;
+  vector<string>& vec_data_name = pipeline->info.vec_data_name;
   for(int i=0; i<vec_data_name.size(); i++){
     VkVertexInputBindingDescription description{};
 
@@ -173,20 +173,20 @@ void VK_data::create_vertex_description(Struct_pipeline* pipeline){
   }
 
   //---------------------------
-  pipeline->data_description = data_description;
+  pipeline->info.data_description = data_description;
 }
 void VK_data::combine_description(Struct_pipeline* pipeline){
   //---------------------------
 
   VkPipelineVertexInputStateCreateInfo vertex_input_info{};
   vertex_input_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-  vertex_input_info.vertexBindingDescriptionCount = static_cast<uint32_t>(pipeline->data_description.size());
-  vertex_input_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(pipeline->attribut_description.size());
-  vertex_input_info.pVertexBindingDescriptions = pipeline->data_description.data();
-  vertex_input_info.pVertexAttributeDescriptions = pipeline->attribut_description.data();
+  vertex_input_info.vertexBindingDescriptionCount = static_cast<uint32_t>(pipeline->info.data_description.size());
+  vertex_input_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(pipeline->info.attribut_description.size());
+  vertex_input_info.pVertexBindingDescriptions = pipeline->info.data_description.data();
+  vertex_input_info.pVertexAttributeDescriptions = pipeline->info.attribut_description.data();
 
   //---------------------------
-  pipeline->vertex_input_info = vertex_input_info;
+  pipeline->info.vertex_input_info = vertex_input_info;
 }
 void VK_data::check_for_attribut(Struct_data* data){
   //---------------------------

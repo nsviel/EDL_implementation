@@ -31,7 +31,7 @@ void VK_blending::create_color_blending_state(Struct_pipeline* pipeline){
 
   //---------------------------
 
-  pipeline->color_blend_attachment = color_blend_attachment;
+  pipeline->info.color_blend_attachment = color_blend_attachment;
 }
 void VK_blending::create_color_blending(Struct_pipeline* pipeline){
   //---------------------------
@@ -41,12 +41,12 @@ void VK_blending::create_color_blending(Struct_pipeline* pipeline){
   color_blend_info.logicOpEnable = VK_FALSE;
   color_blend_info.logicOp = VK_LOGIC_OP_COPY; // Optional
   color_blend_info.attachmentCount = 1;
-  color_blend_info.pAttachments = &pipeline->color_blend_attachment;
+  color_blend_info.pAttachments = &pipeline->info.color_blend_attachment;
   color_blend_info.blendConstants[0] = 0.0f; // Optional
   color_blend_info.blendConstants[1] = 0.0f; // Optional
   color_blend_info.blendConstants[2] = 0.0f; // Optional
   color_blend_info.blendConstants[3] = 0.0f; // Optional
 
   //---------------------------
-  pipeline->color_blend_info = color_blend_info;
+  pipeline->info.color_blend_info = color_blend_info;
 }

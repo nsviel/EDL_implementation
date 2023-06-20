@@ -11,6 +11,9 @@ layout(set = 0, binding = 0) uniform MVP{
 layout(set = 0, binding = 1) uniform SIZE{
     int point_size;
 }ubo_size;
+layout(push_constant) uniform PushConstants {
+  mat4 mvp;
+} push;
 
 
 void main(){

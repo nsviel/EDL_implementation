@@ -32,7 +32,7 @@ void VK_pipeline::clean_pipeline(Struct_renderpass* renderpass){
   for(int i=0; i<renderpass->vec_pipeline.size(); i++){
     Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
     vkDestroyPipeline(vk_param->device.device, pipeline->pipeline, nullptr);
-    vkDestroyPipelineLayout(vk_param->device.device, pipeline->pipeline_layout, nullptr);
+    vkDestroyPipelineLayout(vk_param->device.device, pipeline->layout, nullptr);
     vk_binding->clean_binding(&pipeline->binding);
   }
 
@@ -54,9 +54,9 @@ void VK_pipeline::create_pipeline_graphics(Struct_pipeline* pipeline, Struct_ren
   //---------------------------
 
   //Dynamic
-  pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);
-  pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_SCISSOR);
-  pipeline->dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
+  pipeline->info.dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);
+  pipeline->info.dynamic_state_object.push_back(VK_DYNAMIC_STATE_SCISSOR);
+  pipeline->info.dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
 
   //Pipeline elements
   this->check_struct_pipeline_input(pipeline);
@@ -76,17 +76,17 @@ void VK_pipeline::create_pipeline_graphics(Struct_pipeline* pipeline, Struct_ren
   //Pipeline info
   VkGraphicsPipelineCreateInfo pipeline_info{};
   pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-  pipeline_info.stageCount = static_cast<uint32_t>(pipeline->shader_stage.size());
-  pipeline_info.pStages = pipeline->shader_stage.data();
-  pipeline_info.pVertexInputState = &pipeline->vertex_input_info;
-  pipeline_info.pInputAssemblyState = &pipeline->input_assembly;
-  pipeline_info.pViewportState = &pipeline->viewport_state;
-  pipeline_info.pRasterizationState = &pipeline->rasterizer;
-  pipeline_info.pMultisampleState = &pipeline->multisampling;
-  pipeline_info.pDepthStencilState = &pipeline->depth_stencil;
-  pipeline_info.pColorBlendState = &pipeline->color_blend_info;
-  pipeline_info.pDynamicState = &pipeline->dynamic_state;
-  pipeline_info.layout = pipeline->pipeline_layout;
+  pipeline_info.stageCount = static_cast<uint32_t>(pipeline->info.shader_stage.size());
+  pipeline_info.pStages = pipeline->info.shader_stage.data();
+  pipeline_info.pVertexInputState = &pipeline->info.vertex_input_info;
+  pipeline_info.pInputAssemblyState = &pipeline->info.input_assembly;
+  pipeline_info.pViewportState = &pipeline->info.viewport_state;
+  pipeline_info.pRasterizationState = &pipeline->info.rasterizer;
+  pipeline_info.pMultisampleState = &pipeline->info.multisampling;
+  pipeline_info.pDepthStencilState = &pipeline->info.depth_stencil;
+  pipeline_info.pColorBlendState = &pipeline->info.color_blend_info;
+  pipeline_info.pDynamicState = &pipeline->info.dynamic_state;
+  pipeline_info.layout = pipeline->layout;
   pipeline_info.renderPass = renderpass->renderpass;
   pipeline_info.subpass = 0;
   pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
@@ -99,34 +99,34 @@ void VK_pipeline::create_pipeline_graphics(Struct_pipeline* pipeline, Struct_ren
     }
 
   //Destroy shader modules
-  for(int i=0; i<pipeline->vec_shader_couple.size(); i++){
-    pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->vec_shader_couple[i];
+  for(int i=0; i<pipeline->info.vec_shader_couple.size(); i++){
+    pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->info.vec_shader_couple[i];
     vkDestroyShaderModule(vk_param->device.device, shader_couple.first, nullptr);
     vkDestroyShaderModule(vk_param->device.device, shader_couple.second, nullptr);
   }
 
   //---------------------------
-  pipeline->pipeline_info = pipeline_info;
+  pipeline->info.info = pipeline_info;
 }
 void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   //---------------------------
 
   //Push constant for MVP matrix
-  //VkPushConstantRange pushconstant_range = {};
-  //pushconstant_range.stageFlags = STAGE_VS;
-  //pushconstant_range.offset = 0;
-  //pushconstant_range.size = sizeof(glm::mat4);
+  VkPushConstantRange pushconstant_range = {};
+  pushconstant_range.stageFlags = STAGE_VS;
+  pushconstant_range.offset = 0;
+  pushconstant_range.size = sizeof(glm::mat4);
 
   //Pipeline layout info -> usefull for shader uniform variables
   VkPipelineLayoutCreateInfo pipeline_layout_info{};
   pipeline_layout_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipeline_layout_info.setLayoutCount = 1;
   pipeline_layout_info.pSetLayouts = &pipeline->binding.descriptor.layout;
-  //pipeline_layout_info.pushConstantRangeCount = 1;
-  //pipeline_layout_info.pPushConstantRanges = &pushconstant_range;
+  pipeline_layout_info.pushConstantRangeCount = 1;
+  pipeline_layout_info.pPushConstantRanges = &pushconstant_range;
 
   //Pipeline layout creation
-  VkResult result = vkCreatePipelineLayout(vk_param->device.device, &pipeline_layout_info, nullptr, &pipeline->pipeline_layout);
+  VkResult result = vkCreatePipelineLayout(vk_param->device.device, &pipeline_layout_info, nullptr, &pipeline->layout);
   if(result != VK_SUCCESS){
     throw std::runtime_error("[error] failed to create pipeline layout!");
   }
@@ -142,11 +142,11 @@ void VK_pipeline::create_dynamic_state(Struct_pipeline* pipeline){
   //the subsequent values has to be given at runtime
   VkPipelineDynamicStateCreateInfo dynamic_state{};
   dynamic_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-  dynamic_state.dynamicStateCount = static_cast<uint32_t>(pipeline->dynamic_state_object.size());
-  dynamic_state.pDynamicStates = pipeline->dynamic_state_object.data();
+  dynamic_state.dynamicStateCount = static_cast<uint32_t>(pipeline->info.dynamic_state_object.size());
+  dynamic_state.pDynamicStates = pipeline->info.dynamic_state_object.data();
 
   //---------------------------
-  pipeline->dynamic_state = dynamic_state;
+  pipeline->info.dynamic_state = dynamic_state;
 }
 void VK_pipeline::create_viewport(Struct_pipeline* pipeline){
   //---------------------------
@@ -165,7 +165,7 @@ void VK_pipeline::create_viewport(Struct_pipeline* pipeline){
   viewport_state.pScissors = &scissor;
 
   //---------------------------
-  pipeline->viewport_state = viewport_state;
+  pipeline->info.viewport_state = viewport_state;
 }
 void VK_pipeline::create_raster(Struct_pipeline* pipeline){
   //---------------------------
@@ -184,7 +184,7 @@ void VK_pipeline::create_raster(Struct_pipeline* pipeline){
   rasterizer.depthBiasSlopeFactor = 0.0f; // Optional
 
   //---------------------------
-  pipeline->rasterizer = rasterizer;
+  pipeline->info.rasterizer = rasterizer;
 }
 void VK_pipeline::create_multisampling(Struct_pipeline* pipeline){
   //---------------------------
@@ -199,7 +199,7 @@ void VK_pipeline::create_multisampling(Struct_pipeline* pipeline){
   multisampling.alphaToOneEnable = VK_FALSE; // Optional
 
   //---------------------------
-  pipeline->multisampling = multisampling;
+  pipeline->info.multisampling = multisampling;
 }
 void VK_pipeline::create_depth(Struct_pipeline* pipeline){
   //---------------------------
@@ -217,7 +217,7 @@ void VK_pipeline::create_depth(Struct_pipeline* pipeline){
   depth_stencil.back = {}; // Optional
 
   //---------------------------
-  pipeline->depth_stencil = depth_stencil;
+  pipeline->info.depth_stencil = depth_stencil;
 }
 void VK_pipeline::create_color_blending_state(Struct_pipeline* pipeline){
   //---------------------------
@@ -234,7 +234,7 @@ void VK_pipeline::create_color_blending_state(Struct_pipeline* pipeline){
 
   //---------------------------
 
-  pipeline->color_blend_attachment = color_blend_attachment;
+  pipeline->info.color_blend_attachment = color_blend_attachment;
 }
 void VK_pipeline::create_color_blending(Struct_pipeline* pipeline){
   //---------------------------
@@ -244,14 +244,14 @@ void VK_pipeline::create_color_blending(Struct_pipeline* pipeline){
   color_blend_info.logicOpEnable = VK_FALSE;
   color_blend_info.logicOp = VK_LOGIC_OP_COPY; // Optional
   color_blend_info.attachmentCount = 1;
-  color_blend_info.pAttachments = &pipeline->color_blend_attachment;
+  color_blend_info.pAttachments = &pipeline->info.color_blend_attachment;
   color_blend_info.blendConstants[0] = 0.0f; // Optional
   color_blend_info.blendConstants[1] = 0.0f; // Optional
   color_blend_info.blendConstants[2] = 0.0f; // Optional
   color_blend_info.blendConstants[3] = 0.0f; // Optional
 
   //---------------------------
-  pipeline->color_blend_info = color_blend_info;
+  pipeline->info.color_blend_info = color_blend_info;
 }
 void VK_pipeline::create_topology(Struct_pipeline* pipeline){
   //---------------------------
@@ -271,7 +271,7 @@ void VK_pipeline::create_topology(Struct_pipeline* pipeline){
   }
 
   //---------------------------
-  pipeline->input_assembly = input_assembly;
+  pipeline->info.input_assembly = input_assembly;
 }
 
 //Subfunction
@@ -282,7 +282,7 @@ void VK_pipeline::check_struct_pipeline_input(Struct_pipeline* pipeline){
   if(pipeline->topology == "") cout<<"[error] Pipeline init input -> no topology"<<endl;
   if(pipeline->path_shader_vs == "") cout<<"[error] Pipeline init input -> no path_shader_vs"<<endl;
   if(pipeline->path_shader_fs == "") cout<<"[error] Pipeline init input -> no path_shader_fs"<<endl;
-  if(pipeline->vec_data_name.size() == 0) cout<<"[error] Pipeline init input -> no vec_data_name"<<endl;
+  if(pipeline->info.vec_data_name.size() == 0) cout<<"[error] Pipeline init input -> no vec_data_name"<<endl;
   if(pipeline->binding.vec_required_binding.size() == 0) cout<<"[error] Pipeline init input -> no vec_required_binding"<<endl;
 
   //---------------------------

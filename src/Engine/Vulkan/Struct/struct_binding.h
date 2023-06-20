@@ -54,8 +54,6 @@ struct Struct_pushcst{
 struct Struct_binding{
   //---------------------------
 
-  bool need_update = true;
-
   //Binding description
   vec_descriptor_required vec_required_binding;
   Struct_descriptor descriptor;
