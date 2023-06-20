@@ -34,6 +34,8 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
   this->vk_data = vk_engine->get_vk_data();
   this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_uniform = vk_engine->get_vk_uniform();
+  this->vk_descriptor = vk_engine->get_vk_descriptor();
+
   this->shader_edl = node_engine->get_shader_edl();
 
   //---------------------------
@@ -124,6 +126,14 @@ void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
     if(object->draw_type_name == "point" && object->is_visible){
       //Camera
       vk_camera->compute_mvp(object);
+
+
+      vk_descriptor->update_descriptor_uniform(&data->binding);
+      vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
+      vk_uniform->update_uniform_int("point_size", &data->binding, data->object->draw_point_size);
+
+
+
       vk_uniform->update_uniform_mat4("mvp", &pipeline->binding, data->object->mvp);
       vk_uniform->update_uniform_int("point_size", &pipeline->binding, data->object->draw_point_size);
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);

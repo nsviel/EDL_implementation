@@ -38,6 +38,7 @@ class VK_binding;
 class VK_image;
 class VK_drawing;
 class VK_command_buffer;
+class VK_error;
 
 
 class VK_engine
@@ -90,6 +91,7 @@ public:
   inline VK_drawing* get_vk_drawing(){return vk_drawing;}
   inline VK_uniform* get_vk_uniform(){return vk_uniform;}
   inline VK_command_buffer* get_vk_command_buffer(){return vk_command_buffer;}
+  inline VK_error* get_vk_error(){return vk_error;}
 
 private:
   Node_engine* node_engine;
@@ -109,6 +111,7 @@ private:
   VK_image* vk_image;
   VK_command* vk_command;
   VK_cmd* vk_cmd;
+  VK_error* vk_error;
   VK_binding* vk_binding;
   VK_synchronization* vk_synchronization;
   VK_submit* vk_submit;

@@ -17,6 +17,7 @@
 #include "Instance/Device/VK_physical_device.h"
 #include "Instance/Element/VK_window.h"
 #include "Instance/Element/VK_gui.h"
+#include "Instance/Element/VK_error.h"
 #include "Instance/Instance/VK_instance.h"
 #include "Instance/Instance/VK_validation.h"
 
@@ -51,6 +52,7 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_param = new VK_param();
   this->vk_instance = new VK_instance(this);
   this->vk_validation = new VK_validation(this);
+  this->vk_error = new VK_error(this);
   this->vk_viewport = new VK_viewport(this);
   this->vk_window = new VK_window(this);
   this->vk_physical_device = new VK_physical_device(this);

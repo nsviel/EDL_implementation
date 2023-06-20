@@ -33,11 +33,13 @@ void VK_data::insert_scene_object(Object* object){
   //---------------------------
 
   descriptor_required mvp = std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS);
+  descriptor_required size = std::make_tuple("point_size", sizeof(int), 1, TYPE_UNIFORM, STAGE_VS);
 
   //Creat new data struct
   Struct_data* data = new Struct_data();
   data->object = object;
   data->binding.vec_required_binding.push_back(mvp);
+  data->binding.vec_required_binding.push_back(size);
 
   //Apply adequat init functions
   this->check_for_attribut(data);

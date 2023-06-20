@@ -11,6 +11,7 @@
 class VK_engine;
 class VK_param;
 class VK_buffer;
+class VK_error;
 
 
 class VK_uniform
@@ -34,6 +35,7 @@ public:
 private:
   VK_param* vk_param;
   VK_buffer* vk_buffer;
+  VK_error* vk_error;
 };
 
 #endif

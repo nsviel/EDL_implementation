@@ -3,6 +3,7 @@
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
 #include "../../Data/VK_buffer.h"
+#include "../../Instance/Element/VK_error.h"
 
 
 //Constructor / Destructor
@@ -11,6 +12,7 @@ VK_uniform::VK_uniform(VK_engine* vk_engine){
 
   this->vk_param = vk_engine->get_vk_param();
   this->vk_buffer = vk_engine->get_vk_buffer();
+  this->vk_error = vk_engine->get_vk_error();
 
   //---------------------------
 }
@@ -80,7 +82,7 @@ void VK_uniform::update_uniform_mat4(string uniform_name, Struct_binding* bindin
   }
 
   if(has_been_found == false){
-    cout<<"[error] Update uniform -> name not recognized "<<uniform_name<<endl;
+    vk_error->uniform_name_not_recognized(binding, uniform_name);
   }
 
   //---------------------------
@@ -99,7 +101,7 @@ void VK_uniform::update_uniform_int(string uniform_name, Struct_binding* binding
   }
 
   if(has_been_found == false){
-    cout<<"[error] Update uniform -> name not recognized "<<uniform_name<<endl;
+    vk_error->uniform_name_not_recognized(binding, uniform_name);
   }
 
   //---------------------------
@@ -118,7 +120,7 @@ void VK_uniform::update_uniform_edl(string uniform_name, Struct_binding* binding
   }
 
   if(has_been_found == false){
-    cout<<"[error] Update uniform -> name not recognized "<<uniform_name<<endl;
+    vk_error->uniform_name_not_recognized(binding, uniform_name);
   }
 
   //---------------------------
