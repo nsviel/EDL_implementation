@@ -4,7 +4,7 @@
 #include "Panel/GUI_left_panel.h"
 #include "Menu/GUI_menubar.h"
 #include "Menu/GUI_option.h"
-#include "Menu/Initialization/GUI_init.h"
+#include "Menu/GUI_init.h"
 #include "Control/GUI_control.h"
 #include "Control/GUI_time.h"
 #include "Engine/GUI_shader.h"

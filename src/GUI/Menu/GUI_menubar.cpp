@@ -1,6 +1,6 @@
 #include "GUI_menubar.h"
 #include "GUI_option.h"
-#include "Initialization/GUI_init.h"
+#include "GUI_init.h"
 
 #include "../Node_gui.h"
 #include "../GUI_param.h"

@@ -1,4 +1,4 @@
-#include "GUI_init.h"
+#include "GUI_tree.h"
 
 #include "../../Node_gui.h"
 
@@ -13,123 +13,17 @@
 
 
 //Constructor / Destructor
-GUI_init::GUI_init(Node_gui* node_gui){
+GUI_tree::GUI_tree(){
   //---------------------------
 
-  Node_data* node_data = node_gui->get_node_data();
-  Node_load* node_load = node_gui->get_node_load();
-
-  this->sceneManager = node_data->get_sceneManager();
-  this->loaderManager = node_load->get_loaderManager();
-  this->transformManager = new Transformation();
-
   //---------------------------
-  this->init_init();
-  this->construst_tree();
+  //this->init_init();
+  //this->construst_tree();
 }
-GUI_init::~GUI_init(){}
-
-//Main functions
-void GUI_init::design_init(){
-  //---------------------------
-
-  this->design_operation_option();
-  this->treeview();
-
-  //---------------------------
-}
-void GUI_init::init_init(){
-  //---------------------------
-
-  this->init.remove_old = true;
-  this->init.scale = 1;
-
-  //Open accepted formats
-  this->init.accepted_format.push_back("pts");
-  this->init.accepted_format.push_back("obj");
-  this->init.accepted_format.push_back("ply");
-  this->init.accepted_format.push_back("xyz");
-  this->init.accepted_format.push_back("cbor");
-  this->init.accepted_format.push_back("pcap");
-  this->init.accepted_format.push_back("ptx");
-  this->init.accepted_format.push_back("csv");
-  this->init.accepted_format.push_back("las");
-  this->init.accepted_format.push_back("laz");
-
-  //Custom folder tree
-  this->init.vec_path_folder.push_back("../media/point_cloud");
-
-  //Custom file leaf
-  //this->init.vec_path_file.push_back("../media/dragon.ply");
-
-  //---------------------------
-}
-
-//Operation on loaded cloud
-void GUI_init::design_operation_option(){
-  //---------------------------
-
-  //Point cloud scaling
-  ImGui::SetNextItemWidth(100);
-  ImGui::DragFloat("Scale##4567", &init.scale, 0.1, 0.1, 100, "%.2f x");
-  ImGui::SameLine();
-
-  //Remove old clouds
-  ImGui::Checkbox("Remove##222", &init.remove_old);
-
-  //---------------------------
-}
-void GUI_init::operation_new_object(Object* object){
-  if(object == nullptr) return;
-  //---------------------------
-
-  if(init.remove_old){
-    sceneManager->empty_scene_set();
-  }
-
-  transformManager->make_scaling(object, init.scale);
-
-  //---------------------------
-}
-
-//Custom scene
-void GUI_init::build_custom_scene(vector<vector<Tree_node*>>& nodes_path_vec){
-  //---------------------------
-
-  //Scene folder
-  /*vector<Tree_node*> root_scene;
-  Tree_node* node = new Tree_node();
-  node->name = "scene";
-  node->type = "Folder";
-  node->end_folder = true;
-  node->leaf_nb = 3;
-  node->leaf_idx = 1;
-  node->already_open = true;
-  root_scene.push_back(node);
-
-  //Scene 1 -> example of custom scene integration in tree
-  /*node = new Tree_node();
-  node->name = "Rocks";
-  node->leaf_nb = 0;
-  node->type = "scene_1";
-  root_scene.push_back(node);*/
-
-//  nodes_path_vec.push_back(root_scene);
-
-  //---------------------------
-}
-void GUI_init::build_scene_1(){
-  //---------------------------
-
-  //Object* rock = loaderManager->load_collection("/home/aeter/Desktop/Point_cloud/obj/rock/rock.obj");
-  //transformManager->make_translation(rock, vec3(2-4*i, 0, 0));
-  //sceneManager->update_collection_location(rock);
-
-  //---------------------------
-}
+GUI_tree::~GUI_tree(){}
 
 //Tree view
-void GUI_init::treeview(){
+void GUI_tree::treeview(){
   //---------------------------
 
   static ImGuiTableFlags flags = ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersOuterH | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_NoBordersInBody;
@@ -151,7 +45,7 @@ void GUI_init::treeview(){
 
   //---------------------------
 }
-void GUI_init::construst_tree(){
+void GUI_tree::construst_tree(){
   this->nodes_path_vec.clear();
   //---------------------------
 
@@ -159,7 +53,7 @@ void GUI_init::construst_tree(){
   this->construct_node_root(init.vec_path_file, nodes_root);
 
   //Set a node for specific scene construction
-  this->build_custom_scene(nodes_path_vec);
+  //this->build_custom_scene(nodes_path_vec);
 
   //Construct predefined init path nodes
   for(int i=0; i<init.vec_path_folder.size(); i++){
@@ -170,7 +64,7 @@ void GUI_init::construst_tree(){
 
   //---------------------------
 }
-void GUI_init::construct_node(string path, vector<Tree_node*>& nodes){
+void GUI_tree::construct_node(string path, vector<Tree_node*>& nodes){
   if(path != ""){
     //---------------------------
 
@@ -188,7 +82,7 @@ void GUI_init::construct_node(string path, vector<Tree_node*>& nodes){
     //---------------------------
   }
 }
-void GUI_init::construct_node_root(vector<string>& vec_path, vector<Tree_node*>& nodes){
+void GUI_tree::construct_node_root(vector<string>& vec_path, vector<Tree_node*>& nodes){
   //---------------------------
 
   for(int i=0; i<vec_path.size(); i++){
@@ -210,7 +104,7 @@ void GUI_init::construct_node_root(vector<string>& vec_path, vector<Tree_node*>&
 
   //---------------------------
 }
-void GUI_init::node_child_scan(string path, vector<Tree_node*>& nodes, Tree_node* parent){
+void GUI_tree::node_child_scan(string path, vector<Tree_node*>& nodes, Tree_node* parent){
   vector<string> list_path = list_all_path(path);
   //---------------------------
 
@@ -252,7 +146,7 @@ void GUI_init::node_child_scan(string path, vector<Tree_node*>& nodes, Tree_node
 
   //---------------------------
 }
-void GUI_init::display_node(Tree_node* node, vector<Tree_node*>& all_nodes){
+void GUI_tree::display_node(Tree_node* node, vector<Tree_node*>& all_nodes){
   if(all_nodes.size() != 0){
     //---------------------------
 
@@ -298,7 +192,7 @@ void GUI_init::display_node(Tree_node* node, vector<Tree_node*>& all_nodes){
     //---------------------------
   }
 }
-void GUI_init::display_node_root(vector<Tree_node*>& all_nodes){
+void GUI_tree::display_node_root(vector<Tree_node*>& all_nodes){
   //---------------------------
 
   for(int i=0; i<all_nodes.size(); i++){
@@ -320,7 +214,7 @@ void GUI_init::display_node_root(vector<Tree_node*>& all_nodes){
 
   //---------------------------
 }
-bool GUI_init::check_file_format(string path){
+bool GUI_tree::check_file_format(string path){
   string format = get_format_from_path(path);
   //---------------------------
 
@@ -333,12 +227,12 @@ bool GUI_init::check_file_format(string path){
   //---------------------------
   return false;
 }
-void GUI_init::open_selection(Tree_node* node){
+void GUI_tree::open_selection(Tree_node* node){
   //---------------------------
 
   if(node->type == "File"){
-    Object* object = loaderManager->load_object(node->path);
-    this->operation_new_object(object);
+    //Object* object = loaderManager->load_object(node->path);
+    //this->operation_new_object(object);
   }
   /*else if(node->type == "Folder" && node->end_folder){
     if(pathManager->check_folder_format(node->path, "ply")){
@@ -354,7 +248,7 @@ void GUI_init::open_selection(Tree_node* node){
     }
   }*/
   else if(node->type == "scene_1"){
-    this->build_scene_1();
+    //this->build_scene_1();
   }
 
   //---------------------------

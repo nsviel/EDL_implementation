@@ -1,0 +1,2 @@
+/home/aeter/Desktop/Point_cloud
+/home/aeter/Desktop/Point_cloud/ply
