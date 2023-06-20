@@ -44,8 +44,9 @@ void VK_pipeline::create_pipeline(Struct_renderpass* renderpass){
   //---------------------------
 
   for(int i=0; i<renderpass->vec_pipeline.size(); i++){
-    this->create_pipeline_graphics(renderpass->vec_pipeline[i], renderpass);
-    vk_binding->create_pipeline_binding(renderpass->vec_pipeline[i]);
+    Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
+    this->create_pipeline_graphics(pipeline, renderpass);
+    vk_binding->create_binding(&pipeline->binding);
   }
 
   //---------------------------

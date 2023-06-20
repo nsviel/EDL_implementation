@@ -44,6 +44,7 @@ void VK_data::insert_scene_object(Object* object){
   vk_buffer->create_buffer(data);
   vk_command_buffer->allocate_command_buffer_secondary(data);
   vk_descriptor->create_layout_from_required(&data->binding);
+  vk_binding->create_binding(&data->binding);
 
   //Insert data struct into set
   this->list_data_scene.push_back(data);
@@ -53,11 +54,21 @@ void VK_data::insert_scene_object(Object* object){
 void VK_data::insert_glyph_object(Object* object){
   //---------------------------
 
+  descriptor_required mvp = std::make_tuple("mvp", sizeof(mat4), 0, TYPE_UNIFORM, STAGE_VS);
+
+  //Creat new data struct
   Struct_data* data = new Struct_data();
   data->object = object;
+  data->binding.vec_required_binding.push_back(mvp);
+
+  //Apply adequat init functions
   this->check_for_attribut(data);
   vk_buffer->create_buffer(data);
   vk_command_buffer->allocate_command_buffer_secondary(data);
+  vk_descriptor->create_layout_from_required(&data->binding);
+  vk_binding->create_binding(&data->binding);
+
+  //Insert data struct into set
   this->list_data_glyph.push_back(data);
 
   //---------------------------
