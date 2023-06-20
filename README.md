@@ -9,7 +9,7 @@
 
 This engine is primarily destined for point cloud visualization, it does not display triangle or line topologies for loaded objects.
 
-A particular work on point cloud visualization shader has been made in this engine with the integration of the EDL shader algorithm developed in the Ph.D. thesis of Christian BOUCHENY.
+A particular work on point cloud visualization shader has been made in this engine with the integration of the EDL shader algorithm presented in the Ph.D. thesis of Christian BOUCHENY.
 
 </details>
 

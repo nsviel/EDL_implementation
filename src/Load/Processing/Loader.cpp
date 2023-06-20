@@ -45,7 +45,7 @@ Object* Loader::load_object(string path){
   //Retrieve data and insert into engine
   Data_file* data = formatManager->get_data_from_file(path);
   this->transfert_data(object, data);
-  sceneManager->insert_object(object);
+  sceneManager->insert_scene_object(object);
 
   //---------------------------
   return object;

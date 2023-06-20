@@ -16,8 +16,10 @@
 GUI_init::GUI_init(Node_gui* node_gui){
   //---------------------------
 
+  Node_data* node_data = node_gui->get_node_data();
   Node_load* node_load = node_gui->get_node_load();
 
+  this->sceneManager = node_data->get_sceneManager();
   this->loaderManager = node_load->get_loaderManager();
   this->transformManager = new Transformation();
 
@@ -31,7 +33,7 @@ GUI_init::~GUI_init(){}
 void GUI_init::design_init(){
   //---------------------------
 
-  this->operation_option();
+  this->design_operation_option();
   this->treeview();
 
   //---------------------------
@@ -64,7 +66,7 @@ void GUI_init::init_init(){
 }
 
 //Operation on loaded cloud
-void GUI_init::operation_option(){
+void GUI_init::design_operation_option(){
   //---------------------------
 
   //Point cloud scaling
@@ -81,7 +83,11 @@ void GUI_init::operation_new_object(Object* object){
   if(object == nullptr) return;
   //---------------------------
 
-  //transformManager->make_scaling(object, init.scale);
+  if(init.remove_old){
+    sceneManager->empty_scene_set();
+  }
+
+  transformManager->make_scaling(object, init.scale);
 
   //---------------------------
 }
@@ -329,10 +335,6 @@ bool GUI_init::check_file_format(string path){
 }
 void GUI_init::open_selection(Tree_node* node){
   //---------------------------
-
-  if(init.remove_old){
-    //sceneManager->remove_collection_all();
-  }
 
   if(node->type == "File"){
     Object* object = loaderManager->load_object(node->path);

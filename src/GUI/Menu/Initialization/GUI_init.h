@@ -24,7 +24,7 @@ public:
   void init_init();
 
   //Operation on loaded cloud
-  void operation_option();
+  void design_operation_option();
   void operation_new_object(Object* object);
 
   //Custom scene

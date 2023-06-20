@@ -48,7 +48,23 @@ void Transformation::make_rotation(Object* object, vec3 COM, vec3 radian){
   //---------------------------
 }
 
-//Subfunction
+//Scaling
+void Transformation::make_scaling(Object* object, float scale){
+  //Translation matrice creation
+  glm::mat4 scaling(1.0);
+  //---------------------------
+
+  scaling[0][0] = scale;
+  scaling[1][1] = scale;
+  scaling[2][2] = scale;
+
+  object->scale *= scaling;
+  object->model *= scaling;
+
+  //---------------------------
+}
+
+//Transformation
 mat4 Transformation::get_translation_mat(vec3 trans){
   glm::mat4 translation(1.0);
   //---------------------------

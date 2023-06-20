@@ -43,7 +43,7 @@ void Control::reset(){
 
 //Selected object function
 void Control::selected_object_translation(vec3 translation){
-  Set* set_object = sceneManager->get_set_object();
+  Set* set_object = sceneManager->get_set_scene();
   //---------------------------
 
   Transformation transformManager;
@@ -52,7 +52,7 @@ void Control::selected_object_translation(vec3 translation){
   //---------------------------
 }
 void Control::selected_object_rotation(vec3 rotation){
-  Set* set_object = sceneManager->get_set_object();
+  Set* set_object = sceneManager->get_set_scene();
   //---------------------------
 
   Transformation transformManager;
@@ -62,12 +62,12 @@ void Control::selected_object_rotation(vec3 rotation){
   //---------------------------
 }
 void Control::selected_object_deletion(){
-  Set* set_object = sceneManager->get_set_object();
+  Set* set_object = sceneManager->get_set_scene();
   //----------------------------
 
   Object* object = set_object->selected_obj;
   this->selected_object_next();
-  sceneManager->delete_object(object);
+  sceneManager->delete_scene_object(object);
 
   //----------------------------
 }
@@ -75,12 +75,12 @@ void Control::object_deletion(Object* object){
   //----------------------------
 
   //this->selected_object_next();
-  sceneManager->delete_object(object);
+  sceneManager->delete_scene_object(object);
 
   //----------------------------
 }
 void Control::selected_object_next(){
-  Set* set_object = sceneManager->get_set_object();
+  Set* set_object = sceneManager->get_set_scene();
   Object* selected = set_object->selected_obj;
   //----------------------------
 

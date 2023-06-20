@@ -59,7 +59,10 @@ float compute_shading(float depth_norm){
     if(NN_coord.y < 1 && NN_coord.y > 0){
       vec4 depth_NN_rgba = texture(tex_depth, NN_coord);
       float depth_NN_norm = compute_depth_normalized(depth_NN_rgba.r);
+
+      //Shading mode
       float diff_depth = log2(depth_norm) - log2(depth_NN_norm);
+      //float diff_depth = dot(vec4(offset, depth_NN_norm, 1.0), P);
 
       sum +=  max(0.0, diff_depth);
     }
