@@ -1,5 +1,5 @@
-#ifndef OBJECT_STRUCT_H
-#define OBJECT_STRUCT_H
+#ifndef STRUCT_OBJECT_H
+#define STRUCT_OBJECT_H
 
 #include <string>
 #include <vector>
@@ -58,6 +58,9 @@ struct Object{ //Cloud cloud / part
   glm::mat4 scale = glm::mat4(1.0f);
   glm::mat4 model = glm::mat4(1.0f);
   glm::mat4 mvp = glm::mat4(1.0f);
+
+  //List of subobject
+  std::list<Object*> list_object;
 
   //---------------------------
 };

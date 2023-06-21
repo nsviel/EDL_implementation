@@ -1,5 +1,5 @@
-#ifndef SET_STRUCT_H
-#define SET_STRUCT_H
+#ifndef STRUCT_SET_H
+#define STRUCT_SET_H
 
 #include "struct_object.h"
 #include "../../common.h"
