@@ -1,6 +1,6 @@
 #include "GUI_tree.h"
 
-#include "../../Node_gui.h"
+#include "../GUI_init.h"
 
 #include "../../../Engine/Node_engine.h"
 #include "../../../Data/Node_data.h"
@@ -13,17 +13,17 @@
 
 
 //Constructor / Destructor
-GUI_tree::GUI_tree(){
+GUI_tree::GUI_tree(GUI_init* gui_init){
   //---------------------------
 
+  this->gui_init = gui_init;
+
   //---------------------------
-  //this->init_init();
-  //this->construst_tree();
 }
 GUI_tree::~GUI_tree(){}
 
 //Tree view
-void GUI_tree::treeview(){
+void GUI_tree::design_tree(){
   //---------------------------
 
   static ImGuiTableFlags flags = ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersOuterH | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_NoBordersInBody;
@@ -45,25 +45,28 @@ void GUI_tree::treeview(){
 
   //---------------------------
 }
-void GUI_tree::construst_tree(){
+void GUI_tree::construct_tree(Struct_init* init){
   this->nodes_path_vec.clear();
+  this->init = init;
   //---------------------------
 
   //Construct init path nodes for specific cloud locations
-  this->construct_node_root(init.vec_path_file, nodes_root);
+  this->construct_node_root(init->vec_path_file, nodes_root);
 
   //Set a node for specific scene construction
   //this->build_custom_scene(nodes_path_vec);
 
   //Construct predefined init path nodes
-  for(int i=0; i<init.vec_path_folder.size(); i++){
+  for(int i=0; i<init->vec_path_folder.size(); i++){
     vector<Tree_node*> nodes_path;
-    this->construct_node(init.vec_path_folder[i], nodes_path);
+    this->construct_node(init->vec_path_folder[i], nodes_path);
     this->nodes_path_vec.push_back(nodes_path);
   }
 
   //---------------------------
 }
+
+//subfunction
 void GUI_tree::construct_node(string path, vector<Tree_node*>& nodes){
   if(path != ""){
     //---------------------------
@@ -123,7 +126,7 @@ void GUI_tree::node_child_scan(string path, vector<Tree_node*>& nodes, Tree_node
     node->path = path_file;
 
     if(node->type != "Folder"){
-      if(check_file_format(path_file)){
+      if(check_display_file_format(path_file)){
         node->leaf_nb = 0;
         node->size = get_file_size(path_file);
         nodes.push_back(node);
@@ -214,12 +217,12 @@ void GUI_tree::display_node_root(vector<Tree_node*>& all_nodes){
 
   //---------------------------
 }
-bool GUI_tree::check_file_format(string path){
+bool GUI_tree::check_display_file_format(string path){
   string format = get_format_from_path(path);
   //---------------------------
 
-  for(int i=0; i<init.accepted_format.size(); i++){
-    if(format == init.accepted_format[i]){
+  for(int i=0; i<init->accepted_format.size(); i++){
+    if(format == init->accepted_format[i]){
       return true;
     }
   }
@@ -231,8 +234,7 @@ void GUI_tree::open_selection(Tree_node* node){
   //---------------------------
 
   if(node->type == "File"){
-    //Object* object = loaderManager->load_object(node->path);
-    //this->operation_new_object(object);
+    gui_init->operation_new_object(node->path);
   }
   /*else if(node->type == "Folder" && node->end_folder){
     if(pathManager->check_folder_format(node->path, "ply")){
