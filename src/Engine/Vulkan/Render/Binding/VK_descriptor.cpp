@@ -2,14 +2,7 @@
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
-
-//Step for descriptor sets
-//-create descriptor set layout
-//-allocate descriptor set
-//-create uniform object
-//-update descriptor set
-//-update uniform data
-//-bind descriptor set
+#include "../../Instance/Element/VK_error.h"
 
 
 //Constructor / Destructor
@@ -18,6 +11,7 @@ VK_descriptor::VK_descriptor(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
+  this->vk_error = vk_engine->get_vk_error();
 
   this->pool_nb_descriptor = 1000;
   this->pool_nb_uniform = 1000;
@@ -140,8 +134,7 @@ void VK_descriptor::update_descriptor_sampler(Struct_binding* binding, Struct_im
     }
   }
   if(sampler == nullptr){
-    cout<<"[error] Sampler name not corresponding to image name"<<endl;
-    return;
+    vk_error->sampler_name_not_recognized(binding, image->name);
   }
 
   VkDescriptorImageInfo image_info = {};

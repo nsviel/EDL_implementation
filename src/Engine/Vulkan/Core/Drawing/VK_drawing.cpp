@@ -44,7 +44,7 @@ void VK_drawing::draw_frame(){
   vk_submit->acquire_next_image(&vk_param->swapchain);
   vk_draw_scene->draw_scene(&vk_param->renderpass_scene);
   vk_draw_edl->draw_edl(&vk_param->renderpass_edl);
-  vk_draw_psr->draw_psr(&vk_param->renderpass_psr);
+  //vk_draw_psr->draw_psr(&vk_param->renderpass_psr);
   vk_draw_ui->draw_ui(&vk_param->renderpass_ui);
   vk_submit->submit_presentation(&vk_param->swapchain);
   vk_submit->set_next_frame_ID(&vk_param->swapchain);

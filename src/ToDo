@@ -21,4 +21,6 @@ Here are a few approaches:
     depth-based upscaling or post-processing effects.
 
 
-error] Sampler name not corresponding to image nam
+
+uniformiser les nom de etxture
+tex_position_scene -> tex_position

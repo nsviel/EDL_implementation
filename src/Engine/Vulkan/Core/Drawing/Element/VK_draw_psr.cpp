@@ -46,8 +46,8 @@ void VK_draw_psr::update_descriptor(Struct_renderpass* renderpass){
 
   Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
-  //vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_edl->color);
-  //vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_edl->depth);
+  vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_edl->color);
+  vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_edl->depth);
 
   //---------------------------
 }
@@ -77,7 +77,7 @@ void VK_draw_psr::submit_command(Struct_renderpass* renderpass){
   command.semaphore_to_run = frame_swap->semaphore_psr_ready;
   command.fence = VK_NULL_HANDLE;
   command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-  //vk_submit->submit_graphics_command(&command);
+  vk_submit->submit_graphics_command(&command);
 
   //---------------------------
 }

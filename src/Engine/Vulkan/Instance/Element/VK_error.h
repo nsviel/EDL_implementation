@@ -18,6 +18,7 @@ public:
 public:
   //Binding error
   void uniform_name_not_recognized(Struct_binding* binding, string name);
+  void sampler_name_not_recognized(Struct_binding* binding, string name);
 
 private:
   VK_engine* vk_engine;

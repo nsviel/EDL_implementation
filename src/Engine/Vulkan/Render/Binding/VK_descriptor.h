@@ -10,6 +10,7 @@
 
 class VK_engine;
 class VK_param;
+class VK_error;
 
 
 class VK_descriptor
@@ -43,6 +44,7 @@ public:
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
+  VK_error* vk_error;
 
   VkDescriptorPool descriptor_pool;
   int pool_nb_uniform;
