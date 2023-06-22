@@ -4,6 +4,7 @@
 
 #include "../../Engine/Node_engine.h"
 #include "../../Engine/Dimension/Dimension.h"
+#include "../../Engine/Shader/Shader.h"
 #include "../../Engine/Shader/Source/EDL/Shader_edl.h"
 
 
@@ -12,8 +13,9 @@ GUI_shader::GUI_shader(Node_gui* node_gui){
   //---------------------------
 
   Node_engine* node_engine = node_gui->get_node_engine();
+  Shader* shaderManager = node_engine->get_shaderManager();
   this->dimManager = node_engine->get_dimManager();
-  this->shader_edl = node_engine->get_shader_edl();
+  this->shader_edl = shaderManager->get_shader_edl();
 
   this->item_width = 100;
 

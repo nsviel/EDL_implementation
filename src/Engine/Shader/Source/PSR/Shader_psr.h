@@ -1,7 +1,7 @@
 #ifndef SHADER_PSR_H
 #define SHADER_PSR_H
 
-#include "struct_psr.h"
+#include "struct_pyramid.h"
 #include "../../../../common.h"
 
 class Node_engine;
@@ -17,13 +17,13 @@ public:
 
   void update_shader();
 
-  inline Struct_psr* get_edl_param(){return struct_psr;}
+  inline Struct_pyramid* get_pyramid_param(){return struct_pyramid;}
 
 private:
   Param_engine* param_engine;
   Dimension* dimManager;
 
-  Struct_psr* struct_psr;
+  Struct_pyramid* struct_pyramid;
 };
 
 #endif

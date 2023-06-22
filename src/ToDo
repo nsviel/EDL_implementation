@@ -1,1 +1,3 @@
 -faire renderpass PSR subpass avec interdependances
+
+-abstractiser shader source dans shader 

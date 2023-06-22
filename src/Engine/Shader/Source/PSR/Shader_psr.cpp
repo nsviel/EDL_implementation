@@ -11,10 +11,7 @@ Shader_psr::Shader_psr(Node_engine* node_engine){
   this->param_engine = node_engine->get_param_engine();
   this->dimManager = node_engine->get_dimManager();
 
-  this->struct_psr = new Struct_psr();
-  struct_psr->activated = true;
-  struct_psr->strength = 15.0;
-  struct_psr->radius = 1.0;
+  this->struct_pyramid = new Struct_pyramid();
 
   //---------------------------
   this->update_shader();
@@ -26,13 +23,13 @@ void Shader_psr::update_shader(){
   //---------------------------
 
   // Depth setup
-  struct_psr->z_near = camera->clip_near;
-  struct_psr->z_far = camera->clip_far;
+  struct_pyramid->z_near = camera->clip_near;
+  struct_pyramid->z_far = camera->clip_far;
 
   //Dimension
   Tab* tab_rendering = dimManager->get_tab("rendering");
-  struct_psr->tex_width = tab_rendering->dim.x;
-  struct_psr->tex_height = tab_rendering->dim.y;
+  struct_pyramid->tex_width = tab_rendering->dim.x;
+  struct_pyramid->tex_height = tab_rendering->dim.y;
 
   //---------------------------
 }

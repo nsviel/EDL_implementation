@@ -9,7 +9,7 @@ class VK_engine;
 class Dimension;
 class Camera;
 class GPU_data;
-class Shader_edl;
+class Shader;
 
 
 class Node_engine
@@ -33,7 +33,7 @@ public:
   inline Camera* get_cameraManager(){return cameraManager;}
   inline Param_engine* get_param_engine(){return param_engine;}
   inline GPU_data* get_gpu_data(){return gpu_data;}
-  inline Shader_edl* get_shader_edl(){return shader_edl;}
+  inline Shader* get_shaderManager(){return shaderManager;}
 
 private:
   Node* node;
@@ -42,7 +42,7 @@ private:
   VK_engine* vk_engine;
   Dimension* dimManager;
   Camera* cameraManager;
-  Shader_edl* shader_edl;
+  Shader* shaderManager;
 };
 
 #endif

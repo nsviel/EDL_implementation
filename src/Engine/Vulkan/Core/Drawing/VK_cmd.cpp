@@ -17,6 +17,7 @@
 #include "../../Data/VK_data.h"
 
 #include "../../../Node_engine.h"
+#include "../../../Shader/Shader.h"
 #include "../../../Shader/Source/EDL/Shader_edl.h"
 
 
@@ -36,7 +37,8 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
   this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
 
-  this->shader_edl = node_engine->get_shader_edl();
+  Shader* shaderManager = node_engine->get_shaderManager();
+  this->shader_edl = shaderManager->get_shader_edl();
 
   //---------------------------
 }

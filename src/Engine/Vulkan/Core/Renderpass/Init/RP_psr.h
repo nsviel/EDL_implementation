@@ -3,9 +3,7 @@
 
 #include "../../../Struct/struct_renderpass.h"
 #include "../../../Struct/struct_pipeline.h"
-
-#include "../../../../Shader/Source/PSR/struct_psr.h"
-
+#include "../../../../Shader/Source/PSR/struct_pyramid.h"
 #include "../../../../../common.h"
 
 class VK_engine;

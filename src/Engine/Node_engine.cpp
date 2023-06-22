@@ -5,7 +5,7 @@
 #include "Camera/Camera.h"
 #include "Param_engine.h"
 #include "GPU/GPU_data.h"
-#include "Shader/Source/EDL/Shader_edl.h"
+#include "Shader/Shader.h"
 
 #include "../Node.h"
 
@@ -18,7 +18,7 @@ Node_engine::Node_engine(Node* node){
   this->param_engine = new Param_engine();
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
-  this->shader_edl = new Shader_edl(this);
+  this->shaderManager = new Shader(this);
   this->vk_engine = new VK_engine(this);
   this->gpu_data = new GPU_data(this);
 
@@ -32,7 +32,7 @@ Node_engine::~Node_engine(){
   delete cameraManager;
   delete vk_engine;
   delete gpu_data;
-  delete shader_edl;
+  delete shaderManager;
 
   //---------------------------
 }

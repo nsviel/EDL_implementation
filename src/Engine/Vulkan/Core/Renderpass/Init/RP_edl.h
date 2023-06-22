@@ -3,9 +3,7 @@
 
 #include "../../../Struct/struct_renderpass.h"
 #include "../../../Struct/struct_pipeline.h"
-
 #include "../../../../Shader/Source/EDL/struct_edl.h"
-
 #include "../../../../../common.h"
 
 class VK_engine;
