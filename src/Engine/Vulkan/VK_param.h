@@ -39,6 +39,7 @@ struct VK_param{
 
   Struct_renderpass renderpass_scene;
   Struct_renderpass renderpass_edl;
+  Struct_renderpass renderpass_psr;
   Struct_renderpass renderpass_ui;
 
   //---------------------------

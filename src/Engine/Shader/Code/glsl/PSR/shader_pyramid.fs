@@ -15,6 +15,19 @@ uniform int GL_HEIGHT;
 uniform mat4 VIEW;
 
 
+//FUNCTION 1 - Compute normalized depth
+float compute_depth_normalized(float depth){
+  //---------------------------
+
+  float depth_norm = (2.0 * z_far * z_near) / ((z_far + z_near) - (2.0 * depth - 1.0) * (z_far - z_near));
+  depth_norm = (depth_norm - z_near) / (z_far - z_near);
+  depth_norm = clamp(depth_norm, 0.0, 1.0);
+
+  //---------------------------
+  return depth_norm;
+}
+
+
 float compute_depth_normalized(float depth){
   //---------------------------
 

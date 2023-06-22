@@ -3,6 +3,7 @@
 
 #include "Init/RP_scene.h"
 #include "Init/RP_edl.h"
+#include "Init/RP_psr.h"
 #include "Init/RP_ui.h"
 
 #include "../Command/VK_command_buffer.h"
@@ -28,6 +29,7 @@ VK_renderpass::VK_renderpass(VK_engine* vk_engine){
 
   this->rp_scene = new RP_scene(vk_engine);
   this->rp_edl = new RP_edl(vk_engine);
+  this->rp_psr = new RP_psr(vk_engine);
   this->rp_ui = new RP_ui(vk_engine);
 
   //---------------------------
@@ -36,6 +38,10 @@ VK_renderpass::~VK_renderpass(){
   //---------------------------
 
   delete vk_subpass;
+  delete rp_scene;
+  delete rp_edl;
+  delete rp_psr;
+  delete rp_ui;
 
   //---------------------------
 }
@@ -46,34 +52,33 @@ void VK_renderpass::init_renderpass(){
 
   rp_scene->init_renderpass_scene(&vk_param->renderpass_scene);
   rp_edl->init_renderpass_edl(&vk_param->renderpass_edl);
+  rp_edl->init_renderpass_edl(&vk_param->renderpass_psr);
   rp_ui->init_renderpass_ui(&vk_param->renderpass_ui);
 
   //---------------------------
 }
 void VK_renderpass::clean_renderpass(){
-  VK_frame* vk_frame = vk_engine->get_vk_frame();
   //---------------------------
-
-  vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
-  vk_frame->clean_frame_renderpass(&vk_param->renderpass_edl);
-  vk_frame->clean_frame_renderpass(&vk_param->renderpass_ui);
 
   this->clean_renderpass_object(&vk_param->renderpass_scene);
   this->clean_renderpass_object(&vk_param->renderpass_edl);
+  this->clean_renderpass_object(&vk_param->renderpass_psr);
   this->clean_renderpass_object(&vk_param->renderpass_ui);
-
-  //---------------------------
-}
-void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
-  //---------------------------
-
-  vkDestroyRenderPass(vk_param->device.device, renderpass->renderpass, nullptr);
-  vk_pipeline->clean_pipeline(renderpass);
 
   //---------------------------
 }
 
 //Subfunction
+void VK_renderpass::clean_renderpass_object(Struct_renderpass* renderpass){
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
+  //---------------------------
+
+  vk_frame->clean_frame_renderpass(renderpass);
+  vkDestroyRenderPass(vk_param->device.device, renderpass->renderpass, nullptr);
+  vk_pipeline->clean_pipeline(renderpass);
+
+  //---------------------------
+}
 void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
   VK_command_buffer* vk_command_buffer = vk_engine->get_vk_command_buffer();
   VK_frame* vk_frame = vk_engine->get_vk_frame();
