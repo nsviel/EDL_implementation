@@ -42,7 +42,7 @@ void RP_psr::init_renderpass(Struct_renderpass* renderpass){
   renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
   renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
   renderpass->depth_sampler_layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
-  
+
   //Subpass
   this->create_subpass_pyramid(renderpass);
 
@@ -89,6 +89,7 @@ void RP_psr::create_pipeline_triangle(Struct_renderpass* renderpass){
   pipeline->info.vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_position_scene", 0, 2, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

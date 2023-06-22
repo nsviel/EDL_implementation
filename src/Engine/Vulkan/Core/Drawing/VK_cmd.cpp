@@ -72,6 +72,19 @@ void VK_cmd::cmd_record_edl(Struct_renderpass* renderpass){
   frame->color.name = "tex_color_edl";
   frame->depth.name = "tex_depth_edl";
 }
+void VK_cmd::cmd_record_psr(Struct_renderpass* renderpass){
+  Frame* frame = renderpass->get_rendering_frame();
+  //---------------------------
+
+  vk_command->start_render_pass(renderpass, frame, false);
+  this->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
+  this->cmd_draw_psr(renderpass);
+  vk_command->stop_render_pass(renderpass);
+
+  //---------------------------
+  frame->color.name = "tex_color_psr";
+  frame->depth.name = "tex_depth_psr";
+}
 void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   Frame* frame = vk_param->swapchain.get_frame_current();
   //---------------------------
@@ -114,7 +127,6 @@ void VK_cmd::cmd_draw_scene(Struct_renderpass* renderpass){
     if(object->draw_type_name == "point" && object->is_visible){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_descriptor->update_descriptor_uniform(&data->binding);
       vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
       vk_uniform->update_uniform_int("point_size", &data->binding, data->object->draw_point_size);
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
@@ -145,7 +157,6 @@ void VK_cmd::cmd_draw_glyph(Struct_renderpass* renderpass){
     if(object->draw_type_name == "line" && object->is_visible){
       //Camera
       vk_camera->compute_mvp(object);
-      vk_descriptor->update_descriptor_uniform(&data->binding);
       vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
       vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
@@ -202,6 +213,30 @@ void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
   vkCmdBindVertexBuffers(renderpass->command_buffer, 2, 1, &data->uv.vbo, offsets);
   vkCmdDraw(renderpass->command_buffer, canvas->xyz.size(), 1, 0, 0);
 
+  //---------------------------
+}
+void VK_cmd::cmd_draw_psr(Struct_renderpass* renderpass){
+  //---------------------------
+/*
+  //Pipeline
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle");
+  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+
+  shader_edl->update_shader();
+  Struct_edl* edl_param = shader_edl->get_edl_param();
+
+  //Descriptor
+  vk_uniform->update_uniform_edl("Struct_pyramid", &pipeline->binding, *edl_param);
+  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+
+  //Data
+  Struct_data* data = vk_canvas->get_data_canvas();
+  Object* canvas = data->object;
+  VkDeviceSize offsets[] = {0};
+  vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 1, &data->xyz.vbo, offsets);
+  vkCmdBindVertexBuffers(renderpass->command_buffer, 2, 1, &data->uv.vbo, offsets);
+  vkCmdDraw(renderpass->command_buffer, canvas->xyz.size(), 1, 0, 0);
+*/
   //---------------------------
 }
 

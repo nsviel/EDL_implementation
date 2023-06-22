@@ -28,6 +28,7 @@ void VK_binding::create_binding(Struct_binding* binding){
   vk_uniform->create_uniform_buffers(binding);
   vk_sampler->create_sampler(binding);
   vk_descriptor->allocate_descriptor_set(binding);
+  vk_descriptor->update_descriptor_uniform(binding);
 
   //---------------------------
 }
