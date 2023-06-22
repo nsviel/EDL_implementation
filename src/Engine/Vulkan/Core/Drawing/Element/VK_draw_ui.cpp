@@ -37,20 +37,43 @@ void VK_draw_ui::draw_ui(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
-  Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
-  Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
+  this->update_descriptor(renderpass);
+  this->record_command(renderpass);
+  this->submit_command(renderpass);
 
-  //Update descriptor
+  //---------------------------
+  vk_param->time.renderpass_ui.push_back(timer.stop_ms(t1));
+}
+
+//Subfunction
+void VK_draw_ui::update_descriptor(Struct_renderpass* renderpass){
+  //---------------------------
+
+  Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
   vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_edl->color);
 
-  //Record command
+  //---------------------------
+}
+void VK_draw_ui::record_command(Struct_renderpass* renderpass){
+  Frame* frame = vk_param->swapchain.get_frame_current();
+  //---------------------------
+
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
-  this->cmd_record_ui(renderpass);
+  vk_command->start_render_pass(renderpass, frame, false);
+  vk_cmd->cmd_viewport_canvas(renderpass);
+  this->cmd_draw_canvas(renderpass);
+  vk_gui->command_gui(renderpass);
+  vk_command->stop_render_pass(renderpass);
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
-  //Submit command
+  //---------------------------
+}
+void VK_draw_ui::submit_command(Struct_renderpass* renderpass){
+  //---------------------------
+
+  Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
   command.semaphore_to_wait = frame_swap->semaphore_render_ready;
@@ -60,20 +83,9 @@ void VK_draw_ui::draw_ui(Struct_renderpass* renderpass){
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
-  vk_param->time.renderpass_ui.push_back(timer.stop_ms(t1));
 }
-void VK_draw_ui::cmd_record_ui(Struct_renderpass* renderpass){
-  Frame* frame = vk_param->swapchain.get_frame_current();
-  //---------------------------
 
-  vk_command->start_render_pass(renderpass, frame, false);
-  vk_cmd->cmd_viewport_canvas(renderpass);
-  this->cmd_draw_canvas(renderpass);
-  vk_gui->command_gui(renderpass);
-  vk_command->stop_render_pass(renderpass);
-
-  //---------------------------
-}
+//Command function
 void VK_draw_ui::cmd_draw_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
@@ -94,6 +106,3 @@ void VK_draw_ui::cmd_draw_canvas(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-
-//Subfunction
-//Command function

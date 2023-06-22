@@ -28,11 +28,14 @@ public:
 public:
   //Main functions
   void draw_ui(Struct_renderpass* renderpass);
-  void cmd_record_ui(Struct_renderpass* renderpass);
-  void cmd_draw_canvas(Struct_renderpass* renderpass);
 
   //Subfunction
+  void update_descriptor(Struct_renderpass* renderpass);
+  void record_command(Struct_renderpass* renderpass);
+  void submit_command(Struct_renderpass* renderpass);
+
   //Command function
+  void cmd_draw_canvas(Struct_renderpass* renderpass);
 
 private:
   Timer timer;
@@ -47,7 +50,6 @@ private:
   VK_data* vk_data;
   VK_uniform* vk_uniform;
   VK_canvas* vk_canvas;
-
 };
 
 #endif
