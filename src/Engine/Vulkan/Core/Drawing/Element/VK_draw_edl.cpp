@@ -53,21 +53,45 @@ void VK_draw_edl::draw_edl(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
-  Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
-  Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
+  this->update_descriptor(renderpass);
+  this->record_command(renderpass);
+  this->submit_command(renderpass);
 
-  //Update descriptor
+  //---------------------------
+  vk_param->time.renderpass_edl.push_back(timer.stop_ms(t1));
+}
+
+//Subfunction
+void VK_draw_edl::update_descriptor(Struct_renderpass* renderpass){
+  //---------------------------
+
+  Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle_EDL");
   vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->color);
   vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->depth);
 
-  //Record command
+  //---------------------------
+}
+void VK_draw_edl::record_command(Struct_renderpass* renderpass){
+  Frame* frame = renderpass->get_rendering_frame();
+  //---------------------------
+
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
-  this->cmd_record_edl(renderpass);
+  vk_command->start_render_pass(renderpass, frame, false);
+  vk_cmd->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
+  this->cmd_draw_edl(renderpass);
+  vk_command->stop_render_pass(renderpass);
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
-  //Submit command
+  //---------------------------
+  frame->color.name = "tex_color_edl";
+  frame->depth.name = "tex_depth_edl";
+}
+void VK_draw_edl::submit_command(Struct_renderpass* renderpass){
+  //---------------------------
+
+  Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
   command.semaphore_to_wait = frame_swap->semaphore_scene_ready;
@@ -77,21 +101,9 @@ void VK_draw_edl::draw_edl(Struct_renderpass* renderpass){
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
-  vk_param->time.renderpass_edl.push_back(timer.stop_ms(t1));
 }
-void VK_draw_edl::cmd_record_edl(Struct_renderpass* renderpass){
-  Frame* frame = renderpass->get_rendering_frame();
-  //---------------------------
 
-  vk_command->start_render_pass(renderpass, frame, false);
-  vk_cmd->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
-  this->cmd_draw_edl(renderpass);
-  vk_command->stop_render_pass(renderpass);
-
-  //---------------------------
-  frame->color.name = "tex_color_edl";
-  frame->depth.name = "tex_depth_edl";
-}
+//Command function
 void VK_draw_edl::cmd_draw_edl(Struct_renderpass* renderpass){
   //---------------------------
 

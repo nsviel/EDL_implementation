@@ -34,6 +34,9 @@ public:
   void cmd_record_ui(Struct_renderpass* renderpass);
   void cmd_draw_canvas(Struct_renderpass* renderpass);
 
+  //Subfunction
+  //Command function
+
 private:
   Timer timer;
 

@@ -137,3 +137,6 @@ void VK_draw_scene::cmd_draw_glyph(Struct_renderpass* renderpass){
 
   //---------------------------
 }
+
+//Subfunction
+//Command function

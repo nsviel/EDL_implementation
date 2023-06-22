@@ -33,6 +33,9 @@ public:
   void cmd_draw_scene(Struct_renderpass* renderpass);
   void cmd_draw_glyph(Struct_renderpass* renderpass);
 
+  //Subfunction
+  //Command function
+
 private:
   Timer timer;
 
