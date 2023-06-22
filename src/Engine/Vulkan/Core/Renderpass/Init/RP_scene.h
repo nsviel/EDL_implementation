@@ -20,7 +20,7 @@ public:
 
 public:
   //Main functions
-  void init_renderpass_scene(Struct_renderpass* renderpass);
+  void init_renderpass(Struct_renderpass* renderpass);
 
   //Subpass
   void create_subpass(Struct_renderpass* renderpass);

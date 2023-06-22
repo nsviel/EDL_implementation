@@ -29,7 +29,7 @@ RP_ui::~RP_ui(){
 }
 
 //Main function
-void RP_ui::init_renderpass_ui(Struct_renderpass* renderpass){
+void RP_ui::init_renderpass(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 

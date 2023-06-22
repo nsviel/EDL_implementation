@@ -29,7 +29,7 @@ RP_scene::~RP_scene(){
 }
 
 //Main function
-void RP_scene::init_renderpass_scene(Struct_renderpass* renderpass){
+void RP_scene::init_renderpass(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 

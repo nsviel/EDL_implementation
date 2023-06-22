@@ -50,10 +50,10 @@ VK_renderpass::~VK_renderpass(){
 void VK_renderpass::init_renderpass(){
   //---------------------------
 
-  rp_scene->init_renderpass_scene(&vk_param->renderpass_scene);
-  rp_edl->init_renderpass_edl(&vk_param->renderpass_edl);
-  rp_edl->init_renderpass_edl(&vk_param->renderpass_psr);
-  rp_ui->init_renderpass_ui(&vk_param->renderpass_ui);
+  rp_scene->init_renderpass(&vk_param->renderpass_scene);
+  rp_edl->init_renderpass(&vk_param->renderpass_edl);
+  rp_psr->init_renderpass(&vk_param->renderpass_psr);
+  rp_ui->init_renderpass(&vk_param->renderpass_ui);
 
   //---------------------------
 }

@@ -30,7 +30,7 @@ RP_psr::~RP_psr(){
 }
 
 //Main function
-void RP_psr::init_renderpass_edl(Struct_renderpass* renderpass){
+void RP_psr::init_renderpass(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 

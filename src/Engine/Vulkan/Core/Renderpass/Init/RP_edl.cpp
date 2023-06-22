@@ -29,7 +29,7 @@ RP_edl::~RP_edl(){
 }
 
 //Main function
-void RP_edl::init_renderpass_edl(Struct_renderpass* renderpass){
+void RP_edl::init_renderpass(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 
