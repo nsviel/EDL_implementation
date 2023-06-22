@@ -46,7 +46,7 @@ void RP_psr::init_renderpass(Struct_renderpass* renderpass){
 
   //pipeline
   this->create_pipeline_triangle(renderpass);
-  this->create_pipeline_pyramid(renderpass);
+  //this->create_pipeline_pyramid(renderpass);
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);

@@ -36,6 +36,7 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
   this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
+  this->vk_command = vk_engine->get_vk_command();
 
   Shader* shaderManager = node_engine->get_shaderManager();
   this->shader_edl = shaderManager->get_shader_edl();
@@ -46,10 +47,9 @@ VK_cmd::~VK_cmd(){}
 
 //Main function
 void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
-  VK_command* vk_command = vk_engine->get_vk_command();
+  Frame* frame = renderpass->get_rendering_frame();
   //---------------------------
 
-  Frame* frame = renderpass->get_rendering_frame();
   vk_command->start_render_pass(renderpass, frame, false);
   this->cmd_viewport(renderpass->command_buffer);
   this->cmd_scissor(renderpass->command_buffer);
@@ -62,10 +62,9 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   frame->depth.name = "tex_depth_scene";
 }
 void VK_cmd::cmd_record_edl(Struct_renderpass* renderpass){
-  VK_command* vk_command = vk_engine->get_vk_command();
+  Frame* frame = renderpass->get_rendering_frame();
   //---------------------------
 
-  Frame* frame = renderpass->get_rendering_frame();
   vk_command->start_render_pass(renderpass, frame, false);
   VkViewport viewport = vk_viewport->get_viewport_canvas();
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
@@ -74,15 +73,14 @@ void VK_cmd::cmd_record_edl(Struct_renderpass* renderpass){
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
-  frame->color.name = "tex_color_final";
-  frame->depth.name = "tex_depth_final";
+  frame->color.name = "tex_color_edl";
+  frame->depth.name = "tex_depth_edl";
 }
 void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
-  VK_command* vk_command = vk_engine->get_vk_command();
   VK_gui* vk_gui = vk_engine->get_vk_gui();
+  Frame* frame = vk_param->swapchain.get_frame_current();
   //---------------------------
 
-  Frame* frame = vk_param->swapchain.get_frame_current();
   vk_command->start_render_pass(renderpass, frame, false);
   VkViewport viewport = vk_viewport->get_viewport_canvas();
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
@@ -221,7 +219,6 @@ void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
 
 //Secondary command buffer
 void VK_cmd::cmd_record_scene_secondcb(Struct_renderpass* renderpass){
-  VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
   //Bind and draw vertex buffers

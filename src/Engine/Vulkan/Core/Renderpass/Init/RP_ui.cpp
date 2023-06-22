@@ -79,7 +79,7 @@ void RP_ui::create_pipeline_triangle(Struct_renderpass* renderpass){
   pipeline->path_shader_fs = "Base/shader_triangle_fs";
   pipeline->info.vec_data_name.push_back("location");
   pipeline->info.vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_final", 0, 0, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_edl", 0, 0, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

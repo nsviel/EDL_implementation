@@ -15,6 +15,7 @@ class VK_binding;
 class VK_data;
 class VK_uniform;
 class VK_descriptor;
+class VK_command;
 
 
 class VK_cmd
@@ -53,6 +54,7 @@ private:
   VK_viewport* vk_viewport;
   VK_uniform* vk_uniform;
   VK_descriptor* vk_descriptor;
+  VK_command* vk_command;
 };
 
 #endif

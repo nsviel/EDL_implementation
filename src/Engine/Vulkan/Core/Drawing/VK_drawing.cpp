@@ -97,6 +97,14 @@ void VK_drawing::draw_edl(Struct_renderpass* renderpass){
   //---------------------------
   vk_param->time.renderpass_edl.push_back(timer.stop_ms(t1));
 }
+void VK_drawing::draw_psr(Struct_renderpass* renderpass){
+  timer_time t1 = timer.start_t();
+  //---------------------------
+
+
+  //---------------------------
+  vk_param->time.renderpass_psr.push_back(timer.stop_ms(t1));
+}
 void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
@@ -125,4 +133,12 @@ void VK_drawing::draw_ui(Struct_renderpass* renderpass){
 
   //---------------------------
   vk_param->time.renderpass_ui.push_back(timer.stop_ms(t1));
+}
+
+//Subfunction
+void VK_drawing::submit_draw(Struct_renderpass* renderpass){
+  //---------------------------
+
+
+  //---------------------------
 }

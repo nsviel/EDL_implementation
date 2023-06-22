@@ -24,9 +24,15 @@ public:
 public:
   //Main functions
   void draw_frame();
+
+  //Draw frame parts
   void draw_scene(Struct_renderpass* renderpass);
   void draw_edl(Struct_renderpass* renderpass);
+  void draw_psr(Struct_renderpass* renderpass);
   void draw_ui(Struct_renderpass* renderpass);
+
+  //Subfunction
+  void submit_draw(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;
