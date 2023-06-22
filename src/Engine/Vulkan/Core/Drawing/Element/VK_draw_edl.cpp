@@ -66,12 +66,16 @@ void VK_draw_edl::record_command(Struct_renderpass* renderpass){
   Frame* frame = renderpass->get_rendering_frame();
   //---------------------------
 
+  //Command buffer
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
+
+  //Render pass
   vk_command->start_render_pass(renderpass, frame, false);
   vk_cmd->cmd_viewport_canvas(renderpass);
-  this->cmd_draw_edl(renderpass);
+  this->cmd_draw(renderpass);
   vk_command->stop_render_pass(renderpass);
+
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
@@ -94,19 +98,17 @@ void VK_draw_edl::submit_command(Struct_renderpass* renderpass){
 }
 
 //Command function
-void VK_draw_edl::cmd_draw_edl(Struct_renderpass* renderpass){
+void VK_draw_edl::cmd_draw(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle_EDL");
-  vk_cmd->cmd_bind_pipeline(renderpass, "triangle_EDL");
-
-  shader_edl->update_shader();
   Struct_edl* edl_param = shader_edl->get_edl_param();
+  Struct_data* data = vk_canvas->get_data_canvas();
 
+  vk_cmd->cmd_bind_pipeline(renderpass, "triangle_EDL");
+  shader_edl->update_shader();
   vk_uniform->update_uniform_edl("Struct_edl", &pipeline->binding, *edl_param);
   vk_cmd->cmd_bind_descriptor(renderpass, "triangle_EDL", pipeline->binding.descriptor.set);
-
-  Struct_data* data = vk_canvas->get_data_canvas();
   vk_cmd->cmd_draw_data(renderpass, data);
 
   //---------------------------

@@ -61,7 +61,7 @@ void VK_draw_psr::record_command(Struct_renderpass* renderpass){
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
   vk_command->start_render_pass(renderpass, frame, false);
   vk_cmd->cmd_viewport_canvas(renderpass);
-  this->cmd_draw_psr(renderpass);
+  this->cmd_draw(renderpass);
   vk_command->stop_render_pass(renderpass);
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
@@ -85,7 +85,7 @@ void VK_draw_psr::submit_command(Struct_renderpass* renderpass){
 }
 
 //Command function
-void VK_draw_psr::cmd_draw_psr(Struct_renderpass* renderpass){
+void VK_draw_psr::cmd_draw(Struct_renderpass* renderpass){
   //---------------------------
 /*
   //Pipeline

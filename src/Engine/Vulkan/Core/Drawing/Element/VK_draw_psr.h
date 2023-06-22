@@ -32,7 +32,7 @@ public:
   void submit_command(Struct_renderpass* renderpass);
 
   //Command function
-  void cmd_draw_psr(Struct_renderpass* renderpass);
+  void cmd_draw(Struct_renderpass* renderpass);
 
 private:
   Timer timer;

@@ -49,13 +49,17 @@ void VK_draw_scene::record_command(Struct_renderpass* renderpass){
   Frame* frame = renderpass->get_rendering_frame();
   //---------------------------
 
+  //Command buffer
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
+
+  //Render pass
   vk_command->start_render_pass(renderpass, frame, false);
   vk_cmd->cmd_viewport_scene(renderpass);
   this->cmd_draw_scene(renderpass);
   this->cmd_draw_glyph(renderpass);
   vk_command->stop_render_pass(renderpass);
+
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
@@ -92,6 +96,7 @@ void VK_draw_scene::cmd_draw_scene(Struct_renderpass* renderpass){
       vk_camera->compute_mvp(data->object);
       vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
       vk_uniform->update_uniform_int("point_size", &data->binding, data->object->draw_point_size);
+
       vk_cmd->cmd_bind_descriptor(renderpass, "point", data->binding.descriptor.set);
       vk_cmd->cmd_draw_data(renderpass, data);
     }
