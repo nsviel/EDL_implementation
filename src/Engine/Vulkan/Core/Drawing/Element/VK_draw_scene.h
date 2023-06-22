@@ -30,7 +30,6 @@ public:
   //Main functions
   void draw_scene(Struct_renderpass* renderpass);
   void cmd_record_scene(Struct_renderpass* renderpass);
-  void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
   void cmd_draw_scene(Struct_renderpass* renderpass);
   void cmd_draw_glyph(Struct_renderpass* renderpass);
 

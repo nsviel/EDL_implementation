@@ -68,7 +68,7 @@ void VK_draw_scene::cmd_record_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass, frame, false);
-  this->cmd_viewport(renderpass, vk_viewport->get_viewport_scene());
+  vk_cmd->cmd_viewport(renderpass, vk_viewport->get_viewport_scene());
   this->cmd_draw_scene(renderpass);
   this->cmd_draw_glyph(renderpass);
   vk_command->stop_render_pass(renderpass);
@@ -76,18 +76,6 @@ void VK_draw_scene::cmd_record_scene(Struct_renderpass* renderpass){
   //---------------------------
   frame->color.name = "tex_color_scene";
   frame->depth.name = "tex_depth_scene";
-}
-void VK_draw_scene::cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport){
-  //---------------------------
-
-  //Viewport
-  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-
-  //Scissor
-  VkRect2D scissor = vk_viewport->get_scissor();
-  vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
-
-  //---------------------------
 }
 void VK_draw_scene::cmd_draw_scene(Struct_renderpass* renderpass){
   //---------------------------

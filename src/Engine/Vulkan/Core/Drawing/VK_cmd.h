@@ -27,14 +27,7 @@ public:
 
 public:
   //Main function
-  void cmd_record_psr(Struct_renderpass* renderpass);
-
-  //Renderpass command
   void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
-  void cmd_draw_psr(Struct_renderpass* renderpass);
-
-  //Secondary command buffer
-  void cmd_record_scene_secondcb(Struct_renderpass* renderpass);
 
 private:
   Shader_edl* shader_edl;

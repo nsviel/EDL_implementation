@@ -1,4 +1,5 @@
 #include "VK_draw_edl.h"
+
 #include "../VK_cmd.h"
 
 #include "../../Pipeline/VK_pipeline.h"
@@ -83,25 +84,13 @@ void VK_draw_edl::cmd_record_edl(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass, frame, false);
-  this->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
+  vk_cmd->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
   this->cmd_draw_edl(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
   frame->color.name = "tex_color_edl";
   frame->depth.name = "tex_depth_edl";
-}
-void VK_draw_edl::cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport){
-  //---------------------------
-
-  //Viewport
-  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-
-  //Scissor
-  VkRect2D scissor = vk_viewport->get_scissor();
-  vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
-
-  //---------------------------
 }
 void VK_draw_edl::cmd_draw_edl(Struct_renderpass* renderpass){
   //---------------------------

@@ -12,6 +12,7 @@ class VK_command;
 class VK_cmd;
 class VK_descriptor;
 class VK_submit;
+class VK_viewport;
 
 
 class VK_draw_psr
@@ -23,16 +24,22 @@ public:
 
 public:
   //Main functions
-  void draw_ui(Struct_renderpass* renderpass);
+  void draw_psr(Struct_renderpass* renderpass);
+  void cmd_record_psr(Struct_renderpass* renderpass);
+  void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
+  void cmd_draw_psr(Struct_renderpass* renderpass);
 
 private:
+  Timer timer;
+
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_command* vk_command;
   VK_cmd* vk_cmd;
   VK_descriptor* vk_descriptor;
   VK_submit* vk_submit;
-  Timer timer;
+  VK_viewport* vk_viewport;
+
 };
 
 #endif

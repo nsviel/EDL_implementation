@@ -32,13 +32,12 @@ public:
   //Main functions
   void draw_edl(Struct_renderpass* renderpass);
   void cmd_record_edl(Struct_renderpass* renderpass);
-  void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
   void cmd_draw_edl(Struct_renderpass* renderpass);
 
 private:
   Timer timer;
   Shader_edl* shader_edl;
-  
+
   VK_canvas* vk_canvas;
   VK_engine* vk_engine;
   VK_param* vk_param;

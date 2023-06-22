@@ -29,12 +29,6 @@ public:
   //Main functions
   void draw_frame();
 
-  //Draw frame parts
-  void draw_psr(Struct_renderpass* renderpass);
-
-  //Subfunction
-  void submit_draw(Struct_renderpass* renderpass);
-
 private:
   Timer timer;
 

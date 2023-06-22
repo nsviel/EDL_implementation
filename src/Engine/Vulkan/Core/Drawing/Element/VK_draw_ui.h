@@ -32,7 +32,6 @@ public:
   //Main functions
   void draw_ui(Struct_renderpass* renderpass);
   void cmd_record_ui(Struct_renderpass* renderpass);
-  void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
   void cmd_draw_canvas(Struct_renderpass* renderpass);
 
 private:

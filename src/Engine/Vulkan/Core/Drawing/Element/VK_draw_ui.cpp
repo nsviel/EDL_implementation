@@ -75,22 +75,10 @@ void VK_draw_ui::cmd_record_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass, frame, false);
-  this->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
+  vk_cmd->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
   this->cmd_draw_canvas(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
-
-  //---------------------------
-}
-void VK_draw_ui::cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport){
-  //---------------------------
-
-  //Viewport
-  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-
-  //Scissor
-  VkRect2D scissor = vk_viewport->get_scissor();
-  vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
 
   //---------------------------
 }
