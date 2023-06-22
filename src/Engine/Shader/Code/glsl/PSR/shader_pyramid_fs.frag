@@ -1,4 +1,4 @@
-#version 330 core
+#version 450
 #define PI 3.1415926538
 
 layout (location = 1) out vec4 out_position;

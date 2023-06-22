@@ -98,8 +98,8 @@ void RP_psr::create_pipeline_pyramid(Struct_renderpass* renderpass){
   pipeline->name = "triangle_PSR";
   pipeline->topology = "triangle";
   pipeline->compile_shader = true;
-  pipeline->path_shader_vs = "EDL/shader_edl_vs";
-  pipeline->path_shader_fs = "EDL/shader_edl_fs";
+  pipeline->path_shader_vs = "PSR/shader_pyramid";
+  pipeline->path_shader_fs = "PSR/shader_pyramid";
   pipeline->info.vec_data_name.push_back("location");
   pipeline->info.vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
