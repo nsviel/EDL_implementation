@@ -27,7 +27,8 @@ public:
 
 public:
   //Main function
-  void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
+  void cmd_viewport_scene(Struct_renderpass* renderpass);
+  void cmd_viewport_canvas(Struct_renderpass* renderpass);
 
 private:
   Shader_edl* shader_edl;

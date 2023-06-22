@@ -46,8 +46,24 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
 VK_cmd::~VK_cmd(){}
 
 //Main function
-void VK_cmd::cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport){
+void VK_cmd::cmd_viewport_scene(Struct_renderpass* renderpass){
   //---------------------------
+
+  VkViewport viewport = vk_viewport->get_viewport_scene();
+
+  //Viewport
+  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
+
+  //Scissor
+  VkRect2D scissor = vk_viewport->get_scissor();
+  vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
+
+  //---------------------------
+}
+void VK_cmd::cmd_viewport_canvas(Struct_renderpass* renderpass){
+  //---------------------------
+
+  VkViewport viewport = vk_viewport->get_viewport_canvas();
 
   //Viewport
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);

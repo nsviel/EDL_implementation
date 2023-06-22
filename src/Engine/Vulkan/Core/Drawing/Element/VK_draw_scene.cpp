@@ -1,7 +1,7 @@
 #include "VK_draw_scene.h"
+
 #include "../VK_cmd.h"
 
-#include "../../Pipeline/VK_pipeline.h"
 #include "../../Command/VK_submit.h"
 
 #include "../../../VK_engine.h"
@@ -9,10 +9,7 @@
 #include "../../../Core/Command/VK_command.h"
 #include "../../../Render/Canvas/VK_canvas.h"
 #include "../../../Render/Binding/VK_descriptor.h"
-
-#include "../../../Core/Pipeline/VK_pipeline.h"
 #include "../../../Presentation/Camera/VK_camera.h"
-#include "../../../Presentation/Camera/VK_viewport.h"
 #include "../../../Render/Binding/VK_uniform.h"
 #include "../../../Data/VK_data.h"
 
@@ -27,12 +24,9 @@ VK_draw_scene::VK_draw_scene(VK_engine* vk_engine){
   this->vk_cmd = vk_engine->get_vk_cmd();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_submit = vk_engine->get_vk_submit();
-
-  this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_camera = vk_engine->get_vk_camera();
   this->vk_data = vk_engine->get_vk_data();
-  this->vk_pipeline = vk_engine->get_vk_pipeline();
 
   //---------------------------
 }
@@ -43,15 +37,35 @@ void VK_draw_scene::draw_scene(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
-  Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
+  this->record_command(renderpass);
+  this->submit_command(renderpass);
 
-  //Record command
+  //---------------------------
+  vk_param->time.renderpass_scene.push_back(timer.stop_ms(t1));
+}
+
+//Subfunction
+void VK_draw_scene::record_command(Struct_renderpass* renderpass){
+  Frame* frame = renderpass->get_rendering_frame();
+  //---------------------------
+
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
-  this->cmd_record_scene(renderpass);
+  vk_command->start_render_pass(renderpass, frame, false);
+  vk_cmd->cmd_viewport_scene(renderpass);
+  this->cmd_draw_scene(renderpass);
+  this->cmd_draw_glyph(renderpass);
+  vk_command->stop_render_pass(renderpass);
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
-  //Submit command
+  //---------------------------
+  frame->color.name = "tex_color_scene";
+  frame->depth.name = "tex_depth_scene";
+}
+void VK_draw_scene::submit_command(Struct_renderpass* renderpass){
+  //---------------------------
+
+  Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
   command.semaphore_to_wait = frame_swap->semaphore_image_ready;
@@ -61,27 +75,14 @@ void VK_draw_scene::draw_scene(Struct_renderpass* renderpass){
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
-  vk_param->time.renderpass_scene.push_back(timer.stop_ms(t1));
 }
-void VK_draw_scene::cmd_record_scene(Struct_renderpass* renderpass){
-  Frame* frame = renderpass->get_rendering_frame();
-  //---------------------------
 
-  vk_command->start_render_pass(renderpass, frame, false);
-  vk_cmd->cmd_viewport(renderpass, vk_viewport->get_viewport_scene());
-  this->cmd_draw_scene(renderpass);
-  this->cmd_draw_glyph(renderpass);
-  vk_command->stop_render_pass(renderpass);
-
-  //---------------------------
-  frame->color.name = "tex_color_scene";
-  frame->depth.name = "tex_depth_scene";
-}
+//Command function
 void VK_draw_scene::cmd_draw_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "point");
+  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("point");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Bind and draw vertex buffers
@@ -111,7 +112,7 @@ void VK_draw_scene::cmd_draw_glyph(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipine
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "line");
+  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("line");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   //Bind and draw vertex buffers
@@ -137,6 +138,3 @@ void VK_draw_scene::cmd_draw_glyph(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-
-//Subfunction
-//Command function

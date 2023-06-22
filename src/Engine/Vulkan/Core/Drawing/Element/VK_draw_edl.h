@@ -13,11 +13,7 @@ class VK_command;
 class VK_cmd;
 class VK_descriptor;
 class VK_submit;
-class VK_data;
-class VK_viewport;
 class VK_uniform;
-class VK_pipeline;
-class VK_camera;
 class VK_canvas;
 
 
@@ -51,12 +47,7 @@ private:
   VK_cmd* vk_cmd;
   VK_descriptor* vk_descriptor;
   VK_submit* vk_submit;
-
-  VK_data* vk_data;
-  VK_viewport* vk_viewport;
   VK_uniform* vk_uniform;
-  VK_pipeline* vk_pipeline;
-  VK_camera* vk_camera;
 };
 
 #endif

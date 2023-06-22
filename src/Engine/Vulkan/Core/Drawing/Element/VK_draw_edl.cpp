@@ -10,12 +10,7 @@
 #include "../../../Core/Command/VK_command.h"
 #include "../../../Render/Canvas/VK_canvas.h"
 #include "../../../Render/Binding/VK_descriptor.h"
-
-#include "../../../Core/Pipeline/VK_pipeline.h"
-#include "../../../Presentation/Camera/VK_camera.h"
-#include "../../../Presentation/Camera/VK_viewport.h"
 #include "../../../Render/Binding/VK_uniform.h"
-#include "../../../Data/VK_data.h"
 
 #include "../../../../Node_engine.h"
 #include "../../../../Shader/Shader.h"
@@ -32,12 +27,7 @@ VK_draw_edl::VK_draw_edl(VK_engine* vk_engine){
   this->vk_cmd = vk_engine->get_vk_cmd();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_submit = vk_engine->get_vk_submit();
-
-  this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_uniform = vk_engine->get_vk_uniform();
-  this->vk_camera = vk_engine->get_vk_camera();
-  this->vk_data = vk_engine->get_vk_data();
-  this->vk_pipeline = vk_engine->get_vk_pipeline();
   this->vk_canvas = vk_engine->get_vk_canvas();
 
   Node_engine* node_engine = vk_engine->get_node_engine();
@@ -79,7 +69,7 @@ void VK_draw_edl::record_command(Struct_renderpass* renderpass){
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
   vk_command->start_render_pass(renderpass, frame, false);
-  vk_cmd->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
+  vk_cmd->cmd_viewport_canvas(renderpass);
   this->cmd_draw_edl(renderpass);
   vk_command->stop_render_pass(renderpass);
   vk_command->stop_command_buffer(renderpass->command_buffer);
@@ -108,7 +98,7 @@ void VK_draw_edl::cmd_draw_edl(Struct_renderpass* renderpass){
   //---------------------------
 
   //Pipeline
-  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle_EDL");
+  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle_EDL");
   vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
 
   shader_edl->update_shader();

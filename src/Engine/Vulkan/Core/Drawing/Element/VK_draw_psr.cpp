@@ -64,7 +64,7 @@ void VK_draw_psr::cmd_record_psr(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass, frame, false);
-  this->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
+  vk_cmd->cmd_viewport_canvas(renderpass);
   this->cmd_draw_psr(renderpass);
   vk_command->stop_render_pass(renderpass);
 
@@ -72,18 +72,7 @@ void VK_draw_psr::cmd_record_psr(Struct_renderpass* renderpass){
   frame->color.name = "tex_color_psr";
   frame->depth.name = "tex_depth_psr";
 }
-void VK_draw_psr::cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport){
-  //---------------------------
 
-  //Viewport
-  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-
-  //Scissor
-  VkRect2D scissor = vk_viewport->get_scissor();
-  vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
-
-  //---------------------------
-}
 void VK_draw_psr::cmd_draw_psr(Struct_renderpass* renderpass){
   //---------------------------
 /*

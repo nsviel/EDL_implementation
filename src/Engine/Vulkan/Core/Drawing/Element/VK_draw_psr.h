@@ -26,7 +26,6 @@ public:
   //Main functions
   void draw_psr(Struct_renderpass* renderpass);
   void cmd_record_psr(Struct_renderpass* renderpass);
-  void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
   void cmd_draw_psr(Struct_renderpass* renderpass);
 
   //Subfunction

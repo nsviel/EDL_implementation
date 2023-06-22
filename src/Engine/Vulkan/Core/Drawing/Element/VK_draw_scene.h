@@ -13,9 +13,7 @@ class VK_cmd;
 class VK_descriptor;
 class VK_submit;
 class VK_data;
-class VK_viewport;
 class VK_uniform;
-class VK_pipeline;
 class VK_camera;
 
 
@@ -29,12 +27,14 @@ public:
 public:
   //Main functions
   void draw_scene(Struct_renderpass* renderpass);
-  void cmd_record_scene(Struct_renderpass* renderpass);
-  void cmd_draw_scene(Struct_renderpass* renderpass);
-  void cmd_draw_glyph(Struct_renderpass* renderpass);
 
   //Subfunction
+  void record_command(Struct_renderpass* renderpass);
+  void submit_command(Struct_renderpass* renderpass);
+
   //Command function
+  void cmd_draw_scene(Struct_renderpass* renderpass);
+  void cmd_draw_glyph(Struct_renderpass* renderpass);
 
 private:
   Timer timer;
@@ -46,9 +46,7 @@ private:
   VK_descriptor* vk_descriptor;
   VK_submit* vk_submit;
   VK_data* vk_data;
-  VK_viewport* vk_viewport;
   VK_uniform* vk_uniform;
-  VK_pipeline* vk_pipeline;
   VK_camera* vk_camera;
 };
 
