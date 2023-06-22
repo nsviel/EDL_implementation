@@ -34,7 +34,7 @@ void VK_drawing::draw_frame(){
 
   vk_submit->acquire_next_image(&vk_param->swapchain);
   this->draw_scene(&vk_param->renderpass_scene);
-  this->draw_render(&vk_param->renderpass_render);
+  this->draw_edl(&vk_param->renderpass_edl);
   this->draw_ui(&vk_param->renderpass_ui);
   vk_submit->submit_presentation(&vk_param->swapchain);
   vk_submit->set_next_frame_ID(&vk_param->swapchain);
@@ -67,7 +67,7 @@ void VK_drawing::draw_scene(Struct_renderpass* renderpass){
   //---------------------------
   vk_param->time.renderpass_scene.push_back(timer.stop_ms(t1));
 }
-void VK_drawing::draw_render(Struct_renderpass* renderpass){
+void VK_drawing::draw_edl(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
@@ -81,7 +81,7 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
-  vk_cmd->cmd_record_render(renderpass);
+  vk_cmd->cmd_record_edl(renderpass);
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //Submit command
@@ -95,14 +95,14 @@ void VK_drawing::draw_render(Struct_renderpass* renderpass){
   vk_submit->submit_graphics_command(&command);
 
   //---------------------------
-  vk_param->time.renderpass_render.push_back(timer.stop_ms(t1));
+  vk_param->time.renderpass_edl.push_back(timer.stop_ms(t1));
 }
 void VK_drawing::draw_ui(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
   //Update descriptor
-  Frame* frame_final = vk_param->renderpass_render.get_rendering_frame();
+  Frame* frame_final = vk_param->renderpass_edl.get_rendering_frame();
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
   vk_descriptor->update_descriptor_uniform(&pipeline->binding);
   vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_final->color);

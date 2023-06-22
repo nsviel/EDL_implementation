@@ -59,7 +59,7 @@ void GUI_time::time_drawig(bool update){
   if(update){
     mean_draw_frame = fct_mean_and_clear(vk_param->time.draw_frame);
     mean_renderpass_scene = fct_mean_and_clear(vk_param->time.renderpass_scene);
-    mean_renderpass_edl = fct_mean_and_clear(vk_param->time.renderpass_render);
+    mean_renderpass_edl = fct_mean_and_clear(vk_param->time.renderpass_edl);
     mean_renderpass_ui = fct_mean_and_clear(vk_param->time.renderpass_ui);
   }
 

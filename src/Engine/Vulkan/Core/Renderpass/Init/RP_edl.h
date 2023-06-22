@@ -23,7 +23,7 @@ public:
 
 public:
   //Main functions
-  void init_renderpass_render(Struct_renderpass* renderpass);
+  void init_renderpass_edl(Struct_renderpass* renderpass);
 
   //Subpass
   void create_subpass_edl(Struct_renderpass* renderpass);

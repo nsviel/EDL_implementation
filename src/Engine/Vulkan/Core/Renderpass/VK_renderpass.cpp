@@ -45,7 +45,7 @@ void VK_renderpass::init_renderpass(){
   //---------------------------
 
   rp_scene->init_renderpass_scene(&vk_param->renderpass_scene);
-  rp_edl->init_renderpass_render(&vk_param->renderpass_render);
+  rp_edl->init_renderpass_edl(&vk_param->renderpass_edl);
   rp_ui->init_renderpass_ui(&vk_param->renderpass_ui);
 
   //---------------------------
@@ -55,11 +55,11 @@ void VK_renderpass::clean_renderpass(){
   //---------------------------
 
   vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
-  vk_frame->clean_frame_renderpass(&vk_param->renderpass_render);
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_edl);
   vk_frame->clean_frame_renderpass(&vk_param->renderpass_ui);
 
   this->clean_renderpass_object(&vk_param->renderpass_scene);
-  this->clean_renderpass_object(&vk_param->renderpass_render);
+  this->clean_renderpass_object(&vk_param->renderpass_edl);
   this->clean_renderpass_object(&vk_param->renderpass_ui);
 
   //---------------------------

@@ -59,7 +59,7 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   frame->color.name = "tex_color_scene";
   frame->depth.name = "tex_depth_scene";
 }
-void VK_cmd::cmd_record_render(Struct_renderpass* renderpass){
+void VK_cmd::cmd_record_edl(Struct_renderpass* renderpass){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 

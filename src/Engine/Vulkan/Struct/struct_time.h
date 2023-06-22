@@ -12,7 +12,7 @@ struct Struct_time{
   vector<float> engine_fps;
   vector<float> draw_frame;
   vector<float> renderpass_scene;
-  vector<float> renderpass_render;
+  vector<float> renderpass_edl;
   vector<float> renderpass_ui;
 
   //---------------------------

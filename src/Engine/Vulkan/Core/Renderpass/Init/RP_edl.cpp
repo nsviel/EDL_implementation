@@ -29,12 +29,12 @@ RP_edl::~RP_edl(){
 }
 
 //Main function
-void RP_edl::init_renderpass_render(Struct_renderpass* renderpass){
+void RP_edl::init_renderpass_edl(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 
   //Renderpass
-  renderpass->name = "render";
+  renderpass->name = "edl";
   renderpass->color_image_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
   renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
   renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;

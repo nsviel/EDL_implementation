@@ -141,7 +141,7 @@ void VK_swapchain::recreate_swapChain(){
   //Clean old values
   vk_frame->clean_frame_swapchain(&vk_param->swapchain);
   vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
-  vk_frame->clean_frame_renderpass(&vk_param->renderpass_render);
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_edl);
   this->clean_swapchain();
 
   //Recreate values
@@ -149,7 +149,7 @@ void VK_swapchain::recreate_swapChain(){
   this->create_swapchain();
   vk_frame->create_frame_swapchain(&vk_param->swapchain);
   vk_frame->create_frame_renderpass(&vk_param->renderpass_scene);
-  vk_frame->create_frame_renderpass(&vk_param->renderpass_render);
+  vk_frame->create_frame_renderpass(&vk_param->renderpass_edl);
 
   //---------------------------
 }

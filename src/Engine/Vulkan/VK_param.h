@@ -38,7 +38,7 @@ struct VK_param{
   Struct_time time;
 
   Struct_renderpass renderpass_scene;
-  Struct_renderpass renderpass_render;
+  Struct_renderpass renderpass_edl;
   Struct_renderpass renderpass_ui;
 
   //---------------------------

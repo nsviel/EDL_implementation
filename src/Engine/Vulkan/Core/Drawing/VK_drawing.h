@@ -25,7 +25,7 @@ public:
   //Main functions
   void draw_frame();
   void draw_scene(Struct_renderpass* renderpass);
-  void draw_render(Struct_renderpass* renderpass);
+  void draw_edl(Struct_renderpass* renderpass);
   void draw_ui(Struct_renderpass* renderpass);
 
 private:
