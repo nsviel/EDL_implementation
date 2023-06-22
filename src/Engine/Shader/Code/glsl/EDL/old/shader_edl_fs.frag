@@ -4,16 +4,16 @@
 layout(location = 2) in vec2 frag_tex_coord;
 layout(location = 0) out vec4 out_color;
 
-layout(set = 0, binding = 0) uniform sampler2D tex_color;
-layout(set = 0, binding = 1) uniform sampler2D tex_depth;
-layout(set = 0, binding = 2) uniform param{
+layout(set = 0, binding = 1) uniform sampler2D tex_color;
+layout(set = 0, binding = 4) uniform sampler2D tex_depth;
+layout(set = 0, binding = 5) uniform param{
   bool activated;
-  float A;
-  float B;
+  float z_near;
+  float z_far;
   float strength;
   float radius;
-  int width;
-  int height;
+  int tex_width;
+  int tex_height;
 };
 
 
@@ -61,7 +61,7 @@ void main(){
     float depth_norm = compute_depth_normalized(depth_rgba.r);
 
     //Check neighborhood influence
-    vec2 dim = vec2(width, height);
+    vec2 dim = vec2(tex_width, tex_height);
     vec2 texel_size = radius / dim;
     vec2 NN_response = vec2(0.0);
     NN_response += neighbor_contribution(depth_norm, vec2(-texel_size.x, 0.0));

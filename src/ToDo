@@ -1,6 +1,1 @@
 -faire renderpass PSR subpass avec interdependances
-
--bien définir les binding définitif par attribut
-  -dabord set depth to 4
-  -set color to 1
-  -set position to 0
