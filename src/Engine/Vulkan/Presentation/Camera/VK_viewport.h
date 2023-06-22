@@ -4,6 +4,7 @@
 #include "../../../../common.h"
 
 class VK_engine;
+class VK_param;
 class Dimension;
 
 
@@ -14,13 +15,16 @@ public:
   ~VK_viewport();
 
 public:
-  void update_viewport(VkExtent2D swapchain_extent);
+  void init_viewport();
+  void update_viewport();
 
   inline VkViewport get_viewport_scene(){return viewport_scene;}
   inline VkViewport get_viewport_canvas(){return viewport_canvas;}
   inline VkRect2D get_scissor(){return scissor;}
 
 private:
+  VK_engine* vk_engine;
+  VK_param* vk_param;
   Dimension* dimManager;
 
   VkViewport viewport_scene;

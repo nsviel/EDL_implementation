@@ -108,6 +108,7 @@ void VK_engine::init_vulkan(){
   vk_frame->create_frame_swapchain(&vk_param->swapchain);
 
   //Specific
+  vk_viewport->init_viewport();
   vk_gui->init_gui();
 
   //---------------------------

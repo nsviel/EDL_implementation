@@ -94,7 +94,7 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
 void VK_cmd::cmd_viewport(VkCommandBuffer command_buffer){
   //---------------------------
 
-  vk_viewport->update_viewport(vk_param->window.extent);
+
   VkViewport viewport_scene = vk_viewport->get_viewport_scene();
   vkCmdSetViewport(command_buffer, 0, 1, &viewport_scene);
 

@@ -3,6 +3,7 @@
 
 #include "../../VK_engine.h"
 #include "../../VK_param.h"
+#include "../../Presentation/Camera/VK_viewport.h"
 #include "../../Presentation/Swapchain/VK_framebuffer.h"
 #include "../../Presentation/Image/VK_depth.h"
 #include "../../Presentation/Image/VK_texture.h"
@@ -25,6 +26,7 @@ VK_swapchain::~VK_swapchain(){}
 
 //Swap chain creation
 void VK_swapchain::create_swapchain(){
+  VK_viewport* vk_viewport = vk_engine->get_vk_viewport();
   //---------------------------
 
   //Create swap chain info
@@ -40,6 +42,7 @@ void VK_swapchain::create_swapchain(){
   }
 
   this->create_swapchain_image(vk_param->swapchain.swapchain, createInfo.minImageCount);
+  vk_viewport->update_viewport();
 
   //---------------------------
 }
