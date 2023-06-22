@@ -82,7 +82,7 @@ void RP_psr::create_pipeline_triangle(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "triangle";
   pipeline->topology = "triangle";
-  pipeline->compile_shader = false;
+  pipeline->compile_shader = true;
   pipeline->path_shader_vs = "Misc/shader_quad_test_vs";
   pipeline->path_shader_fs = "Misc/shader_quad_test_fs";
   pipeline->info.vec_data_name.push_back("location");

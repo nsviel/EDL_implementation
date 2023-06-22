@@ -5,7 +5,7 @@ layout(location = 0) out vec4 out_color;
 
 layout(set = 0, binding = 1) uniform sampler2D tex_color;
 layout(set = 0, binding = 4) uniform sampler2D tex_depth;
-layout(set = 0, binding = 2) uniform param{
+layout(set = 0, binding = 5) uniform param{
   bool activated;
   float z_near;
   float z_far;
