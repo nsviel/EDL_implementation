@@ -3,7 +3,6 @@
 
 #include "../../Struct/struct_image.h"
 #include "../../Struct/struct_data.h"
-#include "../../Struct/struct_attachment.h"
 #include "../../Struct/typedef.h"
 #include "../../../../common.h"
 

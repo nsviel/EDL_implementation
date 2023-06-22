@@ -2,26 +2,11 @@
 #define STRUCT_RENDERPASS_H
 
 #include "struct_frame.h"
-#include "struct_attachment.h"
 #include "struct_pipeline.h"
 #include "struct_viewport.h"
+#include "struct_subpass.h"
 #include "../../../common.h"
 
-
-struct Struct_subpass{
-  //---------------------------
-
-  //Subpass info
-  VkSubpassDescription description;
-  VkSubpassDependency dependency;
-
-  //Attachment
-  Struct_subpass_attachment color;
-  Struct_subpass_attachment depth;
-  std::vector<VkAttachmentDescription> vec_attachment_description;
-
-  //---------------------------
-};
 
 struct Struct_renderpass{
   //---------------------------

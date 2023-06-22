@@ -1,7 +1,6 @@
 #ifndef STRUCT_IMAGE_H
 #define STRUCT_IMAGE_H
 
-#include "struct_attachment.h"
 #include "../../../common.h"
 
 

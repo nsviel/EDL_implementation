@@ -50,7 +50,7 @@ void VK_subpass::create_color_attachment(Struct_subpass* subpass){
 
   //Attachment references
   VkAttachmentReference color_reference{};
-  color_reference.attachment = subpass->color.binding;
+  color_reference.attachment = subpass->color.number;
   color_reference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
   subpass->color.reference = color_reference;
@@ -73,7 +73,7 @@ void VK_subpass::create_depth_attachment(Struct_subpass* subpass){
   depth_attachment.finalLayout = subpass->depth.layout_final;
 
   VkAttachmentReference depth_attachment_ref{};
-  depth_attachment_ref.attachment = subpass->depth.binding;
+  depth_attachment_ref.attachment = subpass->depth.number;
   depth_attachment_ref.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
   subpass->depth.reference = depth_attachment_ref;
