@@ -13,6 +13,9 @@ class VK_cmd;
 class VK_descriptor;
 class VK_submit;
 class VK_draw_scene;
+class VK_draw_edl;
+class VK_draw_psr;
+class VK_draw_ui;
 
 
 class VK_drawing
@@ -27,9 +30,7 @@ public:
   void draw_frame();
 
   //Draw frame parts
-  void draw_edl(Struct_renderpass* renderpass);
   void draw_psr(Struct_renderpass* renderpass);
-  void draw_ui(Struct_renderpass* renderpass);
 
   //Subfunction
   void submit_draw(Struct_renderpass* renderpass);
@@ -44,6 +45,9 @@ private:
   VK_descriptor* vk_descriptor;
   VK_submit* vk_submit;
   VK_draw_scene* vk_draw_scene;
+  VK_draw_edl* vk_draw_edl;
+  VK_draw_psr* vk_draw_psr;
+  VK_draw_ui* vk_draw_ui;
 };
 
 #endif

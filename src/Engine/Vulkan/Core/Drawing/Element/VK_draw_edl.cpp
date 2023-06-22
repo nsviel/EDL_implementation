@@ -10,6 +10,16 @@
 #include "../../../Render/Canvas/VK_canvas.h"
 #include "../../../Render/Binding/VK_descriptor.h"
 
+#include "../../../Core/Pipeline/VK_pipeline.h"
+#include "../../../Presentation/Camera/VK_camera.h"
+#include "../../../Presentation/Camera/VK_viewport.h"
+#include "../../../Render/Binding/VK_uniform.h"
+#include "../../../Data/VK_data.h"
+
+#include "../../../../Node_engine.h"
+#include "../../../../Shader/Shader.h"
+#include "../../../../Shader/Source/EDL/Shader_edl.h"
+
 
 //Constructor / Destructor
 VK_draw_edl::VK_draw_edl(VK_engine* vk_engine){
@@ -21,6 +31,17 @@ VK_draw_edl::VK_draw_edl(VK_engine* vk_engine){
   this->vk_cmd = vk_engine->get_vk_cmd();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_submit = vk_engine->get_vk_submit();
+
+  this->vk_viewport = vk_engine->get_vk_viewport();
+  this->vk_uniform = vk_engine->get_vk_uniform();
+  this->vk_camera = vk_engine->get_vk_camera();
+  this->vk_data = vk_engine->get_vk_data();
+  this->vk_pipeline = vk_engine->get_vk_pipeline();
+  this->vk_canvas = vk_engine->get_vk_canvas();
+
+  Node_engine* node_engine = vk_engine->get_node_engine();
+  Shader* shaderManager = node_engine->get_shaderManager();
+  this->shader_edl = shaderManager->get_shader_edl();
 
   //---------------------------
 }
@@ -42,7 +63,7 @@ void VK_draw_edl::draw_edl(Struct_renderpass* renderpass){
   //Record command
   vkResetCommandBuffer(renderpass->command_buffer, 0);
   vk_command->start_command_buffer_primary(renderpass->command_buffer);
-  vk_cmd->cmd_record_edl(renderpass);
+  this->cmd_record_edl(renderpass);
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //Submit command
@@ -56,4 +77,53 @@ void VK_draw_edl::draw_edl(Struct_renderpass* renderpass){
 
   //---------------------------
   vk_param->time.renderpass_edl.push_back(timer.stop_ms(t1));
+}
+void VK_draw_edl::cmd_record_edl(Struct_renderpass* renderpass){
+  Frame* frame = renderpass->get_rendering_frame();
+  //---------------------------
+
+  vk_command->start_render_pass(renderpass, frame, false);
+  this->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
+  this->cmd_draw_edl(renderpass);
+  vk_command->stop_render_pass(renderpass);
+
+  //---------------------------
+  frame->color.name = "tex_color_edl";
+  frame->depth.name = "tex_depth_edl";
+}
+void VK_draw_edl::cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport){
+  //---------------------------
+
+  //Viewport
+  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
+
+  //Scissor
+  VkRect2D scissor = vk_viewport->get_scissor();
+  vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
+
+  //---------------------------
+}
+void VK_draw_edl::cmd_draw_edl(Struct_renderpass* renderpass){
+  //---------------------------
+
+  //Pipeline
+  Struct_pipeline* pipeline = vk_pipeline->get_pipeline_byName(renderpass, "triangle_EDL");
+  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+
+  shader_edl->update_shader();
+  Struct_edl* edl_param = shader_edl->get_edl_param();
+
+  //Descriptor
+  vk_uniform->update_uniform_edl("Struct_edl", &pipeline->binding, *edl_param);
+  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+
+  //Data
+  Struct_data* data = vk_canvas->get_data_canvas();
+  Object* canvas = data->object;
+  VkDeviceSize offsets[] = {0};
+  vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 1, &data->xyz.vbo, offsets);
+  vkCmdBindVertexBuffers(renderpass->command_buffer, 2, 1, &data->uv.vbo, offsets);
+  vkCmdDraw(renderpass->command_buffer, canvas->xyz.size(), 1, 0, 0);
+
+  //---------------------------
 }

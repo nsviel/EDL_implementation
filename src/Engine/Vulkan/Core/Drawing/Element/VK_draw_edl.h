@@ -6,12 +6,19 @@
 #include "../../../Struct/struct_command.h"
 #include "../../../../../common.h"
 
+class Shader_edl;
 class VK_engine;
 class VK_param;
 class VK_command;
 class VK_cmd;
 class VK_descriptor;
 class VK_submit;
+class VK_data;
+class VK_viewport;
+class VK_uniform;
+class VK_pipeline;
+class VK_camera;
+class VK_canvas;
 
 
 class VK_draw_edl
@@ -24,15 +31,27 @@ public:
 public:
   //Main functions
   void draw_edl(Struct_renderpass* renderpass);
+  void cmd_record_edl(Struct_renderpass* renderpass);
+  void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
+  void cmd_draw_edl(Struct_renderpass* renderpass);
 
 private:
+  Timer timer;
+  Shader_edl* shader_edl;
+  
+  VK_canvas* vk_canvas;
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_command* vk_command;
   VK_cmd* vk_cmd;
   VK_descriptor* vk_descriptor;
   VK_submit* vk_submit;
-  Timer timer;
+
+  VK_data* vk_data;
+  VK_viewport* vk_viewport;
+  VK_uniform* vk_uniform;
+  VK_pipeline* vk_pipeline;
+  VK_camera* vk_camera;
 };
 
 #endif

@@ -27,14 +27,10 @@ public:
 
 public:
   //Main function
-  void cmd_record_edl(Struct_renderpass* renderpass);
   void cmd_record_psr(Struct_renderpass* renderpass);
-  void cmd_record_ui(Struct_renderpass* renderpass);
 
   //Renderpass command
   void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
-  void cmd_draw_canvas(Struct_renderpass* renderpass);
-  void cmd_draw_edl(Struct_renderpass* renderpass);
   void cmd_draw_psr(Struct_renderpass* renderpass);
 
   //Secondary command buffer
@@ -42,11 +38,12 @@ public:
 
 private:
   Shader_edl* shader_edl;
+  VK_canvas* vk_canvas;
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_pipeline* vk_pipeline;
   VK_camera* vk_camera;
-  VK_canvas* vk_canvas;
+
   VK_data* vk_data;
   VK_viewport* vk_viewport;
   VK_uniform* vk_uniform;
