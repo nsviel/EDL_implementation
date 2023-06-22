@@ -85,8 +85,8 @@ void RP_edl::create_pipeline_edl(Struct_renderpass* renderpass){
   pipeline->path_shader_fs = "EDL/shader_edl_fs";
   pipeline->info.vec_data_name.push_back("location");
   pipeline->info.vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 4, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", 0, 4, TYPE_SAMPLER, STAGE_FS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("Struct_edl", sizeof(Struct_edl), 5, TYPE_UNIFORM, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 

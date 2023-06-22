@@ -63,8 +63,6 @@ void VK_draw_scene::record_command(Struct_renderpass* renderpass){
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
-  frame->color.name = "tex_color_scene";
-  frame->depth.name = "tex_depth_scene";
 }
 void VK_draw_scene::submit_command(Struct_renderpass* renderpass){
   //---------------------------

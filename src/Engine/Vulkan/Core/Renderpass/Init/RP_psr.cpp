@@ -87,9 +87,9 @@ void RP_psr::create_pipeline_triangle(Struct_renderpass* renderpass){
   pipeline->path_shader_fs = "Misc/shader_quad_test_fs";
   pipeline->info.vec_data_name.push_back("location");
   pipeline->info.vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_position_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 4, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_position", 0, 0, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", 0, 4, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

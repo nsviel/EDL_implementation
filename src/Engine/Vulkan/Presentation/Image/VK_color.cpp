@@ -26,6 +26,7 @@ void VK_color::create_color_attachment(Frame* frame){
   //---------------------------
 
   //Create frame color image
+  frame->color.name = "tex_color";
   frame->color.format = find_color_format();
   frame->color.width = vk_param->window.extent.width;
   frame->color.height = vk_param->window.extent.height;

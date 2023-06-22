@@ -64,8 +64,6 @@ void VK_draw_psr::record_command(Struct_renderpass* renderpass){
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
-  frame->color.name = "tex_color_psr";
-  frame->depth.name = "tex_depth_psr";
 }
 void VK_draw_psr::submit_command(Struct_renderpass* renderpass){
   //---------------------------

@@ -19,8 +19,3 @@ Here are a few approaches:
     depth maps from previous frames, you can use techniques like depth reconstruction to generate
     or refine depth values based on these inputs. This can be useful for applications like
     depth-based upscaling or post-processing effects.
-
-
-
-uniformiser les nom de etxture
-tex_position_scene -> tex_position

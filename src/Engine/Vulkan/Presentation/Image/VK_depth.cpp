@@ -22,6 +22,7 @@ void VK_depth::create_depth_attachment(Frame* frame){
   //---------------------------
 
   //Create frame depth image
+  frame->depth.name = "tex_depth";
   frame->depth.format = find_depth_format();
   frame->depth.width = vk_param->window.extent.width;
   frame->depth.height = vk_param->window.extent.height;

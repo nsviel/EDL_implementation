@@ -79,8 +79,6 @@ void VK_draw_edl::record_command(Struct_renderpass* renderpass){
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
-  frame->color.name = "tex_color_edl";
-  frame->depth.name = "tex_depth_edl";
 }
 void VK_draw_edl::submit_command(Struct_renderpass* renderpass){
   //---------------------------
