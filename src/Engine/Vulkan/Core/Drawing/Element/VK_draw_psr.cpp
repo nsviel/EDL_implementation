@@ -50,7 +50,6 @@ void VK_draw_psr::update_descriptor(Struct_renderpass* renderpass){
   vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->depth);
   vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_scene->depth);
 
-
   //---------------------------
 }
 void VK_draw_psr::record_command(Struct_renderpass* renderpass){
