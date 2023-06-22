@@ -392,6 +392,18 @@ float fct_min(std::vector<float>& vec){
   //---------------------------
   return min;
 }
+int fct_min(std::vector<int>& vec){
+  int min = vec[0];
+  int size = vec.size();
+  //---------------------------
+
+  for(int i=0; i<size; i++){
+    if(min > vec[i]) min = vec[i];
+  }
+
+  //---------------------------
+  return min;
+}
 float fct_min(float in1, float in2){
   //---------------------------
 

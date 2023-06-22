@@ -21,6 +21,10 @@
 VK_draw_edl::VK_draw_edl(VK_engine* vk_engine){
   //---------------------------
 
+  Node_engine* node_engine = vk_engine->get_node_engine();
+  Shader* shaderManager = node_engine->get_shaderManager();
+  this->shader_edl = shaderManager->get_shader_edl();
+
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_command = vk_engine->get_vk_command();
@@ -29,10 +33,6 @@ VK_draw_edl::VK_draw_edl(VK_engine* vk_engine){
   this->vk_submit = vk_engine->get_vk_submit();
   this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_canvas = vk_engine->get_vk_canvas();
-
-  Node_engine* node_engine = vk_engine->get_node_engine();
-  Shader* shaderManager = node_engine->get_shaderManager();
-  this->shader_edl = shaderManager->get_shader_edl();
 
   //---------------------------
 }
@@ -97,24 +97,17 @@ void VK_draw_edl::submit_command(Struct_renderpass* renderpass){
 void VK_draw_edl::cmd_draw_edl(Struct_renderpass* renderpass){
   //---------------------------
 
-  //Pipeline
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle_EDL");
-  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+  vk_cmd->cmd_bind_pipeline(renderpass, "triangle_EDL");
 
   shader_edl->update_shader();
   Struct_edl* edl_param = shader_edl->get_edl_param();
 
-  //Descriptor
   vk_uniform->update_uniform_edl("Struct_edl", &pipeline->binding, *edl_param);
-  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
+  vk_cmd->cmd_bind_descriptor(renderpass, "triangle_EDL", pipeline->binding.descriptor.set);
 
-  //Data
   Struct_data* data = vk_canvas->get_data_canvas();
-  Object* canvas = data->object;
-  VkDeviceSize offsets[] = {0};
-  vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 1, &data->xyz.vbo, offsets);
-  vkCmdBindVertexBuffers(renderpass->command_buffer, 2, 1, &data->uv.vbo, offsets);
-  vkCmdDraw(renderpass->command_buffer, canvas->xyz.size(), 1, 0, 0);
+  vk_cmd->cmd_draw_data(renderpass, data);
 
   //---------------------------
 }

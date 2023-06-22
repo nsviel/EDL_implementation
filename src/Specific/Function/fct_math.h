@@ -42,6 +42,7 @@ float fct_mean_and_clear(std::vector<float>& vec);
 float fct_max(std::vector<float>& vec);
 float fct_max_vec(std::vector<std::vector<float>>& vec);
 float fct_min(std::vector<float>& vec);
+int fct_min(std::vector<int>& vec);
 float fct_min(float in1, float in2);
 
 Eigen::Vector3f fct_centroid(std::vector<Eigen::Vector3f>& XYZ);

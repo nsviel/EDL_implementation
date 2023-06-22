@@ -89,20 +89,12 @@ void VK_draw_ui::submit_command(Struct_renderpass* renderpass){
 void VK_draw_ui::cmd_draw_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
-  //Pipeline
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
-  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
-
-  //Descriptor
-  vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
-
-  //Data
   Struct_data* data = vk_canvas->get_data_canvas();
-  Object* canvas = data->object;
-  VkDeviceSize offsets[] = {0};
-  vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 1, &data->xyz.vbo, offsets);
-  vkCmdBindVertexBuffers(renderpass->command_buffer, 2, 1, &data->uv.vbo, offsets);
-  vkCmdDraw(renderpass->command_buffer, canvas->xyz.size(), 1, 0, 0);
+
+  vk_cmd->cmd_bind_pipeline(renderpass, "triangle");
+  vk_cmd->cmd_bind_descriptor(renderpass, "triangle", pipeline->binding.descriptor.set);
+  vk_cmd->cmd_draw_data(renderpass, data);
 
   //---------------------------
 }

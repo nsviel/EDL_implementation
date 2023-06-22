@@ -79,60 +79,43 @@ void VK_draw_scene::submit_command(Struct_renderpass* renderpass){
 
 //Command function
 void VK_draw_scene::cmd_draw_scene(Struct_renderpass* renderpass){
+  list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
   //---------------------------
 
-  //Pipeline
-  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("point");
-  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+  vk_cmd->cmd_bind_pipeline(renderpass, "point");
 
   //Bind and draw vertex buffers
-  list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
   for(int i=0; i<list_data_scene.size(); i++){
     Struct_data* data =  *next(list_data_scene.begin(),i);
-    Object* object = data->object;
 
-    if(object->draw_type_name == "point" && object->is_visible){
-      //Camera
-      vk_camera->compute_mvp(object);
+    if(data->object->draw_type_name == "point" && data->object->is_visible){
+      vk_camera->compute_mvp(data->object);
       vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
       vk_uniform->update_uniform_int("point_size", &data->binding, data->object->draw_point_size);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
-
-      //Data
-      VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
-      VkDeviceSize offsets[] = {0, 0};
-      vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 2, vertexBuffers, offsets);
-      vkCmdDraw(renderpass->command_buffer, object->xyz.size(), 1, 0, 0);
+      vk_cmd->cmd_bind_descriptor(renderpass, "point", data->binding.descriptor.set);
+      vk_cmd->cmd_draw_data(renderpass, data);
     }
   }
 
   //---------------------------
 }
 void VK_draw_scene::cmd_draw_glyph(Struct_renderpass* renderpass){
+  list<Struct_data*> list_data_glyph = vk_data->get_list_data_glyph();
   //---------------------------
 
-  //Pipine
-  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("line");
-  vkCmdBindPipeline(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->pipeline);
+  vk_cmd->cmd_bind_pipeline(renderpass, "line");
 
   //Bind and draw vertex buffers
-  list<Struct_data*> list_data_glyph = vk_data->get_list_data_glyph();
   for(int i=0; i<list_data_glyph.size(); i++){
     Struct_data* data =  *next(list_data_glyph.begin(),i);
-    Object* object = data->object;
 
-    if(object->draw_type_name == "line" && object->is_visible){
-      //Camera
-      vk_camera->compute_mvp(object);
+    if(data->object->draw_type_name == "line" && data->object->is_visible){
+      vk_camera->compute_mvp(data->object);
       vk_uniform->update_uniform_mat4("mvp", &data->binding, data->object->mvp);
-      vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &data->binding.descriptor.set, 0, nullptr);
 
-      //Data
-      VkBuffer vertexBuffers[] = {data->xyz.vbo, data->rgb.vbo};
-      VkDeviceSize offsets[] = {0, 0};
-      vkCmdSetLineWidth(renderpass->command_buffer, object->draw_line_width);
-      vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 2, vertexBuffers, offsets);
-      vkCmdDraw(renderpass->command_buffer, object->xyz.size(), 1, 0, 0);
+      vk_cmd->cmd_bind_descriptor(renderpass, "line", data->binding.descriptor.set);
+      vk_cmd->cmd_line_with(renderpass, data);
+      vk_cmd->cmd_draw_data(renderpass, data);
     }
   }
 

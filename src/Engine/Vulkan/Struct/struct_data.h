@@ -10,7 +10,7 @@
 struct Struct_buffer{
   //---------------------------
 
-  VkBuffer vbo;
+  VkBuffer vbo = VK_NULL_HANDLE;
   VkDeviceMemory mem;
 
   //---------------------------

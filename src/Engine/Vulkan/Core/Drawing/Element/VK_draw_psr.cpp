@@ -99,13 +99,8 @@ void VK_draw_psr::cmd_draw_psr(Struct_renderpass* renderpass){
   vk_uniform->update_uniform_edl("Struct_pyramid", &pipeline->binding, *edl_param);
   vkCmdBindDescriptorSets(renderpass->command_buffer, PIPELINE_GRAPHICS, pipeline->layout, 0, 1, &pipeline->binding.descriptor.set, 0, nullptr);
 
-  //Data
   Struct_data* data = vk_canvas->get_data_canvas();
-  Object* canvas = data->object;
-  VkDeviceSize offsets[] = {0};
-  vkCmdBindVertexBuffers(renderpass->command_buffer, 0, 1, &data->xyz.vbo, offsets);
-  vkCmdBindVertexBuffers(renderpass->command_buffer, 2, 1, &data->uv.vbo, offsets);
-  vkCmdDraw(renderpass->command_buffer, canvas->xyz.size(), 1, 0, 0);
+  vk_cmd->cmd_draw_data(renderpass, data);
 */
   //---------------------------
 }

@@ -2,6 +2,7 @@
 #define VK_CMD_H
 
 #include "../../Struct/struct_renderpass.h"
+#include "../../Struct/struct_data.h"
 #include "../../../../common.h"
 
 class Shader_edl;
@@ -29,6 +30,10 @@ public:
   //Main function
   void cmd_viewport_scene(Struct_renderpass* renderpass);
   void cmd_viewport_canvas(Struct_renderpass* renderpass);
+  void cmd_bind_pipeline(Struct_renderpass* renderpass, string pipeline_name);
+  void cmd_draw_data(Struct_renderpass* renderpass, Struct_data* data);
+  void cmd_bind_descriptor(Struct_renderpass* renderpass, string pipeline_name, VkDescriptorSet set);
+  void cmd_line_with(Struct_renderpass* renderpass, Struct_data* data);
 
 private:
   Shader_edl* shader_edl;
