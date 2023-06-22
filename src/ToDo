@@ -1,1 +1,24 @@
 -faire renderpass PSR subpass avec interdependances
+
+
+
+-Create pyramid depth images or table
+However, there are techniques that allow you to modify or generate depth values indirectly.
+Here are a few approaches:
+
+    Depth Pre-Pass: You can perform a separate rendering pass called a depth pre-pass,
+    where you render the scene with simplified shaders that only write to the depth attachment.
+    This technique can be used for various purposes, such as generating depth maps for shadow
+    mapping or depth-based effects.
+
+    Compute Shader: You can use a compute shader to perform calculations and generate depth values.
+    In this case, you would typically use a separate image or buffer as the output, and then
+    transfer the computed depth values to a depth image if needed.
+
+    Depth Reconstruction: If you have access to additional information, such as position or
+    depth maps from previous frames, you can use techniques like depth reconstruction to generate
+    or refine depth values based on these inputs. This can be useful for applications like
+    depth-based upscaling or post-processing effects.
+
+
+error] Sampler name not corresponding to image nam

@@ -89,7 +89,7 @@ void VK_draw_edl::submit_command(Struct_renderpass* renderpass){
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
   command.semaphore_to_wait = frame_swap->semaphore_scene_ready;
-  command.semaphore_to_run = frame_swap->semaphore_render_ready;
+  command.semaphore_to_run = frame_swap->semaphore_edl_ready;
   command.fence = VK_NULL_HANDLE;
   command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
   vk_submit->submit_graphics_command(&command);

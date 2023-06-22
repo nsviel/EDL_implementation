@@ -3,9 +3,9 @@
 layout(location = 2) in vec2 frag_tex_coord;
 layout(location = 0) out vec4 out_color;
 
-layout(set = 0, binding = 0) uniform sampler2D tex_color;
-layout(set = 0, binding = 1) uniform sampler2D tex_depth;
-layout(set = 0, binding = 2) uniform sampler2D tex_position;
+layout(binding = 0) uniform sampler2D tex_position;
+layout(binding = 1) uniform sampler2D tex_color;
+layout(binding = 4) uniform sampler2D tex_depth;
 
 
 void main(){
@@ -20,7 +20,6 @@ void main(){
   }else{
   out_color = vec4(0);
   }
-
 
   //---------------------------
 }

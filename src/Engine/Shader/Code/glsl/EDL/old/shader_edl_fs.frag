@@ -4,9 +4,9 @@
 layout(location = 2) in vec2 frag_tex_coord;
 layout(location = 0) out vec4 out_color;
 
-layout(set = 0, binding = 1) uniform sampler2D tex_color;
-layout(set = 0, binding = 4) uniform sampler2D tex_depth;
-layout(set = 0, binding = 5) uniform param{
+layout(binding = 1) uniform sampler2D tex_color;
+layout(binding = 4) uniform sampler2D tex_depth;
+layout(binding = 5) uniform param{
   bool activated;
   float z_near;
   float z_far;

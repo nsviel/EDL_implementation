@@ -80,7 +80,7 @@ void VK_draw_ui::submit_command(Struct_renderpass* renderpass){
   Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
   Struct_submit_command command;
   command.command_buffer = renderpass->command_buffer;
-  command.semaphore_to_wait = frame_swap->semaphore_render_ready;
+  command.semaphore_to_wait = frame_swap->semaphore_edl_ready;
   command.semaphore_to_run = frame_swap->semaphore_ui_ready;
   command.fence = frame_swap->fence;
   command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;

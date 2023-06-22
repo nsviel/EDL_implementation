@@ -52,7 +52,7 @@ void VK_renderpass::init_renderpass(){
 
   rp_scene->init_renderpass(&vk_param->renderpass_scene);
   rp_edl->init_renderpass(&vk_param->renderpass_edl);
-  //rp_psr->init_renderpass(&vk_param->renderpass_psr);
+  rp_psr->init_renderpass(&vk_param->renderpass_psr);
   rp_ui->init_renderpass(&vk_param->renderpass_ui);
 
   //---------------------------

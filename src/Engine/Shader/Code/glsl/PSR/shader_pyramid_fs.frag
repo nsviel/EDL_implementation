@@ -1,14 +1,14 @@
 #version 450
+#define PI 3.1415926538
 #extension GL_EXT_debug_printf : enable
 //debugPrintfEXT("\n--> %f", shade);
-#define PI 3.1415926538
 
 layout(location = 2) in vec2 frag_tex_coord;
 layout(location = 1) out vec4 out_position;
 
-layout(set = 0, binding = 0) uniform sampler2D tex_position;
-layout(set = 0, binding = 1) uniform sampler2D tex_depth;
-layout(set = 0, binding = 2) uniform param{
+layout(binding = 0) uniform sampler2D tex_position;
+layout(binding = 4) uniform sampler2D tex_depth;
+layout(binding = 5) uniform param{
   float z_near;
   float z_far;
   int tex_width;

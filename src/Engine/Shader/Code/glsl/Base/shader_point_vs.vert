@@ -6,10 +6,10 @@ layout(location = 1) in vec3 in_color;
 layout(location = 0) out vec3 frag_position;
 layout(location = 1) out vec3 frag_color;
 
-layout(set = 0, binding = 0) uniform MVP{
+layout(binding = 0) uniform MVP{
     mat4 mvp;
 }ubo_mvp;
-layout(set = 0, binding = 1) uniform SIZE{
+layout(binding = 1) uniform SIZE{
     int point_size;
 }ubo_size;
 layout(push_constant) uniform PushConstants {
