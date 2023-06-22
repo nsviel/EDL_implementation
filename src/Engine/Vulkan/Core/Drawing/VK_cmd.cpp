@@ -10,7 +10,6 @@
 #include "../../Presentation/Swapchain/VK_frame.h"
 #include "../../Presentation/Camera/VK_camera.h"
 #include "../../Presentation/Camera/VK_viewport.h"
-#include "../../Render/Binding/VK_binding.h"
 #include "../../Render/Binding/VK_descriptor.h"
 #include "../../Render/Binding/VK_uniform.h"
 #include "../../Render/Canvas/VK_canvas.h"
@@ -31,12 +30,12 @@ VK_cmd::VK_cmd(VK_engine* vk_engine){
   this->vk_pipeline = vk_engine->get_vk_pipeline();
   this->vk_camera = vk_engine->get_vk_camera();
   this->vk_canvas = vk_engine->get_vk_canvas();
-  this->vk_binding = vk_engine->get_vk_binding();
   this->vk_data = vk_engine->get_vk_data();
   this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_command = vk_engine->get_vk_command();
+  this->vk_gui = vk_engine->get_vk_gui();
 
   Shader* shaderManager = node_engine->get_shaderManager();
   this->shader_edl = shaderManager->get_shader_edl();
@@ -77,7 +76,6 @@ void VK_cmd::cmd_record_edl(Struct_renderpass* renderpass){
   frame->depth.name = "tex_depth_edl";
 }
 void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
-  VK_gui* vk_gui = vk_engine->get_vk_gui();
   Frame* frame = vk_param->swapchain.get_frame_current();
   //---------------------------
 
@@ -97,8 +95,8 @@ void VK_cmd::cmd_viewport(VkCommandBuffer command_buffer){
   //---------------------------
 
   vk_viewport->update_viewport(vk_param->window.extent);
-  VkViewport viewport = vk_viewport->get_viewport();
-  vkCmdSetViewport(command_buffer, 0, 1, &viewport);
+  VkViewport viewport_scene = vk_viewport->get_viewport_scene();
+  vkCmdSetViewport(command_buffer, 0, 1, &viewport_scene);
 
   //---------------------------
 }

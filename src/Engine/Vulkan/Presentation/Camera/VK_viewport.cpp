@@ -23,13 +23,13 @@ void VK_viewport::update_viewport(VkExtent2D swapchain_extent){
   //---------------------------
 
   //Viewport
-  viewport = {};
-  viewport.x = tab->pos.x;
-  viewport.y = tab->pos.y;
-  viewport.width  = tab->dim.x;
-  viewport.height = tab->dim.y;
-  viewport.minDepth = 0.0f;
-  viewport.maxDepth = 1.0f;
+  viewport_scene = {};
+  viewport_scene.x = tab->pos.x;
+  viewport_scene.y = tab->pos.y;
+  viewport_scene.width  = tab->dim.x;
+  viewport_scene.height = tab->dim.y;
+  viewport_scene.minDepth = 0.0f;
+  viewport_scene.maxDepth = 1.0f;
 
   //Full viewport scissor
   scissor = {};

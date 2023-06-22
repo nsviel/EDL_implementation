@@ -77,9 +77,9 @@ VK_engine::VK_engine(Node_engine* node_engine){
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
   this->vk_command = new VK_command(this);
+  this->vk_gui = new VK_gui(this);
   this->vk_cmd = new VK_cmd(this);
   this->vk_submit = new VK_submit(this);
-  this->vk_gui = new VK_gui(this);
   this->vk_drawing = new VK_drawing(this);
 
   //---------------------------
