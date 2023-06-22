@@ -1,6 +1,8 @@
 #include "VK_drawing.h"
 #include "VK_cmd.h"
 
+#include "Element/VK_draw_scene.h"
+
 #include "../Pipeline/VK_pipeline.h"
 #include "../Command/VK_submit.h"
 
@@ -21,6 +23,7 @@ VK_drawing::VK_drawing(VK_engine* vk_engine){
   this->vk_cmd = vk_engine->get_vk_cmd();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_submit = vk_engine->get_vk_submit();
+  this->vk_draw_scene = new VK_draw_scene(vk_engine);
 
   //---------------------------
 }
@@ -33,7 +36,7 @@ void VK_drawing::draw_frame(){
   //---------------------------
 
   vk_submit->acquire_next_image(&vk_param->swapchain);
-  this->draw_scene(&vk_param->renderpass_scene);
+  vk_draw_scene->draw_scene(&vk_param->renderpass_scene);
   this->draw_edl(&vk_param->renderpass_edl);
   this->draw_psr(&vk_param->renderpass_psr);
   this->draw_ui(&vk_param->renderpass_ui);
@@ -45,30 +48,6 @@ void VK_drawing::draw_frame(){
 }
 
 //Draw frame parts
-void VK_drawing::draw_scene(Struct_renderpass* renderpass){
-  timer_time t1 = timer.start_t();
-  //---------------------------
-
-  Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
-
-  //Record command
-  vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer_primary(renderpass->command_buffer);
-  vk_cmd->cmd_record_scene(renderpass);
-  vk_command->stop_command_buffer(renderpass->command_buffer);
-
-  //Submit command
-  Struct_submit_command command;
-  command.command_buffer = renderpass->command_buffer;
-  command.semaphore_to_wait = frame_swap->semaphore_image_ready;
-  command.semaphore_to_run = frame_swap->semaphore_scene_ready;
-  command.fence = VK_NULL_HANDLE;
-  command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-  vk_submit->submit_graphics_command(&command);
-
-  //---------------------------
-  vk_param->time.renderpass_scene.push_back(timer.stop_ms(t1));
-}
 void VK_drawing::draw_edl(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------

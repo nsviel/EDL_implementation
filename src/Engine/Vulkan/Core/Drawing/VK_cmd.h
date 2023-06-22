@@ -27,15 +27,12 @@ public:
 
 public:
   //Main function
-  void cmd_record_scene(Struct_renderpass* renderpass);
   void cmd_record_edl(Struct_renderpass* renderpass);
   void cmd_record_psr(Struct_renderpass* renderpass);
   void cmd_record_ui(Struct_renderpass* renderpass);
 
   //Renderpass command
   void cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport);
-  void cmd_draw_scene(Struct_renderpass* renderpass);
-  void cmd_draw_glyph(Struct_renderpass* renderpass);
   void cmd_draw_canvas(Struct_renderpass* renderpass);
   void cmd_draw_edl(Struct_renderpass* renderpass);
   void cmd_draw_psr(Struct_renderpass* renderpass);
