@@ -53,13 +53,13 @@ void RP_ui::create_subpass(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_subpass* subpass = new Struct_subpass();
-  subpass->color.number = 0;
+  subpass->color.item = 0;
   subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->color.store_operation = ATTACHMENT_STOREOP_NOTHING;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
   subpass->color.layout_final = IMAGE_LAYOUT_PRESENT;
 
-  subpass->depth.number = 1;
+  subpass->depth.item = 1;
   subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->depth.store_operation = ATTACHMENT_STOREOP_NOTHING;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;

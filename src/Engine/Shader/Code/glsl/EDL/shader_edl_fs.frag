@@ -3,8 +3,8 @@
 layout(location = 2) in vec2 frag_tex_coord;
 layout(location = 0) out vec4 out_color;
 
-layout(set = 0, binding = 0) uniform sampler2D tex_color;
-layout(set = 0, binding = 1) uniform sampler2D tex_depth;
+layout(set = 0, binding = 1) uniform sampler2D tex_color;
+layout(set = 0, binding = 4) uniform sampler2D tex_depth;
 layout(set = 0, binding = 2) uniform param{
   bool activated;
   float z_near;

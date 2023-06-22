@@ -59,13 +59,13 @@ void RP_psr::create_subpass_pyramid(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_subpass* subpass = new Struct_subpass();
-  subpass->color.number = 0;
+  subpass->color.item = 0;
   subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->color.store_operation = ATTACHMENT_STOREOP_NOTHING;
   subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
   subpass->color.layout_final = IMAGE_LAYOUT_SHADER_READONLY;
 
-  subpass->depth.number = 1;
+  subpass->depth.item = 1;
   subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
   subpass->depth.store_operation = ATTACHMENT_STOREOP_STORE;
   subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
@@ -87,9 +87,9 @@ void RP_psr::create_pipeline_triangle(Struct_renderpass* renderpass){
   pipeline->path_shader_fs = "Misc/shader_quad_test_fs";
   pipeline->info.vec_data_name.push_back("location");
   pipeline->info.vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 0, TYPE_SAMPLER, STAGE_FS));
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_position_scene", 0, 2, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color_scene", 0, 1, TYPE_SAMPLER, STAGE_FS));
+  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth_scene", 0, 4, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

@@ -7,7 +7,7 @@
 struct Struct_subpass_attachment{
   //---------------------------
 
-  int number;
+  int item;
 
   //Attachment info
   VkAttachmentLoadOp load_operation;

@@ -10,6 +10,7 @@
 //  -uv -> 2
 //  -normal -> 3
 //  -depth -> 4
+//  -uniform -> 5
 
 
 //Binding requirement -> Name, Type size, binding, desriptor type, shader stage
