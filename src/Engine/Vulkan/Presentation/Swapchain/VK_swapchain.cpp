@@ -24,6 +24,48 @@ VK_swapchain::VK_swapchain(VK_engine* vk_engine){
 }
 VK_swapchain::~VK_swapchain(){}
 
+//Swap chain function
+void VK_swapchain::recreate_swapChain(){
+  VK_depth* vk_depth = vk_engine->get_vk_depth();
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
+  VK_framebuffer* vk_framebuffer = vk_engine->get_vk_framebuffer();
+  GLFWwindow* window = vk_window->get_window();
+  //---------------------------
+
+  //Minimization managment
+  int width = 0, height = 0;
+  while(width == 0 || height == 0){
+    glfwGetFramebufferSize(window, &width, &height);
+    glfwWaitEvents();
+  }
+
+  vkDeviceWaitIdle(vk_param->device.device);
+
+  //Clean old values
+  vk_frame->clean_frame_swapchain(&vk_param->swapchain);
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
+  vk_frame->clean_frame_renderpass(&vk_param->renderpass_edl);
+  this->clean_swapchain();
+
+  //Recreate values
+  this->create_swapchain();
+  vk_frame->create_frame_swapchain(&vk_param->swapchain);
+  vk_frame->create_frame_renderpass(&vk_param->renderpass_scene);
+  vk_frame->create_frame_renderpass(&vk_param->renderpass_edl);
+
+  //---------------------------
+}
+void VK_swapchain::clean_swapchain(){
+  //---------------------------
+
+  vkDestroySwapchainKHR(vk_param->device.device, vk_param->swapchain.swapchain, nullptr);
+
+  VK_frame* vk_frame = vk_engine->get_vk_frame();
+  vk_frame->clean_frame_swapchain(&vk_param->swapchain);
+
+  //---------------------------
+}
+
 //Swap chain creation
 void VK_swapchain::create_swapchain(){
   VK_viewport* vk_viewport = vk_engine->get_vk_viewport();
@@ -53,6 +95,7 @@ void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo
   VkSurfaceCapabilitiesKHR surface_capability = vk_physical_device->find_surface_capability(vk_param->device.physical_device);
   vector<VkSurfaceFormatKHR> surface_format = vk_physical_device->find_surface_format(vk_param->device.physical_device);
   VkSurfaceFormatKHR surfaceFormat = swapchain_surface_format(surface_format);
+  vk_physical_device->compute_extent();
 
   //Get swap chain image capacity (0 means no maximum)
   uint32_t nb_image = surface_capability.minImageCount + 1;
@@ -120,49 +163,6 @@ void VK_swapchain::create_swapchain_image(VkSwapchainKHR swapchain, unsigned int
   //Fill swapchain image
   vk_param->swapchain.vec_swapchain_image.resize(min_image_count);
   vkGetSwapchainImagesKHR(vk_param->device.device, swapchain, &min_image_count, vk_param->swapchain.vec_swapchain_image.data());
-
-  //---------------------------
-}
-
-//Swap chain function
-void VK_swapchain::recreate_swapChain(){
-  VK_depth* vk_depth = vk_engine->get_vk_depth();
-  VK_frame* vk_frame = vk_engine->get_vk_frame();
-  VK_framebuffer* vk_framebuffer = vk_engine->get_vk_framebuffer();
-  GLFWwindow* window = vk_window->get_window();
-  //---------------------------
-
-  //Minimization managment
-  int width = 0, height = 0;
-  while(width == 0 || height == 0){
-    glfwGetFramebufferSize(window, &width, &height);
-    glfwWaitEvents();
-  }
-
-  vkDeviceWaitIdle(vk_param->device.device);
-
-  //Clean old values
-  vk_frame->clean_frame_swapchain(&vk_param->swapchain);
-  vk_frame->clean_frame_renderpass(&vk_param->renderpass_scene);
-  vk_frame->clean_frame_renderpass(&vk_param->renderpass_edl);
-  this->clean_swapchain();
-
-  //Recreate values
-  vk_physical_device->compute_extent();
-  this->create_swapchain();
-  vk_frame->create_frame_swapchain(&vk_param->swapchain);
-  vk_frame->create_frame_renderpass(&vk_param->renderpass_scene);
-  vk_frame->create_frame_renderpass(&vk_param->renderpass_edl);
-
-  //---------------------------
-}
-void VK_swapchain::clean_swapchain(){
-  //---------------------------
-
-  vkDestroySwapchainKHR(vk_param->device.device, vk_param->swapchain.swapchain, nullptr);
-
-  VK_frame* vk_frame = vk_engine->get_vk_frame();
-  vk_frame->clean_frame_swapchain(&vk_param->swapchain);
 
   //---------------------------
 }

@@ -4,6 +4,14 @@
 #include "typedef.h"
 #include "../../../common.h"
 
+//Consistent attribut binding:
+//  -position -> 0
+//  -color -> 1
+//  -uv -> 2
+//  -normal -> 3
+//  -depth -> 4
+
+
 //Binding requirement -> Name, Type size, binding, desriptor type, shader stage
 typedef std::vector<std::tuple<std::string, std::size_t, int, VkDescriptorType, VkShaderStageFlagBits>> vec_descriptor_required;
 typedef std::tuple<std::string, std::size_t, int, VkDescriptorType, VkShaderStageFlagBits> descriptor_required;

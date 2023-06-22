@@ -1,3 +1,3 @@
 -faire renderpass PSR subpass avec interdependances
 
--abstractiser shader source dans shader 
+-bien définir les binding définitif par attribut

@@ -3,7 +3,8 @@
 
 layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec3 in_color;
-layout(location = 0) out vec3 frag_color;
+layout(location = 0) out vec3 frag_position;
+layout(location = 1) out vec3 frag_color;
 
 layout(set = 0, binding = 0) uniform MVP{
     mat4 mvp;
