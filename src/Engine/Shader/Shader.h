@@ -1,6 +1,8 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+#include "EDL/struct_edl.h"
+#include "PSR/struct_pyramid.h"
 #include "../../common.h"
 
 class Node_engine;
