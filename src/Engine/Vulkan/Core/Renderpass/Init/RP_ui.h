@@ -9,6 +9,7 @@ class VK_engine;
 class VK_param;
 class VK_pipeline;
 class VK_subpass;
+class VK_viewport;
 
 
 class RP_ui
@@ -33,6 +34,7 @@ private:
   VK_param* vk_param;
   VK_pipeline* vk_pipeline;
   VK_subpass* vk_subpass;
+  VK_viewport* vk_viewport;
 };
 
 #endif

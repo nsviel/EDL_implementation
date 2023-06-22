@@ -8,6 +8,7 @@
 
 #include "../../../VK_engine.h"
 #include "../../../VK_param.h"
+#include "../../../Presentation/Camera/VK_viewport.h"
 
 
 //Constructor / Destructor
@@ -17,6 +18,7 @@ RP_psr::RP_psr(VK_engine* vk_engine){
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_pipeline = vk_engine->get_vk_pipeline();
+  this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_subpass = new VK_subpass(vk_engine);
 
   //---------------------------
@@ -40,7 +42,7 @@ void RP_psr::init_renderpass(Struct_renderpass* renderpass){
   renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
   renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
   renderpass->depth_sampler_layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
-
+  
   //Subpass
   this->create_subpass_pyramid(renderpass);
 

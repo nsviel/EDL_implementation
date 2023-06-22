@@ -70,3 +70,49 @@ void VK_viewport::update_viewport(){
 
   //---------------------------
 }
+
+Struct_viewport* VK_viewport::create_viewport_scene(){
+  Tab* tab = dimManager->get_tab("rendering");
+  Struct_viewport* viewport = new Struct_viewport();
+  //---------------------------
+
+  //Viewport
+  viewport->viewport = {};
+  viewport->viewport.x = tab->pos.x;
+  viewport->viewport.y = tab->pos.y;
+  viewport->viewport.width  = tab->dim.x;
+  viewport->viewport.height = tab->dim.y;
+  viewport->viewport.minDepth = 0.0f;
+  viewport->viewport.maxDepth = 1.0f;
+
+  //Full viewport scissor
+  viewport->scissor = {};
+  viewport->scissor.offset = {0, 0};
+  viewport->scissor.extent = vk_param->window.extent;
+
+  //---------------------------
+  return viewport;
+}
+Struct_viewport* VK_viewport::create_viewport_canvas(){
+  Tab* tab = dimManager->get_tab("rendering");
+  Struct_viewport* viewport = new Struct_viewport();
+  //---------------------------
+
+  //Viewport
+  vec2 win_dim = dimManager->get_win_dim();
+  viewport->viewport = {};
+  viewport->viewport.x = 0;
+  viewport->viewport.y = 0;
+  viewport->viewport.width  = win_dim.x;
+  viewport->viewport.height = win_dim.y;
+  viewport->viewport.minDepth = 0.0f;
+  viewport->viewport.maxDepth = 1.0f;
+
+  //Full viewport scissor
+  viewport->scissor = {};
+  viewport->scissor.offset = {0, 0};
+  viewport->scissor.extent = vk_param->window.extent;
+
+  //---------------------------
+  return viewport;
+}

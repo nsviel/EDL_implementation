@@ -50,8 +50,7 @@ void VK_cmd::cmd_record_scene(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass, frame, false);
-  this->cmd_viewport(renderpass->command_buffer);
-  this->cmd_scissor(renderpass->command_buffer);
+  this->cmd_viewport(renderpass, vk_viewport->get_viewport_scene());
   this->cmd_draw_scene(renderpass);
   this->cmd_draw_glyph(renderpass);
   vk_command->stop_render_pass(renderpass);
@@ -65,9 +64,7 @@ void VK_cmd::cmd_record_edl(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass, frame, false);
-  VkViewport viewport = vk_viewport->get_viewport_canvas();
-  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-  this->cmd_scissor(renderpass->command_buffer);
+  this->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
   this->cmd_draw_edl(renderpass);
   vk_command->stop_render_pass(renderpass);
 
@@ -80,9 +77,7 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
   //---------------------------
 
   vk_command->start_render_pass(renderpass, frame, false);
-  VkViewport viewport = vk_viewport->get_viewport_canvas();
-  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
-  this->cmd_scissor(renderpass->command_buffer);
+  this->cmd_viewport(renderpass, vk_viewport->get_viewport_canvas());
   this->cmd_draw_canvas(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
@@ -91,20 +86,15 @@ void VK_cmd::cmd_record_ui(Struct_renderpass* renderpass){
 }
 
 //Renderpass commands
-void VK_cmd::cmd_viewport(VkCommandBuffer command_buffer){
+void VK_cmd::cmd_viewport(Struct_renderpass* renderpass, VkViewport viewport){
   //---------------------------
 
+  //Viewport
+  vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
 
-  VkViewport viewport_scene = vk_viewport->get_viewport_scene();
-  vkCmdSetViewport(command_buffer, 0, 1, &viewport_scene);
-
-  //---------------------------
-}
-void VK_cmd::cmd_scissor(VkCommandBuffer command_buffer){
-  //---------------------------
-
+  //Scissor
   VkRect2D scissor = vk_viewport->get_scissor();
-  vkCmdSetScissor(command_buffer, 0, 1, &scissor);
+  vkCmdSetScissor(renderpass->command_buffer, 0, 1, &scissor);
 
   //---------------------------
 }
@@ -218,7 +208,7 @@ void VK_cmd::cmd_draw_edl(Struct_renderpass* renderpass){
 //Secondary command buffer
 void VK_cmd::cmd_record_scene_secondcb(Struct_renderpass* renderpass){
   //---------------------------
-
+/*
   //Bind and draw vertex buffers
   list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
   for(int i=0; i<list_data_scene.size(); i++){
@@ -248,6 +238,6 @@ void VK_cmd::cmd_record_scene_secondcb(Struct_renderpass* renderpass){
       vk_command->stop_command_buffer(data->command_buffer_secondary);
     }
   }
-
+*/
   //---------------------------
 }

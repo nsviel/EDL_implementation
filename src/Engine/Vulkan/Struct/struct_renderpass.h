@@ -4,6 +4,7 @@
 #include "struct_frame.h"
 #include "struct_attachment.h"
 #include "struct_pipeline.h"
+#include "struct_viewport.h"
 #include "../../../common.h"
 
 

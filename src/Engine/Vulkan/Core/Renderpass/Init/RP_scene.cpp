@@ -7,6 +7,7 @@
 
 #include "../../../VK_engine.h"
 #include "../../../VK_param.h"
+#include "../../../Presentation/Camera/VK_viewport.h"
 
 
 //Constructor / Destructor
@@ -16,6 +17,7 @@ RP_scene::RP_scene(VK_engine* vk_engine){
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_pipeline = vk_engine->get_vk_pipeline();
+  this->vk_viewport = vk_engine->get_vk_viewport();
   this->vk_subpass = new VK_subpass(vk_engine);
 
   //---------------------------
