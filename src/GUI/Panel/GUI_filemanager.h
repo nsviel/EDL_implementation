@@ -20,7 +20,7 @@ public:
   void design_panel();
 
   //Subfunction
-  void tree_view(float width);
+  void tree_view();
   int data_node_tree(Set* set);
 
 private:

@@ -30,9 +30,9 @@ GUI_menubar::~GUI_menubar(){}
 void GUI_menubar::design_menubar(){
   //------------------------
 
-  ImGui::BeginMenuBar();
+  ImGui::BeginMainMenuBar();
   this->menu();
-  ImGui::EndMenuBar();
+  ImGui::BeginMainMenuBar();
 
   //-------------------------
 }

@@ -1,5 +1,5 @@
-#ifndef GUI_LEFT_PAN_H
-#define GUI_LEFT_PAN_H
+#ifndef GUI_PANEL_H
+#define GUI_PANEL_H
 
 #include "../../common.h"
 
@@ -13,19 +13,19 @@ class GUI_shader;
 class GUI_editor;
 
 
-class GUI_left_panel
+class GUI_panel
 {
 public:
   //Constructor / Destructor
-  GUI_left_panel(Node_gui* node_gui);
-  ~GUI_left_panel();
+  GUI_panel(Node_gui* node_gui);
+  ~GUI_panel();
 
 public:
   //Main functions
   void draw_panels();
 
   //Subfunction
-  void update_dim();
+  void docker_space_main();
 
 private:
   Node_gui* node_gui;

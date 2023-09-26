@@ -18,7 +18,8 @@ void GUI_style::gui_style(){
   //---------------------------
 
   this->style_window();
-  this->style_widget();
+  this->color_window();
+  this->color_widget();
 
   //---------------------------
 }
@@ -43,7 +44,16 @@ void GUI_style::style_window(){
   style.FrameBorderSize = 1.0f;
   style.WindowBorderSize = 0.0f;
 
-  //Colors
+  //IO parameters
+  io.ConfigWindowsResizeFromEdges = true;
+  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+
+  //---------------------------
+}
+void GUI_style::color_window(){
+  //---------------------------
+
   ImGui::PushStyleColor(ImGuiCol_Header, IM_COL32(76, 76, 76, 255));
   ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(117, 117, 117, 220));
   ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 255));
@@ -52,17 +62,11 @@ void GUI_style::style_window(){
   ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(50, 50, 50, 255));
   ImGui::PushStyleColor(ImGuiCol_PopupBg, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_Separator, IM_COL32(165, 165, 165, 255));
+  ImGui::PushStyleColor(ImGuiCol_TitleBgActive, IM_COL32(165, 165, 165, 255));  //docker active dock
 
-  //IO parameters
-  io.ConfigWindowsResizeFromEdges = true;
-  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
-  
   //---------------------------
 }
-void GUI_style::style_widget(){
-  ImGuiStyle& style = ImGui::GetStyle();
-  ImGuiIO& io = ImGui::GetIO();
+void GUI_style::color_widget(){
   //---------------------------
 
   //Widget

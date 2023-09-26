@@ -1,18 +1,63 @@
-#include "GUI_docker.h"
+#include "GUI_panel.h"
+#include "GUI_editor.h"
+
 #include "../Node_gui.h"
+#include "../Menu/GUI_menubar.h"
+#include "../Control/GUI_profiling.h"
+#include "../Engine/GUI_shader.h"
+#include "../Panel/GUI_filemanager.h"
+
+#include "../../Load/Node_load.h"
+#include "../../Load/Processing/Loader.h"
+#include "../../Engine/Node_engine.h"
+#include "../../Engine/Dimension/Dimension.h"
+#include "../../Node.h"
+#include "../../Engine/Param_engine.h"
+
+#include "../../../extern/imgui/TextEditor.h"
+#include "../../../extern/imgui/imgui.h"
 
 
 //Constructor / Destructor
-GUI_docker::GUI_docker(Node_gui* node_gui){
+GUI_panel::GUI_panel(Node_gui* node_gui){
   //---------------------------
 
+  this->node_engine = node_gui->get_node_engine();
+  this->dimManager = node_engine->get_dimManager();
+  this->node_gui = node_gui;
+  this->gui_filemanager = node_gui->get_gui_filemanager();
+  this->gui_profiling = node_gui->get_gui_profiling();
+  this->gui_menubar = node_gui->get_gui_menubar();
+  this->gui_shader = node_gui->get_gui_shader();
+  this->gui_editor = node_gui->get_gui_editor();
 
   //---------------------------
 }
-GUI_docker::~GUI_docker(){}
+GUI_panel::~GUI_panel(){}
 
 //Main function
-void GUI_docker::docker_space_main(){
+void GUI_panel::draw_panels(){
+  Tab* tab_left = dimManager->get_tab("left_panel");
+  //---------------------------
+
+  this->docker_space_main();
+  dimManager->update();
+  gui_menubar->design_menubar();
+  gui_filemanager->design_panel();
+  gui_editor->design_panel();
+  gui_shader->design_panel();
+  gui_profiling->design_panel();
+
+  static bool show_demo_window = true;
+  if (show_demo_window){
+    ImGui::ShowDemoWindow(&show_demo_window);
+  }
+
+  //---------------------------
+}
+
+//Subfunction
+void GUI_panel::docker_space_main(){
   //---------------------------
 
   static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
