@@ -26,6 +26,7 @@ GUI_shader::~GUI_shader(){}
 //Main function
 void GUI_shader::design_shader(){
   Struct_edl* edl_param = shader_edl->get_edl_param();
+  ImGui::BeginChild("window_EDL", ImVec2(0, 100), false, ImGuiWindowFlags_NavFlattened);
   //---------------------------
 
   ImGui::TextColored(ImVec4(0.7f,0.7f,0.7f,1.0f),"EDL");
@@ -46,5 +47,6 @@ void GUI_shader::design_shader(){
   }
 
   //---------------------------
+  ImGui::EndChild();
   ImGui::Separator();
 }

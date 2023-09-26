@@ -1,5 +1,5 @@
-#ifndef GUI_TIME_H
-#define GUI_TIME_H
+#ifndef GUI_PROFILING_H
+#define GUI_PROFILING_H
 
 #include "../../common.h"
 
@@ -9,18 +9,19 @@ class VK_engine;
 class VK_param;
 
 
-class GUI_time
+class GUI_profiling
 {
 public:
   //Constructor / Destructor
-  GUI_time(Node_gui* node_gui);
-  ~GUI_time();
+  GUI_profiling(Node_gui* node_gui);
+  ~GUI_profiling();
 
 public:
   //Main function
-  void design_time();
+  void design_profiling();
 
   //Subfunctions
+  void device_model();
   bool time_update();
   void time_drawig(bool update);
   void time_general(bool update);

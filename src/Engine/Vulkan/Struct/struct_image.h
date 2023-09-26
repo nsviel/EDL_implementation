@@ -13,8 +13,10 @@ struct Struct_image{
   std::string path;
 
   //Dimension
-  uint32_t width;
-  uint32_t height;
+  uint32_t width = 0;
+  uint32_t height = 0;
+  uint32_t mip_level_max = 1;
+  uint32_t mip_level = 1;
 
   //Image info
   VkImage image;

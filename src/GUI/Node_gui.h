@@ -16,10 +16,10 @@ class GUI_filemanager;
 class GUI_menubar;
 class GUI_windows;
 class GUI_shader;
-class GUI_time;
+class GUI_profiling;
 class GUI_style;
-class GUI_device;
 class GUI_init;
+class GUI_editor;
 
 
 class Node_gui
@@ -45,10 +45,10 @@ public:
   inline GUI_menubar* get_gui_menubar(){return gui_menubar;}
   inline GUI_windows* get_gui_windows(){return gui_windows;}
   inline GUI_shader* get_gui_shader(){return gui_shader;}
-  inline GUI_time* get_gui_time(){return gui_time;}
-  inline GUI_device* get_gui_device(){return gui_device;}
+  inline GUI_profiling* get_gui_profiling(){return gui_profiling;}
   inline GUI_style* get_gui_style(){return gui_style;}
   inline GUI_init* get_gui_init(){return gui_init;}
+  inline GUI_editor* get_gui_editor(){return gui_editor;}
 
 private:
   Node_engine* node_engine;
@@ -63,10 +63,10 @@ private:
   GUI_menubar* gui_menubar;
   GUI_windows* gui_windows;
   GUI_shader*gui_shader;
-  GUI_time* gui_time;
-  GUI_device* gui_device;
+  GUI_profiling* gui_profiling;
   GUI_style* gui_style;
   GUI_init* gui_init;
+  GUI_editor* gui_editor;
 };
 
 #endif

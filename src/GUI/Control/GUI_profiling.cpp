@@ -1,4 +1,4 @@
-#include "GUI_time.h"
+#include "GUI_profiling.h"
 
 #include "../Node_gui.h"
 
@@ -9,7 +9,7 @@
 
 
 //Constructor / Destructor
-GUI_time::GUI_time(Node_gui* node_gui){
+GUI_profiling::GUI_profiling(Node_gui* node_gui){
   //---------------------------
 
   this->node_gui = node_gui;
@@ -21,21 +21,36 @@ GUI_time::GUI_time(Node_gui* node_gui){
 
   //---------------------------
 }
-GUI_time::~GUI_time(){}
+GUI_profiling::~GUI_profiling(){}
 
 //Main function
-void GUI_time::design_time(){
+void GUI_profiling::design_profiling(){
+  ImGui::BeginChild("Profiling", ImVec2(0, 150), false);
   //---------------------------
+
+  ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f),"Profiling");
+
+  this->device_model();
 
   bool update = time_update();
   this->time_drawig(update);
   this->time_general(update);
 
   //---------------------------
+  ImGui::EndChild();
 }
 
 //Subfunctions
-bool GUI_time::time_update(){
+void GUI_profiling::device_model(){
+  //---------------------------
+
+  ImGui::Text("Device model ");
+  ImGui::SameLine();
+  ImGui::TextColored(ImVec4(0.5, 1, 0.5, 1), "%s", vk_param->device.model.c_str());
+
+  //---------------------------
+}
+bool GUI_profiling::time_update(){
   //---------------------------
 
   static timer_time t1 = timer.start_t();
@@ -48,7 +63,7 @@ bool GUI_time::time_update(){
   //---------------------------
   return false;
 }
-void GUI_time::time_drawig(bool update){
+void GUI_profiling::time_drawig(bool update){
   ImGuiIO io = ImGui::GetIO();
   //---------------------------
 
@@ -92,7 +107,7 @@ void GUI_time::time_drawig(bool update){
 
   //---------------------------
 }
-void GUI_time::time_general(bool update){
+void GUI_profiling::time_general(bool update){
   ImGuiIO io = ImGui::GetIO();
   //---------------------------
 

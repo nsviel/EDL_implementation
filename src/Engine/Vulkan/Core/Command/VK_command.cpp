@@ -128,7 +128,7 @@ void VK_command::image_layout_transition(VkCommandBuffer command_buffer, Struct_
   barrier.image = image->image;
   barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
   barrier.subresourceRange.baseMipLevel = 0;
-  barrier.subresourceRange.levelCount = 1;
+  barrier.subresourceRange.levelCount = image->mip_level;
   barrier.subresourceRange.baseArrayLayer = 0;
   barrier.subresourceRange.layerCount = 1;
 

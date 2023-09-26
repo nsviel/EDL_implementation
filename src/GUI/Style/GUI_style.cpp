@@ -55,7 +55,9 @@ void GUI_style::style_window(){
 
   //IO parameters
   io.ConfigWindowsResizeFromEdges = true;
-
+  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+  
   //---------------------------
 }
 void GUI_style::style_widget(){

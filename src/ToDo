@@ -19,3 +19,11 @@ Here are a few approaches:
     depth maps from previous frames, you can use techniques like depth reconstruction to generate
     or refine depth values based on these inputs. This can be useful for applications like
     depth-based upscaling or post-processing effects.
+
+-> créer un mipmap de l'image de profondeur
+-> voir si c'est mieux ou pas qu'un multi-renderpass avec depth image downscaled
+
+-faire un system pour init avec file system pour y établir des chemins temporaires
+  -si chemin n'est plus bon supprimer la ligne
+  -ajout de ligne dans l'interface
+-bug load face.ply, rotation autour de (0, 0, 0)

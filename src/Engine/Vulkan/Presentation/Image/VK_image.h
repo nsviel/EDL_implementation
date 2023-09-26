@@ -29,6 +29,10 @@ public:
   void create_image_obj(Struct_image* image);
   void bind_image_to_memory(Struct_image* image);
 
+  //Subfunction
+  void compute_mipmap(Struct_image* image);
+  void generate_mipmap(Struct_image* image);
+
 private:
   VK_physical_device* vk_physical_device;
   VK_engine* vk_engine;
