@@ -36,7 +36,7 @@ GUI_left_panel::GUI_left_panel(Node_gui* node_gui){
 GUI_left_panel::~GUI_left_panel(){}
 
 //Main function
-void GUI_left_panel::draw_left_panel(){
+void GUI_left_panel::draw_panels(){
   Tab* tab_left = dimManager->get_tab("left_panel");
   //---------------------------
 
@@ -47,20 +47,10 @@ void GUI_left_panel::draw_left_panel(){
   ImGui::Begin("LeftPanel", NULL, window_flags);
 
   this->update_dim();
-  this->design_top();
-  this->design_bot();
+gui_menubar->design_menubar();
 
   ImGui::PopStyleVar();
   ImGui::End();
-
-  //---------------------------
-}
-void GUI_left_panel::design_top(){
-  Tab* tab_panel_left = dimManager->get_tab("left_panel");
-  //---------------------------
-
-  // Panel menu
-  gui_menubar->design_menubar();
 
   gui_filemanager->design_panel();
   gui_editor->design_panel();
@@ -69,31 +59,7 @@ void GUI_left_panel::design_top(){
 
   //---------------------------
 }
-void GUI_left_panel::design_bot(){
-  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-  //---------------------------
 
-
-
-
-
-
-
-
-
-
-  //Example to build docker element
-  ImGui::Begin("Left");
-  ImGui::Text("Hello, left!");
-  ImGui::End();
-
-  ImGui::Begin("Down");
-  ImGui::Text("Hello, down!");
-  ImGui::End();
-
-  //---------------------------
-  ImGui::PopStyleVar();
-}
 
 //Subfunction
 void GUI_left_panel::update_dim(){

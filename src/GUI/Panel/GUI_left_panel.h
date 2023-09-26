@@ -22,9 +22,7 @@ public:
 
 public:
   //Main functions
-  void draw_left_panel();
-  void design_top();
-  void design_bot();
+  void draw_panels();
 
   //Subfunction
   void update_dim();

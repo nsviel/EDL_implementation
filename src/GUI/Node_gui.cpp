@@ -67,7 +67,7 @@ void Node_gui::loop(){
   //---------------------------
 
   gui_docker->docker_space_main();
-  gui_left_panel->draw_left_panel();
+  gui_left_panel->draw_panels();
   gui_control->make_control();
   gui_windows->draw_windows();
 
