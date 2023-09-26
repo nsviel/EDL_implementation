@@ -3,13 +3,14 @@
 
 #include "Panel/GUI_left_panel.h"
 #include "Panel/GUI_editor.h"
+#include "Panel/GUI_docker.h"
 #include "Menu/GUI_menubar.h"
 #include "Menu/GUI_option.h"
 #include "Menu/GUI_init.h"
 #include "Control/GUI_control.h"
 #include "Control/GUI_profiling.h"
 #include "Engine/GUI_shader.h"
-#include "Data/GUI_filemanager.h"
+#include "Panel/GUI_filemanager.h"
 #include "Window/GUI_windows.h"
 #include "Style/GUI_style.h"
 
@@ -37,6 +38,7 @@ Node_gui::Node_gui(Node* node){
   this->gui_control = new GUI_control(this);
   this->gui_windows = new GUI_windows(this);
   this->gui_style = new GUI_style(this);
+  this->gui_docker = new GUI_docker(this);
 
   //---------------------------
 }
@@ -64,6 +66,7 @@ void Node_gui::init(){
 void Node_gui::loop(){
   //---------------------------
 
+  gui_docker->docker_space_main();
   gui_left_panel->draw_left_panel();
   gui_control->make_control();
   gui_windows->draw_windows();

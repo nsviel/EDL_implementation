@@ -16,6 +16,10 @@ public:
   ~GUI_filemanager();
 
 public:
+  //Main function
+  void design_panel();
+
+  //Subfunction
   void tree_view(float width);
   int data_node_tree(Set* set);
 

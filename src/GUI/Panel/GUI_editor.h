@@ -16,7 +16,7 @@ public:
 
 public:
   //Main functions
-  void design_editor();
+  void design_panel();
 
 private:
   TextEditor* editor;

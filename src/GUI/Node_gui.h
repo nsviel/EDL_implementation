@@ -20,6 +20,7 @@ class GUI_profiling;
 class GUI_style;
 class GUI_init;
 class GUI_editor;
+class GUI_docker;
 
 
 class Node_gui
@@ -67,6 +68,7 @@ private:
   GUI_style* gui_style;
   GUI_init* gui_init;
   GUI_editor* gui_editor;
+  GUI_docker* gui_docker;
 };
 
 #endif

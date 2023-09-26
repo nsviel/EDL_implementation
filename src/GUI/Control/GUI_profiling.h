@@ -18,6 +18,7 @@ public:
 
 public:
   //Main function
+  void design_panel();
   void design_profiling();
 
   //Subfunctions

@@ -20,6 +20,20 @@ GUI_filemanager::GUI_filemanager(Node_gui* node_gui){
 GUI_filemanager::~GUI_filemanager(){}
 
 //Main function
+void GUI_filemanager::design_panel(){
+  //---------------------------
+
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+  ImGui::SetNextWindowSizeConstraints(ImVec2(100, 100), ImVec2(500, 500));
+  ImGui::Begin("File manager");
+  this->tree_view(0);
+  ImGui::End();
+  ImGui::PopStyleVar();
+
+  //---------------------------
+}
+
+//Subfunction
 void GUI_filemanager::tree_view(float width){
   list<Set*>* list_data = dataManager->get_list_data_scene();
   //---------------------------
@@ -33,7 +47,7 @@ void GUI_filemanager::tree_view(float width){
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
   ImGui::BeginTable("data_view", 1, flag_tree);
-  ImGui::TableSetupColumn("Column 1", ImGuiTableColumnFlags_WidthFixed, width);
+  ImGui::TableSetupColumn("Column 1");
 
   //Database
   int nb_row = 0;
@@ -49,7 +63,7 @@ void GUI_filemanager::tree_view(float width){
     ImGui::PopID();
 
   }
-  for(int i=0; i<6-nb_row; i++){
+  for(int i=0; i<10-nb_row; i++){
     ImGui::TableNextRow();
     ImGui::TableSetColumnIndex(0);
     ImGui::Text(" ");

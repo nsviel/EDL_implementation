@@ -24,6 +24,18 @@ GUI_profiling::GUI_profiling(Node_gui* node_gui){
 GUI_profiling::~GUI_profiling(){}
 
 //Main function
+void GUI_profiling::design_panel(){
+  //---------------------------
+
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+  ImGui::SetNextWindowSizeConstraints(ImVec2(100, 100), ImVec2(500, 500));
+  ImGui::Begin("Profiling");
+  this->design_profiling();
+  ImGui::End();
+  ImGui::PopStyleVar();
+
+  //---------------------------
+}
 void GUI_profiling::design_profiling(){
   ImGui::BeginChild("Profiling", ImVec2(0, 150), false);
   //---------------------------
