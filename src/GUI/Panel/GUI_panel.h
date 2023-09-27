@@ -11,6 +11,7 @@ class GUI_filemanager;
 class GUI_menubar;
 class GUI_shader;
 class GUI_editor;
+class GUI_engine;
 
 
 class GUI_panel
@@ -37,6 +38,7 @@ private:
   GUI_menubar* gui_menubar;
   GUI_shader* gui_shader;
   GUI_editor* gui_editor;
+  GUI_engine* gui_engine;
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "GUI_panel.h"
 #include "GUI_editor.h"
+#include "GUI_engine.h"
 
 #include "../Node_gui.h"
 #include "../Menu/GUI_menubar.h"
@@ -14,8 +15,8 @@
 #include "../../Node.h"
 #include "../../Engine/Param_engine.h"
 
-#include "../../../extern/imgui/TextEditor.h"
-#include "../../../extern/imgui/imgui.h"
+#include "../../../extern/imgui/editor/TextEditor.h"
+#include "../../../extern/imgui/core/imgui.h"
 
 
 //Constructor / Destructor
@@ -30,6 +31,7 @@ GUI_panel::GUI_panel(Node_gui* node_gui){
   this->gui_menubar = node_gui->get_gui_menubar();
   this->gui_shader = node_gui->get_gui_shader();
   this->gui_editor = node_gui->get_gui_editor();
+  this->gui_engine = node_gui->get_gui_engine();
 
   //---------------------------
 }
@@ -47,11 +49,7 @@ void GUI_panel::draw_panels(){
   gui_editor->design_panel();
   gui_shader->design_panel();
   gui_profiling->design_panel();
-
-  static bool show_demo_window = true;
-  if (show_demo_window){
-    ImGui::ShowDemoWindow(&show_demo_window);
-  }
+  gui_engine->design_panel();
 
   //---------------------------
 }

@@ -120,18 +120,24 @@ void VK_gui::gui_vulkan(){
 void VK_gui::gui_select_font(){
   ImGuiIO io = ImGui::GetIO();
   static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-  ImFontConfig config;
-  config.MergeMode = true;
-  config.GlyphMinAdvanceX = 15.0f; //Monospace icons
   //---------------------------
 
+  //Configuration - texte
+  ImFontConfig config_text;
+  config_text.GlyphExtraSpacing.x = 1.0f;
+
+  //Configuration - icon
+  ImFontConfig config_icon;
+  config_icon.MergeMode = true;
+  config_icon.GlyphMinAdvanceX = 15.0f; //Monospace icons
+
   //Load font size 13
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", 13.0f);
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", 12.5f, &config, icons_ranges);
+  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", 13.0f, &config_text);
+  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", 12.5f, &config_icon, icons_ranges);
 
   //Load font size 12
   io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", 12.0f);
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", 12.5f, &config, icons_ranges);
+  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", 12.5f, &config_icon, icons_ranges);
 
   //Buid the font database
   io.Fonts->Build();

@@ -29,12 +29,12 @@ VK_texture::~VK_texture(){}
 void VK_texture::load_texture(Struct_data* data, string path){
   //---------------------------
 
-  Struct_image* texture = new Struct_image();
-  texture->path = path;
-  texture->format = VK_FORMAT_R8G8B8A8_SRGB;
-  texture->aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-  this->create_texture(texture);
-  data->list_texture.push_back(texture);
+  Struct_image* image = new Struct_image();
+  image->path = path;
+  image->format = VK_FORMAT_R8G8B8A8_SRGB;
+  image->aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+  this->create_texture(image);
+  data->list_texture.push_back(image);
 
   //---------------------------
 }
@@ -50,22 +50,22 @@ void VK_texture::clean_texture(Struct_data* data){
 }
 
 //Texture creation
-void VK_texture::create_texture(Struct_image* texture){
+void VK_texture::create_texture(Struct_image* image){
   //---------------------------
 
-  this->create_texture_from_file(texture);
-  vk_image->create_image_view(texture);
-  vk_image->create_image_sampler(texture);
+  this->create_texture_from_file(image);
+  vk_image->create_image_view(image);
+  vk_image->create_image_sampler(image);
 
   //---------------------------
 }
-void VK_texture::create_texture_from_file(Struct_image* texture){
+void VK_texture::create_texture_from_file(Struct_image* image){
   VK_command* vk_command = vk_engine->get_vk_command();
   //---------------------------
 
   //Load image
   int tex_width, tex_height, tex_channel;
-  stbi_uc* tex_data = stbi_load(texture->path.c_str(), &tex_width, &tex_height, &tex_channel, STBI_rgb_alpha);
+  stbi_uc* tex_data = stbi_load(image->path.c_str(), &tex_width, &tex_height, &tex_channel, STBI_rgb_alpha);
   VkDeviceSize tex_size = tex_width * tex_height * 4;
   if(!tex_data){
     throw std::runtime_error("failed to load texture image!");
@@ -84,18 +84,18 @@ void VK_texture::create_texture_from_file(Struct_image* texture){
   vkUnmapMemory(vk_param->device.device, staging_mem);
 
   //Create image
-  texture->width = tex_width;
-  texture->height = tex_height;
-  texture->format = VK_FORMAT_R8G8B8A8_SRGB;
-  texture->tiling = VK_IMAGE_TILING_OPTIMAL;
-  texture->image_usage = IMAGE_USAGE_TRANSFERT | IMAGE_USAGE_SAMPLER;
-  texture->properties = MEMORY_GPU;
-  vk_image->create_image(texture);
+  image->width = tex_width;
+  image->height = tex_height;
+  image->format = VK_FORMAT_R8G8B8A8_SRGB;
+  image->tiling = VK_IMAGE_TILING_OPTIMAL;
+  image->image_usage = IMAGE_USAGE_TRANSFERT | IMAGE_USAGE_SAMPLER;
+  image->properties = MEMORY_GPU;
+  vk_image->create_image(image);
 
   //Image transition from undefined layout to read only layout
-  vk_command->image_layout_transition_single(texture, IMAGE_LAYOUT_EMPTY, IMAGE_LAYOUT_TRANSFER_DST);
-  this->copy_buffer_to_image(texture, staging_buffer);
-  vk_command->image_layout_transition_single(texture, IMAGE_LAYOUT_TRANSFER_DST, IMAGE_LAYOUT_SHADER_READONLY);
+  vk_command->image_layout_transition_single(image, IMAGE_LAYOUT_EMPTY, IMAGE_LAYOUT_TRANSFER_DST);
+  this->copy_buffer_to_image(image, staging_buffer);
+  vk_command->image_layout_transition_single(image, IMAGE_LAYOUT_TRANSFER_DST, IMAGE_LAYOUT_SHADER_READONLY);
 
   //Free memory
   stbi_image_free(tex_data);

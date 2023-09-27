@@ -114,8 +114,6 @@ void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo
 
   createInfo.preTransform = surface_capability.currentTransform;
 
-
-
   //---------------------------
 }
 void VK_swapchain::create_swapchain_family(VkSwapchainCreateInfoKHR& createInfo){

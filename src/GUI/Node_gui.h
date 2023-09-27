@@ -20,6 +20,7 @@ class GUI_profiling;
 class GUI_style;
 class GUI_init;
 class GUI_editor;
+class GUI_engine;
 
 
 class Node_gui
@@ -49,6 +50,7 @@ public:
   inline GUI_style* get_gui_style(){return gui_style;}
   inline GUI_init* get_gui_init(){return gui_init;}
   inline GUI_editor* get_gui_editor(){return gui_editor;}
+  inline GUI_engine* get_gui_engine(){return gui_engine;}
 
 private:
   Node_engine* node_engine;
@@ -67,6 +69,7 @@ private:
   GUI_style* gui_style;
   GUI_init* gui_init;
   GUI_editor* gui_editor;
+  GUI_engine* gui_engine;
 };
 
 #endif

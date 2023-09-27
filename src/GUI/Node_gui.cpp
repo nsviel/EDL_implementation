@@ -3,6 +3,7 @@
 
 #include "Panel/GUI_panel.h"
 #include "Panel/GUI_editor.h"
+#include "Panel/GUI_engine.h"
 #include "Menu/GUI_menubar.h"
 #include "Menu/GUI_option.h"
 #include "Menu/GUI_init.h"
@@ -33,6 +34,7 @@ Node_gui::Node_gui(Node* node){
   this->gui_init = new GUI_init(this);
   this->gui_menubar = new GUI_menubar(this);
   this->gui_editor = new GUI_editor(this);
+  this->gui_engine = new GUI_engine(this);
   this->gui_panel = new GUI_panel(this);
   this->gui_control = new GUI_control(this);
   this->gui_windows = new GUI_windows(this);

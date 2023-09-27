@@ -22,6 +22,8 @@ GUI_menubar::GUI_menubar(Node_gui* node_gui){
   this->gui_init = node_gui->get_gui_init();
   this->loaderManager = Node_load->get_loaderManager();
 
+  this->show_demo = false;
+
   //---------------------------
 }
 GUI_menubar::~GUI_menubar(){}
@@ -39,7 +41,6 @@ void GUI_menubar::design_menubar(){
 
 //Subfunctions
 void GUI_menubar::menu(){
-  static bool show_demo = false;
   //---------------------------
 
   if(ImGui::MenuItem("Load")){
@@ -49,9 +50,15 @@ void GUI_menubar::menu(){
     gui_init->design_init();
     ImGui::EndMenu();
   }
+  if(ImGui::BeginMenu("Demo")){
+    this->menu_demo();
+    ImGui::EndMenu();
+  }
+  if(show_demo){
+    ImGui::ShowDemoWindow(&show_demo);
+  }
   if(ImGui::BeginMenu(ICON_FA_COG, "Option")){
     gui_option->design_option();
-    this->menu_demo();
     ImGui::EndMenu();
   }
   if(ImGui::MenuItem(ICON_FA_CAMERA, "Camera##111")){
@@ -62,18 +69,15 @@ void GUI_menubar::menu(){
 }
 
 void GUI_menubar::menu_demo(){
-  static bool show_demo = false;
   //---------------------------
 
+  //Demo file
   if(ImGui::Button("Demo file")){
-    int ret = system("xed ../extern/imgui/imgui_demo.cpp");
+    int ret = system("xed ../extern/imgui/core/imgui_demo.cpp");
   }
-  ImGui::SameLine();
-  ImGui::Checkbox("Interface", &show_demo);
 
-  if(show_demo){
-    ImGui::ShowDemoWindow();
-  }
+  //Demo window
+  ImGui::Checkbox("Demo window", &show_demo);
 
   //---------------------------
 }

@@ -38,6 +38,7 @@ void GUI_style::style_window(){
   style.ChildRounding = 0.0f;
   style.FrameRounding = 0.0f;
   style.PopupRounding = 0.0f;
+  style.WindowMenuButtonPosition = ImGuiDir_None; // Docking Tab Menu
 
   //Formatting -> size
   style.FrameBorderSize = 0.0f;
@@ -55,14 +56,14 @@ void GUI_style::color_window(){
   //---------------------------
 
   ImGui::PushStyleColor(ImGuiCol_Header, IM_COL32(76, 76, 76, 255));
-  ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(117, 117, 117, 220));
+  ImGui::PushStyleColor(ImGuiCol_Tab, IM_COL32(43, 73, 101, 220));
   ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_MenuBarBg, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_ResizeGrip, IM_COL32(15, 15, 15, 255));
   ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(50, 50, 50, 255));
   ImGui::PushStyleColor(ImGuiCol_PopupBg, IM_COL32(0, 0, 0, 255));
   ImGui::PushStyleColor(ImGuiCol_Separator, IM_COL32(165, 165, 165, 255));
-  ImGui::PushStyleColor(ImGuiCol_TitleBgActive, IM_COL32(165, 165, 165, 255));  //docker active dock
+  ImGui::PushStyleColor(ImGuiCol_TitleBgActive, IM_COL32(0, 0, 0, 255));  //docker active dock
 
   //---------------------------
 }

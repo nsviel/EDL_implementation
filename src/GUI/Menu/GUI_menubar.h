@@ -24,13 +24,15 @@ public:
   //Subfunctions
   void menu();
   void menu_demo();
-  
+
 private:
   Node_gui* node_gui;
   Loader* loaderManager;
   GUI_init* gui_init;
   GUI_param* gui_param;
   GUI_option* gui_option;
+
+  bool show_demo;
 
 };
 

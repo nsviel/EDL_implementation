@@ -1,3 +1,6 @@
+#ifndef TEXT_EDITOR_H
+#define TEXT_EDITOR_H
+
 #pragma once
 
 #include <string>
@@ -8,7 +11,7 @@
 #include <unordered_map>
 #include <map>
 #include <regex>
-#include "imgui.h"
+#include "../core/imgui.h"
 
 class TextEditor
 {
@@ -388,3 +391,5 @@ private:
 
 	float mLastClick;
 };
+
+#endif
