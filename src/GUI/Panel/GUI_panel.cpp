@@ -1,6 +1,7 @@
 #include "GUI_panel.h"
 #include "GUI_editor.h"
 #include "GUI_engine.h"
+#include "GUI_node.h"
 
 #include "../Node_gui.h"
 #include "../Style/GUI_indicator.h"
@@ -30,6 +31,7 @@ GUI_panel::GUI_panel(Node_gui* node_gui){
   this->gui_shader = node_gui->get_gui_shader();
   this->gui_editor = node_gui->get_gui_editor();
   this->gui_engine = node_gui->get_gui_engine();
+  this->gui_node = new GUI_node(node_gui);
 
   //---------------------------
 }
@@ -48,6 +50,7 @@ void GUI_panel::draw_panels(){
   gui_shader->design_panel();
   gui_profiling->design_panel();
   gui_engine->design_panel();
+  gui_node->design_panel();
 
   //---------------------------
 }

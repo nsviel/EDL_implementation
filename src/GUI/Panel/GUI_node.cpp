@@ -1,4 +1,6 @@
+//https://github.com/thedmd/imgui-node-editor
 #include "GUI_node.h"
+#include "node.h"
 #include "../Node_gui.h"
 
 
@@ -29,7 +31,10 @@ void GUI_node::design_panel(){
 void GUI_node::node_editor(){
   //---------------------------
 
+  Example exampe("Simple", argc, argv);
 
+  if (exampe.Create())
+      return exampe.Run();
 
   //---------------------------
 }
