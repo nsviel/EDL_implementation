@@ -27,6 +27,8 @@ mat4 CAM_proj::compute_proj_perspective(Struct_camera* camera){
   mat4 cam_proj = perspective(fov, ratio, z_near, z_far);
   cam_proj[1][1] *= -1; // Because glm is designed for OpenGL convention
 
+  camera->mat_proj = cam_proj;
+
   //---------------------------
   return cam_proj;
 }
@@ -38,6 +40,8 @@ mat4 CAM_proj::compute_proj_ortho(Struct_camera* camera){
   float zoom = camera->zoom;
   mat4 cam_proj = ortho(-5.f - zoom, 5.f + zoom, -5.f - zoom, 5.f + zoom, z_near, z_far);
   cam_proj[1][1] *= -1; // Because glm is designed for OpenGL convention
+
+  camera->mat_proj = cam_proj;
 
   //---------------------------
   return cam_proj;

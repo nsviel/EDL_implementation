@@ -36,6 +36,8 @@ mat4 CAM_first_person::fp_view_mat(Struct_camera* camera){
   //Compute view matrix
   mat4 cam_view = lookAt(camera->cam_P, cam_target, camera->cam_U);
 
+  camera->mat_view = cam_view;
+
   //---------------------------
   return cam_view;
 }

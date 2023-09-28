@@ -37,7 +37,9 @@ struct Struct_camera{
   bool cam_move = false;
   bool cam_pose = false;
   glm::mat4 cam_pose_mat = glm::mat4(1);
-  glm::mat4 vp = glm::mat4(1);
+  glm::mat4 mat_proj = glm::mat4(1);
+  glm::mat4 mat_view = glm::mat4(1);
+  glm::mat4 mat_vp = glm::mat4(1);
 };
 
 #endif

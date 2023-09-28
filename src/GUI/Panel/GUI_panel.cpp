@@ -16,9 +16,6 @@
 #include "../../Node.h"
 #include "../../Engine/Param_engine.h"
 
-#include "../../../extern/imgui/editor/editor_text.h"
-#include "../../../extern/imgui/core/imgui.h"
-
 
 //Constructor / Destructor
 GUI_panel::GUI_panel(Node_gui* node_gui){
