@@ -31,10 +31,10 @@ void GUI_node::design_panel(){
 void GUI_node::node_editor(){
   //---------------------------
 
-  Example exampe("Simple", argc, argv);
+  Example exampe;
 
-  if (exampe.Create())
-      return exampe.Run();
+  //if (exampe.Create())
+    //  return exampe.Run();
 
   //---------------------------
 }

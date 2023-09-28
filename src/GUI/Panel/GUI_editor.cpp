@@ -9,7 +9,8 @@ GUI_editor::GUI_editor(Node_gui* node_gui){
   //---------------------------
 
   this->editor = new TextEditor();
-  editor->SetText("hello\n\nkeiuhfezkf\njzgefjez");
+  editor->SetText("Hello there !");
+  this->load_file("/home/aeter/Desktop/Dev/Nephos/CMakeLists.txt");
 
   //---------------------------
 }
@@ -29,6 +30,25 @@ void GUI_editor::design_editor_text(){
   //---------------------------
 }
 
+//Subfunction
+void GUI_editor::load_file(string path){
+  //---------------------------
+
+  string item_name;
+  ifstream nameFileout;
+  nameFileout.open(path);
+  string line;
+  string file = "";
+  while(std::getline(nameFileout, line))
+  {
+    file = file + "\n" + line;
+  }
+
+  editor->SetText(file);
+
+
+  //---------------------------
+}
 void GUI_editor::design_editor_memory(){
   //---------------------------
 

@@ -22,7 +22,6 @@ public:
   void node_editor();
 
 private:
-  TextEditor* editor;
 };
 
 #endif

@@ -19,6 +19,9 @@ public:
   void design_editor_text();
   void design_editor_memory();
 
+  //Subfunction
+  void load_file(string path);
+
 private:
   TextEditor* editor;
 };
