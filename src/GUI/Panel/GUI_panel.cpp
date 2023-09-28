@@ -3,6 +3,7 @@
 #include "GUI_engine.h"
 
 #include "../Node_gui.h"
+#include "../Style/GUI_indicator.h"
 #include "../Menu/GUI_menubar.h"
 #include "../Control/GUI_profiling.h"
 #include "../Engine/GUI_shader.h"
@@ -15,7 +16,7 @@
 #include "../../Node.h"
 #include "../../Engine/Param_engine.h"
 
-#include "../../../extern/imgui/editor/TextEditor.h"
+#include "../../../extern/imgui/editor/editor_text.h"
 #include "../../../extern/imgui/core/imgui.h"
 
 
@@ -46,7 +47,7 @@ void GUI_panel::draw_panels(){
   dimManager->update();
   gui_menubar->design_menubar();
   gui_filemanager->design_panel();
-  gui_editor->design_panel();
+  gui_editor->design_editor_text();
   gui_shader->design_panel();
   gui_profiling->design_panel();
   gui_engine->design_panel();

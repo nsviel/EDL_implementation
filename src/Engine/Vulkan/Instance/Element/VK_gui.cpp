@@ -131,13 +131,12 @@ void VK_gui::gui_select_font(){
   config_icon.MergeMode = true;
   config_icon.GlyphMinAdvanceX = 15.0f; //Monospace icons
 
-  //Load font size 13
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", 13.0f, &config_text);
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", 12.5f, &config_icon, icons_ranges);
-
-  //Load font size 12
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", 12.0f);
-  io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", 12.5f, &config_icon, icons_ranges);
+  float font_size = 13.0f;
+  for(int i=0; i<10; i++){
+    io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", font_size, &config_text);
+    io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/fontawesome-webfont.ttf", font_size - 0.5f, &config_icon, icons_ranges);
+    font_size += 1.0f;
+  }
 
   //Buid the font database
   io.Fonts->Build();

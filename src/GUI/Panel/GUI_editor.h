@@ -2,7 +2,7 @@
 #define GUI_TEXT_EDITOR_H
 
 #include "../../common.h"
-#include "../../../extern/imgui/editor/TextEditor.h"
+#include "../../../extern/imgui/editor/editor_text.h"
 
 class Node_gui;
 
@@ -16,7 +16,8 @@ public:
 
 public:
   //Main functions
-  void design_panel();
+  void design_editor_text();
+  void design_editor_memory();
 
 private:
   TextEditor* editor;

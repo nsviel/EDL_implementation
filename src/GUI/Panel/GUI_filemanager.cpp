@@ -26,6 +26,7 @@ void GUI_filemanager::design_panel(){
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
   ImGui::SetNextWindowSizeConstraints(ImVec2(100, 100), ImVec2(500, 500));
   ImGui::Begin("File manager");
+  this->draw_window_background();
   this->tree_view();
   ImGui::End();
   ImGui::PopStyleVar();
@@ -34,14 +35,42 @@ void GUI_filemanager::design_panel(){
 }
 
 //Subfunction
+void GUI_filemanager::draw_window_background(){
+  //-------------------------------
+
+  float x1 = ImGui::GetCurrentWindow()->WorkRect.Min.x;
+  float x2 = ImGui::GetCurrentWindow()->WorkRect.Max.x;
+  float item_spacing_y = ImGui::GetStyle().ItemSpacing.y;
+  float item_offset_y = -item_spacing_y * 0.1f;
+  float line_height = ImGui::GetTextLineHeight() + item_spacing_y;
+  int row_count = 50;
+  ImU32 col_even = IM_COL32(35, 35, 35, 255);
+  ImU32 col_odd = IM_COL32(25, 25, 25, 255);
+
+  ImDrawList* draw_list = ImGui::GetWindowDrawList();
+  float y0 = ImGui::GetCursorScreenPos().y + (float)(int)item_offset_y;
+
+  int row_display_start;
+  int row_display_end;
+  ImGui::CalcListClipping(row_count, line_height, &row_display_start, &row_display_end);
+  for (int row_n = row_display_start; row_n < row_display_end; row_n++)
+  {
+      ImU32 col = (row_n & 1) ? col_odd : col_even;
+      if ((col & IM_COL32_A_MASK) == 0)
+          continue;
+      float y1 = y0 + (line_height * row_n);
+      float y2 = y1 + line_height;
+      draw_list->AddRectFilled(ImVec2(x1, y1), ImVec2(x2, y2), col);
+  }
+
+  //-------------------------------
+}
 void GUI_filemanager::tree_view(){
   list<Set*>* list_data = dataManager->get_list_data_scene();
   //---------------------------
 
   static ImGuiTableFlags flag_tree;
-  flag_tree |= ImGuiTableFlags_BordersOuterH;
   flag_tree |= ImGuiTableFlags_SizingFixedFit;
-  flag_tree |= ImGuiTableFlags_RowBg;
   flag_tree |= ImGuiTableFlags_NoBordersInBody;
   flag_tree |= ImGuiTableFlags_SizingFixedSame;
 
@@ -62,11 +91,6 @@ void GUI_filemanager::tree_view(){
     nb_row += data_node_tree(set);
     ImGui::PopID();
 
-  }
-  for(int i=0; i<10-nb_row; i++){
-    ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex(0);
-    ImGui::Text(" ");
   }
 
   ImGui::EndTable();

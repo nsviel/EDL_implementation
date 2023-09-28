@@ -4,7 +4,7 @@
 #include <regex>
 #include <cmath>
 
-#include "TextEditor.h"
+#include "editor_text.h"
 #include "theme.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS

@@ -39,11 +39,16 @@ void GUI_option::option_font(){
   ImGuiIO& io = ImGui::GetIO();
   //---------------------------
 
-  static int font_selected = 0;
-  ImGui::SetNextItemWidth(150);
-  if(ImGui::Combo("Font size", &font_selected, "13\0 12\0")){
-    ImFont* font = io.Fonts->Fonts[font_selected];
-    io.FontDefault = font;
+  ImFont* font_current = ImGui::GetFont();
+  if (ImGui::BeginCombo("Font", font_current->GetDebugName())){
+    for (ImFont* font : io.Fonts->Fonts){
+      ImGui::PushID((void*)font);
+      if (ImGui::Selectable(font->GetDebugName(), font == font_current)){
+        io.FontDefault = font;
+      }
+      ImGui::PopID();
+    }
+    ImGui::EndCombo();
   }
 
   //---------------------------

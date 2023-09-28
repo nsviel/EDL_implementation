@@ -20,6 +20,7 @@ public:
   void design_panel();
 
   //Subfunction
+  void draw_window_background();
   void tree_view();
   int data_node_tree(Set* set);
 
