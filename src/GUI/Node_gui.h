@@ -19,7 +19,7 @@ class GUI_shader;
 class GUI_profiling;
 class GUI_style;
 class GUI_init;
-class GUI_editor;
+class GUI_editor_text;
 class GUI_engine;
 
 
@@ -49,7 +49,7 @@ public:
   inline GUI_profiling* get_gui_profiling(){return gui_profiling;}
   inline GUI_style* get_gui_style(){return gui_style;}
   inline GUI_init* get_gui_init(){return gui_init;}
-  inline GUI_editor* get_gui_editor(){return gui_editor;}
+  inline GUI_editor_text* get_gui_editor_text(){return gui_editor_text;}
   inline GUI_engine* get_gui_engine(){return gui_engine;}
 
 private:
@@ -68,7 +68,7 @@ private:
   GUI_profiling* gui_profiling;
   GUI_style* gui_style;
   GUI_init* gui_init;
-  GUI_editor* gui_editor;
+  GUI_editor_text* gui_editor_text;
   GUI_engine* gui_engine;
 };
 

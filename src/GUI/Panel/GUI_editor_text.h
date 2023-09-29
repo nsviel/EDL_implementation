@@ -1,5 +1,5 @@
-#ifndef GUI_TEXT_EDITOR_H
-#define GUI_TEXT_EDITOR_H
+#ifndef GUI_EDITOR_TEXT_H
+#define GUI_EDITOR_TEXT_H
 
 #include "../../common.h"
 #include "../../../extern/imgui/editor/editor_text.h"
@@ -7,17 +7,16 @@
 class Node_gui;
 
 
-class GUI_editor
+class GUI_editor_text
 {
 public:
   //Constructor / Destructor
-  GUI_editor(Node_gui* node_gui);
-  ~GUI_editor();
+  GUI_editor_text(Node_gui* node_gui);
+  ~GUI_editor_text();
 
 public:
   //Main functions
-  void design_editor_text();
-  void design_editor_memory();
+  void design_panel();
 
   //Subfunction
   void load_file(string path);

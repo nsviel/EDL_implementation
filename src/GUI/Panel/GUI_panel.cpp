@@ -1,5 +1,5 @@
 #include "GUI_panel.h"
-#include "GUI_editor.h"
+#include "GUI_editor_text.h"
 #include "GUI_engine.h"
 #include "GUI_node.h"
 
@@ -29,7 +29,7 @@ GUI_panel::GUI_panel(Node_gui* node_gui){
   this->gui_profiling = node_gui->get_gui_profiling();
   this->gui_menubar = node_gui->get_gui_menubar();
   this->gui_shader = node_gui->get_gui_shader();
-  this->gui_editor = node_gui->get_gui_editor();
+  this->gui_editor_text = node_gui->get_gui_editor_text();
   this->gui_engine = node_gui->get_gui_engine();
   this->gui_node = new GUI_node(node_gui);
 
@@ -46,7 +46,7 @@ void GUI_panel::draw_panels(){
   dimManager->update();
   gui_menubar->design_menubar();
   gui_filemanager->design_panel();
-  gui_editor->design_editor_text();
+  gui_editor_text->design_panel();
   gui_shader->design_panel();
   gui_profiling->design_panel();
   gui_engine->design_panel();

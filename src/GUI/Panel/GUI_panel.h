@@ -10,7 +10,7 @@ class GUI_profiling;
 class GUI_filemanager;
 class GUI_menubar;
 class GUI_shader;
-class GUI_editor;
+class GUI_editor_text;
 class GUI_engine;
 class GUI_node;
 
@@ -38,7 +38,7 @@ private:
   GUI_filemanager* gui_filemanager;
   GUI_menubar* gui_menubar;
   GUI_shader* gui_shader;
-  GUI_editor* gui_editor;
+  GUI_editor_text* gui_editor_text;
   GUI_engine* gui_engine;
   GUI_node* gui_node;
 };
