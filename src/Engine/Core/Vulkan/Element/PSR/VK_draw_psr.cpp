@@ -32,7 +32,7 @@ void VK_draw_psr::draw_psr(Struct_renderpass* renderpass){
 
   this->update_descriptor(renderpass);
   this->record_command(renderpass);
-  this->submit_command(renderpass);
+  //this->submit_command(renderpass);
 
   //---------------------------
   vk_param->time.renderpass_psr.push_back(timer.stop_ms(t1));
@@ -73,7 +73,7 @@ void VK_draw_psr::submit_command(Struct_renderpass* renderpass){
   command.semaphore_to_run = frame_swap->semaphore_psr_ready;
   command.fence = VK_NULL_HANDLE;
   command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-  vk_submit->submit_graphics_command(&command);
+  //vk_submit->submit_graphics_command(&command);
 
   //---------------------------
 }

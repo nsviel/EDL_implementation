@@ -47,18 +47,11 @@ void Scene_drawing::record_command(Struct_renderpass* renderpass){
   Frame* frame = renderpass->get_rendering_frame();
   //---------------------------
 
-  //Command buffer
-  vkResetCommandBuffer(renderpass->command_buffer, 0);
-  vk_command->start_command_buffer_primary(renderpass->command_buffer);
-
-  //Render pass
   vk_command->start_render_pass(renderpass, frame, false);
   vk_cmd->cmd_viewport_scene(renderpass);
   this->cmd_draw_scene(renderpass);
   this->cmd_draw_glyph(renderpass);
   vk_command->stop_render_pass(renderpass);
-
-  vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
 }
@@ -66,13 +59,10 @@ void Scene_drawing::submit_command(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
-  Struct_submit_command command;
-  command.command_buffer = renderpass->command_buffer;
-  command.semaphore_to_wait = frame_swap->semaphore_image_ready;
-  command.semaphore_to_run = frame_swap->semaphore_scene_ready;
-  command.fence = VK_NULL_HANDLE;
-  command.wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-  vk_submit->submit_graphics_command(&command);
+  renderpass->semaphore_to_wait = frame_swap->semaphore_image_ready;
+  renderpass->semaphore_to_run = frame_swap->semaphore_scene_ready;
+  renderpass->fence = VK_NULL_HANDLE;
+  vk_submit->submit_graphics_command(renderpass);
 
   //---------------------------
 }

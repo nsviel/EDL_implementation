@@ -77,6 +77,9 @@ void VK_command::stop_command_buffer(VkCommandBuffer command_buffer){
 void VK_command::start_render_pass(Struct_renderpass* renderpass, Frame* frame, bool with_secondary_cb){
   //---------------------------
 
+  vkResetCommandBuffer(renderpass->command_buffer, 0);
+  this->start_command_buffer_primary(renderpass->command_buffer);
+
   std::array<VkClearValue, 2> clear_value{};
   clear_value[0].color = {{
     param_engine->background_color.x,
@@ -109,6 +112,8 @@ void VK_command::stop_render_pass(Struct_renderpass* renderpass){
   //---------------------------
 
   vkCmdEndRenderPass(renderpass->command_buffer);
+
+  this->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
 }
