@@ -5,6 +5,7 @@
 
 class Node_gui;
 class VK_param;
+class GUI_control;
 
 
 class GUI_engine
@@ -24,6 +25,7 @@ public:
 
 private:
   VK_param* vk_param;
+  GUI_control* gui_control;
 
   VkDescriptorSet descriptor;
 };

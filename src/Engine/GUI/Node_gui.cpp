@@ -34,9 +34,9 @@ Node_gui::Node_gui(Node* node){
   this->gui_init = new GUI_init(this);
   this->gui_menubar = new GUI_menubar(this);
   this->gui_editor_text = new GUI_editor_text(this);
+  this->gui_control = new GUI_control(this);
   this->gui_engine = new GUI_engine(this);
   this->gui_panel = new GUI_panel(this);
-  this->gui_control = new GUI_control(this);
   this->gui_windows = new GUI_windows(this);
   this->gui_style = new GUI_style(this);
 
@@ -67,7 +67,6 @@ void Node_gui::loop(){
   //---------------------------
 
   gui_panel->draw_panels();
-  gui_control->make_control();
   gui_windows->draw_windows();
 
   //---------------------------

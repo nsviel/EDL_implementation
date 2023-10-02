@@ -24,7 +24,7 @@ VK_cmd::~VK_cmd(){}
 void VK_cmd::cmd_viewport_scene(Struct_renderpass* renderpass){
   //---------------------------
 
-  VkViewport viewport = vk_viewport->get_viewport_scene();
+  VkViewport viewport = vk_viewport->get_viewport();
 
   //Viewport
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);
@@ -38,7 +38,7 @@ void VK_cmd::cmd_viewport_scene(Struct_renderpass* renderpass){
 void VK_cmd::cmd_viewport_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
-  VkViewport viewport = vk_viewport->get_viewport_canvas();
+  VkViewport viewport = vk_viewport->get_viewport();
 
   //Viewport
   vkCmdSetViewport(renderpass->command_buffer, 0, 1, &viewport);

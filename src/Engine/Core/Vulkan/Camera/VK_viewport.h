@@ -19,11 +19,9 @@ public:
   void init_viewport();
   void update_viewport();
 
-  Struct_viewport* create_viewport_scene();
-  Struct_viewport* create_viewport_canvas();
+  Struct_viewport* create_viewport();
 
-  inline VkViewport get_viewport_scene(){return viewport_scene;}
-  inline VkViewport get_viewport_canvas(){return viewport_canvas;}
+  inline VkViewport get_viewport(){return viewport;}
   inline VkRect2D get_scissor(){return scissor;}
 
 private:
@@ -31,8 +29,7 @@ private:
   VK_param* vk_param;
   Dimension* dimManager;
 
-  VkViewport viewport_scene;
-  VkViewport viewport_canvas;
+  VkViewport viewport;
   VkRect2D scissor;
 };
 

@@ -28,10 +28,10 @@ GUI_control::GUI_control(Node_gui* node_gui){
 GUI_control::~GUI_control(){}
 
 //Main function
-void GUI_control::make_control(){
+void GUI_control::make_control(ImVec2 center){
   //---------------------------
 
-  this->control_mouse();
+  this->control_mouse(center);
   this->control_mouse_wheel();
   this->control_keyboard_oneAction();
   this->control_keyboard_camMove();
@@ -41,23 +41,25 @@ void GUI_control::make_control(){
 }
 
 //Mouse function
-void GUI_control::control_mouse(){
+void GUI_control::control_mouse(ImVec2 center){
   Tab* tab_rendering = dimManager->get_tab("rendering");
   ImGuiIO io = ImGui::GetIO();
   Struct_camera* camera = &param_engine->camera;
   //----------------------------
 
+  tab_rendering->center = vec2(center.x, center.y);
+
   //Right click - Camera movement
   static vec2 cursorPos;
-  if(ImGui::IsMouseClicked(1) && !io.WantCaptureMouse){
+  if(ImGui::IsMouseClicked(1)){
     cursorPos = dimManager->get_mouse_pose();
-    dimManager->set_mouse_visibility(false);
-    dimManager->set_mouse_pose(tab_rendering->center);
+
+    ImGui::GetIO().MouseDrawCursor = false;
+    dimManager->set_mouse_pose(vec2(center.x, center.y));
     camera->cam_move = true;
   }
   //Release - back to normal
   if(ImGui::IsMouseReleased(1) && camera->cam_move){
-    dimManager->set_mouse_visibility(true);
     dimManager->set_mouse_pose(cursorPos);
     camera->cam_move = false;
   }
@@ -70,18 +72,18 @@ void GUI_control::control_mouse_wheel(){
   //----------------------------
 
   //Wheel + right clicked - Camera zoom
-  if(io.MouseWheel && io.MouseDownDuration[1] >= 0.0f && !io.WantCaptureMouse){
+  if(io.MouseWheel && io.MouseDownDuration[1] >= 0.0f){
     cameraManager->compute_zoom(io.MouseWheel);
   }
 
   //Wheel click - Change mouse wheel mode
-  if(ImGui::IsMouseClicked(2) && !io.WantCaptureMouse){
+  if(ImGui::IsMouseClicked(2)){
     wheel_mode++;
     if(wheel_mode >= 3) wheel_mode = 0;
   }
 
   //Wheel actions
-  if(io.MouseWheel && io.MouseDownDuration[1] == -1 && !io.WantCaptureMouse){
+  if(io.MouseWheel && io.MouseDownDuration[1] == -1){
     //Rotation quantity
     float radian = 5 * M_PI/180;
     vec3 R;
@@ -125,7 +127,7 @@ void GUI_control::control_keyboard_oneAction(){
     }
 
     //R key - Reset
-    if(ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantCaptureMouse){
+    if(ImGui::IsKeyPressed(ImGuiKey_R)){
       controlManager->reset();
       break;
     }
@@ -140,37 +142,37 @@ void GUI_control::control_keyboard_oneAction(){
     }
 
     //H key - Heatmap
-    if (ImGui::IsKeyPressed(72) && !io.WantCaptureMouse){
+    if (ImGui::IsKeyPressed(72)){
       heatmapManager->make_col_heatmap(collection);
       break;
     }
 
     //C key - Centering
-    if (ImGui::IsKeyPressed(67) && !io.WantCaptureMouse){
+    if (ImGui::IsKeyPressed(67)){
       this->key_c();
       break;
     }
 
     //Enter - Validation
-    if(ImGui::IsKeyPressed(257) && !io.WantCaptureMouse){
+    if(ImGui::IsKeyPressed(257)){
       selectionManager->validate();
       break;
     }
 
     //N key - Save all & remove all & load new
-    if(ImGui::IsKeyPressed(78) && !io.WantCaptureMouse){
+    if(ImGui::IsKeyPressed(78)){
       //pathManager->saving_allCloud();
       //sceneManager->remove_collection_all();
     }
 
     //o key - Open options
-    if(ImGui::IsKeyPressed(79) && !io.WantCaptureMouse){
+    if(ImGui::IsKeyPressed(79)){
       modal_tab.show_loading = !modal_tab.show_loading;
       break;
     }
 
     //space key - Start / Pause player
-    if(ImGui::IsKeyPressed(32) && !io.WantCaptureMouse){
+    if(ImGui::IsKeyPressed(32)){
       GUI_Player* gui_player = node_gui->get_gui_player();
       gui_player->player_pause();
       break;
@@ -184,7 +186,7 @@ void GUI_control::control_keyboard_camMove(){
   //----------------------------
 
   for(int i=0; i<IM_ARRAYSIZE(io.KeysDown); i++){
-    if(io.MouseDown[1] && !io.WantCaptureMouse){
+    if(io.MouseDown[1]){
 
       //Shift speed up
       bool is_fast = false;
@@ -221,7 +223,7 @@ void GUI_control::control_keyboard_translation(){
   //----------------------------
 
   for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++){
-    if(!io.MouseDown[1] && !io.WantCaptureMouse){
+    if(!io.MouseDown[1]){
       float transCoef = 0.01;
 
       //Shift speed up

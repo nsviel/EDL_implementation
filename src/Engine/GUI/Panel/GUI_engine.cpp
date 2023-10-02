@@ -1,5 +1,6 @@
 #include "GUI_engine.h"
 #include "../Node_gui.h"
+#include "../Control/GUI_control.h"
 #include "../../Core/Node_engine.h"
 #include "../../Core/Vulkan/VK_engine.h"
 #include "../../Core/Vulkan/VK_param.h"
@@ -12,6 +13,7 @@ GUI_engine::GUI_engine(Node_gui* node_gui){
   Node_engine* node_engine = node_gui->get_node_engine();
   VK_engine* vk_engine = node_engine->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
+  this->gui_control = node_gui->get_gui_control();
 
   //---------------------------
 }
@@ -56,6 +58,15 @@ void GUI_engine::engine_window(){
   this->descriptor = ImGui_ImplVulkan_AddTexture(image->sampler, image->view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
   ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
   ImGui::Image(descriptor, ImVec2{viewportPanelSize.x, viewportPanelSize.y});
+
+
+ImVec2 windowPos = ImGui::GetWindowPos();
+ImVec2 windowSize = ImGui::GetWindowSize();
+ImVec2 center = ImVec2(windowPos.x + windowSize.x * 0.5f, windowPos.y + windowSize.y * 0.5f);
+
+  if(ImGui::IsItemHovered()){
+    gui_control->make_control(center);
+  }
 
   //---------------------------
 }
