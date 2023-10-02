@@ -35,7 +35,6 @@ void UI_drawing::draw_ui(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
-  this->update_descriptor(renderpass);
   this->record_command(renderpass);
   this->submit_command(renderpass);
 
@@ -44,22 +43,12 @@ void UI_drawing::draw_ui(Struct_renderpass* renderpass){
 }
 
 //Subfunction
-void UI_drawing::update_descriptor(Struct_renderpass* renderpass){
-  //---------------------------
-
-  Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
-  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
-  vk_descriptor->update_descriptor_sampler(&pipeline->binding, &frame_edl->color);
-
-  //---------------------------
-}
 void UI_drawing::record_command(Struct_renderpass* renderpass){
   Frame* frame = vk_param->swapchain.get_frame_current();
   //---------------------------
 
   vk_command->start_render_pass(renderpass, frame, false);
   vk_cmd->cmd_viewport_canvas(renderpass);
-  this->cmd_draw(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
 
@@ -73,20 +62,6 @@ void UI_drawing::submit_command(Struct_renderpass* renderpass){
   renderpass->semaphore_to_run = frame_swap->semaphore_ui_ready;
   renderpass->fence = frame_swap->fence;
   vk_submit->submit_graphics_command(renderpass);
-
-  //---------------------------
-}
-
-//Command function
-void UI_drawing::cmd_draw(Struct_renderpass* renderpass){
-  //---------------------------
-
-  Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
-  Struct_data* canvas = vk_canvas->get_data_canvas();
-
-  vk_cmd->cmd_bind_pipeline(renderpass, "triangle");
-  vk_cmd->cmd_bind_descriptor(renderpass, "triangle", pipeline->binding.descriptor.set);
-  vk_cmd->cmd_draw_data(renderpass, canvas);
 
   //---------------------------
 }

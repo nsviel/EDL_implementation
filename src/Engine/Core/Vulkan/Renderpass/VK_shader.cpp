@@ -20,6 +20,10 @@ VK_shader::~VK_shader(){}
 void VK_shader::create_pipeline_shader(Struct_pipeline* pipeline){
   //---------------------------
 
+  if(pipeline->path_shader_vs == "" || pipeline->path_shader_fs == ""){
+    return;
+  }
+
   this->create_pipeline_shader_module(pipeline);
   this->create_pipeline_shader_info(pipeline);
 

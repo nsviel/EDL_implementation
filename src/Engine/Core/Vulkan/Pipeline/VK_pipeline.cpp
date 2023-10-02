@@ -279,11 +279,11 @@ void VK_pipeline::check_struct_pipeline_input(Struct_pipeline* pipeline){
   //---------------------------
 
   if(pipeline->name == "") cout<<"[error] Pipeline init input -> no name"<<endl;
-  if(pipeline->topology == "") cout<<"[error] Pipeline init input -> no topology"<<endl;
-  if(pipeline->path_shader_vs == "") cout<<"[error] Pipeline init input -> no path_shader_vs"<<endl;
-  if(pipeline->path_shader_fs == "") cout<<"[error] Pipeline init input -> no path_shader_fs"<<endl;
-  if(pipeline->info.vec_data_name.size() == 0) cout<<"[error] Pipeline init input -> no vec_data_name"<<endl;
-  if(pipeline->binding.vec_required_binding.size() == 0) cout<<"[error] Pipeline init input -> no vec_required_binding"<<endl;
+  //if(pipeline->topology == "") cout<<"[error] Pipeline init input -> no topology"<<endl;
+  //if(pipeline->path_shader_vs == "") cout<<"[error] Pipeline init input -> no path_shader_vs"<<endl;
+  //if(pipeline->path_shader_fs == "") cout<<"[error] Pipeline init input -> no path_shader_fs"<<endl;
+  //if(pipeline->info.vec_data_name.size() == 0) cout<<"[error] Pipeline init input -> no vec_data_name"<<endl;
+  //if(pipeline->binding.vec_required_binding.size() == 0) cout<<"[error] Pipeline init input -> no vec_required_binding"<<endl;
 
   //---------------------------
 }

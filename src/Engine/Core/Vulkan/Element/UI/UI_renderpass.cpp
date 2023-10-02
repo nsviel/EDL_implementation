@@ -35,25 +35,20 @@ void UI_renderpass::init_renderpass(Struct_renderpass* renderpass){
 
   renderpass->name = "ui";
   vk_subpass->create_subpass_presentation(renderpass);
-  this->create_pipeline_triangle(renderpass);
+  this->create_pipeline_canvas(renderpass);
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);
 }
 
 //Pipeline
-void UI_renderpass::create_pipeline_triangle(Struct_renderpass* renderpass){
+void UI_renderpass::create_pipeline_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "triangle";
   pipeline->topology = "triangle";
   pipeline->compile_shader = true;
-  pipeline->path_shader_vs = "Base/shader_triangle_vs";
-  pipeline->path_shader_fs = "Base/shader_triangle_fs";
-  pipeline->info.vec_data_name.push_back("location");
-  pipeline->info.vec_data_name.push_back("tex_coord");
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

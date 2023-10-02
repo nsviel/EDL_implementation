@@ -45,7 +45,7 @@ void RP_psr::init_renderpass(Struct_renderpass* renderpass){
   this->create_subpass_pyramid(renderpass);
 
   //pipeline
-  this->create_pipeline_triangle(renderpass);
+  this->create_pipeline_canvas(renderpass);
   //this->create_pipeline_pyramid(renderpass);
 
   //---------------------------
@@ -74,7 +74,7 @@ void RP_psr::create_subpass_pyramid(Struct_renderpass* renderpass){
 }
 
 //Pipeline
-void RP_psr::create_pipeline_triangle(Struct_renderpass* renderpass){
+void RP_psr::create_pipeline_canvas(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();

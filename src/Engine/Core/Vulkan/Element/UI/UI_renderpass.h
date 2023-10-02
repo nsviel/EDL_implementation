@@ -24,7 +24,7 @@ public:
   void init_renderpass(Struct_renderpass* renderpass);
 
   //Pipeline
-  void create_pipeline_triangle(Struct_renderpass* renderpass);
+  void create_pipeline_canvas(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;

@@ -30,12 +30,8 @@ public:
   void draw_ui(Struct_renderpass* renderpass);
 
   //Subfunction
-  void update_descriptor(Struct_renderpass* renderpass);
   void record_command(Struct_renderpass* renderpass);
   void submit_command(Struct_renderpass* renderpass);
-
-  //Command function
-  void cmd_draw(Struct_renderpass* renderpass);
 
 private:
   Timer timer;
