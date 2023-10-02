@@ -60,7 +60,6 @@ float compute_shading(float depth_norm){
 
       //Shading mode
       float diff_depth = log2(depth_norm) - log2(depth_NN_norm);
-      //float diff_depth = dot(vec4(offset, depth_NN_norm, 1.0), P);
 
       sum +=  max(0.0, diff_depth);
     }

@@ -69,6 +69,7 @@ set(ALL_LIBS
   -lXxf86vm
   -lXrandr
   -lXi
+  -lsqlite3
 )
 
 # Executable

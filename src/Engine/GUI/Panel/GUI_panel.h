@@ -13,6 +13,7 @@ class GUI_shader;
 class GUI_editor_text;
 class GUI_engine;
 class GUI_node;
+class GUI_database;
 
 
 class GUI_panel
@@ -28,6 +29,7 @@ public:
 
   //Subfunction
   void docker_space_main();
+  void set_initial_panel_focus();
 
 private:
   Node_gui* node_gui;
@@ -41,6 +43,7 @@ private:
   GUI_editor_text* gui_editor_text;
   GUI_engine* gui_engine;
   GUI_node* gui_node;
+  GUI_database* gui_database;
 };
 
 #endif

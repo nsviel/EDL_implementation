@@ -25,7 +25,7 @@ void GUI_filemanager::design_panel(){
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
   ImGui::SetNextWindowSizeConstraints(ImVec2(100, 100), ImVec2(500, 500));
-  ImGui::Begin("File manager");
+  ImGui::Begin("Object");
   this->draw_window_background();
   this->tree_view();
   ImGui::End();
@@ -68,15 +68,14 @@ void GUI_filemanager::draw_window_background(){
 void GUI_filemanager::tree_view(){
   list<Set*>* list_data = dataManager->get_list_data_scene();
   //---------------------------
-
+//say("----");
   static ImGuiTableFlags flag_tree;
   flag_tree |= ImGuiTableFlags_SizingFixedFit;
   flag_tree |= ImGuiTableFlags_NoBordersInBody;
   flag_tree |= ImGuiTableFlags_SizingFixedSame;
 
-  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-  ImGui::BeginTable("data_view", 1, flag_tree);
-  ImGui::TableSetupColumn("Column 1");
+
+  if(ImGui::BeginTable("data_view", 1)){
 
   //Database
   int nb_row = 0;
@@ -90,11 +89,9 @@ void GUI_filemanager::tree_view(){
     ImGui::PushID(set->name.c_str());
     nb_row += data_node_tree(set);
     ImGui::PopID();
-
   }
 
-  ImGui::EndTable();
-  ImGui::PopStyleVar();
+  ImGui::EndTable();}
 
   //---------------------------
 }

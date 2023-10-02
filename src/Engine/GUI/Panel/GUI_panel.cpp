@@ -1,6 +1,7 @@
 #include "GUI_panel.h"
 #include "GUI_engine.h"
 #include "GUI_node.h"
+#include "GUI_database.h"
 
 #include "../Editor/GUI_editor_text.h"
 #include "../Node_gui.h"
@@ -32,6 +33,7 @@ GUI_panel::GUI_panel(Node_gui* node_gui){
   this->gui_editor_text = node_gui->get_gui_editor_text();
   this->gui_engine = node_gui->get_gui_engine();
   this->gui_node = new GUI_node(node_gui);
+  this->gui_database = new GUI_database(node_gui);
 
   //---------------------------
 }
@@ -51,6 +53,7 @@ void GUI_panel::draw_panels(){
   gui_profiling->design_panel();
   gui_engine->design_panel();
   gui_node->design_panel();
+  gui_database->design_panel();
 
   //---------------------------
 }
@@ -88,6 +91,13 @@ void GUI_panel::docker_space_main(){
   }
 
   ImGui::End();
+
+  //---------------------------
+}
+void GUI_panel::set_initial_panel_focus(){
+  //---------------------------
+
+  ImGui::SetWindowFocus("Object");
 
   //---------------------------
 }

@@ -60,6 +60,7 @@ void Node_gui::init(){
   //---------------------------
 
   gui_style->gui_style();
+  gui_panel->set_initial_panel_focus();
 
   //---------------------------
 }

@@ -102,6 +102,7 @@ void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo
   if(surface_capability.maxImageCount > 0 && nb_image > surface_capability.maxImageCount){
     nb_image = surface_capability.maxImageCount;
   }
+  vk_param->nb_frame = nb_image;
 
   createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
   createInfo.minImageCount = nb_image;

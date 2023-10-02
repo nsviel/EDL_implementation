@@ -4,7 +4,7 @@
 #include "../../Core/Node_engine.h"
 #include "../../Core/Vulkan/VK_engine.h"
 #include "../../Core/Vulkan/VK_param.h"
-#include "../../../../extern/imgui/guizmo/ImGuizmo.h"
+
 
 //Constructor / Destructor
 GUI_engine::GUI_engine(Node_gui* node_gui){
@@ -34,37 +34,34 @@ void GUI_engine::design_panel(){
 }
 
 //Subfunction
-uint32_t GUI_engine::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties){
-  //---------------------------
-
-  VkPhysicalDeviceMemoryProperties memProperties;
-  vkGetPhysicalDeviceMemoryProperties(vk_param->device.physical_device, &memProperties);
-
-  for(uint32_t i=0; i<memProperties.memoryTypeCount; i++){
-    if((typeFilter &(1<<i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties){
-      return i;
-    }
-  }
-
-  throw std::runtime_error("failed to find suitable memory type!");
-
-  //---------------------------
-}
 void GUI_engine::engine_window(){
   //---------------------------
 
-  Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
-  Struct_image* image = &frame_edl->color;
-  this->descriptor = ImGui_ImplVulkan_AddTexture(image->sampler, image->view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+  //Vraiment deguelasse,a changer au plus vite !!
+  static ImVec2 previous_size;
+  ImVec2 current_size = ImGui::GetWindowSize();
+  if (current_size.x != previous_size.x || current_size.y != previous_size.y){
+    has_been_initialized = false;
+    previous_size = current_size;
+  }
+
+  if(has_been_initialized == false){
+    for(int i=0; i<vk_param->nb_frame; i++){
+      Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
+      Struct_image* image = &frame_edl->color;
+      this->descriptor = ImGui_ImplVulkan_AddTexture(image->sampler, image->view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+    }
+    has_been_initialized = true;
+  }
+
   ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
   ImGui::Image(descriptor, ImVec2{viewportPanelSize.x, viewportPanelSize.y});
 
-
-ImVec2 windowPos = ImGui::GetWindowPos();
-ImVec2 windowSize = ImGui::GetWindowSize();
-ImVec2 center = ImVec2(windowPos.x + windowSize.x * 0.5f, windowPos.y + windowSize.y * 0.5f);
-
   if(ImGui::IsItemHovered()){
+    ImVec2 windowPos = ImGui::GetWindowPos();
+    ImVec2 windowSize = ImGui::GetWindowSize();
+    ImVec2 center = ImVec2(windowPos.x + windowSize.x * 0.5f, windowPos.y + windowSize.y * 0.5f);
+
     gui_control->make_control(center);
   }
 
