@@ -38,9 +38,11 @@ struct Struct_pipeline{
   //Info
   std::string name = "";
   std::string topology = "";
+  std::string purpose = "";
 
   //Pipeline shader
   bool compile_shader = false;
+  bool with_depth_test = false;
   std::string path_shader_vs = "";
   std::string path_shader_fs = "";
   Struct_binding binding;

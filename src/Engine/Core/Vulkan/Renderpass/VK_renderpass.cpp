@@ -89,7 +89,7 @@ void VK_renderpass::create_renderpass(Struct_renderpass* renderpass){
 
   this->create_renderpass_obj(renderpass);
   vk_command_buffer->allocate_command_buffer_primary(renderpass);
-  vk_pipeline->create_pipeline(renderpass);
+  vk_pipeline->create_pipelines(renderpass);
   vk_frame->create_frame_renderpass(renderpass);
 
   //---------------------------

@@ -90,13 +90,13 @@ void EDL_drawing::cmd_draw(Struct_renderpass* renderpass){
 
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle_EDL");
   Struct_edl* edl_param = shader_edl->get_edl_param();
-  Struct_data* data = vk_canvas->get_data_canvas();
+  Struct_data* canvas = vk_canvas->get_data_canvas();
 
   vk_cmd->cmd_bind_pipeline(renderpass, "triangle_EDL");
   shader_edl->update_shader();
   vk_uniform->update_uniform_edl("Struct_edl", &pipeline->binding, *edl_param);
   vk_cmd->cmd_bind_descriptor(renderpass, "triangle_EDL", pipeline->binding.descriptor.set);
-  vk_cmd->cmd_draw_data(renderpass, data);
+  vk_cmd->cmd_draw_data(renderpass, canvas);
 
   //---------------------------
 }

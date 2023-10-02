@@ -47,8 +47,12 @@ void UI_renderpass::create_pipeline_canvas(Struct_renderpass* renderpass){
 
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "triangle";
+  pipeline->purpose = "ui";
   pipeline->topology = "triangle";
   pipeline->compile_shader = true;
+  pipeline->with_depth_test = false;
+  pipeline->path_shader_vs = "Canvas/shader_canvas_empty_vs";
+  pipeline->path_shader_fs = "Canvas/shader_canvas_empty_fs";
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

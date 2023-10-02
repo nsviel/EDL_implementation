@@ -40,12 +40,17 @@ void VK_pipeline::clean_pipeline(Struct_renderpass* renderpass){
 }
 
 //Pipeline creation
-void VK_pipeline::create_pipeline(Struct_renderpass* renderpass){
+void VK_pipeline::create_pipelines(Struct_renderpass* renderpass){
   //---------------------------
 
   for(int i=0; i<renderpass->vec_pipeline.size(); i++){
     Struct_pipeline* pipeline = renderpass->vec_pipeline[i];
-    this->create_pipeline_graphics(pipeline, renderpass);
+    if(pipeline->purpose == "graphics"){
+      this->create_pipeline_graphics(pipeline, renderpass);
+    }
+    else if(pipeline->purpose == "ui"){
+      this->create_pipeline_ui(pipeline, renderpass);
+    }
     vk_binding->create_binding(&pipeline->binding);
   }
 
@@ -109,14 +114,72 @@ void VK_pipeline::create_pipeline_graphics(Struct_pipeline* pipeline, Struct_ren
   //---------------------------
   pipeline->info.info = pipeline_info;
 }
+void VK_pipeline::create_pipeline_ui(Struct_pipeline* pipeline, Struct_renderpass* renderpass){
+  //---------------------------
+
+  //Dynamic
+  pipeline->info.dynamic_state_object.push_back(VK_DYNAMIC_STATE_VIEWPORT);
+  pipeline->info.dynamic_state_object.push_back(VK_DYNAMIC_STATE_SCISSOR);
+  pipeline->info.dynamic_state_object.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
+
+  //Pipeline elements
+  this->check_struct_pipeline_input(pipeline);
+  vk_descriptor->create_layout_from_required(&pipeline->binding);
+  vk_shader->create_pipeline_shader(pipeline);
+  vk_data->create_data_description(pipeline);
+  this->create_pipeline_layout(pipeline);
+  this->create_topology(pipeline);
+  this->create_dynamic_state(pipeline);
+  this->create_viewport(pipeline);
+  this->create_raster(pipeline);
+  this->create_multisampling(pipeline);
+  this->create_color_blending_state(pipeline);
+  this->create_color_blending(pipeline);
+  this->create_depth(pipeline);
+
+  //Pipeline info
+  VkGraphicsPipelineCreateInfo pipeline_info{};
+  pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+  pipeline_info.stageCount = static_cast<uint32_t>(pipeline->info.shader_stage.size());
+  pipeline_info.pStages = pipeline->info.shader_stage.data();
+  pipeline_info.pVertexInputState = &pipeline->info.vertex_input_info;
+  pipeline_info.pInputAssemblyState = &pipeline->info.input_assembly;
+  pipeline_info.pViewportState = &pipeline->info.viewport_state;
+  pipeline_info.pRasterizationState = &pipeline->info.rasterizer;
+  pipeline_info.pMultisampleState = &pipeline->info.multisampling;
+  pipeline_info.pDepthStencilState = &pipeline->info.depth_stencil;
+  pipeline_info.pColorBlendState = &pipeline->info.color_blend_info;
+  pipeline_info.pDynamicState = &pipeline->info.dynamic_state;
+  pipeline_info.layout = pipeline->layout;
+  pipeline_info.renderPass = renderpass->renderpass;
+  pipeline_info.subpass = 0;
+  pipeline_info.basePipelineHandle = VK_NULL_HANDLE; // Optional
+  pipeline_info.basePipelineIndex = -1; // Optional
+
+  //Create pipeline graphics
+  VkResult result = vkCreateGraphicsPipelines(vk_param->device.device, VK_NULL_HANDLE, 1, &pipeline_info, nullptr, &pipeline->pipeline);
+  if(result != VK_SUCCESS){
+      throw std::runtime_error("[error] failed to create graphics pipeline!");
+    }
+
+  //Destroy shader modules
+  for(int i=0; i<pipeline->info.vec_shader_couple.size(); i++){
+    pair<VkShaderModule, VkShaderModule> shader_couple = pipeline->info.vec_shader_couple[i];
+    vkDestroyShaderModule(vk_param->device.device, shader_couple.first, nullptr);
+    vkDestroyShaderModule(vk_param->device.device, shader_couple.second, nullptr);
+  }
+
+  //---------------------------
+  pipeline->info.info = pipeline_info;
+}
 void VK_pipeline::create_pipeline_layout(Struct_pipeline* pipeline){
   //---------------------------
 
   //Push constant for MVP matrix
-  /*VkPushConstantRange pushconstant_range = {};
-  pushconstant_range.stageFlags = STAGE_VS;
-  pushconstant_range.offset = 0;
-  pushconstant_range.size = sizeof(glm::mat4);*/
+  //VkPushConstantRange pushconstant_range = {};
+  //pushconstant_range.stageFlags = STAGE_VS;
+  //pushconstant_range.offset = 0;
+  //pushconstant_range.size = sizeof(glm::mat4);
 
   //Pipeline layout info -> usefull for shader uniform variables
   VkPipelineLayoutCreateInfo pipeline_layout_info{};
@@ -206,8 +269,8 @@ void VK_pipeline::create_depth(Struct_pipeline* pipeline){
 
   VkPipelineDepthStencilStateCreateInfo depth_stencil = {};
   depth_stencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-  depth_stencil.depthTestEnable = VK_TRUE;
-  depth_stencil.depthWriteEnable = VK_TRUE;
+  depth_stencil.depthTestEnable = (pipeline->with_depth_test) ? VK_TRUE : VK_FALSE;
+  depth_stencil.depthWriteEnable = (pipeline->with_depth_test) ? VK_TRUE : VK_FALSE;
   depth_stencil.depthCompareOp = VK_COMPARE_OP_LESS;
   depth_stencil.depthBoundsTestEnable = VK_FALSE;
   depth_stencil.minDepthBounds = 0.0f; // Optional

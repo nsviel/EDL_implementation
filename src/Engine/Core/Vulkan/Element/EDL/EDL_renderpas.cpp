@@ -49,7 +49,9 @@ void EDL_renderpas::create_pipeline_edl(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "triangle_EDL";
   pipeline->topology = "triangle";
+  pipeline->purpose = "graphics";
   pipeline->compile_shader = true;
+  pipeline->with_depth_test = true;
   pipeline->path_shader_vs = "EDL/shader_edl_vs";
   pipeline->path_shader_fs = "EDL/shader_edl_fs";
   pipeline->info.vec_data_name.push_back("location");

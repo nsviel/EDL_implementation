@@ -49,7 +49,9 @@ void Scene_renderpass::create_pipeline_point(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "point";
   pipeline->topology = "point";
+  pipeline->purpose = "graphics";
   pipeline->compile_shader = true;
+  pipeline->with_depth_test = true;
   pipeline->path_shader_vs = "Base/shader_point_vs";
   pipeline->path_shader_fs = "Base/shader_point_fs";
   pipeline->info.vec_data_name.push_back("location");
@@ -66,7 +68,9 @@ void Scene_renderpass::create_pipeline_line(Struct_renderpass* renderpass){
   Struct_pipeline* pipeline = new Struct_pipeline();
   pipeline->name = "line";
   pipeline->topology = "line";
+  pipeline->purpose = "graphics";
   pipeline->compile_shader = true;
+  pipeline->with_depth_test = true;
   pipeline->path_shader_vs = "Base/shader_line_vs";
   pipeline->path_shader_fs = "Base/shader_line_fs";
   pipeline->info.vec_data_name.push_back("location");
