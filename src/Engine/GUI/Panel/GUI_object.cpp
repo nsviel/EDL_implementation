@@ -1,4 +1,4 @@
-#include "GUI_filemanager.h"
+#include "GUI_object.h"
 
 #include "../Node_gui.h"
 #include "../GUI_param.h"
@@ -8,7 +8,7 @@
 
 
 //Constructor / Destructor
-GUI_filemanager::GUI_filemanager(Node_gui* node_gui){
+GUI_object::GUI_object(Node_gui* node_gui){
   //---------------------------
 
   Node_data* node_data = node_gui->get_node_data();
@@ -17,10 +17,10 @@ GUI_filemanager::GUI_filemanager(Node_gui* node_gui){
 
   //---------------------------
 }
-GUI_filemanager::~GUI_filemanager(){}
+GUI_object::~GUI_object(){}
 
 //Main function
-void GUI_filemanager::design_panel(){
+void GUI_object::design_panel(){
   //---------------------------
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
@@ -35,7 +35,7 @@ void GUI_filemanager::design_panel(){
 }
 
 //Subfunction
-void GUI_filemanager::draw_window_background(){
+void GUI_object::draw_window_background(){
   //-------------------------------
 
   float x1 = ImGui::GetCurrentWindow()->WorkRect.Min.x;
@@ -65,7 +65,7 @@ void GUI_filemanager::draw_window_background(){
 
   //-------------------------------
 }
-void GUI_filemanager::tree_view(){
+void GUI_object::tree_view(){
   list<Set*>* list_data = dataManager->get_list_data_scene();
   //---------------------------
 //say("----");
@@ -95,7 +95,7 @@ void GUI_filemanager::tree_view(){
 
   //---------------------------
 }
-int GUI_filemanager::data_node_tree(Set* set){
+int GUI_object::data_node_tree(Set* set){
   int nb_row = 0;
   //-------------------------------
 

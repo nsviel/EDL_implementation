@@ -9,7 +9,7 @@
 #include "../Menu/GUI_menubar.h"
 #include "../Control/GUI_profiling.h"
 #include "../Engine/GUI_shader.h"
-#include "../Panel/GUI_filemanager.h"
+#include "../Panel/GUI_object.h"
 
 #include "../../Load/Node_load.h"
 #include "../../Load/Processing/Loader.h"
@@ -26,7 +26,7 @@ GUI_panel::GUI_panel(Node_gui* node_gui){
   this->node_engine = node_gui->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
   this->node_gui = node_gui;
-  this->gui_filemanager = node_gui->get_gui_filemanager();
+  this->gui_object = node_gui->get_gui_object();
   this->gui_profiling = node_gui->get_gui_profiling();
   this->gui_menubar = node_gui->get_gui_menubar();
   this->gui_shader = node_gui->get_gui_shader();
@@ -47,13 +47,13 @@ void GUI_panel::draw_panels(){
   this->docker_space_main();
   dimManager->update();
   gui_menubar->design_menubar();
-  gui_filemanager->design_panel();
   gui_editor_text->design_panel();
   gui_shader->design_panel();
   gui_profiling->design_panel();
   gui_engine->design_panel();
   gui_node->design_panel();
   gui_database->design_panel();
+  gui_object->design_panel();
 
   //---------------------------
 }

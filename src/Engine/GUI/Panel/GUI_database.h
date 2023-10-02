@@ -22,8 +22,11 @@ public:
 
   //Subfunction
   void open_database();
+  void close_database();
   void design_table();
   void create_table();
+  void insert();
+  void select();
 
 private:
   sqlite3 *db;

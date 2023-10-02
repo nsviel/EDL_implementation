@@ -7,7 +7,7 @@ class Node_gui;
 class Node_engine;
 class Dimension;
 class GUI_profiling;
-class GUI_filemanager;
+class GUI_object;
 class GUI_menubar;
 class GUI_shader;
 class GUI_editor_text;
@@ -37,7 +37,7 @@ private:
   Dimension* dimManager;
 
   GUI_profiling* gui_profiling;
-  GUI_filemanager* gui_filemanager;
+  GUI_object* gui_object;
   GUI_menubar* gui_menubar;
   GUI_shader* gui_shader;
   GUI_editor_text* gui_editor_text;

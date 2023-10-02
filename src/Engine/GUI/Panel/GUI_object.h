@@ -1,5 +1,5 @@
-#ifndef GUI_FILEMANAGER_H
-#define GUI_FILEMANAGER_H
+#ifndef GUI_OBJECT_H
+#define GUI_OBJECT_H
 
 #include "../../common.h"
 
@@ -8,12 +8,12 @@ class GUI_param;
 class Database;
 
 
-class GUI_filemanager
+class GUI_object
 {
 public:
   //Constructor / Destructor
-  GUI_filemanager(Node_gui* node_gui);
-  ~GUI_filemanager();
+  GUI_object(Node_gui* node_gui);
+  ~GUI_object();
 
 public:
   //Main function
