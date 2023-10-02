@@ -53,7 +53,7 @@ void GUI_engine::engine_window(){
 
   Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
   Struct_image* image = &frame_edl->color;
-  VkDescriptorSet descriptor = ImGui_ImplVulkan_AddTexture(image->sampler, image->view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+  this->descriptor = ImGui_ImplVulkan_AddTexture(image->sampler, image->view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
   ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
   ImGui::Image(descriptor, ImVec2{viewportPanelSize.x, viewportPanelSize.y});
 

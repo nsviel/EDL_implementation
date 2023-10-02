@@ -24,6 +24,8 @@ public:
 
 private:
   VK_param* vk_param;
+
+  VkDescriptorSet descriptor;
 };
 
 #endif

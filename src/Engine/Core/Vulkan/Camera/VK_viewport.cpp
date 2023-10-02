@@ -26,8 +26,8 @@ void VK_viewport::init_viewport(){
 
   //Viewport
   viewport_scene = {};
-  viewport_scene.x = tab->pos.x;
-  viewport_scene.y = tab->pos.y;
+  viewport_scene.x = 0;
+  viewport_scene.y = 0;
   viewport_scene.width  = tab->dim.x;
   viewport_scene.height = tab->dim.y;
   viewport_scene.minDepth = 0.0f;
