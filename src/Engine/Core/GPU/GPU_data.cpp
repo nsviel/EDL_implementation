@@ -3,10 +3,10 @@
 #include "../Node_engine.h"
 #include "../Vulkan/VK_engine.h"
 #include "../Vulkan/Data/VK_buffer.h"
-#include "../Vulkan/Presentation/Image/VK_texture.h"
-#include "../Vulkan/Render/Binding/VK_descriptor.h"
+#include "../Vulkan/Image/VK_texture.h"
+#include "../Vulkan/Binding/VK_descriptor.h"
 #include "../Vulkan/Data/VK_data.h"
-#include "../Vulkan/Core/Command/VK_command.h"
+#include "../Vulkan/Command/VK_command.h"
 
 
 //Constructor / Destructor

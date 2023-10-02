@@ -19,6 +19,7 @@ public:
   void design_panel();
 
   //Subfunction
+  uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
   void engine_window();
 
 private:
