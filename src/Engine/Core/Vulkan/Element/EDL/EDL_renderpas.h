@@ -1,8 +1,9 @@
-#ifndef RP_UI_H
-#define RP_UI_H
+#ifndef VK_EDL_RENDERPASS_H
+#define VK_EDL_RENDERPASS_H
 
 #include "../../Struct/struct_renderpass.h"
 #include "../../Struct/struct_pipeline.h"
+#include "../../../Shader/Shader.h"
 #include "../../../../common.h"
 
 class VK_engine;
@@ -12,19 +13,19 @@ class VK_subpass;
 class VK_viewport;
 
 
-class RP_ui
+class EDL_renderpas
 {
 public:
   //Constructor / Destructor
-  RP_ui(VK_engine* vk_engine);
-  ~RP_ui();
+  EDL_renderpas(VK_engine* vk_engine);
+  ~EDL_renderpas();
 
 public:
   //Main functions
   void init_renderpass(Struct_renderpass* renderpass);
-  
+
   //Pipeline
-  void create_pipeline_triangle(Struct_renderpass* renderpass);
+  void create_pipeline_edl(Struct_renderpass* renderpass);
 
 private:
   VK_engine* vk_engine;

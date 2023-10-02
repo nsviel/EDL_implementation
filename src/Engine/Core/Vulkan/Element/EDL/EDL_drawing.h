@@ -1,5 +1,5 @@
-#ifndef VK_DRAW_EDL_H
-#define VK_DRAW_EDL_H
+#ifndef VK_EDL_DRAWING_H
+#define VK_EDL_DRAWING_H
 
 #include "../../Struct/struct_frame.h"
 #include "../../Struct/struct_renderpass.h"
@@ -17,12 +17,12 @@ class VK_uniform;
 class VK_canvas;
 
 
-class VK_draw_edl
+class EDL_drawing
 {
 public:
   //Constructor / Destructor
-  VK_draw_edl(VK_engine* vk_engine);
-  ~VK_draw_edl();
+  EDL_drawing(VK_engine* vk_engine);
+  ~EDL_drawing();
 
 public:
   //Main functions

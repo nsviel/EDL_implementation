@@ -11,10 +11,10 @@ class VK_color;
 class VK_pipeline;
 class VK_subpass;
 
-class RP_scene;
-class RP_edl;
+class Scene_renderpass;
+class EDL_renderpas;
 class RP_psr;
-class RP_ui;
+class UI_renderpass;
 
 
 class VK_renderpass
@@ -41,10 +41,10 @@ private:
   VK_pipeline* vk_pipeline;
   VK_subpass* vk_subpass;
 
-  RP_scene* rp_scene;
-  RP_edl* rp_edl;
+  Scene_renderpass* rp_scene;
+  EDL_renderpas* rp_edl;
   RP_psr* rp_psr;
-  RP_ui* rp_ui;
+  UI_renderpass* rp_ui;
 };
 
 #endif

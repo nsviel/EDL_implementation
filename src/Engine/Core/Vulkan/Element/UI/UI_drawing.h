@@ -18,12 +18,12 @@ class VK_uniform;
 class VK_canvas;
 
 
-class VK_draw_ui
+class UI_drawing
 {
 public:
   //Constructor / Destructor
-  VK_draw_ui(VK_engine* vk_engine);
-  ~VK_draw_ui();
+  UI_drawing(VK_engine* vk_engine);
+  ~UI_drawing();
 
 public:
   //Main functions

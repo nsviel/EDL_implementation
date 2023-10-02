@@ -12,10 +12,10 @@ class VK_command;
 class VK_cmd;
 class VK_descriptor;
 class VK_submit;
-class VK_draw_scene;
-class VK_draw_edl;
+class Scene_drawing;
+class EDL_drawing;
 class VK_draw_psr;
-class VK_draw_ui;
+class UI_drawing;
 
 
 class VK_drawing
@@ -38,10 +38,10 @@ private:
   VK_cmd* vk_cmd;
   VK_descriptor* vk_descriptor;
   VK_submit* vk_submit;
-  VK_draw_scene* vk_draw_scene;
-  VK_draw_edl* vk_draw_edl;
+  Scene_drawing* vk_draw_scene;
+  EDL_drawing* vk_draw_edl;
   VK_draw_psr* vk_draw_psr;
-  VK_draw_ui* vk_draw_ui;
+  UI_drawing* vk_draw_ui;
 };
 
 #endif

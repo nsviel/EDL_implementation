@@ -1,4 +1,4 @@
-#include "RP_scene.h"
+#include "Scene_renderpass.h"
 
 #include "../../Renderpass/VK_renderpass.h"
 #include "../../Renderpass/VK_subpass.h"
@@ -9,7 +9,7 @@
 
 
 //Constructor / Destructor
-RP_scene::RP_scene(VK_engine* vk_engine){
+Scene_renderpass::Scene_renderpass(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -20,7 +20,7 @@ RP_scene::RP_scene(VK_engine* vk_engine){
 
   //---------------------------
 }
-RP_scene::~RP_scene(){
+Scene_renderpass::~Scene_renderpass(){
   //---------------------------
 
   delete vk_subpass;
@@ -29,7 +29,7 @@ RP_scene::~RP_scene(){
 }
 
 //Main function
-void RP_scene::init_renderpass(Struct_renderpass* renderpass){
+void Scene_renderpass::init_renderpass(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 
@@ -43,7 +43,7 @@ void RP_scene::init_renderpass(Struct_renderpass* renderpass){
 }
 
 //Pipeline
-void RP_scene::create_pipeline_point(Struct_renderpass* renderpass){
+void Scene_renderpass::create_pipeline_point(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
@@ -60,7 +60,7 @@ void RP_scene::create_pipeline_point(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void RP_scene::create_pipeline_line(Struct_renderpass* renderpass){
+void Scene_renderpass::create_pipeline_line(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();

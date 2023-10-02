@@ -1,4 +1,4 @@
-#include "RP_edl.h"
+#include "UI_renderpass.h"
 
 #include "../../Renderpass/VK_renderpass.h"
 #include "../../Renderpass/VK_subpass.h"
@@ -9,7 +9,7 @@
 
 
 //Constructor / Destructor
-RP_edl::RP_edl(VK_engine* vk_engine){
+UI_renderpass::UI_renderpass(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -20,7 +20,7 @@ RP_edl::RP_edl(VK_engine* vk_engine){
 
   //---------------------------
 }
-RP_edl::~RP_edl(){
+UI_renderpass::~UI_renderpass(){
   //---------------------------
 
   delete vk_subpass;
@@ -29,34 +29,31 @@ RP_edl::~RP_edl(){
 }
 
 //Main function
-void RP_edl::init_renderpass(Struct_renderpass* renderpass){
+void UI_renderpass::init_renderpass(Struct_renderpass* renderpass){
   VK_renderpass* vk_renderpass = vk_engine->get_vk_renderpass();
   //---------------------------
 
-  //Renderpass
-  renderpass->name = "edl";
-  vk_subpass->create_subpass_shader(renderpass);
-  this->create_pipeline_edl(renderpass);
+  renderpass->name = "ui";
+  vk_subpass->create_subpass_presentation(renderpass);
+  this->create_pipeline_triangle(renderpass);
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);
 }
 
 //Pipeline
-void RP_edl::create_pipeline_edl(Struct_renderpass* renderpass){
+void UI_renderpass::create_pipeline_triangle(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = new Struct_pipeline();
-  pipeline->name = "triangle_EDL";
+  pipeline->name = "triangle";
   pipeline->topology = "triangle";
   pipeline->compile_shader = true;
-  pipeline->path_shader_vs = "EDL/shader_edl_vs";
-  pipeline->path_shader_fs = "EDL/shader_edl_fs";
+  pipeline->path_shader_vs = "Base/shader_triangle_vs";
+  pipeline->path_shader_fs = "Base/shader_triangle_fs";
   pipeline->info.vec_data_name.push_back("location");
   pipeline->info.vec_data_name.push_back("tex_coord");
   pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_color", 0, 1, TYPE_SAMPLER, STAGE_FS));
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("tex_depth", 0, 4, TYPE_SAMPLER, STAGE_FS));
-  pipeline->binding.vec_required_binding.push_back(std::make_tuple("Struct_edl", sizeof(Struct_edl), 5, TYPE_UNIFORM, STAGE_FS));
   renderpass->vec_pipeline.push_back(pipeline);
 
   //---------------------------

@@ -1,4 +1,4 @@
-#include "VK_draw_edl.h"
+#include "EDL_drawing.h"
 
 #include "../../Drawing/VK_cmd.h"
 #include "../../Pipeline/VK_pipeline.h"
@@ -16,7 +16,7 @@
 
 
 //Constructor / Destructor
-VK_draw_edl::VK_draw_edl(VK_engine* vk_engine){
+EDL_drawing::EDL_drawing(VK_engine* vk_engine){
   //---------------------------
 
   Node_engine* node_engine = vk_engine->get_node_engine();
@@ -34,10 +34,10 @@ VK_draw_edl::VK_draw_edl(VK_engine* vk_engine){
 
   //---------------------------
 }
-VK_draw_edl::~VK_draw_edl(){}
+EDL_drawing::~EDL_drawing(){}
 
 //Main function
-void VK_draw_edl::draw_edl(Struct_renderpass* renderpass){
+void EDL_drawing::draw_edl(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
@@ -50,7 +50,7 @@ void VK_draw_edl::draw_edl(Struct_renderpass* renderpass){
 }
 
 //Subfunction
-void VK_draw_edl::update_descriptor(Struct_renderpass* renderpass){
+void EDL_drawing::update_descriptor(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame_scene = vk_param->renderpass_scene.get_rendering_frame();
@@ -60,7 +60,7 @@ void VK_draw_edl::update_descriptor(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_draw_edl::record_command(Struct_renderpass* renderpass){
+void EDL_drawing::record_command(Struct_renderpass* renderpass){
   Frame* frame = renderpass->get_rendering_frame();
   //---------------------------
 
@@ -78,7 +78,7 @@ void VK_draw_edl::record_command(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_draw_edl::submit_command(Struct_renderpass* renderpass){
+void EDL_drawing::submit_command(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
@@ -94,7 +94,7 @@ void VK_draw_edl::submit_command(Struct_renderpass* renderpass){
 }
 
 //Command function
-void VK_draw_edl::cmd_draw(Struct_renderpass* renderpass){
+void EDL_drawing::cmd_draw(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle_EDL");

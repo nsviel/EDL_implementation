@@ -1,4 +1,4 @@
-#include "VK_draw_ui.h"
+#include "UI_drawing.h"
 #include "../../Drawing/VK_cmd.h"
 #include "../../Command/VK_submit.h"
 #include "../../VK_engine.h"
@@ -12,7 +12,7 @@
 
 
 //Constructor / Destructor
-VK_draw_ui::VK_draw_ui(VK_engine* vk_engine){
+UI_drawing::UI_drawing(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -28,10 +28,10 @@ VK_draw_ui::VK_draw_ui(VK_engine* vk_engine){
 
   //---------------------------
 }
-VK_draw_ui::~VK_draw_ui(){}
+UI_drawing::~UI_drawing(){}
 
 //Main function
-void VK_draw_ui::draw_ui(Struct_renderpass* renderpass){
+void UI_drawing::draw_ui(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
@@ -44,7 +44,7 @@ void VK_draw_ui::draw_ui(Struct_renderpass* renderpass){
 }
 
 //Subfunction
-void VK_draw_ui::update_descriptor(Struct_renderpass* renderpass){
+void UI_drawing::update_descriptor(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
@@ -53,7 +53,7 @@ void VK_draw_ui::update_descriptor(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_draw_ui::record_command(Struct_renderpass* renderpass){
+void UI_drawing::record_command(Struct_renderpass* renderpass){
   Frame* frame = vk_param->swapchain.get_frame_current();
   //---------------------------
 
@@ -71,7 +71,7 @@ void VK_draw_ui::record_command(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_draw_ui::submit_command(Struct_renderpass* renderpass){
+void UI_drawing::submit_command(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
@@ -87,7 +87,7 @@ void VK_draw_ui::submit_command(Struct_renderpass* renderpass){
 }
 
 //Command function
-void VK_draw_ui::cmd_draw(Struct_renderpass* renderpass){
+void UI_drawing::cmd_draw(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");

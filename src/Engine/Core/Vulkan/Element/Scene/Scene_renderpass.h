@@ -12,12 +12,12 @@ class VK_subpass;
 class VK_viewport;
 
 
-class RP_scene
+class Scene_renderpass
 {
 public:
   //Constructor / Destructor
-  RP_scene(VK_engine* vk_engine);
-  ~RP_scene();
+  Scene_renderpass(VK_engine* vk_engine);
+  ~Scene_renderpass();
 
 public:
   //Main functions

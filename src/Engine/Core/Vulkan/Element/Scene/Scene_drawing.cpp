@@ -1,4 +1,4 @@
-#include "VK_draw_scene.h"
+#include "Scene_drawing.h"
 
 #include "../../Drawing/VK_cmd.h"
 #include "../../Command/VK_submit.h"
@@ -13,7 +13,7 @@
 
 
 //Constructor / Destructor
-VK_draw_scene::VK_draw_scene(VK_engine* vk_engine){
+Scene_drawing::Scene_drawing(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -28,10 +28,10 @@ VK_draw_scene::VK_draw_scene(VK_engine* vk_engine){
 
   //---------------------------
 }
-VK_draw_scene::~VK_draw_scene(){}
+Scene_drawing::~Scene_drawing(){}
 
 //Draw frame parts
-void VK_draw_scene::draw_scene(Struct_renderpass* renderpass){
+void Scene_drawing::draw_scene(Struct_renderpass* renderpass){
   timer_time t1 = timer.start_t();
   //---------------------------
 
@@ -43,7 +43,7 @@ void VK_draw_scene::draw_scene(Struct_renderpass* renderpass){
 }
 
 //Subfunction
-void VK_draw_scene::record_command(Struct_renderpass* renderpass){
+void Scene_drawing::record_command(Struct_renderpass* renderpass){
   Frame* frame = renderpass->get_rendering_frame();
   //---------------------------
 
@@ -62,7 +62,7 @@ void VK_draw_scene::record_command(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_draw_scene::submit_command(Struct_renderpass* renderpass){
+void Scene_drawing::submit_command(Struct_renderpass* renderpass){
   //---------------------------
 
   Frame* frame_swap = vk_param->swapchain.get_frame_inflight();
@@ -78,7 +78,7 @@ void VK_draw_scene::submit_command(Struct_renderpass* renderpass){
 }
 
 //Command function
-void VK_draw_scene::cmd_draw_scene(Struct_renderpass* renderpass){
+void Scene_drawing::cmd_draw_scene(Struct_renderpass* renderpass){
   list<Struct_data*> list_data_scene = vk_data->get_list_data_scene();
   //---------------------------
 
@@ -100,7 +100,7 @@ void VK_draw_scene::cmd_draw_scene(Struct_renderpass* renderpass){
 
   //---------------------------
 }
-void VK_draw_scene::cmd_draw_glyph(Struct_renderpass* renderpass){
+void Scene_drawing::cmd_draw_glyph(Struct_renderpass* renderpass){
   list<Struct_data*> list_data_glyph = vk_data->get_list_data_glyph();
   //---------------------------
 

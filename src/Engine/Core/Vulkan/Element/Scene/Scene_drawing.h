@@ -17,12 +17,12 @@ class VK_uniform;
 class VK_camera;
 
 
-class VK_draw_scene
+class Scene_drawing
 {
 public:
   //Constructor / Destructor
-  VK_draw_scene(VK_engine* vk_engine);
-  ~VK_draw_scene();
+  Scene_drawing(VK_engine* vk_engine);
+  ~Scene_drawing();
 
 public:
   //Main functions

@@ -3,10 +3,10 @@
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Element/Scene/RP_scene.h"
-#include "../Element/EDL/RP_edl.h"
+#include "../Element/Scene/Scene_renderpass.h"
+#include "../Element/EDL/EDL_renderpas.h"
 #include "../Element/PSR/RP_psr.h"
-#include "../Element/UI/RP_ui.h"
+#include "../Element/UI/UI_renderpass.h"
 #include "../Command/VK_command_buffer.h"
 #include "../Pipeline/VK_pipeline.h"
 #include "../Presentation/VK_frame.h"
@@ -25,10 +25,10 @@ VK_renderpass::VK_renderpass(VK_engine* vk_engine){
   this->vk_pipeline = vk_engine->get_vk_pipeline();
   this->vk_subpass = new VK_subpass(vk_engine);
 
-  this->rp_scene = new RP_scene(vk_engine);
-  this->rp_edl = new RP_edl(vk_engine);
+  this->rp_scene = new Scene_renderpass(vk_engine);
+  this->rp_edl = new EDL_renderpas(vk_engine);
   this->rp_psr = new RP_psr(vk_engine);
-  this->rp_ui = new RP_ui(vk_engine);
+  this->rp_ui = new UI_renderpass(vk_engine);
 
   //---------------------------
 }
