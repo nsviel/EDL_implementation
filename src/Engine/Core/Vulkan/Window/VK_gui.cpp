@@ -195,6 +195,11 @@ void VK_gui::gui_image(){
   VkCommandPool command_pool = vk_command_buffer->get_command_pool();
   //---------------------------
 
+
+
+
+
+/*
   std::vector<VkImage> viewport_image;
   std::vector<VkImageView> viewport_image_view;
   std::vector<VkDeviceMemory> dst_image_memory;
@@ -250,7 +255,7 @@ void VK_gui::gui_image(){
   for (uint32_t i = 0; i < viewport_image.size(); i++){
     viewport_image_view[i] = vk_image->create_image_view(viewport_image[i], VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
   }
-
+*/
   //---------------------------
 }
 

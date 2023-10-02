@@ -51,38 +51,11 @@ uint32_t GUI_engine::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags p
 void GUI_engine::engine_window(){
   //---------------------------
 
-  Struct_image* image = &vk_param->swapchain.get_frame_current()->color;
-
-  VkDescriptorSet m_Dset;
-  //m_Dset = ImGui_ImplVulkan_AddTexture(image->sampler, image->view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
-
-
-  //ImGui::Image((ImTextureID)m_Dset, ImVec2(image->width, image->height));
-
-float truc = 0;
-ImGui::SliderFloat("FOV (°)", &truc, 100.0f, 1.0f);
-
-
-
-
-  vector<Frame*>& vec_frame = this->vk_param->swapchain.vec_frame;
-
-  //Get descriptor set from Vulkan swapchain
-  vector<VkDescriptorSet> descriptor_set;
-  descriptor_set.resize(vec_frame.size());
-  for(uint32_t i=0; i<vec_frame.size(); i++){
-    //descriptor_set[i] = ImGui_ImplVulkan_AddTexture(vec_frame[i]->color.sampler, vec_frame[i]->color.view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-  }
-
-//  ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-//  ImGui::Image(descriptor_set[vk_param->swapchain.frame_current_ID], ImVec2{viewportPanelSize.x, viewportPanelSize.y});
-
-
-
-
-
-
+  Frame* frame_edl = vk_param->renderpass_edl.get_rendering_frame();
+  Struct_image* image = &frame_edl->color;
+  VkDescriptorSet descriptor = ImGui_ImplVulkan_AddTexture(image->sampler, image->view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+  ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+  ImGui::Image(descriptor, ImVec2{viewportPanelSize.x, viewportPanelSize.y});
 
   //---------------------------
 }
