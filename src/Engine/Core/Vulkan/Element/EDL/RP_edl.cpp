@@ -35,40 +35,11 @@ void RP_edl::init_renderpass(Struct_renderpass* renderpass){
 
   //Renderpass
   renderpass->name = "edl";
-  renderpass->color_image_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-  renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
-  renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
-  renderpass->depth_sampler_layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
-
-  //Subpass
-  this->create_subpass_edl(renderpass);
-
-  //pipeline
+  vk_subpass->create_subpass_shader(renderpass);
   this->create_pipeline_edl(renderpass);
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);
-}
-
-//Subpass
-void RP_edl::create_subpass_edl(Struct_renderpass* renderpass){
-  //---------------------------
-
-  Struct_subpass* subpass = new Struct_subpass();
-  subpass->color.item = 0;
-  subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->color.store_operation = ATTACHMENT_STOREOP_NOTHING;
-  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_SHADER_READONLY;
-
-  subpass->depth.item = 1;
-  subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->depth.store_operation = ATTACHMENT_STOREOP_STORE;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-  renderpass->vec_subpass.push_back(subpass);
-
-  //---------------------------
 }
 
 //Pipeline

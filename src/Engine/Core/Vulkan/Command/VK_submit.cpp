@@ -61,16 +61,7 @@ void VK_submit::set_next_frame_ID(Struct_swapchain* swapchain){
 
   int current_ID = swapchain->frame_current_ID;
   current_ID = (current_ID + 1) % vk_param->instance.max_frame_inflight;
-  //swapchain->frame_current_ID = current_ID;
-
-  //---------------------------
-}
-void VK_submit::set_next_frame_ID(Struct_renderpass* renderpass){
-  //---------------------------
-
-  int current_ID = renderpass->rendering_frame_ID;
-  current_ID = (current_ID + 1) % vk_param->instance.max_frame_inflight;
-  renderpass->rendering_frame_ID = current_ID;
+  swapchain->frame_current_ID = current_ID;
 
   //---------------------------
 }

@@ -57,17 +57,17 @@ void RP_psr::create_subpass_pyramid(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_subpass* subpass = new Struct_subpass();
-  subpass->color.item = 0;
-  subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->color.store_operation = ATTACHMENT_STOREOP_NOTHING;
-  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_SHADER_READONLY;
+  subpass->attached_color.item = 0;
+  subpass->attached_color.load_operation = ATTACHMENT_LOADOP_CLEAR;
+  subpass->attached_color.store_operation = ATTACHMENT_STOREOP_NOTHING;
+  subpass->attached_color.layout_initial = IMAGE_LAYOUT_EMPTY;
+  subpass->attached_color.layout_final = IMAGE_LAYOUT_SHADER_READONLY;
 
-  subpass->depth.item = 1;
-  subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->depth.store_operation = ATTACHMENT_STOREOP_STORE;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+  subpass->attached_depth.item = 1;
+  subpass->attached_depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
+  subpass->attached_depth.store_operation = ATTACHMENT_STOREOP_STORE;
+  subpass->attached_depth.layout_initial = IMAGE_LAYOUT_EMPTY;
+  subpass->attached_depth.layout_final = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
   renderpass->vec_subpass.push_back(subpass);
 
   //---------------------------

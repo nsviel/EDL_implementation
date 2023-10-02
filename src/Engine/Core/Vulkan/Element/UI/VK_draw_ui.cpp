@@ -67,7 +67,6 @@ void VK_draw_ui::record_command(Struct_renderpass* renderpass){
   this->cmd_draw(renderpass);
   vk_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
-
   vk_command->stop_command_buffer(renderpass->command_buffer);
 
   //---------------------------
@@ -92,11 +91,11 @@ void VK_draw_ui::cmd_draw(Struct_renderpass* renderpass){
   //---------------------------
 
   Struct_pipeline* pipeline = renderpass->get_pipeline_byName("triangle");
-  Struct_data* data = vk_canvas->get_data_canvas();
+  Struct_data* canvas = vk_canvas->get_data_canvas();
 
   vk_cmd->cmd_bind_pipeline(renderpass, "triangle");
   vk_cmd->cmd_bind_descriptor(renderpass, "triangle", pipeline->binding.descriptor.set);
-  vk_cmd->cmd_draw_data(renderpass, data);
+  vk_cmd->cmd_draw_data(renderpass, canvas);
 
   //---------------------------
 }

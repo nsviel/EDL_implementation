@@ -247,7 +247,6 @@ void VK_gui::gui_image(){
 
   //create image view
   viewport_image_view.resize(viewport_image.size());
-
   for (uint32_t i = 0; i < viewport_image.size(); i++){
     viewport_image_view[i] = vk_image->create_image_view(viewport_image[i], VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
   }

@@ -34,37 +34,11 @@ void RP_ui::init_renderpass(Struct_renderpass* renderpass){
   //---------------------------
 
   renderpass->name = "ui";
-  renderpass->color_image_usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-  renderpass->color_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
-  renderpass->depth_image_usage = IMAGE_USAGE_DEPTH;
-  renderpass->depth_sampler_layout = IMAGE_LAYOUT_SHADER_READONLY;
-
-  this->create_subpass(renderpass);
+  vk_subpass->create_subpass_presentation(renderpass);
   this->create_pipeline_triangle(renderpass);
 
   //---------------------------
   vk_renderpass->create_renderpass(renderpass);
-}
-
-//Subpass
-void RP_ui::create_subpass(Struct_renderpass* renderpass){
-  //---------------------------
-
-  Struct_subpass* subpass = new Struct_subpass();
-  subpass->color.item = 0;
-  subpass->color.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->color.store_operation = ATTACHMENT_STOREOP_NOTHING;
-  subpass->color.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->color.layout_final = IMAGE_LAYOUT_PRESENT;
-
-  subpass->depth.item = 1;
-  subpass->depth.load_operation = ATTACHMENT_LOADOP_CLEAR;
-  subpass->depth.store_operation = ATTACHMENT_STOREOP_NOTHING;
-  subpass->depth.layout_initial = IMAGE_LAYOUT_EMPTY;
-  subpass->depth.layout_final = IMAGE_LAYOUT_DEPTH_ATTACHMENT;
-  renderpass->vec_subpass.push_back(subpass);
-
-  //---------------------------
 }
 
 //Pipeline

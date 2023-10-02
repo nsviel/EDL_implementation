@@ -18,7 +18,8 @@ public:
 
 public:
   //Main functions
-  void create_subpass(Struct_renderpass* renderpass);
+  void create_subpass_presentation(Struct_renderpass* renderpass);
+  void create_subpass_shader(Struct_renderpass* renderpass);
 
   //Subfunction
   void create_depth_attachment(Struct_subpass* subpass);

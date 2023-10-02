@@ -22,10 +22,7 @@ public:
 public:
   //Main functions
   void init_renderpass(Struct_renderpass* renderpass);
-
-  //Subpass
-  void create_subpass(Struct_renderpass* renderpass);
-
+  
   //Pipeline
   void create_pipeline_triangle(Struct_renderpass* renderpass);
 

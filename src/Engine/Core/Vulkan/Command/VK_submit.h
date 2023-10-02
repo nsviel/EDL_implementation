@@ -27,7 +27,6 @@ public:
   //Main functions
   void acquire_next_image(Struct_swapchain* swapchain);
   void set_next_frame_ID(Struct_swapchain* swapchain);
-  void set_next_frame_ID(Struct_renderpass* renderpass);
 
   //Queue submission
   void submit_graphics_command(Struct_submit_command* command);

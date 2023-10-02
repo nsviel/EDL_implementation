@@ -23,9 +23,6 @@ public:
   //Main functions
   void init_renderpass(Struct_renderpass* renderpass);
 
-  //Subpass
-  void create_subpass(Struct_renderpass* renderpass);
-
   //Pipeline
   void create_pipeline_point(Struct_renderpass* renderpass);
   void create_pipeline_line(Struct_renderpass* renderpass);
