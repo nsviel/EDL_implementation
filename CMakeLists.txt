@@ -70,6 +70,9 @@ set(ALL_LIBS
   -lXrandr
   -lXi
   -lsqlite3
+  SQLiteCpp
+  pthread
+  dl
 )
 
 # Executable

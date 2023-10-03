@@ -21,15 +21,24 @@ public:
   void design_panel();
 
   //Subfunction
+  void design_database();
+  void display_option();
+  void display_data();
+
+  //Database function
+  void create_table(string name);
+  void remove_table(string name);
+  vector<string> retrieve_all_table();
+
+  //WIP
   void open_database();
   void close_database();
-  void design_table();
-  void create_table();
   void insert();
   void select();
 
 private:
   sqlite3 *db;
+  string path_database;
 };
 
 #endif

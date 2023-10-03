@@ -94,18 +94,10 @@ void GUI_panel::docker_space_main(){
 
   //---------------------------
 }
-void MakeTabVisible(const char* window_name)
-{
-    ImGuiWindow* window = ImGui::FindWindowByName(window_name);
-    if (window == NULL || window->DockNode == NULL || window->DockNode->TabBar == NULL)
-        return;
-    window->DockNode->TabBar->NextSelectedTabId = window->TabID;
-}
 void GUI_panel::set_initial_panel_focus(){
   //---------------------------
 
   ImGui::SetWindowFocus("Object");
-  MakeTabVisible("Object");
 
   //---------------------------
 }

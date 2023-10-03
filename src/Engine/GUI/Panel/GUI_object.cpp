@@ -77,21 +77,20 @@ void GUI_object::tree_view(){
 
   if(ImGui::BeginTable("data_view", 1)){
 
-  //Database
-  int nb_row = 0;
-  for(int row_i=0; row_i<list_data->size(); row_i++){
-    Set* set = *next(list_data->begin(), row_i);
+    //Database
+    for(int row_i=0; row_i<list_data->size(); row_i++){
+      Set* set = *next(list_data->begin(), row_i);
 
-    ImGui::TableNextRow();
-    ImGui::TableNextColumn();
-    nb_row++;
+      ImGui::TableNextRow();
+      ImGui::TableNextColumn();
 
-    ImGui::PushID(set->name.c_str());
-    nb_row += data_node_tree(set);
-    ImGui::PopID();
+      ImGui::PushID(set->name.c_str());
+      this->data_node_tree(set);
+      ImGui::PopID();
+    }
+
+    ImGui::EndTable();
   }
-
-  ImGui::EndTable();}
 
   //---------------------------
 }
