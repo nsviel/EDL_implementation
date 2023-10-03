@@ -1,4 +1,4 @@
-#include "Engine/Node.h"
+#include "Engine/Engine.h"
 
 #include <Window/Window_manager.h>
 #include <iostream>
@@ -10,13 +10,13 @@ int main() {
 
   std::cout<<"--- \033[1;34mBegin program\033[0m ---"<<std::endl;
   try{
-    Node node;
+    Engine engine;
     Window_manager* window = new Window_manager();
 
     window->create_window(1024, 500, "Nephos"),
-    node.init(window);
-    node.loop();
-    node.exit();
+    engine.init(window);
+    engine.loop();
+    engine.exit();
 
     delete window;
   }catch(const std::exception& e){

@@ -1,4 +1,4 @@
-#include "Node.h"
+#include "Engine.h"
 
 #include "Core/Node_engine.h"
 #include "Load/Node_load.h"
@@ -8,7 +8,7 @@
 
 
 //Constructor / Destructor
-Node::Node(){
+Engine::Engine(){
   //---------------------------
 
   this->node_ope = new Node_operation(this);
@@ -19,7 +19,7 @@ Node::Node(){
 
   //---------------------------
 }
-Node::~Node(){
+Engine::~Engine(){
   //---------------------------
 
   delete node_engine;
@@ -30,7 +30,7 @@ Node::~Node(){
   //---------------------------
 }
 
-void Node::init(Window_manager* window){
+void Engine::init(Window_manager* window){
   //---------------------------
 
   node_engine->init(window);
@@ -40,21 +40,21 @@ void Node::init(Window_manager* window){
 
   //---------------------------
 }
-void Node::loop(){
+void Engine::loop(){
   //---------------------------
 
   node_gui->loop();
 
   //---------------------------
 }
-void Node::exit(){
+void Engine::exit(){
   //---------------------------
 
   node_engine->exit();
 
   //---------------------------
 }
-void Node::reset(){
+void Engine::reset(){
   //---------------------------
 
   node_engine->reset();

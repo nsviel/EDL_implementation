@@ -1,5 +1,5 @@
-#ifndef NODE_H
-#define NODE_H
+#ifndef ENGINE_H
+#define ENGINE_H
 
 #include "common.h"
 
@@ -10,12 +10,12 @@ class Node_data;
 class Node_operation;
 
 
-class Node
+class Engine
 {
 public:
   //Constructor / Destructor
-  Node();
-  ~Node();
+  Engine();
+  ~Engine();
 
 public:
   void init(Window_manager* window);
