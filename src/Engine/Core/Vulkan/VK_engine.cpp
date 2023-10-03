@@ -122,6 +122,7 @@ void VK_engine::main_loop() {
   while(!glfwWindowShouldClose(window)){
     auto start = std::chrono::steady_clock::now();
     glfwPollEvents();
+    
     vk_gui->loop_start();
     node_engine->loop();
     vk_gui->loop_end();
