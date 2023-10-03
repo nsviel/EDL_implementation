@@ -30,6 +30,15 @@ Engine::~Engine(){
   //---------------------------
 }
 
+void Engine::program(Window_manager* window){
+  //---------------------------
+
+  this->init(window);
+  this->loop();
+  this->exit();
+
+  //---------------------------
+}
 void Engine::init(Window_manager* window){
   //---------------------------
 

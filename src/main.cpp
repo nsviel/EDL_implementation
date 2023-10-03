@@ -14,9 +14,7 @@ int main() {
     Window_manager* window = new Window_manager();
 
     window->create_window(1024, 500, "Nephos"),
-    engine.init(window);
-    engine.loop();
-    engine.exit();
+    engine.program(window);
 
     delete window;
   }catch(const std::exception& e){

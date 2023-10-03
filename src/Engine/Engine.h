@@ -18,6 +18,7 @@ public:
   ~Engine();
 
 public:
+  void program(Window_manager* window);
   void init(Window_manager* window);
   void loop();
   void exit();
