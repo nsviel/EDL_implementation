@@ -2,7 +2,7 @@
 #define GUI_EDITOR_HEXA_H
 
 #include "../../common.h"
-#include "../../../../extern/imgui/editor/editor_memory.h"
+#include <imgui/editor/editor_memory.h>
 
 class Node_gui;
 

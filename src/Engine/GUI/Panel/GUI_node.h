@@ -2,7 +2,7 @@
 #define GUI_NODE_H
 
 #include "../../common.h"
-#include "../../../../extern/imgui/node/imgui_node_editor.h"
+#include <imgui/node/imgui_node_editor.h>
 
 class Node_gui;
 

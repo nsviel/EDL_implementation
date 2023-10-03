@@ -1,8 +1,3 @@
-#include "../extern/imgui/core/imgui.h"
-#include "../extern/imgui/core/imgui_impl_glfw.h"
-#include "../extern/imgui/core/imgui_internal.h"
-#include "../extern/imgui/vulkan/imgui_impl_vulkan.h"
-
 #include "../../common.h"
 
 /*

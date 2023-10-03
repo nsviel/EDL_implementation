@@ -4,10 +4,6 @@
 #include "../Struct/struct_renderpass.h"
 #include "../../../common.h"
 
-#include "../../../../../extern/imgui/core/imgui.h"
-#include "../../../../../extern/imgui/core/imgui_impl_glfw.h"
-#include "../../../../../extern/imgui/vulkan/imgui_impl_vulkan.h"
-
 class VK_engine;
 class VK_param;
 class VK_command_buffer;

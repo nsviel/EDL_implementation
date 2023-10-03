@@ -9,7 +9,7 @@
 #include "../Command/VK_command.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../../../../../extern/image/stb_image.h"
+#include <image/stb_image.h>
 
 
 //Constructor / Destructor

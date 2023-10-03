@@ -50,10 +50,10 @@ using namespace glm;
 #include "Data/Struct/struct_mesh.h"
 
 //GUI
-#include "../extern/imgui/core/imgui.h"
-#include "../extern/imgui/core/imgui_impl_glfw.h"
-#include "../extern/imgui/core/imgui_internal.h"
-#include "../extern/imgui/vulkan/imgui_impl_vulkan.h"
+#include <imgui/core/imgui.h>
+#include <imgui/core/imgui_impl_glfw.h>
+#include <imgui/core/imgui_internal.h>
+#include <imgui/vulkan/imgui_impl_vulkan.h>
 
 
 #endif

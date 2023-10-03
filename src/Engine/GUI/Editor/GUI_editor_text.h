@@ -2,7 +2,7 @@
 #define GUI_EDITOR_TEXT_H
 
 #include "../../common.h"
-#include "../../../../extern/imgui/editor/editor_text.h"
+#include <imgui/editor/editor_text.h>
 
 class Node_gui;
 
