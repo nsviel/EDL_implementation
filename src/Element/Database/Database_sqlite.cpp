@@ -2,10 +2,10 @@
 
 
 //Constructor / Destructor
-Database_sqlite::Database_sqlite(){
+Database_sqlite::Database_sqlite(string path){
   //---------------------------
 
-  this->path_database = "../media/database/database.db3";
+  this->path_database = path;
 
   //---------------------------
 }

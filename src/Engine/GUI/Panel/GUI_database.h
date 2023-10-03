@@ -2,11 +2,11 @@
 #define GUI_DATABASE_H
 
 #include "../../common.h"
-#include "../../../../extern/database/sqlite3.h"
 
 class Node_gui;
 class VK_param;
 class GUI_control;
+class Database_sqlite;
 
 
 class GUI_database
@@ -25,19 +25,9 @@ public:
   void display_option();
   void display_data();
 
-  //Database function
-  void create_table(string name);
-  void remove_table(string name);
-  vector<string> retrieve_all_table();
-
-  //WIP
-  void open_database();
-  void close_database();
-  void insert();
-  void select();
-
 private:
-  sqlite3 *db;
+  Database_sqlite* database;
+
   string path_database;
 };
 

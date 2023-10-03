@@ -12,7 +12,7 @@ class Database_sqlite
 {
 public:
   //Constructor / Destructor
-  Database_sqlite();
+  Database_sqlite(string path);
   ~Database_sqlite();
 
 public:

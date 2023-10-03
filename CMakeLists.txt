@@ -21,6 +21,7 @@ file(GLOB_RECURSE ALL_SOURCES
 
 # Child CMakeLists
 add_subdirectory(extern)
+add_subdirectory(src/Element)
 
 # Denpendancies
 set(ALL_LIBS
@@ -39,9 +40,9 @@ set(ALL_LIBS
   -lXrandr
   -lXi
   -lsqlite3
-  SQLiteCpp
-  pthread
-  dl
+  -lSQLiteCpp #sqlitecpp
+  -lpthread #sqlitecpp
+  -ldl #sqlitecpp
 )
 
 # Executable
@@ -52,6 +53,7 @@ add_executable(executable
 # Library linking
 target_link_libraries(executable
   LIBRARY_EXTERN
+  LIBRARY_ELEMENT
   ${ALL_LIBS}
 )
 
