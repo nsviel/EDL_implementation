@@ -7,14 +7,14 @@
 #include "GPU/GPU_data.h"
 #include "Shader/Shader.h"
 
-#include "../Node.h"
+#include "../Engine.h"
 
 
 //Constructor / Destructor
-Node_engine::Node_engine(Node* node){
+Node_engine::Node_engine(Engine* engine){
   //---------------------------
 
-  this->node = node;
+  this->engine = engine;
   this->param_engine = new Param_engine();
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
@@ -57,7 +57,7 @@ void Node_engine::loop(){
   //---------------------------
 
   cameraManager->input_cam_mouse();
-  node->loop();
+  engine->loop();
 
   //---------------------------
 }

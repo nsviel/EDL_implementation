@@ -3,7 +3,7 @@
 
 #include "../common.h"
 
-class Node;
+class Engine;
 class Node_engine;
 class Node_data;
 class Node_load;
@@ -27,7 +27,7 @@ class Node_gui
 {
 public:
   //Constructor / Destructor
-  Node_gui(Node* node);
+  Node_gui(Engine* engine);
   ~Node_gui();
 
 public:

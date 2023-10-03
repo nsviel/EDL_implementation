@@ -5,7 +5,7 @@
 
 #include "../../common.h"
 
-class Node;
+class Engine;
 class Node_engine;
 class Param_engine;
 class Dimension;
@@ -43,7 +43,7 @@ public:
   inline mat4 get_mvpMatrix(){return compute_cam_mvp();}
 
 private:
-  Node* node;
+  Engine* engine;
   Param_engine* param_engine;
   Dimension* dimManager;
   CAM_arcball* cam_arcball;

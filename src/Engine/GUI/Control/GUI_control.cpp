@@ -9,7 +9,7 @@
 #include "../../Specific/Function/fct_math.h"
 #include "../../Data/Scene/Control.h"
 #include "../../Data/Node_data.h"
-#include "../../Node.h"
+#include "../../Engine.h"
 
 
 //Constructor / Destructor

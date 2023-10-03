@@ -3,7 +3,7 @@
 
 #include "../common.h"
 
-class Node;
+class Engine;
 class Param_engine;
 class VK_engine;
 class Dimension;
@@ -16,7 +16,7 @@ class Node_engine
 {
 public:
   //Constructor / Destructor
-  Node_engine(Node* node);
+  Node_engine(Engine* engine);
   ~Node_engine();
 
 public:
@@ -26,8 +26,7 @@ public:
   void exit();
   void reset();
 
-  inline Node* get_node(){return node;}
-
+  inline Engine* get_engine(){return engine;}
   inline VK_engine* get_vk_engine(){return vk_engine;}
   inline Dimension* get_dimManager(){return dimManager;}
   inline Camera* get_cameraManager(){return cameraManager;}
@@ -36,7 +35,7 @@ public:
   inline Shader* get_shaderManager(){return shaderManager;}
 
 private:
-  Node* node;
+  Engine* engine;
   GPU_data* gpu_data;
   Param_engine* param_engine;
   VK_engine* vk_engine;

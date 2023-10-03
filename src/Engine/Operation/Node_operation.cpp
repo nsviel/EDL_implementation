@@ -4,11 +4,11 @@
 #include "Color/Heatmap.h"
 #include "Transformation/Attribut.h"
 
-#include "../Node.h"
+#include "../Engine.h"
 
 
 //Constructor / Destructor
-Node_operation::Node_operation(Node* node){
+Node_operation::Node_operation(Engine* engine){
   //---------------------------
 
   this->heatmapManager = new Heatmap();

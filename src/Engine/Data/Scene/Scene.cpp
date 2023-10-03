@@ -4,7 +4,7 @@
 #include "../Node_data.h"
 #include "../Param_data.h"
 
-#include "../../Node.h"
+#include "../../Engine.h"
 #include "../../Load/Node_load.h"
 #include "../../Load/Processing/Loader.h"
 #include "../../Core/Node_engine.h"
@@ -45,8 +45,8 @@ void Scene::init_set(){
   //---------------------------
 }
 void Scene::init_scene(){
-  Node* node = node_data->get_node();
-  Node_load* node_load = node->get_node_load();
+  Engine* engine = node_data->get_engine();
+  Node_load* node_load = engine->get_node_load();
   Loader* loaderManager = node_load->get_loaderManager();
   //---------------------------
 

@@ -14,17 +14,17 @@
 #include "Window/GUI_windows.h"
 #include "Style/GUI_style.h"
 
-#include "../Node.h"
+#include "../Engine.h"
 
 
 
 //Constructor / Destructor
-Node_gui::Node_gui(Node* node){
+Node_gui::Node_gui(Engine* engine){
   //---------------------------
 
-  this->node_engine = node->get_node_engine();
-  this->node_data = node->get_node_data();
-  this->node_load = node->get_node_load();
+  this->node_engine = engine->get_node_engine();
+  this->node_data = engine->get_node_data();
+  this->node_load = engine->get_node_load();
 
   this->gui_param = new GUI_param();
   this->gui_profiling = new GUI_profiling(this);

@@ -2,15 +2,15 @@
 
 #include "Processing/Loader.h"
 
-#include "../Node.h"
+#include "../Engine.h"
 
 
 //Constructor / Destructor
-Node_load::Node_load(Node* node){
+Node_load::Node_load(Engine* engine){
   //---------------------------
 
-  this->node_engine = node->get_node_engine();
-  this->node_data = node->get_node_data();
+  this->node_engine = engine->get_node_engine();
+  this->node_data = engine->get_node_data();
 
   this->loaderManager = new Loader(this);
 

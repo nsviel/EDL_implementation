@@ -7,14 +7,14 @@
 #include "../../Core/Camera/Camera.h"
 #include "../../Core/Node_engine.h"
 #include "../../Operation/Transformation/Transformation.h"
-#include "../../Node.h"
+#include "../../Engine.h"
 
 
 //Constructor / Destructor
 Control::Control(Node_data* node_data){
   //---------------------------
 
-  this->node = node_data->get_node();
+  this->engine = node_data->get_engine();
   Node_engine* node_engine = node_data->get_node_engine();
   this->dimManager = node_engine->get_dimManager();
   this->cameraManager = node_engine->get_cameraManager();
@@ -36,7 +36,7 @@ void Control::exit(){
 void Control::reset(){
   //---------------------------
 
-  node->reset();
+  engine->reset();
 
   //---------------------------
 }

@@ -8,7 +8,7 @@
 #include "../Node_engine.h"
 #include "../Param_engine.h"
 
-#include "../../Node.h"
+#include "../../Engine.h"
 #include "../../Data/Node_data.h"
 #include "../../Data/Scene/Scene.h"
 
@@ -17,7 +17,7 @@
 Camera::Camera(Node_engine* node_engine){
   //---------------------------
 
-  this->node = node_engine->get_node();
+  this->engine = node_engine->get_engine();
   this->dimManager = node_engine->get_dimManager();
   this->param_engine = node_engine->get_param_engine();
   this->cam_arcball = new CAM_arcball(node_engine);
@@ -49,7 +49,7 @@ mat4 Camera::compute_cam_view(){
   }else if(camera->mode == "first_person"){
     cam_view = cam_fp->fp_view_mat(camera);
   }else if(camera->mode == "arcball"){
-    Node_data* node_data = node->get_node_data();
+    Node_data* node_data = engine->get_node_data();
     Scene* sceneManager = node_data->get_sceneManager();
     Object* object = sceneManager->get_selected_object();
     if(object != nullptr) camera->cam_COM_obj = object->COM;

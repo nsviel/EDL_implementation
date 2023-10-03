@@ -7,15 +7,15 @@
 #include "Glyph/Glyphs.h"
 
 #include "../Load/Node_load.h"
-#include "../Node.h"
+#include "../Engine.h"
 
 
 //Constructor / Destructor
-Node_data::Node_data(Node* node){
+Node_data::Node_data(Engine* engine){
   //---------------------------
 
-  this->node = node;
-  this->node_engine = node->get_node_engine();
+  this->engine = engine;
+  this->node_engine = engine->get_node_engine();
 
   this->param_data = new Param_data();
   this->dataManager = new Database(this);
