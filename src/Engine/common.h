@@ -11,7 +11,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <stdexcept>
-#include <vector>
 #include <optional>
 #include <cstdlib>
 #include <stdint.h>
@@ -20,6 +19,7 @@
 #include <fstream>
 #include <cstring>
 #include <string>
+#include <vector>
 #include <iomanip>
 #include <sys/file.h>
 #include <chrono>

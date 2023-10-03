@@ -10,7 +10,7 @@
 #include "Control/GUI_control.h"
 #include "Control/GUI_profiling.h"
 #include "Engine/GUI_shader.h"
-#include "Panel/GUI_filemanager.h"
+#include "Panel/GUI_object.h"
 #include "Window/GUI_windows.h"
 #include "Style/GUI_style.h"
 
@@ -30,13 +30,13 @@ Node_gui::Node_gui(Node* node){
   this->gui_profiling = new GUI_profiling(this);
   this->gui_shader = new GUI_shader(this);
   this->gui_option = new GUI_option(this);
-  this->gui_filemanager = new GUI_filemanager(this);
+  this->gui_object = new GUI_object(this);
   this->gui_init = new GUI_init(this);
   this->gui_menubar = new GUI_menubar(this);
   this->gui_editor_text = new GUI_editor_text(this);
+  this->gui_control = new GUI_control(this);
   this->gui_engine = new GUI_engine(this);
   this->gui_panel = new GUI_panel(this);
-  this->gui_control = new GUI_control(this);
   this->gui_windows = new GUI_windows(this);
   this->gui_style = new GUI_style(this);
 
@@ -49,7 +49,7 @@ Node_gui::~Node_gui(){
   delete gui_panel;
   delete gui_control;
   delete gui_option;
-  delete gui_filemanager;
+  delete gui_object;
   delete gui_profiling;
 
   //---------------------------
@@ -60,6 +60,7 @@ void Node_gui::init(){
   //---------------------------
 
   gui_style->gui_style();
+  gui_panel->set_initial_panel_focus();
 
   //---------------------------
 }
@@ -67,7 +68,6 @@ void Node_gui::loop(){
   //---------------------------
 
   gui_panel->draw_panels();
-  gui_control->make_control();
   gui_windows->draw_windows();
 
   //---------------------------

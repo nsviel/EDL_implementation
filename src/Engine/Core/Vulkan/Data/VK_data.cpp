@@ -3,10 +3,10 @@
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Presentation/Image/VK_texture.h"
-#include "../Core/Command/VK_command_buffer.h"
-#include "../Render/Binding/VK_binding.h"
-#include "../Render/Binding/VK_descriptor.h"
+#include "../Image/VK_texture.h"
+#include "../Command/VK_command_buffer.h"
+#include "../Binding/VK_binding.h"
+#include "../Binding/VK_descriptor.h"
 
 #include "../../GPU/GPU_data.h"
 #include "../../Node_engine.h"

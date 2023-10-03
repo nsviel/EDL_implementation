@@ -2,42 +2,12 @@
 cmake_minimum_required(VERSION 3.5)
 project(NEPHOS LANGUAGES CXX)
 
-# CMake variables
-set(WINDOWS_COMPILATION 0)
-
 # General policy
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE Release)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-if(WINDOWS_COMPILATION)
-  set(CMAKE_SYSTEM_NAME Windows)
-  set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc-posix)
-  set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++-posix)
-  set(CMAKE_BUILD_TYPE Release)
-  set(CMAKE_AR x86_64-w64-mingw32-ar)
-  set(CMAKE_RANLIB x86_64-w64-mingw32-ranlib)
-
-  # Add cross-compiled GLFW library and header files
-  include_directories(bin/lib/glfw)
-  link_directories(bin/lib/glfw)
-
-  # Add cross-compiled Vulkan SDK library and header files
-  include_directories(bin/lib/vulkansdk)
-  link_directories(bin/lib/vulkansdk)
-  include_directories(bin/lib/vulkansdk/vulkan)
-  find_library(Vulkan_LIBRARY NAMES vulkan-1 vulkan PATHS bin/lib/vulkansdk/lib)
-  link_libraries(${Vulkan_LIBRARY})
-
-  # Add cross-compiled GLM
-  include_directories(bin/lib/glm)
-  link_directories(bin/lib/glm)
-
-endif()
-
-
 
 # Library dependencies
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
@@ -51,13 +21,13 @@ file(GLOB_RECURSE ALL_SOURCES
 
 # Child CMakeLists
 add_subdirectory(extern)
+add_subdirectory(src/Element)
 
 # Denpendancies
 set(ALL_LIBS
   ${GLFW_LIBRARY}
   ${Vulkan_LIBRARIES}
 
-  #Vulkan::Vulkan
   Eigen3::Eigen #Eigen library
   stdc++fs #STD filesystem experimental
   tins #packet crafting and sniffing library
@@ -69,6 +39,10 @@ set(ALL_LIBS
   -lXxf86vm
   -lXrandr
   -lXi
+  -lsqlite3
+  -lSQLiteCpp #sqlitecpp
+  -lpthread #sqlitecpp
+  -ldl #sqlitecpp
 )
 
 # Executable
@@ -79,6 +53,7 @@ add_executable(executable
 # Library linking
 target_link_libraries(executable
   LIBRARY_EXTERN
+  LIBRARY_ELEMENT
   ${ALL_LIBS}
 )
 

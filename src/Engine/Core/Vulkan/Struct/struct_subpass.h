@@ -29,8 +29,8 @@ struct Struct_subpass{
   VkSubpassDependency dependency;
 
   //Attachment
-  Struct_subpass_attachment color;
-  Struct_subpass_attachment depth;
+  Struct_subpass_attachment attached_color;
+  Struct_subpass_attachment attached_depth;
   std::vector<VkAttachmentDescription> vec_attachment_description;
 
   //---------------------------

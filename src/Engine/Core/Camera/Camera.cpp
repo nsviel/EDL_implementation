@@ -118,8 +118,10 @@ void Camera::input_cam_mouse(){
   if(camera->cam_move){
     if(camera->mode == "first_person"){
       cam_fp->fp_cam_mouse(camera);
+      ImGui::SetMouseCursor(ImGuiMouseCursor_None);
     }else if(camera->mode == "arcball"){
       cam_arcball->arcball_cam_mouse(camera);
+      ImGui::SetMouseCursor(ImGuiMouseCursor_None);
     }
   }
 

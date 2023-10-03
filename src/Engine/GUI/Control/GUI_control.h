@@ -19,10 +19,10 @@ public:
 
 public:
   //Main function
-  void make_control();
+  void make_control(ImVec2 center);
 
   //Mouse function
-  void control_mouse();
+  void control_mouse(ImVec2 center);
   void control_mouse_wheel();
 
   //Keyboard function

@@ -12,7 +12,7 @@ class GUI_param;
 class GUI_panel;
 class GUI_control;
 class GUI_option;
-class GUI_filemanager;
+class GUI_object;
 class GUI_menubar;
 class GUI_windows;
 class GUI_shader;
@@ -42,7 +42,7 @@ public:
   inline GUI_panel* get_gui_panel(){return gui_panel;}
   inline GUI_control* get_gui_control(){return gui_control;}
   inline GUI_option* get_gui_option(){return gui_option;}
-  inline GUI_filemanager* get_gui_filemanager(){return gui_filemanager;}
+  inline GUI_object* get_gui_object(){return gui_object;}
   inline GUI_menubar* get_gui_menubar(){return gui_menubar;}
   inline GUI_windows* get_gui_windows(){return gui_windows;}
   inline GUI_shader* get_gui_shader(){return gui_shader;}
@@ -61,7 +61,7 @@ private:
   GUI_panel* gui_panel;
   GUI_control* gui_control;
   GUI_option* gui_option;
-  GUI_filemanager* gui_filemanager;
+  GUI_object* gui_object;
   GUI_menubar* gui_menubar;
   GUI_windows* gui_windows;
   GUI_shader*gui_shader;
