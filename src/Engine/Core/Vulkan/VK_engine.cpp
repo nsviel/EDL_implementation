@@ -87,12 +87,12 @@ VK_engine::VK_engine(Node_engine* node_engine){
 VK_engine::~VK_engine(){}
 
 //Main function
-void VK_engine::init_vulkan(){
+void VK_engine::init_vulkan(Window_manager* window){
   timer_time t1 = timer.start_t();
   //---------------------------
 
   //Instance
-  vk_window->init_window();
+  vk_window->init_window(window);
   vk_instance->create_instance();
   vk_validation->create_validation_layer();
   vk_window->create_window_surface();

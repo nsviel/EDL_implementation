@@ -8,6 +8,7 @@
 
 #include "../../Node_engine.h"
 #include "../../Dimension/Dimension.h"
+#include <Window/Window_manager.h>
 
 
 //Constructor / Destructor
@@ -28,23 +29,15 @@ VK_window::VK_window(VK_engine* vk_engine){
 VK_window::~VK_window(){}
 
 //Main function
-void VK_window::init_window(){
+void VK_window::init_window(Window_manager* window_manager){
   //---------------------------
 
-  glfwInit();
-  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
-  this->window = glfwCreateWindow(window_dim.x, window_dim.y, vk_param->window.title.c_str(), nullptr, nullptr);
+  this->window_manager = window_manager;
+  this->window = window_manager->get_window();
   this->window_dim = get_framebuffer_size();
   this->get_required_extensions();
-  dimManager->set_window(window);
-
-  glfwSetWindowSizeLimits(window, vk_param->window.dim_min.x, vk_param->window.dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
-
-  if (!glfwVulkanSupported()){
-    printf("GLFW: Vulkan Not Supported\n");
-    exit(0);
-  }
+  dimManager->set_window(window_manager->get_window());
+  window_manager->set_window_size_minimum(vk_param->window.dim_min.x, vk_param->window.dim_min.y);
 
   //---------------------------
 }
@@ -58,8 +51,7 @@ void VK_window::clean_surface(){
 void VK_window::clean_window(){
   //---------------------------
 
-  glfwDestroyWindow(window);
-  glfwTerminate();
+  window_manager->destroy_window();
 
   //---------------------------
 }
@@ -68,48 +60,28 @@ void VK_window::clean_window(){
 void VK_window::create_window_surface(){
   //---------------------------
 
-  VkResult result = glfwCreateWindowSurface(vk_param->instance.instance, window, nullptr, &surface);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create window surface!");
-  }
+  window_manager->create_window_surface(vk_param->instance.instance, surface);
 
   //---------------------------
 }
 void VK_window::check_for_resizing(){
-  bool is_resized = false;
   //---------------------------
 
-  vec2 dim = get_framebuffer_size();
-  if(dim.x != window_dim.x || dim.y != window_dim.y){
-    is_resized = true;
-    window_dim = dim;
-
-    //update dimension
-    dimManager->update();
-  }
+  vk_param->window.is_resized = window_manager->check_for_resizing();
 
   //---------------------------
-  vk_param->window.is_resized = is_resized;
 }
 vec2 VK_window::get_framebuffer_size(){
-  vec2 dim = vec2(0);
   //---------------------------
 
-  int width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  dim.x = width;
-  dim.y = height;
+  return window_manager->get_framebuffer_size();
 
   //---------------------------
-  return dim;
 }
 void VK_window::get_required_extensions(){
   //---------------------------
 
-  uint32_t glfw_extension_nb = 0;
-  const char** glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extension_nb);
-  vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_extension_nb);
-
+  vector<const char*> extensions = window_manager->get_required_extensions();
   for(int i=0; i<extensions.size(); i++){
     vk_param->instance.extension.push_back(extensions[i]);
   }

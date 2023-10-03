@@ -1,18 +1,24 @@
-#include "Node.h"
+#include "Engine/Node.h"
 
+#include <Window/Window_manager.h>
 #include <iostream>
 #include <stdexcept>
 
 
 int main() {
-  Node node;
   //---------------------------
 
   std::cout<<"--- \033[1;34mBegin program\033[0m ---"<<std::endl;
   try{
-    node.init();
+    Node node;
+    Window_manager* window = new Window_manager();
+
+    window->create_window(1024, 500, "Nephos"),
+    node.init(window);
     node.loop();
     node.exit();
+
+    delete window;
   }catch(const std::exception& e){
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;

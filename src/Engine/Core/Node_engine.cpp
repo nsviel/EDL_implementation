@@ -38,10 +38,10 @@ Node_engine::~Node_engine(){
 }
 
 //Main function
-void Node_engine::init(){
+void Node_engine::init(Window_manager* window){
   //---------------------------
 
-  vk_engine->init_vulkan();
+  vk_engine->init_vulkan(window);
   dimManager->update();
 
   //---------------------------

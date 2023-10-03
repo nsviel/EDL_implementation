@@ -19,7 +19,7 @@ public:
 
 public:
   //Main functions
-  void init_window();
+  void init_window(Window_manager* window);
   void clean_surface();
   void clean_window();
 
@@ -33,6 +33,7 @@ public:
   inline VkSurfaceKHR get_surface(){return surface;}
 
 private:
+  Window_manager* window_manager;
   GLFWwindow* window;
   VK_param* vk_param;
   Dimension* dimManager;

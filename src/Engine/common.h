@@ -2,11 +2,6 @@
 #define COMMON_H
 
 //Include
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
@@ -48,6 +43,8 @@ using namespace glm;
 #include "Data/Struct/struct_data_file.h"
 #include "Data/Struct/struct_glyph.h"
 #include "Data/Struct/struct_mesh.h"
+
+#include <Window/Window_manager.h>
 
 //GUI
 #include <imgui/core/imgui.h>

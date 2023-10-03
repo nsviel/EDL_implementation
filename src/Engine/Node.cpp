@@ -30,10 +30,10 @@ Node::~Node(){
   //---------------------------
 }
 
-void Node::init(){
+void Node::init(Window_manager* window){
   //---------------------------
 
-  node_engine->init();
+  node_engine->init(window);
   node_data->init();
   node_gui->init();
   node_engine->loop_start();

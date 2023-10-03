@@ -20,7 +20,7 @@ public:
   ~Node_engine();
 
 public:
-  void init();
+  void init(Window_manager* window);
   void loop_start();
   void loop();
   void exit();

@@ -50,7 +50,7 @@ public:
 
 public:
   //Main functions
-  void init_vulkan();
+  void init_vulkan(Window_manager* window);
   void main_loop();
   void clean_vulkan();
 

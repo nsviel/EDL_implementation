@@ -18,7 +18,7 @@ public:
   ~Node();
 
 public:
-  void init();
+  void init(Window_manager* window);
   void loop();
   void exit();
   void reset();
