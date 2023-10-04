@@ -1,7 +1,12 @@
 #ifndef OBJ_IMPORTER_H
 #define OBJ_IMPORTER_H
 
-#include "../../../common.h"
+#include <Common/struct_data_file.h>
+#include <Specific/File/Info.h>
+#include <glm/glm.hpp>
+#include <string>
+#include <vector>
+#include <fstream>
 
 
 struct Vertex{
@@ -32,18 +37,18 @@ public:
 
 public:
   //Main function
-  Data_file* Loader(string filePath);
+  Data_file* Loader(std::string filePath);
 
   //Subfunction
   void init_params();
-  vector<Vertex> get_data_from_file(istream& in);
-  void parse_mtl(string path_obj);
-  void fill_data_file(Data_file* data, vector<Vertex>& vertex_vec);
+  std::vector<Vertex> get_data_from_file(std::istream& in);
+  void parse_mtl(std::string path_obj);
+  void fill_data_file(Data_file* data, std::vector<Vertex>& vertex_vec);
 
 private:
   Data_file* data_out;
-  string file_mtl;
-  string file_texture;
+  std::string file_mtl;
+  std::string file_texture;
   bool is_face;
 };
 

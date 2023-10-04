@@ -1,14 +1,12 @@
 #include "OBJ_importer.h"
 
-#include <Specific/File/Info.h>
-
 
 //Constructor / Destructor
 OBJ_importer::OBJ_importer(){}
 OBJ_importer::~OBJ_importer(){}
 
 //Main function
-Data_file* OBJ_importer::Loader(string path){
+Data_file* OBJ_importer::Loader(std::string path){
   //---------------------------
 
   Data_file* data = new Data_file();
@@ -19,10 +17,10 @@ Data_file* OBJ_importer::Loader(string path){
   this->init_params();
 
   // Open file and fill path info
-  ifstream file(path);
-  
+  std::ifstream file(path);
+
   // Retrieve file data
-  vector<Vertex> vertex_vec = get_data_from_file(file);
+  std::vector<Vertex> vertex_vec = get_data_from_file(file);
 
   //Parse MTL file
   this->parse_mtl(path);
@@ -43,21 +41,21 @@ void OBJ_importer::init_params(){
 
   //---------------------------
 }
-vector<Vertex> OBJ_importer::get_data_from_file(istream& file){
+std::vector<Vertex> OBJ_importer::get_data_from_file(std::istream& file){
   //---------------------------
 
-  //Initiate vectors
-  vector<Vertex> vertex_vec;
-  vector<glm::vec4> xyz(1, glm::vec4( 0, 0, 0, 0 ));
-  vector<glm::vec3> uv(1, glm::vec3( 0, 0, 0 ));
-  vector<glm::vec3> Nxyz(1, glm::vec3( 0, 0, 0 ));
+  //Initiate std::vectors
+  std::vector<Vertex> vertex_vec;
+  std::vector<glm::vec4> xyz(1, glm::vec4( 0, 0, 0, 0 ));
+  std::vector<glm::vec3> uv(1, glm::vec3( 0, 0, 0 ));
+  std::vector<glm::vec3> Nxyz(1, glm::vec3( 0, 0, 0 ));
 
   //Read file line by line
-  string line;
+  std::string line;
   this->is_face = false;
   while(std::getline(file, line)){
     std::istringstream line_str(line);
-    string line_type;
+    std::string line_type;
     line_str >> line_type;
 
     // location
@@ -81,11 +79,11 @@ vector<Vertex> OBJ_importer::get_data_from_file(istream& file){
     // polygon
     else if(line_type == "f"){
       this->is_face = true;
-      vector<Vertex_ref> refs;
-      string refStr;
+      std::vector<Vertex_ref> refs;
+      std::string refStr;
       while( line_str >> refStr){
         std::istringstream ref( refStr );
-        string vStr, vtStr, vnStr;
+        std::string vStr, vtStr, vnStr;
         std::getline( ref, vStr, '/' );
         std::getline( ref, vtStr, '/' );
         std::getline( ref, vnStr, '/' );
@@ -118,7 +116,7 @@ vector<Vertex> OBJ_importer::get_data_from_file(istream& file){
     }
     //header
     else if(line_type == "mtllib"){
-      string mtl;
+      std::string mtl;
       line_str >> mtl;
       this->file_mtl = mtl;
     }
@@ -135,29 +133,29 @@ vector<Vertex> OBJ_importer::get_data_from_file(istream& file){
   //---------------------------
   return vertex_vec;
 }
-void OBJ_importer::parse_mtl(string path_obj){
+void OBJ_importer::parse_mtl(std::string path_obj){
   if(file_mtl == ""){return;}
   //---------------------------
 
   // Retrieve mtl file path
-  string path = get_path_from_filepath(path_obj);
-  string path_mtl = path + file_mtl;
+  std::string path = get_path_from_filepath(path_obj);
+  std::string path_mtl = path + file_mtl;
 
   //Open mtl file
-  ifstream file(path_mtl);
+  std::ifstream file(path_mtl);
 
   //Read mtl data
-  string line;
+  std::string line;
   while(std::getline(file, line)){
     std::istringstream line_str(line);
-    string line_type;
+    std::string line_type;
     line_str >> line_type;
 
     // texture
     if(line_type == "map_Kd" || line_type == "map_Bump"){
-      string filename_texture;
+      std::string filename_texture;
       line_str >> filename_texture;
-      string path = path + filename_texture;
+      std::string path = path + filename_texture;
 
       this->file_texture = path;
     }
@@ -165,7 +163,7 @@ void OBJ_importer::parse_mtl(string path_obj){
 
   //---------------------------
 }
-void OBJ_importer::fill_data_file(Data_file* data, vector<Vertex>& vertex_vec){
+void OBJ_importer::fill_data_file(Data_file* data, std::vector<Vertex>& vertex_vec){
   //---------------------------
 
   if(is_face){

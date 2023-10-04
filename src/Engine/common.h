@@ -43,10 +43,11 @@ using namespace glm;
 
 //Data
 #include <Common/struct_object.h>
+#include <Common/struct_data_file.h>
+#include <Common/struct_set.h>
+#include <Common/struct_glyph.h>
+
 #include "Data/Struct/struct_cloud.h"
-#include "Data/Struct/struct_set.h"
-#include "Data/Struct/struct_data_file.h"
-#include "Data/Struct/struct_glyph.h"
 #include "Data/Struct/struct_mesh.h"
 
 //GUI

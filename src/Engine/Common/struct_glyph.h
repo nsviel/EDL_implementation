@@ -3,8 +3,6 @@
 
 #include <Common/struct_object.h>
 
-#include "../../common.h"
-
 
 struct Glyph : public Object
 {

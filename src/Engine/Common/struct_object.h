@@ -1,14 +1,14 @@
 #ifndef STRUCT_OBJECT_H
 #define STRUCT_OBJECT_H
 
+#include <glm/glm.hpp>
+#include <vulkan/vulkan.h>
+#include <Eigen/Dense>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <list>
 #include <map>
-#include <glm/glm.hpp>
-#include <iostream>
-#include <vulkan/vulkan.h>
-#include <Eigen/Dense>
 
 
 struct Object{ //Cloud cloud / part

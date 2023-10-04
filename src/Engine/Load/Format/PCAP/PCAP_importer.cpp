@@ -4,12 +4,6 @@
 #include "Parser/Parser_HDL32.h"
 #include "Parser/Capture_frame.h"
 
-#include <Specific/File/Info.h>
-
-#include <tins/tins.h>
-#include <iostream>
-#include <stddef.h>
-#include <bitset>
 
 using namespace Tins;
 vector<vector<int>> file_packets;
@@ -39,10 +33,10 @@ bool parse_packets(const PDU& packet){
   if(loop_cpt >= loop_beg && loop_cpt < loop_end){
     //Retrieve data packet
     const RawPDU raw = packet.rfind_pdu<RawPDU>();
-    vector<uint8_t> buffer = raw.payload();
+    std::vector<uint8_t> buffer = raw.payload();
 
     //Convert into decimal vector
-    vector<int> packet_dec;
+    std::vector<int> packet_dec;
     for(int i =0; i < buffer.size(); i++){
       std::bitset<8> octet(buffer[i]);
 
@@ -65,7 +59,7 @@ bool count_packets(const PDU &){
 }
 
 //Main function
-Data_file* PCAP_importer::Loader(string path){
+Data_file* PCAP_importer::Loader(std::string path){
   file_packets.clear();
   //---------------------------
 
@@ -84,7 +78,7 @@ Data_file* PCAP_importer::Loader(string path){
   }
 
   //Check if vlp16 or hdl32
-  if (path.find("HDL32") != string::npos){
+  if (path.find("HDL32") != std::string::npos){
     this->LiDAR_model = "hdl32";
   }else{
     this->LiDAR_model = "vlp16";
@@ -106,7 +100,7 @@ Data_file* PCAP_importer::Loader(string path){
   return data;
 }
 
-void PCAP_importer::Loader_vlp16(Data_file* data, string path){
+void PCAP_importer::Loader_vlp16(Data_file* data, std::string path){
   Capture_frame frameManager;
   Parser_VLP16 udpManager;
   //---------------------------
@@ -139,7 +133,7 @@ void PCAP_importer::Loader_vlp16(Data_file* data, string path){
 
   //---------------------------
 }
-void PCAP_importer::Loader_hdl32(Data_file* data, string path){
+void PCAP_importer::Loader_hdl32(Data_file* data, std::string path){
   Capture_frame frameManager;
   Parser_HDL32 udpManager;
   //---------------------------
@@ -169,7 +163,7 @@ void PCAP_importer::Loader_hdl32(Data_file* data, string path){
 
   //---------------------------
 }
-int PCAP_importer::get_file_length(string path){
+int PCAP_importer::get_file_length(std::string path){
   lenght = 0;
   //---------------------------
 

@@ -9,7 +9,7 @@
 #include "../../Load/Processing/Loader.h"
 #include "../../Core/Node_core.h"
 #include "../../Core/GPU/GPU_data.h"
-#include "../../Operation/Transformation/Attribut.h"
+#include <Operation/Transformation/Attribut.h>
 
 
 //ConsScenetor / DesScenetor

@@ -1,7 +1,9 @@
 #ifndef DATAFILE_STRUCT_H
 #define DATAFILE_STRUCT_H
 
-#include "../../common.h"
+#include <glm/glm.hpp>
+#include <string>
+#include <vector>
 
 
 //Generique structure to parse file point clouds
@@ -26,7 +28,7 @@ struct Data_file{
   std::vector<float> R;
   std::vector<float> A;
 
-  vector<Data_file*> vec_data;
+  std::vector<Data_file*> vec_data;
 
   //---------------------------
 };

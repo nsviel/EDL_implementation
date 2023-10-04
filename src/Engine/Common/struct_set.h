@@ -2,7 +2,9 @@
 #define STRUCT_SET_H
 
 #include <Common/struct_object.h>
-#include "../../common.h"
+#include <string>
+#include <vector>
+#include <list>
 
 
 //Collection are cloud containers

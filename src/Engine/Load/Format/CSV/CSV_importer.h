@@ -1,7 +1,10 @@
 #ifndef CSV_IMPORTER_H
 #define CSV_IMPORTER_H
 
-#include "../../../common.h"
+#include <Common/struct_data_file.h>
+#include <glm/glm.hpp>
+#include <string>
+#include <vector>
 
 
 class CSV_importer
@@ -12,7 +15,7 @@ public:
   ~CSV_importer();
 
 public:
-  Data_file* Loader(string pathFile);
+  Data_file* Loader(std::string pathFile);
 
 private:
   //Datatypes

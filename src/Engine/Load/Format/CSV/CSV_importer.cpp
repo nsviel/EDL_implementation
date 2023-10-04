@@ -1,5 +1,4 @@
 #include "CSV_importer.h"
-
 #include "Parser/CSV_state.h"
 
 #include <fstream>
@@ -10,7 +9,7 @@ CSV_importer::CSV_importer(){}
 CSV_importer::~CSV_importer(){}
 
 //Main function
-Data_file* CSV_importer::Loader(string pathFile){
+Data_file* CSV_importer::Loader(std::string pathFile){
   Data_file* data;
   //---------------------------
 
@@ -25,9 +24,9 @@ Data_file* CSV_importer::Loader(string pathFile){
     //At field level
     int cpt_field = -1;
     int cpt_point = 0;
-    string ts_str, x_str, y_str, z_str;
+    std::string ts_str, x_str, y_str, z_str;
     for(int j=0; j<csvFile[i].size(); j++){
-      string field = csvFile[i][j];
+      std::string field = csvFile[i][j];
 
       if(j == 0 && cpt_field == -1){
         ts_str = field;
@@ -53,9 +52,9 @@ Data_file* CSV_importer::Loader(string pathFile){
         float delay = 1000000.0f / (25.0f * 340.0f);
         ts = ts + cpt_point * delay;
 
-        vec3 point = vec3(x, y, z);
+        glm::vec3 point = glm::vec3(x, y, z);
 
-        data_sub->name = "frame_" + to_string(i);
+        data_sub->name = "frame_" + std::to_string(i);
         data_sub->ts.push_back(ts);
         data_sub->xyz.push_back(point);
 
