@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "Database.h"
 
-#include "../Node_data.h"
+#include "../Data_node.h"
 #include "../Param_data.h"
 
 #include "../../Node.h"
@@ -12,13 +12,13 @@
 
 
 //ConsScenetor / DesScenetor
-Scene::Scene(Node_data* node_data){
+Scene::Scene(Data_node* data_node){
   //---------------------------
 
-  Node_core* node_core = node_data->get_node_core();
-  this->node_data = node_data;
-  this->param_data = node_data->get_param_data();
-  this->dataManager = node_data->get_dataManager();
+  Node_core* node_core = data_node->get_node_core();
+  this->data_node = data_node;
+  this->param_data = data_node->get_param_data();
+  this->dataManager = data_node->get_dataManager();
   this->gpu_data = node_core->get_gpu_data();
   this->attributManager = new Attribut();
 
@@ -44,8 +44,8 @@ void Scene::init_set(){
   //---------------------------
 }
 void Scene::init_scene(){
-  Node* node = node_data->get_node();
-  Loader* loaderManager = node_data->get_loaderManager();
+  Node* node = data_node->get_node();
+  Loader* loaderManager = data_node->get_loaderManager();
   //---------------------------
 
   //Load init object

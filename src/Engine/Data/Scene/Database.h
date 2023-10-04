@@ -3,14 +3,14 @@
 
 #include "../Data_common.h"
 
-class Node_data;
+class Data_node;
 
 
 class Database
 {
 public:
   //Constructor / Destructor
-  Database(Node_data* node_data);
+  Database(Data_node* data_node);
   ~Database();
 
 public:

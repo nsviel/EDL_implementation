@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-class Node_data;
+class Data_node;
 class Format;
 class Scene;
 
@@ -17,7 +17,7 @@ class Loader
 {
 public:
   //Constructor / Destructor
-  Loader(Node_data* node_data);
+  Loader(Data_node* data_node);
   ~Loader();
 
 public:

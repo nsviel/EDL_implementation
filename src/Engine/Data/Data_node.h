@@ -11,12 +11,12 @@ class Control;
 class Loader;
 
 
-class Node_data
+class Data_node
 {
 public:
   //Constructor / Destructor
-  Node_data(Node* node);
-  ~Node_data();
+  Data_node(Node* node);
+  ~Data_node();
 
 public:
   void init();

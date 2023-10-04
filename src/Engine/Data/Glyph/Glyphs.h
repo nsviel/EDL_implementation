@@ -4,7 +4,7 @@
 #include "Base/Glyph_source.h"
 #include "../Data_common.h"
 
-class Node_data;
+class Data_node;
 class GPU_data;
 class Scene;
 
@@ -13,7 +13,7 @@ class Glyphs
 {
 public:
   //Constructor / Destructor
-  Glyphs(Node_data* node_data);
+  Glyphs(Data_node* data_node);
   ~Glyphs();
 
 public:
@@ -22,7 +22,7 @@ public:
   Glyph_source* get_glyph_src_byName(string name);
 
 private:
-  Node_data* node_data;
+  Data_node* data_node;
   GPU_data* gpu_data;
   Scene* sceneManager;
 

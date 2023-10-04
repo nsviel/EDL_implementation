@@ -3,7 +3,7 @@
 
 #include "../Data_common.h"
 
-class Node_data;
+class Data_node;
 class Param_data;
 class Database;
 class GPU_data;
@@ -14,7 +14,7 @@ class Scene
 {
 public:
   //ConsScenetor / DesScenetor
-  Scene(Node_data* node_data);
+  Scene(Data_node* data_node);
   ~Scene();
 
 public:
@@ -35,7 +35,7 @@ public:
 
 private:
   Param_data* param_data;
-  Node_data* node_data;
+  Data_node* data_node;
   Database* dataManager;
   GPU_data* gpu_data;
   Attribut* attributManager;

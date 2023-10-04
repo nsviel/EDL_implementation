@@ -4,7 +4,7 @@
 #include "../Node_gui.h"
 
 #include "../../Core/Node_core.h"
-#include "../../Data/Node_data.h"
+#include "../../Data/Data_node.h"
 #include "../../Data/Scene/Scene.h"
 #include "../../Data/Load/Loader.h"
 #include <Operation/Transformation/Transformation.h>
@@ -16,10 +16,10 @@
 GUI_init::GUI_init(Node_gui* node_gui){
   //---------------------------
 
-  Node_data* node_data = node_gui->get_node_data();
+  Data_node* data_node = node_gui->get_data_node();
 
-  this->sceneManager = node_data->get_sceneManager();
-  this->loaderManager = node_data->get_loaderManager();
+  this->sceneManager = data_node->get_sceneManager();
+  this->loaderManager = data_node->get_loaderManager();
   this->transformManager = new Transformation();
   this->gui_tree = new GUI_tree(this);
 

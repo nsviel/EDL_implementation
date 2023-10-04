@@ -1,14 +1,14 @@
 #include "Loader.h"
 #include "Format.h"
-#include "../Node_data.h"
+#include "../Data_node.h"
 #include "../Scene/Scene.h"
 
 
 //Constructor / Destructor
-Loader::Loader(Node_data* node_data){
+Loader::Loader(Data_node* data_node){
   //---------------------------
 
-  this->sceneManager = node_data->get_sceneManager();
+  this->sceneManager = data_node->get_sceneManager();
   this->formatManager = new Format();
 
   this->ID = 0;

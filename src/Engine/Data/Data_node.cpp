@@ -1,4 +1,4 @@
-#include "Node_data.h"
+#include "Data_node.h"
 #include "Param_data.h"
 #include "Scene/Scene.h"
 #include "Scene/Database.h"
@@ -9,7 +9,7 @@
 
 
 //Constructor / Destructor
-Node_data::Node_data(Node* node){
+Data_node::Data_node(Node* node){
   //---------------------------
 
   this->node = node;
@@ -24,7 +24,7 @@ Node_data::Node_data(Node* node){
 
   //---------------------------
 }
-Node_data::~Node_data(){
+Data_node::~Data_node(){
   //---------------------------
 
   delete param_data;
@@ -36,7 +36,7 @@ Node_data::~Node_data(){
   //---------------------------
 }
 
-void Node_data::init(){
+void Data_node::init(){
   //---------------------------
 
   sceneManager->init_set();
@@ -45,7 +45,7 @@ void Node_data::init(){
 
   //---------------------------
 }
-void Node_data::reset(){
+void Data_node::reset(){
   //---------------------------
 
   sceneManager->reset_scene();

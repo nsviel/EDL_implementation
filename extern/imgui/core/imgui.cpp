@@ -11903,13 +11903,13 @@ void ImGui::NavMoveRequestResolveWithLastItem(ImGuiNavItemData* result)
 }
 
 // Called by TreePop() to implement ImGuiTreeNodeFlags_NavLeftJumpsBackHere
-void ImGui::NavMoveRequestResolveWithPastTreeNode(ImGuiNavItemData* result, ImGuiNavTreeNodeData* tree_node_data)
+void ImGui::NavMoveRequestResolveWithPastTreeNode(ImGuiNavItemData* result, ImGuiNavTreeNodeData* tree_data_node)
 {
     ImGuiContext& g = *GImGui;
     g.NavMoveScoringItems = false;
-    g.LastItemData.ID = tree_node_data->ID;
-    g.LastItemData.InFlags = tree_node_data->InFlags & ~ImGuiItemFlags_HasSelectionUserData; // Losing SelectionUserData, recovered next-frame (cheaper).
-    g.LastItemData.NavRect = tree_node_data->NavRect;
+    g.LastItemData.ID = tree_data_node->ID;
+    g.LastItemData.InFlags = tree_data_node->InFlags & ~ImGuiItemFlags_HasSelectionUserData; // Losing SelectionUserData, recovered next-frame (cheaper).
+    g.LastItemData.NavRect = tree_data_node->NavRect;
     NavApplyItemToResult(result); // Result this instead of implementing a NavApplyPastTreeNodeToResult()
     NavClearPreferredPosForAxis(ImGuiAxis_Y);
     NavUpdateAnyRequestFlag();

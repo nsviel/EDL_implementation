@@ -1,10 +1,10 @@
 #include "Database.h"
 
-#include "../Node_data.h"
+#include "../Data_node.h"
 
 
 //Constructor / Destructor
-Database::Database(Node_data* node_data){
+Database::Database(Data_node* data_node){
   //---------------------------
 
   this->ID_obj = 0;

@@ -3,7 +3,7 @@
 #include "../Node_gui.h"
 #include "../GUI_param.h"
 
-#include "../../Data/Node_data.h"
+#include "../../Data/Data_node.h"
 #include "../../Data/Scene/Database.h"
 
 
@@ -11,8 +11,8 @@
 GUI_object::GUI_object(Node_gui* node_gui){
   //---------------------------
 
-  Node_data* node_data = node_gui->get_node_data();
-  this->dataManager = node_data->get_dataManager();
+  Data_node* data_node = node_gui->get_data_node();
+  this->dataManager = data_node->get_dataManager();
   this->gui_param = node_gui->get_gui_param();
 
   //---------------------------

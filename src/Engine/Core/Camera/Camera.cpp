@@ -9,7 +9,7 @@
 #include "../Param_core.h"
 
 #include "../../Node.h"
-#include "../../Data/Node_data.h"
+#include "../../Data/Data_node.h"
 #include "../../Data/Scene/Scene.h"
 
 
@@ -49,8 +49,8 @@ mat4 Camera::compute_cam_view(){
   }else if(camera->mode == "first_person"){
     cam_view = cam_fp->fp_view_mat(camera);
   }else if(camera->mode == "arcball"){
-    Node_data* node_data = node->get_node_data();
-    Scene* sceneManager = node_data->get_sceneManager();
+    Data_node* data_node = node->get_data_node();
+    Scene* sceneManager = data_node->get_sceneManager();
     Object* object = sceneManager->get_selected_object();
     if(object != nullptr) camera->cam_COM_obj = object->COM;
     cam_view = cam_arcball->arcball_view_mat(camera);

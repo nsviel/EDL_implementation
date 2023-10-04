@@ -23,7 +23,7 @@ Node_gui::Node_gui(Node* node){
   //---------------------------
 
   this->node_core = node->get_node_core();
-  this->node_data = node->get_node_data();
+  this->data_node = node->get_data_node();
 
   this->gui_param = new GUI_param();
   this->gui_profiling = new GUI_profiling(this);

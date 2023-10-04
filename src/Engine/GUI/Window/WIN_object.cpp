@@ -3,7 +3,7 @@
 #include "../Node_gui.h"
 #include "../GUI_param.h"
 
-#include "../../Data/Node_data.h"
+#include "../../Data/Data_node.h"
 #include "../../Data/Scene/Control.h"
 
 #include "image/IconsFontAwesome5.h"
@@ -13,9 +13,9 @@
 WIN_object::WIN_object(Node_gui* node_gui, bool* show_window, string name) : WIN_base(show_window, name){
   //---------------------------
 
-  Node_data* node_data = node_gui->get_node_data();
+  Data_node* data_node = node_gui->get_data_node();
   this->gui_param = node_gui->get_gui_param();
-  this->controlManager = node_data->get_controlManager();
+  this->controlManager = data_node->get_controlManager();
 
   this->item_width = 150;
 

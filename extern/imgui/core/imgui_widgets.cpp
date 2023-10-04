@@ -6210,10 +6210,10 @@ bool ImGui::TreeNodeBehavior(ImGuiID id, ImGuiTreeNodeFlags flags, const char* l
         if (g.NavMoveDir == ImGuiDir_Left && g.NavWindow == window && NavMoveRequestButNoResultYet())
         {
             g.NavTreeNodeStack.resize(g.NavTreeNodeStack.Size + 1);
-            ImGuiNavTreeNodeData* nav_tree_node_data = &g.NavTreeNodeStack.back();
-            nav_tree_node_data->ID = id;
-            nav_tree_node_data->InFlags = g.LastItemData.InFlags;
-            nav_tree_node_data->NavRect = g.LastItemData.NavRect;
+            ImGuiNavTreeNodeData* nav_tree_data_node = &g.NavTreeNodeStack.back();
+            nav_tree_data_node->ID = id;
+            nav_tree_data_node->InFlags = g.LastItemData.InFlags;
+            nav_tree_data_node->NavRect = g.LastItemData.NavRect;
             window->DC.TreeJumpToParentOnPopMask |= (1 << window->DC.TreeDepth);
         }
 
@@ -6389,10 +6389,10 @@ void ImGui::TreePop()
     // Handle Left arrow to move to parent tree node (when ImGuiTreeNodeFlags_NavLeftJumpsBackHere is enabled)
     if (window->DC.TreeJumpToParentOnPopMask & tree_depth_mask) // Only set during request
     {
-        ImGuiNavTreeNodeData* nav_tree_node_data = &g.NavTreeNodeStack.back();
-        IM_ASSERT(nav_tree_node_data->ID == window->IDStack.back());
+        ImGuiNavTreeNodeData* nav_tree_data_node = &g.NavTreeNodeStack.back();
+        IM_ASSERT(nav_tree_data_node->ID == window->IDStack.back());
         if (g.NavIdIsAlive && g.NavMoveDir == ImGuiDir_Left && g.NavWindow == window && NavMoveRequestButNoResultYet())
-            NavMoveRequestResolveWithPastTreeNode(&g.NavMoveResultLocal, nav_tree_node_data);
+            NavMoveRequestResolveWithPastTreeNode(&g.NavMoveResultLocal, nav_tree_data_node);
         g.NavTreeNodeStack.pop_back();
     }
     window->DC.TreeJumpToParentOnPopMask &= tree_depth_mask - 1;

@@ -1,7 +1,7 @@
 #include "Control.h"
 #include "Scene.h"
 
-#include "../Node_data.h"
+#include "../Data_node.h"
 
 #include "../../Core/Dimension/Dimension.h"
 #include "../../Core/Camera/Camera.h"
@@ -11,14 +11,14 @@
 
 
 //Constructor / Destructor
-Control::Control(Node_data* node_data){
+Control::Control(Data_node* data_node){
   //---------------------------
 
-  this->node = node_data->get_node();
-  Node_core* node_core = node_data->get_node_core();
+  this->node = data_node->get_node();
+  Node_core* node_core = data_node->get_node_core();
   this->dimManager = node_core->get_dimManager();
   this->cameraManager = node_core->get_cameraManager();
-  this->sceneManager = node_data->get_sceneManager();
+  this->sceneManager = data_node->get_sceneManager();
 
   //---------------------------
 }

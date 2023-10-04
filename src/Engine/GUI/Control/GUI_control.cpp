@@ -8,7 +8,7 @@
 #include "../../Core/Camera/Camera.h"
 #include <Specific/Function/fct_math.h>
 #include "../../Data/Scene/Control.h"
-#include "../../Data/Node_data.h"
+#include "../../Data/Data_node.h"
 #include "../../Node.h"
 
 
@@ -17,11 +17,11 @@ GUI_control::GUI_control(Node_gui* node_gui){
   //---------------------------
 
   Node_core* node_core = node_gui->get_node_core();
-  Node_data* node_data = node_gui->get_node_data();
+  Data_node* data_node = node_gui->get_data_node();
   this->param_engine = node_core->get_param_engine();
   this->dimManager = node_core->get_dimManager();
   this->cameraManager = node_core->get_cameraManager();
-  this->controlManager = node_data->get_controlManager();
+  this->controlManager = data_node->get_controlManager();
 
   //---------------------------
 }

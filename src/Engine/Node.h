@@ -5,7 +5,7 @@
 
 class Node_core;
 class Node_gui;
-class Node_data;
+class Data_node;
 
 
 class Node
@@ -23,12 +23,12 @@ public:
 
   inline Node_core* get_node_core(){return node_core;}
   inline Node_gui* get_node_gui(){return node_gui;}
-  inline Node_data* get_node_data(){return node_data;}
+  inline Data_node* get_data_node(){return data_node;}
 
 private:
   Node_core* node_core;
   Node_gui* node_gui;
-  Node_data* node_data;
+  Data_node* data_node;
 };
 
 #endif

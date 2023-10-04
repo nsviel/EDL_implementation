@@ -4,7 +4,7 @@
 #include "../Data_common.h"
 
 class Node;
-class Node_data;
+class Data_node;
 class Dimension;
 class Camera;
 class Scene;
@@ -14,7 +14,7 @@ class Control
 {
 public:
   //Constructor / Destructor
-  Control(Node_data* node_data);
+  Control(Data_node* data_node);
   ~Control();
 
 public:

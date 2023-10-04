@@ -4,7 +4,7 @@
 #include "Scene/Grid.h"
 #include "Scene/Axis_world.h"
 
-#include "../Node_data.h"
+#include "../Data_node.h"
 #include "../Scene/Scene.h"
 
 #include "../../Core/Node_core.h"
@@ -12,11 +12,11 @@
 
 
 //Constructor / Destructor
-Glyphs::Glyphs(Node_data* node_data){
+Glyphs::Glyphs(Data_node* data_node){
   //---------------------------
 
-  Node_core* node_core = node_data->get_node_core();
-  this->sceneManager = node_data->get_sceneManager();
+  Node_core* node_core = data_node->get_node_core();
+  this->sceneManager = data_node->get_sceneManager();
   this->gpu_data = node_core->get_gpu_data();
 
   this->vec_glyph_src.push_back(new Grid());
