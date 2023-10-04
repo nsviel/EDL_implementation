@@ -1,7 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include "../../common.h"
+#include "../Data_common.h"
 
 class Node;
 class Node_data;

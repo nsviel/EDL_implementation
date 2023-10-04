@@ -5,6 +5,7 @@
 #include "struct_data.h"
 #include "struct_binding.h"
 #include "../../../common.h"
+#include "struct_image.h"
 
 
 struct Struct_buffer{

@@ -92,7 +92,7 @@ void Glyphs::create_glyph_scene(Glyph* glyph){
 
   //---------------------------
 }
-void Glyphs::create_glyph_object(Cloud* cloud, Glyph* glyph){
+void Glyphs::create_glyph_object(Object* object, Glyph* glyph){
   Set* col_glyph = data->get_collection_byName("glyph", "glyph_object");
   //---------------------------
 

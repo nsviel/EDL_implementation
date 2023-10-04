@@ -14,8 +14,8 @@ public:
   ~Tree();
 
 public:
-  Glyph* create_glyph(Cloud* cloud);
-  void update_tree(Cloud* cloud, Glyph* glyph);
+  Glyph* create_glyph(Object* object);
+  void update_tree(Object* object, Glyph* glyph);
 
   inline bool* get_visibility(){return &is_visible;}
   inline int* get_tree_level(){return &tree_level;}

@@ -1,8 +1,6 @@
 #ifndef NODE_SCENE_H
 #define NODE_SCENE_H
 
-#include "../common.h"
-
 class Node_core;
 class Node;
 class Scene;

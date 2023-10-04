@@ -1,14 +1,8 @@
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef COMMON_DATA_H
+#define COMMON_DATA_H
 
 //Include
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <stdexcept>
 #include <optional>
@@ -46,12 +40,6 @@ using namespace glm;
 #include <Common/struct_data_file.h>
 #include <Common/struct_set.h>
 #include <Common/struct_glyph.h>
-
-//GUI
-#include <imgui/core/imgui.h>
-#include <imgui/core/imgui_impl_glfw.h>
-#include <imgui/core/imgui_internal.h>
-#include <imgui/vulkan/imgui_impl_vulkan.h>
 
 
 #endif

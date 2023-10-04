@@ -20,7 +20,7 @@ Tree::Tree(){
 }
 Tree::~Tree(){}
 
-Glyph* Tree::create_glyph(Cloud* cloud){
+Glyph* Tree::create_glyph(Object* object){
   Glyph* tree = new Glyph();
   //---------------------------
 
@@ -35,7 +35,7 @@ Glyph* Tree::create_glyph(Cloud* cloud){
   //---------------------------
   return tree;
 }
-void Tree::update_tree(Cloud* cloud, Glyph* tree){
+void Tree::update_tree(Object* object, Glyph* tree){
   //---------------------------
 
   if(is_visible){

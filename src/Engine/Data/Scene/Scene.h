@@ -1,7 +1,7 @@
 #ifndef SCENE_GG_H
 #define SCENE_GG_H
 
-#include "../../common.h"
+#include "../Data_common.h"
 
 class Node_data;
 class Param_data;
@@ -28,7 +28,7 @@ public:
   void insert_scene_object(Object* object);
   void delete_scene_object(Object* object);
   void empty_scene_set();
-  
+
   inline Set* get_set_scene(){return set_scene;}
   inline Set* get_set_glyph(){return set_glyph;}
   inline Object* get_selected_object(){return set_scene->selected_obj;}

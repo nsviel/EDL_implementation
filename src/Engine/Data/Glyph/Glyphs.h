@@ -2,7 +2,7 @@
 #define GLYPHS_H
 
 #include "Base/Glyph_source.h"
-#include "../../common.h"
+#include "../Data_common.h"
 
 class Node_data;
 class GPU_data;

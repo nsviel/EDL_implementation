@@ -2,8 +2,7 @@
 #define GLYPH_SOURCE_H
 
 #include <Common/struct_glyph.h>
-#include "../../Struct/struct_cloud.h"
-#include "../../../common.h"
+#include "../../Data_common.h"
 
 
 class Glyph_source

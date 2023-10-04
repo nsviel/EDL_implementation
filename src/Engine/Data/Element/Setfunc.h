@@ -1,7 +1,7 @@
 #ifndef SETFUNC_H
 #define SETFUNC_H
 
-#include "../../common.h"
+#include "../Data_common.h"
 
 
 class Setfunc

@@ -19,19 +19,19 @@ public:
 public:
   //Main functions
   void make_col_heatmap(Set* set);
-  void make_cloud_heatmap(Cloud* cloud);
+  void make_cloud_heatmap(Object* object);
   void make_heatmap_all(bool heatAll);
 
   //Specific mode functions
-  void mode_height(Cloud* cloud);
-  void mode_intensity(Cloud* cloud);
-  void mode_distance(Cloud* cloud);
-  void mode_cosIt(Cloud* cloud);
-  void mode_It(Cloud* cloud);
+  void mode_height(Object* object);
+  void mode_intensity(Object* object);
+  void mode_distance(Object* object);
+  void mode_cosIt(Object* object);
+  void mode_It(Object* object);
 
   //Heatmap functions
-  void heatmap_set(Cloud* cloud, vector<float>& v_in);
-  void heatmap_unset(Cloud* cloud);
+  void heatmap_set(Object* object, vector<float>& v_in);
+  void heatmap_unset(Object* object);
 
   //Setters / Getters
   inline int* get_heatmap_mode(){return &heatmap_mode;}

@@ -2,6 +2,7 @@
 #define STRUCT_IMAGE_H
 
 #include "../../../common.h"
+#include "struct_image.h"
 
 
 struct Frame{

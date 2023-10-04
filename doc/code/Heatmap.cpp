@@ -55,7 +55,7 @@ void Heatmap::make_col_heatmap(Set* set){
 
   //Apply or reverse heatmap for cloud
   for(int i=0; i<collection->list_obj.size(); i++){
-    Cloud* cloud = (Cloud*)collection->get_obj(i);
+    Object* object = (Cloud*)collection->get_obj(i);
     Cloud* subset_buf = (Cloud*)collection->get_obj_buffer(i);
     Cloud* subset_ini = (Cloud*)collection->get_obj_init(i);
 
@@ -76,7 +76,7 @@ void Heatmap::make_col_heatmap(Set* set){
   //---------------------------
   //sceneManager->update_buffer_color(cloud);
 }
-void Heatmap::make_cloud_heatmap(Cloud* cloud){
+void Heatmap::make_cloud_heatmap(Object* object){
   //---------------------------
 
   switch(heatmap_mode){
@@ -107,7 +107,7 @@ void Heatmap::make_cloud_heatmap(Cloud* cloud){
 }
 
 //Specific mode functions
-void Heatmap::mode_height(Cloud* cloud){
+void Heatmap::mode_height(Object* object){
   //---------------------------
 
   vector<float> z_vec = attribManager->get_z_vector(cloud->xyz);
@@ -125,7 +125,7 @@ void Heatmap::mode_height(Cloud* cloud){
   //---------------------------
   this->heatmap_set(cloud, color_vec);
 }
-void Heatmap::mode_intensity(Cloud* cloud){
+void Heatmap::mode_intensity(Object* object){
   if(cloud->Is.size() != 0){
     //---------------------------
 
@@ -147,7 +147,7 @@ void Heatmap::mode_intensity(Cloud* cloud){
     this->heatmap_set(cloud, color_vec);
   }
 }
-void Heatmap::mode_distance(Cloud* cloud){
+void Heatmap::mode_distance(Object* object){
   vector<float>& dist = cloud->R;
   //---------------------------
 
@@ -161,7 +161,7 @@ void Heatmap::mode_distance(Cloud* cloud){
   //---------------------------
   this->heatmap_set(cloud, color_vec);
 }
-void Heatmap::mode_cosIt(Cloud* cloud){
+void Heatmap::mode_cosIt(Object* object){
   vector<float>& color_vec = cloud->cosIt;
   //---------------------------
 
@@ -172,7 +172,7 @@ void Heatmap::mode_cosIt(Cloud* cloud){
   //---------------------------
   this->heatmap_set(cloud, color_vec);
 }
-void Heatmap::mode_It(Cloud* cloud){
+void Heatmap::mode_It(Object* object){
   vector<float>& It = cloud->It;
   //---------------------------
 
@@ -188,7 +188,7 @@ void Heatmap::mode_It(Cloud* cloud){
 }
 
 //Processing functions
-void Heatmap::heatmap_set(Cloud* cloud, vector<float>& v_in){
+void Heatmap::heatmap_set(Object* object, vector<float>& v_in){
   vector<vec4>& RGB = cloud->rgb;
   //---------------------------
 
@@ -223,7 +223,7 @@ void Heatmap::heatmap_set(Cloud* cloud, vector<float>& v_in){
 
   //---------------------------
 }
-void Heatmap::heatmap_unset(Cloud* cloud){
+void Heatmap::heatmap_unset(Object* object){
   vector<vec4>& RGB = cloud->rgb;
   vector<float>& Is = cloud->Is;
   //---------------------------
