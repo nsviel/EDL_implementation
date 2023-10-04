@@ -5,7 +5,7 @@
 #include "Source/PSR/struct_pyramid.h"
 #include "../../common.h"
 
-class Node_engine;
+class Node_core;
 class Shader_edl;
 class Shader_psr;
 
@@ -13,7 +13,7 @@ class Shader_psr;
 class Shader
 {
 public:
-  Shader(Node_engine* node);
+  Shader(Node_core* node);
   ~Shader();
 
 public:

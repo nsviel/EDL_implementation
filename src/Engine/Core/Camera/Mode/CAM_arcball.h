@@ -4,14 +4,14 @@
 #include "../struct_camera.h"
 #include "../../../common.h"
 
-class Node_engine;
+class Node_core;
 class Dimension;
 
 
 class CAM_arcball
 {
 public:
-  CAM_arcball(Node_engine* node_engine);
+  CAM_arcball(Node_core* node_core);
   ~CAM_arcball();
 
 public:

@@ -3,7 +3,7 @@
 
 #include "../../common.h"
 
-class Node_engine;
+class Node_core;
 class VK_texture;
 class VK_buffer;
 class VK_descriptor;
@@ -15,7 +15,7 @@ class GPU_data
 {
 public:
   //Constructor / Destructor
-  GPU_data(Node_engine* node_engine);
+  GPU_data(Node_core* node_core);
   ~GPU_data();
 
 public:

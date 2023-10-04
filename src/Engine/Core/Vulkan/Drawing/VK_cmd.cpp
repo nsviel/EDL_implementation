@@ -11,7 +11,7 @@
 VK_cmd::VK_cmd(VK_engine* vk_engine){
   //---------------------------
 
-  Node_engine* node_engine = vk_engine->get_node_engine();
+  Node_core* node_core = vk_engine->get_node_core();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_viewport = vk_engine->get_vk_viewport();

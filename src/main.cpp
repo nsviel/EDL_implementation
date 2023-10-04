@@ -1,4 +1,5 @@
-#include "Node.h"
+#include "Engine/Node.h"
+#include "UI/GUI_main.cpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -10,6 +11,7 @@ int main() {
 
   std::cout<<"--- \033[1;34mBegin program\033[0m ---"<<std::endl;
   try{
+    //run_gui_main();
     node.init();
     node.loop();
     node.exit();

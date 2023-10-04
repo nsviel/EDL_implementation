@@ -13,7 +13,7 @@
 
 #include "../../Load/Node_load.h"
 #include "../../Load/Processing/Loader.h"
-#include "../../Core/Node_engine.h"
+#include "../../Core/Node_core.h"
 #include "../../Core/Dimension/Dimension.h"
 #include "../../Node.h"
 #include "../../Core/Param_engine.h"
@@ -23,8 +23,8 @@
 GUI_panel::GUI_panel(Node_gui* node_gui){
   //---------------------------
 
-  this->node_engine = node_gui->get_node_engine();
-  this->dimManager = node_engine->get_dimManager();
+  this->node_core = node_gui->get_node_core();
+  this->dimManager = node_core->get_dimManager();
   this->node_gui = node_gui;
   this->gui_object = node_gui->get_gui_object();
   this->gui_profiling = node_gui->get_gui_profiling();

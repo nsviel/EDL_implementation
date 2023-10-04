@@ -1,5 +1,5 @@
-#ifndef NODE_ENGINE_H
-#define NODE_ENGINE_H
+#ifndef NODE_CORE_H
+#define NODE_CORE_H
 
 #include "../common.h"
 
@@ -12,12 +12,12 @@ class GPU_data;
 class Shader;
 
 
-class Node_engine
+class Node_core
 {
 public:
   //Constructor / Destructor
-  Node_engine(Node* node);
-  ~Node_engine();
+  Node_core(Node* node);
+  ~Node_core();
 
 public:
   void init();

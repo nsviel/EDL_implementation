@@ -9,7 +9,7 @@
 Node_load::Node_load(Node* node){
   //---------------------------
 
-  this->node_engine = node->get_node_engine();
+  this->node_core = node->get_node_core();
   this->node_data = node->get_node_data();
 
   this->loaderManager = new Loader(this);

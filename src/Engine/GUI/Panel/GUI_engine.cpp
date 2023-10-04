@@ -1,7 +1,7 @@
 #include "GUI_engine.h"
 #include "../Node_gui.h"
 #include "../Control/GUI_control.h"
-#include "../../Core/Node_engine.h"
+#include "../../Core/Node_core.h"
 #include "../../Core/Vulkan/VK_engine.h"
 #include "../../Core/Vulkan/VK_param.h"
 
@@ -10,8 +10,8 @@
 GUI_engine::GUI_engine(Node_gui* node_gui){
   //---------------------------
 
-  Node_engine* node_engine = node_gui->get_node_engine();
-  VK_engine* vk_engine = node_engine->get_vk_engine();
+  Node_core* node_core = node_gui->get_node_core();
+  VK_engine* vk_engine = node_core->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
   this->gui_control = node_gui->get_gui_control();
 

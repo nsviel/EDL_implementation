@@ -4,7 +4,7 @@
 #include "../common.h"
 
 class Node;
-class Node_engine;
+class Node_core;
 class Node_data;
 class Node_load;
 
@@ -34,7 +34,7 @@ public:
   void init();
   void loop();
 
-  inline Node_engine* get_node_engine(){return node_engine;}
+  inline Node_core* get_node_core(){return node_core;}
   inline Node_data* get_node_data(){return node_data;}
   inline Node_load* get_node_load(){return node_load;}
 
@@ -53,7 +53,7 @@ public:
   inline GUI_engine* get_gui_engine(){return gui_engine;}
 
 private:
-  Node_engine* node_engine;
+  Node_core* node_core;
   Node_data* node_data;
   Node_load* node_load;
 

@@ -4,7 +4,7 @@
 #include "struct_pyramid.h"
 #include "../../../../common.h"
 
-class Node_engine;
+class Node_core;
 class Param_engine;
 class Dimension;
 
@@ -12,7 +12,7 @@ class Dimension;
 class Shader_psr
 {
 public:
-  Shader_psr(Node_engine* node);
+  Shader_psr(Node_core* node);
   ~Shader_psr();
 
   void update_shader();

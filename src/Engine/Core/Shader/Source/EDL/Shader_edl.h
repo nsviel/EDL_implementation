@@ -4,7 +4,7 @@
 #include "struct_edl.h"
 #include "../../../../common.h"
 
-class Node_engine;
+class Node_core;
 class Param_engine;
 class Dimension;
 
@@ -12,7 +12,7 @@ class Dimension;
 class Shader_edl
 {
 public:
-  Shader_edl(Node_engine* node);
+  Shader_edl(Node_core* node);
   ~Shader_edl();
 
   void update_shader();

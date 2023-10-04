@@ -7,7 +7,7 @@
 #include "../../Node.h"
 #include "../../Load/Node_load.h"
 #include "../../Load/Processing/Loader.h"
-#include "../../Core/Node_engine.h"
+#include "../../Core/Node_core.h"
 #include "../../Core/GPU/GPU_data.h"
 #include "../../Operation/Transformation/Attribut.h"
 
@@ -16,11 +16,11 @@
 Scene::Scene(Node_data* node_data){
   //---------------------------
 
-  Node_engine* node_engine = node_data->get_node_engine();
+  Node_core* node_core = node_data->get_node_core();
   this->node_data = node_data;
   this->param_data = node_data->get_param_data();
   this->dataManager = node_data->get_dataManager();
-  this->gpu_data = node_engine->get_gpu_data();
+  this->gpu_data = node_core->get_gpu_data();
   this->attributManager = new Attribut();
 
   this->ID_obj = 0;

@@ -1,14 +1,14 @@
 #include "CAM_proj.h"
 
 #include "../../Dimension/Dimension.h"
-#include "../../Node_engine.h"
+#include "../../Node_core.h"
 
 
 //Constructor / Destructor
-CAM_proj::CAM_proj(Node_engine* node_engine){
+CAM_proj::CAM_proj(Node_core* node_core){
   //---------------------------
 
-  this->dimManager = node_engine->get_dimManager();
+  this->dimManager = node_core->get_dimManager();
 
   //---------------------------
 }

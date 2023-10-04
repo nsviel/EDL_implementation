@@ -6,7 +6,7 @@
 #include "../../common.h"
 
 class Node;
-class Node_engine;
+class Node_core;
 class Param_engine;
 class Dimension;
 class CAM_arcball;
@@ -18,7 +18,7 @@ class CAM_proj;
 class Camera
 {
 public:
-  Camera(Node_engine* node_engine);
+  Camera(Node_core* node_core);
   ~Camera();
 
 public:

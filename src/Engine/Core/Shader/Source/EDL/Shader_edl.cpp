@@ -1,15 +1,15 @@
 #include "Shader_edl.h"
 
-#include "../../../Node_engine.h"
+#include "../../../Node_core.h"
 #include "../../../Param_engine.h"
 #include "../../../Dimension/Dimension.h"
 
 
-Shader_edl::Shader_edl(Node_engine* node_engine){
+Shader_edl::Shader_edl(Node_core* node_core){
   //---------------------------
 
-  this->param_engine = node_engine->get_param_engine();
-  this->dimManager = node_engine->get_dimManager();
+  this->param_engine = node_core->get_param_engine();
+  this->dimManager = node_core->get_dimManager();
 
   this->struct_edl = new Struct_edl();
   struct_edl->activated = true;

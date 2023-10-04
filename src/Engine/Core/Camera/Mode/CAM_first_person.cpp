@@ -1,14 +1,14 @@
 #include "CAM_first_person.h"
 
 #include "../../Dimension/Dimension.h"
-#include "../../Node_engine.h"
+#include "../../Node_core.h"
 
 
 //Constructor / Destructor
-CAM_first_person::CAM_first_person(Node_engine* node_engine){
+CAM_first_person::CAM_first_person(Node_core* node_core){
   //---------------------------
 
-  this->dimManager = node_engine->get_dimManager();
+  this->dimManager = node_core->get_dimManager();
 
   this->mouse_pose_old = vec2(0.0f);
 

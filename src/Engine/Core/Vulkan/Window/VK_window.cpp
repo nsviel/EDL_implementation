@@ -6,18 +6,19 @@
 #include "../VK_param.h"
 #include "../Camera/VK_viewport.h"
 
-#include "../../Node_engine.h"
+#include "../../Node_core.h"
 #include "../../Dimension/Dimension.h"
+#include <Window/Window_manager.h>
 
 
 //Constructor / Destructor
 VK_window::VK_window(VK_engine* vk_engine){
   //---------------------------
 
-  Node_engine* node_engine = vk_engine->get_node_engine();
+  Node_core* node_core = vk_engine->get_node_core();
 
   this->vk_param = vk_engine->get_vk_param();
-  this->dimManager = node_engine->get_dimManager();
+  this->dimManager = node_core->get_dimManager();
   this->vk_instance = vk_engine->get_vk_instance();
   this->vk_viewport = vk_engine->get_vk_viewport();
 

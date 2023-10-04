@@ -5,7 +5,7 @@
 
 #include "../../Core/Dimension/Dimension.h"
 #include "../../Core/Camera/Camera.h"
-#include "../../Core/Node_engine.h"
+#include "../../Core/Node_core.h"
 #include "../../Operation/Transformation/Transformation.h"
 #include "../../Node.h"
 
@@ -15,9 +15,9 @@ Control::Control(Node_data* node_data){
   //---------------------------
 
   this->node = node_data->get_node();
-  Node_engine* node_engine = node_data->get_node_engine();
-  this->dimManager = node_engine->get_dimManager();
-  this->cameraManager = node_engine->get_cameraManager();
+  Node_core* node_core = node_data->get_node_core();
+  this->dimManager = node_core->get_dimManager();
+  this->cameraManager = node_core->get_cameraManager();
   this->sceneManager = node_data->get_sceneManager();
 
   //---------------------------

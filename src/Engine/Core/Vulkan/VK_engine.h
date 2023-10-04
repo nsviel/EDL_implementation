@@ -4,7 +4,7 @@
 #include "Struct/typedef.h"
 #include "../../common.h"
 
-class Node_engine;
+class Node_core;
 class VK_param;
 class Param_engine;
 
@@ -45,7 +45,7 @@ class VK_engine
 {
 public:
   //Constructor / Destructor
-  VK_engine(Node_engine* node_engine);
+  VK_engine(Node_core* node_core);
   ~VK_engine();
 
 public:
@@ -58,7 +58,7 @@ public:
   void fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start);
   void fps_calcul(std::chrono::steady_clock::time_point& start_time);
 
-  inline Node_engine* get_node_engine(){return node_engine;}
+  inline Node_core* get_node_core(){return node_core;}
   inline Param_engine* get_param_engine(){return param_engine;}
   inline VK_param* get_vk_param(){return vk_param;}
   inline VK_device* get_vk_device(){return vk_device;}
@@ -94,7 +94,7 @@ public:
   inline VK_error* get_vk_error(){return vk_error;}
 
 private:
-  Node_engine* node_engine;
+  Node_core* node_core;
   Param_engine* param_engine;
   Timer timer;
 

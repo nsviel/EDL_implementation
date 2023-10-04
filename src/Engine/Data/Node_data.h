@@ -3,7 +3,7 @@
 
 #include "../common.h"
 
-class Node_engine;
+class Node_core;
 class Node_load;
 
 class Node;
@@ -26,7 +26,7 @@ public:
   void reset();
 
   inline Node* get_node(){return node;}
-  inline Node_engine* get_node_engine(){return node_engine;}
+  inline Node_core* get_node_core(){return node_core;}
   inline Node_load* get_node_load(){return node_load;}
 
   inline Param_data* get_param_data(){return param_data;}
@@ -36,7 +36,7 @@ public:
 
 private:
   Node* node;
-  Node_engine* node_engine;
+  Node_core* node_core;
   Node_load* node_load;
 
   Param_data* param_data;

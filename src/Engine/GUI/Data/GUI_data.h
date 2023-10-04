@@ -4,7 +4,7 @@
 #include "../../common.h"
 
 class Node_gui;
-class Node_engine;
+class Node_core;
 class VK_engine;
 class VK_param;
 
@@ -25,7 +25,7 @@ public:
 
 private:
   Node_gui* node_gui;
-  Node_engine* node_engine;
+  Node_core* node_core;
   VK_engine* vk_engine;
   VK_param* vk_param;
 

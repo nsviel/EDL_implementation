@@ -3,7 +3,7 @@
 
 #include "../Node_operation.h"
 
-#include "../../Core/Node_engine.h"
+#include "../../Core/Node_core.h"
 #include "../../Data/Node_data.h"
 #include "../../Specific/Function/fct_math.h"
 

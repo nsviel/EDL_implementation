@@ -4,14 +4,14 @@
 #include "../struct_camera.h"
 #include "../../../common.h"
 
-class Node_engine;
+class Node_core;
 class Dimension;
 
 
 class CAM_first_person
 {
 public:
-  CAM_first_person(Node_engine* node_engine);
+  CAM_first_person(Node_core* node_core);
   ~CAM_first_person();
 
 public:

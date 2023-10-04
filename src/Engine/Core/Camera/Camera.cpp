@@ -5,7 +5,7 @@
 #include "Mode/CAM_proj.h"
 
 #include "../Dimension/Dimension.h"
-#include "../Node_engine.h"
+#include "../Node_core.h"
 #include "../Param_engine.h"
 
 #include "../../Node.h"
@@ -14,16 +14,16 @@
 
 
 //Constructor / Destructor
-Camera::Camera(Node_engine* node_engine){
+Camera::Camera(Node_core* node_core){
   //---------------------------
 
-  this->node = node_engine->get_node();
-  this->dimManager = node_engine->get_dimManager();
-  this->param_engine = node_engine->get_param_engine();
-  this->cam_arcball = new CAM_arcball(node_engine);
-  this->cam_fp = new CAM_first_person(node_engine);
-  this->cam_zoom = new CAM_zoom(node_engine);
-  this->cam_proj = new CAM_proj(node_engine);
+  this->node = node_core->get_node();
+  this->dimManager = node_core->get_dimManager();
+  this->param_engine = node_core->get_param_engine();
+  this->cam_arcball = new CAM_arcball(node_core);
+  this->cam_fp = new CAM_first_person(node_core);
+  this->cam_zoom = new CAM_zoom(node_core);
+  this->cam_proj = new CAM_proj(node_core);
 
   //---------------------------
 }
