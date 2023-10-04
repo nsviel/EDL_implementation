@@ -20,6 +20,7 @@ class GUI_style;
 class GUI_init;
 class GUI_editor_text;
 class GUI_engine;
+class Control;
 
 
 class Node_gui
@@ -33,6 +34,7 @@ public:
   void init();
   void loop();
 
+  inline Node* get_node(){return node;}
   inline Core_node* get_core_node(){return core_node;}
   inline Data_node* get_data_node(){return data_node;}
 
@@ -49,8 +51,11 @@ public:
   inline GUI_init* get_gui_init(){return gui_init;}
   inline GUI_editor_text* get_gui_editor_text(){return gui_editor_text;}
   inline GUI_engine* get_gui_engine(){return gui_engine;}
+  inline Control* get_controlManager(){return controlManager;}
+
 
 private:
+  Node* node;
   Core_node* core_node;
   Data_node* data_node;
 
@@ -67,6 +72,7 @@ private:
   GUI_init* gui_init;
   GUI_editor_text* gui_editor_text;
   GUI_engine* gui_engine;
+  Control* controlManager;
 };
 
 #endif

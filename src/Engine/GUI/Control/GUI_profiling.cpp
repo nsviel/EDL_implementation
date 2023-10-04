@@ -2,10 +2,10 @@
 
 #include "../Node_gui.h"
 
-#include "../../Core/Core_node.h"
-#include "../../Core/Core_param.h"
-#include "../../Core/Vulkan/VK_engine.h"
-#include "../../Core/Vulkan/VK_param.h"
+#include "../../Render/Core_node.h"
+#include "../../Render/Core_param.h"
+#include "../../Render/Vulkan/VK_engine.h"
+#include "../../Render/Vulkan/VK_param.h"
 
 
 //Constructor / Destructor

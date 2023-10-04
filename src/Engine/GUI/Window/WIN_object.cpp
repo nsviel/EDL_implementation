@@ -4,7 +4,7 @@
 #include "../GUI_param.h"
 
 #include "../../Data/Data_node.h"
-#include "../../Data/Scene/Control.h"
+#include "../Control/Control.h"
 
 #include "image/IconsFontAwesome5.h"
 
@@ -15,7 +15,7 @@ WIN_object::WIN_object(Node_gui* node_gui, bool* show_window, string name) : WIN
 
   Data_node* data_node = node_gui->get_data_node();
   this->gui_param = node_gui->get_gui_param();
-  this->controlManager = data_node->get_controlManager();
+  this->controlManager = node_gui->get_controlManager();
 
   this->item_width = 150;
 
@@ -108,7 +108,7 @@ void WIN_object::object_parameter(Object* object){
     string nb_point = thousandSeparator(object->nb_point);
     ImGui::Text("%s", nb_point.c_str());
     ImGui::NextColumn();
-    
+
     this->size_point(object);
   }
   else if(object->draw_type_name == "line"){

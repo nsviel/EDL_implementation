@@ -3,9 +3,9 @@
 #include "../Node_gui.h"
 #include "../GUI_param.h"
 
-#include "../../Core/Core_node.h"
-#include "../../Core/Core_param.h"
-#include "../../Core/Camera/struct_camera.h"
+#include "../../Render/Core_node.h"
+#include "../../Render/Core_param.h"
+#include "../../Render/Camera/struct_camera.h"
 
 
 //Constructor / Destructor

@@ -1,9 +1,10 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include "../Data_common.h"
+#include "../../common.h"
 
 class Node;
+class Node_gui;
 class Data_node;
 class Dimension;
 class Camera;
@@ -14,7 +15,7 @@ class Control
 {
 public:
   //Constructor / Destructor
-  Control(Data_node* data_node);
+  Control(Node_gui* gui_node);
   ~Control();
 
 public:

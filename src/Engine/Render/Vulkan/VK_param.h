@@ -30,7 +30,7 @@ struct VK_param{
 
   Struct_instance instance = {
     2, //max_frame_inflight
-    "../src/Engine/Core/Shader/Code/spir/", //path_shader
+    "../src/Engine/Render/Shader/Code/spir/", //path_shader
   };
 
   Struct_device device;

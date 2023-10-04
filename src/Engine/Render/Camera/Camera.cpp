@@ -8,22 +8,19 @@
 #include "../Core_node.h"
 #include "../Core_param.h"
 
-#include "../../Node.h"
-#include "../../Data/Data_node.h"
-#include "../../Data/Scene/Scene.h"
-
 
 //Constructor / Destructor
 Camera::Camera(Core_node* core_node){
   //---------------------------
 
-  this->node = core_node->get_node();
   this->dimManager = core_node->get_dimManager();
   this->core_param = core_node->get_core_param();
   this->cam_arcball = new CAM_arcball(core_node);
   this->cam_fp = new CAM_first_person(core_node);
   this->cam_zoom = new CAM_zoom(core_node);
   this->cam_proj = new CAM_proj(core_node);
+
+  this->arcball_origin = vec3(0, 0, 0);
 
   //---------------------------
 }
@@ -49,10 +46,7 @@ mat4 Camera::compute_cam_view(){
   }else if(camera->mode == "first_person"){
     cam_view = cam_fp->fp_view_mat(camera);
   }else if(camera->mode == "arcball"){
-    Data_node* data_node = node->get_data_node();
-    Scene* sceneManager = data_node->get_sceneManager();
-    Object* object = sceneManager->get_selected_object();
-    if(object != nullptr) camera->cam_COM_obj = object->COM;
+    camera->cam_COM_obj = arcball_origin;
     cam_view = cam_arcball->arcball_view_mat(camera);
   }
 

@@ -3,7 +3,7 @@
 #include "../Node_gui.h"
 #include "../GUI_param.h"
 
-#include "../../Data/Element/Setfunc.h"
+#include <Operation/Transformation/Attribut.h>
 
 
 //Constructor / Destructor
@@ -44,8 +44,8 @@ void WIN_set::set_parameter(Set* set){
   ImGui::Text("Visibility");
   ImGui::NextColumn();
   if(ImGui::Checkbox("##4555", &set->is_visible)){
-    Setfunc setfunc;
-    setfunc.set_visibility(set, set->is_visible);
+    //Setfunc setfunc;
+    //setfunc.set_visibility(set, set->is_visible);
   }
   ImGui::NextColumn();
 

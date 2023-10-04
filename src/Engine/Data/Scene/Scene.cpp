@@ -6,8 +6,8 @@
 
 #include "../../Node.h"
 #include "../Load/Loader.h"
-#include "../../Core/Core_node.h"
-#include "../../Core/GPU/GPU_data.h"
+#include "../../Render/Core_node.h"
+#include "../../Render/GPU/GPU_data.h"
 #include <Operation/Transformation/Attribut.h>
 
 

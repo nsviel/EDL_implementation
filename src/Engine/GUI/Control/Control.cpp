@@ -1,21 +1,23 @@
 #include "Control.h"
-#include "Scene.h"
+#include "../Node_gui.h"
+#include "../../Data/Scene/Scene.h"
 
-#include "../Data_node.h"
+#include "../../Data/Data_node.h"
 
-#include "../../Core/Dimension/Dimension.h"
-#include "../../Core/Camera/Camera.h"
-#include "../../Core/Core_node.h"
+#include "../../Render/Dimension/Dimension.h"
+#include "../../Render/Camera/Camera.h"
+#include "../../Render/Core_node.h"
 #include <Operation/Transformation/Transformation.h>
 #include "../../Node.h"
 
 
 //Constructor / Destructor
-Control::Control(Data_node* data_node){
+Control::Control(Node_gui* gui_node){
   //---------------------------
 
-  this->node = data_node->get_node();
-  Core_node* core_node = data_node->get_core_node();
+  this->node = gui_node->get_node();
+  Core_node* core_node = gui_node->get_core_node();
+  Data_node* data_node = gui_node->get_data_node();
   this->dimManager = core_node->get_dimManager();
   this->cameraManager = core_node->get_cameraManager();
   this->sceneManager = data_node->get_sceneManager();

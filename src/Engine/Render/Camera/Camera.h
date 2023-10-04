@@ -50,6 +50,8 @@ private:
   CAM_first_person* cam_fp;
   CAM_zoom* cam_zoom;
   CAM_proj* cam_proj;
+
+  vec3 arcball_origin;
 };
 
 #endif

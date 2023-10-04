@@ -2,12 +2,12 @@
 
 #include "../Node_gui.h"
 
-#include "../../Core/Core_node.h"
-#include "../../Core/Core_param.h"
-#include "../../Core/Dimension/Dimension.h"
-#include "../../Core/Camera/Camera.h"
+#include "../../Render/Core_node.h"
+#include "../../Render/Core_param.h"
+#include "../../Render/Dimension/Dimension.h"
+#include "../../Render/Camera/Camera.h"
 #include <Specific/Function/fct_math.h>
-#include "../../Data/Scene/Control.h"
+#include "Control.h"
 #include "../../Data/Data_node.h"
 #include "../../Node.h"
 
@@ -17,11 +17,10 @@ GUI_control::GUI_control(Node_gui* node_gui){
   //---------------------------
 
   Core_node* core_node = node_gui->get_core_node();
-  Data_node* data_node = node_gui->get_data_node();
   this->core_param = core_node->get_core_param();
   this->dimManager = core_node->get_dimManager();
   this->cameraManager = core_node->get_cameraManager();
-  this->controlManager = data_node->get_controlManager();
+  this->controlManager = node_gui->get_controlManager();
 
   //---------------------------
 }
@@ -111,7 +110,8 @@ void GUI_control::control_keyboard_oneAction(){
 
   for(int i=0; i<IM_ARRAYSIZE(io.KeysDown); i++){
     if(ImGui::IsKeyPressed(ImGuiKey_Escape)){
-      controlManager->exit();
+      GLFWwindow* window = dimManager->get_window();
+      glfwSetWindowShouldClose(window, true);
     }
 
     //Tab key
@@ -128,7 +128,7 @@ void GUI_control::control_keyboard_oneAction(){
 
     //R key - Reset
     if(ImGui::IsKeyPressed(ImGuiKey_R)){
-      controlManager->reset();
+      //node->reset();
       break;
     }
 

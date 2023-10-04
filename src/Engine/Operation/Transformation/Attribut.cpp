@@ -30,3 +30,13 @@ void Attribut::compute_MinMax(Object* object){
   object->max = max;
   object->COM = centroid;
 }
+void Attribut::set_visibility(Set* set, bool visibility){
+  //---------------------------
+
+  for(int i=0; i<set->list_obj.size(); i++){
+    Object* object = *next(set->list_obj.begin(), i);
+    object->is_visible = visibility;
+  }
+
+  //---------------------------
+}

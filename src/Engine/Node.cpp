@@ -1,6 +1,6 @@
 #include "Node.h"
 
-#include "Core/Core_node.h"
+#include "Render/Core_node.h"
 #include "GUI/Node_gui.h"
 #include "Data/Data_node.h"
 

@@ -5,7 +5,6 @@
 #include "../Data_common.h"
 
 class Data_node;
-class GPU_data;
 class Scene;
 
 
@@ -23,7 +22,6 @@ public:
 
 private:
   Data_node* data_node;
-  GPU_data* gpu_data;
   Scene* sceneManager;
 
   vector<Glyph_source*> vec_glyph_src;

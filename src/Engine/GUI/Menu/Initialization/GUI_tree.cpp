@@ -2,7 +2,7 @@
 
 #include "../GUI_init.h"
 
-#include "../../../Core/Core_node.h"
+#include "../../../Render/Core_node.h"
 #include "../../../Data/Data_node.h"
 #include "../../../Data/Scene/Scene.h"
 #include "../../../Data/Load/Loader.h"

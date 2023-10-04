@@ -2,10 +2,10 @@
 
 #include "../Node_gui.h"
 
-#include "../../Core/Core_node.h"
-#include "../../Core/Dimension/Dimension.h"
-#include "../../Core/Shader/Shader.h"
-#include "../../Core/Shader/Source/EDL/Shader_edl.h"
+#include "../../Render/Core_node.h"
+#include "../../Render/Dimension/Dimension.h"
+#include "../../Render/Shader/Shader.h"
+#include "../../Render/Shader/Source/EDL/Shader_edl.h"
 
 
 //Constructor / Destructor

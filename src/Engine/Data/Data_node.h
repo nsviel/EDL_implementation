@@ -7,7 +7,7 @@ class Scene;
 class Data_param;
 class Database;
 class Glyphs;
-class Control;
+
 class Loader;
 
 
@@ -29,7 +29,7 @@ public:
   inline Scene* get_sceneManager(){return sceneManager;}
   inline Database* get_dataManager(){return dataManager;}
   inline Loader* get_loaderManager(){return loaderManager;}
-  inline Control* get_controlManager(){return controlManager;}
+
 
 private:
   Node* node;
@@ -39,7 +39,7 @@ private:
   Scene* sceneManager;
   Database* dataManager;
   Glyphs* glyphManager;
-  Control* controlManager;
+  
   Loader* loaderManager;
 };
 

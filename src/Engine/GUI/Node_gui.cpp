@@ -13,6 +13,7 @@
 #include "Panel/GUI_object.h"
 #include "Window/GUI_windows.h"
 #include "Style/GUI_style.h"
+#include "Control/Control.h"
 
 #include "../Node.h"
 
@@ -22,6 +23,7 @@
 Node_gui::Node_gui(Node* node){
   //---------------------------
 
+  this->node = node;
   this->core_node = node->get_core_node();
   this->data_node = node->get_data_node();
 
@@ -38,6 +40,7 @@ Node_gui::Node_gui(Node* node){
   this->gui_panel = new GUI_panel(this);
   this->gui_windows = new GUI_windows(this);
   this->gui_style = new GUI_style(this);
+  this->controlManager = new Control(this);
 
   //---------------------------
 }

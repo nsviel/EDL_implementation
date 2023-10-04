@@ -18,7 +18,7 @@ struct Struct_instance{
   //---------------------------
 
   int max_frame_inflight = 2;
-  std::string path_shader = "../src/Engine/Core/Shader/Code/spir/";
+  std::string path_shader = "../src/Engine/Render/Shader/Code/spir/";
 
   VkInstance instance;
   vector<const char*> extension;
