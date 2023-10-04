@@ -1,15 +1,12 @@
 #include "PLY_importer.h"
 
-#include <Specific/Function/fct_math.h>
-#include <Specific/File/Info.h>
-
 
 //Constructor / Destructor
 PLY_importer::PLY_importer(){}
 PLY_importer::~PLY_importer(){}
 
 //Main loader functions
-Data_file* PLY_importer::Loader(string path){
+Data_file* PLY_importer::Loader(std::string path){
   data = new Data_file();
   data->name = get_name_from_path(path);
   data->path_file = path;
@@ -41,7 +38,7 @@ Data_file* PLY_importer::Loader(string path){
   }
   else if (format == "binary_little_endian"){
     //Open file
-    std::ifstream file(path, ios::binary);
+    std::ifstream file(path, std::ios::binary);
 
     //Read header
     this->Loader_header(file);
@@ -58,7 +55,7 @@ Data_file* PLY_importer::Loader(string path){
   }
   else if (format == "binary_big_endian"){
     //Open file
-    std::ifstream file(path, ios::binary);
+    std::ifstream file(path, std::ios::binary);
 
     //Read header
     this->Loader_header(file);
@@ -91,7 +88,7 @@ void PLY_importer::Loader_header(std::ifstream& file){
   //---------------------------
 
   // Separate the header
-  string line, h1, h2, h3, h4;
+  std::string line, h1, h2, h3, h4;
   bool vertex_ended = false;
   do{
     getline(file, line);
@@ -164,13 +161,13 @@ void PLY_importer::Loader_header(std::ifstream& file){
   //---------------------------
 }
 void PLY_importer::Loader_ascii(std::ifstream& file){
-  vector<vec3> vertex;
-  vector<vec3> normal;
-  vector<float> intensity;
+  std::vector<glm::vec3> vertex;
+  std::vector<glm::vec3> normal;
+  std::vector<float> intensity;
   //---------------------------
 
   //Retrieve vertex data
-  string line;
+  std::string line;
   int cpt = 0;
   while (std::getline(file, line)){
     //Check vertex number
@@ -181,7 +178,7 @@ void PLY_importer::Loader_ascii(std::ifstream& file){
 
     //Stocke all line values
     std::istringstream iss(line);
-    vector<float> data;
+    std::vector<float> data;
     for(int i=0; i<property_number; i++){
       float d;
       iss >> d;
@@ -191,13 +188,13 @@ void PLY_importer::Loader_ascii(std::ifstream& file){
     //Location
     int id_x = get_id_property("x");
     if(id_x != -1){
-      vertex.push_back(vec3(data[id_x], data[id_x+1], data[id_x+2]));
+      vertex.push_back(glm::vec3(data[id_x], data[id_x+1], data[id_x+2]));
     }
 
     //Normal
     int id_nx = get_id_property("nx");
     if(id_nx != -1){
-      normal.push_back(vec3(data[id_nx], data[id_nx+1], data[id_nx+2]));
+      normal.push_back(glm::vec3(data[id_nx], data[id_nx+1], data[id_nx+2]));
     }
 
     //Intensity
@@ -215,20 +212,20 @@ void PLY_importer::Loader_ascii(std::ifstream& file){
   data->nb_element = data->xyz.size();
 }
 void PLY_importer::Loader_ascii_withface(std::ifstream& file){
-  vector<vec3> vertex;
-  vector<vec3> normal;
-  vector<float> intensity;
+  std::vector<glm::vec3> vertex;
+  std::vector<glm::vec3> normal;
+  std::vector<float> intensity;
   //---------------------------
 
   //Retrieve vertex data
-  string line;
+  std::string line;
   for(int i=0; i<point_number; i++){
     //Get line
     std::getline(file, line);
     std::istringstream iss(line);
 
     //Stocke all line values
-    vector<float> data;
+    std::vector<float> data;
     float d;
     for(int i=0; i<property_number; i++){
       iss >> d;
@@ -238,13 +235,13 @@ void PLY_importer::Loader_ascii_withface(std::ifstream& file){
     //Location
     int id_x = get_id_property("x");
     if(id_x != -1){
-      vertex.push_back(vec3(data[id_x], data[id_x+1], data[id_x+2]));
+      vertex.push_back(glm::vec3(data[id_x], data[id_x+1], data[id_x+2]));
     }
 
     //Normal
     int id_nx = get_id_property("nx");
     if(id_nx != -1){
-      normal.push_back(vec3(data[id_nx], data[id_nx+1], data[id_nx+2]));
+      normal.push_back(glm::vec3(data[id_nx], data[id_nx+1], data[id_nx+2]));
     }
 
     //Intensity
@@ -261,7 +258,7 @@ void PLY_importer::Loader_ascii_withface(std::ifstream& file){
     iss >> nb_vertice;
 
     //Stocke all line index
-    vector<int> idx;
+    std::vector<int> idx;
     float d;
     for(int i=0; i<nb_vertice; i++){
       iss >> d;
@@ -301,8 +298,8 @@ void PLY_importer::Loader_bin_little_endian(std::ifstream& file){
 
   //Convert raw data into decimal data
   int offset = 0;
-  vector<vector<float>> block_vec;
-  block_vec.resize(property_number, vector<float>(point_number));
+  std::vector<std::vector<float>> block_vec;
+  block_vec.resize(property_number, std::vector<float>(point_number));
   for (int i=0; i<point_number; i++){
     for (int j=0; j<property_number; j++){
       if(property_type[j] == "float32"){
@@ -332,27 +329,27 @@ void PLY_importer::Loader_bin_little_endian(std::ifstream& file){
     }
   }
 
-  //Resize vectors accordingly
-  data->xyz.resize(point_number, vec3(0,0,0));
+  //Resize std::vectors accordingly
+  data->xyz.resize(point_number, glm::vec3(0,0,0));
   if(is_timestamp) data->ts.resize(point_number, 0);
   if(is_intensity) data->Is.resize(point_number, 0);
-  if(is_normal) data->Nxyz.resize(point_number, vec3(0,0,0));
-  if(is_color) data->rgb.resize(point_number, vec4(0,0,0,0));
+  if(is_normal) data->Nxyz.resize(point_number, glm::vec3(0,0,0));
+  if(is_color) data->rgb.resize(point_number, glm::vec4(0,0,0,0));
   data->nb_element = point_number;
 
-  //Insert data in the adequate vector
+  //Insert data in the adequate std::vector
   //#pragma omp parallel for
   for (int i=0; i<point_number; i++){
     for (int j=0; j<property_number; j++){
       //Location
       if(property_name[j] == "x"){
-        vec3 point = vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
+        glm::vec3 point = glm::vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
         data->xyz[i] = point;
       }
 
       //Normal
       if(property_name[j] == "nx"){
-        vec3 normal = vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
+        glm::vec3 normal = glm::vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
         data->Nxyz[i] = normal;
       }
 
@@ -361,7 +358,7 @@ void PLY_importer::Loader_bin_little_endian(std::ifstream& file){
         float red = block_vec[j][i] / 255;
         float green = block_vec[j+1][i] / 255;
         float blue = block_vec[j+2][i] / 255;
-        vec4 rgb = vec4(red, green, blue, 1.0f);
+        glm::vec4 rgb = glm::vec4(red, green, blue, 1.0f);
         data->rgb[i] = rgb;
       }
 
@@ -391,8 +388,8 @@ void PLY_importer::Loader_bin_little_endian_withface(std::ifstream& file){
 
   //Convert raw data into decimal data
   int offset = 0;
-  vector<vector<float>> block_vec;
-  block_vec.resize(property_number, vector<float>(point_number));
+  std::vector<std::vector<float>> block_vec;
+  block_vec.resize(property_number, std::vector<float>(point_number));
   for (int i=0; i<point_number; i++){
     for (int j=0; j<property_number; j++){
       float value = get_float_from_binary(block_data, offset);
@@ -400,16 +397,16 @@ void PLY_importer::Loader_bin_little_endian_withface(std::ifstream& file){
     }
   }
 
-  //Insert data in the adequate vector
-  vector<vec3> vertex;
-  vector<vec3> normal;
-  vector<float> intensity;
-  vector<float> timestamp;
+  //Insert data in the adequate std::vector
+  std::vector<glm::vec3> vertex;
+  std::vector<glm::vec3> normal;
+  std::vector<float> intensity;
+  std::vector<float> timestamp;
   for (int i=0; i<point_number; i++){
     for (int j=0; j<property_number; j++){
       //Location
       if(property_name[j] == "x"){
-        vec3 point = vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
+        glm::vec3 point = glm::vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
         vertex.push_back(point);
       }
 
@@ -442,7 +439,7 @@ void PLY_importer::Loader_bin_little_endian_withface(std::ifstream& file){
     nb_vertice = value;
 
     //Get face vertices index
-    vector<int> idx;
+    std::vector<int> idx;
     for (int j=0; j<value; j++){
       int value =  *((int *) (block_data_id + offset));
       offset += sizeof(int);
@@ -476,8 +473,8 @@ void PLY_importer::Loader_bin_big_endian(std::ifstream& file){
 
   //Convert raw data into decimal data
   int offset = 0;
-  vector<vector<float>> block_vec;
-  block_vec.resize(property_number, vector<float>(point_number));
+  std::vector<std::vector<float>> block_vec;
+  block_vec.resize(property_number, std::vector<float>(point_number));
   for (int i=0; i<point_number; i++){
     for (int j=0; j<property_number; j++){
       float value = get_float_from_binary(block_data, offset);
@@ -485,19 +482,19 @@ void PLY_importer::Loader_bin_big_endian(std::ifstream& file){
     }
   }
 
-  //Resize vectors accordingly
-  data->xyz.resize(point_number, vec3(0,0,0));
+  //Resize std::vectors accordingly
+  data->xyz.resize(point_number, glm::vec3(0,0,0));
   if(is_timestamp) data->ts.resize(point_number, 0);
   if(is_intensity) data->Is.resize(point_number, 0);
   data->nb_element = point_number;
 
-  //Insert data in the adequate vector
+  //Insert data in the adequate std::vector
   #pragma omp parallel for
   for (int i=0; i<point_number; i++){
     for (int j=0; j<property_number; j++){
       //Location
       if(property_name[j] == "x"){
-        vec3 point = vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
+        glm::vec3 point = glm::vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
         data->xyz[i] = point;
       }
 
@@ -527,8 +524,8 @@ void PLY_importer::Loader_bin_big_endian_withface(std::ifstream& file){
 
   //Convert raw data into decimal data
   int offset = 0;
-  vector<vector<float>> block_vec;
-  block_vec.resize(property_number, vector<float>(point_number));
+  std::vector<std::vector<float>> block_vec;
+  block_vec.resize(property_number, std::vector<float>(point_number));
   for (int i=0; i<point_number; i++){
     for (int j=0; j<property_number; j++){
       float value = get_float_from_binary(block_data, offset);
@@ -536,16 +533,16 @@ void PLY_importer::Loader_bin_big_endian_withface(std::ifstream& file){
     }
   }
 
-  //Insert data in the adequate vector
-  vector<vec3> vertex;
-  vector<vec3> normal;
-  vector<float> intensity;
-  vector<float> timestamp;
+  //Insert data in the adequate std::vector
+  std::vector<glm::vec3> vertex;
+  std::vector<glm::vec3> normal;
+  std::vector<float> intensity;
+  std::vector<float> timestamp;
   for (int i=0; i<point_number; i++){
     for (int j=0; j<property_number; j++){
       //Location
       if(property_name[j] == "x"){
-        vec3 point = vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
+        glm::vec3 point = glm::vec3(block_vec[j][i], block_vec[j+1][i], block_vec[j+2][i]);
         vertex.push_back(point);
       }
 
@@ -578,7 +575,7 @@ void PLY_importer::Loader_bin_big_endian_withface(std::ifstream& file){
     nb_vertice = value;
 
     //Get face vertices index
-    vector<int> idx;
+    std::vector<int> idx;
     for (int j=0; j<value; j++){
       int value =  *((int *) (block_data_id + offset));
       offset += sizeof(int);
@@ -631,15 +628,15 @@ int PLY_importer::reverse_int(const int inInt){
    return retVal;
 }
 void PLY_importer::reorder_by_timestamp(){
-  vector<vec3> pos;
-  vector<float> ts;
-  vector<float> Is;
+  std::vector<glm::vec3> pos;
+  std::vector<float> ts;
+  std::vector<float> Is;
   //---------------------------
 
   if(data->ts.size() != 0){
     //Check for non void and reorder by index
     for (auto i: fct_sortByIndexes(data->ts)){
-      if(data->xyz[i] != vec3(0, 0, 0)){
+      if(data->xyz[i] != glm::vec3(0, 0, 0)){
         //Location adn timestamp
         ts.push_back(data->ts[i]);
         pos.push_back(data->xyz[i]);
@@ -651,7 +648,7 @@ void PLY_importer::reorder_by_timestamp(){
       }
     }
 
-    //Set new vectors
+    //Set new std::vectors
     data->xyz = pos;
     data->ts = ts;
     data->Is = Is;
@@ -659,7 +656,7 @@ void PLY_importer::reorder_by_timestamp(){
 
   //---------------------------
 }
-int PLY_importer::get_id_property(string name){
+int PLY_importer::get_id_property(std::string name){
   //---------------------------
 
   for(int i=0; i<property_name.size(); i++){
@@ -674,7 +671,7 @@ int PLY_importer::get_id_property(string name){
 float PLY_importer::get_float_from_binary(char* block_data, int& offset){
   //---------------------------
 
-  float value =  *((float *) (block_data + offset));
+  float value = static_cast<float>(*reinterpret_cast<float*>(block_data + offset));
   offset += sizeof(float);
 
   //---------------------------
@@ -683,7 +680,7 @@ float PLY_importer::get_float_from_binary(char* block_data, int& offset){
 float PLY_importer::get_double_from_binary(char* block_data, int& offset){
   //---------------------------
 
-  float value =  (float)*((double *) (block_data + offset));
+  float value = static_cast<float>(*reinterpret_cast<double*>(block_data + offset));
   offset += sizeof(double);
 
   //---------------------------
@@ -692,7 +689,7 @@ float PLY_importer::get_double_from_binary(char* block_data, int& offset){
 float PLY_importer::get_int_from_binary(char* block_data, int& offset){
   //---------------------------
 
-  float value =  (float)*((int *) (block_data + offset));
+  float value = static_cast<float>(*reinterpret_cast<int*>(block_data + offset));
   offset += sizeof(int);
 
   //---------------------------
@@ -701,8 +698,8 @@ float PLY_importer::get_int_from_binary(char* block_data, int& offset){
 float PLY_importer::get_uint8_from_binary(char* block_data, int& offset){
   //---------------------------
 
-  float value =  (float)*((uint8 *) (block_data + offset));
-  offset += sizeof(uint8);
+  float value = static_cast<float>(*reinterpret_cast<uint8_t*>(block_data + offset));
+  offset += sizeof(uint8_t);
 
   //---------------------------
   return value;
@@ -710,8 +707,8 @@ float PLY_importer::get_uint8_from_binary(char* block_data, int& offset){
 float PLY_importer::get_uint16_from_binary(char* block_data, int& offset){
   //---------------------------
 
-  float value =  (float)*((uint16 *) (block_data + offset));
-  offset += sizeof(uint16);
+  float value = static_cast<float>(*reinterpret_cast<uint16_t*>(block_data + offset));
+  offset += sizeof(uint16_t);
 
   //---------------------------
   return value;
@@ -719,8 +716,8 @@ float PLY_importer::get_uint16_from_binary(char* block_data, int& offset){
 float PLY_importer::get_uint32_from_binary(char* block_data, int& offset){
   //---------------------------
 
-  float value =  (float)*((uint32 *) (block_data + offset));
-  offset += sizeof(uint32);
+  float value = static_cast<float>(*reinterpret_cast<uint32_t*>(block_data + offset));
+  offset += sizeof(uint32_t);
 
   //---------------------------
   return value;
@@ -728,7 +725,7 @@ float PLY_importer::get_uint32_from_binary(char* block_data, int& offset){
 float PLY_importer::get_uchar_from_binary(char* block_data, int& offset){
   //---------------------------
 
-  float value =  (float)*((unsigned char *) (block_data + offset));
+  float value = static_cast<float>(*reinterpret_cast<unsigned char*>(block_data + offset));
   offset += sizeof(unsigned char);
 
   //---------------------------

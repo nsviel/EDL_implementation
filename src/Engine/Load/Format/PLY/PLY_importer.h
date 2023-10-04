@@ -1,7 +1,16 @@
 #ifndef PLY_IMPORTER_H
 #define PLY_IMPORTER_H
 
-#include "../../../common.h"
+#include <Common/struct_data_file.h>
+#include <Specific/File/Info.h>
+#include <Specific/Function/fct_math.h>
+#include <glm/glm.hpp>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+#include <stdint.h>
+#include <cstdint>
 
 
 class PLY_importer
@@ -13,7 +22,7 @@ public:
 
 public:
   //Main functions
-  Data_file* Loader(string path_file);
+  Data_file* Loader(std::string path_file);
 
 private:
   //Loader data
@@ -29,7 +38,7 @@ private:
   float reverse_float(const float inFloat);
   int reverse_int(const int inInt);
   void reorder_by_timestamp();
-  int get_id_property(string name);
+  int get_id_property(std::string name);
   float get_float_from_binary(char* data, int& offset);
   float get_double_from_binary(char* block_data, int& offset);
   float get_int_from_binary(char* data, int& offset);
@@ -42,10 +51,10 @@ private:
   Data_file* data;
 
   //Parametrization
-  vector<string> property_type;
-  vector<string> property_name;
-  vector<int> property_size;
-  string format;
+  std::vector<std::string> property_type;
+  std::vector<std::string> property_name;
+  std::vector<int> property_size;
+  std::string format;
   bool is_timestamp;
   bool is_intensity;
   bool is_normal;
