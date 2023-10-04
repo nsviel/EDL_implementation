@@ -1,11 +1,11 @@
 #include "Format.h"
-#include "Format/PLY/PLY_importer.h"
-#include "Format/OBJ/OBJ_importer.h"
-#include "Format/CSV/CSV_importer.h"
-#include "Format/PCAP/PCAP_importer.h"
-#include "Format/PTS/PTS_importer.h"
-#include "Format/PTX/PTX_importer.h"
-#include "Format/XYZ/XYZ_importer.h"
+#include "../Format/PLY/PLY_importer.h"
+#include "../Format/OBJ/OBJ_importer.h"
+#include "../Format/CSV/CSV_importer.h"
+#include "../Format/PCAP/PCAP_importer.h"
+#include "../Format/PTS/PTS_importer.h"
+#include "../Format/PTX/PTX_importer.h"
+#include "../Format/XYZ/XYZ_importer.h"
 
 
 //Constructor / Destructor
