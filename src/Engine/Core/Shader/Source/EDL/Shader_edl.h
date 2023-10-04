@@ -5,7 +5,7 @@
 #include "../../../../common.h"
 
 class Node_core;
-class Param_engine;
+class Param_core;
 class Dimension;
 
 
@@ -20,7 +20,7 @@ public:
   inline Struct_edl* get_edl_param(){return struct_edl;}
 
 private:
-  Param_engine* param_engine;
+  Param_core* param_engine;
   Dimension* dimManager;
 
   Struct_edl* struct_edl;

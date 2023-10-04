@@ -19,4 +19,5 @@ target_link_libraries(LIBRARY_ELEMENT PUBLIC
   -lSQLiteCpp #sqlitecpp
   -lpthread #sqlitecpp
   -ldl #sqlitecpp
+  -lsqlite3
 )

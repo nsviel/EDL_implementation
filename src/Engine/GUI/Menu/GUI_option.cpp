@@ -3,7 +3,7 @@
 #include "../Node_gui.h"
 
 #include "../../Core/Node_core.h"
-#include "../../Core/Param_engine.h"
+#include "../../Core/Param_core.h"
 #include "../../Core/Vulkan/VK_engine.h"
 #include "../../Core/Vulkan/VK_param.h"
 
@@ -56,7 +56,7 @@ void GUI_option::option_font(){
 }
 void GUI_option::option_color(){
   if(ImGui::CollapsingHeader("Colors")){
-    Param_engine* param_engine = node_core->get_param_engine();
+    Param_core* param_engine = node_core->get_param_engine();
     //---------------------------
 
     //Background color
@@ -69,7 +69,7 @@ void GUI_option::option_color(){
   }
 }
 void GUI_option::option_fps(){
-  Param_engine* param_engine = node_core->get_param_engine();
+  Param_core* param_engine = node_core->get_param_engine();
   //---------------------------
 
   //FPS max value

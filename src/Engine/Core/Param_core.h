@@ -1,5 +1,5 @@
-#ifndef PARAM_ENGINE_H
-#define PARAM_ENGINE_H
+#ifndef PARAM_CORE_H
+#define PARAM_CORE_H
 
 #include "Camera/struct_camera.h"
 
@@ -11,7 +11,7 @@
 #include <iostream>
 
 
-struct Param_engine{
+struct Param_core{
   //---------------------------
 
   int max_fps = 120;

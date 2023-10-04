@@ -3,7 +3,7 @@
 #include "Vulkan/VK_engine.h"
 #include "Dimension/Dimension.h"
 #include "Camera/Camera.h"
-#include "Param_engine.h"
+#include "Param_core.h"
 #include "GPU/GPU_data.h"
 #include "Shader/Shader.h"
 
@@ -15,7 +15,7 @@ Node_core::Node_core(Node* node){
   //---------------------------
 
   this->node = node;
-  this->param_engine = new Param_engine();
+  this->param_engine = new Param_core();
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
   this->shaderManager = new Shader(this);

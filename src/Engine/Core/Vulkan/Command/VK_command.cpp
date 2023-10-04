@@ -2,7 +2,7 @@
 #include "VK_command_buffer.h"
 #include "../VK_param.h"
 #include "../VK_engine.h"
-#include "../../Param_engine.h"
+#include "../../Param_core.h"
 
 
 //Constructor / Destructor

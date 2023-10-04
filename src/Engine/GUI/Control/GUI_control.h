@@ -3,7 +3,7 @@
 
 #include "../../common.h"
 
-class Param_engine;
+class Param_core;
 class Node_gui;
 class Dimension;
 class Camera;
@@ -31,7 +31,7 @@ public:
   void control_keyboard_translation();
 
 private:
-  Param_engine* param_engine;
+  Param_core* param_engine;
   Dimension* dimManager;
   Control* controlManager;
   Camera* cameraManager;

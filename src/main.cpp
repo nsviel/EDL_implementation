@@ -1,5 +1,5 @@
 #include "Engine/Node.h"
-#include "UI/GUI_main.cpp"
+#include "UI/UI_main.cpp"
 
 #include <iostream>
 #include <stdexcept>

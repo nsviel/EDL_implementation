@@ -6,7 +6,7 @@
 #include "../Struct/struct_renderpass.h"
 #include "../../../common.h"
 
-class Param_engine;
+class Param_core;
 class VK_engine;
 class VK_param;
 class VK_command_buffer;
@@ -38,7 +38,7 @@ public:
   void singletime_command_end(VkCommandBuffer command_buffer);
 
 private:
-  Param_engine* param_engine;
+  Param_core* param_engine;
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_command_buffer* vk_command_buffer;

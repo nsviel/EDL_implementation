@@ -7,7 +7,7 @@
 
 class Node;
 class Node_core;
-class Param_engine;
+class Param_core;
 class Dimension;
 class CAM_arcball;
 class CAM_first_person;
@@ -44,7 +44,7 @@ public:
 
 private:
   Node* node;
-  Param_engine* param_engine;
+  Param_core* param_engine;
   Dimension* dimManager;
   CAM_arcball* cam_arcball;
   CAM_first_person* cam_fp;
