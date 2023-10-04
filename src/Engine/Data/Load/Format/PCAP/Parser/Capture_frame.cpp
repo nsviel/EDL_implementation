@@ -37,7 +37,6 @@ bool Capture_frame::build_frame(Data_file* data_udp){
       for(int i=0; i<data_udp->A.size() - 1; i++){
         if( data_udp->A[i+1] < data_udp->A[i] ){
           frame_index = i;
-          say("thats happen !");
           break;
         }
       }

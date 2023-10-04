@@ -5,8 +5,7 @@
 #include "../../../Core/Node_core.h"
 #include "../../../Data/Node_data.h"
 #include "../../../Data/Scene/Scene.h"
-#include "../../../Load/Node_load.h"
-#include "../../../Load/Processing/Loader.h"
+#include "../../../Data/Load/Loader.h"
 #include <Operation/Transformation/Transformation.h>
 #include <Specific/File/Directory.h>
 #include <Specific/File/Info.h>

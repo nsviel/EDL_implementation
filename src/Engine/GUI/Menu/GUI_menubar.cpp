@@ -5,8 +5,8 @@
 #include "../Node_gui.h"
 #include "../GUI_param.h"
 
-#include "../../Load/Node_load.h"
-#include "../../Load/Processing/Loader.h"
+#include "../../Data/Node_data.h"
+#include "../../Data/Load/Loader.h"
 
 #include "image/IconsFontAwesome5.h"
 
@@ -15,12 +15,12 @@
 GUI_menubar::GUI_menubar(Node_gui* node_gui){
   //---------------------------
 
-  Node_load* Node_load = node_gui->get_node_load();
+  Node_data* node_data = node_gui->get_node_data();
   this->node_gui = node_gui;
   this->gui_param = node_gui->get_gui_param();
   this->gui_option = node_gui->get_gui_option();
   this->gui_init = node_gui->get_gui_init();
-  this->loaderManager = Node_load->get_loaderManager();
+  this->loaderManager = node_data->get_loaderManager();
 
   this->show_demo = false;
 

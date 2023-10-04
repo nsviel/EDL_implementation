@@ -6,7 +6,6 @@
 class Node;
 class Node_core;
 class Node_data;
-class Node_load;
 
 class GUI_param;
 class GUI_panel;
@@ -36,7 +35,6 @@ public:
 
   inline Node_core* get_node_core(){return node_core;}
   inline Node_data* get_node_data(){return node_data;}
-  inline Node_load* get_node_load(){return node_load;}
 
   inline GUI_param* get_gui_param(){return gui_param;}
   inline GUI_panel* get_gui_panel(){return gui_panel;}
@@ -55,7 +53,6 @@ public:
 private:
   Node_core* node_core;
   Node_data* node_data;
-  Node_load* node_load;
 
   GUI_param* gui_param;
   GUI_panel* gui_panel;

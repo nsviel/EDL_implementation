@@ -1,19 +1,13 @@
 #include "Loader.h"
 #include "Format.h"
-
-#include "../Node_load.h"
-
-#include <Specific/File/Directory.h>
-#include <Specific/File/Zenity.h>
-#include "../../Data/Node_data.h"
-#include "../../Data/Scene/Scene.h"
+#include "../Node_data.h"
+#include "../Scene/Scene.h"
 
 
 //Constructor / Destructor
-Loader::Loader(Node_load* node_load){
+Loader::Loader(Node_data* node_data){
   //---------------------------
 
-  Node_data* node_data = node_load->get_node_data();
   this->sceneManager = node_data->get_sceneManager();
   this->formatManager = new Format();
 
@@ -31,7 +25,7 @@ Loader::~Loader(){
 }
 
 //Main functions
-Object* Loader::load_object(string path){
+Object* Loader::load_object(std::string path){
   //---------------------------
 
   if(is_file_exist(path) == false){
@@ -55,8 +49,8 @@ Object* Loader::load_object(string path){
   //---------------------------
   return object;
 }
-vector<Object*> Loader::load_objects(vector<string> path){
-  vector<Object*> vec_obj;
+std::vector<Object*> Loader::load_objects(std::vector<std::string> path){
+  std::vector<Object*> vec_obj;
   //---------------------------
 
   for(int i=0; i<path.size(); i++){
@@ -71,7 +65,7 @@ void Loader::load_by_zenity(){
   //---------------------------
 
   //Select files to load
-  vector<string> path_vec = zenity_file_vec("Load", path_current_dir);
+  std::vector<std::string> path_vec = zenity_file_vec("Load", path_current_dir);
 
   //Add object in engine
   this->load_objects(path_vec);

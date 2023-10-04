@@ -6,7 +6,7 @@
 
 
 using namespace Tins;
-vector<vector<int>> file_packets;
+std::vector<std::vector<int>> file_packets;
 size_t lenght(0);
 int loop_beg(0);
 int loop_end(0);
@@ -115,7 +115,7 @@ void PCAP_importer::Loader_vlp16(Data_file* data, std::string path){
       Data_file* frame = frameManager.get_endedFrame();
       Data_file* frame_data = new Data_file();
 
-      frame_data->name = "frame_" + to_string(cpt); cpt++;
+      frame_data->name = "frame_" + std::to_string(cpt); cpt++;
       frame_data->path_file = path;
       frame_data->nb_element = frame->xyz.size();
 

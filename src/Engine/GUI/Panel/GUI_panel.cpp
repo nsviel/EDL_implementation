@@ -11,8 +11,7 @@
 #include "../Engine/GUI_shader.h"
 #include "../Panel/GUI_object.h"
 
-#include "../../Load/Node_load.h"
-#include "../../Load/Processing/Loader.h"
+#include "../../Data/Load/Loader.h"
 #include "../../Core/Node_core.h"
 #include "../../Core/Dimension/Dimension.h"
 #include "../../Node.h"

@@ -1,13 +1,11 @@
 #include "Format.h"
-
-#include "../Format/PLY/PLY_importer.h"
-#include "../Format/OBJ/OBJ_importer.h"
-
-#include "../Format/CSV/CSV_importer.h"
-#include "../Format/PCAP/PCAP_importer.h"
-#include "../Format/PTS/PTS_importer.h"
-#include "../Format/PTX/PTX_importer.h"
-#include "../Format/XYZ/XYZ_importer.h"
+#include "Format/PLY/PLY_importer.h"
+#include "Format/OBJ/OBJ_importer.h"
+#include "Format/CSV/CSV_importer.h"
+#include "Format/PCAP/PCAP_importer.h"
+#include "Format/PTS/PTS_importer.h"
+#include "Format/PTX/PTX_importer.h"
+#include "Format/XYZ/XYZ_importer.h"
 
 
 //Constructor / Destructor
@@ -39,11 +37,11 @@ Format::~Format(){
 }
 
 //Main functions
-Data_file* Format::get_data_from_file(string path){
+Data_file* Format::get_data_from_file(std::string path){
   Data_file* data;
   //---------------------------
 
-  string format = get_format_from_path(path);
+  std::string format = get_format_from_path(path);
   if     (format == "ply"){
     data = ply_import->Loader(path);
   }

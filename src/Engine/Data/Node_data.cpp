@@ -1,12 +1,10 @@
 #include "Node_data.h"
-
 #include "Param_data.h"
 #include "Scene/Scene.h"
 #include "Scene/Database.h"
 #include "Scene/Control.h"
 #include "Glyph/Glyphs.h"
-
-#include "../Load/Node_load.h"
+#include "Load/Loader.h"
 #include "../Node.h"
 
 
@@ -22,6 +20,7 @@ Node_data::Node_data(Node* node){
   this->sceneManager = new Scene(this);
   this->glyphManager = new Glyphs(this);
   this->controlManager = new Control(this);
+  this->loaderManager = new Loader(this);
 
   //---------------------------
 }

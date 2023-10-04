@@ -1,8 +1,8 @@
 #ifndef FORMAT_H
 #define FORMAT_H
 
-#include <Specific/File/Info.h>
-#include "../../common.h"
+#include <Common/struct_data_file.h>
+#include <string>
 
 class PLY_importer;
 class OBJ_importer;
@@ -21,7 +21,7 @@ public:
   ~Format();
 
 public:
-  Data_file* get_data_from_file(string path);
+  Data_file* get_data_from_file(std::string path);
 
 private:
   PLY_importer* ply_import;

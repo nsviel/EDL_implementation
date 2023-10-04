@@ -5,8 +5,7 @@
 #include "../Param_data.h"
 
 #include "../../Node.h"
-#include "../../Load/Node_load.h"
-#include "../../Load/Processing/Loader.h"
+#include "../Load/Loader.h"
 #include "../../Core/Node_core.h"
 #include "../../Core/GPU/GPU_data.h"
 #include <Operation/Transformation/Attribut.h>
@@ -46,8 +45,7 @@ void Scene::init_set(){
 }
 void Scene::init_scene(){
   Node* node = node_data->get_node();
-  Node_load* node_load = node->get_node_load();
-  Loader* loaderManager = node_load->get_loaderManager();
+  Loader* loaderManager = node_data->get_loaderManager();
   //---------------------------
 
   //Load init object

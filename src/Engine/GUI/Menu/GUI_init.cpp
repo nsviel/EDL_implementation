@@ -6,8 +6,7 @@
 #include "../../Core/Node_core.h"
 #include "../../Data/Node_data.h"
 #include "../../Data/Scene/Scene.h"
-#include "../../Load/Node_load.h"
-#include "../../Load/Processing/Loader.h"
+#include "../../Data/Load/Loader.h"
 #include <Operation/Transformation/Transformation.h>
 #include <Specific/File/Directory.h>
 #include <Specific/File/Info.h>
@@ -18,10 +17,9 @@ GUI_init::GUI_init(Node_gui* node_gui){
   //---------------------------
 
   Node_data* node_data = node_gui->get_node_data();
-  Node_load* node_load = node_gui->get_node_load();
 
   this->sceneManager = node_data->get_sceneManager();
-  this->loaderManager = node_load->get_loaderManager();
+  this->loaderManager = node_data->get_loaderManager();
   this->transformManager = new Transformation();
   this->gui_tree = new GUI_tree(this);
 

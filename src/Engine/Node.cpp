@@ -1,7 +1,6 @@
 #include "Node.h"
 
 #include "Core/Node_core.h"
-#include "Load/Node_load.h"
 #include "GUI/Node_gui.h"
 #include "Data/Node_data.h"
 
@@ -12,7 +11,6 @@ Node::Node(){
 
   this->node_core = new Node_core(this);
   this->node_data = new Node_data(this);
-  this->node_load = new Node_load(this);
   this->node_gui = new Node_gui(this);
 
   //---------------------------
@@ -21,7 +19,6 @@ Node::~Node(){
   //---------------------------
 
   delete node_core;
-  delete node_load;
   delete node_gui;
   delete node_data;
 
