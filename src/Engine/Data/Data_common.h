@@ -36,10 +36,10 @@ using namespace glm;
 #include <Specific/Function/fct_timer.h>  //For time profilling
 
 //Data
-#include <Common/struct_object.h>
-#include <Common/struct_data_file.h>
-#include <Common/struct_set.h>
-#include <Common/struct_glyph.h>
+#include <Specific/Struct/struct_object.h>
+#include <Specific/Struct/struct_data_file.h>
+#include <Specific/Struct/struct_set.h>
+#include <Specific/Struct/struct_glyph.h>
 
 
 #endif

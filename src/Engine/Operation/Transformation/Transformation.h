@@ -1,7 +1,7 @@
 #ifndef TRANSFORMATION_H
 #define TRANSFORMATION_H
 
-#include <Common/struct_object.h>
+#include <Specific/Struct/struct_object.h>
 #include <glm/glm.hpp>
 #include <vector>
 

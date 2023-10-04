@@ -1,7 +1,7 @@
 #ifndef FORMAT_H
 #define FORMAT_H
 
-#include <Common/struct_data_file.h>
+#include <Specific/Struct/struct_data_file.h>
 #include <string>
 
 class PLY_importer;

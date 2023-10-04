@@ -1,7 +1,7 @@
 #ifndef PLY_IMPORTER_H
 #define PLY_IMPORTER_H
 
-#include <Common/struct_data_file.h>
+#include <Specific/Struct/struct_data_file.h>
 #include <Specific/File/Info.h>
 #include <Specific/Function/fct_math.h>
 #include <glm/glm.hpp>

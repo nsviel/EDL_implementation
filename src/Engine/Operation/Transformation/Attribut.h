@@ -1,7 +1,7 @@
 #ifndef ATTRIBUT_H
 #define ATTRIBUT_H
 
-#include <Common/struct_object.h>
+#include <Specific/Struct/struct_object.h>
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>

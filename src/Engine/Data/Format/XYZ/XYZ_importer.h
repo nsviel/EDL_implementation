@@ -1,7 +1,7 @@
 #ifndef XYZ_IMPORTER_H
 #define XYZ_IMPORTER_H
 
-#include <Common/struct_data_file.h>
+#include <Specific/Struct/struct_data_file.h>
 #include <Specific/File/Info.h>
 #include <glm/glm.hpp>
 #include <string>

@@ -1,7 +1,7 @@
 #ifndef CSV_IMPORTER_H
 #define CSV_IMPORTER_H
 
-#include <Common/struct_data_file.h>
+#include <Specific/Struct/struct_data_file.h>
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>

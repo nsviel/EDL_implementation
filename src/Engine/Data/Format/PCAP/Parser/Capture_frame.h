@@ -1,7 +1,7 @@
 #ifndef CAPTURE_FRAME_H
 #define CAPTURE_FRAME_H
 
-#include <Common/struct_data_file.h>
+#include <Specific/Struct/struct_data_file.h>
 #include <Specific/Function/fct_math.h>
 #include <glm/glm.hpp>
 #include <string>
