@@ -3,7 +3,7 @@
 
 #include "../Node_gui.h"
 
-#include "../../Core/Node_core.h"
+#include "../../Core/Core_node.h"
 #include "../../Data/Data_node.h"
 #include "../../Data/Scene/Scene.h"
 #include "../../Data/Load/Loader.h"

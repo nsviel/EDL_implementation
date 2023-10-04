@@ -47,5 +47,11 @@ using namespace glm;
 #include <Common/struct_set.h>
 #include <Common/struct_glyph.h>
 
+//GUI
+#include <imgui/core/imgui.h>
+#include <imgui/core/imgui_impl_glfw.h>
+#include <imgui/core/imgui_internal.h>
+#include <imgui/vulkan/imgui_impl_vulkan.h>
+
 
 #endif

@@ -2,7 +2,7 @@
 #define VK_ERROR_H
 
 #include "../Struct/struct_binding.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 class VK_engine;
 class VK_param;

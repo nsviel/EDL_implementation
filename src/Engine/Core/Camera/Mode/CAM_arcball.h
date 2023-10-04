@@ -2,16 +2,16 @@
 #define CAM_ARCBALL_H
 
 #include "../struct_camera.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
-class Node_core;
+class Core_node;
 class Dimension;
 
 
 class CAM_arcball
 {
 public:
-  CAM_arcball(Node_core* node_core);
+  CAM_arcball(Core_node* core_node);
   ~CAM_arcball();
 
 public:

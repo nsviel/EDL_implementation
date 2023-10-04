@@ -1,7 +1,7 @@
 #ifndef STRUCT_TIME_H
 #define STRUCT_TIME_H
 
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 
 struct Struct_time{

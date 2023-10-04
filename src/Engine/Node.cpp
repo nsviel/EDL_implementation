@@ -1,6 +1,6 @@
 #include "Node.h"
 
-#include "Core/Node_core.h"
+#include "Core/Core_node.h"
 #include "GUI/Node_gui.h"
 #include "Data/Data_node.h"
 
@@ -9,7 +9,7 @@
 Node::Node(){
   //---------------------------
 
-  this->node_core = new Node_core(this);
+  this->core_node = new Core_node(this);
   this->data_node = new Data_node(this);
   this->node_gui = new Node_gui(this);
 
@@ -18,7 +18,7 @@ Node::Node(){
 Node::~Node(){
   //---------------------------
 
-  delete node_core;
+  delete core_node;
   delete node_gui;
   delete data_node;
 
@@ -28,10 +28,10 @@ Node::~Node(){
 void Node::init(){
   //---------------------------
 
-  node_core->init();
+  core_node->init();
   data_node->init();
   node_gui->init();
-  node_core->loop_start();
+  core_node->loop_start();
 
   //---------------------------
 }
@@ -45,14 +45,14 @@ void Node::loop(){
 void Node::exit(){
   //---------------------------
 
-  node_core->exit();
+  core_node->exit();
 
   //---------------------------
 }
 void Node::reset(){
   //---------------------------
 
-  node_core->reset();
+  core_node->reset();
   data_node->reset();
 
   //---------------------------

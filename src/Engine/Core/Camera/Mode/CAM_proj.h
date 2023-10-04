@@ -2,16 +2,16 @@
 #define CAM_PROJ_H
 
 #include "../struct_camera.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
-class Node_core;
+class Core_node;
 class Dimension;
 
 
 class CAM_proj
 {
 public:
-  CAM_proj(Node_core* node_core);
+  CAM_proj(Core_node* core_node);
   ~CAM_proj();
 
 public:

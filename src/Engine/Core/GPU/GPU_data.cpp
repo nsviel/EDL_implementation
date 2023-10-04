@@ -1,6 +1,6 @@
 #include "GPU_data.h"
 
-#include "../Node_core.h"
+#include "../Core_node.h"
 #include "../Vulkan/VK_engine.h"
 #include "../Vulkan/Data/VK_buffer.h"
 #include "../Vulkan/Image/VK_texture.h"
@@ -10,10 +10,10 @@
 
 
 //Constructor / Destructor
-GPU_data::GPU_data(Node_core* node_core){
+GPU_data::GPU_data(Core_node* core_node){
   //---------------------------
 
-  VK_engine* vk_engine = node_core->get_vk_engine();
+  VK_engine* vk_engine = core_node->get_vk_engine();
   this->vk_buffer = vk_engine->get_vk_buffer();
   this->vk_texture = vk_engine->get_vk_texture();
   this->vk_descriptor = vk_engine->get_vk_descriptor();

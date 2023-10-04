@@ -2,7 +2,7 @@
 #define VK_VIEWPORT_H
 
 #include "../Struct/struct_viewport.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 class VK_engine;
 class VK_param;

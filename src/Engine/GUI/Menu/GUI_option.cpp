@@ -2,7 +2,7 @@
 
 #include "../Node_gui.h"
 
-#include "../../Core/Node_core.h"
+#include "../../Core/Core_node.h"
 #include "../../Core/Core_param.h"
 #include "../../Core/Vulkan/VK_engine.h"
 #include "../../Core/Vulkan/VK_param.h"
@@ -13,8 +13,8 @@ GUI_option::GUI_option(Node_gui* node_gui){
   //---------------------------
 
   this->node_gui = node_gui;
-  this->node_core = node_gui->get_node_core();
-  this->vk_engine = node_core->get_vk_engine();
+  this->core_node = node_gui->get_core_node();
+  this->vk_engine = core_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
 
   this->width = 150;
@@ -56,7 +56,7 @@ void GUI_option::option_font(){
 }
 void GUI_option::option_color(){
   if(ImGui::CollapsingHeader("Colors")){
-    Core_param* core_param = node_core->get_core_param();
+    Core_param* core_param = core_node->get_core_param();
     //---------------------------
 
     //Background color
@@ -69,7 +69,7 @@ void GUI_option::option_color(){
   }
 }
 void GUI_option::option_fps(){
-  Core_param* core_param = node_core->get_core_param();
+  Core_param* core_param = core_node->get_core_param();
   //---------------------------
 
   //FPS max value

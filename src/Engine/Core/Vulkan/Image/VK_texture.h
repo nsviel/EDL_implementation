@@ -4,7 +4,7 @@
 #include "../Struct/struct_image.h"
 #include "../Struct/struct_data.h"
 #include "../Struct/typedef.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 class VK_engine;
 class VK_param;

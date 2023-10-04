@@ -1,7 +1,7 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 
 //Memory

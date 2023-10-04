@@ -4,7 +4,7 @@
 #include "../Struct/struct_frame.h"
 #include "../Struct/struct_data.h"
 #include "../Struct/struct_renderpass.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 class Core_param;
 class VK_engine;

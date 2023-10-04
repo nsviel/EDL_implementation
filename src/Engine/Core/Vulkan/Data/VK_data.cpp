@@ -9,7 +9,7 @@
 #include "../Binding/VK_descriptor.h"
 
 #include "../../GPU/GPU_data.h"
-#include "../../Node_core.h"
+#include "../../Core_node.h"
 
 
 //Constructor / Destructor

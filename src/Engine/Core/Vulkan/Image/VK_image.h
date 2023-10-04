@@ -1,7 +1,7 @@
 #ifndef VK_IMAGE_H
 #define VK_IMAGE_H
 
-#include "../../../common.h"
+#include "../../Core_common.h"
 #include "../Struct/struct_image.h"
 
 class VK_engine;

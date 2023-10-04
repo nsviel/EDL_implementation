@@ -4,7 +4,7 @@
 #include "../Struct/struct_binding.h"
 #include "../Struct/struct_pipeline.h"
 #include "../Struct/struct_data.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 class VK_engine;
 class VK_param;

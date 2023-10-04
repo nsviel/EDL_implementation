@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-class Node_core;
+class Core_node;
 class Node_gui;
 class Data_node;
 
@@ -21,12 +21,12 @@ public:
   void exit();
   void reset();
 
-  inline Node_core* get_node_core(){return node_core;}
+  inline Core_node* get_core_node(){return core_node;}
   inline Node_gui* get_node_gui(){return node_gui;}
   inline Data_node* get_data_node(){return data_node;}
 
 private:
-  Node_core* node_core;
+  Core_node* core_node;
   Node_gui* node_gui;
   Data_node* data_node;
 };

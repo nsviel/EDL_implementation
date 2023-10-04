@@ -2,7 +2,7 @@
 #define VK_GUI_H
 
 #include "../Struct/struct_renderpass.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 class VK_engine;
 class VK_param;

@@ -4,17 +4,17 @@
 #include "../VK_param.h"
 
 #include "../../Dimension/Dimension.h"
-#include "../../Node_core.h"
+#include "../../Core_node.h"
 
 
 //Constructor / Destructor
 VK_viewport::VK_viewport(VK_engine* vk_engine){
   //---------------------------
 
-  Node_core* node_core = vk_engine->get_node_core();
+  Core_node* core_node = vk_engine->get_core_node();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->dimManager = node_core->get_dimManager();
+  this->dimManager = core_node->get_dimManager();
 
   //---------------------------
 }

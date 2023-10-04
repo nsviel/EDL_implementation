@@ -2,9 +2,9 @@
 #define SHADER_EDL_H
 
 #include "struct_edl.h"
-#include "../../../../common.h"
+#include "../../../Core_common.h"
 
-class Node_core;
+class Core_node;
 class Core_param;
 class Dimension;
 
@@ -12,7 +12,7 @@ class Dimension;
 class Shader_edl
 {
 public:
-  Shader_edl(Node_core* node);
+  Shader_edl(Core_node* node);
   ~Shader_edl();
 
   void update_shader();

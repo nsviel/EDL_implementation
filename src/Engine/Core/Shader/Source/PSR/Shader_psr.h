@@ -2,9 +2,9 @@
 #define SHADER_PSR_H
 
 #include "struct_pyramid.h"
-#include "../../../../common.h"
+#include "../../../Core_common.h"
 
-class Node_core;
+class Core_node;
 class Core_param;
 class Dimension;
 
@@ -12,7 +12,7 @@ class Dimension;
 class Shader_psr
 {
 public:
-  Shader_psr(Node_core* node);
+  Shader_psr(Core_node* node);
   ~Shader_psr();
 
   void update_shader();

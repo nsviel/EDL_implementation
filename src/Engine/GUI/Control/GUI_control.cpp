@@ -2,7 +2,7 @@
 
 #include "../Node_gui.h"
 
-#include "../../Core/Node_core.h"
+#include "../../Core/Core_node.h"
 #include "../../Core/Core_param.h"
 #include "../../Core/Dimension/Dimension.h"
 #include "../../Core/Camera/Camera.h"
@@ -16,11 +16,11 @@
 GUI_control::GUI_control(Node_gui* node_gui){
   //---------------------------
 
-  Node_core* node_core = node_gui->get_node_core();
+  Core_node* core_node = node_gui->get_core_node();
   Data_node* data_node = node_gui->get_data_node();
-  this->core_param = node_core->get_core_param();
-  this->dimManager = node_core->get_dimManager();
-  this->cameraManager = node_core->get_cameraManager();
+  this->core_param = core_node->get_core_param();
+  this->dimManager = core_node->get_dimManager();
+  this->cameraManager = core_node->get_cameraManager();
   this->controlManager = data_node->get_controlManager();
 
   //---------------------------

@@ -2,7 +2,7 @@
 #define STRUCT_BINDING_H
 
 #include "typedef.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 //Consistent attribut binding:
 //  -position -> 0

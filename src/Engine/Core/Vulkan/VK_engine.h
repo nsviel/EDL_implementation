@@ -2,9 +2,9 @@
 #define VK_ENGINE_H
 
 #include "Struct/typedef.h"
-#include "../../common.h"
+#include "../Core_common.h"
 
-class Node_core;
+class Core_node;
 class VK_param;
 class Core_param;
 
@@ -45,7 +45,7 @@ class VK_engine
 {
 public:
   //Constructor / Destructor
-  VK_engine(Node_core* node_core);
+  VK_engine(Core_node* core_node);
   ~VK_engine();
 
 public:
@@ -58,7 +58,7 @@ public:
   void fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start);
   void fps_calcul(std::chrono::steady_clock::time_point& start_time);
 
-  inline Node_core* get_node_core(){return node_core;}
+  inline Core_node* get_core_node(){return core_node;}
   inline Core_param* get_core_param(){return core_param;}
   inline VK_param* get_vk_param(){return vk_param;}
   inline VK_device* get_vk_device(){return vk_device;}
@@ -94,7 +94,7 @@ public:
   inline VK_error* get_vk_error(){return vk_error;}
 
 private:
-  Node_core* node_core;
+  Core_node* core_node;
   Core_param* core_param;
   Timer timer;
 

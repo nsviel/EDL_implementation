@@ -22,7 +22,7 @@
 Node_gui::Node_gui(Node* node){
   //---------------------------
 
-  this->node_core = node->get_node_core();
+  this->core_node = node->get_core_node();
   this->data_node = node->get_data_node();
 
   this->gui_param = new GUI_param();

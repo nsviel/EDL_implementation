@@ -12,7 +12,7 @@
 #include "../Panel/GUI_object.h"
 
 #include "../../Data/Load/Loader.h"
-#include "../../Core/Node_core.h"
+#include "../../Core/Core_node.h"
 #include "../../Core/Dimension/Dimension.h"
 #include "../../Node.h"
 #include "../../Core/Core_param.h"
@@ -22,8 +22,8 @@
 GUI_panel::GUI_panel(Node_gui* node_gui){
   //---------------------------
 
-  this->node_core = node_gui->get_node_core();
-  this->dimManager = node_core->get_dimManager();
+  this->core_node = node_gui->get_core_node();
+  this->dimManager = core_node->get_dimManager();
   this->node_gui = node_gui;
   this->gui_object = node_gui->get_gui_object();
   this->gui_profiling = node_gui->get_gui_profiling();

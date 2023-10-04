@@ -1,4 +1,4 @@
-#include "Node_core.h"
+#include "Core_node.h"
 
 #include "Vulkan/VK_engine.h"
 #include "Dimension/Dimension.h"
@@ -11,7 +11,7 @@
 
 
 //Constructor / Destructor
-Node_core::Node_core(Node* node){
+Core_node::Core_node(Node* node){
   //---------------------------
 
   this->node = node;
@@ -24,7 +24,7 @@ Node_core::Node_core(Node* node){
 
   //---------------------------
 }
-Node_core::~Node_core(){
+Core_node::~Core_node(){
   //---------------------------
 
   delete core_param;
@@ -38,7 +38,7 @@ Node_core::~Node_core(){
 }
 
 //Main function
-void Node_core::init(){
+void Core_node::init(){
   //---------------------------
 
   vk_engine->init_vulkan();
@@ -46,14 +46,14 @@ void Node_core::init(){
 
   //---------------------------
 }
-void Node_core::loop_start(){
+void Core_node::loop_start(){
   //---------------------------
 
   vk_engine->main_loop();
 
   //---------------------------
 }
-void Node_core::loop(){
+void Core_node::loop(){
   //---------------------------
 
   cameraManager->input_cam_mouse();
@@ -61,14 +61,14 @@ void Node_core::loop(){
 
   //---------------------------
 }
-void Node_core::exit(){
+void Core_node::exit(){
   //---------------------------
 
   vk_engine->clean_vulkan();
 
   //---------------------------
 }
-void Node_core::reset(){
+void Core_node::reset(){
   //---------------------------
 
   cameraManager->reset_camera();

@@ -7,7 +7,7 @@
 #include "../Data_node.h"
 #include "../Scene/Scene.h"
 
-#include "../../Core/Node_core.h"
+#include "../../Core/Core_node.h"
 #include "../../Core/GPU/GPU_data.h"
 
 
@@ -15,9 +15,9 @@
 Glyphs::Glyphs(Data_node* data_node){
   //---------------------------
 
-  Node_core* node_core = data_node->get_node_core();
+  Core_node* core_node = data_node->get_core_node();
   this->sceneManager = data_node->get_sceneManager();
-  this->gpu_data = node_core->get_gpu_data();
+  this->gpu_data = core_node->get_gpu_data();
 
   this->vec_glyph_src.push_back(new Grid());
   this->vec_glyph_src.push_back(new Axis_world());

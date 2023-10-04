@@ -2,7 +2,7 @@
 #define VK_COLOR_H
 
 #include "../Struct/struct_frame.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 class VK_engine;
 class VK_param;

@@ -1,7 +1,7 @@
 #ifndef STRUCT_INSTANCE_H
 #define STRUCT_INSTANCE_H
 
-#include "../../../common.h"
+#include "../../Core_common.h"
 
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL callback_debug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,VkDebugUtilsMessageTypeFlagsEXT messageType,const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,void* pUserData){
@@ -19,7 +19,7 @@ struct Struct_instance{
 
   int max_frame_inflight = 2;
   std::string path_shader = "../src/Engine/Core/Shader/Code/spir/";
-  
+
   VkInstance instance;
   vector<const char*> extension;
 

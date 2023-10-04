@@ -2,16 +2,16 @@
 #define CAM_FPS_H
 
 #include "../struct_camera.h"
-#include "../../../common.h"
+#include "../../Core_common.h"
 
-class Node_core;
+class Core_node;
 class Dimension;
 
 
 class CAM_first_person
 {
 public:
-  CAM_first_person(Node_core* node_core);
+  CAM_first_person(Core_node* core_node);
   ~CAM_first_person();
 
 public:

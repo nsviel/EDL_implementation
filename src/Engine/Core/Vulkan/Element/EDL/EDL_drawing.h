@@ -4,7 +4,7 @@
 #include "../../Struct/struct_frame.h"
 #include "../../Struct/struct_renderpass.h"
 #include "../../Struct/struct_command.h"
-#include "../../../../common.h"
+#include "../../../Core_common.h"
 
 class Shader_edl;
 class VK_engine;

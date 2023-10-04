@@ -38,16 +38,16 @@
 #include "Camera/VK_camera.h"
 
 
-#include "../Node_core.h"
+#include "../Core_node.h"
 #include "../Core_param.h"
 
 
 //Constructor / Destructor
-VK_engine::VK_engine(Node_core* node_core){
+VK_engine::VK_engine(Core_node* core_node){
   //---------------------------
 
-  this->node_core = node_core;
-  this->core_param = node_core->get_core_param();
+  this->core_node = core_node;
+  this->core_param = core_node->get_core_param();
 
   this->vk_param = new VK_param();
   this->vk_instance = new VK_instance(this);
@@ -123,7 +123,7 @@ void VK_engine::main_loop() {
     auto start = std::chrono::steady_clock::now();
     glfwPollEvents();
     vk_gui->loop_start();
-    node_core->loop();
+    core_node->loop();
     vk_gui->loop_end();
     vk_drawing->draw_frame();
     this->fps_control(start);

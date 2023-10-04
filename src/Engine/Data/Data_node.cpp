@@ -13,7 +13,7 @@ Data_node::Data_node(Node* node){
   //---------------------------
 
   this->node = node;
-  this->node_core = node->get_node_core();
+  this->core_node = node->get_core_node();
 
   this->param_data = new Data_param();
   this->dataManager = new Database(this);

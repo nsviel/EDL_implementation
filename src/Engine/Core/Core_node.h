@@ -12,12 +12,12 @@ class GPU_data;
 class Shader;
 
 
-class Node_core
+class Core_node
 {
 public:
   //Constructor / Destructor
-  Node_core(Node* node);
-  ~Node_core();
+  Core_node(Node* node);
+  ~Core_node();
 
 public:
   void init();

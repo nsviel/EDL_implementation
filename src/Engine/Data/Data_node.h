@@ -1,7 +1,7 @@
 #ifndef NODE_SCENE_H
 #define NODE_SCENE_H
 
-class Node_core;
+class Core_node;
 class Node;
 class Scene;
 class Data_param;
@@ -23,7 +23,7 @@ public:
   void reset();
 
   inline Node* get_node(){return node;}
-  inline Node_core* get_node_core(){return node_core;}
+  inline Core_node* get_core_node(){return core_node;}
 
   inline Data_param* get_param_data(){return param_data;}
   inline Scene* get_sceneManager(){return sceneManager;}
@@ -33,7 +33,7 @@ public:
 
 private:
   Node* node;
-  Node_core* node_core;
+  Core_node* core_node;
 
   Data_param* param_data;
   Scene* sceneManager;
