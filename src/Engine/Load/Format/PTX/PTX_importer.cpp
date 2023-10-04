@@ -1,7 +1,5 @@
 #include "PTX_importer.h"
 
-#include <Specific/File/Info.h>
-
 
 //Constructor / Destructor
 PTX_importer::PTX_importer(){
@@ -20,8 +18,8 @@ PTX_importer::PTX_importer(){
 PTX_importer::~PTX_importer(){}
 
 //Main functions
-Data_file* PTX_importer::Loader(string path){
-  list_ptxCloud = new list<PTXCloud*>;
+Data_file* PTX_importer::Loader(std::string path){
+  list_ptxCloud = new std::list<PTXCloud*>;
   PTXCloud* cloud = new PTXCloud;
   //---------------------------
 
@@ -45,7 +43,7 @@ Data_file* PTX_importer::Loader(string path){
       if(option_separateCloud){
         break;
       }
-      cout<<"New cloud - nb of lines : "<<PC_line<<endl;
+      std::cout <<"New cloud - nb of lines : "<<PC_line<< std::endl;
       list_ptxCloud->push_back(cloud);
       cloud = new PTXCloud;
       PC_line = 0;
@@ -75,24 +73,24 @@ Data_file* PTX_importer::Loader(string path){
   data->nb_element = data->xyz.size();
   return data;
 }
-bool PTX_importer::Exporter(string path){
+bool PTX_importer::Exporter(std::string path){
   //---------------------------
 
   //Create file
-  string format = get_format_from_path(path);
+  std::string format = get_format_from_path(path);
   if(format != "ptx") path.append(".ptx");
-  ofstream file;
+  std::ofstream file;
   file.open(path);
   if(!file)
   {
-    cout<<"Error in creating file !";
+    std::cout <<"Error in creating file !";
     return 0;
   }
   /*
   for(int i=0; i<list_collection->size(); i++)
   {
     //Select clouds one by one
-    Collection* collection = &*next(list_collection->begin(),i);
+    Collection* collection = &*std::next(list_collection->begin(),i);
 
     //----->HEADER
     //***********************************
@@ -105,15 +103,15 @@ bool PTX_importer::Exporter(string path){
     //number of rows
     file << nbRows << endl;
     //scanner registered position
-    vec3& ScanPos = collection->scanner.Position;
+    glm::vec3& ScanPos = collection->scanner.Position;
     file << ScanPos.x << " " << ScanPos.y << " " << ScanPos.z << endl;
     //scanner orientation
     file << 1 << " " << 0 << " " << 0 << endl;
     file << 0 << " " << 1 << " " << 0 << endl;
     file << 0 << " " << 0 << " " << 1 << endl;
     //transformation matrix
-    mat4& transMat = collection->list_obj[0].trans;
-    mat4& rotMat = collection->list_obj[0].rotat;
+    glm::mat4& transMat = collection->list_obj[0].trans;
+    glm::mat4& rotMat = collection->list_obj[0].rotat;
     mat4 finalMat = transpose(transMat * rotMat);
     file << setprecision(6) << finalMat[0][0] << " " << finalMat[0][1] << " " << finalMat[0][2] << " " << finalMat[0][3] << endl;
     file << setprecision(6) << finalMat[1][0] << " " << finalMat[1][1] << " " << finalMat[1][2] << " " << finalMat[1][3] << endl;
@@ -127,7 +125,7 @@ bool PTX_importer::Exporter(string path){
     int precision = 6;
 
     //Write in the file
-    file << pos.size() <<endl;
+    file << pos.size() << std::endl;
     for(int i=0; i<pos.size(); i++)
     {
       file << fixed;
@@ -190,7 +188,7 @@ void PTX_importer::Loader_data(PTXCloud* cloud){
   if(PC_line > 9){
     if(abs(r) >= 0.0001){
       //Location
-      cloud->location.push_back(vec3(x, y, z));
+      cloud->location.push_back(glm::vec3(x, y, z));
 
       //Intensity
       if(retrieve_I){
@@ -219,7 +217,7 @@ void PTX_importer::Loader_assembling(){
   //---------------------------
 
   for(int i=0; i<list_ptxCloud->size(); i++){
-    PTXCloud* cloud = *next(list_ptxCloud->begin(),i);
+    PTXCloud* cloud = *std::next(list_ptxCloud->begin(),i);
 
     for(int j=0; j<cloud->location.size(); j++){
       data->xyz.push_back(cloud->location[j]);
@@ -230,36 +228,36 @@ void PTX_importer::Loader_assembling(){
   //---------------------------
 }
 void PTX_importer::Loader_cloudTransformation(){
-  cout<<"---> Apply ptx cloud transformation"<<endl;
+  std::cout <<"---> Apply ptx cloud transformation"<< std::endl;
   //---------------------------
 
   for(int i=0; i<list_ptxCloud->size(); i++){
-    PTXCloud* cloud = *next(list_ptxCloud->begin(),i);
-    vector<vec3>& XYZ = cloud->location;
-    mat4& MatT = cloud->transfMat;
+    PTXCloud* cloud = *std::next(list_ptxCloud->begin(),i);
+    std::vector<glm::vec3>& XYZ = cloud->location;
+    glm::mat4& MatT = cloud->transfMat;
 
     if(option_notUseZValue){
       MatT[3][2] = 0;
     }
 
     for(int j=0; j<XYZ.size(); j++){
-      vec4 pos = vec4(XYZ[j].x, XYZ[j].y, XYZ[j].z, 1.0) * transpose(MatT);
-      XYZ[j] = vec3(pos.x, pos.y, pos.z);
+      glm::vec4 pos = glm::vec4(XYZ[j].x, XYZ[j].y, XYZ[j].z, 1.0) * transpose(MatT);
+      XYZ[j] = glm::vec3(pos.x, pos.y, pos.z);
     }
   }
 
   //---------------------------
 }
 void PTX_importer::Loader_scannerAtOrigin(){
-  cout<<"---> Set cloud origin at scanner position"<<endl;
+  std::cout <<"---> Set cloud origin at scanner position"<< std::endl;
   //---------------------------
 
   for(int i=0; i<list_ptxCloud->size(); i++){
-    PTXCloud* cloud = *next(list_ptxCloud->begin(),i);
+    PTXCloud* cloud = *std::next(list_ptxCloud->begin(),i);
 
-    vector<vec3>& XYZ = cloud->location;
-    vec3& scanTranslation = cloud->rootTrans;
-    mat3& scanRotation = cloud->rootRotat;
+    std::vector<glm::vec3>& XYZ = cloud->location;
+    glm::vec3& scanTranslation = cloud->rootTrans;
+    glm::mat3& scanRotation = cloud->rootRotat;
 
     if(option_notUseZValue){
       scanTranslation.z = 0;
@@ -270,7 +268,7 @@ void PTX_importer::Loader_scannerAtOrigin(){
       float x = XYZ[j].x + scanTranslation.x;
       float y = XYZ[j].y + scanTranslation.y;
       float z = XYZ[j].z + scanTranslation.z;
-      XYZ[j] = vec3(x, y, z);
+      XYZ[j] = glm::vec3(x, y, z);
 
       //Rotation
       XYZ[j] = XYZ[j] * scanRotation;
@@ -281,10 +279,10 @@ void PTX_importer::Loader_scannerAtOrigin(){
 }
 
 //Retrieve format info from path
-string PTX_importer::get_format_from_path(string path){
+std::string PTX_importer::get_format_from_path(std::string path){
   if(path != ""){
     std::string name_format = path.substr(path.find_last_of("/\\") + 1);
-    return name_format.substr(name_format.find_last_of("."), string::npos);
+    return name_format.substr(name_format.find_last_of("."), std::string::npos);
   }else{
     return "";
   }

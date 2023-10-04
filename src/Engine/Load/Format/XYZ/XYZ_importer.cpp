@@ -1,14 +1,12 @@
 #include "XYZ_importer.h"
 
-#include <Specific/File/Info.h>
-
 
 //Constructor / Destructor
 XYZ_importer::XYZ_importer(){}
 XYZ_importer::~XYZ_importer(){}
 
 //Main function
-Data_file* XYZ_importer::Loader(string path){
+Data_file* XYZ_importer::Loader(std::string path){
   Data_file* data = new Data_file();
   //---------------------------
 
@@ -26,8 +24,8 @@ Data_file* XYZ_importer::Loader(string path){
     iss >> a >> b >> c >> d >> e >> f;
 
     //Data extraction
-    data->xyz.push_back(vec3(a, b, c));
-    data->rgb.push_back(vec4(d, e, f, 1));
+    data->xyz.push_back(glm::vec3(a, b, c));
+    data->rgb.push_back(glm::vec4(d, e, f, 1));
   }
 
   //---------------------------

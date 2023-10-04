@@ -1,7 +1,5 @@
 #include "PTS_importer.h"
 
-#include <Specific/File/Info.h>
-
 
 //Constructor / Destructor
 PTS_importer::PTS_importer(){
@@ -19,7 +17,7 @@ PTS_importer::PTS_importer(){
 PTS_importer::~PTS_importer(){}
 
 //Main load functions
-Data_file* PTS_importer::Loader(string path){
+Data_file* PTS_importer::Loader(std::string path){
   Data_file* data = new Data_file();
   //---------------------------
 
@@ -54,7 +52,7 @@ Data_file* PTS_importer::Loader(string path){
   //---------------------------
   return data;
 }
-Data_file* PTS_importer::Loader(string path, int lmin, int lmax){
+Data_file* PTS_importer::Loader(std::string path, int lmin, int lmax){
   Data_file* data = new Data_file();
   //---------------------------
 
@@ -110,16 +108,16 @@ void PTS_importer::Loader_init(){
 void PTS_importer::Loader_nbColumns(){
   //Extraction of each column
   bool endLoop = false;
-  string line_loop = line;
+  std::string line_loop = line;
   line_columns.clear();
   //---------------------------
 
   while(!endLoop){
     if(line_loop.find(" ") != std::string::npos){
-      line_columns.push_back(stof(line_loop.substr(0, line_loop.find(" "))));
+      line_columns.push_back(std::stof(line_loop.substr(0, line_loop.find(" "))));
       line_loop = line_loop.substr(line_loop.find(" ")+1);
     }else{
-      line_columns.push_back(stof(line_loop));
+      line_columns.push_back(std::stof(line_loop));
       endLoop = true;
     }
   }
@@ -148,7 +146,7 @@ void PTS_importer::Loader_configuration(){
     }
     case 6 :{
       //XYZ - N
-      if(abs(line_columns[3])<=1 && ((abs(line_columns[4])<=1 && abs(line_columns[5])<=1) || isnan(line_columns[4]))){
+      if(abs(line_columns[3])<=1 && ((abs(line_columns[4])<=1 && abs(line_columns[5])<=1) || std::isnan(line_columns[4]))){
         config = 2;
         hasNormal = true;
         hasColor = false;
@@ -175,7 +173,7 @@ void PTS_importer::Loader_configuration(){
         break;
       }
       //XYZ - I - N
-      if(abs(line_columns[4])<=1.1 && ((abs(line_columns[5])<=1.1 && abs(line_columns[6])<=1.1) || isnan(line_columns[5]))){
+      if(abs(line_columns[4])<=1.1 && ((abs(line_columns[5])<=1.1 && abs(line_columns[6])<=1.1) || std::isnan(line_columns[5]))){
         config = 5;
         hasNormal = true;
         hasColor = false;
@@ -224,7 +222,7 @@ void PTS_importer::Loader_configuration(){
         hasNormal = true;
 
         if(line_columns[3]>=0 && line_columns[3]<=1){
-          cout<<"I scale: [0;1]"<<endl;
+          std::cout<<"I scale: [0;1]"<< std::endl;
           IdataFormat = 0;
         }
       }
@@ -240,9 +238,9 @@ void PTS_importer::Loader_configuration(){
 
   //----------------------------
   if(config == -1){
-    cout<<"Failed to find file configuration ..."<<endl;
+    std::cout<<"Failed to find file configuration ..."<< std::endl;
   }else{
-    cout << "config " << config << flush;
+    std::cout << "config " << config << std::flush;
   }
 
   //---------------------------
@@ -267,7 +265,7 @@ void PTS_importer::Loader_data(Data_file* data, int FILE_config){
   }
 
   //Position data
-  data->xyz.push_back(vec3(x, y, z));
+  data->xyz.push_back(glm::vec3(x, y, z));
 
   //Reflectance data
   if(hasIntensity){
@@ -284,12 +282,12 @@ void PTS_importer::Loader_data(Data_file* data, int FILE_config){
 
   //Normal data
   if(hasNormal){
-    data->Nxyz.push_back(vec3(nx, ny, nz));
+    data->Nxyz.push_back(glm::vec3(nx, ny, nz));
   }
 
   //Color data
   if(hasColor){
-    data->rgb.push_back(vec4((r/255), (g/255), (b/255), 1.0f));
+    data->rgb.push_back(glm::vec4((r/255), (g/255), (b/255), 1.0f));
     //if reflectance value is coded in RGB format
     if(hasIntensity == false && r == g && g == b){
         data->Is.push_back(r/255);
@@ -301,59 +299,59 @@ void PTS_importer::Loader_data(Data_file* data, int FILE_config){
 }
 
 //Main exporter functions
-bool PTS_importer::Exporter(string path, Object* object){
+bool PTS_importer::Exporter(std::string path, Object* object){
   //---------------------------
 
   //Create file
   if(path.substr(path.find_last_of(".") + 1) != "pts") path.append(".pts");
-  ofstream file;
+  std::ofstream file;
   file.open(path);
   if(!file){
-    cout<<"Error in creating file !";
+    std::cout<<"Error in creating file !";
     return 0;
   }
 
   //Data : xyz (R) (rgb) (nxnynz)
-  vector<vec3>& XYZ = object->xyz;
-  vector<vec4>& RGB = object->rgb;
-  vector<vec3>& N = object->Nxyz;
-  vector<float>& Is = object->Is;
+  std::vector<glm::vec3>& XYZ = object->xyz;
+  std::vector<glm::vec4>& RGB = object->rgb;
+  std::vector<glm::vec3>& N = object->Nxyz;
+  std::vector<float>& Is = object->Is;
 
   //Write in the file
   int precision = 6;
-  file << XYZ.size() <<endl;
+  file << XYZ.size() << std::endl;
   for(int i=0; i<XYZ.size(); i++){
     //Line start
-    file << fixed;
+    file << std::fixed;
 
     //Location
-    file << setprecision(precision) << XYZ[i].x <<" "<< XYZ[i].y <<" "<< XYZ[i].z ;
+    file << std::setprecision(precision) << XYZ[i].x <<" "<< XYZ[i].y <<" "<< XYZ[i].z ;
 
     //Intensity
     if(object->Is.size() != 0){
       if(export_IdataFormat == 0){
-        file << setprecision(precision) <<" "<< Is[i];
+        file << std::setprecision(precision) <<" "<< Is[i];
       }
       else if(export_IdataFormat == 1){
-        file << setprecision(0) <<" "<< int(Is[i]*255);
+        file << std::setprecision(0) <<" "<< int(Is[i]*255);
       }
       else if(export_IdataFormat == 2){
-        file << setprecision(0) <<" "<< int((Is[i]*4096)-2048);
+        file << std::setprecision(0) <<" "<< int((Is[i]*4096)-2048);
       }
     }
 
     //Color
     if(object->has_color){
-      file << setprecision(0) <<" "<< RGB[i].x * 255 <<" "<< RGB[i].y * 255 <<" "<< RGB[i].z * 255;
+      file << std::setprecision(0) <<" "<< RGB[i].x * 255 <<" "<< RGB[i].y * 255 <<" "<< RGB[i].z * 255;
     }
 
     //Normal
     if(object->Nxyz.size() != 0){
-      file << setprecision(precision) <<" "<< N[i].x <<" "<< N[i].y <<" "<< N[i].z;
+      file << std::setprecision(precision) <<" "<< N[i].x <<" "<< N[i].y <<" "<< N[i].z;
     }
 
     //line end
-    file << endl;
+    file << std::endl;
   }
 
   //---------------------------
@@ -362,21 +360,21 @@ bool PTS_importer::Exporter(string path, Object* object){
 }
 
 //Checking functions
-bool PTS_importer::check_header(string path){
-  string line;
-  ifstream FILE(path);
+bool PTS_importer::check_header(std::string path){
+  std::string line;
+  std::ifstream FILE(path);
   getline(FILE, line);
   //---------------------------
 
   //Column count
-  vector<float> line_columns;
+  std::vector<float> line_columns;
   bool endLoop = false;
   while(!endLoop){
     if(line.find(" ") != std::string::npos){
-      line_columns.push_back(stof(line.substr(0, line.find(" "))));
+      line_columns.push_back(std::stof(line.substr(0, line.find(" "))));
       line = line.substr(line.find(" ")+1);
     }else{
-      line_columns.push_back(stof(line));
+      line_columns.push_back(std::stof(line));
       endLoop = true;
     }
   }
@@ -387,9 +385,9 @@ bool PTS_importer::check_header(string path){
   }
   return false;
 }
-int PTS_importer::check_configuration(string path){
-  string line_loop;
-  ifstream FILE(path);
+int PTS_importer::check_configuration(std::string path){
+  std::string line_loop;
+  std::ifstream FILE(path);
   //---------------------------
 
   //pass the first line
@@ -401,10 +399,10 @@ int PTS_importer::check_configuration(string path){
   line_columns.clear();
   while(!endLoop){
     if(line_loop.find(" ") != std::string::npos){
-      line_columns.push_back(stof(line_loop.substr(0, line_loop.find(" "))));
+      line_columns.push_back(std::stof(line_loop.substr(0, line_loop.find(" "))));
       line_loop = line_loop.substr(line_loop.find(" ")+1);
     }else{
-      line_columns.push_back(stof(line_loop));
+      line_columns.push_back(std::stof(line_loop));
       endLoop = true;
     }
   }
@@ -434,7 +432,7 @@ int PTS_importer::check_configuration(string path){
 
       //XYZ - N
       bool color = abs(R) <= 1 && abs(G) <= 1 && abs(B) <= 1;
-      bool nan = isnan(R) && isnan(G) && isnan(B);
+      bool nan = std::isnan(R) && std::isnan(G) && std::isnan(B);
       if(color || nan){
         config = 2;
         hasNormal = true;
@@ -471,7 +469,7 @@ int PTS_importer::check_configuration(string path){
 
       //XYZ - I - N
       bool normal = abs(R) <= 1.1f && abs(G) <= 1.1 && abs(B) <= 1.1;
-      bool nan = isnan(R) && isnan(G) && isnan(B);
+      bool nan = std::isnan(R) && std::isnan(G) && std::isnan(B);
       if(normal || nan){
         config = 5;
         hasNormal = true;
@@ -562,17 +560,17 @@ int PTS_importer::check_configuration(string path){
 
   //---------------------------
   if(config == -1){
-    cout<<"Failed to find file configuration ..."<<" Nb columns: "<<line_columns.size()<<endl;
-    cout << "config " << config << endl;
+    std::cout<<"Failed to find file configuration ..."<<" Nb columns: "<<line_columns.size()<< std::endl;
+    std::cout << "config " << config << std::endl;
   }
   return config;
 }
-int PTS_importer::check_size(string path, bool FILE_hasHeader){
+int PTS_importer::check_size(std::string path, bool FILE_hasHeader){
   //---------------------------
 
   int FILE_size = get_file_nbPoint(path);
   if(FILE_size > nbptMax){
-    cout << "Too much points : "<< FILE_size << ">"<< nbptMax << endl;
+    std::cout << "Too much points : "<< FILE_size << ">"<< nbptMax << std::endl;
   }
   if(FILE_hasHeader){
     FILE_size = FILE_size-1;

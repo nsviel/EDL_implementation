@@ -1,10 +1,16 @@
 #ifndef FILE_PTX_H
 #define FILE_PTX_H
 
-#include "../../../common.h"
-
+#include <Common/struct_data_file.h>
+#include <Specific/File/Info.h>
+#include <glm/glm.hpp>
+#include <string>
+#include <vector>
 #include <iomanip>
 #include <fstream>
+#include <iostream>
+#include <list>
+
 
 struct PTXCloud{
   //---------------------------
@@ -32,8 +38,8 @@ public:
 
 public:
   //Main functions
-  Data_file* Loader(string pathFile);
-  bool Exporter(string pathFile);
+  Data_file* Loader(std::string pathFile);
+  bool Exporter(std::string pathFile);
 
   //Subfunctions
   void Loader_header(PTXCloud* cloud);
@@ -42,7 +48,7 @@ public:
   void Loader_cloudTransformation();
   void Loader_scannerAtOrigin();
 
-  string get_format_from_path(string path);
+  std::string get_format_from_path(std::string path);
 
   inline void set_scannerAtOrigin(bool value){this->option_scannerAtOrigin = value;}
   inline void set_applyCloudTransfo(bool value){this->option_applyCloudTransfo = value;}
@@ -57,16 +63,15 @@ private:
   //Datatypes
   Data_file* data;
 
-  list<PTXCloud*>* list_ptxCloud;
+  std::list<PTXCloud*>* list_ptxCloud;
   float x, y, z, I, r, g ,b;
-  int PC_line;
-
-  int IdataFormat;
   bool option_separateCloud;
   bool option_scannerAtOrigin;
   bool option_applyCloudTransfo;
   bool option_notUseZValue;
   bool retrieve_I, retrieve_RGB, retrieve_N;
+  int PC_line;
+  int IdataFormat;
 };
 
 #endif

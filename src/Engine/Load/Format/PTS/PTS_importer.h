@@ -1,10 +1,15 @@
 #ifndef PTS_IMPORTER_H
 #define PTS_IMPORTER_H
 
-#include "../../../common.h"
-
+#include <Common/struct_data_file.h>
+#include <Common/struct_object.h>
+#include <Specific/File/Info.h>
+#include <glm/glm.hpp>
+#include <string>
+#include <vector>
 #include <iomanip>
 #include <fstream>
+#include <iostream>
 
 
 class PTS_importer
@@ -16,10 +21,10 @@ public:
 
 public:
   //Main functions
-  Data_file* Loader(string pathFile);
-  Data_file* Loader(string pathFile, int lmin, int lmax);
+  Data_file* Loader(std::string pathFile);
+  Data_file* Loader(std::string pathFile, int lmin, int lmax);
 
-  bool Exporter(string pathFile, Object* object);
+  bool Exporter(std::string pathFile, Object* object);
 
   inline void set_IdataFormat(int value){this->IdataFormat = value;}
   inline void set_retrievingIntensity(bool value){this->retrieve_I = value;}
@@ -34,27 +39,25 @@ private:
   void Loader_data(Data_file* data_out, int FILE_config);
 
   //Loader sub-functions
-  bool check_header(string pathFile);
-  int check_configuration(string pathFile);
-  int check_size(string pathFile, bool FILE_hasHeader);
+  bool check_header(std::string pathFile);
+  int check_configuration(std::string pathFile);
+  int check_size(std::string pathFile, bool FILE_hasHeader);
 
 private:
-  //Variables
-  int config;
-  int nbptMax;
-  int FILE_size, FILE_config;
+  std::vector<float> line_columns;
+  std::vector<std::string> dataFormat;
+  std::string line;
   bool endHeader, FILE_hasHeader;
   bool endParameters;
   bool hasColor;
   bool hasIntensity;
   bool hasNormal;
-  vector<float> line_columns;
-  vector<string> dataFormat;
-  string line;
-
-  //Parameters
-  int IdataFormat, export_IdataFormat;
   bool retrieve_I, retrieve_RGB, retrieve_N;
+  int config;
+  int nbptMax;
+  int FILE_size, FILE_config;
+  int IdataFormat, export_IdataFormat;
+
 };
 
 #endif
