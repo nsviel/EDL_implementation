@@ -1,5 +1,5 @@
 #include "Data_node.h"
-#include "Param_data.h"
+#include "Data_param.h"
 #include "Scene/Scene.h"
 #include "Scene/Database.h"
 #include "Scene/Control.h"
@@ -15,7 +15,7 @@ Data_node::Data_node(Node* node){
   this->node = node;
   this->node_core = node->get_node_core();
 
-  this->param_data = new Param_data();
+  this->param_data = new Data_param();
   this->dataManager = new Database(this);
   this->sceneManager = new Scene(this);
   this->glyphManager = new Glyphs(this);

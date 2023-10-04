@@ -5,7 +5,7 @@
 #include "../../../../common.h"
 
 class Node_core;
-class Param_core;
+class Core_param;
 class Dimension;
 
 
@@ -20,7 +20,7 @@ public:
   inline Struct_pyramid* get_pyramid_param(){return struct_pyramid;}
 
 private:
-  Param_core* param_engine;
+  Core_param* core_param;
   Dimension* dimManager;
 
   Struct_pyramid* struct_pyramid;

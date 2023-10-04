@@ -6,7 +6,7 @@
 
 class Node_core;
 class VK_param;
-class Param_core;
+class Core_param;
 
 class VK_window;
 class VK_instance;
@@ -59,7 +59,7 @@ public:
   void fps_calcul(std::chrono::steady_clock::time_point& start_time);
 
   inline Node_core* get_node_core(){return node_core;}
-  inline Param_core* get_param_engine(){return param_engine;}
+  inline Core_param* get_core_param(){return core_param;}
   inline VK_param* get_vk_param(){return vk_param;}
   inline VK_device* get_vk_device(){return vk_device;}
   inline VK_framebuffer* get_vk_framebuffer(){return vk_framebuffer;}
@@ -95,7 +95,7 @@ public:
 
 private:
   Node_core* node_core;
-  Param_core* param_engine;
+  Core_param* core_param;
   Timer timer;
 
   VK_param* vk_param;

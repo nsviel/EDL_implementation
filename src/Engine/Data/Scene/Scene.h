@@ -4,7 +4,7 @@
 #include "../Data_common.h"
 
 class Data_node;
-class Param_data;
+class Data_param;
 class Database;
 class GPU_data;
 class Attribut;
@@ -34,7 +34,7 @@ public:
   inline Object* get_selected_object(){return set_scene->selected_obj;}
 
 private:
-  Param_data* param_data;
+  Data_param* param_data;
   Data_node* data_node;
   Database* dataManager;
   GPU_data* gpu_data;

@@ -6,7 +6,7 @@
 
 #include "../Dimension/Dimension.h"
 #include "../Node_core.h"
-#include "../Param_core.h"
+#include "../Core_param.h"
 
 #include "../../Node.h"
 #include "../../Data/Data_node.h"
@@ -19,7 +19,7 @@ Camera::Camera(Node_core* node_core){
 
   this->node = node_core->get_node();
   this->dimManager = node_core->get_dimManager();
-  this->param_engine = node_core->get_param_engine();
+  this->core_param = node_core->get_core_param();
   this->cam_arcball = new CAM_arcball(node_core);
   this->cam_fp = new CAM_first_person(node_core);
   this->cam_zoom = new CAM_zoom(node_core);
@@ -40,7 +40,7 @@ Camera::~Camera(){
 
 //MVP Matrix
 mat4 Camera::compute_cam_view(){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   mat4 cam_view;
   //---------------------------
 
@@ -60,7 +60,7 @@ mat4 Camera::compute_cam_view(){
   return cam_view;
 }
 mat4 Camera::compute_cam_proj(){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   mat4 projection;
   //---------------------------
 
@@ -87,7 +87,7 @@ mat4 Camera::compute_cam_mvp(){
   return mvpMatrix;
 }
 mat4 Camera::compute_cam_world_pose(){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   vec3 zaxis = normalize(camera->cam_F);
@@ -104,7 +104,7 @@ mat4 Camera::compute_cam_world_pose(){
   return absPose;
 }
 void Camera::compute_zoom(float value){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   cam_zoom->compute_zoom_position(camera, value);
@@ -112,7 +112,7 @@ void Camera::compute_zoom(float value){
   //---------------------------
 }
 void Camera::input_cam_mouse(){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   if(camera->cam_move){
@@ -130,7 +130,7 @@ void Camera::input_cam_mouse(){
 
 //Camera mode
 void Camera::set_mode_projection(int proj){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   switch(proj){
@@ -147,7 +147,7 @@ void Camera::set_mode_projection(int proj){
   //---------------------------
 }
 void Camera::set_mode_angle(int view){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   switch(view){
@@ -164,7 +164,7 @@ void Camera::set_mode_angle(int view){
   //---------------------------
 }
 void Camera::set_mode_view(int mode){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   switch(mode){
@@ -182,7 +182,7 @@ void Camera::set_mode_view(int mode){
 }
 
 void Camera::control(string what, bool fast){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   //Compute camera movment speed value
@@ -217,7 +217,7 @@ void Camera::control(string what, bool fast){
   //---------------------------
 }
 void Camera::reset_camera(){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   camera->reset();

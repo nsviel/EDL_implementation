@@ -11,7 +11,7 @@
 #include <iostream>
 
 
-struct Param_core{
+struct Core_param{
   //---------------------------
 
   int max_fps = 120;

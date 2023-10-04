@@ -2,14 +2,14 @@
 #include "VK_command_buffer.h"
 #include "../VK_param.h"
 #include "../VK_engine.h"
-#include "../../Param_core.h"
+#include "../../Core_param.h"
 
 
 //Constructor / Destructor
 VK_command::VK_command(VK_engine* vk_engine){
   //---------------------------
 
-  this->param_engine = vk_engine->get_param_engine();
+  this->core_param = vk_engine->get_core_param();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_command_buffer = vk_engine->get_vk_command_buffer();
@@ -82,10 +82,10 @@ void VK_command::start_render_pass(Struct_renderpass* renderpass, Frame* frame, 
 
   std::array<VkClearValue, 2> clear_value{};
   clear_value[0].color = {{
-    param_engine->background_color.x,
-    param_engine->background_color.y,
-    param_engine->background_color.z,
-    param_engine->background_color.w}};
+    core_param->background_color.x,
+    core_param->background_color.y,
+    core_param->background_color.z,
+    core_param->background_color.w}};
   clear_value[1].depthStencil = {1.0f, 0};
 
   VkRenderPassBeginInfo renderpass_info{};

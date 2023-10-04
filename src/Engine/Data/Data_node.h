@@ -4,7 +4,7 @@
 class Node_core;
 class Node;
 class Scene;
-class Param_data;
+class Data_param;
 class Database;
 class Glyphs;
 class Control;
@@ -25,7 +25,7 @@ public:
   inline Node* get_node(){return node;}
   inline Node_core* get_node_core(){return node_core;}
 
-  inline Param_data* get_param_data(){return param_data;}
+  inline Data_param* get_param_data(){return param_data;}
   inline Scene* get_sceneManager(){return sceneManager;}
   inline Database* get_dataManager(){return dataManager;}
   inline Loader* get_loaderManager(){return loaderManager;}
@@ -35,7 +35,7 @@ private:
   Node* node;
   Node_core* node_core;
 
-  Param_data* param_data;
+  Data_param* param_data;
   Scene* sceneManager;
   Database* dataManager;
   Glyphs* glyphManager;

@@ -3,7 +3,7 @@
 #include "../Node_gui.h"
 
 #include "../../Core/Node_core.h"
-#include "../../Core/Param_core.h"
+#include "../../Core/Core_param.h"
 #include "../../Core/Vulkan/VK_engine.h"
 #include "../../Core/Vulkan/VK_param.h"
 

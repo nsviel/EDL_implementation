@@ -39,7 +39,7 @@
 
 
 #include "../Node_core.h"
-#include "../Param_core.h"
+#include "../Core_param.h"
 
 
 //Constructor / Destructor
@@ -47,7 +47,7 @@ VK_engine::VK_engine(Node_core* node_core){
   //---------------------------
 
   this->node_core = node_core;
-  this->param_engine = node_core->get_param_engine();
+  this->core_param = node_core->get_core_param();
 
   this->vk_param = new VK_param();
   this->vk_instance = new VK_instance(this);
@@ -155,7 +155,7 @@ void VK_engine::clean_vulkan(){
 void VK_engine::fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start){
   //---------------------------
 
-  int fps_max = param_engine->max_fps;
+  int fps_max = core_param->max_fps;
 
   auto end = std::chrono::steady_clock::now();
   auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();

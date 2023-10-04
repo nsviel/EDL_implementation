@@ -15,7 +15,7 @@
 #include "../../Core/Node_core.h"
 #include "../../Core/Dimension/Dimension.h"
 #include "../../Node.h"
-#include "../../Core/Param_core.h"
+#include "../../Core/Core_param.h"
 
 
 //Constructor / Destructor

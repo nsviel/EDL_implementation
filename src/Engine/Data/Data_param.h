@@ -9,7 +9,7 @@
 #include <iostream>
 
 
-struct Param_data{
+struct Data_param{
   //---------------------------
 
   bool with_glyph_grid = true;

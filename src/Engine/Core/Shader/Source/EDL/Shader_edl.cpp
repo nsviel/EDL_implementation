@@ -1,14 +1,14 @@
 #include "Shader_edl.h"
 
 #include "../../../Node_core.h"
-#include "../../../Param_core.h"
+#include "../../../Core_param.h"
 #include "../../../Dimension/Dimension.h"
 
 
 Shader_edl::Shader_edl(Node_core* node_core){
   //---------------------------
 
-  this->param_engine = node_core->get_param_engine();
+  this->core_param = node_core->get_core_param();
   this->dimManager = node_core->get_dimManager();
 
   this->struct_edl = new Struct_edl();
@@ -22,7 +22,7 @@ Shader_edl::Shader_edl(Node_core* node_core){
 Shader_edl::~Shader_edl(){}
 
 void Shader_edl::update_shader(){
-  Struct_camera* camera = &param_engine->camera;
+  Struct_camera* camera = &core_param->camera;
   //---------------------------
 
   // Depth setup

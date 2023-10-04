@@ -3,7 +3,7 @@
 #include "../Node_gui.h"
 
 #include "../../Core/Node_core.h"
-#include "../../Core/Param_core.h"
+#include "../../Core/Core_param.h"
 #include "../../Core/Vulkan/VK_engine.h"
 #include "../../Core/Vulkan/VK_param.h"
 
@@ -56,11 +56,11 @@ void GUI_option::option_font(){
 }
 void GUI_option::option_color(){
   if(ImGui::CollapsingHeader("Colors")){
-    Param_core* param_engine = node_core->get_param_engine();
+    Core_param* core_param = node_core->get_core_param();
     //---------------------------
 
     //Background color
-    vec4* screen_color = &param_engine->background_color;
+    vec4* screen_color = &core_param->background_color;
     ImGui::SetNextItemWidth(width);
     ImGui::ColorEdit4("Background", (float*)screen_color);
 
@@ -69,12 +69,12 @@ void GUI_option::option_color(){
   }
 }
 void GUI_option::option_fps(){
-  Param_core* param_engine = node_core->get_param_engine();
+  Core_param* core_param = node_core->get_core_param();
   //---------------------------
 
   //FPS max value
   ImGui::SetNextItemWidth(150);
-  ImGui::SliderInt("FPS max", &param_engine->max_fps, 10, 1000);
+  ImGui::SliderInt("FPS max", &core_param->max_fps, 10, 1000);
 
   //---------------------------
 }
