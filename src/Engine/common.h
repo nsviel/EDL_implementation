@@ -42,7 +42,7 @@ using namespace glm;
 #include <Specific/Function/fct_timer.h>  //For time profilling
 
 //Data
-#include "Data/Struct/struct_object.h"
+#include <Common/struct_object.h>
 #include "Data/Struct/struct_cloud.h"
 #include "Data/Struct/struct_set.h"
 #include "Data/Struct/struct_data_file.h"

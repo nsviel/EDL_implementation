@@ -1,7 +1,7 @@
 #ifndef GLYPH_STRUCT_H
 #define GLYPH_STRUCT_H
 
-#include "struct_object.h"
+#include <Common/struct_object.h>
 
 #include "../../common.h"
 

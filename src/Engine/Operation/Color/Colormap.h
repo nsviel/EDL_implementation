@@ -1,7 +1,12 @@
 #ifndef COLORMAP_H
 #define COLORMAP_H
 
-#include "../common.h"
+#include <glm/glm.hpp>
+#include <string>
+#include <vector>
+
+using namespace std;
+using namespace glm;
 
 
 class Colormap
@@ -14,6 +19,7 @@ public:
 public:
   void init();
   void choose(string name);
+  vec4 random_color();
 
   inline vector<vec3>* get_colormap_selected(){return &colormap_selected;}
 

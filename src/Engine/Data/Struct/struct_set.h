@@ -1,7 +1,7 @@
 #ifndef STRUCT_SET_H
 #define STRUCT_SET_H
 
-#include "struct_object.h"
+#include <Common/struct_object.h>
 #include "../../common.h"
 
 

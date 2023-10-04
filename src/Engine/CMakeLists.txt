@@ -1,6 +1,7 @@
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
   Specific/*.cpp
+  Common/*.cpp
 )
 
 # Define the library target

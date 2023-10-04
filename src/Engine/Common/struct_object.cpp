@@ -1,4 +1,4 @@
-#include "struct_object.h"
+#include <Common/struct_object.h>
 
 
 void Object::reset(){

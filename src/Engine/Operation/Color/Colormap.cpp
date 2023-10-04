@@ -55,3 +55,14 @@ void Colormap::choose(string name){
 
   //---------------------------
 }
+glm::vec4 Colormap::random_color(){
+  //---------------------------
+
+  float Red = float(rand()%101)/100;
+  float Green = float(rand()%101)/100;
+  float Blue = float(rand()%101)/100;
+  glm::vec4 color = glm::vec4(Red, Green, Blue, 1.0f);
+
+  //---------------------------
+  return color;
+}

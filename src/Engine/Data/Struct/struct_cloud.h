@@ -1,7 +1,7 @@
 #ifndef CLOUD_STRUCT_H
 #define CLOUD_STRUCT_H
 
-#include "struct_object.h"
+#include <Common/struct_object.h>
 
 #include "../../common.h"
 
