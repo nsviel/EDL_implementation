@@ -1,7 +1,7 @@
 #include "PLY_importer.h"
 
-#include "../../../Specific/Function/fct_math.h"
-#include "../../../Specific/File/Info.h"
+#include <Specific/Function/fct_math.h>
+#include <Specific/File/Info.h>
 
 
 //Constructor / Destructor

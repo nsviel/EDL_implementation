@@ -1,12 +1,14 @@
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
-  ./*.cpp
+  Specific/*.cpp
 )
 
 # Define the library target
 add_library(LIBRARY_ENGINE STATIC
   ${ALL_SOURCES}
 )
+
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 # Specify include directories
 target_include_directories(LIBRARY_ENGINE PUBLIC
@@ -16,5 +18,5 @@ target_include_directories(LIBRARY_ENGINE PUBLIC
 
 # Link any external libraries that this library depends on
 target_link_libraries(LIBRARY_ENGINE PUBLIC
-
+  Eigen3::Eigen #Eigen library
 )

@@ -1,5 +1,6 @@
-# Child CMakeLists
+# CMakeLists childs
 add_subdirectory(Element)
+add_subdirectory(Engine)
 
 # Library dependencies
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
@@ -38,6 +39,7 @@ add_executable(executable
 target_link_libraries(executable
   LIBRARY_EXTERN
   LIBRARY_ELEMENT
+  LIBRARY_ENGINE
   ${ALL_LIBS}
 )
 

@@ -1,6 +1,6 @@
 #include "Tree.h"
 
-#include "../../../Specific/Function/fct_math.h"
+#include <Specific/Function/fct_math.h>
 #include "../../../Operation/Color/Color.h"
 #include "../../../Operation/Tree/Octree.h"
 

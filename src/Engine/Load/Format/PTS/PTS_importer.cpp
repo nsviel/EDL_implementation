@@ -1,6 +1,6 @@
 #include "PTS_importer.h"
 
-#include "../../../Specific/File/Info.h"
+#include <Specific/File/Info.h>
 
 
 //Constructor / Destructor

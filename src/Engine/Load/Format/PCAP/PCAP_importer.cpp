@@ -4,7 +4,7 @@
 #include "Parser/Parser_HDL32.h"
 #include "Parser/Capture_frame.h"
 
-#include "../../../Specific/File/Info.h"
+#include <Specific/File/Info.h>
 
 #include <tins/tins.h>
 #include <iostream>

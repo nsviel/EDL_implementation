@@ -4,7 +4,7 @@
 #include "../VK_param.h"
 #include "../Camera/VK_viewport.h"
 
-#include "../../../Specific/Function/fct_math.h"
+#include <Specific/Function/fct_math.h>
 
 
 //Constructor / Destructor

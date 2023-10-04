@@ -1,6 +1,6 @@
 #include "XYZ_importer.h"
 
-#include "../../../Specific/File/Info.h"
+#include <Specific/File/Info.h>
 
 
 //Constructor / Destructor

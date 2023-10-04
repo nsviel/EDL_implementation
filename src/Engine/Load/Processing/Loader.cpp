@@ -3,8 +3,8 @@
 
 #include "../Node_load.h"
 
-#include "../../Specific/File/Directory.h"
-#include "../../Specific/File/Zenity.h"
+#include <Specific/File/Directory.h>
+#include <Specific/File/Zenity.h>
 #include "../../Data/Node_data.h"
 #include "../../Data/Scene/Scene.h"
 

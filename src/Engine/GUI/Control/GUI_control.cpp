@@ -6,7 +6,7 @@
 #include "../../Core/Param_core.h"
 #include "../../Core/Dimension/Dimension.h"
 #include "../../Core/Camera/Camera.h"
-#include "../../Specific/Function/fct_math.h"
+#include <Specific/Function/fct_math.h>
 #include "../../Data/Scene/Control.h"
 #include "../../Data/Node_data.h"
 #include "../../Node.h"

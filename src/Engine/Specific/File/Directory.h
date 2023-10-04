@@ -14,9 +14,9 @@
 #include <fstream>
 #include <unistd.h>
 #include <filesystem>
+#include <iostream>
+#include <algorithm>
 #include <experimental/filesystem>
-
-#include "../../common.h"
 
 
 //Directory operations

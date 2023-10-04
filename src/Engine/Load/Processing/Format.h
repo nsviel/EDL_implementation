@@ -1,7 +1,7 @@
 #ifndef FORMAT_H
 #define FORMAT_H
 
-#include "../../Specific/File/Info.h"
+#include <Specific/File/Info.h>
 #include "../../common.h"
 
 class PLY_importer;
