@@ -1,10 +1,6 @@
 #include "Heatmap.h"
 #include "Colormap.h"
 
-#include "../Node_operation.h"
-
-#include "../../Core/Node_core.h"
-#include "../../Data/Node_data.h"
 #include <Specific/Function/fct_math.h>
 
 /* heatmap_mode

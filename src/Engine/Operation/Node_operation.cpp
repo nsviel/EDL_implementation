@@ -12,7 +12,7 @@ Node_operation::Node_operation(Node* node){
   //---------------------------
 
   this->heatmapManager = new Heatmap();
-  this->colorManager = new Color(this);
+  this->colorManager = new Color();
   this->attributManager = new Attribut();
 
   //---------------------------

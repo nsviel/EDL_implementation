@@ -1,12 +1,7 @@
 #ifndef COLOR_FUNCTION_H
 #define COLOR_FUNCTION_H
 
-#include "../../common.h"
-
-class Node_operation;
-class Heatmap;
-class Configuration;
-class GPU_data;
+#include "../common.h"
 
 
 //Get a RGB random color
@@ -17,7 +12,7 @@ class Color
 {
 public:
   //Constructor / Destructor
-  Color(Node_operation* node_ope);
+  Color();
   ~Color();
 
 public:
@@ -46,10 +41,6 @@ public:
   inline vec2* get_range_intensity(){return &range_intensity;}
 
 private:
-  Heatmap* heatmapManager;
-  Configuration* configManager;
-  GPU_data* gpuManager;
-
   vec2 range_intensity;
   vec4 specific_color;
   int color_mode;

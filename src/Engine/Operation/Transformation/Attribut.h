@@ -1,7 +1,7 @@
 #ifndef ATTRIBUT_H
 #define ATTRIBUT_H
 
-#include "../../common.h"
+#include "../common.h"
 
 
 class Attribut

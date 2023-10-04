@@ -1,7 +1,7 @@
 #ifndef TRANSFORMATION_H
 #define TRANSFORMATION_H
 
-#include "../../common.h"
+#include "../common.h"
 
 
 class Transformation

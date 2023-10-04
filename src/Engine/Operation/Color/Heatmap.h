@@ -1,7 +1,7 @@
 #ifndef HEATMAP_H
 #define HEATMAP_H
 
-#include "../../common.h"
+#include "../common.h"
 
 class Scene;
 class Attribut;

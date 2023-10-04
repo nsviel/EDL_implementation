@@ -1,8 +1,7 @@
 #ifndef OCTREE_H
 #define OCTREE_H
 
-#include "../../Data/Struct/struct_glyph.h"
-#include "../../common.h"
+#include "../common.h"
 
 
 struct Cube{

@@ -1,12 +1,7 @@
 #include "Color.h"
-
 #include "Heatmap.h"
 
-#include "../Node_operation.h"
-
-#include "../../Core/Node_core.h"
 #include <Specific/Function/fct_math.h>
-
 #include <random>
 
 /* color_mode
@@ -30,10 +25,10 @@ glm::vec4 random_color(){
 
 
 //Constructor / destructor
-Color::Color(Node_operation* node_ope){
+Color::Color(){
   //---------------------------
 
-  this->heatmapManager = node_ope->get_heatmapManager();
+//  this->heatmapManager = node_ope->get_heatmapManager();
 //  this->gpuManager = new GPU_data();
 
   //---------------------------
