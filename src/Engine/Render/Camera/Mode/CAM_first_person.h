@@ -5,7 +5,7 @@
 #include "../../Render_common.h"
 
 class Render_node;
-class Dimension;
+class Window;
 
 
 class CAM_first_person
@@ -19,7 +19,7 @@ public:
   void fp_cam_mouse(Struct_camera* camera);
 
 private:
-  Dimension* dimManager;
+  Window* window;
 
   vec2 mouse_pose_old;
 };

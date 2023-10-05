@@ -14,20 +14,17 @@ VK_surface::VK_surface(VK_engine* vk_engine){
   Render_node* render_node = vk_engine->get_render_node();
 
   this->vk_param = vk_engine->get_vk_param();
-  this->dimManager = render_node->get_dimManager();
+  this->window = vk_engine->get_window();
 
   //---------------------------
 }
 VK_surface::~VK_surface(){}
 
 //Main function
-void VK_surface::init_window(Window* window_class){
+void VK_surface::init_window(){
   //---------------------------
 
-  this->window_class = window_class;
-  this->window = window_class->get_window();
   this->get_required_extensions();
-  dimManager->set_window(window);
 
   //---------------------------
 }
@@ -43,7 +40,7 @@ void VK_surface::clean_surface(){
 void VK_surface::create_window_surface(){
   //---------------------------
 
-  window_class->create_window_surface(vk_param->instance.instance, surface);
+  window->create_window_surface(vk_param->instance.instance, surface);
 
   //---------------------------
 }
@@ -52,13 +49,13 @@ void VK_surface::check_for_resizing(){
   //---------------------------
 
   //ICI PROBLEM QUAND TRANSLATION TO WINDOW CLASS !!!
-  vec2 dim = window_class->compute_framebuffer_size();
+  vec2 dim = window->compute_window_dim();
   if(dim.x != window_dim.x || dim.y != window_dim.y){
     is_resized = true;
     window_dim = dim;
 
     //update dimension
-    dimManager->update();
+    //dimManager->update();
   }
 
   //---------------------------
@@ -67,7 +64,7 @@ void VK_surface::check_for_resizing(){
 void VK_surface::get_required_extensions(){
   //---------------------------
 
-  vector<const char*> extensions = window_class->get_required_extensions();
+  vector<const char*> extensions = window->get_required_extensions();
 
   for(int i=0; i<extensions.size(); i++){
     vk_param->instance.extension.push_back(extensions[i]);

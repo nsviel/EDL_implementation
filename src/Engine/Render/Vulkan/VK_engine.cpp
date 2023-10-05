@@ -50,6 +50,7 @@ VK_engine::VK_engine(Render_node* render_node){
 
   this->render_node = render_node;
   this->core_param = render_node->get_core_param();
+  this->window = render_node->get_window();
 
   this->vk_param = new VK_param();
   this->vk_instance = new VK_instance(this);
@@ -89,12 +90,12 @@ VK_engine::VK_engine(Render_node* render_node){
 VK_engine::~VK_engine(){}
 
 //Main function
-void VK_engine::init_vulkan(Window* window){
+void VK_engine::init_vulkan(){
   timer_time t1 = timer.start_t();
   //---------------------------
 
   //Instance
-  vk_surface->init_window(window);
+  vk_surface->init_window();
   vk_instance->create_instance();
   vk_validation->create_validation_layer();
   vk_surface->create_window_surface();
@@ -117,11 +118,10 @@ void VK_engine::init_vulkan(Window* window){
   vk_param->time.engine_init = timer.stop_us(t1) / 1000;
 }
 void VK_engine::main_loop() {
-  GLFWwindow* window = vk_surface->get_window();
   //---------------------------
 
   auto start_time = std::chrono::steady_clock::now();
-  while(!glfwWindowShouldClose(window)){
+  while(!glfwWindowShouldClose(window->get_window())){
     auto start = std::chrono::steady_clock::now();
     glfwPollEvents();
     gpu_gui->loop_start();

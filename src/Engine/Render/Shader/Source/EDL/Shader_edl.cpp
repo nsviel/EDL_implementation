@@ -1,15 +1,15 @@
 #include "Shader_edl.h"
-
 #include "../../../Render_node.h"
 #include "../../../Render_param.h"
-#include "../../../../../Element/Window/Dimension.h"
+
+#include <Window/Window.h>
 
 
 Shader_edl::Shader_edl(Render_node* render_node){
   //---------------------------
 
   this->core_param = render_node->get_core_param();
-  this->dimManager = render_node->get_dimManager();
+  this->window = render_node->get_window();
 
   this->struct_edl = new Struct_edl();
   struct_edl->activated = true;
@@ -30,9 +30,9 @@ void Shader_edl::update_shader(){
   struct_edl->z_far = camera->clip_far;
 
   //Dimension
-  Tab* tab_rendering = dimManager->get_tab("rendering");
-  struct_edl->tex_width = tab_rendering->dim.x;
-  struct_edl->tex_height = tab_rendering->dim.y;
+  vec2 window_dim = window->get_window_dim();
+  struct_edl->tex_width = window_dim.x;
+  struct_edl->tex_height = window_dim.y;
 
   //---------------------------
 }

@@ -4,12 +4,13 @@
 
 #include "../../Render/Render_node.h"
 #include "../../Render/Render_param.h"
-#include "../../../Element/Window/Dimension.h"
 #include "../../Render/Camera/Camera.h"
 #include <Specific/Function/fct_math.h>
 #include "Control.h"
 #include "../../Data/Data_node.h"
 #include "../../Node.h"
+
+#include <Window/Window.h>
 
 
 //Constructor / Destructor
@@ -18,7 +19,7 @@ GUI_control::GUI_control(Node_gui* node_gui){
 
   Render_node* render_node = node_gui->get_render_node();
   this->core_param = render_node->get_core_param();
-  this->dimManager = render_node->get_dimManager();
+  this->window = render_node->get_window();
   this->cameraManager = render_node->get_cameraManager();
   this->controlManager = node_gui->get_controlManager();
 
@@ -41,25 +42,24 @@ void GUI_control::make_control(ImVec2 center){
 
 //Mouse function
 void GUI_control::control_mouse(ImVec2 center){
-  Tab* tab_rendering = dimManager->get_tab("rendering");
   ImGuiIO io = ImGui::GetIO();
   Struct_camera* camera = &core_param->camera;
   //----------------------------
 
-  tab_rendering->center = vec2(center.x, center.y);
+  window->set_window_center(vec2(center.x, center.y));
 
   //Right click - Camera movement
   static vec2 cursorPos;
   if(ImGui::IsMouseClicked(1)){
-    cursorPos = dimManager->get_mouse_pose();
+    cursorPos = window->get_mouse_pose();
 
     ImGui::GetIO().MouseDrawCursor = false;
-    dimManager->set_mouse_pose(vec2(center.x, center.y));
+    window->set_mouse_pose(vec2(center.x, center.y));
     camera->cam_move = true;
   }
   //Release - back to normal
   if(ImGui::IsMouseReleased(1) && camera->cam_move){
-    dimManager->set_mouse_pose(cursorPos);
+    window->set_mouse_pose(cursorPos);
     camera->cam_move = false;
   }
 
@@ -110,8 +110,7 @@ void GUI_control::control_keyboard_oneAction(){
 
   for(int i=0; i<IM_ARRAYSIZE(io.KeysDown); i++){
     if(ImGui::IsKeyPressed(ImGuiKey_Escape)){
-      GLFWwindow* window = dimManager->get_window();
-      glfwSetWindowShouldClose(window, true);
+      window->close_window();
     }
 
     //Tab key

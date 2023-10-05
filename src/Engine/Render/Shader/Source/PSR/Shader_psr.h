@@ -6,7 +6,7 @@
 
 class Render_node;
 class Render_param;
-class Dimension;
+class Window;
 
 
 class Shader_psr
@@ -21,7 +21,7 @@ public:
 
 private:
   Render_param* core_param;
-  Dimension* dimManager;
+  Window* window;
 
   Struct_pyramid* struct_pyramid;
 };

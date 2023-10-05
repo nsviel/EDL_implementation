@@ -1,14 +1,14 @@
 #include "CAM_arcball.h"
-
-#include "../../../../Element/Window/Dimension.h"
 #include "../../Render_node.h"
+
+#include <Window/Window.h>
 
 
 //Constructor / Destructor
 CAM_arcball::CAM_arcball(Render_node* render_node){
   //---------------------------
 
-  this->dimManager = render_node->get_dimManager();
+  this->window = render_node->get_window();
 
   //---------------------------
 }
@@ -40,17 +40,18 @@ void CAM_arcball::arcball_cam_mouse(Struct_camera* camera){
 
 //Subfunction
 vec2 CAM_arcball::arcball_mouse_angle(){
-  Tab* tab_rendering = dimManager->get_tab("rendering");
   //---------------------------
 
-  vec2 mouse_pose = dimManager->get_mouse_pose();
-  dimManager->set_mouse_pose(tab_rendering->center);
+  vec2 mouse_pose = window->get_mouse_pose();
+  window->set_mouse_pose(window->get_window_center());
 
   // step 1 : Calculate the amount of rotation given the mouse movement.
-  float deltaAngleX = (2 * M_PI / tab_rendering->dim.x); // a movement from left to right = 2*PI = 360 deg
-  float deltaAngleY = (M_PI / tab_rendering->dim.y);  // a movement from top to bottom = PI = 180 deg
-  float xAngle = float(tab_rendering->center.x - mouse_pose.x) * deltaAngleX * 0.1;
-  float yAngle = float(tab_rendering->center.y - mouse_pose.y) * deltaAngleY * 0.1;
+  vec2 window_dim = window->get_window_dim();
+  vec2 window_center = window->get_window_center();
+  float deltaAngleX = (2 * M_PI / window_dim.x); // a movement from left to right = 2*PI = 360 deg
+  float deltaAngleY = (M_PI / window_dim.y);  // a movement from top to bottom = PI = 180 deg
+  float xAngle = float(window_center.x - mouse_pose.x) * deltaAngleX * 0.1;
+  float yAngle = float(window_center.y - mouse_pose.y) * deltaAngleY * 0.1;
   vec2 angle = vec2(xAngle, yAngle);
 
   //---------------------------

@@ -1,14 +1,14 @@
 #include "CAM_first_person.h"
-
-#include "../../../../Element/Window/Dimension.h"
 #include "../../Render_node.h"
+
+#include <Window/Window.h>
 
 
 //Constructor / Destructor
 CAM_first_person::CAM_first_person(Render_node* render_node){
   //---------------------------
 
-  this->dimManager = render_node->get_dimManager();
+  this->window = render_node->get_window();
 
   this->mouse_pose_old = vec2(0.0f);
 
@@ -42,22 +42,21 @@ mat4 CAM_first_person::fp_view_mat(Struct_camera* camera){
   return cam_view;
 }
 void CAM_first_person::fp_cam_mouse(Struct_camera* camera){
-  Tab* tab_rendering = dimManager->get_tab("rendering");
   //---------------------------
 
   float& azimuth = camera->angle_azimuth;
   float& elevation = camera->angle_elevation;
 
   //Cursor movement
-  vec2 mouse_pose = dimManager->get_mouse_pose();
+  vec2 mouse_pose = window->get_mouse_pose();
+  vec2 window_center = window->get_window_center();
 
   if(mouse_pose != mouse_pose_old){
-    dimManager->set_mouse_pose(tab_rendering->center);
+    window->set_mouse_pose(window_center);
 
     // Compute new orientation
-    vec2 gl_mid = dimManager->get_gl_middle();
-    azimuth += camera->speed_mouse * float(tab_rendering->center.x - mouse_pose.x);
-    elevation += camera->speed_mouse * float(tab_rendering->center.y - mouse_pose.y);
+    azimuth += camera->speed_mouse * float(window_center.x - mouse_pose.x);
+    elevation += camera->speed_mouse * float(window_center.y - mouse_pose.y);
 
     //Limites of camera rotation
     if(elevation > M_PI/2) elevation = M_PI/2;

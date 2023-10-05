@@ -7,6 +7,7 @@
 #include "../Vulkan/Command/VK_command.h"
 
 #include <image/IconsFontAwesome5.h>
+#include <Window/Window.h>
 
 
 //Constructor / Destructor
@@ -54,7 +55,7 @@ void GPU_gui::init_gui(){
   //---------------------------
 }
 void GPU_gui::gui_vulkan(){
-  GLFWwindow* window = vk_surface->get_window();
+  Window* window = vk_surface->get_window();
   VkSurfaceKHR surface = vk_surface->get_surface();
   VkRenderPass renderPass = vk_param->renderpass_ui.renderpass;
   //---------------------------
@@ -91,7 +92,7 @@ void GPU_gui::gui_vulkan(){
   }
 
   // Setup Platform/Renderer bindings
-  ImGui_ImplGlfw_InitForVulkan(window, true);
+  ImGui_ImplGlfw_InitForVulkan(window->get_window(), true);
   ImGui_ImplVulkan_InitInfo init_info = {};
   init_info.Instance = vk_param->instance.instance;
   init_info.PhysicalDevice = vk_param->device.physical_device;

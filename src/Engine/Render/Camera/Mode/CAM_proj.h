@@ -5,7 +5,7 @@
 #include "../../Render_common.h"
 
 class Render_node;
-class Dimension;
+class Window;
 
 
 class CAM_proj
@@ -19,7 +19,7 @@ public:
   mat4 compute_proj_ortho(Struct_camera* camera);
 
 private:
-  Dimension* dimManager;
+  Window* window;
 };
 
 #endif

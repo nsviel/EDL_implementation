@@ -25,6 +25,7 @@ Node_gui::Node_gui(Node* node){
   //---------------------------
 
   this->node = node;
+  this->window = window;
   this->render_node = node->get_render_node();
   this->data_node = node->get_data_node();
 
@@ -59,10 +60,8 @@ Node_gui::~Node_gui(){
 }
 
 //Main function
-void Node_gui::init(Window* window){
+void Node_gui::init(){
   //---------------------------
-
-  this->window = window;
 
   gui_style->gui_style();
   gui_panel->set_initial_panel_focus();

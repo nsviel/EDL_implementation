@@ -5,7 +5,6 @@
 
 class Node_gui;
 class Render_node;
-class Dimension;
 class GUI_profiling;
 class GUI_object;
 class GUI_menubar;
@@ -34,7 +33,6 @@ public:
 private:
   Node_gui* node_gui;
   Render_node* render_node;
-  Dimension* dimManager;
 
   GUI_profiling* gui_profiling;
   GUI_object* gui_object;

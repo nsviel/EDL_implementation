@@ -5,9 +5,10 @@
 
 class Render_param;
 class Node_gui;
-class Dimension;
+class Window;
 class Camera;
 class Control;
+class Window;
 
 
 class GUI_control
@@ -32,7 +33,7 @@ public:
 
 private:
   Render_param* core_param;
-  Dimension* dimManager;
+  Window* window;
   Control* controlManager;
   Camera* cameraManager;
 };

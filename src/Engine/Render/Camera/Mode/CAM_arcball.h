@@ -5,7 +5,7 @@
 #include "../../Render_common.h"
 
 class Render_node;
-class Dimension;
+class Window;
 
 
 class CAM_arcball
@@ -21,7 +21,7 @@ public:
   void arcball_viewport_angle(Struct_camera* camera, vec2 angle);
 
 private:
-  Dimension* dimManager;
+  Window* window;
 };
 
 #endif

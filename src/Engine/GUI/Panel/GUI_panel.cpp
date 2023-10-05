@@ -13,7 +13,6 @@
 
 #include "../../Data/Load/Loader.h"
 #include "../../Render/Render_node.h"
-#include "../../../Element/Window/Dimension.h"
 #include "../../Node.h"
 #include "../../Render/Render_param.h"
 
@@ -23,7 +22,6 @@ GUI_panel::GUI_panel(Node_gui* node_gui){
   //---------------------------
 
   this->render_node = node_gui->get_render_node();
-  this->dimManager = render_node->get_dimManager();
   this->node_gui = node_gui;
   this->gui_object = node_gui->get_gui_object();
   this->gui_profiling = node_gui->get_gui_profiling();
@@ -43,7 +41,6 @@ void GUI_panel::draw_panels(){
   //---------------------------
 
   this->docker_space_main();
-  dimManager->update();
   gui_menubar->design_menubar();
   gui_editor_text->design_panel();
   gui_shader->design_panel();

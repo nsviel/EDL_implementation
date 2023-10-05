@@ -17,8 +17,8 @@ Render_node::Render_node(Node* node){
   //---------------------------
 
   this->node = node;
+  this->window = node->get_window();
   this->core_param = new Render_param();
-  this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
   this->shaderManager = new Shader(this);
   this->vk_engine = new VK_engine(this);
@@ -30,7 +30,6 @@ Render_node::~Render_node(){
   //---------------------------
 
   delete core_param;
-  delete dimManager;
   delete cameraManager;
   delete vk_engine;
   delete gpu_data;
@@ -40,12 +39,11 @@ Render_node::~Render_node(){
 }
 
 //Main function
-void Render_node::init(Window* window){
+void Render_node::init(){
   //---------------------------
 
-  this->window = window;
-  vk_engine->init_vulkan(window);
-  dimManager->update();
+  vk_engine->init_vulkan();
+  window->compute_window_dim();
 
   //---------------------------
 }

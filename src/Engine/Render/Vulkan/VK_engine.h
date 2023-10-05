@@ -51,7 +51,7 @@ public:
 
 public:
   //Main functions
-  void init_vulkan(Window* window);
+  void init_vulkan();
   void main_loop();
   void clean_vulkan();
 
@@ -59,6 +59,7 @@ public:
   void fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start);
   void fps_calcul(std::chrono::steady_clock::time_point& start_time);
 
+  inline Window* get_window(){return window;}
   inline Render_node* get_render_node(){return render_node;}
   inline Render_param* get_core_param(){return core_param;}
   inline VK_param* get_vk_param(){return vk_param;}
@@ -97,6 +98,7 @@ public:
 private:
   Render_node* render_node;
   Render_param* core_param;
+  Window* window;
   Timer timer;
 
   VK_param* vk_param;

@@ -6,7 +6,6 @@
 class Node;
 class Render_param;
 class VK_engine;
-class Dimension;
 class Camera;
 class GPU_data;
 class Shader;
@@ -21,7 +20,7 @@ public:
   ~Render_node();
 
 public:
-  void init(Window* window);
+  void init();
   void loop_start();
   void loop();
   void exit();
@@ -30,7 +29,6 @@ public:
   inline Node* get_node(){return node;}
 
   inline VK_engine* get_vk_engine(){return vk_engine;}
-  inline Dimension* get_dimManager(){return dimManager;}
   inline Camera* get_cameraManager(){return cameraManager;}
   inline Render_param* get_core_param(){return core_param;}
   inline GPU_data* get_gpu_data(){return gpu_data;}
@@ -42,7 +40,6 @@ private:
   GPU_data* gpu_data;
   Render_param* core_param;
   VK_engine* vk_engine;
-  Dimension* dimManager;
   Camera* cameraManager;
   Shader* shaderManager;
   Window* window;

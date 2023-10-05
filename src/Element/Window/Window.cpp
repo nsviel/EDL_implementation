@@ -71,11 +71,11 @@ void Window::set_window_size_maximum(int width, int height){
   //---------------------------
 }
 
-//Operation function
+//Sizing function
 bool Window::check_for_resizing(){
   //---------------------------
 
-  vec2 dim = compute_framebuffer_size();
+  vec2 dim = compute_window_dim();
   if(dim.x != window_dim.x || dim.y != window_dim.y){
     this->has_been_resized = true;
     this->window_dim = dim;
@@ -84,7 +84,7 @@ bool Window::check_for_resizing(){
   //---------------------------
   return has_been_resized;
 }
-vec2 Window::compute_framebuffer_size(){
+vec2 Window::compute_window_dim(){
   vec2 dim = vec2(0);
   //---------------------------
 
@@ -96,6 +96,7 @@ vec2 Window::compute_framebuffer_size(){
   //---------------------------
   return window_dim;
 }
+
 vector<const char*> Window::get_required_extensions(){
   //---------------------------
 
@@ -112,18 +113,13 @@ vector<const char*> Window::get_required_extensions(){
   return vec_extension;
 }
 
+//Mouse position
 glm::vec2 Window::get_mouse_pose(){
-
   //---------------------------
-
-  std::cout <<"hello"<<std::endl;
 
   double xpos, ypos;
   glfwGetCursorPos(window, &xpos, &ypos);
-  std::cout <<xpos<<std::endl;
   glm::vec2 pos = glm::vec2(xpos, ypos);
-
-  std::cout <<"hello"<<std::endl;
 
   //---------------------------
   return pos;

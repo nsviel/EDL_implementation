@@ -10,6 +10,8 @@
 #include "../Device/VK_physical_device.h"
 #include "../Window/VK_surface.h"
 
+#include <Window/Window.h>
+
 
 //Constructor / Destructor
 VK_swapchain::VK_swapchain(VK_engine* vk_engine){
@@ -29,13 +31,13 @@ void VK_swapchain::recreate_swapChain(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
   VK_frame* vk_frame = vk_engine->get_vk_frame();
   VK_framebuffer* vk_framebuffer = vk_engine->get_vk_framebuffer();
-  GLFWwindow* window = vk_surface->get_window();
+  Window* window = vk_surface->get_window();
   //---------------------------
 
   //Minimization managment
   int width = 0, height = 0;
   while(width == 0 || height == 0){
-    glfwGetFramebufferSize(window, &width, &height);
+    glfwGetFramebufferSize(window->get_window(), &width, &height);
     glfwWaitEvents();
   }
 

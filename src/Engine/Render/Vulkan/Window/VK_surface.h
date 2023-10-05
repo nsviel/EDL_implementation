@@ -4,7 +4,6 @@
 #include "../../Render_common.h"
 
 class VK_engine;
-class Dimension;
 class VK_param;
 class Window;
 
@@ -18,7 +17,7 @@ public:
 
 public:
   //Main functions
-  void init_window(Window* window);
+  void init_window();
   void clean_surface();
 
   //Subfunction
@@ -26,15 +25,13 @@ public:
   void check_for_resizing();
   void get_required_extensions();
 
-  inline GLFWwindow* get_window(){return window;}
+  inline Window* get_window(){return window;}
   inline VkSurfaceKHR get_surface(){return surface;}
   inline vec2 get_window_dim(){return window_dim;}
 
 private:
-  Window* window_class;
-  GLFWwindow* window;
+  Window* window;
   VK_param* vk_param;
-  Dimension* dimManager;
 
   VkSurfaceKHR surface;
   vec2 window_dim;

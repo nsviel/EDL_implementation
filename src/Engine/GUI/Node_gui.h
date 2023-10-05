@@ -32,7 +32,7 @@ public:
   ~Node_gui();
 
 public:
-  void init(Window* window);
+  void init();
   void loop();
 
   inline Node* get_node(){return node;}

@@ -8,9 +8,10 @@
 
 
 //Constructor / Destructor
-Node::Node(){
+Node::Node(Window* window){
   //---------------------------
 
+  this->window = window;
   this->render_node = new Render_node(this);
   this->data_node = new Data_node(this);
   this->node_gui = new Node_gui(this);
@@ -27,12 +28,12 @@ Node::~Node(){
   //---------------------------
 }
 
-void Node::init(Window* window){
+void Node::init(){
   //---------------------------
 
-  render_node->init(window);
+  render_node->init();
   data_node->init();
-  node_gui->init(window);
+  node_gui->init();
   render_node->loop_start();
 
   //---------------------------

@@ -35,7 +35,7 @@ public:
 
   //Operation function
   bool check_for_resizing();
-  vec2 compute_framebuffer_size();
+  vec2 compute_window_dim();
   vector<const char*> get_required_extensions();
 
   glm::vec2 get_mouse_pose();
@@ -43,6 +43,8 @@ public:
 
   inline GLFWwindow* get_window(){return window;}
   inline vec2 get_window_dim(){return window_dim;}
+  inline vec2 get_window_center(){return window_center;}
+  inline void set_window_center(vec2 value){this->window_center = value;}
 
 private:
   GLFWwindow* window;
