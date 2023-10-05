@@ -1,18 +1,18 @@
-#include "Window_manager.h"
+#include "Window.h"
 
 
 //Constructor / Destructor
-Window_manager::Window_manager(){
+Window::Window(){
   //---------------------------
 
   this->has_been_resized = false;
 
   //---------------------------
 }
-Window_manager::~Window_manager(){}
+Window::~Window(){}
 
 //Main function
-void Window_manager::create_window(int width, int height, string title){
+void Window::create_window(int width, int height, string title){
   //---------------------------
 
   glfwInit();
@@ -29,7 +29,7 @@ void Window_manager::create_window(int width, int height, string title){
 
   //---------------------------
 }
-void Window_manager::destroy_window(){
+void Window::destroy_window(){
   //---------------------------
 
   glfwDestroyWindow(window);
@@ -39,7 +39,7 @@ void Window_manager::destroy_window(){
 }
 
 //Subfunction
-void Window_manager::create_window_surface(VkInstance& instance, VkSurfaceKHR& surface){
+void Window::create_window_surface(VkInstance& instance, VkSurfaceKHR& surface){
   //---------------------------
 
   VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
@@ -49,14 +49,14 @@ void Window_manager::create_window_surface(VkInstance& instance, VkSurfaceKHR& s
 
   //---------------------------
 }
-void Window_manager::set_window_size_minimum(int width, int height){
+void Window::set_window_size_minimum(int width, int height){
   //---------------------------
 
   glfwSetWindowSizeLimits(window, width, height, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
   //---------------------------
 }
-void Window_manager::set_window_size_maximum(int width, int height){
+void Window::set_window_size_maximum(int width, int height){
   //---------------------------
 
   glfwSetWindowSizeLimits(window, GLFW_DONT_CARE, GLFW_DONT_CARE, width, height);
@@ -65,7 +65,7 @@ void Window_manager::set_window_size_maximum(int width, int height){
 }
 
 //Operation function
-bool Window_manager::check_for_resizing(){
+bool Window::check_for_resizing(){
   //---------------------------
 
   vec2 dim = get_framebuffer_size();
@@ -77,7 +77,7 @@ bool Window_manager::check_for_resizing(){
   //---------------------------
   return has_been_resized;
 }
-vec2 Window_manager::get_framebuffer_size(){
+vec2 Window::get_framebuffer_size(){
   vec2 dim = vec2(0);
   //---------------------------
 
@@ -89,7 +89,7 @@ vec2 Window_manager::get_framebuffer_size(){
   //---------------------------
   return dim;
 }
-vector<const char*> Window_manager::get_required_extensions(){
+vector<const char*> Window::get_required_extensions(){
   //---------------------------
 
   uint32_t glfw_extension_nb = 0;

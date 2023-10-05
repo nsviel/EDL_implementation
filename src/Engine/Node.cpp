@@ -4,12 +4,14 @@
 #include "GUI/Node_gui.h"
 #include "Data/Data_node.h"
 
+#include <Window/Window.h>
+
 
 //Constructor / Destructor
 Node::Node(){
   //---------------------------
 
-  this->core_node = new Render_node(this);
+  this->render_node = new Render_node(this);
   this->data_node = new Data_node(this);
   this->node_gui = new Node_gui(this);
 
@@ -18,20 +20,20 @@ Node::Node(){
 Node::~Node(){
   //---------------------------
 
-  delete core_node;
+  delete render_node;
   delete node_gui;
   delete data_node;
 
   //---------------------------
 }
 
-void Node::init(){
+void Node::init(Window* window){
   //---------------------------
 
-  core_node->init();
+  render_node->init(window);
   data_node->init();
   node_gui->init();
-  core_node->loop_start();
+  render_node->loop_start();
 
   //---------------------------
 }
@@ -45,14 +47,14 @@ void Node::loop(){
 void Node::exit(){
   //---------------------------
 
-  core_node->exit();
+  render_node->exit();
 
   //---------------------------
 }
 void Node::reset(){
   //---------------------------
 
-  core_node->reset();
+  render_node->reset();
   data_node->reset();
 
   //---------------------------

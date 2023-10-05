@@ -22,7 +22,7 @@
 GUI_panel::GUI_panel(Node_gui* node_gui){
   //---------------------------
 
-  this->core_node = node_gui->get_core_node();
+  this->core_node = node_gui->get_render_node();
   this->dimManager = core_node->get_dimManager();
   this->node_gui = node_gui;
   this->gui_object = node_gui->get_gui_object();

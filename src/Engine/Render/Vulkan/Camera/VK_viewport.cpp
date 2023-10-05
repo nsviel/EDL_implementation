@@ -11,7 +11,7 @@
 VK_viewport::VK_viewport(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* core_node = vk_engine->get_core_node();
+  Render_node* core_node = vk_engine->get_render_node();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->dimManager = core_node->get_dimManager();

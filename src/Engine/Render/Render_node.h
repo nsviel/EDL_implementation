@@ -10,6 +10,7 @@ class Dimension;
 class Camera;
 class GPU_data;
 class Shader;
+class Window;
 
 
 class Render_node
@@ -20,7 +21,7 @@ public:
   ~Render_node();
 
 public:
-  void init();
+  void init(Window* window);
   void loop_start();
   void loop();
   void exit();

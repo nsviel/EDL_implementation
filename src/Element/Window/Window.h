@@ -14,12 +14,12 @@ using namespace std;
 using namespace glm;
 
 
-class Window_manager
+class Window
 {
 public:
   //Constructor / Destructor
-  Window_manager();
-  ~Window_manager();
+  Window();
+  ~Window();
 
 public:
   //Main functions

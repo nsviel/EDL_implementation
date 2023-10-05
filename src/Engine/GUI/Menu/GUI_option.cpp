@@ -13,7 +13,7 @@ GUI_option::GUI_option(Node_gui* node_gui){
   //---------------------------
 
   this->node_gui = node_gui;
-  this->core_node = node_gui->get_core_node();
+  this->core_node = node_gui->get_render_node();
   this->vk_engine = core_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
 

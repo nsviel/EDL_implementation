@@ -10,7 +10,7 @@
 VK_camera::VK_camera(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* core_node = vk_engine->get_core_node();
+  Render_node* core_node = vk_engine->get_render_node();
 
   this->cameraManager = core_node->get_cameraManager();
 

@@ -9,6 +9,8 @@
 
 #include "../Node.h"
 
+#include <Window/Window.h>
+
 
 //Constructor / Destructor
 Render_node::Render_node(Node* node){
@@ -38,7 +40,7 @@ Render_node::~Render_node(){
 }
 
 //Main function
-void Render_node::init(){
+void Render_node::init(Window* window){
   //---------------------------
 
   vk_engine->init_vulkan();

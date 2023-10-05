@@ -16,7 +16,7 @@
 GUI_control::GUI_control(Node_gui* node_gui){
   //---------------------------
 
-  Render_node* core_node = node_gui->get_core_node();
+  Render_node* core_node = node_gui->get_render_node();
   this->core_param = core_node->get_core_param();
   this->dimManager = core_node->get_dimManager();
   this->cameraManager = core_node->get_cameraManager();

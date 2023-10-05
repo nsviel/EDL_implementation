@@ -1,20 +1,16 @@
-#include "Engine/Node.h"
-#include "UI/UI_main.cpp"
+#include "Core/Loop.h"
 
 #include <iostream>
 #include <stdexcept>
 
 
 int main() {
-  Node node;
+  Loop loop;
   //---------------------------
 
   std::cout<<"--- \033[1;34mBegin program\033[0m ---"<<std::endl;
   try{
-    //run_gui_main();
-    node.init();
-    node.loop();
-    node.exit();
+    loop.main_loop();
   }catch(const std::exception& e){
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;

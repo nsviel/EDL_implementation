@@ -8,14 +8,14 @@
 
 #include "../../Render_node.h"
 #include "../../../../Element/Window/Dimension.h"
-#include <Window/Window_manager.h>
+#include <Window/Window.h>
 
 
 //Constructor / Destructor
 VK_window::VK_window(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* core_node = vk_engine->get_core_node();
+  Render_node* core_node = vk_engine->get_render_node();
 
   this->vk_param = vk_engine->get_vk_param();
   this->dimManager = core_node->get_dimManager();

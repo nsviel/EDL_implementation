@@ -24,7 +24,7 @@ Node_gui::Node_gui(Node* node){
   //---------------------------
 
   this->node = node;
-  this->core_node = node->get_core_node();
+  this->core_node = node->get_render_node();
   this->data_node = node->get_data_node();
 
   this->controlManager = new Control(this);

@@ -16,7 +16,7 @@ Control::Control(Node_gui* gui_node){
   //---------------------------
 
   this->node = gui_node->get_node();
-  Render_node* core_node = gui_node->get_core_node();
+  Render_node* core_node = gui_node->get_render_node();
   Data_node* data_node = gui_node->get_data_node();
   this->dimManager = core_node->get_dimManager();
   this->cameraManager = core_node->get_cameraManager();
