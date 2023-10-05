@@ -15,14 +15,7 @@ Dimension::~Dimension(){}
 //Main functions
 void Dimension::init(){
   //---------------------------
-
-  //Left tab
-  Tab* tab_panel_left = new Tab("left_panel");
-  tab_panel_left->pos = glm::vec2(0, 0);
-  tab_panel_left->dim = glm::vec2(200, 00);
-  tab_panel_left->dim_min.x = 200;
-  this->list_tab.push_back(tab_panel_left);
-
+  
   //Rendering tab
   Tab* tab_rendering = new Tab("rendering");
   tab_rendering->pos = glm::vec2(100, 0);
@@ -47,16 +40,10 @@ Tab* Dimension::get_tab(std::string name){
 
 //Update function
 void Dimension::update(){
-  Tab* tab_left = get_tab("left_panel");
   Tab* tab_rendering = get_tab("rendering");
   //---------------------------
 
   this->update_window_dim();
-
-  tab_left->dim.y = win_dim.y;
-  tab_left->dim_min.y = win_dim.y;
-  tab_left->dim_max.y = win_dim.y;
-  tab_left->dim_max.x = win_dim.y;
 
   tab_rendering->dim.x = win_dim.x;
   tab_rendering->dim.y = win_dim.y;

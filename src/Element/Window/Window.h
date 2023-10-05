@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <iostream>
 
 using namespace std;
 using namespace glm;
@@ -34,16 +35,22 @@ public:
 
   //Operation function
   bool check_for_resizing();
-  vec2 get_framebuffer_size();
+  vec2 compute_framebuffer_size();
   vector<const char*> get_required_extensions();
+
+  glm::vec2 get_mouse_pose();
+  void set_mouse_pose(glm::vec2 pos);
 
   inline GLFWwindow* get_window(){return window;}
   inline vec2 get_window_dim(){return window_dim;}
 
 private:
   GLFWwindow* window;
-  vector<const char*> vec_extension;
+
   vec2 window_dim;
+  vec2 window_dim_min;
+  vec2 window_dim_max;
+  vec2 window_center;
   bool has_been_resized;
 };
 

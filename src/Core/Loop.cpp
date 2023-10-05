@@ -17,11 +17,13 @@ Loop::~Loop(){}
 
 //Main function
 void Loop::main_loop(){
-  Node node;
   Param param;
+  window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
+  Node node;
+
   //---------------------------
 
-  window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
+
   node.init(window);
   node.loop();
   node.exit();

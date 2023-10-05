@@ -52,7 +52,7 @@ void VK_surface::check_for_resizing(){
   //---------------------------
 
   //ICI PROBLEM QUAND TRANSLATION TO WINDOW CLASS !!!
-  vec2 dim = window_class->get_framebuffer_size();
+  vec2 dim = window_class->compute_framebuffer_size();
   if(dim.x != window_dim.x || dim.y != window_dim.y){
     is_resized = true;
     window_dim = dim;

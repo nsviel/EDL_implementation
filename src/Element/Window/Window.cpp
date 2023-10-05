@@ -75,7 +75,7 @@ void Window::set_window_size_maximum(int width, int height){
 bool Window::check_for_resizing(){
   //---------------------------
 
-  vec2 dim = get_framebuffer_size();
+  vec2 dim = compute_framebuffer_size();
   if(dim.x != window_dim.x || dim.y != window_dim.y){
     this->has_been_resized = true;
     this->window_dim = dim;
@@ -84,13 +84,14 @@ bool Window::check_for_resizing(){
   //---------------------------
   return has_been_resized;
 }
-vec2 Window::get_framebuffer_size(){
+vec2 Window::compute_framebuffer_size(){
   vec2 dim = vec2(0);
   //---------------------------
 
   int width, height;
   glfwGetFramebufferSize(window, &width, &height);
   this->window_dim = vec2(width, height);
+  this->window_center = glm::vec2(width/2, height/2);
 
   //---------------------------
   return window_dim;
@@ -102,10 +103,35 @@ vector<const char*> Window::get_required_extensions(){
   const char** glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extension_nb);
   vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_extension_nb);
 
+  vector<const char*> vec_extension;
   for(int i=0; i<extensions.size(); i++){
     vec_extension.push_back(extensions[i]);
   }
 
   //---------------------------
   return vec_extension;
+}
+
+glm::vec2 Window::get_mouse_pose(){
+
+  //---------------------------
+
+  std::cout <<"hello"<<std::endl;
+
+  double xpos, ypos;
+  glfwGetCursorPos(window, &xpos, &ypos);
+  std::cout <<xpos<<std::endl;
+  glm::vec2 pos = glm::vec2(xpos, ypos);
+
+  std::cout <<"hello"<<std::endl;
+
+  //---------------------------
+  return pos;
+}
+void Window::set_mouse_pose(glm::vec2 pos){
+  //---------------------------
+
+  glfwSetCursorPos(window, pos.x, pos.y);
+
+  //---------------------------
 }
