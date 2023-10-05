@@ -3,6 +3,7 @@
 
 class Window;
 class UI_loop;
+class Node;
 
 
 class Loop
@@ -17,6 +18,7 @@ public:
   void main_loop();
 
 private:
+  Node* node;
   Window* window;
   UI_loop* ui_loop;
 };

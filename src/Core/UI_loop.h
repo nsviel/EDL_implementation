@@ -17,9 +17,11 @@ public:
 public:
   //Main functions
   void loop_start();
+  void loop_end();
+  void loop_draw(VkCommandBuffer command);
 
 private:
-
+  ImDrawData* draw_data;
 };
 
 #endif

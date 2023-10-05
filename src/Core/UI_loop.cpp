@@ -20,3 +20,18 @@ void UI_loop::loop_start(){
 
   //---------------------------
 }
+void UI_loop::loop_end(){
+  //---------------------------
+
+  ImGui::Render();
+  this->draw_data = ImGui::GetDrawData();
+
+  //---------------------------
+}
+void UI_loop::loop_draw(VkCommandBuffer command){
+  //---------------------------
+
+  ImGui_ImplVulkan_RenderDrawData(draw_data, command);
+
+  //---------------------------
+}

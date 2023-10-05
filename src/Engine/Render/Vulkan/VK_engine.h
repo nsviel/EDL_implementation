@@ -52,8 +52,9 @@ public:
 public:
   //Main functions
   void init_vulkan();
-  void main_loop();
+  void draw_frame();
   void clean_vulkan();
+  void end_loop();
 
   //Subfunction
   void fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start);

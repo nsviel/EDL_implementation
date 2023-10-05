@@ -34,14 +34,14 @@ void Node::init(){
   render_node->init();
   data_node->init();
   node_gui->init();
-  
+
 
   //---------------------------
 }
 void Node::loop(){
   //---------------------------
 
-  node_gui->loop();
+  
 
   //---------------------------
 }

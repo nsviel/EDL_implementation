@@ -49,15 +49,12 @@ void Render_node::init(){
 void Render_node::loop_start(){
   //---------------------------
 
-  vk_engine->main_loop();
 
   //---------------------------
 }
 void Render_node::loop(){
   //---------------------------
 
-  cameraManager->input_cam_mouse();
-  node->loop();
 
   //---------------------------
 }

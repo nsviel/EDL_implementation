@@ -40,6 +40,7 @@
 
 #include "../Render_node.h"
 #include "../Render_param.h"
+#include "../../Node.h"
 
 #include <Window/Window.h>
 
@@ -117,19 +118,22 @@ void VK_engine::init_vulkan(){
   //---------------------------
   vk_param->time.engine_init = timer.stop_us(t1) / 1000;
 }
-void VK_engine::main_loop() {
+void VK_engine::draw_frame() {
   //---------------------------
 
-  auto start_time = std::chrono::steady_clock::now();
-  auto start = std::chrono::steady_clock::now();
 
-  
-  render_node->loop();
-  gpu_gui->loop_end();
   vk_drawing->draw_frame();
 
-  this->fps_control(start);
-  this->fps_calcul(start_time);
+  //auto start_time = std::chrono::steady_clock::now();
+  //auto start = std::chrono::steady_clock::now();
+
+  //this->fps_control(start);
+  //this->fps_calcul(start_time);
+
+  //---------------------------
+}
+void VK_engine::end_loop() {
+  //---------------------------
 
   vkDeviceWaitIdle(vk_param->device.device);
 
