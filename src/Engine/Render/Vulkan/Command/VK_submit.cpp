@@ -5,7 +5,7 @@
 #include "../VK_param.h"
 #include "../Command/VK_command.h"
 #include "../Presentation/VK_swapchain.h"
-#include "../Window/VK_window.h"
+#include "../Window/VK_surface.h"
 #include "../Presentation/VK_canvas.h"
 #include "../Binding/VK_descriptor.h"
 
@@ -17,7 +17,7 @@ VK_submit::VK_submit(VK_engine* vk_engine){
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_swapchain = vk_engine->get_vk_swapchain();
-  this->vk_window = vk_engine->get_vk_window();
+  this->vk_surface = vk_engine->get_vk_surface();
   this->vk_command = vk_engine->get_vk_command();
   this->vk_cmd = vk_engine->get_vk_cmd();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
@@ -46,7 +46,7 @@ void VK_submit::acquire_next_image(Struct_swapchain* swapchain){
 
 
   //Window resizing
-  vk_window->check_for_resizing();
+  vk_surface->check_for_resizing();
   if(result == VK_ERROR_OUT_OF_DATE_KHR){
     vk_swapchain->recreate_swapChain();
     return;

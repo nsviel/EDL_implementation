@@ -13,8 +13,8 @@ GUI_option::GUI_option(Node_gui* node_gui){
   //---------------------------
 
   this->node_gui = node_gui;
-  this->core_node = node_gui->get_render_node();
-  this->vk_engine = core_node->get_vk_engine();
+  this->render_node = node_gui->get_render_node();
+  this->vk_engine = render_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
 
   this->width = 150;
@@ -56,7 +56,7 @@ void GUI_option::option_font(){
 }
 void GUI_option::option_color(){
   if(ImGui::CollapsingHeader("Colors")){
-    Render_param* core_param = core_node->get_core_param();
+    Render_param* core_param = render_node->get_core_param();
     //---------------------------
 
     //Background color
@@ -69,7 +69,7 @@ void GUI_option::option_color(){
   }
 }
 void GUI_option::option_fps(){
-  Render_param* core_param = core_node->get_core_param();
+  Render_param* core_param = render_node->get_core_param();
   //---------------------------
 
   //FPS max value

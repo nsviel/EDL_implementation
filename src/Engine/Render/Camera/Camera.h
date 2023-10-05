@@ -8,7 +8,6 @@
 class Node;
 class Render_node;
 class Render_param;
-class Dimension;
 class CAM_arcball;
 class CAM_first_person;
 class CAM_zoom;
@@ -18,7 +17,7 @@ class CAM_proj;
 class Camera
 {
 public:
-  Camera(Render_node* core_node);
+  Camera(Render_node* render_node);
   ~Camera();
 
 public:
@@ -45,7 +44,6 @@ public:
 private:
   Node* node;
   Render_param* core_param;
-  Dimension* dimManager;
   CAM_arcball* cam_arcball;
   CAM_first_person* cam_fp;
   CAM_zoom* cam_zoom;

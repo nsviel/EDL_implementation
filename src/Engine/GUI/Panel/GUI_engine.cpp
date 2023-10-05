@@ -10,8 +10,8 @@
 GUI_engine::GUI_engine(Node_gui* node_gui){
   //---------------------------
 
-  Render_node* core_node = node_gui->get_render_node();
-  VK_engine* vk_engine = core_node->get_vk_engine();
+  Render_node* render_node = node_gui->get_render_node();
+  VK_engine* vk_engine = render_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
   this->gui_control = node_gui->get_gui_control();
 

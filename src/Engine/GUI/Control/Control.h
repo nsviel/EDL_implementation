@@ -6,7 +6,7 @@
 class Node;
 class Node_gui;
 class Data_node;
-class Dimension;
+class Window;
 class Camera;
 class Scene;
 class Transformation;
@@ -34,7 +34,7 @@ public:
 private:
   Node* node;
   Scene* sceneManager;
-  Dimension* dimManager;
+  Window* window;
   Camera* cameraManager;
   Transformation* transformManager;
 };

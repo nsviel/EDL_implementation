@@ -11,7 +11,7 @@ class Dimension;
 class CAM_proj
 {
 public:
-  CAM_proj(Render_node* core_node);
+  CAM_proj(Render_node* render_node);
   ~CAM_proj();
 
 public:

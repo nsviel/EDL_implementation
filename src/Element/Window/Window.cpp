@@ -29,6 +29,13 @@ void Window::create_window(int width, int height, string title){
 
   //---------------------------
 }
+void Window::close_window(){
+  //---------------------------
+
+  glfwSetWindowShouldClose(window, true);
+
+  //---------------------------
+}
 void Window::destroy_window(){
   //---------------------------
 
@@ -83,11 +90,10 @@ vec2 Window::get_framebuffer_size(){
 
   int width, height;
   glfwGetFramebufferSize(window, &width, &height);
-  dim.x = width;
-  dim.y = height;
+  this->window_dim = vec2(width, height);
 
   //---------------------------
-  return dim;
+  return window_dim;
 }
 vector<const char*> Window::get_required_extensions(){
   //---------------------------

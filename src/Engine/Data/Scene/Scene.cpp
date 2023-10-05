@@ -15,11 +15,11 @@
 Scene::Scene(Data_node* data_node){
   //---------------------------
 
-  Render_node* core_node = data_node->get_render_node();
+  Render_node* render_node = data_node->get_render_node();
   this->data_node = data_node;
   this->param_data = data_node->get_param_data();
   this->dataManager = data_node->get_dataManager();
-  this->gpu_data = core_node->get_gpu_data();
+  this->gpu_data = render_node->get_gpu_data();
   this->attributManager = new Attribut();
 
   this->ID_obj = 0;

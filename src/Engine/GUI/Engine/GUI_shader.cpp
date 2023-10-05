@@ -3,7 +3,6 @@
 #include "../Node_gui.h"
 
 #include "../../Render/Render_node.h"
-#include "../../../Element/Window/Dimension.h"
 #include "../../Render/Shader/Shader.h"
 #include "../../Render/Shader/Source/EDL/Shader_edl.h"
 
@@ -12,9 +11,8 @@
 GUI_shader::GUI_shader(Node_gui* node_gui){
   //---------------------------
 
-  Render_node* core_node = node_gui->get_render_node();
-  Shader* shaderManager = core_node->get_shaderManager();
-  this->dimManager = core_node->get_dimManager();
+  Render_node* render_node = node_gui->get_render_node();
+  Shader* shaderManager = render_node->get_shaderManager();
   this->shader_edl = shaderManager->get_shader_edl();
 
   this->item_width = 100;

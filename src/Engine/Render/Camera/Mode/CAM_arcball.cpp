@@ -5,10 +5,10 @@
 
 
 //Constructor / Destructor
-CAM_arcball::CAM_arcball(Render_node* core_node){
+CAM_arcball::CAM_arcball(Render_node* render_node){
   //---------------------------
 
-  this->dimManager = core_node->get_dimManager();
+  this->dimManager = render_node->get_dimManager();
 
   //---------------------------
 }

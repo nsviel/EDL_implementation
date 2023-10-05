@@ -9,7 +9,7 @@
 
 class VK_engine;
 class VK_param;
-class VK_window;
+class VK_surface;
 class VK_swapchain;
 class VK_command;
 class VK_cmd;
@@ -37,7 +37,7 @@ public:
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
-  VK_window* vk_window;
+  VK_surface* vk_surface;
   VK_swapchain* vk_swapchain;
   VK_command* vk_command;
   VK_cmd* vk_cmd;

@@ -11,7 +11,7 @@ class Dimension;
 class CAM_arcball
 {
 public:
-  CAM_arcball(Render_node* core_node);
+  CAM_arcball(Render_node* render_node);
   ~CAM_arcball();
 
 public:

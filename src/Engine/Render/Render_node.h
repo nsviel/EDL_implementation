@@ -35,6 +35,7 @@ public:
   inline Render_param* get_core_param(){return core_param;}
   inline GPU_data* get_gpu_data(){return gpu_data;}
   inline Shader* get_shaderManager(){return shaderManager;}
+  inline Window* get_window(){return window;}
 
 private:
   Node* node;
@@ -44,6 +45,7 @@ private:
   Dimension* dimManager;
   Camera* cameraManager;
   Shader* shaderManager;
+  Window* window;
 };
 
 #endif

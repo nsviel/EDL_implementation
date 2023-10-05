@@ -8,7 +8,7 @@
 #include "../Image/VK_depth.h"
 #include "../Image/VK_texture.h"
 #include "../Device/VK_physical_device.h"
-#include "../Window/VK_window.h"
+#include "../Window/VK_surface.h"
 
 
 //Constructor / Destructor
@@ -17,7 +17,7 @@ VK_swapchain::VK_swapchain(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_window = vk_engine->get_vk_window();
+  this->vk_surface = vk_engine->get_vk_surface();
   this->vk_physical_device = vk_engine->get_vk_physical_device();
 
   //---------------------------
@@ -29,7 +29,7 @@ void VK_swapchain::recreate_swapChain(){
   VK_depth* vk_depth = vk_engine->get_vk_depth();
   VK_frame* vk_frame = vk_engine->get_vk_frame();
   VK_framebuffer* vk_framebuffer = vk_engine->get_vk_framebuffer();
-  GLFWwindow* window = vk_window->get_window();
+  GLFWwindow* window = vk_surface->get_window();
   //---------------------------
 
   //Minimization managment
@@ -89,7 +89,7 @@ void VK_swapchain::create_swapchain(){
   //---------------------------
 }
 void VK_swapchain::create_swapchain_surface(VkSwapchainCreateInfoKHR& createInfo){
-  VkSurfaceKHR surface = vk_window->get_surface();
+  VkSurfaceKHR surface = vk_surface->get_surface();
   //---------------------------
 
   VkSurfaceCapabilitiesKHR surface_capability = vk_physical_device->find_surface_capability(vk_param->device.physical_device);

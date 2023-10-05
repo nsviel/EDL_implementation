@@ -12,7 +12,7 @@ Data_node::Data_node(Node* node){
   //---------------------------
 
   this->node = node;
-  this->core_node = node->get_render_node();
+  this->render_node = node->get_render_node();
 
   this->param_data = new Data_param();
   this->dataManager = new Database(this);

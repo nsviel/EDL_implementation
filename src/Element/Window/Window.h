@@ -24,6 +24,7 @@ public:
 public:
   //Main functions
   void create_window(int width, int height, string title);
+  void close_window();
   void destroy_window();
 
   //Subfunction
@@ -37,6 +38,7 @@ public:
   vector<const char*> get_required_extensions();
 
   inline GLFWwindow* get_window(){return window;}
+  inline vec2 get_window_dim(){return window_dim;}
 
 private:
   GLFWwindow* window;

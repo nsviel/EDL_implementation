@@ -1,7 +1,7 @@
 #include "VK_physical_device.h"
 
 #include "../Instance/VK_instance.h"
-#include "../Window/VK_window.h"
+#include "../Window/VK_surface.h"
 
 #include "../VK_engine.h"
 #include "../VK_param.h"
@@ -13,7 +13,7 @@ VK_physical_device::VK_physical_device(VK_engine* vk_engine){
 
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->vk_window = vk_engine->get_vk_window();
+  this->vk_surface = vk_engine->get_vk_surface();
   this->vk_instance = vk_engine->get_vk_instance();
 
   vk_param->device.extension.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
@@ -69,7 +69,7 @@ void VK_physical_device::compute_extent(){
   if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()){
     vk_param->window.extent = capabilities.currentExtent;
   }else{
-    glm::vec2 fbo_dim = vk_window->get_framebuffer_size();
+    glm::vec2 fbo_dim = vk_surface->get_window_dim();
 
     vk_param->window.extent = {
       static_cast<uint32_t>(fbo_dim.x),
@@ -151,7 +151,7 @@ bool VK_physical_device::check_extension_support(VkPhysicalDevice physical_devic
 
 //Specific info retrieval
 int VK_physical_device::find_queue_family_graphics(VkPhysicalDevice physical_device){
-  VkSurfaceKHR surface = vk_window->get_surface();
+  VkSurfaceKHR surface = vk_surface->get_surface();
   //---------------------------
 
   //Get queue family number
@@ -179,7 +179,7 @@ int VK_physical_device::find_queue_family_graphics(VkPhysicalDevice physical_dev
   return -1;
 }
 int VK_physical_device::find_queue_family_presentation(VkPhysicalDevice physical_device){
-  VkSurfaceKHR surface = vk_window->get_surface();
+  VkSurfaceKHR surface = vk_surface->get_surface();
   //---------------------------
 
   //Get queue family number
@@ -210,7 +210,7 @@ int VK_physical_device::find_queue_family_presentation(VkPhysicalDevice physical
 }
 
 VkSurfaceCapabilitiesKHR VK_physical_device::find_surface_capability(VkPhysicalDevice physical_device){
-  VkSurfaceKHR surface = vk_window->get_surface();
+  VkSurfaceKHR surface = vk_surface->get_surface();
   //---------------------------
 
   //Get basic surface capabilities
@@ -222,7 +222,7 @@ VkSurfaceCapabilitiesKHR VK_physical_device::find_surface_capability(VkPhysicalD
 }
 vector<VkSurfaceFormatKHR> VK_physical_device::find_surface_format(VkPhysicalDevice physical_device){
   vector<VkSurfaceFormatKHR> formats;
-  VkSurfaceKHR surface = vk_window->get_surface();
+  VkSurfaceKHR surface = vk_surface->get_surface();
   //---------------------------
 
   //Get supported surface format number
@@ -240,7 +240,7 @@ vector<VkSurfaceFormatKHR> VK_physical_device::find_surface_format(VkPhysicalDev
 }
 vector<VkPresentModeKHR> VK_physical_device::find_presentation_mode(VkPhysicalDevice physical_device){
   vector<VkPresentModeKHR> presentation_mode;
-  VkSurfaceKHR surface = vk_window->get_surface();
+  VkSurfaceKHR surface = vk_surface->get_surface();
   //---------------------------
 
   //Get presentation mode number

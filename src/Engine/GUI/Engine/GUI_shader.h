@@ -4,7 +4,6 @@
 #include "../../common.h"
 
 class Node_gui;
-class Dimension;
 class Shader_edl;
 
 
@@ -21,7 +20,6 @@ public:
   void design_shader();
 
 private:
-  Dimension* dimManager;
   Shader_edl* shader_edl;
 
   int item_width;

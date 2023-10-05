@@ -29,7 +29,7 @@ public:
 
 private:
   Node_gui* node_gui;
-  Render_node* core_node;
+  Render_node* render_node;
   VK_engine* vk_engine;
   VK_param* vk_param;
   Timer timer;

@@ -11,7 +11,7 @@ class Dimension;
 class CAM_first_person
 {
 public:
-  CAM_first_person(Render_node* core_node);
+  CAM_first_person(Render_node* render_node);
   ~CAM_first_person();
 
 public:

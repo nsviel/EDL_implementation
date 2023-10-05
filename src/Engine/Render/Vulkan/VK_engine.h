@@ -9,7 +9,7 @@ class VK_param;
 class Render_param;
 class Window;
 
-class VK_window;
+class VK_surface;
 class VK_instance;
 class VK_device;
 class VK_swapchain;
@@ -46,7 +46,7 @@ class VK_engine
 {
 public:
   //Constructor / Destructor
-  VK_engine(Render_node* core_node);
+  VK_engine(Render_node* render_node);
   ~VK_engine();
 
 public:
@@ -59,12 +59,12 @@ public:
   void fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start);
   void fps_calcul(std::chrono::steady_clock::time_point& start_time);
 
-  inline Render_node* get_render_node(){return core_node;}
+  inline Render_node* get_render_node(){return render_node;}
   inline Render_param* get_core_param(){return core_param;}
   inline VK_param* get_vk_param(){return vk_param;}
   inline VK_device* get_vk_device(){return vk_device;}
   inline VK_framebuffer* get_vk_framebuffer(){return vk_framebuffer;}
-  inline VK_window* get_vk_window(){return vk_window;}
+  inline VK_surface* get_vk_surface(){return vk_surface;}
   inline VK_swapchain* get_vk_swapchain(){return vk_swapchain;}
   inline VK_synchronization* get_vk_synchronization(){return vk_synchronization;}
   inline VK_command* get_vk_command(){return vk_command;}
@@ -95,12 +95,12 @@ public:
   inline VK_error* get_vk_error(){return vk_error;}
 
 private:
-  Render_node* core_node;
+  Render_node* render_node;
   Render_param* core_param;
   Timer timer;
 
   VK_param* vk_param;
-  VK_window* vk_window;
+  VK_surface* vk_surface;
   VK_instance* vk_instance;
   VK_command_buffer* vk_command_buffer;
   VK_device* vk_device;

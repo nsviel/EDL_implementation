@@ -1,14 +1,10 @@
 #include "CAM_zoom.h"
-
-#include "../../../../Element/Window/Dimension.h"
 #include "../../Render_node.h"
 
 
 //Constructor / Destructor
-CAM_zoom::CAM_zoom(Render_node* core_node){
+CAM_zoom::CAM_zoom(Render_node* render_node){
   //---------------------------
-
-  this->dimManager = core_node->get_dimManager();
 
   //---------------------------
 }

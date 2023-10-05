@@ -6,7 +6,7 @@
 
 class VK_engine;
 class VK_param;
-class Dimension;
+class Window;
 
 
 class VK_viewport
@@ -27,7 +27,7 @@ public:
 private:
   VK_engine* vk_engine;
   VK_param* vk_param;
-  Dimension* dimManager;
+  Window* window;
 
   VkViewport viewport;
   VkRect2D scissor;

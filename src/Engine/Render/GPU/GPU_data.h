@@ -15,7 +15,7 @@ class GPU_data
 {
 public:
   //Constructor / Destructor
-  GPU_data(Render_node* core_node);
+  GPU_data(Render_node* render_node);
   ~GPU_data();
 
 public:

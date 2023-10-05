@@ -22,12 +22,7 @@ struct VK_param{
   int nb_frame;
   VkFormat required_image_format = VK_FORMAT_B8G8R8A8_UNORM; //VK_FORMAT_B8G8R8A8_SRGB
 
-  Struct_window window = {
-    "Nephos", //title
-    glm::vec2(1024, 500), //dim
-    glm::vec2(500, 250), ///dim_min
-  };
-
+  Struct_window window;
   Struct_instance instance = {
     2, //max_frame_inflight
     "../src/Engine/Render/Shader/Code/spir/", //path_shader

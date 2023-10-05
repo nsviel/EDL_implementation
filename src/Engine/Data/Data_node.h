@@ -23,7 +23,7 @@ public:
   void reset();
 
   inline Node* get_node(){return node;}
-  inline Render_node* get_render_node(){return core_node;}
+  inline Render_node* get_render_node(){return render_node;}
 
   inline Data_param* get_param_data(){return param_data;}
   inline Scene* get_sceneManager(){return sceneManager;}
@@ -33,7 +33,7 @@ public:
 
 private:
   Node* node;
-  Render_node* core_node;
+  Render_node* render_node;
 
   Data_param* param_data;
   Scene* sceneManager;

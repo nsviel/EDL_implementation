@@ -21,6 +21,7 @@ class GUI_init;
 class GUI_editor_text;
 class GUI_engine;
 class Control;
+class Window;
 
 
 class Node_gui
@@ -31,12 +32,13 @@ public:
   ~Node_gui();
 
 public:
-  void init();
+  void init(Window* window);
   void loop();
 
   inline Node* get_node(){return node;}
-  inline Render_node* get_render_node(){return core_node;}
+  inline Render_node* get_render_node(){return render_node;}
   inline Data_node* get_data_node(){return data_node;}
+  inline Window* get_window(){return window;}
 
   inline GUI_param* get_gui_param(){return gui_param;}
   inline GUI_panel* get_gui_panel(){return gui_panel;}
@@ -56,8 +58,9 @@ public:
 
 private:
   Node* node;
-  Render_node* core_node;
+  Render_node* render_node;
   Data_node* data_node;
+  Window* window;
 
   GUI_param* gui_param;
   GUI_panel* gui_panel;

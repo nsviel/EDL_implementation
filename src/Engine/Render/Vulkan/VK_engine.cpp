@@ -15,7 +15,7 @@
 
 #include "Device/VK_device.h"
 #include "Device/VK_physical_device.h"
-#include "Window/VK_window.h"
+#include "Window/VK_surface.h"
 #include "../GPU/GPU_gui.h"
 #include "Window/VK_error.h"
 #include "Instance/VK_instance.h"
@@ -45,18 +45,18 @@
 
 
 //Constructor / Destructor
-VK_engine::VK_engine(Render_node* core_node){
+VK_engine::VK_engine(Render_node* render_node){
   //---------------------------
 
-  this->core_node = core_node;
-  this->core_param = core_node->get_core_param();
+  this->render_node = render_node;
+  this->core_param = render_node->get_core_param();
 
   this->vk_param = new VK_param();
   this->vk_instance = new VK_instance(this);
   this->vk_validation = new VK_validation(this);
   this->vk_error = new VK_error(this);
   this->vk_viewport = new VK_viewport(this);
-  this->vk_window = new VK_window(this);
+  this->vk_surface = new VK_surface(this);
   this->vk_physical_device = new VK_physical_device(this);
   this->vk_device = new VK_device(this);
   this->vk_buffer = new VK_buffer(this);
@@ -94,10 +94,10 @@ void VK_engine::init_vulkan(Window* window){
   //---------------------------
 
   //Instance
-  vk_window->init_window(window);
+  vk_surface->init_window(window);
   vk_instance->create_instance();
   vk_validation->create_validation_layer();
-  vk_window->create_window_surface();
+  vk_surface->create_window_surface();
   vk_physical_device->init_physical_device();
   vk_device->create_logical_device();
   vk_command_buffer->create_command_pool();
@@ -117,7 +117,7 @@ void VK_engine::init_vulkan(Window* window){
   vk_param->time.engine_init = timer.stop_us(t1) / 1000;
 }
 void VK_engine::main_loop() {
-  GLFWwindow* window = vk_window->get_window();
+  GLFWwindow* window = vk_surface->get_window();
   //---------------------------
 
   auto start_time = std::chrono::steady_clock::now();
@@ -125,7 +125,7 @@ void VK_engine::main_loop() {
     auto start = std::chrono::steady_clock::now();
     glfwPollEvents();
     gpu_gui->loop_start();
-    core_node->loop();
+    render_node->loop();
     gpu_gui->loop_end();
     vk_drawing->draw_frame();
     this->fps_control(start);
@@ -147,10 +147,9 @@ void VK_engine::clean_vulkan(){
   vk_descriptor->clean_descriptor_pool();
   vk_command_buffer->clean_command_pool();
   vk_device->clean_logical_device();
-  vk_window->clean_surface();
+  vk_surface->clean_surface();
   vk_validation->clean_layer();
   vk_instance->clean_instance();
-  vk_window->clean_window();
 
   //---------------------------
 }

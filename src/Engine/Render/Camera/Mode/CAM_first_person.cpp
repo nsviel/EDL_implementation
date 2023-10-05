@@ -5,10 +5,10 @@
 
 
 //Constructor / Destructor
-CAM_first_person::CAM_first_person(Render_node* core_node){
+CAM_first_person::CAM_first_person(Render_node* render_node){
   //---------------------------
 
-  this->dimManager = core_node->get_dimManager();
+  this->dimManager = render_node->get_dimManager();
 
   this->mouse_pose_old = vec2(0.0f);
 

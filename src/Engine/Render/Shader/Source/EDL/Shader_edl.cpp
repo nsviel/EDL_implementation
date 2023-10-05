@@ -5,11 +5,11 @@
 #include "../../../../../Element/Window/Dimension.h"
 
 
-Shader_edl::Shader_edl(Render_node* core_node){
+Shader_edl::Shader_edl(Render_node* render_node){
   //---------------------------
 
-  this->core_param = core_node->get_core_param();
-  this->dimManager = core_node->get_dimManager();
+  this->core_param = render_node->get_core_param();
+  this->dimManager = render_node->get_dimManager();
 
   this->struct_edl = new Struct_edl();
   struct_edl->activated = true;

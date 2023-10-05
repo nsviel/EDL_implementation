@@ -22,8 +22,8 @@
 GUI_panel::GUI_panel(Node_gui* node_gui){
   //---------------------------
 
-  this->core_node = node_gui->get_render_node();
-  this->dimManager = core_node->get_dimManager();
+  this->render_node = node_gui->get_render_node();
+  this->dimManager = render_node->get_dimManager();
   this->node_gui = node_gui;
   this->gui_object = node_gui->get_gui_object();
   this->gui_profiling = node_gui->get_gui_profiling();
@@ -40,7 +40,6 @@ GUI_panel::~GUI_panel(){}
 
 //Main function
 void GUI_panel::draw_panels(){
-  Tab* tab_left = dimManager->get_tab("left_panel");
   //---------------------------
 
   this->docker_space_main();

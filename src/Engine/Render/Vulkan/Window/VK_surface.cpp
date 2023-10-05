@@ -1,11 +1,6 @@
-#include "VK_window.h"
-
-#include "../Instance/VK_instance.h"
-
+#include "VK_surface.h"
 #include "../VK_engine.h"
 #include "../VK_param.h"
-#include "../Camera/VK_viewport.h"
-
 #include "../../Render_node.h"
 #include "../../../../Element/Window/Dimension.h"
 
@@ -13,24 +8,20 @@
 
 
 //Constructor / Destructor
-VK_window::VK_window(VK_engine* vk_engine){
+VK_surface::VK_surface(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* core_node = vk_engine->get_render_node();
+  Render_node* render_node = vk_engine->get_render_node();
 
   this->vk_param = vk_engine->get_vk_param();
-  this->dimManager = core_node->get_dimManager();
-  this->vk_instance = vk_engine->get_vk_instance();
-  this->vk_viewport = vk_engine->get_vk_viewport();
-
-  this->window_dim = vk_param->window.dim;
+  this->dimManager = render_node->get_dimManager();
 
   //---------------------------
 }
-VK_window::~VK_window(){}
+VK_surface::~VK_surface(){}
 
 //Main function
-void VK_window::init_window(Window* window_class){
+void VK_surface::init_window(Window* window_class){
   //---------------------------
 
   this->window_class = window_class;
@@ -40,34 +31,28 @@ void VK_window::init_window(Window* window_class){
 
   //---------------------------
 }
-void VK_window::clean_surface(){
+void VK_surface::clean_surface(){
   //---------------------------
 
   vkDestroySurfaceKHR(vk_param->instance.instance, surface, nullptr);
 
   //---------------------------
 }
-void VK_window::clean_window(){
-  //---------------------------
-
-  window_class->destroy_window();
-
-  //---------------------------
-}
 
 //Subfunction
-void VK_window::create_window_surface(){
+void VK_surface::create_window_surface(){
   //---------------------------
 
   window_class->create_window_surface(vk_param->instance.instance, surface);
-  
+
   //---------------------------
 }
-void VK_window::check_for_resizing(){
+void VK_surface::check_for_resizing(){
   bool is_resized = false;
   //---------------------------
 
-  vec2 dim = get_framebuffer_size();
+  //ICI PROBLEM QUAND TRANSLATION TO WINDOW CLASS !!!
+  vec2 dim = window_class->get_framebuffer_size();
   if(dim.x != window_dim.x || dim.y != window_dim.y){
     is_resized = true;
     window_dim = dim;
@@ -79,24 +64,10 @@ void VK_window::check_for_resizing(){
   //---------------------------
   vk_param->window.is_resized = is_resized;
 }
-vec2 VK_window::get_framebuffer_size(){
-  vec2 dim = vec2(0);
+void VK_surface::get_required_extensions(){
   //---------------------------
 
-  int width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  dim.x = width;
-  dim.y = height;
-
-  //---------------------------
-  return dim;
-}
-void VK_window::get_required_extensions(){
-  //---------------------------
-
-  uint32_t glfw_extension_nb = 0;
-  const char** glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extension_nb);
-  vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_extension_nb);
+  vector<const char*> extensions = window_class->get_required_extensions();
 
   for(int i=0; i<extensions.size(); i++){
     vk_param->instance.extension.push_back(extensions[i]);

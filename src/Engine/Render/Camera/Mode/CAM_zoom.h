@@ -5,13 +5,12 @@
 #include "../../Render_common.h"
 
 class Render_node;
-class Dimension;
 
 
 class CAM_zoom
 {
 public:
-  CAM_zoom(Render_node* core_node);
+  CAM_zoom(Render_node* render_node);
   ~CAM_zoom();
 
 public:
@@ -19,7 +18,6 @@ public:
   void compute_zoom_position(Struct_camera* camera, float value);
 
 private:
-  Dimension* dimManager;
 };
 
 #endif

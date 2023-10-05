@@ -17,6 +17,7 @@
 
 #include "../Node.h"
 
+#include <Window/Window.h>
 
 
 //Constructor / Destructor
@@ -24,7 +25,7 @@ Node_gui::Node_gui(Node* node){
   //---------------------------
 
   this->node = node;
-  this->core_node = node->get_render_node();
+  this->render_node = node->get_render_node();
   this->data_node = node->get_data_node();
 
   this->controlManager = new Control(this);
@@ -42,7 +43,6 @@ Node_gui::Node_gui(Node* node){
   this->gui_windows = new GUI_windows(this);
   this->gui_style = new GUI_style(this);
 
-
   //---------------------------
 }
 Node_gui::~Node_gui(){
@@ -59,8 +59,10 @@ Node_gui::~Node_gui(){
 }
 
 //Main function
-void Node_gui::init(){
+void Node_gui::init(Window* window){
   //---------------------------
+
+  this->window = window;
 
   gui_style->gui_style();
   gui_panel->set_initial_panel_focus();

@@ -1,6 +1,6 @@
 #include "GPU_gui.h"
 
-#include "../Vulkan/Window/VK_window.h"
+#include "../Vulkan/Window/VK_surface.h"
 #include "../Vulkan/VK_engine.h"
 #include "../Vulkan/VK_param.h"
 #include "../Vulkan/Command/VK_command_buffer.h"
@@ -17,7 +17,7 @@ GPU_gui::GPU_gui(VK_engine* vk_engine){
   this->vk_param = vk_engine->get_vk_param();
   this->vk_command_buffer = vk_engine->get_vk_command_buffer();
   this->vk_command = vk_engine->get_vk_command();
-  this->vk_window = vk_engine->get_vk_window();
+  this->vk_surface = vk_engine->get_vk_surface();
 
   //---------------------------
 }
@@ -54,8 +54,8 @@ void GPU_gui::init_gui(){
   //---------------------------
 }
 void GPU_gui::gui_vulkan(){
-  GLFWwindow* window = vk_window->get_window();
-  VkSurfaceKHR surface = vk_window->get_surface();
+  GLFWwindow* window = vk_surface->get_window();
+  VkSurfaceKHR surface = vk_surface->get_surface();
   VkRenderPass renderPass = vk_param->renderpass_ui.renderpass;
   //---------------------------
 

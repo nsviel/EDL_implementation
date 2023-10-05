@@ -12,7 +12,7 @@ Core_loop::~Core_loop(){}
 
 //Main function
 void Core_loop::main_loop() {
-  //GLFWwindow* window = vk_window->get_window();
+  //GLFWwindow* window = vk_surface->get_window();
   //---------------------------
 
   //auto start_time = std::chrono::steady_clock::now();
@@ -20,7 +20,7 @@ void Core_loop::main_loop() {
     /*auto start = std::chrono::steady_clock::now();
     glfwPollEvents();
     gpu_gui->loop_start();
-    core_node->loop();
+    render_node->loop();
     gpu_gui->loop_end();
     vk_drawing->draw_frame();
     this->fps_control(start);

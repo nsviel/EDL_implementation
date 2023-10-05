@@ -3,22 +3,19 @@
 #include "Mode/CAM_arcball.h"
 #include "Mode/CAM_zoom.h"
 #include "Mode/CAM_proj.h"
-
-#include "../../../Element/Window/Dimension.h"
 #include "../Render_node.h"
 #include "../Render_param.h"
 
 
 //Constructor / Destructor
-Camera::Camera(Render_node* core_node){
+Camera::Camera(Render_node* render_node){
   //---------------------------
 
-  this->dimManager = core_node->get_dimManager();
-  this->core_param = core_node->get_core_param();
-  this->cam_arcball = new CAM_arcball(core_node);
-  this->cam_fp = new CAM_first_person(core_node);
-  this->cam_zoom = new CAM_zoom(core_node);
-  this->cam_proj = new CAM_proj(core_node);
+  this->core_param = render_node->get_core_param();
+  this->cam_arcball = new CAM_arcball(render_node);
+  this->cam_fp = new CAM_first_person(render_node);
+  this->cam_zoom = new CAM_zoom(render_node);
+  this->cam_proj = new CAM_proj(render_node);
 
   this->arcball_origin = vec3(0, 0, 0);
 

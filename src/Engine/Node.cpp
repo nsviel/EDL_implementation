@@ -32,7 +32,7 @@ void Node::init(Window* window){
 
   render_node->init(window);
   data_node->init();
-  node_gui->init();
+  node_gui->init(window);
   render_node->loop_start();
 
   //---------------------------

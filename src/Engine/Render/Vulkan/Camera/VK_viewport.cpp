@@ -1,27 +1,26 @@
 #include "VK_viewport.h"
-
 #include "../VK_engine.h"
 #include "../VK_param.h"
-
-#include "../../../../Element/Window/Dimension.h"
 #include "../../Render_node.h"
 
+#include <Window/Window.h>
 
 //Constructor / Destructor
 VK_viewport::VK_viewport(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* core_node = vk_engine->get_render_node();
+  Render_node* render_node = vk_engine->get_render_node();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
-  this->dimManager = core_node->get_dimManager();
 
   //---------------------------
 }
 VK_viewport::~VK_viewport(){}
 
 void VK_viewport::init_viewport(){
-  vec2 win_dim = dimManager->get_win_dim();
+  Render_node* render_node = vk_engine->get_render_node();
+  this->window = render_node->get_window();
+  vec2 win_dim = window->get_window_dim();
   //---------------------------
 
   //Viewport
@@ -41,7 +40,9 @@ void VK_viewport::init_viewport(){
   //---------------------------
 }
 void VK_viewport::update_viewport(){
-  vec2 win_dim = dimManager->get_win_dim();
+  Render_node* render_node = vk_engine->get_render_node();
+  this->window = render_node->get_window();
+  vec2 win_dim = window->get_window_dim();
   //---------------------------
 
   //Viewport scene
@@ -57,7 +58,7 @@ void VK_viewport::update_viewport(){
 }
 
 Struct_viewport* VK_viewport::create_viewport(){
-  vec2 win_dim = dimManager->get_win_dim();
+  vec2 win_dim = window->get_window_dim();
   //---------------------------
 
   //Viewport

@@ -8,7 +8,7 @@ class VK_engine;
 class VK_param;
 class VK_command_buffer;
 class VK_command;
-class VK_window;
+class VK_surface;
 
 
 class GPU_gui
@@ -38,7 +38,7 @@ private:
   VK_param* vk_param;
   VK_command_buffer* vk_command_buffer;
   VK_command* vk_command;
-  VK_window* vk_window;
+  VK_surface* vk_surface;
 
   VkDescriptorPool imguiPool;
   ImDrawData* draw_data;

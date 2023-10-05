@@ -10,10 +10,10 @@
 
 
 //Constructor / Destructor
-GPU_data::GPU_data(Render_node* core_node){
+GPU_data::GPU_data(Render_node* render_node){
   //---------------------------
 
-  VK_engine* vk_engine = core_node->get_vk_engine();
+  VK_engine* vk_engine = render_node->get_vk_engine();
   this->vk_buffer = vk_engine->get_vk_buffer();
   this->vk_texture = vk_engine->get_vk_texture();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
