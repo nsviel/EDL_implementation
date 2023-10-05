@@ -3,11 +3,11 @@
 
 #include "struct_camera.h"
 
-#include "../Core_common.h"
+#include "../Render_common.h"
 
 class Node;
-class Core_node;
-class Core_param;
+class Render_node;
+class Render_param;
 class Dimension;
 class CAM_arcball;
 class CAM_first_person;
@@ -18,7 +18,7 @@ class CAM_proj;
 class Camera
 {
 public:
-  Camera(Core_node* core_node);
+  Camera(Render_node* core_node);
   ~Camera();
 
 public:
@@ -44,7 +44,7 @@ public:
 
 private:
   Node* node;
-  Core_param* core_param;
+  Render_param* core_param;
   Dimension* dimManager;
   CAM_arcball* cam_arcball;
   CAM_first_person* cam_fp;

@@ -4,7 +4,7 @@
 #include "../../common.h"
 
 class Node_gui;
-class Core_node;
+class Render_node;
 class Dimension;
 class GUI_profiling;
 class GUI_object;
@@ -33,7 +33,7 @@ public:
 
 private:
   Node_gui* node_gui;
-  Core_node* core_node;
+  Render_node* core_node;
   Dimension* dimManager;
 
   GUI_profiling* gui_profiling;

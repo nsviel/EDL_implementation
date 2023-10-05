@@ -1,11 +1,11 @@
 #include "CAM_arcball.h"
 
 #include "../../Dimension/Dimension.h"
-#include "../../Core_node.h"
+#include "../../Render_node.h"
 
 
 //Constructor / Destructor
-CAM_arcball::CAM_arcball(Core_node* core_node){
+CAM_arcball::CAM_arcball(Render_node* core_node){
   //---------------------------
 
   this->dimManager = core_node->get_dimManager();

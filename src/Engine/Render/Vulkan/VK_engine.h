@@ -2,11 +2,11 @@
 #define VK_ENGINE_H
 
 #include "Struct/typedef.h"
-#include "../Core_common.h"
+#include "../Render_common.h"
 
-class Core_node;
+class Render_node;
 class VK_param;
-class Core_param;
+class Render_param;
 
 class VK_window;
 class VK_instance;
@@ -45,7 +45,7 @@ class VK_engine
 {
 public:
   //Constructor / Destructor
-  VK_engine(Core_node* core_node);
+  VK_engine(Render_node* core_node);
   ~VK_engine();
 
 public:
@@ -58,8 +58,8 @@ public:
   void fps_control(const std::chrono::time_point<std::chrono::steady_clock>& start);
   void fps_calcul(std::chrono::steady_clock::time_point& start_time);
 
-  inline Core_node* get_core_node(){return core_node;}
-  inline Core_param* get_core_param(){return core_param;}
+  inline Render_node* get_core_node(){return core_node;}
+  inline Render_param* get_core_param(){return core_param;}
   inline VK_param* get_vk_param(){return vk_param;}
   inline VK_device* get_vk_device(){return vk_device;}
   inline VK_framebuffer* get_vk_framebuffer(){return vk_framebuffer;}
@@ -94,8 +94,8 @@ public:
   inline VK_error* get_vk_error(){return vk_error;}
 
 private:
-  Core_node* core_node;
-  Core_param* core_param;
+  Render_node* core_node;
+  Render_param* core_param;
   Timer timer;
 
   VK_param* vk_param;

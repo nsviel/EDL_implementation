@@ -1,6 +1,6 @@
 #include "Node.h"
 
-#include "Render/Core_node.h"
+#include "Render/Render_node.h"
 #include "GUI/Node_gui.h"
 #include "Data/Data_node.h"
 
@@ -9,7 +9,7 @@
 Node::Node(){
   //---------------------------
 
-  this->core_node = new Core_node(this);
+  this->core_node = new Render_node(this);
   this->data_node = new Data_node(this);
   this->node_gui = new Node_gui(this);
 

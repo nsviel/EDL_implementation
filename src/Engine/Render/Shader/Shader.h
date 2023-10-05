@@ -3,9 +3,9 @@
 
 #include "Source/EDL/struct_edl.h"
 #include "Source/PSR/struct_pyramid.h"
-#include "../Core_common.h"
+#include "../Render_common.h"
 
-class Core_node;
+class Render_node;
 class Shader_edl;
 class Shader_psr;
 
@@ -13,7 +13,7 @@ class Shader_psr;
 class Shader
 {
 public:
-  Shader(Core_node* node);
+  Shader(Render_node* node);
   ~Shader();
 
 public:

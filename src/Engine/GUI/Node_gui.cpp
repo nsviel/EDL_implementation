@@ -27,6 +27,7 @@ Node_gui::Node_gui(Node* node){
   this->core_node = node->get_core_node();
   this->data_node = node->get_data_node();
 
+  this->controlManager = new Control(this);
   this->gui_param = new GUI_param();
   this->gui_profiling = new GUI_profiling(this);
   this->gui_shader = new GUI_shader(this);
@@ -40,7 +41,7 @@ Node_gui::Node_gui(Node* node){
   this->gui_panel = new GUI_panel(this);
   this->gui_windows = new GUI_windows(this);
   this->gui_style = new GUI_style(this);
-  this->controlManager = new Control(this);
+
 
   //---------------------------
 }

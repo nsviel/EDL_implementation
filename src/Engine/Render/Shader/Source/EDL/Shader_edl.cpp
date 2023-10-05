@@ -1,11 +1,11 @@
 #include "Shader_edl.h"
 
-#include "../../../Core_node.h"
-#include "../../../Core_param.h"
+#include "../../../Render_node.h"
+#include "../../../Render_param.h"
 #include "../../../Dimension/Dimension.h"
 
 
-Shader_edl::Shader_edl(Core_node* core_node){
+Shader_edl::Shader_edl(Render_node* core_node){
   //---------------------------
 
   this->core_param = core_node->get_core_param();

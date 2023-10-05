@@ -4,7 +4,7 @@
 #include "Source/PSR/Shader_psr.h"
 
 
-Shader::Shader(Core_node* node){
+Shader::Shader(Render_node* node){
   //---------------------------
 
   this->shader_edl = new Shader_edl(node);

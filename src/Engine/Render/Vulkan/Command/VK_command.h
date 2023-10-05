@@ -4,9 +4,9 @@
 #include "../Struct/struct_frame.h"
 #include "../Struct/struct_data.h"
 #include "../Struct/struct_renderpass.h"
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
-class Core_param;
+class Render_param;
 class VK_engine;
 class VK_param;
 class VK_command_buffer;
@@ -38,7 +38,7 @@ public:
   void singletime_command_end(VkCommandBuffer command_buffer);
 
 private:
-  Core_param* core_param;
+  Render_param* core_param;
   VK_engine* vk_engine;
   VK_param* vk_param;
   VK_command_buffer* vk_command_buffer;

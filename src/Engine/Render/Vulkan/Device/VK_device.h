@@ -1,7 +1,7 @@
 #ifndef VK_DEVICE_H
 #define VK_DEVICE_H
 
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 class VK_engine;
 class VK_param;

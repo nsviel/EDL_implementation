@@ -6,7 +6,7 @@
 
 #include "../../Render/Dimension/Dimension.h"
 #include "../../Render/Camera/Camera.h"
-#include "../../Render/Core_node.h"
+#include "../../Render/Render_node.h"
 #include <Operation/Transformation/Transformation.h>
 #include "../../Node.h"
 
@@ -16,11 +16,12 @@ Control::Control(Node_gui* gui_node){
   //---------------------------
 
   this->node = gui_node->get_node();
-  Core_node* core_node = gui_node->get_core_node();
+  Render_node* core_node = gui_node->get_core_node();
   Data_node* data_node = gui_node->get_data_node();
   this->dimManager = core_node->get_dimManager();
   this->cameraManager = core_node->get_cameraManager();
   this->sceneManager = data_node->get_sceneManager();
+  this->transformManager = new Transformation();
 
   //---------------------------
 }
@@ -45,29 +46,27 @@ void Control::reset(){
 
 //Selected object function
 void Control::selected_object_translation(vec3 translation){
-  Set* set_object = sceneManager->get_set_scene();
+  Set* set = sceneManager->get_set_scene();
   //---------------------------
 
-  Transformation transformManager;
-  transformManager.make_translation(set_object->selected_obj, translation);
+  transformManager->make_translation(set->selected_obj, translation);
 
   //---------------------------
 }
 void Control::selected_object_rotation(vec3 rotation){
-  Set* set_object = sceneManager->get_set_scene();
+  Set* set = sceneManager->get_set_scene();
   //---------------------------
 
-  Transformation transformManager;
-  Object* object = set_object->selected_obj;
-  transformManager.make_rotation(object, object->COM, rotation);
+  Object* object = set->selected_obj;
+  transformManager->make_rotation(object, object->COM, rotation);
 
   //---------------------------
 }
 void Control::selected_object_deletion(){
-  Set* set_object = sceneManager->get_set_scene();
+  Set* set = sceneManager->get_set_scene();
   //----------------------------
 
-  Object* object = set_object->selected_obj;
+  Object* object = set->selected_obj;
   this->selected_object_next();
   sceneManager->delete_scene_object(object);
 
@@ -82,23 +81,23 @@ void Control::object_deletion(Object* object){
   //----------------------------
 }
 void Control::selected_object_next(){
-  Set* set_object = sceneManager->get_set_scene();
-  Object* selected = set_object->selected_obj;
+  Set* set = sceneManager->get_set_scene();
+  Object* selected = set->selected_obj;
   //----------------------------
 
-  for(int i=0; i<set_object->list_obj.size(); i++){
-    Object* object = *next(set_object->list_obj.begin(), i);
+  for(int i=0; i<set->list_obj.size(); i++){
+    Object* object = *next(set->list_obj.begin(), i);
 
     if(selected->ID == object->ID){
       Object* selection;
 
-      if((i + 1) < set_object->list_obj.size()){
-        selection = *next(set_object->list_obj.begin(), i + 1);
+      if((i + 1) < set->list_obj.size()){
+        selection = *next(set->list_obj.begin(), i + 1);
       }else{
-        selection = *next(set_object->list_obj.begin(), 0);
+        selection = *next(set->list_obj.begin(), 0);
       }
 
-      set_object->selected_obj = selection;
+      set->selected_obj = selection;
     }
   }
 

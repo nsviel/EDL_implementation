@@ -4,7 +4,7 @@
 #include "../../common.h"
 
 class Node_gui;
-class Core_node;
+class Render_node;
 class VK_engine;
 class VK_param;
 
@@ -29,7 +29,7 @@ public:
 
 private:
   Node_gui* node_gui;
-  Core_node* core_node;
+  Render_node* core_node;
   VK_engine* vk_engine;
   VK_param* vk_param;
   Timer timer;

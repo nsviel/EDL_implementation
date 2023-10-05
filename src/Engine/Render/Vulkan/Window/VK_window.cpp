@@ -6,7 +6,7 @@
 #include "../VK_param.h"
 #include "../Camera/VK_viewport.h"
 
-#include "../../Core_node.h"
+#include "../../Render_node.h"
 #include "../../Dimension/Dimension.h"
 #include <Window/Window_manager.h>
 
@@ -15,7 +15,7 @@
 VK_window::VK_window(VK_engine* vk_engine){
   //---------------------------
 
-  Core_node* core_node = vk_engine->get_core_node();
+  Render_node* core_node = vk_engine->get_core_node();
 
   this->vk_param = vk_engine->get_vk_param();
   this->dimManager = core_node->get_dimManager();

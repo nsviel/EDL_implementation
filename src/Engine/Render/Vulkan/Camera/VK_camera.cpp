@@ -3,14 +3,14 @@
 #include "../VK_engine.h"
 
 #include "../../Camera/Camera.h"
-#include "../../Core_node.h"
+#include "../../Render_node.h"
 
 
 //Constructor / Destructor
 VK_camera::VK_camera(VK_engine* vk_engine){
   //---------------------------
 
-  Core_node* core_node = vk_engine->get_core_node();
+  Render_node* core_node = vk_engine->get_core_node();
 
   this->cameraManager = core_node->get_cameraManager();
 

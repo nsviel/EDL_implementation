@@ -1,7 +1,7 @@
 #ifndef TAB_STRUCT_H
 #define TAB_STRUCT_H
 
-#include "../Core_common.h"
+#include "../Render_common.h"
 
 
 //Collection are cloud containers

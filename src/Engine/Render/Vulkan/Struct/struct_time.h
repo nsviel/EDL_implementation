@@ -1,7 +1,7 @@
 #ifndef STRUCT_TIME_H
 #define STRUCT_TIME_H
 
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 
 struct Struct_time{

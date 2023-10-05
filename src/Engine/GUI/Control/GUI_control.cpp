@@ -2,8 +2,8 @@
 
 #include "../Node_gui.h"
 
-#include "../../Render/Core_node.h"
-#include "../../Render/Core_param.h"
+#include "../../Render/Render_node.h"
+#include "../../Render/Render_param.h"
 #include "../../Render/Dimension/Dimension.h"
 #include "../../Render/Camera/Camera.h"
 #include <Specific/Function/fct_math.h>
@@ -16,7 +16,7 @@
 GUI_control::GUI_control(Node_gui* node_gui){
   //---------------------------
 
-  Core_node* core_node = node_gui->get_core_node();
+  Render_node* core_node = node_gui->get_core_node();
   this->core_param = core_node->get_core_param();
   this->dimManager = core_node->get_dimManager();
   this->cameraManager = core_node->get_cameraManager();

@@ -2,16 +2,16 @@
 #define CAM_ZOOM_H
 
 #include "../struct_camera.h"
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
-class Core_node;
+class Render_node;
 class Dimension;
 
 
 class CAM_zoom
 {
 public:
-  CAM_zoom(Core_node* core_node);
+  CAM_zoom(Render_node* core_node);
   ~CAM_zoom();
 
 public:

@@ -5,7 +5,7 @@
 #include "struct_pipeline.h"
 #include "struct_viewport.h"
 #include "struct_subpass.h"
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 
 struct Struct_renderpass{

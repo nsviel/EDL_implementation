@@ -1,7 +1,7 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 
 //Memory

@@ -1,11 +1,11 @@
 #include "CAM_first_person.h"
 
 #include "../../Dimension/Dimension.h"
-#include "../../Core_node.h"
+#include "../../Render_node.h"
 
 
 //Constructor / Destructor
-CAM_first_person::CAM_first_person(Core_node* core_node){
+CAM_first_person::CAM_first_person(Render_node* core_node){
   //---------------------------
 
   this->dimManager = core_node->get_dimManager();

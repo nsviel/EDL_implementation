@@ -4,7 +4,7 @@
 #include "../common.h"
 
 class Node;
-class Core_node;
+class Render_node;
 class Data_node;
 
 class GUI_param;
@@ -35,7 +35,7 @@ public:
   void loop();
 
   inline Node* get_node(){return node;}
-  inline Core_node* get_core_node(){return core_node;}
+  inline Render_node* get_core_node(){return core_node;}
   inline Data_node* get_data_node(){return data_node;}
 
   inline GUI_param* get_gui_param(){return gui_param;}
@@ -56,7 +56,7 @@ public:
 
 private:
   Node* node;
-  Core_node* core_node;
+  Render_node* core_node;
   Data_node* data_node;
 
   GUI_param* gui_param;

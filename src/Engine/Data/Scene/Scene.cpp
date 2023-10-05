@@ -6,7 +6,7 @@
 
 #include "../../Node.h"
 #include "../Load/Loader.h"
-#include "../../Render/Core_node.h"
+#include "../../Render/Render_node.h"
 #include "../../Render/GPU/GPU_data.h"
 #include <Operation/Transformation/Attribut.h>
 
@@ -15,7 +15,7 @@
 Scene::Scene(Data_node* data_node){
   //---------------------------
 
-  Core_node* core_node = data_node->get_core_node();
+  Render_node* core_node = data_node->get_core_node();
   this->data_node = data_node;
   this->param_data = data_node->get_param_data();
   this->dataManager = data_node->get_dataManager();

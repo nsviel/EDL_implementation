@@ -1,7 +1,7 @@
 #ifndef STRUCT_DEVICE_H
 #define STRUCT_DEVICE_H
 
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 
 struct Struct_device{

@@ -1,9 +1,9 @@
 #ifndef GPU_DATA_H
 #define GPU_DATA_H
 
-#include "../Core_common.h"
+#include "../Render_common.h"
 
-class Core_node;
+class Render_node;
 class VK_texture;
 class VK_buffer;
 class VK_descriptor;
@@ -15,7 +15,7 @@ class GPU_data
 {
 public:
   //Constructor / Destructor
-  GPU_data(Core_node* core_node);
+  GPU_data(Render_node* core_node);
   ~GPU_data();
 
 public:

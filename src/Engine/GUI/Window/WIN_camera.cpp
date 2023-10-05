@@ -3,8 +3,8 @@
 #include "../Node_gui.h"
 #include "../GUI_param.h"
 
-#include "../../Render/Core_node.h"
-#include "../../Render/Core_param.h"
+#include "../../Render/Render_node.h"
+#include "../../Render/Render_param.h"
 #include "../../Render/Camera/struct_camera.h"
 
 
@@ -12,8 +12,8 @@
 WIN_camera::WIN_camera(Node_gui* node_gui, bool* show_window, string name) : WIN_base(show_window, name){
   //---------------------------
 
-  Core_node* core_node = node_gui->get_core_node();
-  Core_param* core_param = core_node->get_core_param();
+  Render_node* core_node = node_gui->get_core_node();
+  Render_param* core_param = core_node->get_core_param();
   this->camera = &core_param->camera;
 
   //---------------------------

@@ -2,8 +2,8 @@
 
 #include "../Node_gui.h"
 
-#include "../../Render/Core_node.h"
-#include "../../Render/Core_param.h"
+#include "../../Render/Render_node.h"
+#include "../../Render/Render_param.h"
 #include "../../Render/Vulkan/VK_engine.h"
 #include "../../Render/Vulkan/VK_param.h"
 

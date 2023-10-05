@@ -10,7 +10,7 @@
 #include "../../Binding/VK_descriptor.h"
 #include "../../Binding/VK_uniform.h"
 
-#include "../../../Core_node.h"
+#include "../../../Render_node.h"
 #include "../../../Shader/Shader.h"
 #include "../../../Shader/Source/EDL/Shader_edl.h"
 
@@ -19,7 +19,7 @@
 EDL_drawing::EDL_drawing(VK_engine* vk_engine){
   //---------------------------
 
-  Core_node* core_node = vk_engine->get_core_node();
+  Render_node* core_node = vk_engine->get_core_node();
   Shader* shaderManager = core_node->get_shaderManager();
   this->shader_edl = shaderManager->get_shader_edl();
 

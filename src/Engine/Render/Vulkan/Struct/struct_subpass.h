@@ -1,7 +1,7 @@
 #ifndef STRUCT_SUBPASS_H
 #define STRUCT_SUBPASS_H
 
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 
 struct Struct_subpass_attachment{

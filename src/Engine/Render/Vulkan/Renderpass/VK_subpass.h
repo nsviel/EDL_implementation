@@ -2,7 +2,7 @@
 #define VK_SUBPASS_H
 
 #include "../Struct/struct_renderpass.h"
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 class VK_engine;
 class VK_param;

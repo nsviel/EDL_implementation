@@ -1,9 +1,9 @@
-#include "Core_node.h"
+#include "Render_node.h"
 
 #include "Vulkan/VK_engine.h"
 #include "Dimension/Dimension.h"
 #include "Camera/Camera.h"
-#include "Core_param.h"
+#include "Render_param.h"
 #include "GPU/GPU_data.h"
 #include "Shader/Shader.h"
 
@@ -11,11 +11,11 @@
 
 
 //Constructor / Destructor
-Core_node::Core_node(Node* node){
+Render_node::Render_node(Node* node){
   //---------------------------
 
   this->node = node;
-  this->core_param = new Core_param();
+  this->core_param = new Render_param();
   this->dimManager = new Dimension();
   this->cameraManager = new Camera(this);
   this->shaderManager = new Shader(this);
@@ -24,7 +24,7 @@ Core_node::Core_node(Node* node){
 
   //---------------------------
 }
-Core_node::~Core_node(){
+Render_node::~Render_node(){
   //---------------------------
 
   delete core_param;
@@ -38,7 +38,7 @@ Core_node::~Core_node(){
 }
 
 //Main function
-void Core_node::init(){
+void Render_node::init(){
   //---------------------------
 
   vk_engine->init_vulkan();
@@ -46,14 +46,14 @@ void Core_node::init(){
 
   //---------------------------
 }
-void Core_node::loop_start(){
+void Render_node::loop_start(){
   //---------------------------
 
   vk_engine->main_loop();
 
   //---------------------------
 }
-void Core_node::loop(){
+void Render_node::loop(){
   //---------------------------
 
   cameraManager->input_cam_mouse();
@@ -61,14 +61,14 @@ void Core_node::loop(){
 
   //---------------------------
 }
-void Core_node::exit(){
+void Render_node::exit(){
   //---------------------------
 
   vk_engine->clean_vulkan();
 
   //---------------------------
 }
-void Core_node::reset(){
+void Render_node::reset(){
   //---------------------------
 
   cameraManager->reset_camera();

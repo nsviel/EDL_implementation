@@ -1,11 +1,11 @@
 #include "CAM_proj.h"
 
 #include "../../Dimension/Dimension.h"
-#include "../../Core_node.h"
+#include "../../Render_node.h"
 
 
 //Constructor / Destructor
-CAM_proj::CAM_proj(Core_node* core_node){
+CAM_proj::CAM_proj(Render_node* core_node){
   //---------------------------
 
   this->dimManager = core_node->get_dimManager();

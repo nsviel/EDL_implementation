@@ -2,8 +2,8 @@
 
 #include "../Node_gui.h"
 
-#include "../../Render/Core_node.h"
-#include "../../Render/Core_param.h"
+#include "../../Render/Render_node.h"
+#include "../../Render/Render_param.h"
 #include "../../Render/Vulkan/VK_engine.h"
 #include "../../Render/Vulkan/VK_param.h"
 
@@ -56,7 +56,7 @@ void GUI_option::option_font(){
 }
 void GUI_option::option_color(){
   if(ImGui::CollapsingHeader("Colors")){
-    Core_param* core_param = core_node->get_core_param();
+    Render_param* core_param = core_node->get_core_param();
     //---------------------------
 
     //Background color
@@ -69,7 +69,7 @@ void GUI_option::option_color(){
   }
 }
 void GUI_option::option_fps(){
-  Core_param* core_param = core_node->get_core_param();
+  Render_param* core_param = core_node->get_core_param();
   //---------------------------
 
   //FPS max value

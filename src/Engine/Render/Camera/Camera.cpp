@@ -5,12 +5,12 @@
 #include "Mode/CAM_proj.h"
 
 #include "../Dimension/Dimension.h"
-#include "../Core_node.h"
-#include "../Core_param.h"
+#include "../Render_node.h"
+#include "../Render_param.h"
 
 
 //Constructor / Destructor
-Camera::Camera(Core_node* core_node){
+Camera::Camera(Render_node* core_node){
   //---------------------------
 
   this->dimManager = core_node->get_dimManager();

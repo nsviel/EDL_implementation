@@ -38,12 +38,12 @@
 #include "Camera/VK_camera.h"
 
 
-#include "../Core_node.h"
-#include "../Core_param.h"
+#include "../Render_node.h"
+#include "../Render_param.h"
 
 
 //Constructor / Destructor
-VK_engine::VK_engine(Core_node* core_node){
+VK_engine::VK_engine(Render_node* core_node){
   //---------------------------
 
   this->core_node = core_node;

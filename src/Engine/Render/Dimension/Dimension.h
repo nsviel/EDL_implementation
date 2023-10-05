@@ -2,7 +2,7 @@
 #define DIMENSION_H
 
 #include "struct_tab.h"
-#include "../Core_common.h"
+#include "../Render_common.h"
 
 
 class Dimension

@@ -12,10 +12,10 @@
 #include "../Panel/GUI_object.h"
 
 #include "../../Data/Load/Loader.h"
-#include "../../Render/Core_node.h"
+#include "../../Render/Render_node.h"
 #include "../../Render/Dimension/Dimension.h"
 #include "../../Node.h"
-#include "../../Render/Core_param.h"
+#include "../../Render/Render_param.h"
 
 
 //Constructor / Destructor

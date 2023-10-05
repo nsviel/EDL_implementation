@@ -4,7 +4,7 @@
 #include "typedef.h"
 #include "struct_data.h"
 #include "struct_binding.h"
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 #include "struct_image.h"
 
 

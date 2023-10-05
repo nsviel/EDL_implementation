@@ -1,5 +1,5 @@
-#ifndef COMMON_CORE_H
-#define COMMON_CORE_H
+#ifndef COMMON_RENDER_H
+#define COMMON_RENDER_H
 
 //Include
 #define GLM_FORCE_RADIANS

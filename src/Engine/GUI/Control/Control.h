@@ -9,6 +9,7 @@ class Data_node;
 class Dimension;
 class Camera;
 class Scene;
+class Transformation;
 
 
 class Control
@@ -35,6 +36,7 @@ private:
   Scene* sceneManager;
   Dimension* dimManager;
   Camera* cameraManager;
+  Transformation* transformManager;
 };
 
 #endif

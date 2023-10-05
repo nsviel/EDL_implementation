@@ -1,7 +1,7 @@
 #ifndef VK_WINDOW_H
 #define VK_WINDOW_H
 
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 class VK_engine;
 class Dimension;

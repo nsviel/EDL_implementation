@@ -1,7 +1,7 @@
 #ifndef STRUCT_COMMAND_H
 #define STRUCT_COMMAND_H
 
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 
 struct Struct_submit_command{

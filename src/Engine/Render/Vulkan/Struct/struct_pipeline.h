@@ -3,7 +3,7 @@
 
 #include "typedef.h"
 #include "struct_binding.h"
-#include "../../Core_common.h"
+#include "../../Render_common.h"
 
 
 struct Struct_pipeline_info{
