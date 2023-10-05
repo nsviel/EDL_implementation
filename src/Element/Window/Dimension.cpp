@@ -5,7 +5,7 @@
 Dimension::Dimension(){
   //---------------------------
 
-  this->win_dim = vec2(0);
+  this->win_dim = glm::vec2(0);
   this->init();
 
   //---------------------------
@@ -18,15 +18,15 @@ void Dimension::init(){
 
   //Left tab
   Tab* tab_panel_left = new Tab("left_panel");
-  tab_panel_left->pos = vec2(0, 0);
-  tab_panel_left->dim = vec2(200, 00);
+  tab_panel_left->pos = glm::vec2(0, 0);
+  tab_panel_left->dim = glm::vec2(200, 00);
   tab_panel_left->dim_min.x = 200;
   this->list_tab.push_back(tab_panel_left);
 
   //Rendering tab
   Tab* tab_rendering = new Tab("rendering");
-  tab_rendering->pos = vec2(100, 0);
-  tab_rendering->dim = vec2(100, 100);
+  tab_rendering->pos = glm::vec2(100, 0);
+  tab_rendering->dim = glm::vec2(100, 100);
   this->list_tab.push_back(tab_rendering);
 
   //---------------------------
@@ -35,7 +35,7 @@ Tab* Dimension::get_tab(std::string name){
   //---------------------------
 
   for(int i=0; i<list_tab.size(); i++){
-    Tab* tab = *next(list_tab.begin(), i);
+    Tab* tab = *std::next(list_tab.begin(), i);
     if(tab->name == name){
       return tab;
     }
@@ -60,7 +60,7 @@ void Dimension::update(){
 
   tab_rendering->dim.x = win_dim.x;
   tab_rendering->dim.y = win_dim.y;
-  tab_rendering->center = vec2(tab_rendering->dim.x/2, tab_rendering->dim.y/2);
+  tab_rendering->center = glm::vec2(tab_rendering->dim.x/2, tab_rendering->dim.y/2);
 
   //---------------------------
 }
@@ -74,46 +74,46 @@ void Dimension::update_window_dim(){
 
   //Set up new values
   if(win_w != win_dim.x || win_h != win_dim.y){
-    this->win_dim = vec2(win_w, win_h);
+    this->win_dim = glm::vec2(win_w, win_h);
   }
 
   //---------------------------
 }
 
 //Subfunctions
-vec2 Dimension::get_gl_middle(){
+glm::vec2 Dimension::get_gl_middle(){
   //---------------------------
 
   int x = gui_ltp_dim.x;
   int y = gui_tp_dim.y;
-  vec2 gl_middle = vec2(x, y);
+  glm::vec2 gl_middle = glm::vec2(x, y);
 
   //---------------------------
   return gl_middle;
 }
-vec2 Dimension::get_cursorPos_gl(){
+glm::vec2 Dimension::get_cursorPos_gl(){
   double xpos, ypos;
-  vec2 pos = vec2(0, 0);
+  glm::vec2 pos = glm::vec2(0, 0);
   //---------------------------
 
   glfwGetCursorPos(window, &xpos, &ypos);
-  pos = vec2(xpos, ypos);
+  pos = glm::vec2(xpos, ypos);
 
   //---------------------------
   return pos;
 }
-vec2 Dimension::get_mouse_pose(){
+glm::vec2 Dimension::get_mouse_pose(){
   double xpos, ypos;
-  vec2 pos = vec2(0, 0);
+  glm::vec2 pos = glm::vec2(0, 0);
   //---------------------------
 
   glfwGetCursorPos(window, &xpos, &ypos);
-  pos = vec2(xpos, ypos);
+  pos = glm::vec2(xpos, ypos);
 
   //---------------------------
   return pos;
 }
-void Dimension::set_mouse_pose(vec2 pos){
+void Dimension::set_mouse_pose(glm::vec2 pos){
   //---------------------------
 
   glfwSetCursorPos(window, pos.x, pos.y);

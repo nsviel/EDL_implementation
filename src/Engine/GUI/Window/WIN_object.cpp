@@ -6,7 +6,7 @@
 #include "../../Data/Data_node.h"
 #include "../Control/Control.h"
 
-#include "image/IconsFontAwesome5.h"
+#include <image/IconsFontAwesome5.h>
 
 
 //Constructor / Destructor

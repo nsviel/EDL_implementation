@@ -16,7 +16,7 @@
 #include "Device/VK_device.h"
 #include "Device/VK_physical_device.h"
 #include "Window/VK_window.h"
-#include "Window/VK_gui.h"
+#include "../GPU/GPU_gui.h"
 #include "Window/VK_error.h"
 #include "Instance/VK_instance.h"
 #include "Instance/VK_validation.h"
@@ -77,7 +77,7 @@ VK_engine::VK_engine(Render_node* core_node){
   this->vk_camera = new VK_camera(this);
   this->vk_canvas = new VK_canvas(this);
   this->vk_command = new VK_command(this);
-  this->vk_gui = new VK_gui(this);
+  this->gpu_gui = new GPU_gui(this);
   this->vk_cmd = new VK_cmd(this);
   this->vk_submit = new VK_submit(this);
   this->vk_drawing = new VK_drawing(this);
@@ -109,7 +109,7 @@ void VK_engine::init_vulkan(){
 
   //Specific
   vk_viewport->init_viewport();
-  vk_gui->init_gui();
+  gpu_gui->init_gui();
 
   //---------------------------
   vk_param->time.engine_init = timer.stop_us(t1) / 1000;
@@ -122,9 +122,9 @@ void VK_engine::main_loop() {
   while(!glfwWindowShouldClose(window)){
     auto start = std::chrono::steady_clock::now();
     glfwPollEvents();
-    vk_gui->loop_start();
+    gpu_gui->loop_start();
     core_node->loop();
-    vk_gui->loop_end();
+    gpu_gui->loop_end();
     vk_drawing->draw_frame();
     this->fps_control(start);
     this->fps_calcul(start_time);
@@ -137,7 +137,7 @@ void VK_engine::main_loop() {
 void VK_engine::clean_vulkan(){
   //---------------------------
 
-  vk_gui->clean_gui();
+  gpu_gui->clean_gui();
   vk_renderpass->clean_renderpass();
   vk_swapchain->clean_swapchain();
   vk_canvas->clean_canvas();

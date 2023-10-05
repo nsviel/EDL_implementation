@@ -1,7 +1,8 @@
 #ifndef TAB_STRUCT_H
 #define TAB_STRUCT_H
 
-#include "../Render_common.h"
+#include <glm/glm.hpp>
+#include <string>
 
 
 //Collection are cloud containers

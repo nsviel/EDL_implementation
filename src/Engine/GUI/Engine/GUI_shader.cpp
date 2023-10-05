@@ -3,7 +3,7 @@
 #include "../Node_gui.h"
 
 #include "../../Render/Render_node.h"
-#include "../../Render/Dimension/Dimension.h"
+#include "../../../Element/Window/Dimension.h"
 #include "../../Render/Shader/Shader.h"
 #include "../../Render/Shader/Source/EDL/Shader_edl.h"
 

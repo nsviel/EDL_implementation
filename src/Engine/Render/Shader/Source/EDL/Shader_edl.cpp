@@ -2,7 +2,7 @@
 
 #include "../../../Render_node.h"
 #include "../../../Render_param.h"
-#include "../../../Dimension/Dimension.h"
+#include "../../../../../Element/Window/Dimension.h"
 
 
 Shader_edl::Shader_edl(Render_node* core_node){

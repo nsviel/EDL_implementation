@@ -4,7 +4,7 @@
 #include "Mode/CAM_zoom.h"
 #include "Mode/CAM_proj.h"
 
-#include "../Dimension/Dimension.h"
+#include "../../../Element/Window/Dimension.h"
 #include "../Render_node.h"
 #include "../Render_param.h"
 

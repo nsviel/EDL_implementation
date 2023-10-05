@@ -26,7 +26,7 @@ class VK_texture;
 class VK_depth;
 class VK_data;
 class VK_viewport;
-class VK_gui;
+class GPU_gui;
 class VK_camera;
 class VK_shader;
 class VK_physical_device;
@@ -78,7 +78,7 @@ public:
   inline VK_color* get_vk_color(){return vk_color;}
   inline VK_data* get_vk_data(){return vk_data;}
   inline VK_viewport* get_vk_viewport(){return vk_viewport;}
-  inline VK_gui* get_vk_gui(){return vk_gui;}
+  inline GPU_gui* get_gpu_gui(){return gpu_gui;}
   inline VK_camera* get_vk_camera(){return vk_camera;}
   inline VK_shader* get_vk_shader(){return vk_shader;}
   inline VK_physical_device* get_vk_physical_device(){return vk_physical_device;}
@@ -121,7 +121,7 @@ private:
   VK_texture* vk_texture;
   VK_data* vk_data;
   VK_viewport* vk_viewport;
-  VK_gui* vk_gui;
+  GPU_gui* gpu_gui;
   VK_camera* vk_camera;
   VK_shader* vk_shader;
   VK_physical_device* vk_physical_device;

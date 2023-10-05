@@ -4,7 +4,7 @@
 
 #include "../../Render/Render_node.h"
 #include "../../Render/Render_param.h"
-#include "../../Render/Dimension/Dimension.h"
+#include "../../../Element/Window/Dimension.h"
 #include "../../Render/Camera/Camera.h"
 #include <Specific/Function/fct_math.h>
 #include "Control.h"

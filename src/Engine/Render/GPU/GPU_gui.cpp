@@ -1,24 +1,16 @@
-#include "VK_gui.h"
-#include "VK_window.h"
+#include "GPU_gui.h"
 
-#include "../Instance/VK_instance.h"
+#include "../Vulkan/Window/VK_window.h"
+#include "../Vulkan/VK_engine.h"
+#include "../Vulkan/VK_param.h"
+#include "../Vulkan/Command/VK_command_buffer.h"
+#include "../Vulkan/Command/VK_command.h"
 
-#include "../VK_engine.h"
-#include "../VK_param.h"
-#include "../Device/VK_device.h"
-#include "../Device/VK_physical_device.h"
-#include "../Data/VK_buffer.h"
-#include "../Renderpass/VK_renderpass.h"
-#include "../Command/VK_command_buffer.h"
-#include "../Command/VK_command.h"
-#include "../Presentation/VK_frame.h"
-#include "../Image/VK_image.h"
-
-#include "image/IconsFontAwesome5.h"
+#include <image/IconsFontAwesome5.h>
 
 
 //Constructor / Destructor
-VK_gui::VK_gui(VK_engine* vk_engine){
+GPU_gui::GPU_gui(VK_engine* vk_engine){
   //---------------------------
 
   this->vk_engine = vk_engine;
@@ -26,21 +18,13 @@ VK_gui::VK_gui(VK_engine* vk_engine){
   this->vk_command_buffer = vk_engine->get_vk_command_buffer();
   this->vk_command = vk_engine->get_vk_command();
   this->vk_window = vk_engine->get_vk_window();
-  this->vk_instance = vk_engine->get_vk_instance();
-  this->vk_device = vk_engine->get_vk_device();
-  this->vk_renderpass = vk_engine->get_vk_renderpass();
-  this->vk_physical_device = vk_engine->get_vk_physical_device();
-  this->vk_frame = vk_engine->get_vk_frame();
-  this->vk_buffer = vk_engine->get_vk_buffer();
-  this->vk_image = vk_engine->get_vk_image();
 
   //---------------------------
 }
-VK_gui::~VK_gui(){}
+GPU_gui::~GPU_gui(){}
 
 //Main function
-void VK_gui::clean_gui(){
-  VK_device* vk_device = vk_engine->get_vk_device();
+void GPU_gui::clean_gui(){
   //---------------------------
 
   vkDestroyDescriptorPool(vk_param->device.device, imguiPool, nullptr);
@@ -51,7 +35,7 @@ void VK_gui::clean_gui(){
 
   //---------------------------
 }
-void VK_gui::command_gui(Struct_renderpass* renderpass){
+void GPU_gui::command_gui(Struct_renderpass* renderpass){
   //---------------------------
 
   ImGui_ImplVulkan_RenderDrawData(draw_data, renderpass->command_buffer);
@@ -60,7 +44,7 @@ void VK_gui::command_gui(Struct_renderpass* renderpass){
 }
 
 //Init function
-void VK_gui::init_gui(){
+void GPU_gui::init_gui(){
   //---------------------------
 
   this->gui_vulkan();
@@ -69,7 +53,7 @@ void VK_gui::init_gui(){
 
   //---------------------------
 }
-void VK_gui::gui_vulkan(){
+void GPU_gui::gui_vulkan(){
   GLFWwindow* window = vk_window->get_window();
   VkSurfaceKHR surface = vk_window->get_surface();
   VkRenderPass renderPass = vk_param->renderpass_ui.renderpass;
@@ -123,7 +107,7 @@ void VK_gui::gui_vulkan(){
 
   //---------------------------
 }
-void VK_gui::gui_select_font(){
+void GPU_gui::gui_select_font(){
   ImGuiIO io = ImGui::GetIO();
   static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
   //---------------------------
@@ -137,6 +121,7 @@ void VK_gui::gui_select_font(){
   config_icon.MergeMode = true;
   config_icon.GlyphMinAdvanceX = 15.0f; //Monospace icons
 
+  //Load all droidsans font with size from 13 to 23
   float font_size = 13.0f;
   for(int i=0; i<10; i++){
     io.Fonts->AddFontFromFileTTF("../src/GUI/Style/Font/DroidSans.ttf", font_size, &config_text);
@@ -149,7 +134,7 @@ void VK_gui::gui_select_font(){
 
   //---------------------------
 }
-void VK_gui::gui_load_font(){
+void GPU_gui::gui_load_font(){
   VkCommandPool command_pool = vk_command_buffer->get_command_pool();
   //---------------------------
 
@@ -191,76 +176,9 @@ void VK_gui::gui_load_font(){
 
   //---------------------------
 }
-void VK_gui::gui_image(){
-  VkCommandPool command_pool = vk_command_buffer->get_command_pool();
-  //---------------------------
-
-
-
-
-
-/*
-  std::vector<VkImage> viewport_image;
-  std::vector<VkImageView> viewport_image_view;
-  std::vector<VkDeviceMemory> dst_image_memory;
-
-
-  int vec_image_size = vk_param->swapchain.vec_frame.size();
-
-  viewport_image.resize(vec_image_size);
-  dst_image_memory.resize(vec_image_size);
-
-  for(uint32_t i=0; i<vec_image_size; i++){
-    // Create the linear tiled destination image to copy to and to read the memory from
-    VkImageCreateInfo image_info{};
-    image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-    image_info.imageType = VK_IMAGE_TYPE_2D;
-    image_info.format = VK_FORMAT_B8G8R8A8_SRGB;
-    image_info.extent.width = vk_param->swapchain.vec_frame[i]->color.width;
-    image_info.extent.height = vk_param->swapchain.vec_frame[i]->color.height;
-    image_info.extent.depth = 1;
-    image_info.arrayLayers = 1;
-    image_info.mipLevels = 1;
-    image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-    image_info.samples = VK_SAMPLE_COUNT_1_BIT;
-    image_info.tiling = VK_IMAGE_TILING_LINEAR;
-    image_info.usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-
-    // Create the image
-    vkCreateImage(vk_param->device.device, &image_info, nullptr, &viewport_image[i]);
-
-    // Create memory to back up the image
-    VkMemoryRequirements memRequirements;
-    VkMemoryAllocateInfo memAllocInfo{};
-    memAllocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-
-    // VkDeviceMemory dstImageMemory;
-    vkGetImageMemoryRequirements(vk_param->device.device, viewport_image[i], &memRequirements);
-    memAllocInfo.allocationSize = memRequirements.size;
-
-    // Memory must be host visible to copy from
-    memAllocInfo.memoryTypeIndex = vk_buffer->findMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-    vkAllocateMemory(vk_param->device.device, &memAllocInfo, nullptr, &dst_image_memory[i]);
-    vkBindImageMemory(vk_param->device.device, viewport_image[i], dst_image_memory[i], 0);
-
-    VkCommandBuffer copyCmd = vk_command->singletime_command_begin();
-
-    vk_command->image_layout_transition(copyCmd, &vk_param->swapchain.vec_frame[i]->color, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
-    vk_command->singletime_command_end(copyCmd);
-  }
-
-  //create image view
-  viewport_image_view.resize(viewport_image.size());
-  for (uint32_t i = 0; i < viewport_image.size(); i++){
-    viewport_image_view[i] = vk_image->create_image_view(viewport_image[i], VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
-  }
-*/
-  //---------------------------
-}
 
 //Loop functions
-void VK_gui::loop_start(){
+void GPU_gui::loop_start(){
   //---------------------------
 
   ImGui_ImplVulkan_NewFrame();
@@ -269,7 +187,7 @@ void VK_gui::loop_start(){
 
   //---------------------------
 }
-void VK_gui::loop_end(){
+void GPU_gui::loop_end(){
   //---------------------------
 
   ImGui::Render();

@@ -1,6 +1,6 @@
 #include "GUI_style.h"
 
-#include "image/IconsFontAwesome5.h"
+#include <image/IconsFontAwesome5.h>
 
 
 //Constructor / Destructor

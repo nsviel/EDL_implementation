@@ -4,7 +4,7 @@
 
 #include "../../Data/Data_node.h"
 
-#include "../../Render/Dimension/Dimension.h"
+#include "../../../Element/Window/Dimension.h"
 #include "../../Render/Camera/Camera.h"
 #include "../../Render/Render_node.h"
 #include <Operation/Transformation/Transformation.h>

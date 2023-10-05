@@ -8,7 +8,7 @@
 #include "../../Binding/VK_descriptor.h"
 #include "../../Binding/VK_uniform.h"
 #include "../../Data/VK_data.h"
-#include "../../Window/VK_gui.h"
+#include "../../../GPU/GPU_gui.h"
 
 
 //Constructor / Destructor
@@ -21,7 +21,7 @@ UI_drawing::UI_drawing(VK_engine* vk_engine){
   this->vk_cmd = vk_engine->get_vk_cmd();
   this->vk_descriptor = vk_engine->get_vk_descriptor();
   this->vk_submit = vk_engine->get_vk_submit();
-  this->vk_gui = vk_engine->get_vk_gui();
+  this->gpu_gui = vk_engine->get_gpu_gui();
   this->vk_uniform = vk_engine->get_vk_uniform();
   this->vk_data = vk_engine->get_vk_data();
   this->vk_canvas = vk_engine->get_vk_canvas();
@@ -49,7 +49,7 @@ void UI_drawing::record_command(Struct_renderpass* renderpass){
 
   vk_command->start_render_pass(renderpass, frame, false);
   vk_cmd->cmd_viewport_canvas(renderpass);
-  vk_gui->command_gui(renderpass);
+  gpu_gui->command_gui(renderpass);
   vk_command->stop_render_pass(renderpass);
 
   //---------------------------
