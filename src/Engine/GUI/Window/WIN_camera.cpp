@@ -12,7 +12,7 @@
 WIN_camera::WIN_camera(Node_gui* node_gui, bool* show_window, string name) : WIN_base(show_window, name){
   //---------------------------
 
-  Render_node* render_node = node_gui->get_render_node();
+  Render_node* render_node = node_gui->get_node_render();
   Render_param* core_param = render_node->get_core_param();
   this->camera = &core_param->camera;
 

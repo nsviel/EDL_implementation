@@ -34,7 +34,7 @@ void Node::init(){
   render_node->init();
   data_node->init();
   node_gui->init();
-  render_node->loop_start();
+  
 
   //---------------------------
 }

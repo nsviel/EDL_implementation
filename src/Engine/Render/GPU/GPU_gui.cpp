@@ -178,16 +178,7 @@ void GPU_gui::gui_load_font(){
   //---------------------------
 }
 
-//Loop functions
-void GPU_gui::loop_start(){
-  //---------------------------
-
-  ImGui_ImplVulkan_NewFrame();
-  ImGui_ImplGlfw_NewFrame();
-  ImGui::NewFrame();
-
-  //---------------------------
-}
+//Loop 
 void GPU_gui::loop_end(){
   //---------------------------
 

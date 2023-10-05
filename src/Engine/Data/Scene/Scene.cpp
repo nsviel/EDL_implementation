@@ -15,7 +15,7 @@
 Scene::Scene(Data_node* data_node){
   //---------------------------
 
-  Render_node* render_node = data_node->get_render_node();
+  Render_node* render_node = data_node->get_node_render();
   this->data_node = data_node;
   this->param_data = data_node->get_param_data();
   this->dataManager = data_node->get_dataManager();

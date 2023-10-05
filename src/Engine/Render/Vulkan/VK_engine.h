@@ -60,7 +60,7 @@ public:
   void fps_calcul(std::chrono::steady_clock::time_point& start_time);
 
   inline Window* get_window(){return window;}
-  inline Render_node* get_render_node(){return render_node;}
+  inline Render_node* get_node_render(){return render_node;}
   inline Render_param* get_core_param(){return core_param;}
   inline VK_param* get_vk_param(){return vk_param;}
   inline VK_device* get_vk_device(){return vk_device;}

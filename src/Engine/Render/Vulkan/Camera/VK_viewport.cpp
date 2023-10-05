@@ -9,7 +9,7 @@
 VK_viewport::VK_viewport(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* render_node = vk_engine->get_render_node();
+  Render_node* render_node = vk_engine->get_node_render();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
 
@@ -18,7 +18,7 @@ VK_viewport::VK_viewport(VK_engine* vk_engine){
 VK_viewport::~VK_viewport(){}
 
 void VK_viewport::init_viewport(){
-  Render_node* render_node = vk_engine->get_render_node();
+  Render_node* render_node = vk_engine->get_node_render();
   this->window = render_node->get_window();
   vec2 win_dim = window->get_window_dim();
   //---------------------------
@@ -40,7 +40,7 @@ void VK_viewport::init_viewport(){
   //---------------------------
 }
 void VK_viewport::update_viewport(){
-  Render_node* render_node = vk_engine->get_render_node();
+  Render_node* render_node = vk_engine->get_node_render();
   this->window = render_node->get_window();
   vec2 win_dim = window->get_window_dim();
   //---------------------------

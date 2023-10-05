@@ -2,7 +2,6 @@
 #include "../VK_engine.h"
 #include "../VK_param.h"
 #include "../../Render_node.h"
-#include "../../../../Element/Window/Dimension.h"
 
 #include <Window/Window.h>
 
@@ -11,7 +10,7 @@
 VK_surface::VK_surface(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* render_node = vk_engine->get_render_node();
+  Render_node* render_node = vk_engine->get_node_render();
 
   this->vk_param = vk_engine->get_vk_param();
   this->window = vk_engine->get_window();

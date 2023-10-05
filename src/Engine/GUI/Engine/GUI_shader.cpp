@@ -11,7 +11,7 @@
 GUI_shader::GUI_shader(Node_gui* node_gui){
   //---------------------------
 
-  Render_node* render_node = node_gui->get_render_node();
+  Render_node* render_node = node_gui->get_node_render();
   Shader* shaderManager = render_node->get_shaderManager();
   this->shader_edl = shaderManager->get_shader_edl();
 

@@ -26,7 +26,7 @@ Node_gui::Node_gui(Node* node){
 
   this->node = node;
   this->window = window;
-  this->render_node = node->get_render_node();
+  this->render_node = node->get_node_render();
   this->data_node = node->get_data_node();
 
   this->controlManager = new Control(this);

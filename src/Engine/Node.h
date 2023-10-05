@@ -22,7 +22,7 @@ public:
   void exit();
   void reset();
 
-  inline Render_node* get_render_node(){return render_node;}
+  inline Render_node* get_node_render(){return render_node;}
   inline Node_gui* get_node_gui(){return node_gui;}
   inline Data_node* get_data_node(){return data_node;}
   inline Window* get_window(){return window;}

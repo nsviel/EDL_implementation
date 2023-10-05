@@ -15,7 +15,7 @@ Control::Control(Node_gui* gui_node){
   //---------------------------
 
   this->node = gui_node->get_node();
-  Render_node* render_node = gui_node->get_render_node();
+  Render_node* render_node = gui_node->get_node_render();
   Data_node* data_node = gui_node->get_data_node();
   this->window = gui_node->get_window();
   this->cameraManager = render_node->get_cameraManager();

@@ -19,7 +19,7 @@
 EDL_drawing::EDL_drawing(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* render_node = vk_engine->get_render_node();
+  Render_node* render_node = vk_engine->get_node_render();
   Shader* shaderManager = render_node->get_shaderManager();
   this->shader_edl = shaderManager->get_shader_edl();
 

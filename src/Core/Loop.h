@@ -2,6 +2,7 @@
 #define LOOP_H
 
 class Window;
+class UI_loop;
 
 
 class Loop
@@ -17,6 +18,7 @@ public:
 
 private:
   Window* window;
+  UI_loop* ui_loop;
 };
 
 #endif

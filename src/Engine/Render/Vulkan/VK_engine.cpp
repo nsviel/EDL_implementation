@@ -121,16 +121,15 @@ void VK_engine::main_loop() {
   //---------------------------
 
   auto start_time = std::chrono::steady_clock::now();
-  while(!glfwWindowShouldClose(window->get_window())){
-    auto start = std::chrono::steady_clock::now();
-    glfwPollEvents();
-    gpu_gui->loop_start();
-    render_node->loop();
-    gpu_gui->loop_end();
-    vk_drawing->draw_frame();
-    this->fps_control(start);
-    this->fps_calcul(start_time);
-  }
+  auto start = std::chrono::steady_clock::now();
+
+  
+  render_node->loop();
+  gpu_gui->loop_end();
+  vk_drawing->draw_frame();
+
+  this->fps_control(start);
+  this->fps_calcul(start_time);
 
   vkDeviceWaitIdle(vk_param->device.device);
 

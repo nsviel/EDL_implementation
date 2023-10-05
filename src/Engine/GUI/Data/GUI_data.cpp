@@ -13,7 +13,7 @@ GUI_data::GUI_data(Node_gui* node_gui){
   //---------------------------
 
   this->node_gui = node_gui;
-  this->render_node = node_gui->get_render_node();
+  this->render_node = node_gui->get_node_render();
   this->vk_engine = render_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
 

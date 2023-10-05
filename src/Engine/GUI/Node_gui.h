@@ -36,7 +36,7 @@ public:
   void loop();
 
   inline Node* get_node(){return node;}
-  inline Render_node* get_render_node(){return render_node;}
+  inline Render_node* get_node_render(){return render_node;}
   inline Data_node* get_data_node(){return data_node;}
   inline Window* get_window(){return window;}
 

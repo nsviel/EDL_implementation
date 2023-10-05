@@ -11,7 +11,7 @@
 VK_cmd::VK_cmd(VK_engine* vk_engine){
   //---------------------------
 
-  Render_node* render_node = vk_engine->get_render_node();
+  Render_node* render_node = vk_engine->get_node_render();
   this->vk_engine = vk_engine;
   this->vk_param = vk_engine->get_vk_param();
   this->vk_viewport = vk_engine->get_vk_viewport();

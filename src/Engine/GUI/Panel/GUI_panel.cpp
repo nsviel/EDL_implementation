@@ -21,7 +21,7 @@
 GUI_panel::GUI_panel(Node_gui* node_gui){
   //---------------------------
 
-  this->render_node = node_gui->get_render_node();
+  this->render_node = node_gui->get_node_render();
   this->node_gui = node_gui;
   this->gui_object = node_gui->get_gui_object();
   this->gui_profiling = node_gui->get_gui_profiling();
