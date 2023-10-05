@@ -7,6 +7,7 @@
 class Render_node;
 class VK_param;
 class Render_param;
+class Window;
 
 class VK_window;
 class VK_instance;
@@ -50,7 +51,7 @@ public:
 
 public:
   //Main functions
-  void init_vulkan();
+  void init_vulkan(Window* window);
   void main_loop();
   void clean_vulkan();
 

@@ -41,6 +41,8 @@
 #include "../Render_node.h"
 #include "../Render_param.h"
 
+#include <Window/Window.h>
+
 
 //Constructor / Destructor
 VK_engine::VK_engine(Render_node* core_node){
@@ -87,12 +89,12 @@ VK_engine::VK_engine(Render_node* core_node){
 VK_engine::~VK_engine(){}
 
 //Main function
-void VK_engine::init_vulkan(){
+void VK_engine::init_vulkan(Window* window){
   timer_time t1 = timer.start_t();
   //---------------------------
 
   //Instance
-  vk_window->init_window();
+  vk_window->init_window(window);
   vk_instance->create_instance();
   vk_validation->create_validation_layer();
   vk_window->create_window_surface();

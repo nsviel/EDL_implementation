@@ -8,6 +8,7 @@ class Dimension;
 class VK_param;
 class VK_instance;
 class VK_viewport;
+class Window;
 
 
 class VK_window
@@ -19,7 +20,7 @@ public:
 
 public:
   //Main functions
-  void init_window();
+  void init_window(Window* window);
   void clean_surface();
   void clean_window();
 
@@ -33,6 +34,7 @@ public:
   inline VkSurfaceKHR get_surface(){return surface;}
 
 private:
+  Window* window_class;
   GLFWwindow* window;
   VK_param* vk_param;
   Dimension* dimManager;

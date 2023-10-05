@@ -43,7 +43,7 @@ Render_node::~Render_node(){
 void Render_node::init(Window* window){
   //---------------------------
 
-  vk_engine->init_vulkan();
+  vk_engine->init_vulkan(window);
   dimManager->update();
 
   //---------------------------

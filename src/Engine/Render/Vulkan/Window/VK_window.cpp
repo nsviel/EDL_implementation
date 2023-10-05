@@ -8,6 +8,7 @@
 
 #include "../../Render_node.h"
 #include "../../../../Element/Window/Dimension.h"
+
 #include <Window/Window.h>
 
 
@@ -29,23 +30,13 @@ VK_window::VK_window(VK_engine* vk_engine){
 VK_window::~VK_window(){}
 
 //Main function
-void VK_window::init_window(){
+void VK_window::init_window(Window* window_class){
   //---------------------------
 
-  glfwInit();
-  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
-  this->window = glfwCreateWindow(window_dim.x, window_dim.y, vk_param->window.title.c_str(), nullptr, nullptr);
-  this->window_dim = get_framebuffer_size();
+  this->window_class = window_class;
+  this->window = window_class->get_window();
   this->get_required_extensions();
   dimManager->set_window(window);
-
-  glfwSetWindowSizeLimits(window, vk_param->window.dim_min.x, vk_param->window.dim_min.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
-
-  if (!glfwVulkanSupported()){
-    printf("GLFW: Vulkan Not Supported\n");
-    exit(0);
-  }
 
   //---------------------------
 }
@@ -59,8 +50,7 @@ void VK_window::clean_surface(){
 void VK_window::clean_window(){
   //---------------------------
 
-  glfwDestroyWindow(window);
-  glfwTerminate();
+  window_class->destroy_window();
 
   //---------------------------
 }
@@ -69,11 +59,8 @@ void VK_window::clean_window(){
 void VK_window::create_window_surface(){
   //---------------------------
 
-  VkResult result = glfwCreateWindowSurface(vk_param->instance.instance, window, nullptr, &surface);
-  if(result != VK_SUCCESS){
-    throw std::runtime_error("[error] failed to create window surface!");
-  }
-
+  window_class->create_window_surface(vk_param->instance.instance, surface);
+  
   //---------------------------
 }
 void VK_window::check_for_resizing(){
