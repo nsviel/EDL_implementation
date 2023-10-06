@@ -5,8 +5,8 @@
 #include "../GUI_node.h"
 #include "../GUI_param.h"
 
-#include "../../Data/Data_node.h"
-#include "../../Data/Load/Loader.h"
+#include <Data/Data_node.h>
+#include <Data/Load/Loader.h>
 
 #include <image/IconsFontAwesome5.h>
 

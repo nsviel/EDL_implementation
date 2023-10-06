@@ -7,7 +7,7 @@
 #include <imgui/vulkan/imgui_impl_vulkan.h>
 
 class Engine;
-
+class GUI_node;
 
 class UI_loop
 {
@@ -27,6 +27,7 @@ public:
   void loop_draw(VkCommandBuffer command);
 
 private:
+  GUI_node* gui_node;
   ImDrawData* draw_data;
 };
 

@@ -6,7 +6,7 @@
 #include "GPU/GPU_data.h"
 #include "Shader/Shader.h"
 
-#include "../Engine.h"
+#include <Engine.h>
 
 #include <Window/Window.h>
 

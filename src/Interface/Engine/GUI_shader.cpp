@@ -2,9 +2,9 @@
 
 #include "../GUI_node.h"
 
-#include "../../Render/Render_node.h"
-#include "../../Render/Shader/Shader.h"
-#include "../../Render/Shader/Source/EDL/Shader_edl.h"
+#include <Render/Render_node.h>
+#include <Render/Shader/Shader.h>
+#include <Render/Shader/Source/EDL/Shader_edl.h>
 
 
 //Constructor / Destructor

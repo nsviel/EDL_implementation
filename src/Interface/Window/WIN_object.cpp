@@ -3,7 +3,7 @@
 #include "../GUI_node.h"
 #include "../GUI_param.h"
 
-#include "../../Data/Data_node.h"
+#include <Data/Data_node.h>
 #include "../Control/Control.h"
 
 #include <image/IconsFontAwesome5.h>

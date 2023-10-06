@@ -27,7 +27,8 @@ set(ALL_LIBS
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
   Core/*.cpp
-  UI/*.cpp
+  GUI/*.cpp
+  Interface/*.cpp
   main.cpp
 )
 

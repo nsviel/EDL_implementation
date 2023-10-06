@@ -1,14 +1,13 @@
 #include "Loop.h"
 #include "Param.h"
-#include "../UI/UI_loop.h"
-#include "../UI/Vulkan/UI_main.h"
+#include "../GUI/UI_loop.h"
+#include "../GUI/Vulkan/UI_main.h"
 
 #include <Engine.h>
 #include <Render/Render_node.h>
 #include <Render/GPU/GPU_gui.h>
 #include <Render/Vulkan/VK_engine.h>
 #include <Render/Camera/Camera.h>
-#include <GUI/GUI_node.h>
 
 #include <Window/Window.h>
 #include <iostream>
@@ -34,9 +33,10 @@ void Loop::main_loop(){
   Render_node* render_node = engine->get_node_render();
   VK_engine* vk_engine = render_node->get_vk_engine();
   Camera* cameraManager = render_node->get_cameraManager();
-  GUI_node* gui_node = engine->get_gui_node();
   GPU_gui* gpu_gui = vk_engine->get_gpu_gui();
   //---------------------------
+
+
 
   window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
 

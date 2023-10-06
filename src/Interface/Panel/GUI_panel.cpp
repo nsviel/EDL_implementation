@@ -11,10 +11,10 @@
 #include "../Engine/GUI_shader.h"
 #include "../Panel/GUI_object.h"
 
-#include "../../Data/Load/Loader.h"
-#include "../../Render/Render_node.h"
-#include "../../Engine.h"
-#include "../../Render/Render_param.h"
+#include <Data/Load/Loader.h>
+#include <Render/Render_node.h>
+#include <Engine.h>
+#include <Render/Render_param.h>
 
 
 //Constructor / Destructor

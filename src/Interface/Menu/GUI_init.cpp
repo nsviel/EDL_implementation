@@ -3,10 +3,10 @@
 
 #include "../GUI_node.h"
 
-#include "../../Render/Render_node.h"
-#include "../../Data/Data_node.h"
-#include "../../Data/Scene/Scene.h"
-#include "../../Data/Load/Loader.h"
+#include <Render/Render_node.h>
+#include <Data/Data_node.h>
+#include <Data/Scene/Scene.h>
+#include <Data/Load/Loader.h>
 #include <Operation/Transformation/Transformation.h>
 #include <Specific/File/Directory.h>
 #include <Specific/File/Info.h>

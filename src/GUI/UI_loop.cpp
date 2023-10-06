@@ -1,10 +1,10 @@
 #include "UI_loop.h"
-#include "../Engine/Engine.h"
-#include "../Engine/Render/Render_node.h"
-#include "../Engine/Render/GPU/GPU_gui.h"
-#include "../Engine/Render/Vulkan/VK_engine.h"
-#include "../Engine/Render/Camera/Camera.h"
-#include "../Engine/GUI/GUI_node.h"
+#include <Engine.h>
+#include <Render/Render_node.h>
+#include <Render/GPU/GPU_gui.h>
+#include <Render/Vulkan/VK_engine.h>
+#include <Render/Camera/Camera.h>
+#include "../Interface/GUI_node.h"
 
 
 
@@ -13,13 +13,14 @@ UI_loop::UI_loop(){
   //---------------------------
 
 
+
   //---------------------------
 }
 UI_loop::~UI_loop(){}
 
 //Main function
 void UI_loop::init(Engine* engine){
-  GUI_node* gui_node = engine->get_gui_node();
+this->gui_node = new GUI_node(engine);
   //---------------------------
 
   gui_node->init();
@@ -27,7 +28,7 @@ void UI_loop::init(Engine* engine){
   //---------------------------
 }
 void UI_loop::loop(Engine* engine){
-  GUI_node* gui_node = engine->get_gui_node();
+
   Render_node* render_node = engine->get_node_render();
   VK_engine* vk_engine = render_node->get_vk_engine();
   GPU_gui* gpu_gui = vk_engine->get_gpu_gui();

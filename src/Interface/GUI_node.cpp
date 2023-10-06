@@ -16,7 +16,7 @@
 #include "Style/GUI_style.h"
 #include "Control/Control.h"
 
-#include "../Engine.h"
+#include <Engine.h>
 
 #include <Window/Window.h>
 #include <Render/Render_node.h>
