@@ -1,5 +1,14 @@
 #include "UI_vulkan.h"
 
+//Constructor / Destructor
+UI_vulkan::UI_vulkan(){
+  //---------------------------
+
+  //---------------------------
+}
+UI_vulkan::~UI_vulkan(){}
+
+//Main function
 void UI_vulkan::glfw_error_callback(int error, const char* description){
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }

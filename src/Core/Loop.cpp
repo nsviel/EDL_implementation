@@ -7,6 +7,7 @@
 #include "../Engine/Render/Vulkan/VK_engine.h"
 #include "../Engine/Render/Camera/Camera.h"
 #include "../Engine/GUI/Node_gui.h"
+#include "../UI/Vulkan/UI_main.h"
 
 #include <Window/Window.h>
 
@@ -25,6 +26,8 @@ Loop::~Loop(){}
 
 //Main function
 void Loop::main_loop(){
+    UI_main gui(window);
+
   Param param;
   Render_node* render_node = engine->get_node_render();
   VK_engine* vk_engine = render_node->get_vk_engine();
@@ -34,6 +37,10 @@ void Loop::main_loop(){
   //---------------------------
 
   window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
+  gui.run_gui_main();
+
+/*
+
   engine->init();
 
   auto start_time = std::chrono::steady_clock::now();
@@ -45,6 +52,6 @@ void Loop::main_loop(){
 
   engine->exit();
   window->destroy_window();
-
+*/
   //---------------------------
 }

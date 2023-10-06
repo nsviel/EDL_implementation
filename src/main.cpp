@@ -1,5 +1,4 @@
 #include "Core/Loop.h"
-#include "UI/Vulkan/UI_main.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -7,11 +6,8 @@
 
 int main() {
   Loop loop;
-  UI_main gui;
   //---------------------------
-
-  //gui.run_gui_main();
-
+  
   std::cout<<"--- \033[1;34mBegin program\033[0m ---"<<std::endl;
   try{
     loop.main_loop();

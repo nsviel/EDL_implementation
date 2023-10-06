@@ -31,7 +31,7 @@ public:
   void FrameRender(ImGui_ImplVulkanH_Window* wd, ImDrawData* draw_data);
   void FramePresent(ImGui_ImplVulkanH_Window* wd);
 
-private:
+public:
   VkAllocationCallbacks*   g_Allocator = nullptr;
   VkInstance               g_Instance = VK_NULL_HANDLE;
   VkPhysicalDevice         g_PhysicalDevice = VK_NULL_HANDLE;
@@ -41,7 +41,6 @@ private:
   VkDebugReportCallbackEXT g_DebugReport = VK_NULL_HANDLE;
   VkPipelineCache          g_PipelineCache = VK_NULL_HANDLE;
   VkDescriptorPool         g_DescriptorPool = VK_NULL_HANDLE;
-
   ImGui_ImplVulkanH_Window g_MainWindowData;
   int                      g_MinImageCount = 2;
   bool                     g_SwapChainRebuild = false;
