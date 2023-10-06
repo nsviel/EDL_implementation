@@ -1,6 +1,8 @@
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
-  ./*.cpp
+  *.cpp
 )
 
 # Define the library target
@@ -16,6 +18,7 @@ target_include_directories(LIBRARY_ELEMENT PUBLIC
 
 # Link any external libraries that this library depends on
 target_link_libraries(LIBRARY_ELEMENT PUBLIC
+  Eigen3::Eigen #Eigen library
   -lSQLiteCpp #sqlitecpp
   -lpthread #sqlitecpp
   -ldl #sqlitecpp

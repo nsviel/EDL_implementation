@@ -1,7 +1,10 @@
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
-  Specific/*.cpp
-  Common/*.cpp
+  Data/*.cpp
+  GUI/*.cpp
+  Operation/*.cpp
+  Render/*.cpp
+  *.cpp
 )
 
 # Define the library target
@@ -20,4 +23,6 @@ target_include_directories(LIBRARY_ENGINE PUBLIC
 # Link any external libraries that this library depends on
 target_link_libraries(LIBRARY_ENGINE PUBLIC
   Eigen3::Eigen #Eigen library
+  LIBRARY_EXTERN
+  LIBRARY_ELEMENT
 )

@@ -103,7 +103,6 @@ void GPU_gui::gui_vulkan(){
   init_info.MinImageCount = 3;
   init_info.ImageCount = 3;
   init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
-
   ImGui_ImplVulkan_Init(&init_info, renderPass);
 
   //---------------------------
@@ -178,7 +177,7 @@ void GPU_gui::gui_load_font(){
   //---------------------------
 }
 
-//Loop 
+//Loop
 void GPU_gui::loop_end(){
   //---------------------------
 

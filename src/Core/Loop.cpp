@@ -1,15 +1,17 @@
 #include "Loop.h"
 #include "Param.h"
 #include "../UI/UI_loop.h"
-#include "../Engine/Engine.h"
-#include "../Engine/Render/Render_node.h"
-#include "../Engine/Render/GPU/GPU_gui.h"
-#include "../Engine/Render/Vulkan/VK_engine.h"
-#include "../Engine/Render/Camera/Camera.h"
-#include "../Engine/GUI/Node_gui.h"
 #include "../UI/Vulkan/UI_main.h"
 
+#include <Engine.h>
+#include <Render/Render_node.h>
+#include <Render/GPU/GPU_gui.h>
+#include <Render/Vulkan/VK_engine.h>
+#include <Render/Camera/Camera.h>
+#include <GUI/Node_gui.h>
+
 #include <Window/Window.h>
+#include <iostream>
 
 
 //Constructor / Destructor
@@ -19,7 +21,7 @@ Loop::Loop(){
   this->window = new Window();
   this->ui_loop = new UI_loop();
   this->engine = new Engine(window);
-
+  
   //---------------------------
 }
 Loop::~Loop(){}
@@ -37,17 +39,19 @@ void Loop::main_loop(){
   //---------------------------
 
   window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
-  gui.run_gui_main();
 
 
-
+  //gui.init_gui();
   engine->init();
+  ui_loop->init(engine);
+
 
   auto start_time = std::chrono::steady_clock::now();
   while(!glfwWindowShouldClose(window->get_window())){
     glfwPollEvents();
     ui_loop->loop(engine);
     engine->loop();
+    //gui.run_gui_main();
   }
 
   engine->exit();

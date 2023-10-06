@@ -1,5 +1,4 @@
 # CMakeLists childs
-add_subdirectory(Element)
 add_subdirectory(Engine)
 
 # Library dependencies
@@ -27,7 +26,9 @@ set(ALL_LIBS
 
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
-  *.cpp
+  Core/*.cpp
+  UI/*.cpp
+  main.cpp
 )
 
 # Executable

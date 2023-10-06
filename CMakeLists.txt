@@ -11,4 +11,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # CMakeLists childs
 add_subdirectory(extern)
+add_subdirectory(libraries)
 add_subdirectory(src)

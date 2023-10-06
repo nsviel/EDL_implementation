@@ -1,13 +1,11 @@
 #include "Scene.h"
 #include "Database.h"
-
 #include "../Data_node.h"
 #include "../Data_param.h"
-
-#include "../../Engine.h"
 #include "../Load/Loader.h"
-#include "../../Render/Render_node.h"
-#include "../../Render/GPU/GPU_data.h"
+
+#include <Render/Render_node.h>
+#include <Render/GPU/GPU_data.h>
 #include <Operation/Transformation/Attribut.h>
 
 
@@ -44,7 +42,6 @@ void Scene::init_set(){
   //---------------------------
 }
 void Scene::init_scene(){
-  Engine* engine = data_node->get_engine();
   Loader* loaderManager = data_node->get_loaderManager();
   //---------------------------
 

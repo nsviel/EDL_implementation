@@ -18,6 +18,14 @@ UI_loop::UI_loop(){
 UI_loop::~UI_loop(){}
 
 //Main function
+void UI_loop::init(Engine* engine){
+  Node_gui* node_gui = engine->get_node_gui();
+  //---------------------------
+
+  node_gui->init();
+
+  //---------------------------
+}
 void UI_loop::loop(Engine* engine){
   Node_gui* node_gui = engine->get_node_gui();
   Render_node* render_node = engine->get_node_render();

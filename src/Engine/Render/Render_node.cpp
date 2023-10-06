@@ -12,11 +12,10 @@
 
 
 //Constructor / Destructor
-Render_node::Render_node(Engine* engine){
+Render_node::Render_node(Window* window){
   //---------------------------
 
-  this->engine = engine;
-  this->window = engine->get_window();
+  this->window = window;
   this->core_param = new Render_param();
   this->cameraManager = new Camera(this);
   this->shaderManager = new Shader(this);

@@ -14,8 +14,8 @@ Engine::Engine(Window* window){
   //---------------------------
 
   this->window = window;
-  this->render_node = new Render_node(this);
-  this->data_node = new Data_node(this);
+  this->render_node = new Render_node(window);
+  this->data_node = new Data_node(render_node);
   this->node_gui = new Node_gui(this);
 
   //---------------------------
@@ -35,8 +35,6 @@ void Engine::init(){
 
   render_node->init();
   data_node->init();
-  node_gui->init();
-
 
   //---------------------------
 }

@@ -16,7 +16,7 @@ class Render_node
 {
 public:
   //Constructor / Destructor
-  Render_node(Engine* engine);
+  Render_node(Window* window);
   ~Render_node();
 
 public:
@@ -26,8 +26,6 @@ public:
   void exit();
   void reset();
 
-  inline Engine* get_engine(){return engine;}
-
   inline VK_engine* get_vk_engine(){return vk_engine;}
   inline Camera* get_cameraManager(){return cameraManager;}
   inline Render_param* get_core_param(){return core_param;}
@@ -36,7 +34,6 @@ public:
   inline Window* get_window(){return window;}
 
 private:
-  Engine* engine;
   GPU_data* gpu_data;
   Render_param* core_param;
   VK_engine* vk_engine;

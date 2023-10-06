@@ -18,7 +18,10 @@ public:
 
 public:
   //Main functions
+  void init(Engine* engine);
   void loop(Engine* engine);
+
+  //Subfunction
   void loop_start();
   void loop_end();
   void loop_draw(VkCommandBuffer command);

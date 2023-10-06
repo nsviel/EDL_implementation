@@ -4,21 +4,17 @@
 #include "Scene/Database.h"
 #include "Glyph/Glyphs.h"
 #include "Load/Loader.h"
-#include "../Engine.h"
 
 
 //Constructor / Destructor
-Data_node::Data_node(Engine* engine){
+Data_node::Data_node(Render_node* render_node){
   //---------------------------
 
-  this->engine = engine;
-  this->render_node = engine->get_node_render();
-
+  this->render_node = render_node;
   this->param_data = new Data_param();
   this->dataManager = new Database(this);
   this->sceneManager = new Scene(this);
   this->glyphManager = new Glyphs(this);
-
   this->loaderManager = new Loader(this);
 
   //---------------------------
@@ -30,6 +26,7 @@ Data_node::~Data_node(){
   delete sceneManager;
   delete dataManager;
   delete glyphManager;
+  delete loaderManager;
 
   //---------------------------
 }

@@ -28,7 +28,9 @@ UI_main::UI_main(Window* window){
 UI_main::~UI_main(){}
 
 // Main code
-int UI_main::run_gui_main(){
+void UI_main::init_gui(){
+  //---------------------------
+
   //Extentions
   ImVector<const char*> extensions;
   uint32_t extensions_count = 0;
@@ -40,13 +42,15 @@ int UI_main::run_gui_main(){
 
   // Create Window Surface
   VkSurfaceKHR surface;
-  VkResult err = glfwCreateWindowSurface(ui_vulkan->g_Instance, window->get_window(), ui_vulkan->g_Allocator, &surface);
-  ui_vulkan->check_vk_result(err);
+  window->create_window_surface(ui_vulkan->g_Instance, surface);
+
+  //VkResult err = glfwCreateWindowSurface(ui_vulkan->g_Instance, window->get_window(), ui_vulkan->g_Allocator, &surface);
+  //ui_vulkan->check_vk_result(err);
 
   // Create Framebuffers
   int w, h;
   glfwGetFramebufferSize(window->get_window(), &w, &h);
-  ImGui_ImplVulkanH_Window* wd = &ui_vulkan->g_MainWindowData;
+  this->wd = &ui_vulkan->g_MainWindowData;
   ui_vulkan->SetupVulkanWindow(wd, surface, w, h);
 
   // Setup Dear ImGui context
@@ -71,7 +75,7 @@ int UI_main::run_gui_main(){
   }
 
   // Setup Platform/Renderer backends
-  ImGui_ImplGlfw_InitForVulkan(window->get_window(), true);
+  //ImGui_ImplGlfw_InitForVulkan(window->get_window(), true);
   ImGui_ImplVulkan_InitInfo init_info = {};
   init_info.Instance = ui_vulkan->g_Instance;
   init_info.PhysicalDevice = ui_vulkan->g_PhysicalDevice;
@@ -88,130 +92,40 @@ int UI_main::run_gui_main(){
   ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);
 
   // Upload Fonts
-  {
-      // Use any command queue
-      VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
-      VkCommandBuffer command_buffer = wd->Frames[wd->FrameIndex].CommandBuffer;
+  // Use any command queue
+  VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
+  VkCommandBuffer command_buffer = wd->Frames[wd->FrameIndex].CommandBuffer;
 
-      err = vkResetCommandPool(ui_vulkan->g_Device, command_pool, 0);
-      ui_vulkan->check_vk_result(err);
-      VkCommandBufferBeginInfo begin_info = {};
-      begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-      begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-      err = vkBeginCommandBuffer(command_buffer, &begin_info);
-      ui_vulkan->check_vk_result(err);
+  VkResult err = vkResetCommandPool(ui_vulkan->g_Device, command_pool, 0);
+  ui_vulkan->check_vk_result(err);
+  VkCommandBufferBeginInfo begin_info = {};
+  begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+  err = vkBeginCommandBuffer(command_buffer, &begin_info);
+  ui_vulkan->check_vk_result(err);
 
-      ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+  ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
 
-      VkSubmitInfo end_info = {};
-      end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-      end_info.commandBufferCount = 1;
-      end_info.pCommandBuffers = &command_buffer;
-      err = vkEndCommandBuffer(command_buffer);
-      ui_vulkan->check_vk_result(err);
-      err = vkQueueSubmit(ui_vulkan->g_Queue, 1, &end_info, VK_NULL_HANDLE);
-      ui_vulkan->check_vk_result(err);
+  VkSubmitInfo end_info = {};
+  end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  end_info.commandBufferCount = 1;
+  end_info.pCommandBuffers = &command_buffer;
+  err = vkEndCommandBuffer(command_buffer);
+  ui_vulkan->check_vk_result(err);
+  err = vkQueueSubmit(ui_vulkan->g_Queue, 1, &end_info, VK_NULL_HANDLE);
+  ui_vulkan->check_vk_result(err);
 
-      err = vkDeviceWaitIdle(ui_vulkan->g_Device);
-      ui_vulkan->check_vk_result(err);
-      ImGui_ImplVulkan_DestroyFontUploadObjects();
-  }
+  err = vkDeviceWaitIdle(ui_vulkan->g_Device);
+  ui_vulkan->check_vk_result(err);
+  ImGui_ImplVulkan_DestroyFontUploadObjects();
 
-  // Our state
-  bool show_demo_window = true;
-  bool show_another_window = false;
-  ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-  // Main loop
-  while (!glfwWindowShouldClose(window->get_window())){
-    // Poll and handle events (inputs, window resize, etc.)
-    // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-    // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
-    // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
-    // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-    glfwPollEvents();
-
-    // Resize swap chain?
-    if (ui_vulkan->g_SwapChainRebuild)
-    {
-        int width, height;
-        glfwGetFramebufferSize(window->get_window(), &width, &height);
-        if (width > 0 && height > 0)
-        {
-            ImGui_ImplVulkan_SetMinImageCount(ui_vulkan->g_MinImageCount);
-            ImGui_ImplVulkanH_CreateOrResizeWindow(ui_vulkan->g_Instance, ui_vulkan->g_PhysicalDevice, ui_vulkan->g_Device, &ui_vulkan->g_MainWindowData, ui_vulkan->g_QueueFamily, ui_vulkan->g_Allocator, width, height, ui_vulkan->g_MinImageCount);
-            ui_vulkan->g_MainWindowData.FrameIndex = 0;
-            ui_vulkan->g_SwapChainRebuild = false;
-        }
-    }
-
-    // Start the Dear ImGui frame
-    ImGui_ImplVulkan_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
-    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-    if (show_demo_window)
-        ImGui::ShowDemoWindow(&show_demo_window);
-
-    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-    {
-      static float f = 0.0f;
-      static int counter = 0;
-
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-        ImGui::End();
-    }
-
-    // 3. Show another simple window.
-    if (show_another_window)
-    {
-        ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        ImGui::Text("Hello from another window!");
-        if (ImGui::Button("Close Me"))
-            show_another_window = false;
-        ImGui::End();
-    }
-
-    // Rendering
-    ImGui::Render();
-    ImDrawData* main_draw_data = ImGui::GetDrawData();
-    const bool main_is_minimized = (main_draw_data->DisplaySize.x <= 0.0f || main_draw_data->DisplaySize.y <= 0.0f);
-    wd->ClearValue.color.float32[0] = clear_color.x * clear_color.w;
-    wd->ClearValue.color.float32[1] = clear_color.y * clear_color.w;
-    wd->ClearValue.color.float32[2] = clear_color.z * clear_color.w;
-    wd->ClearValue.color.float32[3] = clear_color.w;
-    if (!main_is_minimized)
-        ui_vulkan->FrameRender(wd, main_draw_data);
-
-    // Update and Render additional Platform Windows
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-    }
-
-    // Present Main Platform Window
-    if (!main_is_minimized)
-      ui_vulkan->FramePresent(wd);
-  }
+  //---------------------------
+}
+void UI_main::clean_gui(){
+  //---------------------------
 
   // Cleanup
-  err = vkDeviceWaitIdle(ui_vulkan->g_Device);
+  VkResult err = vkDeviceWaitIdle(ui_vulkan->g_Device);
   ui_vulkan->check_vk_result(err);
   ImGui_ImplVulkan_Shutdown();
   ImGui_ImplGlfw_Shutdown();
@@ -223,5 +137,90 @@ int UI_main::run_gui_main(){
   glfwDestroyWindow(window->get_window());
   glfwTerminate();
 
-  return 0;
+  //---------------------------
+}
+void UI_main::run_gui_main(){
+  //---------------------------
+
+  // Our state
+  ImGuiIO& io = ImGui::GetIO(); (void)io;
+  bool show_demo_window = true;
+  bool show_another_window = false;
+  ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+  // Resize swap chain?
+  if (ui_vulkan->g_SwapChainRebuild){
+    int width, height;
+    glfwGetFramebufferSize(window->get_window(), &width, &height);
+    if (width > 0 && height > 0){
+      ImGui_ImplVulkan_SetMinImageCount(ui_vulkan->g_MinImageCount);
+      ImGui_ImplVulkanH_CreateOrResizeWindow(ui_vulkan->g_Instance, ui_vulkan->g_PhysicalDevice, ui_vulkan->g_Device, &ui_vulkan->g_MainWindowData, ui_vulkan->g_QueueFamily, ui_vulkan->g_Allocator, width, height, ui_vulkan->g_MinImageCount);
+      ui_vulkan->g_MainWindowData.FrameIndex = 0;
+      ui_vulkan->g_SwapChainRebuild = false;
+    }
+  }
+
+  // Start the Dear ImGui frame
+  ImGui_ImplVulkan_NewFrame();
+  ImGui_ImplGlfw_NewFrame();
+  ImGui::NewFrame();
+
+  // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+  if (show_demo_window){
+    ImGui::ShowDemoWindow(&show_demo_window);
+  }
+  {
+    static float f = 0.0f;
+    static int counter = 0;
+
+      ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+      ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+      ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+      ImGui::Checkbox("Another Window", &show_another_window);
+
+      ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+      ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+      if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+          counter++;
+      ImGui::SameLine();
+      ImGui::Text("counter = %d", counter);
+
+      ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+      ImGui::End();
+  }
+  if (show_another_window){
+    ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+    ImGui::Text("Hello from another window!");
+    if (ImGui::Button("Close Me"))
+        show_another_window = false;
+    ImGui::End();
+  }
+
+  // Rendering
+  ImGui::Render();
+  ImDrawData* main_draw_data = ImGui::GetDrawData();
+  const bool main_is_minimized = (main_draw_data->DisplaySize.x <= 0.0f || main_draw_data->DisplaySize.y <= 0.0f);
+  wd->ClearValue.color.float32[0] = clear_color.x * clear_color.w;
+  wd->ClearValue.color.float32[1] = clear_color.y * clear_color.w;
+  wd->ClearValue.color.float32[2] = clear_color.z * clear_color.w;
+  wd->ClearValue.color.float32[3] = clear_color.w;
+  if (!main_is_minimized){
+    ui_vulkan->FrameRender(wd, main_draw_data);
+  }
+
+  // Update and Render additional Platform Windows
+  if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable){
+    ImGui::UpdatePlatformWindows();
+    ImGui::RenderPlatformWindowsDefault();
+  }
+
+  // Present Main Platform Window
+  if (!main_is_minimized){
+    ui_vulkan->FramePresent(wd);
+  }
+
+  //---------------------------
+  //out loop -> this->clean_gui();
 }

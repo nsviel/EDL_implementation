@@ -19,13 +19,15 @@ public:
 
 public:
   //Main functions
-  int run_gui_main();
+  void init_gui();
+  void clean_gui();
+  void run_gui_main();
 
 private:
   Window* window;
   UI_vulkan* ui_vulkan;
 
-  ImDrawData* draw_data;
+  ImGui_ImplVulkanH_Window* wd;
 };
 
 #endif

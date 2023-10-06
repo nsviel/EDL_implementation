@@ -1,5 +1,8 @@
 #include "UI_vulkan.h"
 
+// All the ImGui_ImplVulkanH_XXX structures/functions are optional helpers used by the demo.
+// Your real engine/app may not use them.
+
 //Constructor / Destructor
 UI_vulkan::UI_vulkan(){
   //---------------------------
@@ -177,9 +180,6 @@ void UI_vulkan::SetupVulkan(ImVector<const char*> instance_extensions){
         check_vk_result(err);
     }
 }
-
-// All the ImGui_ImplVulkanH_XXX structures/functions are optional helpers used by the demo.
-// Your real engine/app may not use them.
 void UI_vulkan::SetupVulkanWindow(ImGui_ImplVulkanH_Window* wd, VkSurfaceKHR surface, int width, int height){
     wd->Surface = surface;
 

@@ -7,7 +7,7 @@
 int main() {
   Loop loop;
   //---------------------------
-  
+
   std::cout<<"--- \033[1;34mBegin program\033[0m ---"<<std::endl;
   try{
     loop.main_loop();
