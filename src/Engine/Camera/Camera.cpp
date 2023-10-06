@@ -3,8 +3,8 @@
 #include "Mode/CAM_arcball.h"
 #include "Mode/CAM_zoom.h"
 #include "Mode/CAM_proj.h"
-#include "../Render_node.h"
-#include "../Render_param.h"
+#include <Render/Render_node.h>
+#include <Render/Render_param.h>
 
 
 //Constructor / Destructor

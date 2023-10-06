@@ -5,7 +5,7 @@
 
 #include <Render/Render_node.h>
 #include <Render/Render_param.h>
-#include <Render/Camera/struct_camera.h>
+#include <Camera/struct_camera.h>
 
 
 //Constructor / Destructor

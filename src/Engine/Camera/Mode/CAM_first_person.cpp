@@ -1,5 +1,5 @@
 #include "CAM_first_person.h"
-#include "../../Render_node.h"
+#include <Render/Render_node.h>
 
 #include <Window/Window.h>
 

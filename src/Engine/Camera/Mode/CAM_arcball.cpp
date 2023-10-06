@@ -1,5 +1,5 @@
 #include "CAM_arcball.h"
-#include "../../Render_node.h"
+#include <Render/Render_node.h>
 
 #include <Window/Window.h>
 

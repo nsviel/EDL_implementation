@@ -2,7 +2,7 @@
 #include "../GUI_node.h"
 #include <Data/Scene/Scene.h>
 #include <Data/Data_node.h>
-#include <Render/Camera/Camera.h>
+#include <Camera/Camera.h>
 #include <Render/Render_node.h>
 #include <Engine.h>
 

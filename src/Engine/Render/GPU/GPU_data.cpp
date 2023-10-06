@@ -1,6 +1,6 @@
 #include "GPU_data.h"
 
-#include "../Render_node.h"
+#include <Render/Render_node.h>
 #include "../Vulkan/VK_engine.h"
 #include "../Vulkan/Data/VK_buffer.h"
 #include "../Vulkan/Image/VK_texture.h"

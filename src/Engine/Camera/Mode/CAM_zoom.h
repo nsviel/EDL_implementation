@@ -2,7 +2,7 @@
 #define CAM_ZOOM_H
 
 #include "../struct_camera.h"
-#include "../../Render_common.h"
+#include "../../Render/Render_common.h"
 
 class Render_node;
 

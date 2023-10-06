@@ -38,8 +38,8 @@
 #include "Camera/VK_camera.h"
 
 
-#include "../Render_node.h"
-#include "../Render_param.h"
+#include <Render/Render_node.h>
+#include <Render/Render_param.h>
 #include <Engine.h>
 
 #include <Window/Window.h>

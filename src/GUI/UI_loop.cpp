@@ -3,7 +3,7 @@
 #include <Render/Render_node.h>
 #include <Render/GPU/GPU_gui.h>
 #include <Render/Vulkan/VK_engine.h>
-#include <Render/Camera/Camera.h>
+#include <Camera/Camera.h>
 #include "../Interface/GUI_node.h"
 
 

@@ -3,7 +3,7 @@
 
 #include "struct_camera.h"
 
-#include "../Render_common.h"
+#include "../Render/Render_common.h"
 
 class Engine;
 class Render_node;

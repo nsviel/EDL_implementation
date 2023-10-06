@@ -1,5 +1,5 @@
 #include "CAM_zoom.h"
-#include "../../Render_node.h"
+#include <Render/Render_node.h>
 
 
 //Constructor / Destructor
