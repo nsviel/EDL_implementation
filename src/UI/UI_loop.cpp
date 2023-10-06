@@ -31,6 +31,8 @@ void UI_loop::loop(Engine* engine){
 
   //---------------------------
 }
+
+//Subfunction
 void UI_loop::loop_start(){
   //---------------------------
 
