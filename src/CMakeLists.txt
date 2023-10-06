@@ -28,6 +28,7 @@ set(ALL_LIBS
 file(GLOB_RECURSE ALL_SOURCES
   Core/*.cpp
   UI/*.cpp
+  GUI/*.cpp
   main.cpp
 )
 
