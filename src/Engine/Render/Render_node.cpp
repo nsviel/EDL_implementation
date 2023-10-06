@@ -6,17 +6,17 @@
 #include "GPU/GPU_data.h"
 #include "Shader/Shader.h"
 
-#include "../Node.h"
+#include "../Engine.h"
 
 #include <Window/Window.h>
 
 
 //Constructor / Destructor
-Render_node::Render_node(Node* node){
+Render_node::Render_node(Engine* engine){
   //---------------------------
 
-  this->node = node;
-  this->window = node->get_window();
+  this->engine = engine;
+  this->window = engine->get_window();
   this->core_param = new Render_param();
   this->cameraManager = new Camera(this);
   this->shaderManager = new Shader(this);

@@ -4,7 +4,7 @@
 #include "../../Data/Data_node.h"
 #include "../../Render/Camera/Camera.h"
 #include "../../Render/Render_node.h"
-#include "../../Node.h"
+#include "../../Engine.h"
 
 #include <Operation/Transformation/Transformation.h>
 #include <Window/Window.h>
@@ -14,7 +14,7 @@
 Control::Control(Node_gui* gui_node){
   //---------------------------
 
-  this->node = gui_node->get_node();
+  this->engine = gui_node->get_engine();
   Render_node* render_node = gui_node->get_node_render();
   Data_node* data_node = gui_node->get_data_node();
   this->window = gui_node->get_window();
@@ -37,7 +37,7 @@ void Control::exit(){
 void Control::reset(){
   //---------------------------
 
-  node->reset();
+  engine->reset();
 
   //---------------------------
 }

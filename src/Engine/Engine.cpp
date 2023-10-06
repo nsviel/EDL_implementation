@@ -1,4 +1,4 @@
-#include "Node.h"
+#include "Engine.h"
 
 #include "Render/Render_node.h"
 #include "GUI/Node_gui.h"
@@ -8,7 +8,7 @@
 
 
 //Constructor / Destructor
-Node::Node(Window* window){
+Engine::Engine(Window* window){
   //---------------------------
 
   this->window = window;
@@ -18,7 +18,7 @@ Node::Node(Window* window){
 
   //---------------------------
 }
-Node::~Node(){
+Engine::~Engine(){
   //---------------------------
 
   delete render_node;
@@ -28,7 +28,7 @@ Node::~Node(){
   //---------------------------
 }
 
-void Node::init(){
+void Engine::init(){
   //---------------------------
 
   render_node->init();
@@ -38,21 +38,21 @@ void Node::init(){
 
   //---------------------------
 }
-void Node::loop(){
+void Engine::loop(){
   //---------------------------
 
-  
+
 
   //---------------------------
 }
-void Node::exit(){
+void Engine::exit(){
   //---------------------------
 
   render_node->exit();
 
   //---------------------------
 }
-void Node::reset(){
+void Engine::reset(){
   //---------------------------
 
   render_node->reset();

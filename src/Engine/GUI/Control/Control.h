@@ -3,7 +3,7 @@
 
 #include "../../common.h"
 
-class Node;
+class Engine;
 class Node_gui;
 class Data_node;
 class Window;
@@ -32,7 +32,7 @@ public:
   void object_deletion(Object* object);
 
 private:
-  Node* node;
+  Engine* engine;
   Scene* sceneManager;
   Window* window;
   Camera* cameraManager;

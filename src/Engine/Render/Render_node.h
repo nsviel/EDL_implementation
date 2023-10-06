@@ -3,7 +3,7 @@
 
 #include "../common.h"
 
-class Node;
+class Engine;
 class Render_param;
 class VK_engine;
 class Camera;
@@ -16,7 +16,7 @@ class Render_node
 {
 public:
   //Constructor / Destructor
-  Render_node(Node* node);
+  Render_node(Engine* engine);
   ~Render_node();
 
 public:
@@ -26,7 +26,7 @@ public:
   void exit();
   void reset();
 
-  inline Node* get_node(){return node;}
+  inline Engine* get_engine(){return engine;}
 
   inline VK_engine* get_vk_engine(){return vk_engine;}
   inline Camera* get_cameraManager(){return cameraManager;}
@@ -36,7 +36,7 @@ public:
   inline Window* get_window(){return window;}
 
 private:
-  Node* node;
+  Engine* engine;
   GPU_data* gpu_data;
   Render_param* core_param;
   VK_engine* vk_engine;

@@ -2,7 +2,7 @@
 #define NODE_SCENE_H
 
 class Render_node;
-class Node;
+class Engine;
 class Scene;
 class Data_param;
 class Database;
@@ -15,14 +15,14 @@ class Data_node
 {
 public:
   //Constructor / Destructor
-  Data_node(Node* node);
+  Data_node(Engine* engine);
   ~Data_node();
 
 public:
   void init();
   void reset();
 
-  inline Node* get_node(){return node;}
+  inline Engine* get_engine(){return engine;}
   inline Render_node* get_node_render(){return render_node;}
 
   inline Data_param* get_param_data(){return param_data;}
@@ -32,14 +32,14 @@ public:
 
 
 private:
-  Node* node;
+  Engine* engine;
   Render_node* render_node;
 
   Data_param* param_data;
   Scene* sceneManager;
   Database* dataManager;
   Glyphs* glyphManager;
-  
+
   Loader* loaderManager;
 };
 

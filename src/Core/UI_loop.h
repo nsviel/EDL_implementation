@@ -6,6 +6,8 @@
 #include <imgui/core/imgui_internal.h>
 #include <imgui/vulkan/imgui_impl_vulkan.h>
 
+class Engine;
+
 
 class UI_loop
 {
@@ -16,6 +18,7 @@ public:
 
 public:
   //Main functions
+  void loop(Engine* engine);
   void loop_start();
   void loop_end();
   void loop_draw(VkCommandBuffer command);

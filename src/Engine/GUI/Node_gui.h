@@ -3,7 +3,7 @@
 
 #include "../common.h"
 
-class Node;
+class Engine;
 class Render_node;
 class Data_node;
 
@@ -28,14 +28,14 @@ class Node_gui
 {
 public:
   //Constructor / Destructor
-  Node_gui(Node* node);
+  Node_gui(Engine* engine);
   ~Node_gui();
 
 public:
   void init();
   void loop();
 
-  inline Node* get_node(){return node;}
+  inline Engine* get_engine(){return engine;}
   inline Render_node* get_node_render(){return render_node;}
   inline Data_node* get_data_node(){return data_node;}
   inline Window* get_window(){return window;}
@@ -57,7 +57,7 @@ public:
 
 
 private:
-  Node* node;
+  Engine* engine;
   Render_node* render_node;
   Data_node* data_node;
   Window* window;

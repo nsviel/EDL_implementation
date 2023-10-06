@@ -3,7 +3,7 @@
 
 class Window;
 class UI_loop;
-class Node;
+class Engine;
 
 
 class Loop
@@ -18,7 +18,7 @@ public:
   void main_loop();
 
 private:
-  Node* node;
+  Engine* engine;
   Window* window;
   UI_loop* ui_loop;
 };

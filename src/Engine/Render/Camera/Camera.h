@@ -5,7 +5,7 @@
 
 #include "../Render_common.h"
 
-class Node;
+class Engine;
 class Render_node;
 class Render_param;
 class CAM_arcball;
@@ -42,7 +42,7 @@ public:
   inline mat4 get_mvpMatrix(){return compute_cam_mvp();}
 
 private:
-  Node* node;
+  Engine* engine;
   Render_param* core_param;
   CAM_arcball* cam_arcball;
   CAM_first_person* cam_fp;

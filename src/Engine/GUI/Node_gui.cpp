@@ -15,19 +15,19 @@
 #include "Style/GUI_style.h"
 #include "Control/Control.h"
 
-#include "../Node.h"
+#include "../Engine.h"
 
 #include <Window/Window.h>
 
 
 //Constructor / Destructor
-Node_gui::Node_gui(Node* node){
+Node_gui::Node_gui(Engine* engine){
   //---------------------------
 
-  this->node = node;
+  this->engine = engine;
   this->window = window;
-  this->render_node = node->get_node_render();
-  this->data_node = node->get_data_node();
+  this->render_node = engine->get_node_render();
+  this->data_node = engine->get_data_node();
 
   this->controlManager = new Control(this);
   this->gui_param = new GUI_param();

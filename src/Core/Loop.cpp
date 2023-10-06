@@ -1,7 +1,7 @@
 #include "Loop.h"
 #include "Param.h"
 #include "UI_loop.h"
-#include "../Engine/Node.h"
+#include "../Engine/Engine.h"
 #include "../Engine/Render/Render_node.h"
 #include "../Engine/Render/GPU/GPU_gui.h"
 #include "../Engine/Render/Vulkan/VK_engine.h"
@@ -17,7 +17,7 @@ Loop::Loop(){
 
   this->window = new Window();
   this->ui_loop = new UI_loop();
-  this->node = new Node(window);
+  this->engine = new Engine(window);
 
   //---------------------------
 }
@@ -26,29 +26,29 @@ Loop::~Loop(){}
 //Main function
 void Loop::main_loop(){
   Param param;
-  Render_node* render_node = node->get_node_render();
+  Render_node* render_node = engine->get_node_render();
   VK_engine* vk_engine = render_node->get_vk_engine();
   Camera* cameraManager = render_node->get_cameraManager();
-  Node_gui* node_gui = node->get_node_gui();
+  Node_gui* node_gui = engine->get_node_gui();
   GPU_gui* gpu_gui = vk_engine->get_gpu_gui();
   //---------------------------
 
   window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
-  node->init();
+  engine->init();
 
   auto start_time = std::chrono::steady_clock::now();
   while(!glfwWindowShouldClose(window->get_window())){
     glfwPollEvents();
-    ui_loop->loop_start();
+    ui_loop->loop(engine);
+
+
     cameraManager->input_cam_mouse();
-    node_gui->loop();
-    gpu_gui->loop_end();
     vk_engine->draw_frame();
 
   }
 
   vk_engine->end_loop();
-  node->exit();
+  engine->exit();
   window->destroy_window();
 
   //---------------------------

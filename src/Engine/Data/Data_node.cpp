@@ -4,15 +4,15 @@
 #include "Scene/Database.h"
 #include "Glyph/Glyphs.h"
 #include "Load/Loader.h"
-#include "../Node.h"
+#include "../Engine.h"
 
 
 //Constructor / Destructor
-Data_node::Data_node(Node* node){
+Data_node::Data_node(Engine* engine){
   //---------------------------
 
-  this->node = node;
-  this->render_node = node->get_node_render();
+  this->engine = engine;
+  this->render_node = engine->get_node_render();
 
   this->param_data = new Data_param();
   this->dataManager = new Database(this);
