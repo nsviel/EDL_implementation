@@ -3,14 +3,14 @@
 
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 
 
 class GUI_style
 {
 public:
   //Constructor / Destructor
-  GUI_style(GUI_node* gui_node);
+  GUI_style(GUI* gui);
   ~GUI_style();
 
 public:

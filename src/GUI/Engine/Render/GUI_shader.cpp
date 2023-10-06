@@ -1,6 +1,6 @@
 #include "GUI_shader.h"
 
-#include <GUI_node.h>
+#include <GUI.h>
 
 #include <Render/Render_node.h>
 #include <Render/Shader/Shader.h>
@@ -8,10 +8,10 @@
 
 
 //Constructor / Destructor
-GUI_shader::GUI_shader(GUI_node* gui_node){
+GUI_shader::GUI_shader(GUI* gui){
   //---------------------------
 
-  Render_node* render_node = gui_node->get_node_render();
+  Render_node* render_node = gui->get_node_render();
   Shader* shaderManager = render_node->get_shaderManager();
   this->shader_edl = shaderManager->get_shader_edl();
 

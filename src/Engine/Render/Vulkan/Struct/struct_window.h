@@ -1,7 +1,7 @@
 #ifndef STRUCT_WINDOW_H
 #define STRUCT_WINDOW_H
 
-#include "../../Render_common.h"
+#include <Specific/common.h>
 
 
 struct Struct_window{

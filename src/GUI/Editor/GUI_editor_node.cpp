@@ -1,10 +1,10 @@
 //https://github.com/thedmd/imgui-node-editor
 #include "GUI_editor_node.h"
-#include <GUI_node.h>
+#include <GUI.h>
 
 
 //Constructor / Destructor
-GUI_editor_node::GUI_editor_node(GUI_editor_node* gui_node){
+GUI_editor_node::GUI_editor_node(GUI_editor_node* gui){
   //---------------------------
 
 

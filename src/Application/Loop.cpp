@@ -1,6 +1,6 @@
 #include "Loop.h"
 #include "Param.h"
-#include <GUI_node.h>
+#include <GUI.h>
 #include <Style/Vulkan/UI_main.h>
 
 #include <Engine.h>
@@ -19,7 +19,7 @@ Loop::Loop(){
 
   this->window = new Window();
   this->engine = new Engine(window);
-  this->gui_node = new GUI_node(engine);
+  this->gui = new GUI(engine);
 
   //---------------------------
 }
@@ -33,13 +33,13 @@ void Loop::main_loop(){
   window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
 
   engine->init();
-  gui_node->init();
+  gui->init();
 
   auto start_time = std::chrono::steady_clock::now();
   while(!glfwWindowShouldClose(window->get_window())){
     glfwPollEvents();
 
-    gui_node->loop();
+    gui->loop();
     engine->loop();
   }
 

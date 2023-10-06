@@ -1,7 +1,7 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include "../Data_common.h"
+#include <Specific/common.h>
 
 class Data_node;
 

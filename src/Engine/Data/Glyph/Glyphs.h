@@ -2,7 +2,7 @@
 #define GLYPHS_H
 
 #include "Base/Glyph_source.h"
-#include "../Data_common.h"
+#include <Specific/common.h>
 
 class Data_node;
 class Scene;

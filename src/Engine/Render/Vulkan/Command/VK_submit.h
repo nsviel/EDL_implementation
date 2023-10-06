@@ -5,7 +5,7 @@
 #include "../Struct/struct_renderpass.h"
 #include "../Struct/struct_command.h"
 #include "../Struct/struct_swapchain.h"
-#include "../../Render_common.h"
+#include <Specific/common.h>
 
 class VK_engine;
 class VK_param;

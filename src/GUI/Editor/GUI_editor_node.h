@@ -11,7 +11,7 @@ class GUI_editor_node
 {
 public:
   //Constructor / Destructor
-  GUI_editor_node(GUI_editor_node* gui_node);
+  GUI_editor_node(GUI_editor_node* gui);
   ~GUI_editor_node();
 
 public:

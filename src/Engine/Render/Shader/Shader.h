@@ -3,7 +3,7 @@
 
 #include "Source/EDL/struct_edl.h"
 #include "Source/PSR/struct_pyramid.h"
-#include "../Render_common.h"
+#include <Specific/common.h>
 
 class Render_node;
 class Shader_edl;

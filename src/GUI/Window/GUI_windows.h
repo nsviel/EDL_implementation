@@ -4,7 +4,7 @@
 #include "WIN_base.h"
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 class GUI_param;
 
 class WIN_camera;
@@ -16,7 +16,7 @@ class GUI_windows
 {
 public:
   //Constructor / Destructor
-  GUI_windows(GUI_node* gui_node);
+  GUI_windows(GUI* gui);
   ~GUI_windows();
 
   //Main function

@@ -2,7 +2,7 @@
 #define SHADER_EDL_H
 
 #include "struct_edl.h"
-#include "../../../Render_common.h"
+#include <Specific/common.h>
 
 class Render_node;
 class Render_param;

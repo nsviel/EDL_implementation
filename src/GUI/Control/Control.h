@@ -4,7 +4,7 @@
 #include <Specific/common.h>
 
 class Engine;
-class GUI_node;
+class GUI;
 class Data_node;
 class Window;
 class Camera;
@@ -16,7 +16,7 @@ class Control
 {
 public:
   //Constructor / Destructor
-  Control(GUI_node* gui_node);
+  Control(GUI* gui);
   ~Control();
 
 public:

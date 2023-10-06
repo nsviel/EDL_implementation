@@ -3,7 +3,7 @@
 
 class Window;
 class Engine;
-class GUI_node;
+class GUI;
 
 
 class Loop
@@ -20,7 +20,7 @@ public:
 private:
   Engine* engine;
   Window* window;
-  GUI_node* gui_node;
+  GUI* gui;
 };
 
 #endif

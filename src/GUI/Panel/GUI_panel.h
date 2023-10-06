@@ -3,7 +3,7 @@
 
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 class Render_node;
 class GUI_profiling;
 class GUI_object;
@@ -11,7 +11,7 @@ class GUI_menubar;
 class GUI_shader;
 class GUI_editor_text;
 class GUI_engine;
-class GUI_node;
+class GUI;
 class GUI_database;
 
 
@@ -19,7 +19,7 @@ class GUI_panel
 {
 public:
   //Constructor / Destructor
-  GUI_panel(GUI_node* gui_node);
+  GUI_panel(GUI* gui);
   ~GUI_panel();
 
 public:
@@ -31,7 +31,7 @@ public:
   void set_initial_panel_focus();
 
 private:
-  GUI_node* gui_node;
+  GUI* gui;
   Render_node* render_node;
 
   GUI_profiling* gui_profiling;

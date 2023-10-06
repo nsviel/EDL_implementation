@@ -3,7 +3,7 @@
 
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 class Render_node;
 class VK_engine;
 class VK_param;
@@ -13,7 +13,7 @@ class GUI_option
 {
 public:
   //Constructor / Destructor
-  GUI_option(GUI_node* gui_node);
+  GUI_option(GUI* gui);
   ~GUI_option();
 
 public:
@@ -26,7 +26,7 @@ public:
   void option_fps();
 
 private:
-  GUI_node* gui_node;
+  GUI* gui;
   Render_node* render_node;
   VK_engine* vk_engine;
   VK_param* vk_param;

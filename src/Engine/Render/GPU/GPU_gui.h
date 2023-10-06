@@ -1,7 +1,7 @@
 #ifndef GPU_GUI_H
 #define GPU_GUI_H
 
-#include "../Render_common.h"
+#include <Specific/common.h>
 #include "../Vulkan/Struct/struct_renderpass.h"
 
 class VK_engine;

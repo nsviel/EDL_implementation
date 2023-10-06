@@ -3,7 +3,7 @@
 
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 class Shader_edl;
 
 
@@ -11,7 +11,7 @@ class GUI_shader
 {
 public:
   //Constructor / Destructor
-  GUI_shader(GUI_node* gui_node);
+  GUI_shader(GUI* gui);
   ~GUI_shader();
 
 public:

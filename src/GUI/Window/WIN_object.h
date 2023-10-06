@@ -4,7 +4,7 @@
 #include "WIN_base.h"
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 class GUI_param;
 class Control;
 
@@ -12,7 +12,7 @@ class WIN_object : public WIN_base
 {
 public:
   //Constructor / Destructor
-  WIN_object(GUI_node* gui_node, bool* show_window, string name);
+  WIN_object(GUI* gui, bool* show_window, string name);
   ~WIN_object();
 
   //Main function

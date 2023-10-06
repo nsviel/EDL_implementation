@@ -1,6 +1,6 @@
 #include "WIN_object.h"
 
-#include <GUI_node.h>
+#include <GUI.h>
 #include "../GUI_param.h"
 
 #include <Data/Data_node.h>
@@ -10,12 +10,12 @@
 
 
 //Constructor / Destructor
-WIN_object::WIN_object(GUI_node* gui_node, bool* show_window, string name) : WIN_base(show_window, name){
+WIN_object::WIN_object(GUI* gui, bool* show_window, string name) : WIN_base(show_window, name){
   //---------------------------
 
-  Data_node* data_node = gui_node->get_data_node();
-  this->gui_param = gui_node->get_gui_param();
-  this->controlManager = gui_node->get_controlManager();
+  Data_node* data_node = gui->get_data_node();
+  this->gui_param = gui->get_gui_param();
+  this->controlManager = gui->get_controlManager();
 
   this->item_width = 150;
 

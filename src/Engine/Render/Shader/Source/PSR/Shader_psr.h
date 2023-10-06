@@ -2,7 +2,7 @@
 #define SHADER_PSR_H
 
 #include "struct_pyramid.h"
-#include "../../../Render_common.h"
+#include <Specific/common.h>
 
 class Render_node;
 class Render_param;

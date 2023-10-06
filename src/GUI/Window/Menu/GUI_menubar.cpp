@@ -2,7 +2,7 @@
 #include "GUI_option.h"
 #include "GUI_init.h"
 
-#include <GUI_node.h>
+#include <GUI.h>
 #include "../../GUI_param.h"
 
 #include <Data/Data_node.h>
@@ -12,14 +12,14 @@
 
 
 //Constructor / Destructor
-GUI_menubar::GUI_menubar(GUI_node* gui_node){
+GUI_menubar::GUI_menubar(GUI* gui){
   //---------------------------
 
-  Data_node* data_node = gui_node->get_data_node();
-  this->gui_node = gui_node;
-  this->gui_param = gui_node->get_gui_param();
-  this->gui_option = gui_node->get_gui_option();
-  this->gui_init = gui_node->get_gui_init();
+  Data_node* data_node = gui->get_data_node();
+  this->gui = gui;
+  this->gui_param = gui->get_gui_param();
+  this->gui_option = gui->get_gui_option();
+  this->gui_init = gui->get_gui_init();
   this->loaderManager = data_node->get_loaderManager();
 
   this->show_demo = false;
@@ -135,12 +135,12 @@ void GUI_menubar::MenuBar_menu_file(){
       }
     }
     if(ImGui::MenuItem("Reset scene","r")){
-      gui_node->reset();
+      gui->reset();
     }
 
     ImGui::Separator();
     if (ImGui::MenuItem("Quit")){
-      gui_node->exit();
+      gui->exit();
     }
 
     ImGui::EndMenu();

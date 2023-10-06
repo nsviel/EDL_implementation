@@ -1,9 +1,9 @@
 #include "GUI_editor_hexa.h"
-#include <GUI_node.h>
+#include <GUI.h>
 
 
 //Constructor / Destructor
-GUI_editor_hexa::GUI_editor_hexa(GUI_node* gui_node){
+GUI_editor_hexa::GUI_editor_hexa(GUI* gui){
   //---------------------------
 
 

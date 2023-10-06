@@ -1,4 +1,4 @@
-#include "GUI_node.h"
+#include "GUI.h"
 #include "GUI_param.h"
 
 #include "Panel/GUI_panel.h"
@@ -24,7 +24,7 @@
 
 
 //Constructor / Destructor
-GUI_node::GUI_node(Engine* engine){
+GUI::GUI(Engine* engine){
   //---------------------------
 
   this->engine = engine;
@@ -50,7 +50,7 @@ GUI_node::GUI_node(Engine* engine){
 
   //---------------------------
 }
-GUI_node::~GUI_node(){
+GUI::~GUI(){
   //---------------------------
 
   delete gui_param;
@@ -64,7 +64,7 @@ GUI_node::~GUI_node(){
 }
 
 //Main function
-void GUI_node::init(){
+void GUI::init(){
   //---------------------------
 
   gui_style->gui_style();
@@ -72,7 +72,7 @@ void GUI_node::init(){
 
   //---------------------------
 }
-void GUI_node::loop(){
+void GUI::loop(){
   Render_node* render_node = engine->get_node_render();
   VK_engine* vk_engine = render_node->get_vk_engine();
   GPU_gui* gpu_gui = vk_engine->get_gpu_gui();

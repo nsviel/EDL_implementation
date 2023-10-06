@@ -3,7 +3,7 @@
 
 #include "../Struct/struct_frame.h"
 #include "../Struct/struct_renderpass.h"
-#include "../../Render_common.h"
+#include <Specific/common.h>
 
 class VK_engine;
 class VK_param;

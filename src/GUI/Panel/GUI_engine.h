@@ -3,7 +3,7 @@
 
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 class VK_param;
 class GUI_control;
 
@@ -12,7 +12,7 @@ class GUI_engine
 {
 public:
   //Constructor / Destructor
-  GUI_engine(GUI_node* gui_node);
+  GUI_engine(GUI* gui);
   ~GUI_engine();
 
 public:

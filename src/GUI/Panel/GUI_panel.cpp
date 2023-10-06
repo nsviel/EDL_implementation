@@ -4,7 +4,7 @@
 #include "GUI_database.h"
 
 #include "../Editor/GUI_editor_text.h"
-#include <GUI_node.h>
+#include <GUI.h>
 #include "../Style/GUI_indicator.h"
 #include "../Window/Menu/GUI_menubar.h"
 #include "../Control/GUI_profiling.h"
@@ -18,19 +18,19 @@
 
 
 //Constructor / Destructor
-GUI_panel::GUI_panel(GUI_node* gui_node){
+GUI_panel::GUI_panel(GUI* gui){
   //---------------------------
 
-  this->gui_node = gui_node;
-  this->render_node = gui_node->get_node_render();
-  this->gui_node = gui_node;
-  this->gui_object = gui_node->get_gui_object();
-  this->gui_profiling = gui_node->get_gui_profiling();
-  this->gui_menubar = gui_node->get_gui_menubar();
-  this->gui_shader = gui_node->get_gui_shader();
-  this->gui_editor_text = gui_node->get_gui_editor_text();
-  this->gui_engine = gui_node->get_gui_engine();
-  this->gui_database = new GUI_database(gui_node);
+  this->gui = gui;
+  this->render_node = gui->get_node_render();
+  this->gui = gui;
+  this->gui_object = gui->get_gui_object();
+  this->gui_profiling = gui->get_gui_profiling();
+  this->gui_menubar = gui->get_gui_menubar();
+  this->gui_shader = gui->get_gui_shader();
+  this->gui_editor_text = gui->get_gui_editor_text();
+  this->gui_engine = gui->get_gui_engine();
+  this->gui_database = new GUI_database(gui);
 
   //---------------------------
 }
@@ -46,7 +46,7 @@ void GUI_panel::draw_panels(){
   gui_shader->design_panel();
   gui_profiling->design_panel();
   gui_engine->design_panel();
-  //gui_node->design_panel();
+  //gui->design_panel();
   gui_database->design_panel();
   gui_object->design_panel();
 

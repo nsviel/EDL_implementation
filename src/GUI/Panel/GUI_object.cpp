@@ -1,6 +1,6 @@
 #include "GUI_object.h"
 
-#include <GUI_node.h>
+#include <GUI.h>
 #include "../GUI_param.h"
 
 #include <Data/Data_node.h>
@@ -8,12 +8,12 @@
 
 
 //Constructor / Destructor
-GUI_object::GUI_object(GUI_node* gui_node){
+GUI_object::GUI_object(GUI* gui){
   //---------------------------
 
-  Data_node* data_node = gui_node->get_data_node();
+  Data_node* data_node = gui->get_data_node();
   this->dataManager = data_node->get_dataManager();
-  this->gui_param = gui_node->get_gui_param();
+  this->gui_param = gui->get_gui_param();
 
   //---------------------------
 }

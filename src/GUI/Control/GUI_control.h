@@ -4,7 +4,7 @@
 #include <Specific/common.h>
 
 class Render_param;
-class GUI_node;
+class GUI;
 class Window;
 class Camera;
 class Control;
@@ -15,7 +15,7 @@ class GUI_control
 {
 public:
   //Constructor / Destructor
-  GUI_control(GUI_node* gui_node);
+  GUI_control(GUI* gui);
   ~GUI_control();
 
 public:

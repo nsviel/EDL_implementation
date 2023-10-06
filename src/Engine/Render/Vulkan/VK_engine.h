@@ -2,7 +2,7 @@
 #define VK_ENGINE_H
 
 #include "Struct/typedef.h"
-#include "../Render_common.h"
+#include <Specific/common.h>
 
 class Render_node;
 class VK_param;

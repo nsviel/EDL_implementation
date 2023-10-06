@@ -2,7 +2,7 @@
 #define GLYPH_SOURCE_H
 
 #include <Specific/Struct/struct_glyph.h>
-#include "../../Data_common.h"
+#include <Specific/common.h>
 
 
 class Glyph_source

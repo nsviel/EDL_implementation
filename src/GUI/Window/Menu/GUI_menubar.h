@@ -3,7 +3,7 @@
 
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 class Loader;
 class GUI_param;
 class GUI_init;
@@ -14,7 +14,7 @@ class GUI_menubar
 {
 public:
   //Constructor / Destructor
-  GUI_menubar(GUI_node* gui_node);
+  GUI_menubar(GUI* gui);
   ~GUI_menubar();
 
 public:
@@ -26,7 +26,7 @@ public:
   void menu_demo();
 
 private:
-  GUI_node* gui_node;
+  GUI* gui;
   Loader* loaderManager;
   GUI_init* gui_init;
   GUI_param* gui_param;

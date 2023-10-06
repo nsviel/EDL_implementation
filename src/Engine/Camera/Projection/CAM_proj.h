@@ -2,7 +2,7 @@
 #define CAM_PROJ_H
 
 #include "../struct_camera.h"
-#include "../../Render/Render_common.h"
+#include <Specific/common.h>
 
 class Render_node;
 class Window;

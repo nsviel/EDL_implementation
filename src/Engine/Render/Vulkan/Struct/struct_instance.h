@@ -1,7 +1,7 @@
 #ifndef STRUCT_INSTANCE_H
 #define STRUCT_INSTANCE_H
 
-#include "../../Render_common.h"
+#include <Specific/common.h>
 
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL callback_debug(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,VkDebugUtilsMessageTypeFlagsEXT messageType,const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,void* pUserData){

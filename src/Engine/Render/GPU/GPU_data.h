@@ -1,7 +1,7 @@
 #ifndef GPU_DATA_H
 #define GPU_DATA_H
 
-#include "../Render_common.h"
+#include <Specific/common.h>
 
 class Render_node;
 class VK_texture;

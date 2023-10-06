@@ -3,7 +3,7 @@
 
 #include <Specific/common.h>
 
-class GUI_node;
+class GUI;
 class VK_param;
 class GUI_control;
 class Database_sqlite;
@@ -13,7 +13,7 @@ class GUI_database
 {
 public:
   //Constructor / Destructor
-  GUI_database(GUI_node* gui_node);
+  GUI_database(GUI* gui);
   ~GUI_database();
 
 public:

@@ -1,5 +1,5 @@
 #include "Control.h"
-#include <GUI_node.h>
+#include <GUI.h>
 #include <Data/Scene/Scene.h>
 #include <Data/Data_node.h>
 #include <Camera/Camera.h>
@@ -11,13 +11,13 @@
 
 
 //Constructor / Destructor
-Control::Control(GUI_node* gui_node){
+Control::Control(GUI* gui){
   //---------------------------
 
-  this->engine = gui_node->get_engine();
-  Render_node* render_node = gui_node->get_node_render();
-  Data_node* data_node = gui_node->get_data_node();
-  this->window = gui_node->get_window();
+  this->engine = gui->get_engine();
+  Render_node* render_node = gui->get_node_render();
+  Data_node* data_node = gui->get_data_node();
+  this->window = gui->get_window();
   this->cameraManager = render_node->get_cameraManager();
   this->sceneManager = data_node->get_sceneManager();
   this->transformManager = new Transformation();

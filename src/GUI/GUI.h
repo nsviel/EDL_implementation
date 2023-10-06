@@ -25,12 +25,12 @@ class Control;
 class Window;
 
 
-class GUI_node
+class GUI
 {
 public:
   //Constructor / Destructor
-  GUI_node(Engine* engine);
-  ~GUI_node();
+  GUI(Engine* engine);
+  ~GUI();
 
 public:
   void init();

@@ -1,7 +1,7 @@
 #ifndef SCENE_GG_H
 #define SCENE_GG_H
 
-#include "../Data_common.h"
+#include <Specific/common.h>
 
 class Data_node;
 class Data_param;

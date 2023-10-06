@@ -2,7 +2,7 @@
 #define STRUCT_SWAPCHAIN_H
 
 #include "struct_frame.h"
-#include "../../Render_common.h"
+#include <Specific/common.h>
 
 
 struct Struct_swapchain{

@@ -1,6 +1,6 @@
 #include "GUI_profiling.h"
 
-#include <GUI_node.h>
+#include <GUI.h>
 
 #include <Render/Render_node.h>
 #include <Render/Render_param.h>
@@ -9,11 +9,11 @@
 
 
 //Constructor / Destructor
-GUI_profiling::GUI_profiling(GUI_node* gui_node){
+GUI_profiling::GUI_profiling(GUI* gui){
   //---------------------------
 
-  this->gui_node = gui_node;
-  this->render_node = gui_node->get_node_render();
+  this->gui = gui;
+  this->render_node = gui->get_node_render();
   this->vk_engine = render_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
 
