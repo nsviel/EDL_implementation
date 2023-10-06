@@ -1,5 +1,4 @@
 #include "Data_node.h"
-#include "Data_param.h"
 #include "Scene/Scene.h"
 #include "Scene/Database.h"
 #include "Glyph/Glyphs.h"
@@ -11,7 +10,6 @@ Data_node::Data_node(Render_node* render_node){
   //---------------------------
 
   this->render_node = render_node;
-  this->param_data = new Data_param();
   this->dataManager = new Database(this);
   this->sceneManager = new Scene(this);
   this->glyphManager = new Glyphs(this);
@@ -22,7 +20,6 @@ Data_node::Data_node(Render_node* render_node){
 Data_node::~Data_node(){
   //---------------------------
 
-  delete param_data;
   delete sceneManager;
   delete dataManager;
   delete glyphManager;

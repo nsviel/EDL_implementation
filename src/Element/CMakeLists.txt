@@ -6,18 +6,18 @@ file(GLOB_RECURSE ALL_SOURCES
 )
 
 # Define the library target
-add_library(LIBRARY_ELEMENT STATIC
+add_library(LIBRARY_STATIC STATIC
   ${ALL_SOURCES}
 )
 
 # Specify include directories
-target_include_directories(LIBRARY_ELEMENT PUBLIC
+target_include_directories(LIBRARY_STATIC PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<INSTALL_INTERFACE:include>
 )
 
 # Link any external libraries that this library depends on
-target_link_libraries(LIBRARY_ELEMENT PUBLIC
+target_link_libraries(LIBRARY_STATIC PUBLIC
   LIBRARY_EXTERN
   Eigen3::Eigen #Eigen library
   -lSQLiteCpp #sqlitecpp

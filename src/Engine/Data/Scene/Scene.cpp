@@ -1,7 +1,6 @@
 #include "Scene.h"
 #include "Database.h"
 #include "../Data_node.h"
-#include "../Data_param.h"
 #include "../Load/Loader.h"
 
 #include <Render/Render_node.h>
@@ -15,7 +14,6 @@ Scene::Scene(Data_node* data_node){
 
   Render_node* render_node = data_node->get_node_render();
   this->data_node = data_node;
-  this->param_data = data_node->get_param_data();
   this->dataManager = data_node->get_dataManager();
   this->gpu_data = render_node->get_gpu_data();
   this->attributManager = new Attribut();
@@ -47,7 +45,7 @@ void Scene::init_scene(){
 
   //Load init object
   vector<string> vec_path;
-  vec_path.push_back(param_data->path_initial_object);
+  vec_path.push_back( "../media/point_cloud/dragon.ply");
   vector<Object*> vec_obj = loaderManager->load_objects(vec_path);
 
   //---------------------------

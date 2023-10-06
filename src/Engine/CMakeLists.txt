@@ -1,9 +1,5 @@
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
-  Data/*.cpp
-  GUI/*.cpp
-  Operation/*.cpp
-  Render/*.cpp
   *.cpp
 )
 
@@ -24,5 +20,5 @@ target_include_directories(LIBRARY_ENGINE PUBLIC
 target_link_libraries(LIBRARY_ENGINE PUBLIC
   Eigen3::Eigen #Eigen library
   LIBRARY_EXTERN
-  LIBRARY_ELEMENT
+  LIBRARY_STATIC
 )
