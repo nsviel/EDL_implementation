@@ -1,6 +1,6 @@
 //https://github.com/thedmd/imgui-node-editor
 #include "GUI_editor_node.h"
-#include "../GUI_node.h"
+#include <GUI_node.h>
 
 
 //Constructor / Destructor

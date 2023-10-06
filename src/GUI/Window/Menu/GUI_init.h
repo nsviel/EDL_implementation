@@ -3,7 +3,7 @@
 
 #include "Initialization/struct_node.h"
 #include "Initialization/struct_init.h"
-#include "../GUI_common.h"
+#include <Specific/common.h>
 
 class GUI_node;
 class Scene;

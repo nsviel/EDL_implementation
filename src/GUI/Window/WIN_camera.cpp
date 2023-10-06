@@ -1,6 +1,6 @@
 #include "WIN_camera.h"
 
-#include "../GUI_node.h"
+#include <GUI_node.h>
 #include "../GUI_param.h"
 
 #include <Render/Render_node.h>

@@ -2,7 +2,7 @@
 #define STRUCT_INIT_H
 
 #include "struct_node.h"
-#include "../../GUI_common.h"
+#include <Specific/common.h>
 
 
 struct Struct_init{

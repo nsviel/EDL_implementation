@@ -1,5 +1,5 @@
 #include "Control.h"
-#include "../GUI_node.h"
+#include <GUI_node.h>
 #include <Data/Scene/Scene.h>
 #include <Data/Data_node.h>
 #include <Camera/Camera.h>

@@ -1,5 +1,6 @@
 # CMakeLists childs
 add_subdirectory(Engine)
+add_subdirectory(GUI)
 
 # Library dependencies
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
@@ -27,7 +28,6 @@ set(ALL_LIBS
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
   Application/*.cpp
-  GUI/*.cpp
   main.cpp
 )
 
@@ -41,6 +41,7 @@ target_link_libraries(executable
   LIBRARY_EXTERN
   LIBRARY_ELEMENT
   LIBRARY_ENGINE
+  LIBRARY_GUI
   ${ALL_LIBS}
 )
 

@@ -2,8 +2,8 @@
 #define LOOP_H
 
 class Window;
-class UI_loop;
 class Engine;
+class GUI_node;
 
 
 class Loop
@@ -20,7 +20,7 @@ public:
 private:
   Engine* engine;
   Window* window;
-  UI_loop* ui_loop;
+  GUI_node* gui_node;
 };
 
 #endif

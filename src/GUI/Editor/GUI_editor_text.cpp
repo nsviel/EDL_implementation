@@ -1,5 +1,5 @@
 #include "GUI_editor_text.h"
-#include "../GUI_node.h"
+#include <GUI_node.h>
 
 
 //Constructor / Destructor

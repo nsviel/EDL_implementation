@@ -2,8 +2,8 @@
 #include "GUI_option.h"
 #include "GUI_init.h"
 
-#include "../GUI_node.h"
-#include "../GUI_param.h"
+#include <GUI_node.h>
+#include "../../GUI_param.h"
 
 #include <Data/Data_node.h>
 #include <Data/Load/Loader.h>

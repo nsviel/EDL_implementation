@@ -1,7 +1,7 @@
 #ifndef GUI_PROFILING_H
 #define GUI_PROFILING_H
 
-#include "../GUI_common.h"
+#include <Specific/common.h>
 
 class GUI_node;
 class Render_node;

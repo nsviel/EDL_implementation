@@ -1,4 +1,4 @@
-#include "../GUI_common.h"
+#include <Specific/common.h>
 #include <imgui/node/imgui_node_editor.h>
 
 namespace ed = ax::NodeEditor;

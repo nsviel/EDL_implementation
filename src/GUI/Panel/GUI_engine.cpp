@@ -1,5 +1,5 @@
 #include "GUI_engine.h"
-#include "../GUI_node.h"
+#include <GUI_node.h>
 #include "../Control/GUI_control.h"
 #include <Render/Render_node.h>
 #include <Render/Vulkan/VK_engine.h>

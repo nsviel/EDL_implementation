@@ -1,7 +1,7 @@
 #ifndef GUI_MENUBAR_H
 #define GUI_MENUBAR_H
 
-#include "../GUI_common.h"
+#include <Specific/common.h>
 
 class GUI_node;
 class Loader;

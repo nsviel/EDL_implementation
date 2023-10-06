@@ -4,7 +4,7 @@
 #include "WIN_object.h"
 #include "WIN_set.h"
 
-#include "../GUI_node.h"
+#include <GUI_node.h>
 #include "../GUI_param.h"
 
 

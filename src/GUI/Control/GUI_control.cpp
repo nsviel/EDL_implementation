@@ -1,6 +1,6 @@
 #include "GUI_control.h"
 
-#include "../GUI_node.h"
+#include <GUI_node.h>
 
 #include <Render/Render_node.h>
 #include <Render/Render_param.h>

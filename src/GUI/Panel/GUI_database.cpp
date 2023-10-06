@@ -1,5 +1,5 @@
 #include "GUI_database.h"
-#include "../GUI_node.h"
+#include <GUI_node.h>
 #include <Database/Database_sqlite.h>
 
 

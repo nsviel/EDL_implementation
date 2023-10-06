@@ -1,7 +1,7 @@
 #ifndef GUI_DATABASE_H
 #define GUI_DATABASE_H
 
-#include "../GUI_common.h"
+#include <Specific/common.h>
 
 class GUI_node;
 class VK_param;

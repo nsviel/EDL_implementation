@@ -1,7 +1,7 @@
-#ifndef GUI_OPION_H
-#define GUI_OPION_H
+#ifndef GUI_DATA_H
+#define GUI_DATA_H
 
-#include "../GUI_common.h"
+#include <Specific/common.h>
 
 class GUI_node;
 class Render_node;
@@ -9,21 +9,19 @@ class VK_engine;
 class VK_param;
 
 
-class GUI_option
+class GUI_data
 {
 public:
   //Constructor / Destructor
-  GUI_option(GUI_node* gui_node);
-  ~GUI_option();
+  GUI_data(GUI_node* gui_node);
+  ~GUI_data();
 
 public:
   //Main function
-  void design_option();
+  void design_data();
 
-  //Subfunctions
-  void option_color();
-  void option_font();
-  void option_fps();
+  //Subfunction
+
 
 private:
   GUI_node* gui_node;

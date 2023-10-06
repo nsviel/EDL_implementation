@@ -1,6 +1,8 @@
 #ifndef GUI_NODE_H
 #define GUI_NODE_H
 
+#include <Specific/common.h>
+
 class Engine;
 class Render_node;
 class Data_node;

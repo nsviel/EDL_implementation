@@ -1,7 +1,7 @@
 #ifndef GUI_PANEL_H
 #define GUI_PANEL_H
 
-#include "../GUI_common.h"
+#include <Specific/common.h>
 
 class GUI_node;
 class Render_node;

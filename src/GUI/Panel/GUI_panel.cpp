@@ -4,11 +4,11 @@
 #include "GUI_database.h"
 
 #include "../Editor/GUI_editor_text.h"
-#include "../GUI_node.h"
+#include <GUI_node.h>
 #include "../Style/GUI_indicator.h"
-#include "../Menu/GUI_menubar.h"
+#include "../Window/Menu/GUI_menubar.h"
 #include "../Control/GUI_profiling.h"
-#include "../Engine/GUI_shader.h"
+#include "../Engine/Render/GUI_shader.h"
 #include "../Panel/GUI_object.h"
 
 #include <Data/Load/Loader.h>

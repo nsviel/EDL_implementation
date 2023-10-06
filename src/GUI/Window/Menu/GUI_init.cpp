@@ -1,7 +1,7 @@
 #include "GUI_init.h"
 #include "Initialization/GUI_tree.h"
 
-#include "../GUI_node.h"
+#include <GUI_node.h>
 
 #include <Render/Render_node.h>
 #include <Data/Data_node.h>

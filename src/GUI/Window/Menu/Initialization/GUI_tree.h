@@ -3,7 +3,7 @@
 
 #include "struct_node.h"
 #include "struct_init.h"
-#include "../../GUI_common.h"
+#include <Specific/common.h>
 
 class GUI_init;
 

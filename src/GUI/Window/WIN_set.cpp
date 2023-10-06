@@ -1,6 +1,6 @@
 #include "WIN_set.h"
 
-#include "../GUI_node.h"
+#include <GUI_node.h>
 #include "../GUI_param.h"
 
 #include <Operation/Transformation/Attribut.h>

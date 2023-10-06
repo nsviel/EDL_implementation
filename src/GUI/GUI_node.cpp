@@ -5,21 +5,21 @@
 #include "Editor/GUI_editor_text.h"
 #include "Editor/GUI_editor_node.h"
 #include "Panel/GUI_engine.h"
-#include "Menu/GUI_menubar.h"
-#include "Menu/GUI_option.h"
-#include "Menu/GUI_init.h"
+#include "Window/Menu/GUI_menubar.h"
+#include "Window/Menu/GUI_option.h"
+#include "Window/Menu/GUI_init.h"
 #include "Control/GUI_control.h"
 #include "Control/GUI_profiling.h"
-#include "Engine/GUI_shader.h"
+#include "Engine/Render/GUI_shader.h"
 #include "Panel/GUI_object.h"
 #include "Window/GUI_windows.h"
 #include "Style/GUI_style.h"
 #include "Control/Control.h"
 
-#include <Engine.h>
-
 #include <Window/Window.h>
 #include <Render/Render_node.h>
+#include <Render/GPU/GPU_gui.h>
+#include <Render/Vulkan/VK_engine.h>
 #include <Engine.h>
 
 
@@ -73,10 +73,18 @@ void GUI_node::init(){
   //---------------------------
 }
 void GUI_node::loop(){
+  Render_node* render_node = engine->get_node_render();
+  VK_engine* vk_engine = render_node->get_vk_engine();
+  GPU_gui* gpu_gui = vk_engine->get_gpu_gui();
   //---------------------------
+
+  ImGui_ImplVulkan_NewFrame();
+  ImGui_ImplGlfw_NewFrame();
+  ImGui::NewFrame();
 
   gui_panel->draw_panels();
   gui_windows->draw_windows();
+  gpu_gui->loop_end();
 
   //---------------------------
 }

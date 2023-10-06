@@ -1,7 +1,7 @@
 #ifndef STRUCT_TREEFILE_H
 #define STRUCT_TREEFILE_H
 
-#include "../../GUI_common.h"
+#include <Specific/common.h>
 
 
 struct Tree_node{

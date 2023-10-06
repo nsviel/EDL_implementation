@@ -1,7 +1,7 @@
 #ifndef GUI_SHADER_H
 #define GUI_SHADER_H
 
-#include "../GUI_common.h"
+#include <Specific/common.h>
 
 class GUI_node;
 class Shader_edl;
