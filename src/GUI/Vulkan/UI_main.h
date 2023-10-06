@@ -1,5 +1,5 @@
-#ifndef UI_MAIN_H
-#define UI_MAIN_H
+#ifndef UI_MAsssIN_H
+#define UI_MAsssIN_H
 
 #include <imgui/core/imgui.h>
 #include <imgui/core/imgui_impl_glfw.h>

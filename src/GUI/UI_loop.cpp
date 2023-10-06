@@ -4,7 +4,7 @@
 #include <Render/GPU/GPU_gui.h>
 #include <Render/Vulkan/VK_engine.h>
 #include <Camera/Camera.h>
-#include "../Interface/GUI_node.h"
+#include "GUI_node.h"
 
 
 
