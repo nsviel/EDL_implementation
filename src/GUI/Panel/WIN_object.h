@@ -1,7 +1,7 @@
 #ifndef WIN_DATA_H
 #define WIN_DATA_H
 
-#include "WIN_base.h"
+#include <Specific/Base/WIN_base.h>
 #include <Specific/common.h>
 
 class GUI;

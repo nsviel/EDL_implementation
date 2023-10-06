@@ -2,19 +2,19 @@
 #include "GUI_param.h"
 
 #include "Panel/GUI_panel.h"
-#include "Editor/GUI_editor_text.h"
-#include "Editor/GUI_editor_node.h"
+#include "Element/Editor/GUI_editor_text.h"
+#include "Element/Editor/GUI_editor_node.h"
 #include "Panel/GUI_engine.h"
 #include "Window/Menu/GUI_menubar.h"
 #include "Window/Menu/GUI_option.h"
 #include "Window/Menu/GUI_init.h"
-#include "Control/GUI_control.h"
-#include "Control/GUI_profiling.h"
+#include "Window/Control/GUI_control.h"
+#include "Element/Perf/GUI_profiling.h"
 #include "Engine/Render/GUI_shader.h"
 #include "Panel/GUI_object.h"
-#include "Window/GUI_windows.h"
-#include "Style/GUI_style.h"
-#include "Control/Control.h"
+#include "Panel/GUI_windows.h"
+#include "Window/Style/GUI_style.h"
+#include "Window/Control/Control.h"
 
 #include <Window/Window.h>
 #include <Render/Render_node.h>

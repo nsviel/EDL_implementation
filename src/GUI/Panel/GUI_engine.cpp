@@ -1,6 +1,6 @@
 #include "GUI_engine.h"
 #include <GUI.h>
-#include "../Control/GUI_control.h"
+#include "../Window/Control/GUI_control.h"
 #include <Render/Render_node.h>
 #include <Render/Vulkan/VK_engine.h>
 #include <Render/Vulkan/VK_param.h>

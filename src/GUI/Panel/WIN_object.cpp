@@ -1,11 +1,9 @@
 #include "WIN_object.h"
+#include "../GUI_param.h"
+#include "../Window/Control/Control.h"
 
 #include <GUI.h>
-#include "../GUI_param.h"
-
 #include <Data/Data_node.h>
-#include "../Control/Control.h"
-
 #include <image/IconsFontAwesome5.h>
 
 
