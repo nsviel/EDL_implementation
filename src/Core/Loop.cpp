@@ -39,7 +39,7 @@ void Loop::main_loop(){
   window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
   gui.run_gui_main();
 
-/*
+
 
   engine->init();
 
@@ -52,6 +52,6 @@ void Loop::main_loop(){
 
   engine->exit();
   window->destroy_window();
-*/
+
   //---------------------------
 }
