@@ -24,7 +24,7 @@ Loop::Loop(){
 Loop::~Loop(){}
 
 //Main function
-void Loop::main_loop(){
+void Loop::run(){
   Config config;
   //---------------------------
 
@@ -34,7 +34,7 @@ void Loop::main_loop(){
   gui->init();
 
   auto start_time = std::chrono::steady_clock::now();
-  while(!glfwWindowShouldClose(window->get_window())){
+  while(!window->window_should_close()){
     glfwPollEvents();
 
     gui->loop();

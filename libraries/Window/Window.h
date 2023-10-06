@@ -36,10 +36,14 @@ public:
   //Operation function
   bool check_for_resizing();
   vec2 compute_window_dim();
-  vector<const char*> get_required_extensions();
 
+  //Mouse
   glm::vec2 get_mouse_pose();
   void set_mouse_pose(glm::vec2 pos);
+
+  //Accesseur
+  vector<const char*> get_required_extensions();
+  bool window_should_close();
 
   inline GLFWwindow* get_window(){return window;}
   inline vec2 get_window_dim(){return window_dim;}

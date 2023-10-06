@@ -6,7 +6,7 @@
 class GUI;
 class VK_param;
 class GUI_control;
-
+class GUI_menubar;
 
 class GUI_engine
 {
@@ -21,10 +21,12 @@ public:
 
   //Subfunction
   void engine_window();
+  void engine_menubar();
 
 private:
   VK_param* vk_param;
   GUI_control* gui_control;
+  GUI_menubar* gui_menubar;
 
   VkDescriptorSet descriptor;
   bool has_been_initialized;

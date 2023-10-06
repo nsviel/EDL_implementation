@@ -1,9 +1,12 @@
 #include "GUI_engine.h"
+
 #include <GUI.h>
-#include "../Window/Control/GUI_control.h"
+#include <Window/Control/GUI_control.h>
+#include <Window/Menu/GUI_menubar.h>
 #include <Render/Render_node.h>
 #include <Render/Vulkan/VK_engine.h>
 #include <Render/Vulkan/VK_param.h>
+#include <image/IconsFontAwesome5.h>
 
 
 //Constructor / Destructor
@@ -14,6 +17,7 @@ GUI_engine::GUI_engine(GUI* gui){
   VK_engine* vk_engine = render_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
   this->gui_control = gui->get_gui_control();
+  this->gui_menubar = gui->get_gui_menubar();
 
   //---------------------------
 }
@@ -26,6 +30,7 @@ void GUI_engine::design_panel(){
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
   ImGui::SetNextWindowSizeConstraints(ImVec2(100, 100), ImVec2(500, 500));
   ImGui::Begin("Engine");
+  this->engine_menubar();
   this->engine_window();
   ImGui::End();
   ImGui::PopStyleVar();
@@ -68,6 +73,29 @@ void GUI_engine::engine_window(){
 
     gui_control->make_control(center);
   }
+
+  //---------------------------
+}
+void GUI_engine::engine_menubar(){
+  //---------------------------
+
+  ImGui::BeginMenuBar();
+  if(ImGui::BeginMenu("Load")){
+    //loaderManager->load_by_zenity();
+    ImGui::EndMenu();
+  }
+  if(ImGui::BeginMenu("Init")){
+    //gui_init->design_init();
+    ImGui::EndMenu();
+  }
+  if(ImGui::BeginMenu(ICON_FA_COG, "Option")){
+    //gui_option->design_option();
+    ImGui::EndMenu();
+  }
+  if(ImGui::MenuItem(ICON_FA_CAMERA, "Camera##111")){
+    //gui_param->show_camera = !gui_param->show_camera;
+  }
+  ImGui::BeginMenuBar();
 
   //---------------------------
 }

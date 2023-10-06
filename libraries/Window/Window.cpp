@@ -97,22 +97,6 @@ vec2 Window::compute_window_dim(){
   return window_dim;
 }
 
-vector<const char*> Window::get_required_extensions(){
-  //---------------------------
-
-  uint32_t glfw_extension_nb = 0;
-  const char** glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extension_nb);
-  vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_extension_nb);
-
-  vector<const char*> vec_extension;
-  for(int i=0; i<extensions.size(); i++){
-    vec_extension.push_back(extensions[i]);
-  }
-
-  //---------------------------
-  return vec_extension;
-}
-
 //Mouse position
 glm::vec2 Window::get_mouse_pose(){
   //---------------------------
@@ -128,6 +112,30 @@ void Window::set_mouse_pose(glm::vec2 pos){
   //---------------------------
 
   glfwSetCursorPos(window, pos.x, pos.y);
+
+  //---------------------------
+}
+
+//Accesseur
+vector<const char*> Window::get_required_extensions(){
+  //---------------------------
+
+  uint32_t glfw_extension_nb = 0;
+  const char** glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extension_nb);
+  vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_extension_nb);
+
+  vector<const char*> vec_extension;
+  for(int i=0; i<extensions.size(); i++){
+    vec_extension.push_back(extensions[i]);
+  }
+
+  //---------------------------
+  return vec_extension;
+}
+bool Window::window_should_close(){
+  //---------------------------
+
+  return glfwWindowShouldClose(window);
 
   //---------------------------
 }

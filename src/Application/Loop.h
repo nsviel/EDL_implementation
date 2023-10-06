@@ -15,7 +15,7 @@ public:
 
 public:
   //Main functions
-  void main_loop();
+  void run();
 
 private:
   Engine* engine;
