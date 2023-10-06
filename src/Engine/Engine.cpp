@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 #include "Render/Render_node.h"
-#include "GUI/Node_gui.h"
+#include "GUI/GUI_node.h"
 #include "Data/Data_node.h"
 #include "Render/Vulkan/VK_engine.h"
 #include "Render/Camera/Camera.h"
@@ -16,7 +16,7 @@ Engine::Engine(Window* window){
   this->window = window;
   this->render_node = new Render_node(window);
   this->data_node = new Data_node(render_node);
-  this->node_gui = new Node_gui(this);
+  this->gui_node = new GUI_node(this);
 
   //---------------------------
 }
@@ -24,7 +24,7 @@ Engine::~Engine(){
   //---------------------------
 
   delete render_node;
-  delete node_gui;
+  delete gui_node;
   delete data_node;
 
   //---------------------------

@@ -1,9 +1,9 @@
 #include "GUI_dialog.h"
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 
 
 //Constructor / Destructor
-GUI_dialog::GUI_dialog(Node_gui* node_gui){
+GUI_dialog::GUI_dialog(GUI_node* gui_node){
   //---------------------------
 
 

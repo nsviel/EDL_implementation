@@ -4,18 +4,18 @@
 #include "WIN_object.h"
 #include "WIN_set.h"
 
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 #include "../GUI_param.h"
 
 
 //Constructor / Destructor
-GUI_windows::GUI_windows(Node_gui* node_gui){
+GUI_windows::GUI_windows(GUI_node* gui_node){
   //---------------------------
 
-  this->gui_param = node_gui->get_gui_param();
-  this->win_camera = new WIN_camera(node_gui, &gui_param->show_camera, "Camera");
-  this->win_object = new WIN_object(node_gui, &gui_param->show_object, "Object");
-  this->win_set = new WIN_set(node_gui, &gui_param->show_set, "Set");
+  this->gui_param = gui_node->get_gui_param();
+  this->win_camera = new WIN_camera(gui_node, &gui_param->show_camera, "Camera");
+  this->win_object = new WIN_object(gui_node, &gui_param->show_object, "Object");
+  this->win_set = new WIN_set(gui_node, &gui_param->show_set, "Set");
 
   //---------------------------
 }

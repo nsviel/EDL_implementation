@@ -1,5 +1,5 @@
 #include "GUI_engine.h"
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 #include "../Control/GUI_control.h"
 #include "../../Render/Render_node.h"
 #include "../../Render/Vulkan/VK_engine.h"
@@ -7,13 +7,13 @@
 
 
 //Constructor / Destructor
-GUI_engine::GUI_engine(Node_gui* node_gui){
+GUI_engine::GUI_engine(GUI_node* gui_node){
   //---------------------------
 
-  Render_node* render_node = node_gui->get_node_render();
+  Render_node* render_node = gui_node->get_node_render();
   VK_engine* vk_engine = render_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
-  this->gui_control = node_gui->get_gui_control();
+  this->gui_control = gui_node->get_gui_control();
 
   //---------------------------
 }

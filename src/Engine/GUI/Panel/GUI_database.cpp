@@ -1,10 +1,10 @@
 #include "GUI_database.h"
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 #include <Database/Database_sqlite.h>
 
 
 //Constructor / Destructor
-GUI_database::GUI_database(Node_gui* node_gui){
+GUI_database::GUI_database(GUI_node* gui_node){
   //---------------------------
 
   this->database = new Database_sqlite("../media/database/database.db3");

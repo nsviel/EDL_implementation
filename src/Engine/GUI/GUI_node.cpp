@@ -1,8 +1,9 @@
-#include "Node_gui.h"
+#include "GUI_node.h"
 #include "GUI_param.h"
 
 #include "Panel/GUI_panel.h"
 #include "Editor/GUI_editor_text.h"
+#include "Editor/GUI_editor_node.h"
 #include "Panel/GUI_engine.h"
 #include "Menu/GUI_menubar.h"
 #include "Menu/GUI_option.h"
@@ -18,10 +19,12 @@
 #include "../Engine.h"
 
 #include <Window/Window.h>
+#include <Render/Render_node.h>
+#include <Engine.h>
 
 
 //Constructor / Destructor
-Node_gui::Node_gui(Engine* engine){
+GUI_node::GUI_node(Engine* engine){
   //---------------------------
 
   this->engine = engine;
@@ -43,10 +46,11 @@ Node_gui::Node_gui(Engine* engine){
   this->gui_panel = new GUI_panel(this);
   this->gui_windows = new GUI_windows(this);
   this->gui_style = new GUI_style(this);
+  //this->gui_editor_node = new GUI_editor_node(this);
 
   //---------------------------
 }
-Node_gui::~Node_gui(){
+GUI_node::~GUI_node(){
   //---------------------------
 
   delete gui_param;
@@ -60,7 +64,7 @@ Node_gui::~Node_gui(){
 }
 
 //Main function
-void Node_gui::init(){
+void GUI_node::init(){
   //---------------------------
 
   gui_style->gui_style();
@@ -68,7 +72,7 @@ void Node_gui::init(){
 
   //---------------------------
 }
-void Node_gui::loop(){
+void GUI_node::loop(){
   //---------------------------
 
   gui_panel->draw_panels();

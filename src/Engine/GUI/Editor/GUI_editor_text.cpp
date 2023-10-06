@@ -1,9 +1,9 @@
 #include "GUI_editor_text.h"
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 
 
 //Constructor / Destructor
-GUI_editor_text::GUI_editor_text(Node_gui* node_gui){
+GUI_editor_text::GUI_editor_text(GUI_node* gui_node){
   //---------------------------
 
   this->editor = new TextEditor();

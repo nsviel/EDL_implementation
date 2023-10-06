@@ -4,14 +4,14 @@
 #include "../../common.h"
 #include <imgui/editor/editor_memory.h>
 
-class Node_gui;
+class GUI_node;
 
 
 class GUI_editor_hexa
 {
 public:
   //Constructor / Destructor
-  GUI_editor_hexa(Node_gui* node_gui);
+  GUI_editor_hexa(GUI_node* gui_node);
   ~GUI_editor_hexa();
 
 public:

@@ -4,7 +4,7 @@
 #include "common.h"
 
 class Render_node;
-class Node_gui;
+class GUI_node;
 class Data_node;
 class Window;
 
@@ -23,13 +23,13 @@ public:
   void reset();
 
   inline Render_node* get_node_render(){return render_node;}
-  inline Node_gui* get_node_gui(){return node_gui;}
+  inline GUI_node* get_gui_node(){return gui_node;}
   inline Data_node* get_data_node(){return data_node;}
   inline Window* get_window(){return window;}
 
 private:
   Render_node* render_node;
-  Node_gui* node_gui;
+  GUI_node* gui_node;
   Data_node* data_node;
   Window* window;
 };

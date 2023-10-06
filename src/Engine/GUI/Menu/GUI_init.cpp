@@ -1,7 +1,7 @@
 #include "GUI_init.h"
 #include "Initialization/GUI_tree.h"
 
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 
 #include "../../Render/Render_node.h"
 #include "../../Data/Data_node.h"
@@ -13,10 +13,10 @@
 
 
 //Constructor / Destructor
-GUI_init::GUI_init(Node_gui* node_gui){
+GUI_init::GUI_init(GUI_node* gui_node){
   //---------------------------
 
-  Data_node* data_node = node_gui->get_data_node();
+  Data_node* data_node = gui_node->get_data_node();
 
   this->sceneManager = data_node->get_sceneManager();
   this->loaderManager = data_node->get_loaderManager();

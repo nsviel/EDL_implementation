@@ -4,7 +4,7 @@
 
 
 //Constructor / Destructor
-GUI_style::GUI_style(Node_gui* node_gui){
+GUI_style::GUI_style(GUI_node* gui_node){
   //---------------------------
 
 

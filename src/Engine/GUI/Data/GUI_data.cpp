@@ -1,6 +1,6 @@
 #include "GUI_data.h"
 
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 
 #include "../../Render/Render_node.h"
 #include "../../Render/Render_param.h"
@@ -9,11 +9,11 @@
 
 
 //Constructor / Destructor
-GUI_data::GUI_data(Node_gui* node_gui){
+GUI_data::GUI_data(GUI_node* gui_node){
   //---------------------------
 
-  this->node_gui = node_gui;
-  this->render_node = node_gui->get_node_render();
+  this->gui_node = gui_node;
+  this->render_node = gui_node->get_node_render();
   this->vk_engine = render_node->get_vk_engine();
   this->vk_param = vk_engine->get_vk_param();
 

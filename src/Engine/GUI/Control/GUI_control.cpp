@@ -1,6 +1,6 @@
 #include "GUI_control.h"
 
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 
 #include "../../Render/Render_node.h"
 #include "../../Render/Render_param.h"
@@ -14,14 +14,14 @@
 
 
 //Constructor / Destructor
-GUI_control::GUI_control(Node_gui* node_gui){
+GUI_control::GUI_control(GUI_node* gui_node){
   //---------------------------
 
-  Render_node* render_node = node_gui->get_node_render();
+  Render_node* render_node = gui_node->get_node_render();
   this->core_param = render_node->get_core_param();
   this->window = render_node->get_window();
   this->cameraManager = render_node->get_cameraManager();
-  this->controlManager = node_gui->get_controlManager();
+  this->controlManager = gui_node->get_controlManager();
 
   //---------------------------
 }
@@ -172,7 +172,7 @@ void GUI_control::control_keyboard_oneAction(){
 
     //space key - Start / Pause player
     if(ImGui::IsKeyPressed(32)){
-      GUI_Player* gui_player = node_gui->get_gui_player();
+      GUI_Player* gui_player = gui_node->get_gui_player();
       gui_player->player_pause();
       break;
     }*/

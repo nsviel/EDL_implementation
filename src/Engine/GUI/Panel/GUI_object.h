@@ -3,7 +3,7 @@
 
 #include "../../common.h"
 
-class Node_gui;
+class GUI_node;
 class GUI_param;
 class Database;
 
@@ -12,7 +12,7 @@ class GUI_object
 {
 public:
   //Constructor / Destructor
-  GUI_object(Node_gui* node_gui);
+  GUI_object(GUI_node* gui_node);
   ~GUI_object();
 
 public:

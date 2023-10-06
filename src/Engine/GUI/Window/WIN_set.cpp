@@ -1,16 +1,16 @@
 #include "WIN_set.h"
 
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 #include "../GUI_param.h"
 
 #include <Operation/Transformation/Attribut.h>
 
 
 //Constructor / Destructor
-WIN_set::WIN_set(Node_gui* node_gui, bool* show_window, string name) : WIN_base(show_window, name){
+WIN_set::WIN_set(GUI_node* gui_node, bool* show_window, string name) : WIN_base(show_window, name){
   //---------------------------
 
-  this->gui_param = node_gui->get_gui_param();
+  this->gui_param = gui_node->get_gui_param();
 
   this->item_width = 150;
 

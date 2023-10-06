@@ -8,7 +8,7 @@
 #include <Render/GPU/GPU_gui.h>
 #include <Render/Vulkan/VK_engine.h>
 #include <Render/Camera/Camera.h>
-#include <GUI/Node_gui.h>
+#include <GUI/GUI_node.h>
 
 #include <Window/Window.h>
 #include <iostream>
@@ -21,7 +21,7 @@ Loop::Loop(){
   this->window = new Window();
   this->ui_loop = new UI_loop();
   this->engine = new Engine(window);
-  
+
   //---------------------------
 }
 Loop::~Loop(){}
@@ -34,7 +34,7 @@ void Loop::main_loop(){
   Render_node* render_node = engine->get_node_render();
   VK_engine* vk_engine = render_node->get_vk_engine();
   Camera* cameraManager = render_node->get_cameraManager();
-  Node_gui* node_gui = engine->get_node_gui();
+  GUI_node* gui_node = engine->get_gui_node();
   GPU_gui* gpu_gui = vk_engine->get_gpu_gui();
   //---------------------------
 

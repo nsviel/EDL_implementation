@@ -1,5 +1,5 @@
 #include "Control.h"
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 #include "../../Data/Scene/Scene.h"
 #include "../../Data/Data_node.h"
 #include "../../Render/Camera/Camera.h"
@@ -11,7 +11,7 @@
 
 
 //Constructor / Destructor
-Control::Control(Node_gui* gui_node){
+Control::Control(GUI_node* gui_node){
   //---------------------------
 
   this->engine = gui_node->get_engine();

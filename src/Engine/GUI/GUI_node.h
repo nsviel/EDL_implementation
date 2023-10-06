@@ -1,5 +1,5 @@
-#ifndef NODE_GUI_H
-#define NODE_GUI_H
+#ifndef GUI_NODE_H
+#define GUI_NODE_H
 
 #include "../common.h"
 
@@ -19,17 +19,18 @@ class GUI_profiling;
 class GUI_style;
 class GUI_init;
 class GUI_editor_text;
+class GUI_editor_node;
 class GUI_engine;
 class Control;
 class Window;
 
 
-class Node_gui
+class GUI_node
 {
 public:
   //Constructor / Destructor
-  Node_gui(Engine* engine);
-  ~Node_gui();
+  GUI_node(Engine* engine);
+  ~GUI_node();
 
 public:
   void init();
@@ -75,6 +76,7 @@ private:
   GUI_init* gui_init;
   GUI_editor_text* gui_editor_text;
   GUI_engine* gui_engine;
+  GUI_editor_node* gui_editor_node;
   Control* controlManager;
 };
 

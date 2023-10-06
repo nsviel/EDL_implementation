@@ -4,7 +4,7 @@
 #include "WIN_base.h"
 #include "../../common.h"
 
-class Node_gui;
+class GUI_node;
 class GUI_param;
 class Struct_camera;
 
@@ -13,7 +13,7 @@ class WIN_camera : public WIN_base
 {
 public:
   //Constructor / Destructor
-  WIN_camera(Node_gui* node_gui, bool* show_window, string name);
+  WIN_camera(GUI_node* gui_node, bool* show_window, string name);
   ~WIN_camera();
 
   //Main function

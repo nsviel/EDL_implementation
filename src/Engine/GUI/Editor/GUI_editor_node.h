@@ -1,18 +1,18 @@
-#ifndef GUI_NODE_H
-#define GUI_NODE_H
+#ifndef GUI_EDITOR_NODE_H
+#define GUI_EDITOR_NODE_H
 
 #include "../../common.h"
 #include <imgui/node/imgui_node_editor.h>
 
-class Node_gui;
+class GUI_editor_node;
 
 
-class GUI_node
+class GUI_editor_node
 {
 public:
   //Constructor / Destructor
-  GUI_node(Node_gui* node_gui);
-  ~GUI_node();
+  GUI_editor_node(GUI_editor_node* gui_node);
+  ~GUI_editor_node();
 
 public:
   //Main functions

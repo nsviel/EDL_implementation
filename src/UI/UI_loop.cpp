@@ -4,7 +4,7 @@
 #include "../Engine/Render/GPU/GPU_gui.h"
 #include "../Engine/Render/Vulkan/VK_engine.h"
 #include "../Engine/Render/Camera/Camera.h"
-#include "../Engine/GUI/Node_gui.h"
+#include "../Engine/GUI/GUI_node.h"
 
 
 
@@ -19,22 +19,22 @@ UI_loop::~UI_loop(){}
 
 //Main function
 void UI_loop::init(Engine* engine){
-  Node_gui* node_gui = engine->get_node_gui();
+  GUI_node* gui_node = engine->get_gui_node();
   //---------------------------
 
-  node_gui->init();
+  gui_node->init();
 
   //---------------------------
 }
 void UI_loop::loop(Engine* engine){
-  Node_gui* node_gui = engine->get_node_gui();
+  GUI_node* gui_node = engine->get_gui_node();
   Render_node* render_node = engine->get_node_render();
   VK_engine* vk_engine = render_node->get_vk_engine();
   GPU_gui* gpu_gui = vk_engine->get_gpu_gui();
   //---------------------------
 
   this->loop_start();
-  node_gui->loop();
+  gui_node->loop();
   gpu_gui->loop_end();
 
   //---------------------------

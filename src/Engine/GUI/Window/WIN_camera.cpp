@@ -1,6 +1,6 @@
 #include "WIN_camera.h"
 
-#include "../Node_gui.h"
+#include "../GUI_node.h"
 #include "../GUI_param.h"
 
 #include "../../Render/Render_node.h"
@@ -9,10 +9,10 @@
 
 
 //Constructor / Destructor
-WIN_camera::WIN_camera(Node_gui* node_gui, bool* show_window, string name) : WIN_base(show_window, name){
+WIN_camera::WIN_camera(GUI_node* gui_node, bool* show_window, string name) : WIN_base(show_window, name){
   //---------------------------
 
-  Render_node* render_node = node_gui->get_node_render();
+  Render_node* render_node = gui_node->get_node_render();
   Render_param* core_param = render_node->get_core_param();
   this->camera = &core_param->camera;
 

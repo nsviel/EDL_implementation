@@ -5,7 +5,7 @@
 #include "Initialization/struct_init.h"
 #include "../../common.h"
 
-class Node_gui;
+class GUI_node;
 class Scene;
 class Loader;
 class Transformation;
@@ -16,7 +16,7 @@ class GUI_init
 {
 public:
   //Constructor / Destructor
-  GUI_init(Node_gui* node_gui);
+  GUI_init(GUI_node* gui_node);
   ~GUI_init();
 
 public:
