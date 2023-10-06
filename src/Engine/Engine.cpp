@@ -3,6 +3,8 @@
 #include "Render/Render_node.h"
 #include "GUI/Node_gui.h"
 #include "Data/Data_node.h"
+#include "Render/Vulkan/VK_engine.h"
+#include "Render/Camera/Camera.h"
 
 #include <Window/Window.h>
 
@@ -39,15 +41,20 @@ void Engine::init(){
   //---------------------------
 }
 void Engine::loop(){
+  VK_engine* vk_engine = render_node->get_vk_engine();
+  Camera* cameraManager = render_node->get_cameraManager();
   //---------------------------
 
-
+  cameraManager->input_cam_mouse();
+  vk_engine->draw_frame();
 
   //---------------------------
 }
 void Engine::exit(){
+  VK_engine* vk_engine = render_node->get_vk_engine();
   //---------------------------
 
+  vk_engine->end_loop();
   render_node->exit();
 
   //---------------------------

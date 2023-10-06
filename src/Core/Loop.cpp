@@ -40,14 +40,9 @@ void Loop::main_loop(){
   while(!glfwWindowShouldClose(window->get_window())){
     glfwPollEvents();
     ui_loop->loop(engine);
-
-
-    cameraManager->input_cam_mouse();
-    vk_engine->draw_frame();
-
+    engine->loop();
   }
 
-  vk_engine->end_loop();
   engine->exit();
   window->destroy_window();
 
