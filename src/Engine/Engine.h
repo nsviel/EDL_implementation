@@ -1,8 +1,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include "common.h"
-
 class Render_node;
 class GUI_node;
 class Data_node;
