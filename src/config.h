@@ -5,7 +5,7 @@
 #include <string>
 
 
-struct Param{
+struct Config{
   //---------------------------
 
   std::string window_title = "Nephos";

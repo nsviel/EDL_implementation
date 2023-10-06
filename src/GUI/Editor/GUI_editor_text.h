@@ -23,6 +23,7 @@ public:
 
 private:
   TextEditor* editor;
+  bool show_panel;
 };
 
 #endif

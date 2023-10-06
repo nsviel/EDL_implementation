@@ -28,6 +28,7 @@ set(ALL_LIBS
 # Source files
 file(GLOB_RECURSE ALL_SOURCES
   Application/*.cpp
+  config.h
   main.cpp
 )
 

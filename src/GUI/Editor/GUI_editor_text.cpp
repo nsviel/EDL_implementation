@@ -8,6 +8,7 @@ GUI_editor_text::GUI_editor_text(GUI* gui){
 
   this->editor = new TextEditor();
   this->load_file("/home/aeter/Desktop/Dev/Nephos/CMakeLists.txt");
+  this->show_panel = true;
 
   //---------------------------
 }
@@ -19,9 +20,10 @@ void GUI_editor_text::design_panel(){
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
   ImGui::SetNextWindowSizeConstraints(ImVec2(100, 100), ImVec2(500, 500));
-  ImGui::Begin("Text editor");
-  editor->Render("Editor");
-  ImGui::End();
+  if(ImGui::Begin("Text editor", &show_panel)){
+    editor->Render("Editor");
+    ImGui::End();
+  }
   ImGui::PopStyleVar();
 
   //---------------------------

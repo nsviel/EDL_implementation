@@ -1,14 +1,13 @@
 #include "Loop.h"
-#include "Param.h"
+#include "../config.h"
+
 #include <GUI.h>
 #include <Style/Vulkan/UI_main.h>
-
 #include <Engine.h>
 #include <Render/Render_node.h>
 #include <Render/GPU/GPU_gui.h>
 #include <Render/Vulkan/VK_engine.h>
 #include <Camera/Camera.h>
-
 #include <Window/Window.h>
 #include <iostream>
 
@@ -27,10 +26,10 @@ Loop::~Loop(){}
 
 //Main function
 void Loop::main_loop(){
-  Param param;
+  Config config;
   //---------------------------
 
-  window->create_window(param.window_dim.x, param.window_dim.y, param.window_title);
+  window->create_window(config.window_dim.x, config.window_dim.y, config.window_title);
 
   engine->init();
   gui->init();
