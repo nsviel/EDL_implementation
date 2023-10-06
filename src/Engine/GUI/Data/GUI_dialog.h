@@ -1,7 +1,7 @@
 #ifndef GUI_DIALOG_H
 #define GUI_DIALOG_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 
 class GUI_node;
 

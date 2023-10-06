@@ -1,7 +1,7 @@
 #ifndef NODE_CORE_H
 #define NODE_CORE_H
 
-#include "../common.h"
+#include "Render_common.h"
 
 class Engine;
 class Render_param;

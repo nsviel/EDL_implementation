@@ -1,7 +1,7 @@
 #ifndef GUI_OPION_H
 #define GUI_OPION_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 
 class GUI_node;
 class Render_node;

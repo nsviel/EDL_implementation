@@ -1,7 +1,7 @@
 #ifndef GUI_CONTROL_H
 #define GUI_CONTROL_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 
 class Render_param;
 class GUI_node;

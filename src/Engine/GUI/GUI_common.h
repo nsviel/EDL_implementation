@@ -43,8 +43,8 @@ using namespace glm;
 
 //Data
 #include <Specific/Struct/struct_object.h>
-#include <Specific/Struct/struct_data_file.h>
 #include <Specific/Struct/struct_set.h>
+#include <Specific/Struct/struct_data_file.h>
 #include <Specific/Struct/struct_glyph.h>
 
 //GUI

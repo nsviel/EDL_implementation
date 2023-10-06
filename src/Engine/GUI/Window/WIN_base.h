@@ -1,7 +1,7 @@
 #ifndef WIN_BASE_H
 #define WIN_BASE_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 
 
 class WIN_base

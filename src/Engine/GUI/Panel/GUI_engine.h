@@ -1,7 +1,7 @@
 #ifndef GUI_ENGINE_H
 #define GUI_ENGINE_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 
 class GUI_node;
 class VK_param;

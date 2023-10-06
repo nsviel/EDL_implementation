@@ -1,7 +1,7 @@
 #ifndef GUI_STYLE_H
 #define GUI_STYLE_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 
 class GUI_node;
 

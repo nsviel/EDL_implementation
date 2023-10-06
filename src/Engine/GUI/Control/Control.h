@@ -1,7 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 
 class Engine;
 class GUI_node;

@@ -1,7 +1,7 @@
 #ifndef GUI_EDITOR_NODE_H
 #define GUI_EDITOR_NODE_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 #include <imgui/node/imgui_node_editor.h>
 
 class GUI_editor_node;

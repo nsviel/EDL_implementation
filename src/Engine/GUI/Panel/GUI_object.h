@@ -1,7 +1,7 @@
 #ifndef GUI_OBJECT_H
 #define GUI_OBJECT_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 
 class GUI_node;
 class GUI_param;

@@ -1,7 +1,7 @@
 #ifndef GUI_EDITOR_HEXA_H
 #define GUI_EDITOR_HEXA_H
 
-#include "../../common.h"
+#include "../GUI_common.h"
 #include <imgui/editor/editor_memory.h>
 
 class GUI_node;

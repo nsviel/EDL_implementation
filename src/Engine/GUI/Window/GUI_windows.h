@@ -2,7 +2,7 @@
 #define GUI_WINDOWS_H
 
 #include "WIN_base.h"
-#include "../../common.h"
+#include "../GUI_common.h"
 
 class GUI_node;
 class GUI_param;

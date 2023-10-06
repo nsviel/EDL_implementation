@@ -1,4 +1,4 @@
-#include "../../common.h"
+#include "../GUI_common.h"
 
 /*
 Minimal example:
