@@ -28,6 +28,9 @@ public:
   void delete_scene_object(Object* object);
   void empty_scene_set();
 
+  //Object
+  void selected_object_next();
+
   inline Set* get_set_scene(){return set_scene;}
   inline Set* get_set_glyph(){return set_glyph;}
   inline Object* get_selected_object(){return set_scene->selected_obj;}

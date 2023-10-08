@@ -12,7 +12,6 @@
 #include "Window/Menu/GUI_option.h"
 #include "Window/Control/GUI_control.h"
 #include "Window/Style/GUI_style.h"
-#include "Window/Control/Control.h"
 
 #include "Engine/GUI_engine.h"
 #include "Engine/Camera/GUI_camera.h"
@@ -37,7 +36,6 @@ GUI::GUI(Engine* engine){
   this->render_node = engine->get_node_render();
   this->data_node = engine->get_data_node();
 
-  this->controlManager = new Control(this);
   this->panel = new Panel();
   this->gui_timing = new GUI_timing(this);
   this->gui_shader = new GUI_shader(this);

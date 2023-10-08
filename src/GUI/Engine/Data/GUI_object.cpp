@@ -1,9 +1,9 @@
 #include "GUI_object.h"
 #include <Panel/Panel.h>
-#include "../../Window/Control/Control.h"
 
 #include <GUI.h>
 #include <Data/Data_node.h>
+#include <Data/Scene/Scene.h>
 #include <image/IconsFontAwesome5.h>
 
 
@@ -13,7 +13,7 @@ GUI_object::GUI_object(GUI* gui, bool* show_window, string name) : BASE_panel(sh
 
   Data_node* data_node = gui->get_data_node();
   this->panel = gui->get_panel();
-  this->controlManager = gui->get_controlManager();
+  this->sceneManager = data_node->get_sceneManager();
 
   this->item_width = 150;
 
@@ -50,7 +50,7 @@ void GUI_object::object_parameter(Object* object){
   if(object->is_suppressible){
     ImGui::SameLine();
     if(ImGui::Button(ICON_FA_TRASH "##4567")){
-      controlManager->object_deletion(object);
+      sceneManager->delete_scene_object(object);
       panel->show_object = false;
     }
   }

@@ -3,12 +3,9 @@
 
 #include <Specific/common.h>
 
-class Render_param;
 class GUI;
-class Window;
-class Camera;
-class Control;
-class Window;
+class GUI_mouse;
+class GUI_keyboard;
 
 
 class GUI_control
@@ -20,22 +17,11 @@ public:
 
 public:
   //Main function
-  void make_control(ImVec2 center);
-
-  //Mouse function
-  void control_mouse(ImVec2 center);
-  void control_mouse_wheel();
-
-  //Keyboard function
-  void control_keyboard_oneAction();
-  void control_keyboard_camMove();
-  void control_keyboard_translation();
+  void run_control(ImVec2 center);
 
 private:
-  Render_param* core_param;
-  Window* window;
-  Control* controlManager;
-  Camera* cameraManager;
+  GUI_mouse* gui_mouse;
+  GUI_keyboard* gui_keyboard;
 };
 
 #endif

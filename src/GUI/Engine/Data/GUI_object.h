@@ -6,7 +6,8 @@
 
 class GUI;
 class Panel;
-class Control;
+class Scene;
+
 
 class GUI_object : public BASE_panel
 {
@@ -30,7 +31,7 @@ public:
 
 private:
   Panel* panel;
-  Control* controlManager;
+  Scene* sceneManager;
 
   Object* object_selected;
   int item_width;

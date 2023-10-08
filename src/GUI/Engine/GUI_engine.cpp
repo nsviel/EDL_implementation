@@ -71,7 +71,7 @@ void GUI_engine::engine_window(){
     ImVec2 windowSize = ImGui::GetWindowSize();
     ImVec2 center = ImVec2(windowPos.x + windowSize.x * 0.5f, windowPos.y + windowSize.y * 0.5f);
 
-    gui_control->make_control(center);
+    gui_control->run_control(center);
   }
 
   //---------------------------

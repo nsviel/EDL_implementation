@@ -23,7 +23,6 @@ class GUI_engine;
 class GUI_camera;
 class GUI_object;
 class GUI_set;
-class Control;
 class Window;
 
 
@@ -57,16 +56,14 @@ public:
   inline GUI_engine* get_gui_engine(){return gui_engine;}
   inline GUI_object* get_gui_object(){return gui_object;}
   inline GUI_set* get_gui_set(){return gui_set;}
-  inline Control* get_controlManager(){return controlManager;}
-
 
 private:
   Engine* engine;
   Render_node* render_node;
   Data_node* data_node;
   Window* window;
-
   Panel* panel;
+  
   GUI_panel* gui_panel;
   GUI_control* gui_control;
   GUI_option* gui_option;
@@ -79,7 +76,6 @@ private:
   GUI_editor_text* gui_editor_text;
   GUI_engine* gui_engine;
   GUI_editor_node* gui_editor_node;
-  Control* controlManager;
   GUI_object* gui_object;
   GUI_camera* gui_camera;
   GUI_set* gui_set;

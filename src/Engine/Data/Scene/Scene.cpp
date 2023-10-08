@@ -117,3 +117,27 @@ void Scene::empty_scene_set(){
 
   //---------------------------
 }
+
+//Object
+void Scene::selected_object_next(){
+  Object* selected = set_scene->selected_obj;
+  //----------------------------
+
+  for(int i=0; i<set_scene->list_obj.size(); i++){
+    Object* object = *next(set_scene->list_obj.begin(), i);
+
+    if(selected->ID == object->ID){
+      Object* selection;
+
+      if((i + 1) < set_scene->list_obj.size()){
+        selection = *next(set_scene->list_obj.begin(), i + 1);
+      }else{
+        selection = *next(set_scene->list_obj.begin(), 0);
+      }
+
+      set_scene->selected_obj = selection;
+    }
+  }
+
+  //----------------------------
+}
