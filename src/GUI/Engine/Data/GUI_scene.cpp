@@ -5,6 +5,7 @@
 #include <Data/Data_node.h>
 #include <Data/Scene/Database.h>
 #include <Engine/Data/GUI_object.h>
+#include <Engine/Data/GUI_set.h>
 
 
 //Constructor / Destructor
@@ -15,6 +16,7 @@ GUI_scene::GUI_scene(GUI* gui){
   this->dataManager = data_node->get_dataManager();
   this->gui_param = gui->get_gui_param();
   this->gui_object = gui->get_gui_object();
+  this->gui_set = gui->get_gui_set();
 
   //---------------------------
 }
@@ -121,7 +123,7 @@ int GUI_scene::data_node_tree(Set* set){
 
   //If item double-clicked
   if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
-    gui_param->set_selected = set;
+    gui_set->set_selected_set(set);
     gui_param->show_set = true;
   }
 

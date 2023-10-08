@@ -22,8 +22,8 @@ GUI_set::~GUI_set(){}
 void GUI_set::design_window(){
   //---------------------------
 
-  this->set_info(gui_param->set_selected);
-  this->set_parameter(gui_param->set_selected);
+  this->set_info(set_selected);
+  this->set_parameter(set_selected);
 
   //---------------------------
 }

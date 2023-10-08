@@ -56,6 +56,7 @@ public:
   inline GUI_editor_text* get_gui_editor_text(){return gui_editor_text;}
   inline GUI_engine* get_gui_engine(){return gui_engine;}
   inline GUI_object* get_gui_object(){return gui_object;}
+  inline GUI_set* get_gui_set(){return gui_set;}
   inline Control* get_controlManager(){return controlManager;}
 
 

@@ -22,9 +22,12 @@ public:
   void set_info(Set* set);
   void set_parameter(Set* set);
 
+  inline void set_selected_set(Set* set){this->set_selected = set;}
+
 private:
   GUI_param* gui_param;
 
+  Set* set_selected;
   int item_width;
 };
 
