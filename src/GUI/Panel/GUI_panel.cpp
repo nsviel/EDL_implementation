@@ -1,5 +1,5 @@
 #include "GUI_panel.h"
-#include "../Engine/Camera/WIN_camera.h"
+#include "../Engine/Camera/GUI_camera.h"
 #include "../Engine/Data/WIN_object.h"
 #include "../Engine/Data/WIN_set.h"
 
@@ -38,7 +38,7 @@ GUI_panel::GUI_panel(GUI* gui){
   this->gui_editor_text = gui->get_gui_editor_text();
   this->gui_engine = gui->get_gui_engine();
   this->gui_database = new GUI_database(gui);
-  this->win_camera = new WIN_camera(gui, &gui_param->show_camera, "Camera");
+  this->win_camera = new GUI_camera(gui, &gui_param->show_camera, "Camera");
   this->win_object = new WIN_object(gui, &gui_param->show_object, "Object");
   this->win_set = new WIN_set(gui, &gui_param->show_set, "Set");
 

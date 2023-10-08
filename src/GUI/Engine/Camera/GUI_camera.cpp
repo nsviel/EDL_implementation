@@ -1,4 +1,4 @@
-#include "WIN_camera.h"
+#include "GUI_camera.h"
 
 #include <GUI.h>
 #include <GUI_param.h>
@@ -9,7 +9,7 @@
 
 
 //Constructor / Destructor
-WIN_camera::WIN_camera(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
+GUI_camera::GUI_camera(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
   //---------------------------
 
   Render_node* render_node = gui->get_node_render();
@@ -18,10 +18,10 @@ WIN_camera::WIN_camera(GUI* gui, bool* show_window, string name) : BASE_panel(sh
 
   //---------------------------
 }
-WIN_camera::~WIN_camera(){}
+GUI_camera::~GUI_camera(){}
 
 //Main function
-void WIN_camera::design_window(){
+void GUI_camera::design_window(){
   //---------------------------
 
   this->cam_parameter();
@@ -31,7 +31,7 @@ void WIN_camera::design_window(){
 }
 
 //Subfunction
-void WIN_camera::cam_parameter(){
+void GUI_camera::cam_parameter(){
   //---------------------------
 
   //Camera parameters
@@ -65,7 +65,7 @@ void WIN_camera::cam_parameter(){
 
   //---------------------------
 }
-void WIN_camera::cam_info(){
+void GUI_camera::cam_info(){
   //---------------------------
 
   //Camera position

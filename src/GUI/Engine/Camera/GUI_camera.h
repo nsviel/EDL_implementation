@@ -9,12 +9,12 @@ class GUI_param;
 class Struct_camera;
 
 
-class WIN_camera : public BASE_panel
+class GUI_camera : public BASE_panel
 {
 public:
   //Constructor / Destructor
-  WIN_camera(GUI* gui, bool* show_window, string name);
-  ~WIN_camera();
+  GUI_camera(GUI* gui, bool* show_window, string name);
+  ~GUI_camera();
 
   //Main function
   void design_window();
