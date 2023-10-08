@@ -5,7 +5,7 @@
 #include <Specific/common.h>
 
 class GUI;
-class GUI_param;
+class Panel;
 class Control;
 
 class GUI_object : public BASE_panel
@@ -29,7 +29,7 @@ public:
   inline void set_selected_object(Object* object){this->object_selected = object;}
 
 private:
-  GUI_param* gui_param;
+  Panel* panel;
   Control* controlManager;
 
   Object* object_selected;

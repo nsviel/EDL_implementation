@@ -1,15 +1,16 @@
 #include "GUI_panel.h"
+#include "Panel.h"
 
 
 #include "../GUI.h"
-#include <GUI_param.h>
+#include <Panel/Panel.h>
 
 #include "../Engine/GUI_engine.h"
 #include "../Element/Editor/GUI_editor_node.h"
 #include "../Element/Data/GUI_database.h"
 #include "../Element/Editor/GUI_editor_text.h"
 #include "../Window/Style/GUI_indicator.h"
-#include "../Window/Menu/GUI_menubar.h"
+#include "../Window/Menu/GUI_mainmenubar.h"
 #include "../Engine/Profiler/GUI_timing.h"
 #include "../Engine/Render/GUI_shader.h"
 #include "../Engine/Data/GUI_scene.h"
@@ -25,8 +26,6 @@
 GUI_panel::GUI_panel(GUI* gui){
   //---------------------------
 
-  GUI_param* gui_param = gui->get_gui_param();
-
   this->gui = gui;
   this->render_node = gui->get_node_render();
   this->gui_scene = gui->get_gui_scene();
@@ -36,6 +35,7 @@ GUI_panel::GUI_panel(GUI* gui){
   this->gui_editor_text = gui->get_gui_editor_text();
   this->gui_engine = gui->get_gui_engine();
   this->gui_database = new GUI_database(gui);
+  this->panel = gui->get_panel();
 
   //---------------------------
 }

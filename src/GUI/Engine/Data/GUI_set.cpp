@@ -1,7 +1,7 @@
 #include "GUI_set.h"
 
 #include <GUI.h>
-#include <GUI_param.h>
+#include <Panel/Panel.h>
 
 #include <Operation/Transformation/Attribut.h>
 
@@ -10,7 +10,7 @@
 GUI_set::GUI_set(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
   //---------------------------
 
-  this->gui_param = gui->get_gui_param();
+  this->panel = gui->get_panel();
 
   this->item_width = 150;
 

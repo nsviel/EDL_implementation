@@ -2,7 +2,7 @@
 
 #include <GUI.h>
 #include <Window/Control/GUI_control.h>
-#include <Window/Menu/GUI_menubar.h>
+#include <Window/Menu/GUI_mainmenubar.h>
 #include <Render/Render_node.h>
 #include <Render/Vulkan/VK_engine.h>
 #include <Render/Vulkan/VK_param.h>
@@ -93,7 +93,7 @@ void GUI_engine::engine_menubar(){
     ImGui::EndMenu();
   }
   if(ImGui::MenuItem(ICON_FA_CAMERA, "Camera##111")){
-    //gui_param->show_camera = !gui_param->show_camera;
+    //panel->show_camera = !panel->show_camera;
   }
   ImGui::BeginMenuBar();
 

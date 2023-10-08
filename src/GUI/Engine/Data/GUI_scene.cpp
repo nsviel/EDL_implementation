@@ -1,7 +1,7 @@
 #include "GUI_scene.h"
 
 #include <GUI.h>
-#include <GUI_param.h>
+#include <Panel/Panel.h>
 #include <Data/Data_node.h>
 #include <Data/Scene/Database.h>
 #include <Engine/Data/GUI_object.h>
@@ -14,7 +14,7 @@ GUI_scene::GUI_scene(GUI* gui){
 
   Data_node* data_node = gui->get_data_node();
   this->dataManager = data_node->get_dataManager();
-  this->gui_param = gui->get_gui_param();
+  this->panel = gui->get_panel();
   this->gui_object = gui->get_gui_object();
   this->gui_set = gui->get_gui_set();
 
@@ -124,7 +124,7 @@ int GUI_scene::data_node_tree(Set* set){
   //If item double-clicked
   if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
     gui_set->set_selected_set(set);
-    gui_param->show_set = true;
+    panel->show_set = true;
   }
 
   //Set elements leaf nodes
@@ -154,7 +154,7 @@ int GUI_scene::data_node_tree(Set* set){
       //If item double-clicked
       if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
         gui_object->set_selected_object(object);
-        gui_param->show_object = true;
+        panel->show_object = true;
       }
 
     }

@@ -1,5 +1,5 @@
 #include "GUI_init.h"
-#include "Initialization/GUI_tree.h"
+#include "GUI_tree.h"
 
 #include <GUI.h>
 

@@ -1,8 +1,8 @@
 #ifndef GUI_INITIALIZATION_H
 #define GUI_INITIALIZATION_H
 
-#include "Initialization/struct_node.h"
-#include "Initialization/struct_init.h"
+#include "struct_node.h"
+#include "struct_init.h"
 #include <Specific/common.h>
 
 class GUI;

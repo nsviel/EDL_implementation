@@ -7,12 +7,12 @@ class Engine;
 class Render_node;
 class Data_node;
 
-class GUI_param;
+class Panel;
 class GUI_panel;
 class GUI_control;
 class GUI_option;
 class GUI_scene;
-class GUI_menubar;
+class GUI_mainmenubar;
 class GUI_shader;
 class GUI_timing;
 class GUI_style;
@@ -43,12 +43,12 @@ public:
   inline Data_node* get_data_node(){return data_node;}
   inline Window* get_window(){return window;}
 
-  inline GUI_param* get_gui_param(){return gui_param;}
+  inline Panel* get_panel(){return panel;}
   inline GUI_panel* get_gui_panel(){return gui_panel;}
   inline GUI_control* get_gui_control(){return gui_control;}
   inline GUI_option* get_gui_option(){return gui_option;}
   inline GUI_scene* get_gui_scene(){return gui_scene;}
-  inline GUI_menubar* get_gui_menubar(){return gui_menubar;}
+  inline GUI_mainmenubar* get_gui_menubar(){return gui_menubar;}
   inline GUI_shader* get_gui_shader(){return gui_shader;}
   inline GUI_timing* get_gui_profiling(){return gui_timing;}
   inline GUI_style* get_gui_style(){return gui_style;}
@@ -66,12 +66,12 @@ private:
   Data_node* data_node;
   Window* window;
 
-  GUI_param* gui_param;
+  Panel* panel;
   GUI_panel* gui_panel;
   GUI_control* gui_control;
   GUI_option* gui_option;
   GUI_scene* gui_scene;
-  GUI_menubar* gui_menubar;
+  GUI_mainmenubar* gui_menubar;
   GUI_shader*gui_shader;
   GUI_timing* gui_timing;
   GUI_style* gui_style;

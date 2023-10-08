@@ -5,17 +5,17 @@
 
 class GUI;
 class Loader;
-class GUI_param;
+class Panel;
 class GUI_init;
 class GUI_option;
 
 
-class GUI_menubar
+class GUI_mainmenubar
 {
 public:
   //Constructor / Destructor
-  GUI_menubar(GUI* gui);
-  ~GUI_menubar();
+  GUI_mainmenubar(GUI* gui);
+  ~GUI_mainmenubar();
 
 public:
   //Main function
@@ -29,7 +29,7 @@ private:
   GUI* gui;
   Loader* loaderManager;
   GUI_init* gui_init;
-  GUI_param* gui_param;
+  Panel* panel;
   GUI_option* gui_option;
 
   bool show_demo;

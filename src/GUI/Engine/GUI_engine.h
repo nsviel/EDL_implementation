@@ -6,7 +6,7 @@
 class GUI;
 class VK_param;
 class GUI_control;
-class GUI_menubar;
+class GUI_mainmenubar;
 
 class GUI_engine
 {
@@ -26,7 +26,7 @@ public:
 private:
   VK_param* vk_param;
   GUI_control* gui_control;
-  GUI_menubar* gui_menubar;
+  GUI_mainmenubar* gui_menubar;
 
   VkDescriptorSet descriptor;
   bool has_been_initialized;

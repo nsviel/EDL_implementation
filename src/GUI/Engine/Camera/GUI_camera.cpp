@@ -1,7 +1,7 @@
 #include "GUI_camera.h"
 
 #include <GUI.h>
-#include <GUI_param.h>
+#include <Panel/Panel.h>
 
 #include <Render/Render_node.h>
 #include <Render/Render_param.h>

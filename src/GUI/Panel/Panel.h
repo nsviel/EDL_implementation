@@ -10,15 +10,12 @@
 #include <iostream>
 
 
-struct GUI_param{
+struct Panel{
   //---------------------------
 
   bool show_camera;
   bool show_object;
   bool show_set;
-
-  Object* object_selected;
-  Set* set_selected;
 
   //---------------------------
 };

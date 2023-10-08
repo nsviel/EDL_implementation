@@ -4,10 +4,11 @@
 #include <Specific/common.h>
 
 class GUI;
+class Panel;
 class Render_node;
 class GUI_timing;
 class GUI_scene;
-class GUI_menubar;
+class GUI_mainmenubar;
 class GUI_shader;
 class GUI_editor_text;
 class GUI_engine;
@@ -33,16 +34,20 @@ public:
 
 private:
   GUI* gui;
+  Panel* panel;
   Render_node* render_node;
 
   GUI_timing* gui_timing;
   GUI_scene* gui_scene;
-  GUI_menubar* gui_menubar;
+  GUI_mainmenubar* gui_menubar;
   GUI_shader* gui_shader;
   GUI_editor_text* gui_editor_text;
   GUI_engine* gui_engine;
   GUI_database* gui_database;
 
+  bool show_camera;
+  bool show_object;
+  bool show_set;
 };
 
 #endif

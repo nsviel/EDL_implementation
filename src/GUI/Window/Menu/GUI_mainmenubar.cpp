@@ -1,9 +1,9 @@
-#include "GUI_menubar.h"
+#include "GUI_mainmenubar.h"
 #include "GUI_option.h"
-#include "GUI_init.h"
+#include "../../Element/Initialization/GUI_init.h"
 
 #include <GUI.h>
-#include "../../GUI_param.h"
+#include <Panel/Panel.h>
 
 #include <Data/Data_node.h>
 #include <Data/Load/Loader.h>
@@ -12,12 +12,12 @@
 
 
 //Constructor / Destructor
-GUI_menubar::GUI_menubar(GUI* gui){
+GUI_mainmenubar::GUI_mainmenubar(GUI* gui){
   //---------------------------
 
   Data_node* data_node = gui->get_data_node();
   this->gui = gui;
-  this->gui_param = gui->get_gui_param();
+  this->panel = gui->get_panel();
   this->gui_option = gui->get_gui_option();
   this->gui_init = gui->get_gui_init();
   this->loaderManager = data_node->get_loaderManager();
@@ -26,10 +26,10 @@ GUI_menubar::GUI_menubar(GUI* gui){
 
   //---------------------------
 }
-GUI_menubar::~GUI_menubar(){}
+GUI_mainmenubar::~GUI_mainmenubar(){}
 
 //Main function
-void GUI_menubar::design_menubar(){
+void GUI_mainmenubar::design_menubar(){
   //------------------------
 
   ImGui::BeginMainMenuBar();
@@ -40,7 +40,7 @@ void GUI_menubar::design_menubar(){
 }
 
 //Subfunctions
-void GUI_menubar::menu(){
+void GUI_mainmenubar::menu(){
   //---------------------------
 
   if(ImGui::MenuItem("Load")){
@@ -62,13 +62,13 @@ void GUI_menubar::menu(){
     ImGui::EndMenu();
   }
   if(ImGui::MenuItem(ICON_FA_CAMERA, "Camera##111")){
-    gui_param->show_camera = !gui_param->show_camera;
+    panel->show_camera = !panel->show_camera;
   }
 
   //---------------------------
 }
 
-void GUI_menubar::menu_demo(){
+void GUI_mainmenubar::menu_demo(){
   //---------------------------
 
   //Demo file
@@ -83,7 +83,7 @@ void GUI_menubar::menu_demo(){
 }
 
 /*
-void GUI_menubar::MenuBar_menu(){
+void GUI_mainmenubar::MenuBar_menu(){
   Collection* collection = sceneManager->get_selected_collection();
   //-------------------------
 
@@ -111,7 +111,7 @@ void GUI_menubar::MenuBar_menu(){
 
   //-------------------------
 }
-void GUI_menubar::MenuBar_menu_file(){
+void GUI_mainmenubar::MenuBar_menu_file(){
   Collection* collection = sceneManager->get_selected_collection();
   //---------------------------
 
@@ -148,7 +148,7 @@ void GUI_menubar::MenuBar_menu_file(){
 
   //---------------------------
 }
-void GUI_menubar::MenuBar_menu_load(){
+void GUI_mainmenubar::MenuBar_menu_load(){
   Collection* collection = sceneManager->get_selected_collection();
   //-------------------------
 
@@ -171,7 +171,7 @@ void GUI_menubar::MenuBar_menu_load(){
 
   //-------------------------
 }
-void GUI_menubar::MenuBar_menu_save(){
+void GUI_mainmenubar::MenuBar_menu_save(){
   Collection* collection = sceneManager->get_selected_collection();
   //-------------------------
 
@@ -194,7 +194,7 @@ void GUI_menubar::MenuBar_menu_save(){
 
   //-------------------------
 }
-void GUI_menubar::menu_icons(){
+void GUI_mainmenubar::menu_icons(){
   //---------------------------
 
   //Distance from left
@@ -248,7 +248,7 @@ void GUI_menubar::menu_icons(){
   ImGui::PopStyleVar(2);
   ImGui::PopStyleColor(1);
 }
-void GUI_menubar::MenuBar_subsetSelection(){
+void GUI_mainmenubar::MenuBar_subsetSelection(){
   //-------------------------
 
   //Distance from left
@@ -260,7 +260,7 @@ void GUI_menubar::MenuBar_subsetSelection(){
 
   //-------------------------
 }
-void GUI_menubar::MenuBar_Operations(){
+void GUI_mainmenubar::MenuBar_Operations(){
   Collection* collection = sceneManager->get_selected_collection();
   //---------------------------
 
@@ -292,7 +292,7 @@ void GUI_menubar::MenuBar_Operations(){
 
   //---------------------------
 }
-void GUI_menubar::MenuBar_appInfo(){
+void GUI_mainmenubar::MenuBar_appInfo(){
   ImGui::SameLine(ImGui::GetWindowWidth()-50);
   if(ImGui::BeginMenu("Infos")){
     //---------------------------

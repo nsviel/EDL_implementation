@@ -1,5 +1,5 @@
 #include "GUI_object.h"
-#include <GUI_param.h>
+#include <Panel/Panel.h>
 #include "../../Window/Control/Control.h"
 
 #include <GUI.h>
@@ -12,7 +12,7 @@ GUI_object::GUI_object(GUI* gui, bool* show_window, string name) : BASE_panel(sh
   //---------------------------
 
   Data_node* data_node = gui->get_data_node();
-  this->gui_param = gui->get_gui_param();
+  this->panel = gui->get_panel();
   this->controlManager = gui->get_controlManager();
 
   this->item_width = 150;
@@ -51,7 +51,7 @@ void GUI_object::object_parameter(Object* object){
     ImGui::SameLine();
     if(ImGui::Button(ICON_FA_TRASH "##4567")){
       controlManager->object_deletion(object);
-      gui_param->show_object = false;
+      panel->show_object = false;
     }
   }
   ImGui::NextColumn();
