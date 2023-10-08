@@ -5,7 +5,7 @@
 #include "../Element/Editor/GUI_editor_text.h"
 #include "../Window/Style/GUI_indicator.h"
 #include "../Window/Menu/GUI_menubar.h"
-#include "../Element/Perf/GUI_profiling.h"
+#include "../Engine/Profiler/GUI_timing.h"
 #include "../Engine/Render/GUI_shader.h"
 #include "../Panel/GUI_object.h"
 
@@ -23,7 +23,7 @@ GUI_panel::GUI_panel(GUI* gui){
   this->gui = gui;
   this->render_node = gui->get_node_render();
   this->gui_object = gui->get_gui_object();
-  this->gui_profiling = gui->get_gui_profiling();
+  this->gui_timing = gui->get_gui_profiling();
   this->gui_menubar = gui->get_gui_menubar();
   this->gui_shader = gui->get_gui_shader();
   this->gui_editor_text = gui->get_gui_editor_text();
@@ -42,7 +42,7 @@ void GUI_panel::draw_panels(){
   gui_menubar->design_menubar();
   gui_editor_text->design_panel();
   gui_shader->design_panel();
-  gui_profiling->design_panel();
+  gui_timing->design_panel();
   gui_engine->design_panel();
   //gui->design_panel();
   gui_database->design_panel();

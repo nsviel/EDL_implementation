@@ -25,9 +25,6 @@ void WIN_base::window(){
     this->design_window();
 
     ImGui::Separator();
-    if(ImGui::Button("Close")){
-      *show_window = false;
-    }
     ImGui::End();
     ImGui::PopStyleColor();
   }

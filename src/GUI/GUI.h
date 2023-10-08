@@ -15,7 +15,7 @@ class GUI_object;
 class GUI_menubar;
 class GUI_windows;
 class GUI_shader;
-class GUI_profiling;
+class GUI_timing;
 class GUI_style;
 class GUI_init;
 class GUI_editor_text;
@@ -49,7 +49,7 @@ public:
   inline GUI_menubar* get_gui_menubar(){return gui_menubar;}
   inline GUI_windows* get_gui_windows(){return gui_windows;}
   inline GUI_shader* get_gui_shader(){return gui_shader;}
-  inline GUI_profiling* get_gui_profiling(){return gui_profiling;}
+  inline GUI_timing* get_gui_profiling(){return gui_timing;}
   inline GUI_style* get_gui_style(){return gui_style;}
   inline GUI_init* get_gui_init(){return gui_init;}
   inline GUI_editor_text* get_gui_editor_text(){return gui_editor_text;}
@@ -71,7 +71,7 @@ private:
   GUI_menubar* gui_menubar;
   GUI_windows* gui_windows;
   GUI_shader*gui_shader;
-  GUI_profiling* gui_profiling;
+  GUI_timing* gui_timing;
   GUI_style* gui_style;
   GUI_init* gui_init;
   GUI_editor_text* gui_editor_text;

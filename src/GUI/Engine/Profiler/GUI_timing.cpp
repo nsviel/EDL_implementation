@@ -1,4 +1,4 @@
-#include "GUI_profiling.h"
+#include "GUI_timing.h"
 
 #include <GUI.h>
 
@@ -9,7 +9,7 @@
 
 
 //Constructor / Destructor
-GUI_profiling::GUI_profiling(GUI* gui){
+GUI_timing::GUI_timing(GUI* gui){
   //---------------------------
 
   this->gui = gui;
@@ -21,10 +21,10 @@ GUI_profiling::GUI_profiling(GUI* gui){
 
   //---------------------------
 }
-GUI_profiling::~GUI_profiling(){}
+GUI_timing::~GUI_timing(){}
 
 //Main function
-void GUI_profiling::design_panel(){
+void GUI_timing::design_panel(){
   //---------------------------
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
@@ -36,7 +36,9 @@ void GUI_profiling::design_panel(){
 
   //---------------------------
 }
-void GUI_profiling::design_profiling(){
+
+//Subfunctions
+void GUI_timing::design_profiling(){
   ImGui::BeginChild("Profiling", ImVec2(0, 150), false);
   //---------------------------
 
@@ -51,9 +53,7 @@ void GUI_profiling::design_profiling(){
   //---------------------------
   ImGui::EndChild();
 }
-
-//Subfunctions
-void GUI_profiling::device_model(){
+void GUI_timing::device_model(){
   //---------------------------
 
   ImGui::Text("Device model ");
@@ -62,7 +62,7 @@ void GUI_profiling::device_model(){
 
   //---------------------------
 }
-bool GUI_profiling::time_update(){
+bool GUI_timing::time_update(){
   //---------------------------
 
   static timer_time t1 = timer.start_t();
@@ -75,7 +75,7 @@ bool GUI_profiling::time_update(){
   //---------------------------
   return false;
 }
-void GUI_profiling::time_drawig(bool update){
+void GUI_timing::time_drawig(bool update){
   ImGuiIO io = ImGui::GetIO();
   //---------------------------
 
@@ -119,7 +119,7 @@ void GUI_profiling::time_drawig(bool update){
 
   //---------------------------
 }
-void GUI_profiling::time_general(bool update){
+void GUI_timing::time_general(bool update){
   ImGuiIO io = ImGui::GetIO();
   //---------------------------
 

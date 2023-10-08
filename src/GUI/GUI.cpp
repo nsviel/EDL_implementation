@@ -9,7 +9,7 @@
 #include "Window/Menu/GUI_option.h"
 #include "Window/Menu/GUI_init.h"
 #include "Window/Control/GUI_control.h"
-#include "Element/Perf/GUI_profiling.h"
+#include "Engine/Profiler/GUI_timing.h"
 #include "Engine/Render/GUI_shader.h"
 #include "Panel/GUI_object.h"
 #include "Panel/GUI_windows.h"
@@ -34,7 +34,7 @@ GUI::GUI(Engine* engine){
 
   this->controlManager = new Control(this);
   this->gui_param = new GUI_param();
-  this->gui_profiling = new GUI_profiling(this);
+  this->gui_timing = new GUI_timing(this);
   this->gui_shader = new GUI_shader(this);
   this->gui_option = new GUI_option(this);
   this->gui_object = new GUI_object(this);
@@ -58,7 +58,7 @@ GUI::~GUI(){
   delete gui_control;
   delete gui_option;
   delete gui_object;
-  delete gui_profiling;
+  delete gui_timing;
 
   //---------------------------
 }

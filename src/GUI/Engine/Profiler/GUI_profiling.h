@@ -2,6 +2,7 @@
 #define GUI_PROFILING_H
 
 #include <Specific/common.h>
+#include <imgui/profiler/ImGuiProfilerRenderer.h>
 
 class GUI;
 class Render_node;
@@ -19,13 +20,9 @@ public:
 public:
   //Main function
   void design_panel();
-  void design_profiling();
 
   //Subfunctions
-  void device_model();
-  bool time_update();
-  void time_drawig(bool update);
-  void time_general(bool update);
+  void design_profiling();
 
 private:
   GUI* gui;
@@ -35,6 +32,7 @@ private:
   Timer timer;
 
   int width;
+  ImGuiUtils::ProfilersWindow* profiler;
 };
 
 #endif

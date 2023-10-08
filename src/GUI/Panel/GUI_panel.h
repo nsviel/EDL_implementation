@@ -5,7 +5,7 @@
 
 class GUI;
 class Render_node;
-class GUI_profiling;
+class GUI_timing;
 class GUI_object;
 class GUI_menubar;
 class GUI_shader;
@@ -34,7 +34,7 @@ private:
   GUI* gui;
   Render_node* render_node;
 
-  GUI_profiling* gui_profiling;
+  GUI_timing* gui_timing;
   GUI_object* gui_object;
   GUI_menubar* gui_menubar;
   GUI_shader* gui_shader;
