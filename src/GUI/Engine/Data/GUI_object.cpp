@@ -1,8 +1,7 @@
 #include "GUI_object.h"
 
 #include <GUI.h>
-#include "../GUI_param.h"
-
+#include <GUI_param.h>
 #include <Data/Data_node.h>
 #include <Data/Scene/Database.h>
 

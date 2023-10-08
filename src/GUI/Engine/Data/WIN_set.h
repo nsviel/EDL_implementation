@@ -1,14 +1,14 @@
 #ifndef WIN_SET_H
 #define WIN_SET_H
 
-#include <Specific/Base/WIN_base.h>
+#include <Panel/BASE_panel.h>
 #include <Specific/common.h>
 
 class GUI;
 class GUI_param;
 
 
-class WIN_set : public WIN_base
+class WIN_set : public BASE_panel
 {
 public:
   //Constructor / Destructor

@@ -1,13 +1,13 @@
 #include "WIN_set.h"
 
 #include <GUI.h>
-#include "../GUI_param.h"
+#include <GUI_param.h>
 
 #include <Operation/Transformation/Attribut.h>
 
 
 //Constructor / Destructor
-WIN_set::WIN_set(GUI* gui, bool* show_window, string name) : WIN_base(show_window, name){
+WIN_set::WIN_set(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
   //---------------------------
 
   this->gui_param = gui->get_gui_param();

@@ -4,12 +4,12 @@
 #include <Specific/common.h>
 
 
-class WIN_base
+class BASE_panel
 {
 public:
   //Constructor / Destructor
-  WIN_base(bool* show_window, string name);
-  ~WIN_base();
+  BASE_panel(bool* show_window, string name);
+  ~BASE_panel();
 
 public:
   //Main function

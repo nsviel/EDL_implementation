@@ -13,6 +13,9 @@ class GUI_editor_text;
 class GUI_engine;
 class GUI;
 class GUI_database;
+class WIN_camera;
+class WIN_object;
+class WIN_set;
 
 
 class GUI_panel
@@ -41,6 +44,9 @@ private:
   GUI_editor_text* gui_editor_text;
   GUI_engine* gui_engine;
   GUI_database* gui_database;
+  WIN_object* win_object;
+  WIN_camera* win_camera;
+  WIN_set* win_set;
 };
 
 #endif

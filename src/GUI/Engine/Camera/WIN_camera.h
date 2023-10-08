@@ -1,7 +1,7 @@
 #ifndef WIN_CAMERA_H
 #define WIN_CAMERA_H
 
-#include <Specific/Base/WIN_base.h>
+#include <Panel/BASE_panel.h>
 #include <Specific/common.h>
 
 class GUI;
@@ -9,7 +9,7 @@ class GUI_param;
 class Struct_camera;
 
 
-class WIN_camera : public WIN_base
+class WIN_camera : public BASE_panel
 {
 public:
   //Constructor / Destructor

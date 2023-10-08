@@ -1,8 +1,8 @@
-#include <Specific/Base/WIN_base.h>
+#include <Panel/BASE_panel.h>
 
 
 //Constructor / Destructor
-WIN_base::WIN_base(bool* show_window, string name){
+BASE_panel::BASE_panel(bool* show_window, string name){
   //---------------------------
 
   this->show_window = show_window;
@@ -11,10 +11,10 @@ WIN_base::WIN_base(bool* show_window, string name){
 
   //---------------------------
 }
-WIN_base::~WIN_base(){}
+BASE_panel::~BASE_panel(){}
 
 //Main function
-void WIN_base::window(){
+void BASE_panel::window(){
   //---------------------------
 
   if(*show_window){
@@ -33,7 +33,7 @@ void WIN_base::window(){
 }
 
 //Subfunction
-void WIN_base::design_window(){
+void BASE_panel::design_window(){
   //---------------------------
 
 

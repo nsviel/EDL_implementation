@@ -13,7 +13,6 @@ class GUI_control;
 class GUI_option;
 class GUI_object;
 class GUI_menubar;
-class GUI_windows;
 class GUI_shader;
 class GUI_timing;
 class GUI_style;
@@ -47,7 +46,6 @@ public:
   inline GUI_option* get_gui_option(){return gui_option;}
   inline GUI_object* get_gui_object(){return gui_object;}
   inline GUI_menubar* get_gui_menubar(){return gui_menubar;}
-  inline GUI_windows* get_gui_windows(){return gui_windows;}
   inline GUI_shader* get_gui_shader(){return gui_shader;}
   inline GUI_timing* get_gui_profiling(){return gui_timing;}
   inline GUI_style* get_gui_style(){return gui_style;}
@@ -69,7 +67,6 @@ private:
   GUI_option* gui_option;
   GUI_object* gui_object;
   GUI_menubar* gui_menubar;
-  GUI_windows* gui_windows;
   GUI_shader*gui_shader;
   GUI_timing* gui_timing;
   GUI_style* gui_style;

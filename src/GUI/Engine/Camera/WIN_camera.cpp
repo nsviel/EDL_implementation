@@ -1,7 +1,7 @@
 #include "WIN_camera.h"
 
 #include <GUI.h>
-#include "../GUI_param.h"
+#include <GUI_param.h>
 
 #include <Render/Render_node.h>
 #include <Render/Render_param.h>
@@ -9,7 +9,7 @@
 
 
 //Constructor / Destructor
-WIN_camera::WIN_camera(GUI* gui, bool* show_window, string name) : WIN_base(show_window, name){
+WIN_camera::WIN_camera(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
   //---------------------------
 
   Render_node* render_node = gui->get_node_render();

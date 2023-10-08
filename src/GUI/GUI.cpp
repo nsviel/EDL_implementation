@@ -4,15 +4,14 @@
 #include "Panel/GUI_panel.h"
 #include "Element/Editor/GUI_editor_text.h"
 #include "Element/Editor/GUI_editor_node.h"
-#include "Panel/GUI_engine.h"
+#include "Engine/GUI_engine.h"
 #include "Window/Menu/GUI_menubar.h"
 #include "Window/Menu/GUI_option.h"
 #include "Window/Menu/GUI_init.h"
 #include "Window/Control/GUI_control.h"
 #include "Engine/Profiler/GUI_timing.h"
 #include "Engine/Render/GUI_shader.h"
-#include "Panel/GUI_object.h"
-#include "Panel/GUI_windows.h"
+#include "Engine/Data/GUI_object.h"
 #include "Window/Style/GUI_style.h"
 #include "Window/Control/Control.h"
 
@@ -44,7 +43,6 @@ GUI::GUI(Engine* engine){
   this->gui_control = new GUI_control(this);
   this->gui_engine = new GUI_engine(this);
   this->gui_panel = new GUI_panel(this);
-  this->gui_windows = new GUI_windows(this);
   this->gui_style = new GUI_style(this);
   //this->gui_editor_node = new GUI_editor_node(this);
 
@@ -83,7 +81,6 @@ void GUI::loop(){
   ImGui::NewFrame();
 
   gui_panel->draw_panels();
-  gui_windows->draw_windows();
   gpu_gui->loop_end();
 
   //---------------------------

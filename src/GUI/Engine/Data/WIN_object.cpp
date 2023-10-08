@@ -1,6 +1,6 @@
 #include "WIN_object.h"
-#include "../GUI_param.h"
-#include "../Window/Control/Control.h"
+#include <GUI_param.h>
+#include "../../Window/Control/Control.h"
 
 #include <GUI.h>
 #include <Data/Data_node.h>
@@ -8,7 +8,7 @@
 
 
 //Constructor / Destructor
-WIN_object::WIN_object(GUI* gui, bool* show_window, string name) : WIN_base(show_window, name){
+WIN_object::WIN_object(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
   //---------------------------
 
   Data_node* data_node = gui->get_data_node();
