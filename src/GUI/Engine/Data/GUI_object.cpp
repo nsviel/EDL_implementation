@@ -1,163 +1,179 @@
 #include "GUI_object.h"
+#include <GUI_param.h>
+#include "../../Window/Control/Control.h"
 
 #include <GUI.h>
-#include <GUI_param.h>
 #include <Data/Data_node.h>
-#include <Data/Scene/Database.h>
+#include <image/IconsFontAwesome5.h>
 
 
 //Constructor / Destructor
-GUI_object::GUI_object(GUI* gui){
+GUI_object::GUI_object(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
   //---------------------------
 
   Data_node* data_node = gui->get_data_node();
-  this->dataManager = data_node->get_dataManager();
   this->gui_param = gui->get_gui_param();
+  this->controlManager = gui->get_controlManager();
+
+  this->item_width = 150;
 
   //---------------------------
 }
 GUI_object::~GUI_object(){}
 
 //Main function
-void GUI_object::design_panel(){
+void GUI_object::design_window(){
   //---------------------------
 
-  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-  ImGui::SetNextWindowSizeConstraints(ImVec2(100, 100), ImVec2(500, 500));
-  ImGui::Begin("Object");
-  this->draw_window_background();
-  this->tree_view();
-  ImGui::End();
-  ImGui::PopStyleVar();
+  this->object_info(object_selected);
+  this->object_parameter(object_selected);
 
   //---------------------------
 }
 
 //Subfunction
-void GUI_object::draw_window_background(){
-  //-------------------------------
-
-  float x1 = ImGui::GetCurrentWindow()->WorkRect.Min.x;
-  float x2 = ImGui::GetCurrentWindow()->WorkRect.Max.x;
-  float item_spacing_y = ImGui::GetStyle().ItemSpacing.y;
-  float item_offset_y = -item_spacing_y * 0.1f;
-  float line_height = ImGui::GetTextLineHeight() + item_spacing_y;
-  int row_count = 50;
-  ImU32 col_even = IM_COL32(35, 35, 35, 255);
-  ImU32 col_odd = IM_COL32(25, 25, 25, 255);
-
-  ImDrawList* draw_list = ImGui::GetWindowDrawList();
-  float y0 = ImGui::GetCursorScreenPos().y + (float)(int)item_offset_y;
-
-  int row_display_start;
-  int row_display_end;
-  ImGui::CalcListClipping(row_count, line_height, &row_display_start, &row_display_end);
-  for (int row_n = row_display_start; row_n < row_display_end; row_n++)
-  {
-      ImU32 col = (row_n & 1) ? col_odd : col_even;
-      if ((col & IM_COL32_A_MASK) == 0)
-          continue;
-      float y1 = y0 + (line_height * row_n);
-      float y2 = y1 + line_height;
-      draw_list->AddRectFilled(ImVec2(x1, y1), ImVec2(x2, y2), col);
-  }
-
-  //-------------------------------
-}
-void GUI_object::tree_view(){
-  list<Set*>* list_data = dataManager->get_list_data_scene();
+void GUI_object::object_info(Object* object){
   //---------------------------
-//say("----");
-  static ImGuiTableFlags flag_tree;
-  flag_tree |= ImGuiTableFlags_SizingFixedFit;
-  flag_tree |= ImGuiTableFlags_NoBordersInBody;
-  flag_tree |= ImGuiTableFlags_SizingFixedSame;
 
-
-  if(ImGui::BeginTable("data_view", 1)){
-
-    //Database
-    for(int row_i=0; row_i<list_data->size(); row_i++){
-      Set* set = *next(list_data->begin(), row_i);
-
-      ImGui::TableNextRow();
-      ImGui::TableNextColumn();
-
-      ImGui::PushID(set->name.c_str());
-      this->data_node_tree(set);
-      ImGui::PopID();
-    }
-
-    ImGui::EndTable();
-  }
+  this->name = "Object " + object->name;
 
   //---------------------------
 }
-int GUI_object::data_node_tree(Set* set){
-  int nb_row = 0;
-  //-------------------------------
+void GUI_object::object_parameter(Object* object){
+  ImGui::Columns(2);
+  //---------------------------
 
-  //Node flag_tree
-  ImGuiTreeNodeFlags flag_node;
-  flag_node |= ImGuiTreeNodeFlags_OpenOnArrow;
-  //flag_node |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
-  if(set->name != "Glyph"){
-    flag_node |= ImGuiTreeNodeFlags_DefaultOpen;
-  }
-
-  //Leaf flag_tree
-  ImGuiTreeNodeFlags flag_leaf;
-  flag_leaf |= ImGuiTreeNodeFlags_OpenOnArrow;
-  flag_leaf |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
-  flag_leaf |= ImGuiTreeNodeFlags_Leaf;
-  flag_leaf |= ImGuiTreeNodeFlags_NoTreePushOnOpen;
-  flag_leaf |= ImGuiTreeNodeFlags_Bullet;
-  flag_leaf |= ImGuiTreeNodeFlags_SpanFullWidth;
-
-  //Set nodes
-  bool is_node_open = ImGui::TreeNodeEx(set->name.c_str(), flag_node);
-
-  //If item double-clicked
-  if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
-    gui_param->set_selected = set;
-    gui_param->show_set = true;
-  }
-
-  //Set elements leaf nodes
-  if(is_node_open){
-    for(int j=0; j<set->list_obj.size(); j++){
-      Object* object = *next(set->list_obj.begin(), j);
-
-      ImGui::TableNextRow();
-      ImGui::TableNextColumn();
-      nb_row++;
-
-      //If object is selected
-      if(object->ID == set->selected_obj->ID && set->name == "Object"){
-        flag_leaf |= ImGuiTreeNodeFlags_Selected;
-      }else{
-        flag_leaf &= ~ImGuiTreeNodeFlags_Selected;
-      }
-
-      //Display leaf
-      ImGui::TreeNodeEx(object->name.c_str(), flag_leaf);
-
-      //If item clicked
-      if(ImGui::IsItemClicked()){
-        set->selected_obj = object;
-      }
-
-      //If item double-clicked
-      if(ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)){
-        gui_param->object_selected = object;
-        gui_param->show_object = true;
-      }
-
+  //Visibility
+  ImGui::Text("Visibility");
+  ImGui::NextColumn();
+  ImGui::Checkbox("##4555", &object->is_visible);
+  if(object->is_suppressible){
+    ImGui::SameLine();
+    if(ImGui::Button(ICON_FA_TRASH "##4567")){
+      controlManager->object_deletion(object);
+      gui_param->show_object = false;
     }
+  }
+  ImGui::NextColumn();
 
-    ImGui::TreePop();
+  //Name
+  ImGui::SetColumnWidth(-1,75);
+  ImGui::Text("Name");
+  ImGui::NextColumn();
+  static char str_n[256];
+  strcpy(str_n, object->name.c_str());
+  if(ImGui::InputText("##name", str_n, IM_ARRAYSIZE(str_n), ImGuiInputTextFlags_EnterReturnsTrue)){
+    object->name = str_n;
+  }
+  ImGui::NextColumn();
+
+  //Format
+  ImGui::Text("Format ");
+  ImGui::NextColumn();
+  static char str_f[256];
+  strcpy(str_f, object->file_format.c_str());
+  if(ImGui::InputText("##format", str_f, IM_ARRAYSIZE(str_f), ImGuiInputTextFlags_EnterReturnsTrue)){
+    object->file_format = str_f;
+  }
+  ImGui::NextColumn();
+
+  //Uniform collection color
+  ImGui::Text("Uniform color");
+  ImGui::NextColumn();
+  ImGuiColorEditFlags flags = ImGuiColorEditFlags_NoInputs;
+  flags |= ImGuiColorEditFlags_AlphaBar;
+  if(ImGui::ColorEdit4("Color", (float*)&object->unicolor, flags)){
+    //colorManager->set_color_new(object, object->unicolor);
+  }
+  ImGui::NextColumn();
+
+  //Root pos
+  vec3& root = object->root;
+  ImGui::Text("Root ");
+  ImGui::NextColumn();
+  ImGui::Text("%.2f  %.2f  %.2f", root.x, root.y, root.z);
+  ImGui::SameLine();
+  if(ImGui::Button("R", ImVec2(15,0))){
+    root = vec3(0,0,0);
+  }
+  ImGui::NextColumn();
+
+  //Primitive size
+  if(object->draw_type_name == "point"){
+    //Number of points
+    ImGui::Text("Nb point");
+    ImGui::NextColumn();
+    string nb_point = thousandSeparator(object->nb_point);
+    ImGui::Text("%s", nb_point.c_str());
+    ImGui::NextColumn();
+
+    this->size_point(object);
+  }
+  else if(object->draw_type_name == "line"){
+    this->width_line(object);
   }
 
-  //-------------------------------
-  return nb_row;
+  //---------------------------
+  ImGui::Columns(1);
+  //ImGui::Separator();
+}
+
+//Primitive size
+void GUI_object::width_line(Object* object){
+  ImGuiStyle& style = ImGui::GetStyle();
+  //---------------------------
+
+  //Column 1
+  ImGui::SetNextItemWidth(item_width);
+  ImGui::AlignTextToFramePadding();
+  ImGui::Text("Line width ");
+  ImGui::NextColumn();
+
+  //Column 2
+  ImGui::PushButtonRepeat(true);
+  if(ImGui::ArrowButton("##left", ImGuiDir_Left)){
+    object->draw_line_width--;
+
+    if(object->draw_line_width <= 1){
+      object->draw_line_width = 1;
+    }
+  }
+  ImGui::SameLine(0.0f, style.ItemInnerSpacing.x);
+  if(ImGui::ArrowButton("##right", ImGuiDir_Right)){
+    object->draw_line_width++;
+  }
+  ImGui::PopButtonRepeat();
+  ImGui::SameLine();
+  ImGui::Text("%d", object->draw_line_width);
+
+  //---------------------------
+}
+void GUI_object::size_point(Object* object){
+  ImGuiStyle& style = ImGui::GetStyle();
+  //---------------------------
+
+  //Column 1
+  ImGui::SetNextItemWidth(item_width);
+  ImGui::AlignTextToFramePadding();
+  ImGui::Text("Point size ");
+  ImGui::NextColumn();
+
+  //Column 2
+  ImGui::PushButtonRepeat(true);
+  if(ImGui::ArrowButton("##left", ImGuiDir_Left)){
+    object->draw_point_size--;
+
+    if(object->draw_point_size <= 1){
+      object->draw_point_size = 1;
+    }
+  }
+  ImGui::SameLine(0.0f, style.ItemInnerSpacing.x);
+  if(ImGui::ArrowButton("##right", ImGuiDir_Right)){
+    object->draw_point_size++;
+  }
+  ImGui::PopButtonRepeat();
+  ImGui::SameLine();
+  ImGui::Text("%d", object->draw_point_size);
+
+  //---------------------------
 }

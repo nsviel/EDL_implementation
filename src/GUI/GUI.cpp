@@ -11,9 +11,12 @@
 #include "Window/Control/GUI_control.h"
 #include "Engine/Profiler/GUI_timing.h"
 #include "Engine/Render/GUI_shader.h"
-#include "Engine/Data/GUI_object.h"
+#include "Engine/Data/GUI_scene.h"
 #include "Window/Style/GUI_style.h"
 #include "Window/Control/Control.h"
+#include "Engine/Camera/GUI_camera.h"
+#include "Engine/Data/GUI_object.h"
+#include "Engine/Data/GUI_set.h"
 
 #include <Window/Window.h>
 #include <Render/Render_node.h>
@@ -36,7 +39,9 @@ GUI::GUI(Engine* engine){
   this->gui_timing = new GUI_timing(this);
   this->gui_shader = new GUI_shader(this);
   this->gui_option = new GUI_option(this);
-  this->gui_object = new GUI_object(this);
+  this->gui_object = new GUI_object(this, &gui_param->show_object, "Object");
+  this->gui_set = new GUI_set(this, &gui_param->show_set, "Set");
+  this->gui_scene = new GUI_scene(this);
   this->gui_init = new GUI_init(this);
   this->gui_menubar = new GUI_menubar(this);
   this->gui_editor_text = new GUI_editor_text(this);
@@ -45,6 +50,7 @@ GUI::GUI(Engine* engine){
   this->gui_panel = new GUI_panel(this);
   this->gui_style = new GUI_style(this);
   //this->gui_editor_node = new GUI_editor_node(this);
+  this->gui_camera = new GUI_camera(this, &gui_param->show_camera, "Camera");
 
   //---------------------------
 }
@@ -55,7 +61,7 @@ GUI::~GUI(){
   delete gui_panel;
   delete gui_control;
   delete gui_option;
-  delete gui_object;
+  delete gui_scene;
   delete gui_timing;
 
   //---------------------------
@@ -81,6 +87,9 @@ void GUI::loop(){
   ImGui::NewFrame();
 
   gui_panel->draw_panels();
+  gui_camera->window();
+  gui_object->window();
+  gui_set->window();
   gpu_gui->loop_end();
 
   //---------------------------

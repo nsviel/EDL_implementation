@@ -8,12 +8,12 @@ class GUI;
 class GUI_param;
 
 
-class WIN_set : public BASE_panel
+class GUI_set : public BASE_panel
 {
 public:
   //Constructor / Destructor
-  WIN_set(GUI* gui, bool* show_window, string name);
-  ~WIN_set();
+  GUI_set(GUI* gui, bool* show_window, string name);
+  ~GUI_set();
 
   //Main function
   void design_window();

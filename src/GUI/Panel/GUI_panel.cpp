@@ -1,7 +1,5 @@
 #include "GUI_panel.h"
-#include "../Engine/Camera/GUI_camera.h"
-#include "../Engine/Data/WIN_object.h"
-#include "../Engine/Data/WIN_set.h"
+
 
 #include "../GUI.h"
 #include <GUI_param.h>
@@ -14,7 +12,7 @@
 #include "../Window/Menu/GUI_menubar.h"
 #include "../Engine/Profiler/GUI_timing.h"
 #include "../Engine/Render/GUI_shader.h"
-#include "../Engine/Data/GUI_object.h"
+#include "../Engine/Data/GUI_scene.h"
 
 #include <GUI.h>
 #include <Data/Load/Loader.h>
@@ -31,16 +29,13 @@ GUI_panel::GUI_panel(GUI* gui){
 
   this->gui = gui;
   this->render_node = gui->get_node_render();
-  this->gui_object = gui->get_gui_object();
+  this->gui_scene = gui->get_gui_scene();
   this->gui_timing = gui->get_gui_profiling();
   this->gui_menubar = gui->get_gui_menubar();
   this->gui_shader = gui->get_gui_shader();
   this->gui_editor_text = gui->get_gui_editor_text();
   this->gui_engine = gui->get_gui_engine();
   this->gui_database = new GUI_database(gui);
-  this->win_camera = new GUI_camera(gui, &gui_param->show_camera, "Camera");
-  this->win_object = new WIN_object(gui, &gui_param->show_object, "Object");
-  this->win_set = new WIN_set(gui, &gui_param->show_set, "Set");
 
   //---------------------------
 }
@@ -58,10 +53,8 @@ void GUI_panel::draw_panels(){
   gui_engine->design_panel();
   //gui->design_panel();
   gui_database->design_panel();
-  gui_object->design_panel();
-  win_camera->window();
-  win_object->window();
-  win_set->window();
+  gui_scene->design_panel();
+
 
   //---------------------------
 }

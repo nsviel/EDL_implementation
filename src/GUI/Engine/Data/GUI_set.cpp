@@ -1,4 +1,4 @@
-#include "WIN_set.h"
+#include "GUI_set.h"
 
 #include <GUI.h>
 #include <GUI_param.h>
@@ -7,7 +7,7 @@
 
 
 //Constructor / Destructor
-WIN_set::WIN_set(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
+GUI_set::GUI_set(GUI* gui, bool* show_window, string name) : BASE_panel(show_window, name){
   //---------------------------
 
   this->gui_param = gui->get_gui_param();
@@ -16,10 +16,10 @@ WIN_set::WIN_set(GUI* gui, bool* show_window, string name) : BASE_panel(show_win
 
   //---------------------------
 }
-WIN_set::~WIN_set(){}
+GUI_set::~GUI_set(){}
 
 //Main function
-void WIN_set::design_window(){
+void GUI_set::design_window(){
   //---------------------------
 
   this->set_info(gui_param->set_selected);
@@ -29,14 +29,14 @@ void WIN_set::design_window(){
 }
 
 //Subfunction
-void WIN_set::set_info(Set* set){
+void GUI_set::set_info(Set* set){
   //---------------------------
 
   this->name = "Set " + set->name;
 
   //---------------------------
 }
-void WIN_set::set_parameter(Set* set){
+void GUI_set::set_parameter(Set* set){
   ImGui::Columns(2);
   //---------------------------
 

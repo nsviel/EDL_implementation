@@ -1,32 +1,39 @@
-#ifndef GUI_OBJECT_H
-#define GUI_OBJECT_H
+#ifndef WIN_DATA_H
+#define WIN_DATA_H
 
+#include <Panel/BASE_panel.h>
 #include <Specific/common.h>
 
 class GUI;
 class GUI_param;
-class Database;
+class Control;
 
-
-class GUI_object
+class GUI_object : public BASE_panel
 {
 public:
   //Constructor / Destructor
-  GUI_object(GUI* gui);
+  GUI_object(GUI* gui, bool* show_window, string name);
   ~GUI_object();
 
-public:
   //Main function
-  void design_panel();
+  void design_window();
 
-  //Subfunction
-  void draw_window_background();
-  void tree_view();
-  int data_node_tree(Set* set);
+  //Sub functions
+  void object_info(Object* object);
+  void object_parameter(Object* object);
+
+  //Primitive size
+  void width_line(Object* object);
+  void size_point(Object* object);
+
+  inline void set_selected_object(Object* object){this->object_selected = object;}
 
 private:
   GUI_param* gui_param;
-  Database* dataManager;
+  Control* controlManager;
+
+  Object* object_selected;
+  int item_width;
 };
 
 #endif
