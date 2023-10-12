@@ -1,5 +1,4 @@
-# Nephos
-## Vulkan-Based Point Cloud Engine
+# EDL implementation with Vulkan engine
 
 ![screenshot](https://github.com/nsviel/Nephos/assets/80487132/711383b1-af32-4600-a0b5-3b0114052698)
 
